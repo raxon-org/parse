@@ -1,5 +1,5 @@
 {{R3M}}
-{{$response = Package.Raxon.Org.Parse:Main:compile(flags(), options())}}
+{{$response = Package.Raxon.Parse:Main:compile(flags(), options())}}
 {{if($response)}}
 {{$response|object:'json'}}
 

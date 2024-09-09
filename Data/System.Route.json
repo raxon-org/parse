@@ -5,7 +5,7 @@
         "#class": "System.Route",
         "name": "raxon-org-cli-parse",
         "path": "raxon\/parse",
-        "controller": "Package.Raxon.Org.Parse.Controller.Cli.run",
+        "controller": "Package.Raxon.Parse.Controller.Cli.run",
         "request": {
           "language": "en"
         },

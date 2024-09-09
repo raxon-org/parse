@@ -1,0 +1,17 @@
+{
+    "name" : "raxon/parse",
+    "description" : "raxon/parse see https://raxon.org for detailed usage",
+    "type" : "package",
+    "keywords" : ["node", "raxon", "org", "library", "framework", "parse", "raxon.org"],
+    "homepage": "https://raxon.org",
+    "require" : {
+        "raxon_org/framework": "*",
+        "ext-zlib": "*"
+    },
+    "minimum-stability": "dev",
+    "license" : "MIT",
+    "authors" : [{
+        "name" : "Remco van der Velde",
+        "email" : "development@universeorange.com"
+    }]
+}

@@ -1,0 +1,123 @@
+{
+    "System": {
+        "Parse": {
+            "create": {
+                "validate": {
+                    "uuid": [
+                        {
+                            "is.uuid": true
+                        }
+                    ],
+                    "#class": [
+                        {
+                            "is.unique": {
+                                "class": "System.Parse",
+                                "attribute": [
+                                    "#class"
+                                ]
+                            }
+                        }
+                    ],
+                    "plugin.block": [
+                        {
+                            "is.array": true
+                        }
+                    ],
+                    "plugin.literal": [
+                        {
+                            "is.array": true
+                        }
+                    ],
+                    "build.use.class": [
+                        {
+                            "is.array": true
+                        }
+                    ],
+                    "build.use.trait": [
+                        {
+                            "is.array": true
+                        }
+                    ]
+                }
+            },
+            "put": {
+                "validate": {
+                    "uuid": [
+                        {
+                            "is.uuid": true
+                        }
+                    ],
+                    "#class": [
+                        {
+                            "is.unique": {
+                                "class": "System.Parse",
+                                "attribute": [
+                                    "#class"
+                                ]
+                            }
+                        }
+                    ],
+                    "plugin.block": [
+                        {
+                            "is.array": true
+                        }
+                    ],
+                    "plugin.literal": [
+                        {
+                            "is.array": true
+                        }
+                    ],
+                    "build.use.class": [
+                        {
+                            "is.array": true
+                        }
+                    ],
+                    "build.use.trait": [
+                        {
+                            "is.array": true
+                        }
+                    ]
+                }
+            },
+            "patch": {
+                "validate": {
+                    "uuid": [
+                        {
+                            "is.uuid": true
+                        }
+                    ],
+                    "?#class": [
+                        {
+                            "is.unique": {
+                                "class": "System.Parse",
+                                "attribute": [
+                                    "#class"
+                                ]
+                            }
+                        }
+                    ],
+                    "?plugin.block": [
+                        {
+                            "is.array": true
+                        }
+                    ],
+                    "?plugin.literal": [
+                        {
+                            "is.array": true
+                        }
+                    ],
+                    "?build.use.class": [
+                        {
+                            "is.array": true
+                        }
+                    ],
+                    "?build.use.trait": [
+                        {
+                            "is.array": true
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}

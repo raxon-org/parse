@@ -1,0 +1,19 @@
+{
+  "System": {
+    "Route": [
+      {
+        "#class": "System.Route",
+        "name": "raxon-org-cli-parse",
+        "path": "raxon_org\/parse",
+        "controller": "Package.Raxon.Org.Parse.Controller.Cli.run",
+        "request": {
+          "language": "en"
+        },
+        "method": [
+          "CLI"
+        ],
+        "priority": 2001
+      }
+    ]
+  }
+}

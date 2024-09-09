@@ -5,7 +5,7 @@
     "keywords" : ["node", "raxon", "org", "library", "framework", "parse", "raxon.org"],
     "homepage": "https://raxon.org",
     "require" : {
-        "raxon_org/framework": "*",
+        "raxon/framework": "*",
         "ext-zlib": "*"
     },
     "minimum-stability": "dev",

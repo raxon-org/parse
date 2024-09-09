@@ -1,17 +1,17 @@
 <?php
-namespace Package\Raxon\Org\Parse\Trait;
+namespace Package\Raxon\Parse\Trait;
 
-use Raxon\Org\App;
-use Raxon\Org\Config;
+use Raxon\App;
+use Raxon\Config;
 
-use Raxon\Org\Module\Data;
-use Raxon\Org\Module\Dir;
-use Raxon\Org\Module\File;
-use Raxon\Org\Module\Cli;
+use Raxon\Module\Data;
+use Raxon\Module\Dir;
+use Raxon\Module\File;
+use Raxon\Module\Cli;
 
-use Package\Raxon\Org\Parse\Service\Parse;
-use Package\Raxon\Org\Parse\Service\Token;
-use Package\Raxon\Org\Parse\Service\Build;
+use Package\Raxon\Parse\Service\Parse;
+use Package\Raxon\Parse\Service\Token;
+use Package\Raxon\Parse\Service\Build;
 
 use Exception;
 

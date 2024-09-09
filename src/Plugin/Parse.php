@@ -1,7 +1,7 @@
 <?php
 namespace Plugin;
 
-use Package\Raxon\Org\Parse\Service\Parse as Parser;
+use Package\Raxon\Parse\Service\Parse as Parser;
 
 trait Parse {
 

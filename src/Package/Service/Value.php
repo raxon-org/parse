@@ -1,10 +1,10 @@
 <?php
-namespace Package\Raxon\Org\Parse\Service;
+namespace Package\Raxon\Parse\Service;
 
-use Raxon\Org\App;
+use Raxon\App;
 
-use Raxon\Org\Module\Core;
-use Raxon\Org\Module\File;
+use Raxon\Module\Core;
+use Raxon\Module\File;
 
 use Exception;
 class Value

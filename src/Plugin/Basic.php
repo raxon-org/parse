@@ -1,9 +1,9 @@
 <?php
 namespace Plugin;
 
-use Raxon\Org\App;
+use Raxon\App;
 
-use Raxon\Org\Module\Data;
+use Raxon\Module\Data;
 
 trait Basic {
 

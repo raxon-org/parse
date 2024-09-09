@@ -1,29 +1,29 @@
 <?php
-namespace Package\Raxon\Org\Parse\Trait;
+namespace Package\Raxon\Parse\Trait;
 
-use Raxon\Org\App;
-use Raxon\Org\Config;
+use Raxon\App;
+use Raxon\Config;
 
-use Raxon\Org\Module\Core;
-use Raxon\Org\Module\Data;
-use Raxon\Org\Module\Data as Storage;
-use Raxon\Org\Module\Destination;
-use Raxon\Org\Module\Event;
-use Raxon\Org\Module\File;
-use Raxon\Org\Module\Dir;
+use Raxon\Module\Core;
+use Raxon\Module\Data;
+use Raxon\Module\Data as Storage;
+use Raxon\Module\Destination;
+use Raxon\Module\Event;
+use Raxon\Module\File;
+use Raxon\Module\Dir;
 
-use Raxon\Org\Module\Handler;
-use Raxon\Org\Module\OutputFilter;
-use Raxon\Org\Module\Response;
-use Raxon\Org\Module\Route;
-use Raxon\Org\Node\Model\Node;
+use Raxon\Module\Handler;
+use Raxon\Module\OutputFilter;
+use Raxon\Module\Response;
+use Raxon\Module\Route;
+use Raxon\Node\Model\Node;
 
-use Package\Raxon\Org\Task\Service\Task;
+use Package\Raxon\Task\Service\Task;
 
 use Exception;
 
-use Raxon\Org\Exception\FileWriteException;
-use Raxon\Org\Exception\ObjectException;
+use Raxon\Exception\FileWriteException;
+use Raxon\Exception\ObjectException;
 
 trait Service {
 

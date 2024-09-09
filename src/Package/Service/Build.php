@@ -1,16 +1,16 @@
 <?php
-namespace Package\Raxon\Org\Parse\Service;
+namespace Package\Raxon\Parse\Service;
 
-use Raxon\Org\App;
+use Raxon\App;
 
-use Raxon\Org\Module\Autoload;
-use Raxon\Org\Module\Core;
-use Raxon\Org\Module\File;
+use Raxon\Module\Autoload;
+use Raxon\Module\Core;
+use Raxon\Module\File;
 
 use Plugin;
 use Exception;
 
-use Raxon\Org\Exception\LocateException;
+use Raxon\Exception\LocateException;
 
 class Build
 {
@@ -33,13 +33,13 @@ class Build
         Build::document_default($object, $flags, $options);
         $data = Build::document_tag($object, $flags, $options, $tags);
         $document = Build::document_header($object, $flags, $options);
-        $document = Build::document_use($object, $flags, $options, $document, 'package.raxon_org/parse.build.use.class');
+        $document = Build::document_use($object, $flags, $options, $document, 'package.raxon/parse.build.use.class');
         $document[] = '';
         $document[] = 'class '. $options->class .' {';
         $document[] = '';
-        $object->config('package.raxon_org/parse.build.state.indent', 1);
+        $object->config('package.raxon/parse.build.state.indent', 1);
         //indent++
-        $document = Build::document_use($object, $flags, $options, $document, 'package.raxon_org/parse.build.use.trait');
+        $document = Build::document_use($object, $flags, $options, $document, 'package.raxon/parse.build.use.trait');
         $document[] = '';
         $document = Build::document_construct($object, $flags, $options, $document);
         $document[] = '';
@@ -53,21 +53,21 @@ class Build
      */
     public static function document_header(App $object, $flags, $options): array
     {
-        $object->config('package.raxon_org/parse.build.state.indent', 0);
+        $object->config('package.raxon/parse.build.state.indent', 0);
         $document[] = '<?php';
         $document[] = '/**';
-        $document[] = ' * @package Package\Raxon\Org\Parse';
+        $document[] = ' * @package Package\Raxon\Parse';
         $document[] = ' * @license MIT';
         $document[] = ' * @version ' . $object->config('framework.version');
         $document[] = ' * @author ' . 'Remco van der Velde (remco@universeorange.com)';
         $document[] = ' * @compile-date ' . date('Y-m-d H:i:s');
-        $document[] = ' * @compile-time ' . round((microtime(true) - $object->config('package.raxon_org/parse.time.start')) * 1000, 3) . ' ms';
+        $document[] = ' * @compile-time ' . round((microtime(true) - $object->config('package.raxon/parse.time.start')) * 1000, 3) . ' ms';
         $document[] = ' * @note compiled by ' . $object->config('framework.name') . ' ' . $object->config('framework.version');
         $document[] = ' * @url ' . $object->config('framework.url');
         $document[] = ' * @source ' . $options->source ?? '';
         $document[] = ' */';
         $document[] = '';
-        $document[] = 'namespace Package\Raxon\Org\Parse;';
+        $document[] = 'namespace Package\Raxon\Parse;';
         $document[] = '';
         return $document;
     }
@@ -121,10 +121,10 @@ class Build
                     array_key_exists('is_close', $record['marker']) &&
                     $record['marker']['is_close'] === true
                 ){
-                    $ltrim = $object->config('package.raxon_org/parse.build.state.ltrim');
+                    $ltrim = $object->config('package.raxon/parse.build.state.ltrim');
                     if($ltrim > 0){
                         $ltrim--;
-                        $object->config('package.raxon_org/parse.build.state.ltrim', $ltrim);
+                        $object->config('package.raxon/parse.build.state.ltrim', $ltrim);
                     }
                     //need to count them by name
                     $data[] = '}';
@@ -140,23 +140,23 @@ class Build
      */
     public static function document_construct(App $object, $flags, $options, $document = []): array
     {
-        $indent = $object->config('package.raxon_org/parse.build.state.indent');
+        $indent = $object->config('package.raxon/parse.build.state.indent');
         $document[] = str_repeat(' ', $indent * 4) . 'public function __construct(App $object, Parse $parse, Data $data, $flags, $options){';
         $object->config(
-            'package.raxon_org/parse.build.state.indent',
-            $object->config('package.raxon_org/parse.build.state.indent') + 1
+            'package.raxon/parse.build.state.indent',
+            $object->config('package.raxon/parse.build.state.indent') + 1
         );
-        $indent = $object->config('package.raxon_org/parse.build.state.indent');
+        $indent = $object->config('package.raxon/parse.build.state.indent');
         $document[] = str_repeat(' ', $indent * 4) . '$this->object($object);';
         $document[] = str_repeat(' ', $indent * 4) . '$this->parse($parse);';
         $document[] = str_repeat(' ', $indent * 4) . '$this->data($data);';
         $document[] = str_repeat(' ', $indent * 4) . '$this->flags($flags);';
         $document[] = str_repeat(' ', $indent * 4) . '$this->options($options);';
         $object->config(
-            'package.raxon_org/parse.build.state.indent',
-            $object->config('package.raxon_org/parse.build.state.indent') - 1
+            'package.raxon/parse.build.state.indent',
+            $object->config('package.raxon/parse.build.state.indent') - 1
         );
-        $indent = $object->config('package.raxon_org/parse.build.state.indent');
+        $indent = $object->config('package.raxon/parse.build.state.indent');
         $document[] = str_repeat(' ', $indent * 4) . '}';
         return $document;
     }
@@ -164,7 +164,7 @@ class Build
     public static function document_run(App $object, $flags, $options, $document = [], $data = []): array
     {
         $build = new Build($object, $flags, $options);
-        $indent = $object->config('package.raxon_org/parse.build.state.indent');
+        $indent = $object->config('package.raxon/parse.build.state.indent');
         $document[] = str_repeat(' ', $indent * 4) . '/**';
         $document[] = str_repeat(' ', $indent * 4) . ' * @throws Exception';
         $document[] = str_repeat(' ', $indent * 4) . ' */';
@@ -180,17 +180,17 @@ class Build
         $document[] = str_repeat(' ', $indent * 4) . '$options->debug = true;';
         $document[] = str_repeat(' ', $indent * 4) . 'if (!($object instanceof App)) {';
         $indent++;
-        $document[] = str_repeat(' ', $indent * 4) . 'throw new Exception(\'$object is not an instance of Raxon\Org\App\');';
+        $document[] = str_repeat(' ', $indent * 4) . 'throw new Exception(\'$object is not an instance of Raxon\App\');';
         $indent--;
         $document[] = str_repeat(' ', $indent * 4) . '}';
         $document[] = str_repeat(' ', $indent * 4) . 'if (!($parse instanceof Parse)) {';
         $indent++;
-        $document[] = str_repeat(' ', $indent * 4) . 'throw new Exception(\'$parse is not an instance of Package\Raxon\Org\Parse\Service\Parse\');';
+        $document[] = str_repeat(' ', $indent * 4) . 'throw new Exception(\'$parse is not an instance of Package\Raxon\Parse\Service\Parse\');';
         $indent--;
         $document[] = str_repeat(' ', $indent * 4) . '}';
         $document[] = str_repeat(' ', $indent * 4) . 'if (!($data instanceof Data)) {';
         $indent++;
-        $document[] = str_repeat(' ', $indent * 4) . 'throw new Exception(\'$data is not an instance of Raxon\Org\Module\Data\');';
+        $document[] = str_repeat(' ', $indent * 4) . 'throw new Exception(\'$data is not an instance of Raxon\Module\Data\');';
         $indent--;
         $document[] = str_repeat(' ', $indent * 4) . '}';
         $document[] = str_repeat(' ', $indent * 4) . 'if (!is_object($flags)) {';
@@ -238,26 +238,26 @@ class Build
      */
     public static function document_default(App $object, $flags, $options): void
     {
-        $use_class = $object->config('package.raxon_org/parse.build.use.class');
+        $use_class = $object->config('package.raxon/parse.build.use.class');
         if(empty($use_class)){
             $use_class = [];
-            $use_class[] = 'Raxon\Org\App';
-            $use_class[] = 'Raxon\Org\Module\Data';
-            $use_class[] = 'Package\Raxon\Org\Parse\Service\Parse';
+            $use_class[] = 'Raxon\App';
+            $use_class[] = 'Raxon\Module\Data';
+            $use_class[] = 'Package\Raxon\Parse\Service\Parse';
             $use_class[] = 'Plugin';
             $use_class[] = 'Exception';
         }
-        $object->config('package.raxon_org/parse.build.use.class', $use_class);
-        $use_trait = $object->config('package.raxon_org/parse.build.use.trait');
+        $object->config('package.raxon/parse.build.use.class', $use_class);
+        $use_trait = $object->config('package.raxon/parse.build.use.trait');
         if(empty($use_trait)){
             $use_trait = [];
             $use_trait[] = 'Plugin\Basic';
             $use_trait[] = 'Plugin\Parse';
             $use_trait[] = 'Plugin\Value';
         }
-        $object->config('package.raxon_org/parse.build.use.trait', $use_trait);
-        $object->config('package.raxon_org/parse.build.state.echo', true);
-        $object->config('package.raxon_org/parse.build.state.indent', 2);
+        $object->config('package.raxon/parse.build.use.trait', $use_trait);
+        $object->config('package.raxon/parse.build.state.echo', true);
+        $object->config('package.raxon/parse.build.state.indent', 2);
     }
 
     /**
@@ -266,7 +266,7 @@ class Build
     public static function document_use(App $object, $flags, $options, $document = [], $attribute=''): array
     {
         $use_class = $object->config($attribute);
-        $indent = $object->config('package.raxon_org/parse.build.state.indent');
+        $indent = $object->config('package.raxon/parse.build.state.indent');
         if($use_class){
             foreach($use_class as $nr => $use){
                 if(empty($use)){
@@ -284,8 +284,8 @@ class Build
      */
     public static function text(App $object, $flags, $options, $record = [], $variable_assign_next_tag = false): bool | string
     {
-        $is_echo = $object->config('package.raxon_org/parse.build.state.echo');
-        $ltrim = $object->config('package.raxon_org/parse.build.state.ltrim');
+        $is_echo = $object->config('package.raxon/parse.build.state.echo');
+        $ltrim = $object->config('package.raxon/parse.build.state.ltrim');
         $skip_space = $ltrim * 4;
         if($is_echo !== true){
             return false;
@@ -516,7 +516,7 @@ class Build
         }
         $use_plugin = 'Plugin\\' . implode('_', $use_plugin);
 
-        $use = $object->config('package.raxon_org/parse.build.use.trait');
+        $use = $object->config('package.raxon/parse.build.use.trait');
         if(!$use){
             $use = [];
         }
@@ -602,7 +602,7 @@ class Build
                 $use[] = $use_plugin;
             }
         }
-        $object->config('package.raxon_org/parse.build.use.trait', $use);
+        $object->config('package.raxon/parse.build.use.trait', $use);
         return mb_strtolower($plugin);
     }
 
@@ -802,13 +802,13 @@ class Build
                     }
                 }
                 //will remove whitespace at the beginning of the line type text with block functions
-                $ltrim = $object->config('package.raxon_org/parse.build.state.ltrim');
+                $ltrim = $object->config('package.raxon/parse.build.state.ltrim');
                 if(!$ltrim){
                     $ltrim = 1;
                 } else {
                     $ltrim++;
                 }
-                $object->config('package.raxon_org/parse.build.state.ltrim', $ltrim);
+                $object->config('package.raxon/parse.build.state.ltrim', $ltrim);
             break;
             default:
                 $method_value .= ');';

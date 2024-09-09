@@ -1,16 +1,16 @@
 <?php
-namespace Package\Raxon\Org\Parse\Service;
+namespace Package\Raxon\Parse\Service;
 
-use Raxon\Org\App;
+use Raxon\App;
 
-use Raxon\Org\Module\Core;
-use Raxon\Org\Module\Dir;
-use Raxon\Org\Module\File;
+use Raxon\Module\Core;
+use Raxon\Module\Dir;
+use Raxon\Module\File;
 
 use Exception;
 
-use Raxon\Org\Exception\ObjectException;
-use Raxon\Org\Exception\DirectoryCreateException;
+use Raxon\Exception\ObjectException;
+use Raxon\Exception\DirectoryCreateException;
 
 class Validator
 {

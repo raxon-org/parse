@@ -1,13 +1,13 @@
 <?php
-namespace Package\Raxon\Org\Parse\Service;
+namespace Package\Raxon\Parse\Service;
 
-use Raxon\Org\App;
-use Raxon\Org\Config;
+use Raxon\App;
+use Raxon\Config;
 
-use Raxon\Org\Module\Core;
-use Raxon\Org\Module\Data;
-use Raxon\Org\Module\Dir;
-use Raxon\Org\Module\File;
+use Raxon\Module\Core;
+use Raxon\Module\Data;
+use Raxon\Module\Dir;
+use Raxon\Module\File;
 
 use Exception;
 class Token

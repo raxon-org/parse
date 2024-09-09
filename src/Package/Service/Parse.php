@@ -1,27 +1,27 @@
 <?php
-namespace Package\Raxon\Org\Parse\Service;
+namespace Package\Raxon\Parse\Service;
 
-use Raxon\Org\App;
+use Raxon\App;
 
-use Raxon\Org\Module\Cli;
-use Raxon\Org\Module\Data;
+use Raxon\Module\Cli;
+use Raxon\Module\Data;
 
 use Plugin;
 
-use Raxon\Org\Module\Core;
-use Raxon\Org\Module\Dir;
-use Raxon\Org\Module\File;
+use Raxon\Module\Core;
+use Raxon\Module\Dir;
+use Raxon\Module\File;
 
-use Raxon\Org\Node\Model\Node;
+use Raxon\Node\Model\Node;
 
 use Exception;
 
-use Raxon\Org\Exception\ObjectException;
+use Raxon\Exception\ObjectException;
 
 class Parse
 {
     const NODE = 'System.Parse';
-    const CONFIG = 'package.raxon_org/parse';
+    const CONFIG = 'package.raxon/parse';
 
 
     use Plugin\Basic;
@@ -65,7 +65,7 @@ class Parse
         }
         if(!$parse){
             $url = $object->config('project.dir.vendor') .
-                'raxon_org' .
+                'raxon' .
                 $object->config('ds') .
                 'parse' .
                 $object->config('ds') .
@@ -120,7 +120,7 @@ class Parse
         $options = $this->options();
 
         $options->class = $options->class ?? 'Main_' . hash('sha256', $input);
-        $options->namespace = $options->namespace ?? 'Package\Raxon\Org\Parse';
+        $options->namespace = $options->namespace ?? 'Package\Raxon\Parse';
         $dir = $object->config('project.dir.data') .
             'Test' .
             $object->config('ds') .
@@ -152,7 +152,7 @@ class Parse
 
         $run = new $options->namespace . '\\' . $options->class;
 
-        $main = new \Package\Raxon\Org\Parse\Main($object, $this, $data, $flags, $options);
+        $main = new \Package\Raxon\Parse\Main($object, $this, $data, $flags, $options);
         return $main->run();
 
         /*

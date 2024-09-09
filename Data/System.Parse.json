@@ -184,9 +184,9 @@
         "build": {
           "use" : {
             "class" : [
-              "Raxon\\Org\\App",
-              "Raxon\\Org\\Module\\Data",
-              "Package\\Raxon\\Org\\Parse\\Service\\Parse",
+              "Raxon\\App",
+              "Raxon\\Module\\Data",
+              "Package\\Raxon\\Parse\\Service\\Parse",
               "Plugin",
               "Exception"
             ],

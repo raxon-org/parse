@@ -6,10 +6,6 @@ use Raxon\App;
 
 // Example test case
 
-/**
- * @throws \Raxon\Exception\ObjectException
- *
- */
 test('parse', function () {
     $app = App::instance();
     $parse = new Parse($app, $app->data(), $app->flags(), $app->options());

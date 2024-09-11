@@ -9,8 +9,8 @@ use Raxon\Module\Data;
 
 test('parse', function () {
     $app = App::instance();
-    $data = new Data($app);
-    $parse = new Parse($app, $app->data(), App::flags($app), App::options($app));
+    $data = new Data($app->data());
+    $parse = new Parse($app, $data, App::flags($app), App::options($app));
 
     $string = '{{config(\'project.dir.root\')}}';
     $compile = $parse->compile($string);

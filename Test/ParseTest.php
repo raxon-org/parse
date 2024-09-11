@@ -8,6 +8,7 @@ use Raxon\App;
 
 test('parse', function () {
     $app = App::instance();
+    d($app);
     $parse = new Parse($app, $app->data(), App::flags($app), App::options($app));
 
     $string = '{{config(\'project.dir.root\')}}';

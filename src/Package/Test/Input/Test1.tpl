@@ -1,2 +1,2 @@
 {{$string = config('project.dir.vendor')}}
-{{assert($string === '/Application/vendr/', 'Raxon\Exception\AssertException')}}
+{{assert($string === '/Application/vendor/', 'Raxon\Exception\AssertException')}}

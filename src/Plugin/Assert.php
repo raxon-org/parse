@@ -14,15 +14,15 @@ use Throwable;
 
 trait Assert {
 
-    protected function assert(mixed $assertion, Throwable|string|null $description=null): bool
+    protected function assert(mixed $assertion, Throwable|string|null $description=null): null | bool
     {
         if($description == null){
-            return $assertion;
+            return (bool) $assertion;
         }
         if($assertion === false){
             throw new $description('Assertion failed');
         }
-        return true;
+        return null;
     }
 
 }

@@ -833,6 +833,7 @@ class Build
                 $data[] = 'if(is_scalar(' . $uuid_variable . ')){';
                 $data[] = 'echo ' . $uuid_variable . ';';
                 $data[] = '}';
+                $data[] = '}';
                 $data[] = 'catch(Exception $exception){';
                 if(
                     array_key_exists('is_multiline', $record) &&

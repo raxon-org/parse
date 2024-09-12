@@ -23,6 +23,7 @@ class Symbol
             trace();
             ddd($input);
         }
+        $skip = 0;
         foreach($input['array'] as $nr => $char){
             $previous_nr = $nr - 1;
             if($previous_nr < 0){
@@ -33,6 +34,10 @@ class Symbol
             }
             $next = $input['array'][$nr + 1] ?? null;
             $next_next = $input['array'][$nr + 2] ?? null;
+            if($skip > 0){
+                $skip -= 1;
+                continue;
+            }
             if(is_array($char)){
                 continue;
             }
@@ -157,6 +162,7 @@ class Symbol
                             ];
                             $input['array'][$nr] = null;
                             $input['array'][$nr + 1] = null;
+                            $skip += 1;
                         break;
                     }
                     $symbol = $previous . $char . $next . $next_next;
@@ -169,6 +175,7 @@ class Symbol
                             $input['array'][$nr] = null;
                             $input['array'][$nr + 1] = null;
                             $input['array'][$nr + 2] = null;
+                            $skip += 2;
                         break;
                     }
                 } else {

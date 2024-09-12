@@ -128,18 +128,10 @@ class Parse
             $object->config('ds');
         Dir::create($dir, Dir::CHMOD);
         $token = Token::tokenize($object, $flags, $options, $input);
-
-        ddd($options);
-
-        $url = $dir . 'Main.json';
+        $url = $dir . $options->class . $object->config('extension.json');
         File::write($url, Core::object($token, Core::OBJECT_JSON));
-
-        $url = $dir . 'Main.php';
-
+        $url = $dir . $options->class . $object->config('extenision.php');
         $document = Build::create($object, $flags, $options, $token);
-
-//        d($object->config('package'));
-
         File::write($url, implode(PHP_EOL, $document));
         File::permission(
             $object,
@@ -148,13 +140,10 @@ class Parse
                 'url' => $url
             ]
         );
-
         require_once $url;
         echo PHP_EOL . str_repeat('-', Cli::tput('columns')) . PHP_EOL;
-
-        $run = new $options->namespace . '\\' . $options->class;
-
-        $main = new \Package\Raxon\Parse\Main($object, $this, $data, $flags, $options);
+        $run = $options->namespace . '\\' . $options->class;
+        $main = new $run($object, $this, $data, $flags, $options);
         return $main->run();
 
         /*

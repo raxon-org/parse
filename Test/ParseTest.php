@@ -12,7 +12,10 @@ test('parse', function () {
     $data = new Data($app->data());
     $parse = new Parse($app, $data, App::flags($app), App::options($app));
 
-    $string = '{{config(\'project.dir.root\')}}';
+    $string = '{{$root = config(\'project.dir.root\')}}';
     $compile = $parse->compile($string);
+
+    ddd($parse->data());
+
     expect($compile)->toContain("Application");
 });

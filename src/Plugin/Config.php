@@ -14,10 +14,10 @@ trait Config {
 
     protected function config(string $attribute, mixed $value=null): mixed
     {
-        if($value !== null){
-            $this->object()->config($attribute, $value);
-        }
         $object = $this->object();
+        if($value !== null){
+            $object->config($attribute, $value);
+        }
         return $object->config($attribute);
     }
 

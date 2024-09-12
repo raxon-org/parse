@@ -826,9 +826,12 @@ class Build
                         throw new Exception($record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.', 0, $exception);
                     }
                 }
+                $uuid_variable = Core::uuid_variable();
                 $data = [];
                 $data[] = 'try {';
-                $data[] = $method_value;
+                $data[] = $uuid_variable . ' = ' . $method_value;
+                $data[] = 'if(is_scalar(' . $uuid_variable . ')){';
+                $data[] = 'echo ' . $uuid_variable . ';';
                 $data[] = '}';
                 $data[] = 'catch(Exception $exception){';
                 if(

@@ -140,7 +140,6 @@ class Parse
                 'url' => $url
             ]
         );
-        d($url);
         require_once $url;
         echo PHP_EOL . str_repeat('-', Cli::tput('columns')) . PHP_EOL;
         $run = $options->namespace . '\\' . $options->class;

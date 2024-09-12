@@ -61,6 +61,7 @@ class Validator
         // Use PHP's built-in syntax checker
         Core::execute($object, 'php -l ' . escapeshellarg($url), $output, $notification);
         // Check the output to see if any syntax errors were found
+        d($output);
         if (strpos($output, 'No syntax errors detected') !== false) {
             return true;
         } else {

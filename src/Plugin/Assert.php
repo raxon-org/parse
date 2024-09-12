@@ -14,6 +14,9 @@ use Throwable;
 
 trait Assert {
 
+    /**
+     * @throws Throwable
+     */
     protected function assert(mixed $assertion, Throwable|string|null $description=null): null | bool
     {
         if($description == null){

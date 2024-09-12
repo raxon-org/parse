@@ -17,7 +17,10 @@ trait Config {
         $object = $this->object();
         if($value !== null){
             $object->config($attribute, $value);
+
         }
+        d($attribute);
+        d($object->config($attribute));
         return $object->config($attribute);
     }
 

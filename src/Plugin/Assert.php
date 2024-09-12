@@ -18,7 +18,7 @@ trait Assert {
             return $assertion;
         }
         if($assertion === false){
-            throw new $description();
+            throw new $description('Assertion failed');
         }
         return true;
     }

@@ -19,8 +19,6 @@ trait Config {
             $object->config($attribute, $value);
 
         }
-        d($attribute);
-        d($object->config($attribute));
         return $object->config($attribute);
     }
 

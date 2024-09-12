@@ -12,6 +12,9 @@ test('parse', function () {
     $data = new Data($app->data());
     $parse = new Parse($app, $data, App::flags($app), App::options($app));
 
+    $init = $app->config('core.execute.stream.init');
+    $app->config('core.execute.stream.init', true);
+
     $string = '{{$root = config(\'project.dir.root\')}}';
     $compile = $parse->compile($string);
 

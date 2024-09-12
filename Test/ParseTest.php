@@ -13,8 +13,7 @@ test('parse', function () {
     $parse = new Parse($app, $data, App::flags($app), App::options($app));
     $string = '{{config(\'project.dir.vendor\')}}';
     $compile = $parse->compile($string);
-
-    ddd($compile);
-
+    ob_start();
     expect($compile)->toContain("Application");
+    expect($compile)->toContain("/vendor/");
 });

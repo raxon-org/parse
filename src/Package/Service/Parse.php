@@ -118,8 +118,8 @@ class Parse
         $object = $this->object();
         $flags = $this->flags();
         $options = $this->options();
-
-        $options->class = $options->class ?? 'Main_' . hash('sha256', $input);
+        $options->hash = hash('sha256', $input);
+        $options->class = $options->class ?? 'Main_' . $options->hash;
         $options->namespace = $options->namespace ?? 'Package\Raxon\Parse';
         $dir = $object->config('project.dir.data') .
             'Test' .
@@ -127,10 +127,9 @@ class Parse
             'Parse' .
             $object->config('ds');
         Dir::create($dir, Dir::CHMOD);
+        $token = Token::tokenize($object, $flags, $options, $input);
 
         ddd($options);
-
-        $token = Token::tokenize($object, $flags, $options, $input);
 
         $url = $dir . 'Main.json';
         File::write($url, Core::object($token, Core::OBJECT_JSON));

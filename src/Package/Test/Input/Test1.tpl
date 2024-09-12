@@ -1,3 +1,3 @@
 {{$string = config('project.dir.vendor')}}
-{{$compare = '/Application/vendor/'}}
+{{$compare = '/Application/vendr/'}}
 {{assert($string === $compare, 'Raxon\Exception\AssertException')}}

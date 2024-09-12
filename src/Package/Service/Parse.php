@@ -130,7 +130,7 @@ class Parse
         $token = Token::tokenize($object, $flags, $options, $input);
         $url = $dir . $options->class . $object->config('extension.json');
         File::write($url, Core::object($token, Core::OBJECT_JSON));
-        ddd($url);
+        d($url);
         $url = $dir . $options->class . $object->config('extension.php');
         $document = Build::create($object, $flags, $options, $token);
         File::write($url, implode(PHP_EOL, $document));

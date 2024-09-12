@@ -15,10 +15,10 @@ test('parse', function () {
     $init = $app->config('core.execute.stream.init');
     $app->config('core.execute.stream.init', true);
 
-    $string = '{{$root = config(\'project.dir.root\')}}';
+    $string = '{{config(\'project.dir.vendor\')}}';
     $compile = $parse->compile($string);
 
-    ddd($parse->data());
+    ddd($compile);
 
     expect($compile)->toContain("Application");
 });

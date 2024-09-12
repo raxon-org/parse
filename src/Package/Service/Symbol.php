@@ -31,7 +31,6 @@ class Symbol
             } else {
                 $previous = $input['array'][$previous_nr];
             }
-
             $next = $input['array'][$nr + 1] ?? null;
             $next_next = $input['array'][$nr + 2] ?? null;
             if(is_array($char)){

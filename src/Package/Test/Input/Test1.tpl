@@ -1,1 +1,3 @@
-{{config('project.dir.vendor')}}
+{{$string = config('project.dir.vendor')}}
+{{$compare = '/Application/vendor/'}}
+{{assert($string === $compare)}}

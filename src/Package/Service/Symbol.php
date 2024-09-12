@@ -103,8 +103,14 @@ class Symbol
                     array_key_exists('type', $input['array'][$previous_nr]) &&
                     $input['array'][$previous_nr]['type'] === 'symbol'
                 ){
-                    d($previous);
-                    d($char);
+                    if(is_array($previous)){
+                        ddd($previous);
+                    }
+                    if(is_array($char)){
+                        ddd($char);
+                    }
+
+
                     $symbol = $previous . $char;
                     switch($symbol) {
                         case '{{':

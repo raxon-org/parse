@@ -104,13 +104,8 @@ class Symbol
                     $input['array'][$previous_nr]['type'] === 'symbol'
                 ){
                     if(is_array($previous)){
-                        ddd($previous);
+                        $previous = $previous['value'] ?? '';
                     }
-                    if(is_array($char)){
-                        ddd($char);
-                    }
-
-
                     $symbol = $previous . $char;
                     switch($symbol) {
                         case '{{':

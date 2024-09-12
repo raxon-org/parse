@@ -132,6 +132,7 @@ class Parse
         File::write($url, Core::object($token, Core::OBJECT_JSON));
         d($url);
         $url = $dir . $options->class . $object->config('extension.php');
+        d($url);
         $document = Build::create($object, $flags, $options, $token);
         File::write($url, implode(PHP_EOL, $document));
         File::permission(

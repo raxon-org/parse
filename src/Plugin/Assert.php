@@ -14,6 +14,7 @@ trait Assert {
 
     protected function assert(mixed $assertion, Throwable|string|null $description=null): bool
     {
+        d($assertion);
         if($description){
             assert($assertion, $description);
         }

@@ -24,6 +24,13 @@ class Symbol
             ddd($input);
         }
         foreach($input['array'] as $nr => $char){
+            $previous_nr = $nr - 1;
+            if($previous_nr < 0){
+                $previous_nr = null;
+            }
+            $previous = $input['array'][$previous_nr];
+            $next = $input['array'][$nr + 1] ?? null;
+            $next_next = $input['array'][$nr + 2] ?? null;
             if(is_array($char)){
                 continue;
             }
@@ -94,8 +101,7 @@ class Symbol
                     array_key_exists('type', $input['array'][$previous_nr]) &&
                     $input['array'][$previous_nr]['type'] === 'symbol'
                 ){
-                    $previous_char = $input['array'][$previous_nr]['value'];
-                    $symbol = $previous_char . $char;
+                    $symbol = $previous . $char;
                     switch($symbol) {
                         case '{{':
                         case '}}':
@@ -120,13 +126,6 @@ class Symbol
                         case '->':
                         case '::':
                         case '..':
-                        case '...':
-                        case '===':
-                        case '<<=':
-                        case '=>>':
-                        case '!==':
-                        case '!!!':
-                        case '!!!!':
                             $input['array'][$previous_nr] = [
                                 'type' => 'symbol',
                                 'value' => $symbol,
@@ -139,6 +138,34 @@ class Symbol
                                 'value' => $char,
                             ];
                     }
+                    $symbol = $previous . $char . $next;
+                    switch($symbol) {
+                        case '...':
+                        case '===':
+                        case '<<=':
+                        case '=>>':
+                        case '!==':
+                        case '!!!':
+                            $input['array'][$previous_nr] = [
+                                'type' => 'symbol',
+                                'value' => $symbol,
+                            ];
+                            $input['array'][$nr] = null;
+                            $input['array'][$nr + 1] = null;
+                        break;
+                    }
+                    $symbol = $previous . $char . $next . $next_next;
+                    switch ($symbol){
+                        case '!!!!':
+                            $input['array'][$previous_nr] = [
+                                'type' => 'symbol',
+                                'value' => $symbol,
+                            ];
+                            $input['array'][$nr] = null;
+                            $input['array'][$nr + 1] = null;
+                            $input['array'][$nr + 2] = null;
+                        break;
+                    }
                 } else {
                     $input['array'][$nr] = [
                         'type' => 'symbol',
@@ -146,7 +173,6 @@ class Symbol
                     ];
                 }
             }
-            $previous_nr = $nr;
         }
         return $input;
     }

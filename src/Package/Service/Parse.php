@@ -127,6 +127,9 @@ class Parse
             'Parse' .
             $object->config('ds');
         Dir::create($dir, Dir::CHMOD);
+
+        ddd($options);
+
         $token = Token::tokenize($object, $flags, $options, $input);
 
         $url = $dir . 'Main.json';

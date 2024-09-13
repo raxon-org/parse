@@ -206,13 +206,12 @@ class Parse
                 $options->class .
                 $object->config('extension.php')
             ;
-            d($cache_url);
             $cache_dir = Dir::name($cache_url);
             if(
                 File::exist($cache_url) &&
                 File::mtime($cache_url) === $mtime
             ){
-                $url = $cache_url;
+                $url_php = $cache_url;
                 $is_cache_url = true;
             }
         }

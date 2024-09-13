@@ -30,6 +30,7 @@ trait Plugin_require {
         $object = $this->object();
 
         $dir = Dir::name($object->config('package.raxon/parse.build.state.source.url'));
+        d($dir);
 
         if(substr($url, 0, 2) === './'){
             $url = $dir . substr($url, 2);

@@ -255,11 +255,14 @@ class Parse
             $run = $options->namespace . '\\' . $options->class;
             $main = new $run($object, $this, $data, $flags, $options);
             $result = $main->run();
-            if($is_cache_url === true){
-                $duration = round((microtime(true) - $start) * 1000, 2) . 'ms';
-                $duration2 = round((microtime(true) - $object->config('time.start')) * 1000, 2) . 'ms';
-                d($duration);
-                d($duration2);
+            $duration_parse = round((microtime(true) - $start) * 1000, 2) . 'ms';
+            $duration_script = round((microtime(true) - $object->config('time.start')) * 1000, 2) . 'ms';
+            if(property_exists($options, 'duration')){
+                $output = [
+                    'duration_parse' => $duration_parse,
+                    'duration_script' => $duration_script,
+                ];
+                echo Core::object($output, Core::OBJECT_JSON);
             }
             return $result;
         }

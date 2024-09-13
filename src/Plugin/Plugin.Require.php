@@ -28,7 +28,7 @@ trait Plugin_require {
     {
         $object = $this->object();
 
-        $dir = Dir::name($object->config('package.raxon/parse.build.state.source'));
+        $dir = Dir::name($object->config('package.raxon/parse.build.state.source.url'));
         ddd($dir);
         if(substr($url, 0, 2) === './'){
             $url = $dir . substr($url, 2);
@@ -37,7 +37,7 @@ trait Plugin_require {
             $url = $dir . $url;
         }
         if(!File::exist($url)) {
-            $text = 'Require: file not found: ' . $url . ' in template: ' . $object->config('package.raxon/parse.build.state.source');
+            $text = 'Require: file not found: ' . $url . ' in template: ' . $object->config('package.raxon/parse.build.state.source.url');
             throw new Exception($text);
         }
         $mtime = File::mtime($url);

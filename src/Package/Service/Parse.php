@@ -2,10 +2,11 @@
 namespace Package\Raxon\Parse\Service;
 
 use Raxon\App;
+use Raxon\Config;
 
+use Raxon\Module\Autoload;
 use Raxon\Module\Cli;
 use Raxon\Module\Data;
-use Raxon\Module\Controller;
 
 use Plugin;
 
@@ -120,7 +121,15 @@ class Parse
         $flags = $this->flags();
         $options = $this->options();
         $options->hash = hash('sha256', $input);
-        $object->config('package.raxon/parse.build.state.source', $options->source ?? 'source');
+        $object->config('package.raxon/parse.build.state.source.url', $options->source ?? 'source');
+        $mtime = false;
+        if(
+            property_exists($options, 'source') &&
+            File::exist($options->source)
+        ){
+            $mtime = File::mtime($options->source);
+        }
+        $object->config('package.raxon/parse.build.state.source.mtime', $mtime);
         $class = ltrim(
             str_replace(
                 [
@@ -158,14 +167,52 @@ class Parse
                     '\\',
                 ],
                 '_',
-                $object->config('package.raxon/parse.build.state.source')
+                $object->config('package.raxon/parse.build.state.source.url')
             ),
             '_'
         );
-        d($object->config('package.raxon/parse.build.state.source'));
-        ddd($class);
-        $options->class = $options->class ?? $class . '_' . $options->hash;
+        $is_plugin = false;
+        $plugin_list = $object->config('cache.parse.plugin.list');
+        foreach($plugin_list as $plugin){
+            if(
+                property_exists($plugin, 'name') &&
+                $plugin->name === 'require'
+            ){
+                $is_plugin = $plugin;
+                break;
+            }
+        }
+        if(
+            $is_plugin &&
+            property_exists($is_plugin, 'name_length') &&
+            property_exists($is_plugin, 'name_separator') &&
+            property_exists($is_plugin, 'name_pop_or_shift')
+        ){
+            $options->class = Autoload::name_reducer(
+                $object,
+                $options->class ?? $class . '_' . $options->hash,
+                $is_plugin->name_length,
+                $is_plugin->name_separator,
+                $is_plugin->name_pop_or_shift
+            );
+            $cache_url = $object->config('ramdisk.url') .
+                $object->config(Config::POSIX_ID) .
+                $object->config('ds') .
+                $object->config('dictionary.view') .
+                $object->config('ds') .
+                $options->class
+            ;
+            $cache_dir = Dir::name($cache_url);
+            if(
+                File::exist($cache_url) &&
+                File::mtime($cache_url) === $mtime
+            ){
+                $url = $cache_url;
+                $is_cache_url = true;
+            }
+        }
         $options->namespace = $options->namespace ?? 'Package\Raxon\Parse';
+        ddd($options);
         $dir = $object->config('project.dir.data') .
             'Test' .
             $object->config('ds') .

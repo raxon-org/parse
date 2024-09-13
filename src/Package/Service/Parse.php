@@ -175,6 +175,7 @@ class Parse
         $cache_url = false;
         $is_plugin = false;
         $is_cache_url = false;
+        $url_php = false;
         $plugin_list = $object->config('cache.parse.plugin.list');
         foreach($plugin_list as $plugin){
             if(
@@ -246,28 +247,14 @@ class Parse
                 ]
             );
         }
-        require_once $url_php;
-        echo PHP_EOL . str_repeat('-', Cli::tput('columns')) . PHP_EOL;
-        $run = $options->namespace . '\\' . $options->class;
-        $main = new $run($object, $this, $data, $flags, $options);
-//        d($object->config('package.raxon/parse'));
-        $result = $main->run();
-        return $result;
-
-        /*
-        // Step 2: Define the placeholder values
-        $placeholders = [
-            'name' => 'John Doe',
-            'age' => '30',
-            // Add more placeholders and their replacements as needed
-        ];
-        // Step 3: Replace placeholders with actual values
-        foreach ($placeholders as $key => $value) {
-            $template = str_replace('{{' . $key . '}}', $value, $template);
+        if($url_php){
+            require_once $url_php;
+            echo PHP_EOL . str_repeat('-', Cli::tput('columns')) . PHP_EOL;
+            $run = $options->namespace . '\\' . $options->class;
+            $main = new $run($object, $this, $data, $flags, $options);
+            $result = $main->run();
+            return $result;
         }
-        // Step 4: Output the processed template
-        dd($template);
-        */
     }
 
 }

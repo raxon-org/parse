@@ -259,6 +259,8 @@ class Parse
             $duration_script = round((microtime(true) - $object->config('time.start')) * 1000, 2) . 'ms';
             if(property_exists($options, 'duration')){
                 $output = [
+                    'class' => $class,
+                    'namespace' => $options->namespace,
                     'duration_parse' => $duration_parse,
                     'duration_script' => $duration_script,
                 ];

@@ -119,7 +119,12 @@ class Parse
         $flags = $this->flags();
         $options = $this->options();
         $options->hash = hash('sha256', $input);
-        $options->class = $options->class ?? 'Main_' . $options->hash;
+        $class = ucfirst(str_replace([
+            '/',
+            '\\',
+            '.'
+        ],'_', File::basename($object->config('package.raxon/parse.build.state.source'))));
+        $options->class = $options->class ?? $class . '_' . $options->hash;
         $options->namespace = $options->namespace ?? 'Package\Raxon\Parse';
         $dir = $object->config('project.dir.data') .
             'Test' .

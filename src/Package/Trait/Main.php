@@ -32,6 +32,7 @@ trait Main {
         $input = File::read($options->source);
         $parse = new Parse($object, new Data(), $flags, $options);
         echo $parse->compile($input);
+        /*
         if(
             property_exists($options,'duration') &&
             $options->duration === true
@@ -39,6 +40,7 @@ trait Main {
             $result['duration'] = round((microtime(true) - $object->config('time.start')) * 1000, 2) . 'ms';
             return $result;
         }
+        */
         return null;
     }
 }

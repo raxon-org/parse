@@ -52,11 +52,12 @@ trait Plugin_require {
         $data = $this->plugin_require_data($data);
         $flags = App::flags($object);
         $options = App::options($object);
-        $options->source = $url;
-
-        ddd($options);
-
-        $parse = new Parse($object, $data, $flags, $options);
+        $options_require = clone $options;
+        $options_require->source = $url;
+        unset($options_require->hash);
+        unset($options_require->class);
+        unset($options_require->namespace);
+        $parse = new Parse($object, $data, $flags, $options_require);
         $read = File::read($url);
         $compile = $parse->compile($read);
         d($compile);

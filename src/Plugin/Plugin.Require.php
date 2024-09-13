@@ -26,25 +26,15 @@ trait Plugin_require {
      */
     protected function plugin_require(string $url, mixed $data=null): mixed
     {
-        d($url);
         $object = $this->object();
-
         $dir = Dir::name($object->config('package.raxon/parse.build.state.source.url'));
-        d($dir);
-
         if(substr($url, 0, 2) === './'){
             $url = $dir . substr($url, 2);
-            d($url);
         }
         elseif(str_contains($url, '/') === false){
             $url = $dir . $url;
-            d($url);
         }
-        d($url);
         if(!File::exist($url)) {
-            trace();
-            flush();
-            ddd($url);
             $text = 'Require: file not found: ' . $url . ' in template: ' . $object->config('package.raxon/parse.build.state.source.url');
             throw new Exception($text);
         }
@@ -60,7 +50,6 @@ trait Plugin_require {
         $parse = new Parse($object, $data, $flags, $options_require);
         $read = File::read($url);
         $compile = $parse->compile($read);
-        d($compile);
         return $compile;
     }
 

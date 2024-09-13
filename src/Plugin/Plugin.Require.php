@@ -39,19 +39,6 @@ trait Plugin_require {
             throw new Exception($text);
         }
         $mtime = File::mtime($url);
-        $require_url = $object->config('package.raxon/parse.build.state.source.require.url');
-        if($require_url === null){
-            $require_url = [];
-        }
-        $require_url[] = $url;
-        d($require_url);
-        $object->config('package.raxon/parse.build.state.source.require.url', $require_url);
-        $require_mtime = $object->config('package.raxon/parse.build.state.source.require.mtime');
-        if($require_mtime === null){
-            $require_mtime = [];
-        }
-        $require_mtime[] = $mtime;
-        $object->config('package.raxon/parse.build.state.source.require.mtime', $require_mtime);
         $data = $this->plugin_require_data($data);
         $flags = App::flags($object);
         $options = App::options($object);

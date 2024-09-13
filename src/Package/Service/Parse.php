@@ -203,6 +203,7 @@ class Parse
                 $object->config('ds') .
                 $options->class
             ;
+            d($cache_url);
             $cache_dir = Dir::name($cache_url);
             if(
                 File::exist($cache_url) &&

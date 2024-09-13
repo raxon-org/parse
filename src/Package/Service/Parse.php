@@ -121,11 +121,18 @@ class Parse
         $options = $this->options();
         $options->hash = hash('sha256', $input);
         $object->config('package.raxon/parse.build.state.source', $options->source ?? 'source');
-        $class = Controller::name(str_replace([
-            '/',
-            '.',
-            '\\'
-        ],'_', $object->config('package.raxon/parse.build.state.source')));
+        $class = ltrim(
+            str_replace(
+                [
+                    '/',
+                    '.',
+                    '\\'
+                ],
+                '_',
+                $object->config('package.raxon/parse.build.state.source')
+            ),
+            '_'
+        );
         d($object->config('package.raxon/parse.build.state.source'));
         ddd($class);
         $options->class = $options->class ?? $class . '_' . $options->hash;

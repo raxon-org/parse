@@ -214,6 +214,7 @@ class Parse
             ){
                 $url_php = $cache_url;
                 $is_cache_url = true;
+                d('from cache...');
             }
         }
         $options->namespace = $options->namespace ?? 'Package\Raxon\Parse';

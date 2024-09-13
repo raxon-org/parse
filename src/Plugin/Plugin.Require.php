@@ -44,6 +44,7 @@ trait Plugin_require {
             $require_url = [];
         }
         $require_url[] = $url;
+        d($require_url);
         $object->config('package.raxon/parse.build.state.source.require.url', $require_url);
         $require_mtime = $object->config('package.raxon/parse.build.state.source.require.mtime');
         if($require_mtime === null){

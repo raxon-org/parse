@@ -212,7 +212,6 @@ class Parse
             }
         }
         $options->namespace = $options->namespace ?? 'Package\Raxon\Parse';
-        ddd($options);
         $dir = $object->config('project.dir.data') .
             'Test' .
             $object->config('ds') .

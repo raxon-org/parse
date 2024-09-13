@@ -124,6 +124,7 @@ class Parse
             '\\',
             '.'
         ],'_', File::basename($object->config('package.raxon/parse.build.state.source'))));
+        d($object->config('package.raxon/parse.build.state.source'));
         ddd($class);
         $options->class = $options->class ?? $class . '_' . $options->hash;
         $options->namespace = $options->namespace ?? 'Package\Raxon\Parse';

@@ -237,6 +237,7 @@ class Parse
         echo PHP_EOL . str_repeat('-', Cli::tput('columns')) . PHP_EOL;
         $run = $options->namespace . '\\' . $options->class;
         $main = new $run($object, $this, $data, $flags, $options);
+        d($object->config('package.raxon/parse'));
         return $main->run();
 
         /*

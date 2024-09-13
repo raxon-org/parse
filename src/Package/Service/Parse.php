@@ -246,7 +246,7 @@ class Parse
                     'url_json' => $url_json
                 ]
             );
-            d(date('Y-m-d h:i:s', $mtime));
+            d(date('Y-m-d H:i:s', $mtime));
             $touch = File::touch($url_php, $mtime);
             d($touch);
         }

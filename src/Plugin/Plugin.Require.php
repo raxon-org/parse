@@ -38,7 +38,6 @@ trait Plugin_require {
             $text = 'Require: file not found: ' . $url . ' in template: ' . $object->config('package.raxon/parse.build.state.source.url');
             throw new Exception($text);
         }
-        $mtime = File::mtime($url);
         $data = $this->plugin_require_data($data);
         $flags = App::flags($object);
         $options = App::options($object);
@@ -49,8 +48,7 @@ trait Plugin_require {
         unset($options_require->namespace);
         $parse = new Parse($object, $data, $flags, $options_require);
         $read = File::read($url);
-        $compile = $parse->compile($read);
-        return $compile;
+        return $parse->compile($read);
     }
 
     /**

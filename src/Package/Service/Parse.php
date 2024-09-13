@@ -262,7 +262,7 @@ class Parse
                     'duration_parse' => $duration_parse,
                     'duration_script' => $duration_script,
                 ];
-                echo Core::object($output, Core::OBJECT_JSON);
+                echo Core::object($output, Core::OBJECT_JSON) . PHP_EOL;
             }
             return $result;
         }

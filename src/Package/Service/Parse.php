@@ -121,7 +121,8 @@ class Parse
         $flags = $this->flags();
         $options = $this->options();
         $options->hash = hash('sha256', $input);
-        $object->config('package.raxon/parse.build.state.source.url', $options->source ?? 'source');
+        $source = $options->source ?? 'source';
+        $object->config('package.raxon/parse.build.state.source.url', $source);
         $mtime = false;
         if(
             property_exists($options, 'source') &&
@@ -237,7 +238,7 @@ class Parse
         echo PHP_EOL . str_repeat('-', Cli::tput('columns')) . PHP_EOL;
         $run = $options->namespace . '\\' . $options->class;
         $main = new $run($object, $this, $data, $flags, $options);
-        d($object->config('package.raxon/parse'));
+//        d($object->config('package.raxon/parse'));
         return $main->run();
 
         /*

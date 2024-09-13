@@ -11,6 +11,7 @@
 namespace Plugin;
 
 use Raxon\Module\Data;
+use Raxon\Module\Dir;
 use Raxon\Module\File;
 
 use Exception;

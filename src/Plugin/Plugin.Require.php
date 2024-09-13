@@ -23,7 +23,7 @@ trait Plugin_require {
     /**
      * @throws Exception
      */
-    protected function plugin_require(string $url, mixed $data=null): void
+    protected function plugin_require(string $url, mixed $data=null): string
     {
         $object = $this->object();
 
@@ -45,10 +45,7 @@ trait Plugin_require {
         $parse = new Parse($object, $data, $flags, $options);
         $read = File::read($url);
         $compile = $parse->compile($read);
-        d($mtime);
-        d($data);
-        d($url);
-        ddd($compile);
+        return $compile;
     }
 
     /**

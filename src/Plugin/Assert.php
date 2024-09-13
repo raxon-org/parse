@@ -22,7 +22,7 @@ trait Assert {
         if($description == null){
             return (bool) $assertion;
         }
-        if($assertion === false){
+        if($assertion !== true){
             throw new $description('Assertion failed');
         }
         return null;

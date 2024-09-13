@@ -120,6 +120,7 @@ class Parse
         $flags = $this->flags();
         $options = $this->options();
         $options->hash = hash('sha256', $input);
+        $object->config('package.raxon/parse.build.state.source', $options->source ?? 'source');
         $class = Controller::name($object->config('package.raxon/parse.build.state.source'));
         d($object->config('package.raxon/parse.build.state.source'));
         ddd($class);

@@ -10,6 +10,7 @@
  */
 namespace Plugin;
 
+use Raxon\App;
 use Raxon\Module\Data;
 use Raxon\Module\Dir;
 use Raxon\Module\File;
@@ -34,15 +35,14 @@ trait Plugin_require {
         elseif(str_contains($url, '/') === false){
             $url = $dir . $url;
         }
-        $url .= 1;
         if(!File::exist($url)) {
             $text = 'Require: file not found: ' . $url . ' in template: ' . $object->config('package.raxon/parse.build.state.source');
             throw new Exception($text);
         }
         $mtime = File::mtime($url);
         $data = $this->plugin_require_data($data);
-        $flags = (object) [];
-        $options = (object) [];
+        $flags = App::flags($object);
+        $options = App::options($object);
         $parse = new Parse($object, $data, $flags, $options);
         $read = File::read($url);
         $compile = $parse->compile($read);

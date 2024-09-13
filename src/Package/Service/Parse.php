@@ -246,6 +246,7 @@ class Parse
                     'url_json' => $url_json
                 ]
             );
+            File::touch($url_php, $mtime);
         }
         if($url_php){
             require_once $url_php;

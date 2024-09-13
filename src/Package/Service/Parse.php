@@ -104,6 +104,7 @@ class Parse
      * @throws Exception
      */
     public function compile($input, $data=null){
+        $start = microtime(true);
         if(is_array($data)){
             $data = new Data($data);
             $this->data($data);
@@ -214,7 +215,6 @@ class Parse
             ){
                 $url_php = $cache_url;
                 $is_cache_url = true;
-                d('from cache...');
             }
         }
         $options->namespace = $options->namespace ?? 'Package\Raxon\Parse';
@@ -255,6 +255,10 @@ class Parse
             $run = $options->namespace . '\\' . $options->class;
             $main = new $run($object, $this, $data, $flags, $options);
             $result = $main->run();
+            if($is_cache_url === true){
+                $duration = round((microtime(true) - $start) * 1000, 2) . 'ms';
+                d($duration);
+            }
             return $result;
         }
     }

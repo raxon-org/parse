@@ -239,6 +239,8 @@ class Parse
         $run = $options->namespace . '\\' . $options->class;
         $main = new $run($object, $this, $data, $flags, $options);
 //        d($object->config('package.raxon/parse'));
+        $require_url = $object->config('package.raxon/parse.build.state.source.require.url');
+        d($require_url);
         return $main->run();
 
         /*

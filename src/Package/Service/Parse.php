@@ -5,6 +5,7 @@ use Raxon\App;
 
 use Raxon\Module\Cli;
 use Raxon\Module\Data;
+use Raxon\Module\Controller;
 
 use Plugin;
 
@@ -119,11 +120,7 @@ class Parse
         $flags = $this->flags();
         $options = $this->options();
         $options->hash = hash('sha256', $input);
-        $class = ucfirst(str_replace([
-            '/',
-            '\\',
-            '.'
-        ],'_', File::basename($object->config('package.raxon/parse.build.state.source'))));
+        $class = Controller::name($object->config('package.raxon/parse.build.state.source'));
         d($object->config('package.raxon/parse.build.state.source'));
         ddd($class);
         $options->class = $options->class ?? $class . '_' . $options->hash;

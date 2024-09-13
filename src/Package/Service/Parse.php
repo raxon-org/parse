@@ -239,9 +239,10 @@ class Parse
         $run = $options->namespace . '\\' . $options->class;
         $main = new $run($object, $this, $data, $flags, $options);
 //        d($object->config('package.raxon/parse'));
+        $result = $main->run();
         $require_url = $object->config('package.raxon/parse.build.state.source.require.url');
         d($require_url);
-        return $main->run();
+        return $result;
 
         /*
         // Step 2: Define the placeholder values

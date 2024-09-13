@@ -14,6 +14,8 @@ use Raxon\Module\Data;
 use Raxon\Module\Dir;
 use Raxon\Module\File;
 
+use Package\RaXon\Parse\Service\Parse;
+
 use Exception;
 
 trait Plugin_require {
@@ -38,9 +40,15 @@ trait Plugin_require {
         }
         $mtime = File::mtime($url);
         $data = $this->plugin_require_data($data);
+        $flags = (object) [];
+        $options = (object) [];
+        $parse = new Parse($object, $data, $flags, $options);
+        $read = File::read($url);
+        $compile = $parse->compile($read);
         d($mtime);
         d($data);
-        ddd($url);
+        d($url);
+        ddd($compile);
     }
 
     /**

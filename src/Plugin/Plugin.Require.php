@@ -22,8 +22,13 @@ trait Plugin_require {
      */
     protected function plugin_require(string $url, mixed $data=null): void
     {
+        $object = $this->object();
+
+        $dir = Dir::name($object->config('package.raxon/parse.build.state.source'));
+        ddd($dir);
+
         if(!File::exist($url)) {
-            $text = 'Require: file not found: ' . $url . ' in template: ';
+            $text = 'Require: file not found: ' . $url . ' in template: ' . $object->config('package.raxon/parse.build.state.source');
             throw new Exception($text);
         }
         $mtime = File::mtime($url);

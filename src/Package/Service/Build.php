@@ -54,6 +54,7 @@ class Build
     public static function document_header(App $object, $flags, $options): array
     {
         $source = $options->source ?? '';
+        $object->config('package.raxon/parse.build.state.source', $source);
         $object->config('package.raxon/parse.build.state.indent', 0);
         $document[] = '<?php';
         $document[] = '/**';

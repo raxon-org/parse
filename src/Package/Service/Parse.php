@@ -246,15 +246,12 @@ class Parse
                     'url_json' => $url_json
                 ]
             );
-            d(date('Y-m-d H:i:s', $mtime));
-            $touch = File::touch($url_php, $mtime);
-            d($touch);
+            File::touch($url_json, $mtime);
+            File::touch($url_php, $mtime);
         }
         if($url_php){
             require_once $url_php;
-            echo PHP_EOL . str_repeat('-', Cli::tput('columns')) . PHP_EOL;
             $run = $options->namespace . '\\' . $options->class;
-            echo 'run:' . $run . PHP_EOL;
             $main = new $run($object, $this, $data, $flags, $options);
             $result = $main->run();
             return $result;

@@ -240,7 +240,7 @@ class Parse
         $main = new $run($object, $this, $data, $flags, $options);
 //        d($object->config('package.raxon/parse'));
         $result = $main->run();
-        $require_url = $object->config('package.raxon/parse.build.state.source.require.url');
+        $require_url = $object->config('package.raxon/parse.build.state');
         d($require_url);
         return $result;
 

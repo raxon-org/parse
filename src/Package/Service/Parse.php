@@ -257,7 +257,9 @@ class Parse
             $result = $main->run();
             if($is_cache_url === true){
                 $duration = round((microtime(true) - $start) * 1000, 2) . 'ms';
+                $duration2 = round((microtime(true) - $object->config('time.start')) * 1000, 2) . 'ms';
                 d($duration);
+                d($duration2);
             }
             return $result;
         }

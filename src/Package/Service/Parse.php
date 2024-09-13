@@ -172,7 +172,9 @@ class Parse
             ),
             '_'
         );
+        $cache_url = false;
         $is_plugin = false;
+        $is_cache_url = false;
         $plugin_list = $object->config('cache.parse.plugin.list');
         foreach($plugin_list as $plugin){
             if(
@@ -201,7 +203,8 @@ class Parse
                 $object->config('ds') .
                 $object->config('dictionary.view') .
                 $object->config('ds') .
-                $options->class
+                $options->class .
+                $object->config('extension.php')
             ;
             d($cache_url);
             $cache_dir = Dir::name($cache_url);
@@ -214,35 +217,42 @@ class Parse
             }
         }
         $options->namespace = $options->namespace ?? 'Package\Raxon\Parse';
-        $dir = $object->config('project.dir.data') .
-            'Test' .
-            $object->config('ds') .
-            'Parse' .
-            $object->config('ds');
-        Dir::create($dir, Dir::CHMOD);
-        $token = Token::tokenize($object, $flags, $options, $input);
-        $url = $dir . $options->class . $object->config('extension.json');
-        File::write($url, Core::object($token, Core::OBJECT_JSON));
-        d($url);
-        $url = $dir . $options->class . $object->config('extension.php');
-        d($url);
-        $document = Build::create($object, $flags, $options, $token);
-        File::write($url, implode(PHP_EOL, $document));
-        File::permission(
-            $object,
-            [
-                'dir' => $dir,
-                'url' => $url
-            ]
-        );
-        require_once $url;
+        if($is_cache_url === false){
+            $dir = $object->config('ramdisk.url') .
+                $object->config(Config::POSIX_ID) .
+                $object->config('ds') .
+                $object->config('dictionary.view') .
+                $object->config('ds')
+            ;
+            Dir::create($dir, Dir::CHMOD);
+            $token = Token::tokenize($object, $flags, $options, $input);
+            $url_json = $dir . $options->class . $object->config('extension.json');
+            File::write($url_json, Core::object($token, Core::OBJECT_JSON));
+            if($cache_url){
+                $url_php = $cache_url;
+            } else {
+                $url_php = $dir .
+                    $options->class .
+                    $object->config('extension.php')
+                ;
+            }
+            $document = Build::create($object, $flags, $options, $token);
+            File::write($url_php, implode(PHP_EOL, $document));
+            File::permission(
+                $object,
+                [
+                    'dir' => $dir,
+                    'url_php' => $url_php,
+                    'url_json' => $url_json
+                ]
+            );
+        }
+        require_once $url_php;
         echo PHP_EOL . str_repeat('-', Cli::tput('columns')) . PHP_EOL;
         $run = $options->namespace . '\\' . $options->class;
         $main = new $run($object, $this, $data, $flags, $options);
 //        d($object->config('package.raxon/parse'));
         $result = $main->run();
-        $require_url = $object->config('package.raxon/parse.build.state');
-        d($require_url);
         return $result;
 
         /*

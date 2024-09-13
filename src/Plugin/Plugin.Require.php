@@ -23,7 +23,7 @@ trait Plugin_require {
     /**
      * @throws Exception
      */
-    protected function plugin_require(string $url, mixed $data=null): string
+    protected function plugin_require(string $url, mixed $data=null): mixed
     {
         $object = $this->object();
 

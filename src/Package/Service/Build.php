@@ -499,7 +499,8 @@ class Build
                     'parse',
                     'break',
                     'continue',
-                    'constant'
+                    'constant',
+                    'require'
                 ],
                 true
             )

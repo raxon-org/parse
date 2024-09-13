@@ -43,6 +43,7 @@ trait Plugin_require {
         $data = $this->plugin_require_data($data);
         $flags = App::flags($object);
         $options = App::options($object);
+        unset($options->source);
         $parse = new Parse($object, $data, $flags, $options);
         $read = File::read($url);
         $compile = $parse->compile($read);

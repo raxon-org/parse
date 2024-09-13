@@ -254,6 +254,7 @@ class Parse
             require_once $url_php;
             echo PHP_EOL . str_repeat('-', Cli::tput('columns')) . PHP_EOL;
             $run = $options->namespace . '\\' . $options->class;
+            echo 'run:' . $run . PHP_EOL;
             $main = new $run($object, $this, $data, $flags, $options);
             $result = $main->run();
             return $result;

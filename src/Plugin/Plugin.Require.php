@@ -29,7 +29,7 @@ trait Plugin_require {
         $object = $this->object();
 
         $dir = Dir::name($object->config('package.raxon/parse.build.state.source.url'));
-        ddd($dir);
+
         if(substr($url, 0, 2) === './'){
             $url = $dir . substr($url, 2);
         }
@@ -40,11 +40,11 @@ trait Plugin_require {
             $text = 'Require: file not found: ' . $url . ' in template: ' . $object->config('package.raxon/parse.build.state.source.url');
             throw new Exception($text);
         }
-        $mtime = File::mtime($url);
+        $mtime = $object->config('package.raxon/parse.build.state.source.mtime');
         $data = $this->plugin_require_data($data);
         $flags = App::flags($object);
         $options = App::options($object);
-        unset($options->source);
+        $options->source = $url;
         $parse = new Parse($object, $data, $flags, $options);
         $read = File::read($url);
         $compile = $parse->compile($read);

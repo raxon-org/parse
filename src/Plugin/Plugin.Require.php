@@ -42,6 +42,8 @@ trait Plugin_require {
         }
         d($url);
         if(!File::exist($url)) {
+            trace();
+            flush();
             $text = 'Require: file not found: ' . $url . ' in template: ' . $object->config('package.raxon/parse.build.state.source.url');
             throw new Exception($text);
         }

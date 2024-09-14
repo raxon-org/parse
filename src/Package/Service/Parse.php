@@ -251,12 +251,14 @@ class Parse
             File::touch($url_php, $mtime);
         }
         if($url_php){
+            $pre_require = microtime(true);
             require_once $url_php;
             $run = $options->namespace . '\\' . $options->class;
             $main = new $run($object, $this, $data, $flags, $options);
             $result = $main->run();
             $microtime = microtime(true);
-            $duration_parse = round(($microtime - $start) * 1000, 2) . 'ms';
+            $duration_require = round(($microtime - $pre_require) * 1000, 2) . ' ms';
+            $duration_parse = round(($microtime - $start) * 1000, 2) . ' ms';
             $duration_script = round(($microtime - $object->config('time.start')) * 1000, 2) . 'ms';
             $microtime_explode = explode('.', $microtime);
             if(property_exists($options, 'duration')){

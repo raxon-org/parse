@@ -266,6 +266,7 @@ class Parse
                     'class' => $class,
                     'namespace' => $options->namespace,
                     'duration' => [
+                        'require' => $duration_require,
                         'parse' => $duration_parse,
                         'total' => $duration_script,
                         'finish' => date('Y-m-d H:i:s', time()) . '.' . $microtime_explode[1]

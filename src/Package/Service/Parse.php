@@ -257,12 +257,17 @@ class Parse
             $result = $main->run();
             $duration_parse = round((microtime(true) - $start) * 1000, 2) . 'ms';
             $duration_script = round((microtime(true) - $object->config('time.start')) * 1000, 2) . 'ms';
+            $microtime = microtime(true);
+            $microtime_explode = explode('.', $microtime);
             if(property_exists($options, 'duration')){
                 $output = [
                     'class' => $class,
                     'namespace' => $options->namespace,
-                    'duration_parse' => $duration_parse,
-                    'duration_script' => $duration_script,
+                    'duration' => [
+                        'parse' => $duration_parse,
+                        'total' => $duration_script,
+                        'finish' => date('Y-m-d H:i:s', time()) . $microtime_explode[1]
+                    ]
                 ];
                 echo Core::object($output, Core::OBJECT_JSON) . PHP_EOL;
             }

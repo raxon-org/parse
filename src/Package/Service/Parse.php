@@ -266,7 +266,7 @@ class Parse
                     'duration' => [
                         'parse' => $duration_parse,
                         'total' => $duration_script,
-                        'finish' => date('Y-m-d H:i:s', time()) . $microtime_explode[1]
+                        'finish' => date('Y-m-d H:i:s', time()) . '.' . $microtime_explode[1]
                     ]
                 ];
                 echo Core::object($output, Core::OBJECT_JSON) . PHP_EOL;

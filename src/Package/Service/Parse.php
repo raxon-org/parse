@@ -260,7 +260,7 @@ class Parse
             $microtime = microtime(true);
             $duration_require = round(($post_require - $pre_require) * 1000, 2) . ' ms';
             $duration_parse = round(($microtime - $post_require) * 1000, 2) . ' ms';
-            $duration_script = round(($microtime - $object->config('time.start')) * 1000, 2) . 'ms';
+            $duration_script = round(($microtime - $object->config('time.start')) * 1000, 2) . ' ms';
             $microtime_explode = explode('.', $microtime);
             if(property_exists($options, 'duration')){
                 $output = [

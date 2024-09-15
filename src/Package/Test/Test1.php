@@ -11,5 +11,6 @@ $list = [
     8,
     9
 ];
-foreach($list as $nr){
+foreach($list as $nr) {
     echo $nr . PHP_EOL;
+}

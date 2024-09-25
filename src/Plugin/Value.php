@@ -33,6 +33,12 @@ trait Value {
         return $variable;
     }
 
+    protected function value_multiply_multiply($variable=0): int |  float
+    {
+        $variable += 0;
+        return $variable * $variable;
+    }
+
     protected function value_plus($variable1=null, $variable2=null) : int |  float | string
     {
         $type1 = getType($variable1);

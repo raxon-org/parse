@@ -530,6 +530,7 @@ class Build
                     'Plugin\\Value_Concatenate',
                     'Plugin\\Value_Plus_Plus',
                     'Plugin\\Value_Minus_Minus',
+                    'Plugin\\Value_Multiply_Multiply',
                     'Plugin\\Value_Plus',
                     'Plugin\\Value_Minus',
                     'Plugin\\Value_Multiply',
@@ -766,7 +767,14 @@ class Build
                 $method_value[] = $from . ' = ' . $foreach_from . ';';
                 $method_value[] = '$type = gettype(' . $from . ');';
                 $method_value[] = 'if(!in_array($type, [\'array\', \'object\'], true)){';
-                $method_value[] = 'throw new Exception(\'Invalid argument type: \' . $type . \' for foreach on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\');';
+                if(
+                    array_key_exists('is_multiline', $record) &&
+                    $record['is_multiline'] === true
+                ){
+                    $method_value[] = 'throw new Exception(\'' . $record['tag'] . PHP_EOL . 'Invalid argument type: \' . $type . \' for foreach on line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: ' . $source . '\');';
+                } else {
+                    $method_value[] = 'throw new Exception(\'' . $record['tag'] . PHP_EOL . 'Invalid argument type: \' . $type . \' for foreach on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\');';
+                }
                 $method_value[] = '}';
                 if($key){
                     $method_value[] = 'foreach(' . $from . ' as ' . $key . ' => ' . $value . '){';
@@ -906,50 +914,88 @@ class Build
             $variable_name !== '' &&
             $operator !== ''
         ){
-            switch($operator){
-                case '=' :
-                    $result = '$data->set(';
-                    $result .= '\'' .
-                        $variable_name .
-                        '\', '
-                    ;
-                    $result .= $value;
-                    $result .= ');';
-                    try {
-                        Validator::validate($object, $flags, $options, $result);
-                    }
-                    catch(Exception $exception){
-                        if(
-                            array_key_exists('is_multiline', $record) &&
-                            $record['is_multiline'] === true
-                        ){
-                            throw new Exception($record['tag'] . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.', 0, $exception);
-                        } else {
-                            throw new Exception($record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.', 0, $exception);
-                        }
-                    }
-                    return $result;
-                case '.=' :
-                    return '$data->set(\'' . $variable_name . '\', ' .  '$this->value_concatenate($data->get(\'' . $variable_name . '\'), ' . $value . '));';
-                case '+=' :
-                    return '$data->set(\'' . $variable_name . '\', ' .  '$this->value_plus($data->get(\'' . $variable_name . '\'), ' . $value . '));';
-                case '-=' :
-                    return '$data->set(\'' . $variable_name . '\', ' .  '$this->value_minus($data->get(\'' . $variable_name . '\'), ' . $value . '));';
-                case '*=' :
-                    return '$data->set(\'' . $variable_name . '\', ' .  '$this->value_multiply($data->get(\'' . $variable_name . '\'), ' . $value . '));';
+            $result = '';
+            if($value !== ''){
+                switch($operator){
+                    case '=' :
+                        $result = '$data->set(\'' .
+                            $variable_name .
+                            '\', ' .
+                            $value .
+                            ');'
+                        ;
+                        break;
+                    case '.=' :
+                        $result = '$data->set(\'' .
+                            $variable_name .
+                            '\', ' .
+                            '$this->value_concatenate($data->get(\'' .
+                            $variable_name .
+                            '\'), ' .
+                            $value .
+                            '));'
+                        ;
+                        break;
+                    case '+=' :
+                        $result = '$data->set(\'' .
+                            $variable_name .
+                            '\', ' .
+                            '$this->value_plus($data->get(\'' .
+                            $variable_name .
+                            '\'), ' .
+                            $value .
+                            '));'
+                        ;
+                        break;
+                    case '-=' :
+                        $result = '$data->set(\'' . $variable_name . '\', ' .
+                            '$this->value_minus($data->get(\'' .
+                            $variable_name .
+                            '\'), ' .
+                            $value .
+                            '));'
+                        ;
+                        break;
+                    case '*=' :
+                        $result = '$data->set(\'' .
+                            $variable_name .
+                            '\', ' .
+                            '$this->value_multiply($data->get(\'' .
+                            $variable_name .
+                            '\'), ' .
+                            $value .
+                            '));'
+                        ;
+                        break;
+                }
+
+            } else {
+                switch($operator){
+                    case '++' :
+                        $result = '$data->set(\'' . $variable_name . '\', ' .  '$this->value_plus_plus($data->get(\'' . $variable_name . '\')));';
+                    break;
+                    case '--' :
+                        $result = '$data->set(\'' . $variable_name . '\', ' .  '$this->value_minus_minus($data->get(\'' . $variable_name . '\')));';
+                    break;
+                    case '**' :
+                        $result = '$data->set(\'' . $variable_name . '\', ' .  '$this->value_multiply_multiply($data->get(\'' . $variable_name . '\')));';
+                    break;
+                }
             }
-        }
-        elseif(
-            $variable_name !== '' &&
-            $operator !== '' &&
-            $value === ''
-        ){
-            switch($operator){
-                case '++' :
-                    return '$data->set(\'' . $variable_name . '\', ' .  '$this->value_plus_plus($data->get(\'' . $variable_name . '\')));';
-                case '--' :
-                    return '$data->set(\'' . $variable_name . '\', ' .  '$this->value_minus_minus($data->get(\'' . $variable_name . '\')));';
+            try {
+                Validator::validate($object, $flags, $options, $result);
             }
+            catch(Exception $exception){
+                if(
+                    array_key_exists('is_multiline', $record) &&
+                    $record['is_multiline'] === true
+                ){
+                    throw new Exception($record['tag'] . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.', 0, $exception);
+                } else {
+                    throw new Exception($record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.', 0, $exception);
+                }
+            }
+            return $result;
         }
         return false;
     }

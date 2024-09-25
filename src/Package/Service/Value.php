@@ -203,6 +203,8 @@ class Value
     }
 
     public static function basic(App $object, $flags, $options, $input=''){
+        d($input);
+        trace();
         switch($input){
             case 'true':
                 return [
@@ -256,7 +258,6 @@ class Value
                     $is_hex = false;
                     $is_hex_nr = false;
                     $collect = '';
-                    d($input);
                     for($i=0; $i<$length; $i++){
                         d($data[$i]);
                         if(

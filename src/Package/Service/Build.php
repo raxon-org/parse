@@ -718,15 +718,41 @@ class Build
         ){
             $array = [];
             $array_string = '';
+            $array_depth = 0;
+            $is_assigned = false;
             foreach($record['method']['argument'] as $nr => $argument){
                 $array_string .= $argument['string'] . ', ';
                 foreach($argument['array'] as $array_nr => $array_record){
+                    if(
+                        array_key_exists('value', $array_record) &&
+                        $array_record['value'] === '['
+                    ){
+                        $array_depth++;
+                        $is_assigned = true;
+                    }
+                    elseif(
+                        array_key_exists('value', $array_record) &&
+                        $array_record['value'] === ']'
+                    ){
+                        $array_depth--;
+                        if($array_depth === 0){
+                            $array_string = mb_substr($array_string, 0, -2);
+                            break;
+                        }
+                    }
                     $array[] = $array_record;
                 }
+                if($is_assigned === true){
+
+                }
+
+
+                /*
                 if(str_contains($argument['string'], ' as ')){
                     $array_string = mb_substr($array_string, 0, -2);
                     break;
                 }
+                */
             }
             d($array_string);
             ddd($array);
@@ -755,9 +781,6 @@ class Build
             case 'for.each':
             case 'for_each':
             case 'foreach':
-                $record = Build::method_foreach($object, $flags, $options, $record);
-
-
                 $foreach_from = $record['method']['argument'][0]['array'][0] ?? null;
                 $foreach_key = $record['method']['argument'][0]['array'][2] ?? null;
                 $foreach_value = $record['method']['argument'][0]['array'][4] ?? null;

@@ -878,6 +878,9 @@ class Build
         $variable_name = $record['variable']['name'];
         $operator = $record['variable']['operator'];
         $value = Build::value($object, $flags, $options, $record, $record['variable']['value']);
+        d($variable_name);
+        d($operator);
+        d($value);
         if(array_key_exists('modifier', $record['variable'])){
             d($value);
             ddd('what happens with value');

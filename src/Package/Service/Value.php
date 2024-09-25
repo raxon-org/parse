@@ -17,10 +17,24 @@ class Value
         if (!array_key_exists('array', $input)) {
             return $input;
         }
+        $count = count($input['array']);
         foreach($input['array'] as $nr => $char){
-            $previous = Token::item($input, $nr - 1);
-            $next = Token::item($input, $nr + 1);
-            d($char);
+            $min = 1;
+            while(true){
+                $previous = Token::item($input, $nr - $min);
+                $min++;
+                if($nr - $min < 0){
+                    break;
+                }
+            }
+            $plus = 1;
+            while(true){
+                $next = Token::item($input, $nr + $plus);
+                $plus++;
+                if($nr + $plus >= $count){
+                    break;
+                }
+            }
             if(
                 is_array($char) &&
                 array_key_exists('value', $char) &&

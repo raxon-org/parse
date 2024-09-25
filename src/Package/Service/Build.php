@@ -711,7 +711,6 @@ class Build
             return $record;
         }
         $method_name = mb_strtolower($record['method']['name']);
-        d($method_name);
         if(
             $method_name === 'for.each' ||
             $method_name === 'for_each' ||
@@ -736,6 +735,7 @@ class Build
             }
             return $record;
         }
+        ddd($method_name);
         return $record;
     }
 

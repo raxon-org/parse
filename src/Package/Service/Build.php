@@ -1097,6 +1097,13 @@ class Build
             }
             elseif(
                 array_key_exists('type', $record) &&
+                $record['type'] === 'bool'
+            ){
+                ddd($record);
+                $value .= $record['execute'];
+            }
+            elseif(
+                array_key_exists('type', $record) &&
                 $record['type'] === 'cast'
             ){
                 if($record['cast'] === 'clone'){

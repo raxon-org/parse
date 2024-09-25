@@ -1132,12 +1132,6 @@ class Build
      */
     public static function value(App $object, $flags, $options, $tag, $input): string
     {
-        if(
-            array_key_exists('type', $input) &&
-            $input['type'] === 'array'
-        ){
-            $is_array = true;
-        }
         d($input);
         $value = '';
         $skip = 0;

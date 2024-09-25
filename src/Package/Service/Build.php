@@ -765,7 +765,7 @@ class Build
                 $value = Core::uuid_variable();
                 $method_value = [];
                 $method_value[] = $from . ' = ' . $foreach_from . ';';
-                $method_value[] = '$type = gettype(' . $from . ');';
+                $method_value[] = '$type = str_replace(\'double\', \'float\', gettype(' . $from . '));';
                 $method_value[] = 'if(!in_array($type, [\'array\', \'object\'], true)){';
                 if(
                     array_key_exists('is_multiline', $record) &&
@@ -1117,7 +1117,6 @@ class Build
             if(!is_array($record)){
                 continue;
             }
-            d($record);
             if(
                 array_key_exists('is_single_quoted', $record) &&
                 array_key_exists('execute', $record) &&

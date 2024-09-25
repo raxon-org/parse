@@ -18,8 +18,8 @@ class Value
             return $input;
         }
         foreach($input['array'] as $nr => $char){
-            $previous = Token::item($input, $nr - 1);
-            $next = Token::item($input, $nr + 1);
+            $previous = Token::item($input['array'], $nr - 1);
+            $next = Token::item($input['array'], $nr + 1);
             d($char);
             if(
                 is_array($char) &&

@@ -814,19 +814,25 @@ class Build
                     ];
 //                    $foreach_value = Build::value($object, $flags, $options, $record, $value);
                 }
-                if(!array_key_exists('tag', $foreach_from)){
-                    d($record);
-                    trace();
-                    d($foreach_key);
-                    d($foreach_value);
-                    ddd($foreach_from);
+                if(
+                    !array_key_exists('tag', $foreach_from) &&
+                    array_key_exists('type', $foreach_from) &&
+                    $foreach_from['type'] === 'array'
+                ){
+                    $value = [
+                        'string' => $foreach_from['sting'],
+                        'array' => [
+                            0 => $foreach_from
+                        ]
+                    ];
+                } else {
+                    $value = [
+                        'string' => $foreach_from['tag'],
+                        'array' => [
+                            0 => $foreach_from
+                        ]
+                    ];
                 }
-                $value = [
-                    'string' => $foreach_from['tag'],
-                    'array' => [
-                        0 => $foreach_from
-                    ]
-                ];
                 $foreach_from = Build::value($object, $flags, $options, $record, $value);
                 $from = Core::uuid_variable();
                 $value = Core::uuid_variable();

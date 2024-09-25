@@ -31,7 +31,8 @@ trait Main {
         $object = $this->object();
         $input = File::read($options->source);
         $parse = new Parse($object, new Data(), $flags, $options);
-        echo $parse->compile($input);
+        $compile = $parse->compile($input);
+        ddd($compile);
 
         /*
         if(

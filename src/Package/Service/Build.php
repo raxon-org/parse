@@ -1076,6 +1076,7 @@ class Build
             if(!is_array($record)){
                 continue;
             }
+            d($record);
             if(
                 array_key_exists('is_single_quoted', $record) &&
                 array_key_exists('execute', $record) &&

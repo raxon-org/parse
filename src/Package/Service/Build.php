@@ -1358,6 +1358,15 @@ class Build
                             '===',
                             '!=',
                             '!==',
+                            '.=',
+                            '+=',
+                            '-=',
+                            '*=',
+                            '...',
+                            '=>',
+                            '++',
+                            '--',
+                            '**',
                             '&&',
                             '||',
                             'xor',
@@ -1574,6 +1583,7 @@ class Build
         $value = '';
         switch($current){
             case '.=':
+            case '.':
                 $value = '$this->value_concatenate(' . $left . ', ' . $right . ')';
             break;
             case '+':

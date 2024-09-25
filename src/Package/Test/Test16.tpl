@@ -12,4 +12,3 @@
 ] as $nr)}}
     {{echo($nr . PHP_EOL)}}
 {{/foreach}}
-

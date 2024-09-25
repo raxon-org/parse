@@ -28,10 +28,16 @@ trait Main {
         if(File::exist($options->source) === false){
             throw new Exception('Source not found');
         }
-        $object = $this->object();
-        $input = File::read($options->source);
-        $parse = new Parse($object, new Data(), $flags, $options);
-        echo $parse->compile($input);
+        try {
+            $object = $this->object();
+            $input = File::read($options->source);
+            $parse = new Parse($object, new Data(), $flags, $options);
+            $compile = $parse->compile($input);
+        }
+        catch(Exception $exception){
+            throw $exception;
+        }
+
         /*
         if(
             property_exists($options,'duration') &&

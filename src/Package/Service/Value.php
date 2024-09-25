@@ -55,8 +55,8 @@ class Value
                         'value' => $previous . $char['value'] . $next,
                         'execute' => (float) ($previous . $char['value'] . $next)
                     ];
-                    $input['array'][$nr - 1] = null;
-                    $input['array'][$nr + 1] = null;
+                    $input['array'][$nr - $min] = null;
+                    $input['array'][$nr + $plus] = null;
                 }
             }
         }

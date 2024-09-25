@@ -713,30 +713,29 @@ class Build
         $method_name = mb_strtolower($record['method']['name']);
         d($method_name);
         if(
-            $method_name !== 'for.each' &&
-            $method_name !== 'for_each' &&
-            $method_name !== 'foreach'
+            $method_name === 'for.each' ||
+            $method_name === 'for_each' ||
+            $method_name === 'foreach'
         ){
+            $array = [];
+            $array_string = '';
+            foreach($record['method']['argument'] as $nr => $argument){
+                $array_string .= $argument['string'] . ', ';
+                foreach($argument['array'] as $array_nr => $array_record){
+                    $array[] = $array_record;
+                }
+                if(str_contains($argument['string'], ' as ')){
+                    $array_string = mb_substr($array_string, 0, -2);
+                    break;
+                }
+            }
+            if(array_key_exists(1, $array)){
+                d($array_string);
+                ddd($array);
+            }
             return $record;
         }
-        $array = [];
-        $array_string = '';
-        foreach($record['method']['argument'] as $nr => $argument){
-            $array_string .= $argument['string'] . ', ';
-            foreach($argument['array'] as $array_nr => $array_record){
-                $array[] = $array_record;
-            }
-            if(str_contains($argument['string'], ' as ')){
-                $array_string = mb_substr($array_string, 0, -2);
-                break;
-            }
-        }
-        if(array_key_exists(1, $array)){
-            d($array_string);
-            d($array);
-        }
         return $record;
-
     }
 
     /**

@@ -184,6 +184,9 @@ class Value
                         $char = null;
                     }
                 }
+                d($char);
+                d(is_int($char));
+
                 $value .= $char;
                 if($value_nr === false){
                     $value_nr = $nr;

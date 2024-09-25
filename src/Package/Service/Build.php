@@ -705,6 +705,39 @@ class Build
         return false;
     }
 
+    public static function method_foreach(App $object, $flags, $options, $record = []): array
+    {
+        if (!array_key_exists('method', $record)) {
+            return $record;
+        }
+        $method_name = mb_strtolower($record['method']['name']);
+        if(
+            $method_name !== 'for.each' &&
+            $method_name !== 'for_each' &&
+            $method_name !== 'foreach'
+        ){
+            return $record;
+        }
+        $array = [];
+        $array_string = '';
+        foreach($record['method']['argument'] as $nr => $argument){
+            $array_string .= $argument['string'] . ', ';
+            foreach($argument['array'] as $array_nr => $array_record){
+                $array[] = $array_record;
+            }
+            if(str_contains($argument['string'], ' as ')){
+                $array_string = mb_substr($array_string, 0, -2);
+                break;
+            }
+        }
+        if(array_key_exists(1, $array)){
+            d($array_string);
+            d($array);
+        }
+        return $record;
+
+    }
+
     /**
      * @throws Exception
      * @throws LocateException
@@ -721,6 +754,9 @@ class Build
             case 'for.each':
             case 'for_each':
             case 'foreach':
+                $record = Build::method_foreach($object, $flags, $options, $record);
+
+
                 $foreach_from = $record['method']['argument'][0]['array'][0] ?? null;
                 $foreach_key = $record['method']['argument'][0]['array'][2] ?? null;
                 $foreach_value = $record['method']['argument'][0]['array'][4] ?? null;

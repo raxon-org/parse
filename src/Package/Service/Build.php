@@ -820,7 +820,7 @@ class Build
                     $foreach_from['type'] === 'array'
                 ){
                     $value = [
-                        'string' => $foreach_from['sting'],
+                        'string' => $foreach_from['string'],
                         'array' => [
                             0 => $foreach_from
                         ]

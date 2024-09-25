@@ -22,6 +22,9 @@ class Value
             $min = 1;
             while(true){
                 $previous = Token::item($input, $nr - $min);
+                if($previous !== null){
+                    break;
+                }
                 $min++;
                 if($nr - $min < 0){
                     break;
@@ -30,6 +33,9 @@ class Value
             $plus = 1;
             while(true){
                 $next = Token::item($input, $nr + $plus);
+                if($next !== null){
+                    break;
+                }
                 $plus++;
                 if($nr + $plus >= $count){
                     break;

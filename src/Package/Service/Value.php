@@ -20,12 +20,14 @@ class Value
         foreach($input['array'] as $nr => $char){
             $previous = Token::item($input, $nr - 1);
             $next = Token::item($input, $nr - 1);
-            d($char);
             if(
                 is_array($char) &&
                 array_key_exists('value', $char) &&
                 $char['value'] === '.'
             ){
+                d($char);
+                d($previous);
+                d($next);
                 if(
                     is_array($previous) &&
                     array_key_exists('execute', $previous)

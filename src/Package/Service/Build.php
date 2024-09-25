@@ -762,14 +762,16 @@ class Build
                 $foreach_from = Build::value($object, $flags, $options, $record, $value);
                 $from = Core::uuid_variable();
                 $value = Core::uuid_variable();
-                $method_value = $from . ' = ' . $foreach_from . ';' . PHP_EOL;
+                $method_value = [];
+                $method_value[] = $from . ' = ' . $foreach_from . ';';
                 if($key){
-                    $method_value .= 'foreach(' . $from . ' as ' . $key . ' => ' . $value . '){' . PHP_EOL;
+                    $method_value[] = 'foreach(' . $from . ' as ' . $key . ' => ' . $value . '){';
                 } else {
-                    $method_value .= 'foreach(' . $from . ' as ' . $value . '){' . PHP_EOL;
+                    $method_value[] = 'foreach(' . $from . ' as ' . $value . '){';
                 }
                 $foreach_value = '$data->set(\'' . $foreach_value['name'] . '\', ' . $value . ');';
-                $method_value .= $foreach_value . PHP_EOL;
+                $method_value[] = $foreach_value . PHP_EOL;
+                ddd($method_value);
             break;
             default:
                 $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $method_name));

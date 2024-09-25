@@ -18,6 +18,26 @@ class Value
             return $input;
         }
         foreach($input['array'] as $nr => $char){
+            if(
+                !is_array($char) &&
+                in_array(
+                    $char,
+                    [
+                        '0',
+                        '1',
+                        '2',
+                        '3',
+                        '4',
+                        '5',
+                        '6',
+                        '7',
+                        '8',
+                        '9',
+                    ], true
+                )
+            ){
+
+            }
             d($char);
         }
         return $input;

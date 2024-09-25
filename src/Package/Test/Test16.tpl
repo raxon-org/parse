@@ -9,6 +9,6 @@
     7,
     8,
     9
-] as $nr)}}
-    {{echo($nr . PHP_EOL)}}
+] as $nr => $value)}}
+    {{echo($nr + ' ' + $value + ' ' + PHP_EOL)}}
 {{/foreach}}

@@ -1138,7 +1138,7 @@ class Build
         ){
             $is_array = true;
         }
-
+        d($input);
         $value = '';
         $skip = 0;
         $input = Build::value_single_quote($object, $flags, $options, $input);

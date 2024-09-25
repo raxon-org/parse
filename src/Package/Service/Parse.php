@@ -256,8 +256,14 @@ class Parse
             require_once $url_php;
             $post_require = microtime(true);
             $run = $options->namespace . '\\' . $options->class;
-            $main = new $run($object, $this, $data, $flags, $options);
-            $result = $main->run();
+            try {
+                $main = new $run($object, $this, $data, $flags, $options);
+                $result = $main->run();
+            }
+            catch (Exception $exception){
+                return $exception;
+            }
+
             $microtime = microtime(true);
             $duration_require = round(($post_require - $pre_require) * 1000, 2) . ' ms';
             $duration_parse = round(($microtime - $post_require) * 1000, 2) . ' ms';

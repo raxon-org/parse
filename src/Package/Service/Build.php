@@ -96,6 +96,7 @@ class Build
                     */
                 }
                 $variable_assign_next_tag = false; //Build::text is taking care of this
+                d($record);
                 $variable_assign = Build::variable_assign($object, $flags, $options, $record);
                 if($variable_assign){
                     $data[] = $variable_assign;

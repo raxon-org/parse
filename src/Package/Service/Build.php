@@ -754,6 +754,11 @@ class Build
                     ];
 //                    $foreach_value = Build::value($object, $flags, $options, $record, $value);
                 }
+                if(!array_key_exists('tag', $foreach_from)){
+                    d($foreach_key);
+                    d($foreach_value);
+                    ddd($foreach_from);
+                }
                 $value = [
                     'string' => $foreach_from['tag'],
                     'array' => [

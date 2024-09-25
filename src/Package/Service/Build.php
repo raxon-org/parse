@@ -745,7 +745,7 @@ class Build
                             0 => $foreach_key
                         ]
                     ];
-                    $foreach_key = Build::value($object, $flags, $options, $record, $value);
+//                    $foreach_key = Build::value($object, $flags, $options, $record, $value);
                     $value = [
                         'string' => $foreach_value['tag'],
                         'array'  => [
@@ -791,7 +791,7 @@ class Build
                 $method_value[] = '}';
                 if($key){
                     $method_value[] = 'foreach(' . $from . ' as ' . $key . ' => ' . $value . '){';
-                    $foreach_value = '$data->set(\'' . $foreach_key . '\', ' . $key . ');' . PHP_EOL;
+                    $foreach_value = '$data->set(\'' . $foreach_key['name'] . '\', ' . $key . ');' . PHP_EOL;
                     $foreach_value .= '$data->set(\'' . $foreach_value['name'] . '\', ' . $value . ');';
                 } else {
                     $method_value[] = 'foreach(' . $from . ' as ' . $value . '){';

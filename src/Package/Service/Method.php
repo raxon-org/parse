@@ -21,6 +21,7 @@ class Method
         $name = false;
         $is_method = false;
         $set_depth = 0;
+        $array_depth = 0;
         $is_single_quote = false;
         $is_double_quote = false;
         $argument = '';
@@ -272,8 +273,31 @@ class Method
                     elseif(
                         is_array($char) &&
                         array_key_exists('value', $char) &&
+                        $char['value'] === '[' &&
+                        $is_single_quote === false &&
+                        $is_double_quote === false
+                    ){
+                        $array_depth++;
+                        $argument_array[] = $char;
+                        $argument .= $char['value'];
+                    }
+                    elseif(
+                        is_array($char) &&
+                        array_key_exists('value', $char) &&
+                        $char['value'] === ']' &&
+                        $is_single_quote === false &&
+                        $is_double_quote === false
+                    ){
+                        $array_depth--;
+                        $argument_array[] = $char;
+                        $argument .= $char['value'];
+                    }
+                    elseif(
+                        is_array($char) &&
+                        array_key_exists('value', $char) &&
                         $char['value'] === ',' &&
                         $set_depth === 1 &&
+                        $array_depth === 0 &&
                         $is_single_quote === false &&
                         $is_double_quote === false
                     ){

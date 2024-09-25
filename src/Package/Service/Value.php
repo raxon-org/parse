@@ -256,6 +256,7 @@ class Value
                     $is_hex = false;
                     $is_hex_nr = false;
                     $collect = '';
+                    d($input);
                     for($i=0; $i<$length; $i++){
                         d($data[$i]);
                         if(

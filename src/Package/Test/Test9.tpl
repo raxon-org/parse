@@ -10,7 +10,7 @@
     8,
     9
 ]}}
-{{$list = 1.0 + 2.4}}
+{{$list = 10.01 + 12.43}}
 {{foreach($list as $nr)}}
     {{echo($nr . PHP_EOL)}}
 {{/foreach}}

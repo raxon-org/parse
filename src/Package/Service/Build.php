@@ -908,8 +908,7 @@ class Build
         }
         if(
             $variable_name !== '' &&
-            $operator !== '' &&
-            $value !== ''
+            $operator !== ''
         ){
             switch($operator){
                 case '=' :

@@ -39,14 +39,15 @@ class Value
                     $next = $next['execute'];
                 }
                 if(
-                    is_numeric($previous) &&
-                    is_numeric($next)
+                    is_int($previous) &&
+                    is_int($next)
                 ){
                     $input['array'][$nr] = [
                         'type' => 'float',
                         'value' => $char['value'],
                         'execute' => $previous . $char['value'] . $next
                     ];
+                    ddd($input['array'][$nr]);
                     $input['array'][$nr - 1] = null;
                     $input['array'][$nr + 1] = null;
                 }

@@ -11,7 +11,6 @@
     9
 ]}}
 {{$list = true}}
-{{dd($list)}}
 {{foreach($list as $nr)}}
     {{echo($nr . PHP_EOL)}}
 {{/foreach}}

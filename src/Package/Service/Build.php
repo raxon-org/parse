@@ -1505,6 +1505,8 @@ class Build
         $value = '';
         switch($current){
             case '.':
+                d($left);
+                d($right);
                 if(is_int($left) && is_int($right)){
                     $value = (float) $left . ' . ' . $right;
                 } else {

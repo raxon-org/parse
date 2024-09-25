@@ -705,66 +705,6 @@ class Build
         return false;
     }
 
-    public static function method_foreach(App $object, $flags, $options, $record = []): array
-    {
-        if (!array_key_exists('method', $record)) {
-            return $record;
-        }
-        $method_name = mb_strtolower($record['method']['name']);
-        if(
-            $method_name === 'for.each' ||
-            $method_name === 'for_each' ||
-            $method_name === 'foreach'
-        ){
-            $array = [];
-            $array_string = '';
-            $array_depth = 0;
-            $is_assigned = false;
-            foreach($record['method']['argument'] as $nr => $argument){
-                $array_string .= $argument['string'] . ', ';
-                foreach($argument['array'] as $array_nr => $array_record){
-                    if(
-                        array_key_exists('value', $array_record) &&
-                        $array_record['value'] === '['
-                    ){
-                        $array_depth++;
-                        $is_assigned = true;
-                    }
-                    elseif(
-                        array_key_exists('value', $array_record) &&
-                        $array_record['value'] === ']'
-                    ){
-                        $array_depth--;
-                        if($array_depth === 0){
-                            $array_string = mb_substr($array_string, 0, -2);
-                            break;
-                        }
-                    }
-                    $array[] = $array_record;
-                }
-                if($is_assigned === true){
-
-                }
-
-
-                /*
-                if(str_contains($argument['string'], ' as ')){
-                    $array_string = mb_substr($array_string, 0, -2);
-                    break;
-                }
-                */
-            }
-            d($array_string);
-            ddd($array);
-            if(array_key_exists(0, $array)){
-
-            }
-            return $record;
-        }
-        ddd($method_name);
-        return $record;
-    }
-
     /**
      * @throws Exception
      * @throws LocateException
@@ -851,10 +791,13 @@ class Build
                 $method_value[] = '}';
                 if($key){
                     $method_value[] = 'foreach(' . $from . ' as ' . $key . ' => ' . $value . '){';
+                    $foreach_value = '$data->set(\'' . $foreach_key['name'] . '\', ' . $key . ');' . PHP_EOL;
+                    $foreach_value .= '$data->set(\'' . $foreach_value['name'] . '\', ' . $value . ');';
                 } else {
                     $method_value[] = 'foreach(' . $from . ' as ' . $value . '){';
+                    $foreach_value = '$data->set(\'' . $foreach_value['name'] . '\', ' . $value . ');';
                 }
-                $foreach_value = '$data->set(\'' . $foreach_value['name'] . '\', ' . $value . ');';
+
                 $method_value[] = $foreach_value . PHP_EOL;
                 $method_value = implode(PHP_EOL, $method_value);
             break;

@@ -1097,10 +1097,15 @@ class Build
                 $value .= $record['execute'];
             }
             elseif(
-                array_key_exists('type', $record) &&
-                $record['type'] === 'bool'
+                array_key_exists('is_boolean', $record) &&
+                $record['is_boolean'] === true
             ){
-                ddd($record);
+                $value .= $record['execute'];
+            }
+            elseif(
+                array_key_exists('is_null', $record) &&
+                $record['is_null'] === true
+            ){
                 $value .= $record['execute'];
             }
             elseif(

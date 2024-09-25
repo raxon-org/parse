@@ -18,27 +18,38 @@ class Value
             return $input;
         }
         foreach($input['array'] as $nr => $char){
+            $previous = Token::item($input, $nr - 1);
+            $next = Token::item($input, $nr - 1);
             if(
-                !is_array($char) &&
-                in_array(
-                    $char,
-                    [
-                        '0',
-                        '1',
-                        '2',
-                        '3',
-                        '4',
-                        '5',
-                        '6',
-                        '7',
-                        '8',
-                        '9',
-                    ], true
-                )
+                is_array($char) &&
+                array_key_exists('value', $char) &&
+                $char['value'] === '.'
             ){
-
+                if(
+                    is_array($previous) &&
+                    array_key_exists('execute', $previous)
+                ){
+                    $previous = $previous['execute'];
+                }
+                if(
+                    is_array($next) &&
+                    array_key_exists('execute', $next)
+                ){
+                    $next = $next['execute'];
+                }
+                if(
+                    is_numeric($previous) &&
+                    is_numeric($next)
+                ){
+                    $input['array'][$nr] = [
+                        'type' => 'float',
+                        'value' => $char['value'],
+                        'execute' => $previous . $char['value'] . $next
+                    ];
+                    $input['array'][$nr - 1] = null;
+                    $input['array'][$nr + 1] = null;
+                }
             }
-            d($char);
         }
         return $input;
     }

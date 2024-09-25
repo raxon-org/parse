@@ -659,9 +659,9 @@ class Token
         switch($value){
             case '[]':
                 $input['array'] = [[
-                    'value' => $value,
-                    'execute' => [],
-                    'is_array' => true
+                    'type' => 'array',
+                    'string' => $value,
+                    'array' => []
                 ]];
                 return $input;
             case 'true':

@@ -11,6 +11,7 @@
     9
 ]}}
 {{$list = true}}
+{{ddd($list)}}
 {{foreach($list as $nr)}}
     {{echo($nr . PHP_EOL)}}
 {{/foreach}}

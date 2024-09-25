@@ -764,6 +764,8 @@ class Build
                 $value = Core::uuid_variable();
                 $method_value = [];
                 $method_value[] = $from . ' = ' . $foreach_from . ';';
+                $method_value[] = '$type = gettype(' . $from . ');';
+                $method_value[] = 'dd($type);';
                 if($key){
                     $method_value[] = 'foreach(' . $from . ' as ' . $key . ' => ' . $value . '){';
                 } else {
@@ -771,7 +773,8 @@ class Build
                 }
                 $foreach_value = '$data->set(\'' . $foreach_value['name'] . '\', ' . $value . ');';
                 $method_value[] = $foreach_value . PHP_EOL;
-                ddd($method_value);
+                d($method_value);
+                $method_value = implode(PHP_EOL, $method_value);
             break;
             default:
                 $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $method_name));

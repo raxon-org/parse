@@ -765,7 +765,9 @@ class Build
                 $method_value = [];
                 $method_value[] = $from . ' = ' . $foreach_from . ';';
                 $method_value[] = '$type = gettype(' . $from . ');';
-                $method_value[] = 'dd($type);';
+                $method_value[] = 'if(!in_array($type, [\'array\', \'object\'], true)){';
+                $method_value[] = 'throw new Exception(\'Invalid argument type: \' . $type . \' for foreach on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\');';
+                $method_value[] = '}';
                 if($key){
                     $method_value[] = 'foreach(' . $from . ' as ' . $key . ' => ' . $value . '){';
                 } else {

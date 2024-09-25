@@ -26,6 +26,7 @@ class Value
         $array_string = '';
         $array = [];
         foreach($input['array'] as $nr => $char){
+            d($char);
             if(!is_numeric($nr)){
                 // ',' in modifier causes this
                 continue;

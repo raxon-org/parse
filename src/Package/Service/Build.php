@@ -863,9 +863,10 @@ class Build
                 $method_value = '$this->' . $plugin . '(';
                 $is_argument = false;
                 $argument_value = '';
-                d($record);
                 foreach($record['method']['argument'] as $nr => $argument) {
+                    d($argument);
                     $argument_value .= Build::value($object, $flags, $options, $record, $argument)  . ', ';
+                    d($argument_value);
                     $is_argument = true;
                 }
                 if($is_argument){

@@ -661,7 +661,16 @@ class Token
                 $input['array'] = [[
                     'type' => 'array',
                     'string' => $value,
-                    'array' => []
+                    'array' => [
+                        [
+                            'type' => 'symbol',
+                            'value' => '[',
+                        ],
+                        [
+                            'type' => 'symbol',
+                            'value' => ']',
+                        ]
+                    ]
                 ]];
                 return $input;
             case 'true':

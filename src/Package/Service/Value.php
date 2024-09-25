@@ -313,7 +313,6 @@ class Value
                     $is_hex_nr = false;
                     $collect = '';
                     for($i=0; $i<$length; $i++){
-                        d($data[$i]);
                         if(
                             (
                                 in_array(

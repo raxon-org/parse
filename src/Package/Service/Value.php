@@ -29,18 +29,6 @@ class Value
                 d($previous);
                 d($next);
                 if(
-                    is_array($previous) &&
-                    array_key_exists('execute', $previous)
-                ){
-                    $previous = $previous['execute'];
-                }
-                if(
-                    is_array($next) &&
-                    array_key_exists('execute', $next)
-                ){
-                    $next = $next['execute'];
-                }
-                if(
                     is_int($previous) &&
                     is_int($next)
                 ){

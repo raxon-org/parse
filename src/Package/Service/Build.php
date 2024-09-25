@@ -1117,7 +1117,7 @@ class Build
             if(!is_array($record)){
                 continue;
             }
-            d($record);
+//            d($record);
             if(
                 array_key_exists('is_single_quoted', $record) &&
                 array_key_exists('execute', $record) &&
@@ -1378,11 +1378,8 @@ class Build
                 array_key_exists('type', $record) &&
                 $record['type'] === 'array'
             ){
-                d($record);
                 $array_value = Build::value($object, $flags, $options, $tag, $record);
-                d($array_value);
                 $data = Build::string_array($array_value);
-                d($data);
                 foreach($data as $nr => $line){
                     $char = trim($line);
                     if($char === '['){

@@ -1379,7 +1379,9 @@ class Build
                 $record['type'] === 'array'
             ){
                 $array_value = Build::value($object, $flags, $options, $tag, $record);
+                d($array_value);
                 $data = Build::string_array($array_value);
+                d($data);
                 foreach($data as $nr => $line){
                     $char = trim($line);
                     if($char === '['){

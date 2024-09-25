@@ -791,8 +791,10 @@ class Build
                 $method_value[] = '}';
                 if($key){
                     $method_value[] = 'foreach(' . $from . ' as ' . $key . ' => ' . $value . '){';
-                    $foreach_value = '$data->set(\'' . $foreach_key['name'] . '\', ' . $key . ');' . PHP_EOL;
-                    $foreach_value .= '$data->set(\'' . $foreach_value['name'] . '\', ' . $value . ');';
+                    $foreach_set =[];
+                    $foreach_set[] = '$data->set(\'' . $foreach_key['name'] . '\', ' . $key . ');';
+                    $foreach_set[] = '$data->set(\'' . $foreach_value['name'] . '\', ' . $value . ');';
+                    $foreach_value = implode(PHP_EOL, $foreach_set);
                 } else {
                     $method_value[] = 'foreach(' . $from . ' as ' . $value . '){';
                     $foreach_value = '$data->set(\'' . $foreach_value['name'] . '\', ' . $value . ');';

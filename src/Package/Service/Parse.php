@@ -261,6 +261,7 @@ class Parse
                 $result = $main->run();
             }
             catch (Exception $exception){
+                ddd($exception);
                 return $exception;
             }
 

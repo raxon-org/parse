@@ -9,12 +9,26 @@ use Raxon\Module\File;
 use Exception;
 class Value
 {
+    public static function float(App $object, $flags, $options, $input=[]): array
+    {
+        if (!is_array($input)) {
+            return $input;
+        }
+        if (!array_key_exists('array', $input)) {
+            return $input;
+        }
+        foreach($input['array'] as $nr => $char){
+            d($char);
+        }
+        return $input;
+    }
+
     public static function define(App $object, $flags, $options, $input=[]): array
     {
         if(!is_array($input)){
             return $input;
         }
-        if(array_key_exists('array', $input) === false){
+        if(!array_key_exists('array', $input)){
             return $input;
         }
         $value = '';
@@ -26,7 +40,6 @@ class Value
         $array_string = '';
         $array = [];
         foreach($input['array'] as $nr => $char){
-            d($char);
             if(!is_numeric($nr)){
                 // ',' in modifier causes this
                 continue;
@@ -184,9 +197,6 @@ class Value
                         $char = null;
                     }
                 }
-                d($char);
-                d(is_int($char));
-
                 $value .= $char;
                 if($value_nr === false){
                     $value_nr = $nr;

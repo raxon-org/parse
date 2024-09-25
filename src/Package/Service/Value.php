@@ -46,9 +46,6 @@ class Value
                 array_key_exists('value', $char) &&
                 $char['value'] === '.'
             ){
-                d($char);
-                d($previous);
-                d($next);
                 if(
                     is_int($previous) &&
                     is_int($next)
@@ -58,7 +55,6 @@ class Value
                         'value' => $previous . $char['value'] . $next,
                         'execute' => (float) ($previous . $char['value'] . $next)
                     ];
-                    ddd($input['array'][$nr]);
                     $input['array'][$nr - 1] = null;
                     $input['array'][$nr + 1] = null;
                 }

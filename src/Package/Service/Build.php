@@ -928,7 +928,6 @@ class Build
                             throw new Exception($record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.', 0, $exception);
                         }
                     }
-                    d($result);
                     return $result;
                 case '.=' :
                     return '$data->set(\'' . $variable_name . '\', ' .  '$this->value_concatenate($data->get(\'' . $variable_name . '\'), ' . $value . '));';

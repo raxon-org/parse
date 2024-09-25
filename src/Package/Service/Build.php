@@ -728,9 +728,10 @@ class Build
                     break;
                 }
             }
+            d($array_string);
+            ddd($array);
             if(array_key_exists(0, $array)){
-                d($array_string);
-                ddd($array);
+
             }
             return $record;
         }

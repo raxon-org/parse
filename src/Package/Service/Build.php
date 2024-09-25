@@ -775,7 +775,6 @@ class Build
                 }
                 $foreach_value = '$data->set(\'' . $foreach_value['name'] . '\', ' . $value . ');';
                 $method_value[] = $foreach_value . PHP_EOL;
-                d($method_value);
                 $method_value = implode(PHP_EOL, $method_value);
             break;
             default:

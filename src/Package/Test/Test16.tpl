@@ -10,5 +10,5 @@
     8,
     9
 ] as $nr)}}
-    {{echo(1.24)}}
+    {{echo($nr . PHP_EOL)}}
 {{/foreach}}

@@ -55,8 +55,8 @@ class Value
                 ){
                     $input['array'][$nr] = [
                         'type' => 'float',
-                        'value' => $char['value'],
-                        'execute' => $previous . $char['value'] . $next
+                        'value' => $previous . $char['value'] . $next,
+                        'execute' => (float) $previous . $char['value'] . $next
                     ];
                     ddd($input['array'][$nr]);
                     $input['array'][$nr - 1] = null;

@@ -1378,6 +1378,7 @@ class Build
                 array_key_exists('type', $record) &&
                 $record['type'] === 'array'
             ){
+                d($record);
                 $array_value = Build::value($object, $flags, $options, $tag, $record);
                 d($array_value);
                 $data = Build::string_array($array_value);

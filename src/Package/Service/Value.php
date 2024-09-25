@@ -203,8 +203,8 @@ class Value
     }
 
     public static function basic(App $object, $flags, $options, $input=''){
-        d($input);
-        trace();
+//        d($input);
+//        trace();
         switch($input){
             case 'true':
                 return [

@@ -1442,8 +1442,6 @@ class Build
                 $record['type'] === 'whitespace' &&
                 $is_double_quote === false
             ){
-                d($record);
-//                d($value);
                 //nothing
             } else {
                 $right = Build::value_right(

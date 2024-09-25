@@ -1505,7 +1505,11 @@ class Build
         $value = '';
         switch($current){
             case '.':
-                $value = '$this->value_concatenate(' . $left . ', ' . $right . ')';
+                if(is_int($left) && is_int($right)){
+                    $value = (float) $left . ' . ' . $right;
+                } else {
+                    $value = '$this->value_concatenate(' . $left . ', ' . $right . ')';
+                }
             break;
             case '+':
                 $value = '$this->value_plus(' . $left . ', ' . $right . ')';

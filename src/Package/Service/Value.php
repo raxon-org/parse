@@ -19,7 +19,7 @@ class Value
         }
         foreach($input['array'] as $nr => $char){
             $previous = Token::item($input, $nr - 1);
-            $next = Token::item($input, $nr - 1);
+            $next = Token::item($input, $nr + 1);
             if(
                 is_array($char) &&
                 array_key_exists('value', $char) &&

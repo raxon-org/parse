@@ -103,7 +103,8 @@ class Parse
     /**
      * @throws Exception
      */
-    public function compile($input, $data=null){
+    public function compile($input, $data=null): mixed
+    {
         $start = microtime(true);
         if(is_array($data)){
             $data = new Data($data);
@@ -261,7 +262,6 @@ class Parse
                 $result = $main->run();
             }
             catch (Exception $exception){
-                ddd($exception);
                 return $exception;
             }
 

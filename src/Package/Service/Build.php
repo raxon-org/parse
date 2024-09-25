@@ -1132,7 +1132,6 @@ class Build
      */
     public static function value(App $object, $flags, $options, $tag, $input): string
     {
-        d($input);
         $value = '';
         $skip = 0;
         $input = Build::value_single_quote($object, $flags, $options, $input);

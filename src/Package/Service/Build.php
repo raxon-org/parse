@@ -756,6 +756,7 @@ class Build
                         'array' => []
                     ];
                 }
+                d($value);
                 $foreach_from = Build::value($object, $flags, $options, $record, $value);
                 d($foreach_from);
                 d($foreach_key);

@@ -742,7 +742,8 @@ class Build
                             0 => $foreach_from
                         ]
                     ];
-                } else {
+                }
+                elseif(array_key_exists('tag', $foreach_from)) {
                     $value = [
                         'string' => $foreach_from['tag'],
                         'array' => [

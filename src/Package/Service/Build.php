@@ -724,6 +724,8 @@ class Build
                 $foreach_from = $record['method']['argument'][0]['array'][0] ?? null;
                 $foreach_key = $record['method']['argument'][0]['array'][2] ?? null;
                 $foreach_value = $record['method']['argument'][0]['array'][4] ?? null;
+                d($foreach_from);
+                ddd($record);
                 if($foreach_value === null){
                     $foreach_value = $foreach_key;
                     $foreach_key = null;
@@ -793,8 +795,6 @@ class Build
                     throw new Exception($record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.');
                 }
                 $foreach_from = Build::value($object, $flags, $options, $record, $value);
-                d($foreach_from);
-                ddd($record);
                 $from = Core::uuid_variable();
                 $value = Core::uuid_variable();
                 $method_value = [];

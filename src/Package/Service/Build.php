@@ -756,6 +756,9 @@ class Build
                         'array' => []
                     ];
                 }
+                d($foreach_from);
+                d($foreach_key);
+                d($foreach_value);
                 $foreach_from = Build::value($object, $flags, $options, $record, $value);
                 $from = Core::uuid_variable();
                 $value = Core::uuid_variable();

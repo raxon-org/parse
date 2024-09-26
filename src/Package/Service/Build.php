@@ -758,11 +758,39 @@ class Build
                 } else {
                     throw new Exception($record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.');
                 }
-                d($value);
+                if($key){
+                    if(
+                        array_key_exists('type', $foreach_key) &&
+                        $foreach_key['type'] === 'variable'
+                    ){
+                        //nothing
+                    } elseif(
+                        array_key_exists('is_multiline', $record) &&
+                        $record['is_multiline'] === true
+                    ){
+                        //invalid key
+                        throw new Exception($record['tag'] . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.');
+                    } else {
+                        //invalid key
+                        throw new Exception($record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.');
+                    }
+                }
+                if(
+                    array_key_exists('type', $foreach_value) &&
+                    $foreach_value['type'] === 'variable'
+                ){
+                    //nothing
+                } elseif(
+                    array_key_exists('is_multiline', $record) &&
+                    $record['is_multiline'] === true
+                ){
+                    //invalid value
+                    throw new Exception($record['tag'] . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.');
+                } else {
+                    //invalid value
+                    throw new Exception($record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.');
+                }
                 $foreach_from = Build::value($object, $flags, $options, $record, $value);
-                d($foreach_from);
-                d($foreach_key);
-                ddd($foreach_value);
                 $from = Core::uuid_variable();
                 $value = Core::uuid_variable();
                 $method_value = [];

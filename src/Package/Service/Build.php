@@ -750,11 +750,13 @@ class Build
                             0 => $foreach_from
                         ]
                     ];
+                } elseif(
+                    array_key_exists('is_multiline', $record) &&
+                    $record['is_multiline'] === true
+                ){
+                    throw new Exception($record['tag'] . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.');
                 } else {
-                    $value = [
-                        'string' => '',
-                        'array' => []
-                    ];
+                    throw new Exception($record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.');
                 }
                 d($value);
                 $foreach_from = Build::value($object, $flags, $options, $record, $value);

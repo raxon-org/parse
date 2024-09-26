@@ -793,6 +793,8 @@ class Build
                     throw new Exception($record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.');
                 }
                 $foreach_from = Build::value($object, $flags, $options, $record, $value);
+                d($foreach_from);
+                ddd($record);
                 $from = Core::uuid_variable();
                 $value = Core::uuid_variable();
                 $method_value = [];

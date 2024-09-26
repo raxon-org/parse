@@ -37,7 +37,7 @@ class Value
                     break;
                 }
                 $plus++;
-                if($nr + $plus >= $count){
+                if($nr + $plus >= ($count - 1)){
                     break;
                 }
             }

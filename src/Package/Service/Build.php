@@ -115,6 +115,7 @@ class Build
                 }
                 $method = Build::method($object, $flags, $options, $record);
                 if($method){
+                    d($method);
                     $data[] = $method;
                     $variable_assign_next_tag = true;
                 }
@@ -129,9 +130,23 @@ class Build
                         $object->config('package.raxon/parse.build.state.ltrim', $ltrim);
                     }
                     //need to count them by name
-                    ddd($record);
-                    $data[] = '}';
-                    $variable_assign_next_tag = true;
+                    if(
+                        array_key_exists('name', $record) &&
+                        in_array(
+                            $record['name'],
+                            [
+                                'for.each',
+                                'for_each',
+                                'foreach',
+                            ],
+                            true
+                        )
+                    ){
+                        //need list of foreaches...
+                        $data[] = '}';
+                        $variable_assign_next_tag = true;
+                    }
+
                 }
             }
         }

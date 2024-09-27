@@ -31,18 +31,6 @@ trait Main {
         $object = $this->object();
         $input = File::read($options->source);
         $parse = new Parse($object, new Data(), $flags, $options);
-        $compile = $parse->compile($input);
-        ddd($compile);
-
-        /*
-        if(
-            property_exists($options,'duration') &&
-            $options->duration === true
-        ){
-            $result['duration'] = round((microtime(true) - $object->config('time.start')) * 1000, 2) . 'ms';
-            return $result;
-        }
-        */
-        return null;
+        return $parse->compile($input);
     }
 }

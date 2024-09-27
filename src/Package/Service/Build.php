@@ -168,7 +168,6 @@ class Build
                             } elseif(
                                 array_key_exists('method', $foreach_record)
                             ) {
-                                ddd('yes');
                                 $foreach_record['method']['has_close'] = true;
                                 //need list of foreaches...
                                 $data[] = '}';

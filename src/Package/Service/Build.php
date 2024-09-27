@@ -82,6 +82,7 @@ class Build
     {
         $data = [];
         $variable_assign_next_tag = false;
+        $foreach = [];
         foreach($tags as $row_nr => $list){
             foreach($list as $nr => &$record){
                 $text = Build::text($object, $flags, $options, $record, $variable_assign_next_tag);
@@ -115,7 +116,21 @@ class Build
                 }
                 $method = Build::method($object, $flags, $options, $record);
                 if($method){
-                    d($record);
+                    if(
+                        array_key_exists('method', $record) &&
+                        array_key_exists('name', $record['method']) &&
+                        in_array(
+                            $record['method']['name'],
+                            [
+                                'for.each',
+                                'for_each',
+                                'foreach',
+                            ],
+                            true
+                        )
+                    ){
+                        $foreach[] = $record;
+                    }
                     $data[] = $method;
                     $variable_assign_next_tag = true;
                 }
@@ -142,11 +157,23 @@ class Build
                             true
                         )
                     ){
-                        //need list of foreaches...
-                        $data[] = '}';
-                        $variable_assign_next_tag = true;
+                        $foreach_reverse = array_reverse($foreach);
+                        foreach($foreach_reverse as $foreach_nr => &$foreach_record){
+                            if(
+                                array_key_exists('method', $foreach_record) &&
+                                array_key_exists('is_close', $foreach_record['method'])
+                            ){
+                                //skip
+                            } elseif(
+                                array_key_exists('method', $foreach_record)
+                            ) {
+                                $foreach_record['method']['is_close'] = true;
+                                //need list of foreaches...
+                                $data[] = '}';
+                                $variable_assign_next_tag = true;
+                            }
+                        }
                     }
-
                 }
             }
         }

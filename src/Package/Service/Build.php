@@ -115,7 +115,7 @@ class Build
                 }
                 $method = Build::method($object, $flags, $options, $record);
                 if($method){
-                    d($method);
+                    d($record);
                     $data[] = $method;
                     $variable_assign_next_tag = true;
                 }

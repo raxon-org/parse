@@ -129,6 +129,7 @@ class Build
                         $object->config('package.raxon/parse.build.state.ltrim', $ltrim);
                     }
                     //need to count them by name
+                    ddd($record);
                     $data[] = '}';
                     $variable_assign_next_tag = true;
                 }

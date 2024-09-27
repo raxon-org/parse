@@ -158,10 +158,8 @@ class Build
                             true
                         )
                     ){
-                        ddd('yes');
                         $foreach_reverse = array_reverse($foreach);
                         foreach($foreach_reverse as $foreach_nr => &$foreach_record){
-                            d($foreach_record);
                             if(
                                 array_key_exists('method', $foreach_record) &&
                                 array_key_exists('is_close', $foreach_record['method'])

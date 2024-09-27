@@ -722,6 +722,7 @@ class Build
             case 'for_each':
             case 'foreach':
                 $foreach_from = $record['method']['argument'][0]['array'][0] ?? null;
+                d($foreach_from);
                 $foreach_key = $record['method']['argument'][0]['array'][2] ?? null;
                 $foreach_value = $record['method']['argument'][0]['array'][4] ?? null;
                 if($foreach_value === null){

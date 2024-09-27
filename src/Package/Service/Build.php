@@ -80,6 +80,7 @@ class Build
      */
     public static function document_tag(App $object, $flags, $options, $tags = []): array
     {
+        $source = $options->source ?? '';
         $data = [];
         $variable_assign_next_tag = false;
         $foreach = [];
@@ -177,8 +178,31 @@ class Build
                             }
                         }
                         if($has_close === false){
-                            ddd($record);
-                            throw new Exception($record['tag'] . PHP_EOL . 'Unused foreach close tag');
+                            if(
+                                array_key_exists('is_multiline', $record) &&
+                                $record['is_multiline'] === true
+                            ){
+                                throw new Exception(
+                                    $record['tag'] . PHP_EOL .
+                                    'Unused foreach close tag on line: ' .
+                                    $record['line']['start']  .
+                                    ', column: ' .
+                                    $record['column'][$record['line']['start']]['start'] .
+                                    ' in source: '.
+                                    $source,
+                                );
+
+                            } else {
+                                throw new Exception(
+                                    $record['tag'] . PHP_EOL .
+                                    'Unused foreach close tag on line: ' .
+                                    $record['line'] .
+                                    ', column: ' .
+                                    $record['column']['start'] .
+                                    ' in source: '.
+                                    $source,
+                                );
+                            }
                         }
                     }
                 }

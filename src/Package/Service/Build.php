@@ -144,12 +144,12 @@ class Build
                         $ltrim--;
                         $object->config('package.raxon/parse.build.state.ltrim', $ltrim);
                     }
-                    ddd($record);
                     //need to count them by name
                     if(
-                        array_key_exists('name', $record) &&
+                        array_key_exists('marker', $record) &&
+                        array_key_exists('name', $record['marker']) &&
                         in_array(
-                            $record['name'],
+                            $record['marker']['name'],
                             [
                                 'for.each',
                                 'for_each',

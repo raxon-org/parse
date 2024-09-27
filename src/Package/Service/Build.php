@@ -159,6 +159,7 @@ class Build
                         )
                     ){
                         $foreach_reverse = array_reverse($foreach);
+                        $has_close = false;
                         foreach($foreach_reverse as $foreach_nr => &$foreach_record){
                             if(
                                 array_key_exists('method', $foreach_record) &&
@@ -168,11 +169,16 @@ class Build
                             } elseif(
                                 array_key_exists('method', $foreach_record)
                             ) {
+                                $has_close = true;
                                 $foreach_record['method']['has_close'] = true;
                                 //need list of foreaches...
                                 $data[] = '}';
                                 $variable_assign_next_tag = true;
                             }
+                        }
+                        if($has_close === false){
+                            ddd($record);
+                            throw new Exception($record['tag'] . PHP_EOL . 'Unused foreach close tag');
                         }
                     }
                 }

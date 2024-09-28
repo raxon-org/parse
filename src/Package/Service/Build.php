@@ -236,7 +236,6 @@ class Build
                                 true
                             )
                         ){
-                            ddd($record);
                             $while_reverse = array_reverse($while);
                             $has_close = false;
                             foreach($while_reverse as $while_nr => &$while_record){
@@ -255,6 +254,7 @@ class Build
                                     $variable_assign_next_tag = true;
                                 }
                             }
+                            ddd($has_close);
                             if($has_close === false){
                                 if(
                                     array_key_exists('is_multiline', $record) &&

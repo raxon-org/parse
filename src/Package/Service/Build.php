@@ -226,6 +226,7 @@ class Build
                                     );
                                 }
                             }
+                            $foreach = array_reverse($foreach_reverse);
                         }
                         elseif(
                             in_array(
@@ -281,6 +282,7 @@ class Build
                                     );
                                 }
                             }
+                            $while = array_reverse($while_reverse);
                         }
                         elseif(
                             in_array(
@@ -337,6 +339,7 @@ class Build
                                     );
                                 }
                             }
+                            $if = array_reverse($if_reverse);
                         }
                     }
                 }
@@ -365,7 +368,6 @@ class Build
                         ' in source: '.
                         $source,
                     );
-
                 } else {
                     throw new TemplateException(
                         $foreach_record['tag'] . PHP_EOL .

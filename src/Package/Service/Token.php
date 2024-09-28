@@ -547,6 +547,24 @@ class Token
                                         'name' => mb_substr($variable_name, 1),
                                         'modifier' => $modifier_list,
                                     ];
+                                }
+                                elseif(
+                                    in_array(
+                                        $operator,
+                                        [
+                                            '++',
+                                            '--',
+                                            '**'
+                                        ],
+                                        true
+                                    )
+                                ){
+                                    // (++ -- **) operators
+                                    $variable = [
+                                        'is_assign' => true,
+                                        'operator' => $operator,
+                                        'name' => mb_substr($variable_name, 1)
+                                    ];
                                 } else {
                                     $variable = [
                                         'is_define' => true,

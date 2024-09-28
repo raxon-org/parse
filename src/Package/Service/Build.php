@@ -1356,7 +1356,7 @@ class Build
                         $method_value[] = '\'On line: \' .';
                         $method_value[] = '\'' . $record['line']['start'] . '\' . ';
                         $method_value[] = '\', column: \' .';
-                        $method_value[] = '\'' .  $record['column'][$record['line']['start']]['start'] . '\'';
+                        $method_value[] = '\'' .  $record['column'][$record['line']['start']]['start'] . '\' . ';
                     } else {
                         $method_value[] = 'throw new TemplateException(\'';
                         $method_value[] = $record['tag'] . '\' . ';
@@ -1366,7 +1366,7 @@ class Build
                         $method_value[] = '\'On line: \' .';
                         $method_value[] = '\'' . $record['line'] . '\' . ';
                         $method_value[] = '\', column: \' .';
-                        $method_value[] = '\'' .  $record['column']['start'] . '\'';
+                        $method_value[] = '\'' .  $record['column']['start'] . '\' . ';
                     }
                     $method_value[] = ' in source: \'.';
                     $method_value[] = $source;

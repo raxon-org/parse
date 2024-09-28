@@ -89,6 +89,8 @@ class Build
         $foreach = [];
         $while = [];
         $if = [];
+        $break_level = 0;
+        $object->config('package.raxon/parse.build.state.break.level', $break_level);
         foreach($tags as $row_nr => $list){
             foreach($list as $nr => &$record){
                 $text = Build::text($object, $flags, $options, $record, $variable_assign_next_tag);
@@ -131,6 +133,8 @@ class Build
                             )
                         ){
                             $foreach[] = $record;
+                            $break_level++;
+                            $object->config('package.raxon/parse.build.state.break.level', $break_level);
                         }
                         elseif(
                             in_array(
@@ -142,6 +146,8 @@ class Build
                             )
                         ){
                             $while[] = $record;
+                            $break_level++;
+                            $object->config('package.raxon/parse.build.state.break.level', $break_level);
                         }
                         elseif(
                             in_array(
@@ -197,6 +203,8 @@ class Build
                                     $foreach_record['method']['has_close'] = true;
                                     $data[] = '}';
                                     $variable_assign_next_tag = true;
+                                    $break_level--;
+                                    $object->config('package.raxon/parse.build.state.break.level', $break_level);
                                 }
                             }
                             if($has_close === false){
@@ -254,6 +262,8 @@ class Build
                                     $while_record['method']['has_close'] = true;
                                     $data[] = '}';
                                     $variable_assign_next_tag = true;
+                                    $break_level--;
+                                    $object->config('package.raxon/parse.build.state.break.level', $break_level);
                                 }
                             }
                             if($has_close === false){
@@ -1259,6 +1269,7 @@ class Build
                 break;
             case 'break' :
                 $is_argument = false;
+                $value = false;
                 if(
                     array_key_exists('argument', $record['method']) &&
                     is_array($record['method']['argument']) &&
@@ -1271,6 +1282,7 @@ class Build
                     $method_value = 'break;';
                 }
                 elseif(is_numeric($value)) {
+                    ddd($value);
                     $method_value = 'break ' . $value . ';';
                 }
                 else {

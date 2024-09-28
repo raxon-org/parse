@@ -22,7 +22,7 @@ class Value
         foreach($input['array'] as $nr => $char){
             $min = 1;
             while(true){
-                $previous = Token::item($input, $nr - $min);
+                $previous = $input['array'][$nr - $min] ?? null;
                 if($previous !== null){
                     break;
                 }
@@ -33,7 +33,7 @@ class Value
             }
             $plus = 1;
             while(true){
-                $next = Token::item($input, $nr + $plus);
+                $next = $input['array'][$nr + $plus] ?? null;
                 if($next !== null){
                     break;
                 }
@@ -53,8 +53,8 @@ class Value
                 ){
                     $input['array'][$nr] = [
                         'type' => 'float',
-                        'value' => $previous . $char['value'] . $next,
-                        'execute' => (float) ($previous . $char['value'] . $next)
+                        'value' => $previous['value'] . $char['value'] . $next['value'],
+                        'execute' => (float) ($previous['value'] . $char['value'] . $next['value'])
                     ];
                     $input['array'][$nr - $min] = null;
                     $input['array'][$nr + $plus] = null;

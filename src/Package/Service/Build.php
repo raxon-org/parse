@@ -238,7 +238,7 @@ class Build
                         ){
                             $while_reverse = array_reverse($while);
                             $has_close = false;
-                            foreach($while_reverse as $while_nr => &$while_record){
+                            foreach($while_reverse as $while_nr => $while_record){
                                 if(
                                     array_key_exists('method', $while_record) &&
                                     array_key_exists('has_close', $while_record['method']) &&
@@ -249,6 +249,7 @@ class Build
                                     array_key_exists('method', $while_record)
                                 ) {
                                     $has_close = true;
+                                    $while_reverse[$while_nr]['method']['has_close'] = true;
                                     $while_record['method']['has_close'] = true;
                                     $data[] = '}';
                                     $variable_assign_next_tag = true;
@@ -292,7 +293,7 @@ class Build
                         ){
                             $if_reverse = array_reverse($if);
                             $has_close = false;
-                            foreach($if_reverse as $if_nr => &$if_record){
+                            foreach($if_reverse as $if_nr => $if_record){
                                 if(
                                     array_key_exists('method', $if_record) &&
                                     array_key_exists('has_close', $if_record['method']) &&
@@ -303,6 +304,7 @@ class Build
                                     array_key_exists('method', $if_record)
                                 ) {
                                     $has_close = true;
+                                    $if_reverse[$if_nr]['method']['has_close'] = true;
                                     $if_record['method']['has_close'] = true;
                                     $data[] = '}';
                                     $variable_assign_next_tag = true;
@@ -340,7 +342,7 @@ class Build
                 }
             }
         }
-        foreach($foreach as $foreach_nr => &$foreach_record){
+        foreach($foreach as $foreach_nr => $foreach_record){
             if(
                 array_key_exists('method', $foreach_record) &&
                 array_key_exists('has_close', $foreach_record['method']) &&
@@ -377,7 +379,7 @@ class Build
                 }
             }
         }
-        foreach($while as $while_nr => &$while_record){
+        foreach($while as $while_nr => $while_record){
             if(
                 array_key_exists('method', $while_record) &&
                 array_key_exists('has_close', $while_record['method']) &&

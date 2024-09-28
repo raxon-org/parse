@@ -112,6 +112,7 @@ class Symbol
                         $previous = $previous['value'] ?? '';
                     }
                     $symbol = $previous . $char;
+                    d($symbol);
                     switch($symbol) {
                         case '{{':
                         case '}}':

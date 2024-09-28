@@ -164,7 +164,8 @@ class Build
                         foreach($foreach_reverse as $foreach_nr => &$foreach_record){
                             if(
                                 array_key_exists('method', $foreach_record) &&
-                                array_key_exists('has_close', $foreach_record['method'])
+                                array_key_exists('has_close', $foreach_record['method']) &&
+                                $foreach_record['method']['has_close'] === true
                             ){
                                 //skip
                             } elseif(
@@ -205,6 +206,43 @@ class Build
                             }
                         }
                     }
+                }
+            }
+        }
+        foreach($foreach as $foreach_nr => &$foreach_record){
+            if(
+                array_key_exists('method', $foreach_record) &&
+                array_key_exists('has_close', $foreach_record['method']) &&
+                $foreach_record['method']['has_close'] === true
+            ){
+                //skip
+            } elseif(
+                array_key_exists('method', $foreach_record)
+            ) {
+                if(
+                    array_key_exists('is_multiline', $record) &&
+                    $record['is_multiline'] === true
+                ){
+                    throw new Exception(
+                        $record['tag'] . PHP_EOL .
+                        'Unclosed foreach close tag on line: ' .
+                        $record['line']['start']  .
+                        ', column: ' .
+                        $record['column'][$record['line']['start']]['start'] .
+                        ' in source: '.
+                        $source,
+                    );
+
+                } else {
+                    throw new Exception(
+                        $record['tag'] . PHP_EOL .
+                        'Unclosed foreach close tag on line: ' .
+                        $record['line'] .
+                        ', column: ' .
+                        $record['column']['start'] .
+                        ' in source: '.
+                        $source,
+                    );
                 }
             }
         }

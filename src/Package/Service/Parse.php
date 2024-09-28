@@ -256,6 +256,7 @@ class Parse
         }
         if($url_php){
             $pre_require = microtime(true);
+            dd('end');
             require_once $url_php;
             $post_require = microtime(true);
             $run = $options->namespace . '\\' . $options->class;

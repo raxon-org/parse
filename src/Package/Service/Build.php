@@ -1281,7 +1281,10 @@ class Build
                 if($is_argument === false) {
                     $method_value = 'break;';
                 }
-                elseif(is_numeric($value)) {
+                elseif(
+                    is_numeric($value) &&
+                    is_int(($value + 0))
+                ) {
                     ddd($value);
                     $method_value = 'break ' . $value . ';';
                 }

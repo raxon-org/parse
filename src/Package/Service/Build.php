@@ -1269,23 +1269,29 @@ class Build
                 break;
             case 'break' :
                 $is_argument = false;
+                $is_variable = false;
                 $value = false;
                 if(
                     array_key_exists('argument', $record['method']) &&
                     is_array($record['method']['argument']) &&
                     array_key_exists(0, $record['method']['argument'])
                 ) {
-                    $value = Build::value($object, $flags, $options, $record, $record['method']['argument'][0]);
-                    $is_argument = true;
+                    if(array_key_exists('type', $record['method']['argument'][0]) && $record['method']['argument'][0]['type'] === 'variable'){
+                        $value = Build::value($object, $flags, $options, $record, $record['method']['argument'][0]);
+                        $is_argument = true;
+                        $is_variable = true;
+                    } else {
+                        $value = Build::value($object, $flags, $options, $record, $record['method']['argument'][0]);
+                        $is_argument = true;
+                    }
                 }
-                d($value);
-                ddd($record['method']['argument'][0]);
                 if($is_argument === false) {
                     $method_value = 'break;';
                 }
                 elseif(
                     is_numeric($value) &&
-                    is_int(($value + 0))
+                    is_int(($value + 0)) &&
+                    $is_variable === false
                 ) {
                     $level = $value + 0;
                     $break_level = $object->config('package.raxon/parse.build.state.break.level');
@@ -1324,6 +1330,42 @@ class Build
                         }
                     }
                     $method_value = 'break ' . $value . ';';
+                }
+                elseif($is_variable === true){
+                    $method_value = [];
+                    $method_value[] = '$break = (int) ' . $value . ';';
+                    $method_value[] = '$break_level = ' . $object->config('package.raxon/parse.build.state.break.level') . ';';
+                    $method_value[] = 'if($break === 0 || $break > $break_level){';
+                    if(
+                        array_key_exists('is_multiline', $record) &&
+                        $record['is_multiline'] === true
+                    ){
+                        $method_value[] = 'throw new TemplateException(\'';
+                        $method_value[] = $record['tag'] . ' . ';
+                        $method_value[] = 'PHP_EOL .';
+                        $method_value[] = '\'Cannot \'break\' \' . $value . \' levels for {{break()}}, only \' . $break_level . \' is allowed here...\' .';
+                        $method_value[] = 'PHP_EOL .';
+                        $method_value[] = '\'On line: \' .';
+                        $method_value[] = '\'' . $record['line']['start'] . '\'';
+                        $method_value[] = ', column: \' .';
+                        $method_value[] = '\'' .  $record['column'][$record['line']['start']]['start'] . '\'';
+                    } else {
+                        $method_value[] = 'throw new TemplateException(\'';
+                        $method_value[] = $record['tag'] . ' . ';
+                        $method_value[] = 'PHP_EOL .';
+                        $method_value[] = '\'Cannot \'break\' \' . $value . \' levels for {{break()}}, only \' . $break_level . \' is allowed here...\' .';
+                        $method_value[] = 'PHP_EOL .';
+                        $method_value[] = '\'On line: \' .';
+                        $method_value[] = '\'' . $record['line'] . '\'';
+                        $method_value[] = ', column: \' .';
+                        $method_value[] = '\'' .  $record['column']['start'] . '\'';
+                    }
+                    $method_value[] = ' in source: \'.';
+                    $method_value[] = $source;
+                    $method_value[] = '\');';
+                    $method_value[] = '}';
+
+                    ddd($method_value);
                 }
                 /*
                 elseif(

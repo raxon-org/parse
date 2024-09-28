@@ -1381,6 +1381,9 @@ class Build
                 }
                 $object->config('package.raxon/parse.build.state.ltrim', $ltrim);
             break;
+            case 'break' :
+                //nothing, checks have been done already
+            break;
             default:
                 try {
                     Validator::validate($object, $flags, $options, $method_value);

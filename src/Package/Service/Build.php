@@ -1307,7 +1307,6 @@ class Build
                         );
                     }
                 }
-                ddd($method_value);
             break;
             default:
                 $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $method_name));

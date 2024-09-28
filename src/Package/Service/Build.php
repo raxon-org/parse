@@ -1349,7 +1349,7 @@ class Build
                         $record['is_multiline'] === true
                     ){
                         $method_value[] = 'throw new TemplateException(\'';
-                        $method_value[] = $record['tag'] . ' . ';
+                        $method_value[] = $record['tag'] . '\' . ';
                         $method_value[] = 'PHP_EOL .';
                         $method_value[] = '\'Cannot \\\'break\\\' \' . $break . \' levels for {{break()}}, only \' . $break_level . \' is allowed here...\' .';
                         $method_value[] = 'PHP_EOL .';
@@ -1359,7 +1359,7 @@ class Build
                         $method_value[] = '\'' .  $record['column'][$record['line']['start']]['start'] . '\'';
                     } else {
                         $method_value[] = 'throw new TemplateException(\'';
-                        $method_value[] = $record['tag'] . ' . ';
+                        $method_value[] = $record['tag'] . '\' . ';
                         $method_value[] = 'PHP_EOL .';
                         $method_value[] = '\'Cannot \\\'break\\\' \' . $break . \' levels for {{break()}}, only \' . $break_level . \' is allowed here...\' .';
                         $method_value[] = 'PHP_EOL .';

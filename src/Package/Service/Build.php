@@ -236,6 +236,7 @@ class Build
                                 true
                             )
                         ){
+                            ddd($record);
                             $while_reverse = array_reverse($while);
                             $has_close = false;
                             foreach($while_reverse as $while_nr => &$while_record){
@@ -1169,7 +1170,8 @@ class Build
                         throw new TemplateException(
                             $record['tag'] .
                             PHP_EOL .
-                            'Invalid argument for {{while()}}' . PHP_EOL .
+                            'Invalid argument for {{while()}}' .
+                            PHP_EOL .
                             'On line: ' .
                             $record['line']['start']  .
                             ', column: ' .
@@ -1182,7 +1184,8 @@ class Build
                         throw new TemplateException(
                             $record['tag'] .
                             PHP_EOL .
-                            'Invalid argument for {{while()}}' . PHP_EOL .
+                            'Invalid argument for {{while()}}' .
+                            PHP_EOL .
                             'On line: ' .
                             $record['line']  .
                             ', column: ' .
@@ -1227,9 +1230,37 @@ class Build
                         array_key_exists('is_multiline', $record) &&
                         $record['is_multiline'] === true
                     ){
-                        throw new TemplateException($record['tag'] . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.', 0, $exception);
+                        throw new TemplateException(
+                            $record['tag'] .
+                            PHP_EOL .
+                            'Validation error...' .
+                            PHP_EOL .
+                            'On line: ' .
+                            $record['line']['start']  .
+                            ', column: ' .
+                            $record['column'][$record['line']['start']]['start'] .
+                            ' in source: '.
+                            $source .
+                            '.',
+                            0,
+                            $exception
+                        );
                     } else {
-                        throw new TemplateException($record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.', 0, $exception);
+                        throw new TemplateException(
+                            $record['tag'] .
+                            PHP_EOL .
+                            'Validation error...' .
+                            PHP_EOL .
+                            'On line: ' .
+                            $record['line']  .
+                            ', column: ' .
+                            $record['column']['start'] .
+                            ' in source: ' .
+                            $source .
+                            '.',
+                            0,
+                            $exception
+                        );
                     }
                 }
                 //will remove whitespace at the beginning of the line type text with block functions

@@ -1288,6 +1288,7 @@ class Build
                         $is_argument = true;
                     }
                 }
+                d($record);
                 ddd($is_variable);
                 if($is_argument === false) {
                     $method_value = 'break;';

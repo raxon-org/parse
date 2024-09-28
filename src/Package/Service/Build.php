@@ -1332,7 +1332,21 @@ class Build
         $source = $options->source ?? '';
         $variable_name = $record['variable']['name'];
         $operator = $record['variable']['operator'];
-        $value = Build::value($object, $flags, $options, $record, $record['variable']['value']);
+        if(
+            in_array(
+                $operator,
+                [
+                    '++',
+                    '--',
+                    '**'
+                ],
+                true
+            )
+        ){
+            $value = ''; //init ++, --, **
+        } else {
+            $value = Build::value($object, $flags, $options, $record, $record['variable']['value']);
+        }
         if(array_key_exists('modifier', $record['variable'])){
             d($value);
             ddd('what happens with value');

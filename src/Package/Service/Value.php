@@ -47,8 +47,6 @@ class Value
                 array_key_exists('value', $char) &&
                 $char['value'] === '.'
             ){
-                d($previous);
-                d($next);
                 if(
                     is_int($previous['execute']) &&
                     is_int($next['execute'])

@@ -1285,7 +1285,6 @@ class Build
                     is_numeric($value) &&
                     is_int(($value + 0))
                 ) {
-                    ddd($value);
                     $method_value = 'break ' . $value . ';';
                 }
                 else {

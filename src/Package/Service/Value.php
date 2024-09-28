@@ -18,7 +18,6 @@ class Value
             return $input;
         }
         $count = count($input['array']);
-        d($input);
         foreach($input['array'] as $nr => $char){
             $min = 1;
             while(true){

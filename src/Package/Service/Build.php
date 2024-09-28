@@ -1148,7 +1148,7 @@ class Build
                 foreach($record['method']['argument'] as $nr => $argument){
                     $value = Build::value($object, $flags, $options, $record, $argument);
                     if(
-                        in_array(
+                        !in_array(
                             $value,
                             [
                                 null,

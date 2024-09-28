@@ -27,6 +27,7 @@ class Build
     /**
      * @throws Exception
      * @throws LocateException
+     * @throws TemplateException
      */
     public static function create(App $object, $flags, $options, $tags=[]): array
     {
@@ -1850,6 +1851,18 @@ class Build
                                 '??',
                                 '&&',
                                 '||',
+                                '.=',
+                                '+=',
+                                '-=',
+                                '*=',
+                                '...',
+                                '=>',
+                                '++',
+                                '--',
+                                '**',
+                                'and',
+                                'or',
+                                'xor'
                             ],
                             true
                         )

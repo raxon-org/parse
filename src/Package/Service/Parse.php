@@ -5,7 +5,6 @@ use Raxon\App;
 use Raxon\Config;
 
 use Raxon\Module\Autoload;
-use Raxon\Module\Cli;
 use Raxon\Module\Data;
 
 use Plugin;
@@ -19,6 +18,7 @@ use Raxon\Node\Model\Node;
 use Exception;
 
 use Raxon\Exception\ObjectException;
+use Raxon\Exception\TemplateException;
 
 class Parse
 {
@@ -102,6 +102,8 @@ class Parse
 
     /**
      * @throws Exception
+     * @throws ObjectException
+     * @throws TemplateException
      */
     public function compile($input, $data=null)
     {

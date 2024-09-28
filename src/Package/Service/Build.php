@@ -1332,6 +1332,7 @@ class Build
                     $method_value = 'break ' . $value . ';';
                 }
                 elseif($is_variable === true){
+                    ddd('found');
                     $method_value = [];
                     $method_value[] = '$break = (int) ' . $value . ';';
                     $method_value[] = '$break_level = ' . $object->config('package.raxon/parse.build.state.break.level') . ';';

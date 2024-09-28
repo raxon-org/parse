@@ -225,7 +225,7 @@ class Build
                 ){
                     throw new Exception(
                         $foreach_record['tag'] . PHP_EOL .
-                        'Unclosed foreach close tag "{{/foreach}}" on line: ' .
+                        'Unclosed foreach open tag "{{foreach()}}" on line: ' .
                         $foreach_record['line']['start']  .
                         ', column: ' .
                         $foreach_record['column'][$foreach_record['line']['start']]['start'] .
@@ -236,7 +236,7 @@ class Build
                 } else {
                     throw new Exception(
                         $foreach_record['tag'] . PHP_EOL .
-                        'Unclosed foreach close tag "{{/foreach}}" on line: ' .
+                        'Unclosed foreach open tag "{{foreach()}}" on line: ' .
                         $foreach_record['line'] .
                         ', column: ' .
                         $foreach_record['column']['start'] .

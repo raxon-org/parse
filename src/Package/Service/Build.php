@@ -1281,7 +1281,7 @@ class Build
                         throw new TemplateException(
                             $record['tag'] .
                             PHP_EOL .
-                            'Invalid argument for {{break()}}, only numeric int is allowed' .
+                            'Invalid argument for {{break()}}, only numeric integer is allowed' .
                             PHP_EOL .
                             'On line: ' .
                             $record['line']['start']  .
@@ -1295,7 +1295,7 @@ class Build
                         throw new TemplateException(
                             $record['tag'] .
                             PHP_EOL .
-                            'Invalid argument for {{break()}}, only numeric int is allowed' .
+                            'Invalid argument for {{break()}}, only numeric integer is allowed' .
                             PHP_EOL .
                             'On line: ' .
                             $record['line']  .

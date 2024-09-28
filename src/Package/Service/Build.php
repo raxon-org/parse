@@ -220,26 +220,26 @@ class Build
                 array_key_exists('method', $foreach_record)
             ) {
                 if(
-                    array_key_exists('is_multiline', $record) &&
-                    $record['is_multiline'] === true
+                    array_key_exists('is_multiline', $foreach_record) &&
+                    $foreach_record['is_multiline'] === true
                 ){
                     throw new Exception(
-                        $record['tag'] . PHP_EOL .
+                        $foreach_record['tag'] . PHP_EOL .
                         'Unclosed foreach close tag on line: ' .
-                        $record['line']['start']  .
+                        $foreach_record['line']['start']  .
                         ', column: ' .
-                        $record['column'][$record['line']['start']]['start'] .
+                        $foreach_record['column'][$foreach_record['line']['start']]['start'] .
                         ' in source: '.
                         $source,
                     );
 
                 } else {
                     throw new Exception(
-                        $record['tag'] . PHP_EOL .
+                        $foreach_record['tag'] . PHP_EOL .
                         'Unclosed foreach close tag on line: ' .
-                        $record['line'] .
+                        $foreach_record['line'] .
                         ', column: ' .
-                        $record['column']['start'] .
+                        $foreach_record['column']['start'] .
                         ' in source: '.
                         $source,
                     );

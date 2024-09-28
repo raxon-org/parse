@@ -429,6 +429,8 @@ class Token
                                     $operator = $char;
                                     continue;
                                 }
+                                d($operator);
+                                d($char);
                                 if($operator && $is_after === false){
                                     if($operator === '.' && $char === '='){
                                         $is_after = true;

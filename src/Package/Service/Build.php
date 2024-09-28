@@ -1295,7 +1295,7 @@ class Build
                             throw new TemplateException(
                                 $record['tag'] .
                                 PHP_EOL .
-                                'Cannot \'break\' ' . $value . ' levels for {{break()}}, only ' . $break_level . ' is allowed' .
+                                'Cannot \'break\' ' . $value . ' levels for {{break()}}, only ' . $break_level . ' is allowed here...' .
                                 PHP_EOL .
                                 'On line: ' .
                                 $record['line']['start']  .
@@ -1309,7 +1309,7 @@ class Build
                             throw new TemplateException(
                                 $record['tag'] .
                                 PHP_EOL .
-                                'Cannot \'break\' ' . $value . ' levels for {{break()}}, only ' . $break_level . ' is allowed' .
+                                'Cannot \'break\' ' . $value . ' levels for {{break()}}, only ' . $break_level . ' is allowed here...' .
                                 PHP_EOL .
                                 'On line: ' .
                                 $record['line']  .

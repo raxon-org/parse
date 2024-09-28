@@ -1370,6 +1370,8 @@ class Build
                     }
                     $method_value[] = '\' in source: \'.';
                     $method_value[] = '\'' . $source . '\');';
+                    $method_value[] = '} else { ';
+                    $method_value[] = 'break $break;';
                     $method_value[] = '}';
                     $method_value = implode(PHP_EOL, $method_value);
                 }

@@ -1257,6 +1257,57 @@ class Build
                 $method_value[] = '){';
                 $method_value = implode(PHP_EOL, $method_value);
                 break;
+            case 'break' :
+                $is_argument = false;
+                if(
+                    array_key_exists('argument', $record['method']) &&
+                    is_array($record['method']['argument']) &&
+                    array_key_exists(0, $record['method']['argument'])
+                ) {
+                    $value = Build::value($object, $flags, $options, $record, $record['method']['argument'][0]);
+                    $is_argument = true;
+                }
+                if($is_argument === false) {
+                    $method_value[] = 'break;';
+                }
+                elseif(is_numeric($value)) {
+                    $method_value[] = 'break ' . $value . ';';
+                }
+                else {
+                    if(
+                        array_key_exists('is_multiline', $record) &&
+                        $record['is_multiline'] === true
+                    ){
+                        throw new TemplateException(
+                            $record['tag'] .
+                            PHP_EOL .
+                            'Invalid argument for {{break()}}, only numeric int is allowed' .
+                            PHP_EOL .
+                            'On line: ' .
+                            $record['line']['start']  .
+                            ', column: ' .
+                            $record['column'][$record['line']['start']]['start'] .
+                            ' in source: '.
+                            $source .
+                            '.'
+                        );
+                    } else {
+                        throw new TemplateException(
+                            $record['tag'] .
+                            PHP_EOL .
+                            'Invalid argument for {{break()}}, only numeric int is allowed' .
+                            PHP_EOL .
+                            'On line: ' .
+                            $record['line']  .
+                            ', column: ' .
+                            $record['column']['start'] .
+                            ' in source: ' .
+                            $source .
+                            '.'
+                        );
+                    }
+                }
+            break;
             default:
                 $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $method_name));
                 $method_value = '$this->' . $plugin . '(';

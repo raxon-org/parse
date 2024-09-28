@@ -1285,9 +1285,38 @@ class Build
                         array_key_exists('type', $record['method']['argument'][0]['array'][0]) &&
                         $record['method']['argument'][0]['array'][0]['type'] === 'variable'
                     ){
-                        $value = Build::value($object, $flags, $options, $record, $record['method']['argument'][0]);
-                        $is_argument = true;
-                        $is_variable = true;
+                        if(
+                            array_key_exists('is_multiline', $record) &&
+                            $record['is_multiline'] === true
+                        ){
+                            throw new TemplateException(
+                                $record['tag'] .
+                                PHP_EOL .
+                                'break operator with non-integer operand is no longer supported...' .
+                                PHP_EOL .
+                                'On line: ' .
+                                $record['line']['start']  .
+                                ', column: ' .
+                                $record['column'][$record['line']['start']]['start'] .
+                                ' in source: '.
+                                $source .
+                                '.'
+                            );
+                        } else {
+                            throw new TemplateException(
+                                $record['tag'] .
+                                PHP_EOL .
+                                'break operator with non-integer operand is no longer supported...' .
+                                PHP_EOL .
+                                'On line: ' .
+                                $record['line']  .
+                                ', column: ' .
+                                $record['column']['start'] .
+                                ' in source: ' .
+                                $source .
+                                '.'
+                            );
+                        }
                     } else {
                         $value = Build::value($object, $flags, $options, $record, $record['method']['argument'][0]);
                         $is_argument = true;
@@ -1338,44 +1367,7 @@ class Build
                         }
                     }
                     $method_value = 'break ' . $value . ';';
-                }
-                elseif($is_variable === true){
-                    $method_value = [];
-                    $method_value[] = '$break = (int) ' . $value . ';';
-                    $method_value[] = '$break_level = ' . $object->config('package.raxon/parse.build.state.break.level') . ';';
-                    $method_value[] = 'if($break === 0 || $break > $break_level){';
-                    if(
-                        array_key_exists('is_multiline', $record) &&
-                        $record['is_multiline'] === true
-                    ){
-                        $method_value[] = 'throw new TemplateException(\'';
-                        $method_value[] = $record['tag'] . '\' . ';
-                        $method_value[] = 'PHP_EOL .';
-                        $method_value[] = '\'Cannot \\\'break\\\' \' . $break . \' levels for {{break()}}, only \' . $break_level . \' is allowed here...\' .';
-                        $method_value[] = 'PHP_EOL .';
-                        $method_value[] = '\'On line: \' .';
-                        $method_value[] = '\'' . $record['line']['start'] . '\' . ';
-                        $method_value[] = '\', column: \' .';
-                        $method_value[] = '\'' .  $record['column'][$record['line']['start']]['start'] . '\' . ';
-                    } else {
-                        $method_value[] = 'throw new TemplateException(\'';
-                        $method_value[] = $record['tag'] . '\' . ';
-                        $method_value[] = 'PHP_EOL .';
-                        $method_value[] = '\'Cannot \\\'break\\\' \' . $break . \' levels for {{break()}}, only \' . $break_level . \' is allowed here...\' .';
-                        $method_value[] = 'PHP_EOL .';
-                        $method_value[] = '\'On line: \' .';
-                        $method_value[] = '\'' . $record['line'] . '\' . ';
-                        $method_value[] = '\', column: \' .';
-                        $method_value[] = '\'' .  $record['column']['start'] . '\' . ';
-                    }
-                    $method_value[] = '\' in source: \'.';
-                    $method_value[] = '\'' . $source . '\');';
-                    $method_value[] = '} else { ';
-                    $method_value[] = 'break $break;';
-                    $method_value[] = '}';
-                    $method_value = implode(PHP_EOL, $method_value);
-                }
-                else {
+                } else {
                     if(
                         array_key_exists('is_multiline', $record) &&
                         $record['is_multiline'] === true

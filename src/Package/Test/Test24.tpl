@@ -3,4 +3,3 @@
     {{$counter}}
     {{$counter++}}
 {{/while}}
-```

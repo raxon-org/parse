@@ -1210,6 +1210,7 @@ class Build
                     $method_value .= $argument_value;
 //                    $method_value .= Build::align_content($object, $flags, $options, $argument_value, $indent) . PHP_EOL;
                 }
+                $method_value .= ');';
             break;
         }
         switch($method_name){
@@ -1217,6 +1218,7 @@ class Build
             case 'for_each':
             case 'foreach':
             case 'while':
+            case 'if':
                 try {
                     Validator::validate($object, $flags, $options, $method_value . '}');
                 }
@@ -1240,7 +1242,6 @@ class Build
                 $object->config('package.raxon/parse.build.state.ltrim', $ltrim);
             break;
             default:
-                $method_value .= ');';
                 try {
                     Validator::validate($object, $flags, $options, $method_value);
                 }

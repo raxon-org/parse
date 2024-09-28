@@ -87,18 +87,13 @@ class Build
         $data = [];
         $variable_assign_next_tag = false;
         $foreach = [];
+        $while = [];
+        $if = [];
         foreach($tags as $row_nr => $list){
             foreach($list as $nr => &$record){
                 $text = Build::text($object, $flags, $options, $record, $variable_assign_next_tag);
                 if($text){
-                    //cannot explode on PHP_EOL, it can exist in ""
                     $data[] = $text;
-                    /*
-                    $text = explode(PHP_EOL, $text);
-                    foreach($text as $text_nr => $line) {
-                        $data[] = $line;
-                    }
-                    */
                 }
                 $variable_assign_next_tag = false; //Build::text is taking care of this
                 $variable_assign = Build::variable_assign($object, $flags, $options, $record);
@@ -122,18 +117,43 @@ class Build
                 if($method){
                     if(
                         array_key_exists('method', $record) &&
-                        array_key_exists('name', $record['method']) &&
-                        in_array(
-                            $record['method']['name'],
-                            [
-                                'for.each',
-                                'for_each',
-                                'foreach',
-                            ],
-                            true
-                        )
+                        array_key_exists('name', $record['method'])
                     ){
-                        $foreach[] = $record;
+                        if(
+                            in_array(
+                                $record['method']['name'],
+                                [
+                                    'for.each',
+                                    'for_each',
+                                    'foreach',
+                                ],
+                                true
+                            )
+                        ){
+                            $foreach[] = $record;
+                        }
+                        elseif(
+                            in_array(
+                                $record['method']['name'],
+                                [
+                                    'while',
+                                ],
+                                true
+                            )
+                        ){
+                            $while[] = $record;
+                        }
+                        elseif(
+                            in_array(
+                                $record['method']['name'],
+                                [
+                                    'if',
+                                ],
+                                true
+                            )
+                        ){
+                            $if[] = $record;
+                        }
                     }
                     $data[] = $method;
                     $variable_assign_next_tag = true;
@@ -149,63 +169,172 @@ class Build
                         $object->config('package.raxon/parse.build.state.ltrim', $ltrim);
                     }
                     //need to count them by name
-                    if(
-                        array_key_exists('marker', $record) &&
-                        array_key_exists('name', $record['marker']) &&
-                        in_array(
-                            $record['marker']['name'],
-                            [
-                                'for.each',
-                                'for_each',
-                                'foreach',
-                            ],
-                            true
-                        )
-                    ){
-                        $foreach_reverse = array_reverse($foreach);
-                        $has_close = false;
-                        foreach($foreach_reverse as $foreach_nr => &$foreach_record){
-                            if(
-                                array_key_exists('method', $foreach_record) &&
-                                array_key_exists('has_close', $foreach_record['method']) &&
-                                $foreach_record['method']['has_close'] === true
-                            ){
-                                //skip
-                            } elseif(
-                                array_key_exists('method', $foreach_record)
-                            ) {
-                                $has_close = true;
-                                $foreach_record['method']['has_close'] = true;
-                                //need list of foreaches...
-                                $data[] = '}';
-                                $variable_assign_next_tag = true;
+                    if(array_key_exists('name', $record['marker'])){
+                        if(
+                            in_array(
+                                $record['marker']['name'],
+                                [
+                                    'for.each',
+                                    'for_each',
+                                    'foreach',
+                                ],
+                                true
+                            )
+                        ){
+                            $foreach_reverse = array_reverse($foreach);
+                            $has_close = false;
+                            foreach($foreach_reverse as $foreach_nr => &$foreach_record){
+                                if(
+                                    array_key_exists('method', $foreach_record) &&
+                                    array_key_exists('has_close', $foreach_record['method']) &&
+                                    $foreach_record['method']['has_close'] === true
+                                ){
+                                    //skip
+                                } elseif(
+                                    array_key_exists('method', $foreach_record)
+                                ) {
+                                    $has_close = true;
+                                    $foreach_record['method']['has_close'] = true;
+                                    $data[] = '}';
+                                    $variable_assign_next_tag = true;
+                                }
+                            }
+                            if($has_close === false){
+                                if(
+                                    array_key_exists('is_multiline', $record) &&
+                                    $record['is_multiline'] === true
+                                ){
+                                    throw new TemplateException(
+                                        $record['tag'] . PHP_EOL .
+                                        'Unused foreach close tag "{{/foreach}}" on line: ' .
+                                        $record['line']['start']  .
+                                        ', column: ' .
+                                        $record['column'][$record['line']['start']]['start'] .
+                                        ' in source: '.
+                                        $source,
+                                    );
+
+                                } else {
+                                    throw new TemplateException(
+                                        $record['tag'] . PHP_EOL .
+                                        'Unused foreach close tag "{{/foreach}}" on line: ' .
+                                        $record['line'] .
+                                        ', column: ' .
+                                        $record['column']['start'] .
+                                        ' in source: '.
+                                        $source,
+                                    );
+                                }
                             }
                         }
-                        if($has_close === false){
-                            if(
-                                array_key_exists('is_multiline', $record) &&
-                                $record['is_multiline'] === true
-                            ){
-                                throw new TemplateException(
-                                    $record['tag'] . PHP_EOL .
-                                    'Unused foreach close tag "{{/foreach}}" on line: ' .
-                                    $record['line']['start']  .
-                                    ', column: ' .
-                                    $record['column'][$record['line']['start']]['start'] .
-                                    ' in source: '.
-                                    $source,
-                                );
+                        elseif(
+                            in_array(
+                                $record['marker']['name'],
+                                [
+                                    'while',
+                                ],
+                                true
+                            )
+                        ){
+                            $while_reverse = array_reverse($while);
+                            $has_close = false;
+                            foreach($while_reverse as $while_nr => &$while_record){
+                                if(
+                                    array_key_exists('method', $while_record) &&
+                                    array_key_exists('has_close', $while_record['method']) &&
+                                    $while_record['method']['has_close'] === true
+                                ){
+                                    //skip
+                                } elseif(
+                                    array_key_exists('method', $while_record)
+                                ) {
+                                    $has_close = true;
+                                    $while_record['method']['has_close'] = true;
+                                    $data[] = '}';
+                                    $variable_assign_next_tag = true;
+                                }
+                            }
+                            if($has_close === false){
+                                if(
+                                    array_key_exists('is_multiline', $record) &&
+                                    $record['is_multiline'] === true
+                                ){
+                                    throw new TemplateException(
+                                        $record['tag'] . PHP_EOL .
+                                        'Unused while close tag "{{/while}}" on line: ' .
+                                        $record['line']['start']  .
+                                        ', column: ' .
+                                        $record['column'][$record['line']['start']]['start'] .
+                                        ' in source: '.
+                                        $source,
+                                    );
 
-                            } else {
-                                throw new TemplateException(
-                                    $record['tag'] . PHP_EOL .
-                                    'Unused foreach close tag "{{/foreach}}" on line: ' .
-                                    $record['line'] .
-                                    ', column: ' .
-                                    $record['column']['start'] .
-                                    ' in source: '.
-                                    $source,
-                                );
+                                } else {
+                                    throw new TemplateException(
+                                        $record['tag'] . PHP_EOL .
+                                        'Unused while close tag "{{/while}}" on line: ' .
+                                        $record['line'] .
+                                        ', column: ' .
+                                        $record['column']['start'] .
+                                        ' in source: '.
+                                        $source,
+                                    );
+                                }
+                            }
+                        }
+                        elseif(
+                            in_array(
+                                $record['marker']['name'],
+                                [
+                                    'if',
+                                ],
+                                true
+                            )
+                        ){
+                            $if_reverse = array_reverse($if);
+                            $has_close = false;
+                            foreach($if_reverse as $if_nr => &$if_record){
+                                if(
+                                    array_key_exists('method', $if_record) &&
+                                    array_key_exists('has_close', $if_record['method']) &&
+                                    $if_record['method']['has_close'] === true
+                                ){
+                                    //skip
+                                } elseif(
+                                    array_key_exists('method', $if_record)
+                                ) {
+                                    $has_close = true;
+                                    $if_record['method']['has_close'] = true;
+                                    $data[] = '}';
+                                    $variable_assign_next_tag = true;
+                                }
+                            }
+                            if($has_close === false){
+                                if(
+                                    array_key_exists('is_multiline', $record) &&
+                                    $record['is_multiline'] === true
+                                ){
+                                    throw new TemplateException(
+                                        $record['tag'] . PHP_EOL .
+                                        'Unused if close tag "{{/if}}" on line: ' .
+                                        $record['line']['start']  .
+                                        ', column: ' .
+                                        $record['column'][$record['line']['start']]['start'] .
+                                        ' in source: '.
+                                        $source,
+                                    );
+
+                                } else {
+                                    throw new TemplateException(
+                                        $record['tag'] . PHP_EOL .
+                                        'Unused if close tag "{{/if}}" on line: ' .
+                                        $record['line'] .
+                                        ', column: ' .
+                                        $record['column']['start'] .
+                                        ' in source: '.
+                                        $source,
+                                    );
+                                }
                             }
                         }
                     }
@@ -243,6 +372,80 @@ class Build
                         $foreach_record['line'] .
                         ', column: ' .
                         $foreach_record['column']['start'] .
+                        ' in source: '.
+                        $source,
+                    );
+                }
+            }
+        }
+        foreach($while as $while_nr => &$while_record){
+            if(
+                array_key_exists('method', $while_record) &&
+                array_key_exists('has_close', $while_record['method']) &&
+                $while_record['method']['has_close'] === true
+            ){
+                //skip
+            } elseif(
+                array_key_exists('method', $while_record)
+            ) {
+                if(
+                    array_key_exists('is_multiline', $while_record) &&
+                    $while_record['is_multiline'] === true
+                ){
+                    throw new TemplateException(
+                        $while_record['tag'] . PHP_EOL .
+                        'Unclosed while open tag "{{while()}}" on line: ' .
+                        $while_record['line']['start']  .
+                        ', column: ' .
+                        $while_record['column'][$while_record['line']['start']]['start'] .
+                        ' in source: '.
+                        $source,
+                    );
+
+                } else {
+                    throw new TemplateException(
+                        $while_record['tag'] . PHP_EOL .
+                        'Unclosed while open tag "{{while()}}" on line: ' .
+                        $while_record['line'] .
+                        ', column: ' .
+                        $while_record['column']['start'] .
+                        ' in source: '.
+                        $source,
+                    );
+                }
+            }
+        }
+        foreach($if as $if_nr => &$if_record){
+            if(
+                array_key_exists('method', $if_record) &&
+                array_key_exists('has_close', $if_record['method']) &&
+                $if_record['method']['has_close'] === true
+            ){
+                //skip
+            } elseif(
+                array_key_exists('method', $if_record)
+            ) {
+                if(
+                    array_key_exists('is_multiline', $if_record) &&
+                    $if_record['is_multiline'] === true
+                ){
+                    throw new TemplateException(
+                        $if_record['tag'] . PHP_EOL .
+                        'Unclosed while open tag "{{while()}}" on line: ' .
+                        $if_record['line']['start']  .
+                        ', column: ' .
+                        $if_record['column'][$if_record['line']['start']]['start'] .
+                        ' in source: '.
+                        $source,
+                    );
+
+                } else {
+                    throw new TemplateException(
+                        $if_record['tag'] . PHP_EOL .
+                        'Unclosed while open tag "{{while()}}" on line: ' .
+                        $if_record['line'] .
+                        ', column: ' .
+                        $if_record['column']['start'] .
                         ' in source: '.
                         $source,
                     );

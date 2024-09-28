@@ -1142,6 +1142,111 @@ class Build
                 $method_value[] = $foreach_value . PHP_EOL;
                 $method_value = implode(PHP_EOL, $method_value);
             break;
+            case 'while':
+                ddd($record);
+//                $foreach_from = $record['method']['argument'][0]['array'][0] ?? null;
+//                $foreach_key = $record['method']['argument'][0]['array'][2] ?? null;
+//                $foreach_value = $record['method']['argument'][0]['array'][4] ?? null;
+                /*
+                if($foreach_value === null){
+                    $foreach_value = $foreach_key;
+                    $foreach_key = null;
+                    $key = null;
+                } else {
+                    $key = Core::uuid_variable();
+                }
+                if(
+                    !array_key_exists('tag', $foreach_from) &&
+                    array_key_exists('type', $foreach_from) &&
+                    $foreach_from['type'] === 'array'
+                ){
+                    $value = [
+                        'string' => $foreach_from['string'],
+                        'array' => [
+                            0 => $foreach_from
+                        ]
+                    ];
+                }
+                elseif(array_key_exists('tag', $foreach_from)) {
+                    $value = [
+                        'string' => $foreach_from['tag'],
+                        'array' => [
+                            0 => $foreach_from
+                        ]
+                    ];
+                } elseif(
+                    array_key_exists('is_multiline', $record) &&
+                    $record['is_multiline'] === true
+                ){
+                    //invalid from
+                    throw new TemplateException($record['tag'] . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.');
+                } else {
+                    //invalid from
+                    throw new TemplateException($record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.');
+                }
+                */
+                if($key){
+                    if(
+                        array_key_exists('type', $foreach_key) &&
+                        $foreach_key['type'] === 'variable'
+                    ){
+                        //nothing
+                    } elseif(
+                        array_key_exists('is_multiline', $record) &&
+                        $record['is_multiline'] === true
+                    ){
+                        //invalid key
+                        throw new TemplateException($record['tag'] . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.');
+                    } else {
+                        //invalid key
+                        throw new TemplateException($record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.');
+                    }
+                }
+                if(
+                    array_key_exists('type', $foreach_value) &&
+                    $foreach_value['type'] === 'variable'
+                ){
+                    //nothing
+                } elseif(
+                    array_key_exists('is_multiline', $record) &&
+                    $record['is_multiline'] === true
+                ){
+                    //invalid value
+                    throw new TemplateException($record['tag'] . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.');
+                } else {
+                    //invalid value
+                    throw new TemplateException($record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.');
+                }
+                $foreach_from = Build::value($object, $flags, $options, $record, $value);
+                $from = Core::uuid_variable();
+                $value = Core::uuid_variable();
+                $method_value = [];
+                $method_value[] = $from . ' = ' . $foreach_from . ';';
+                $method_value[] = '$type = str_replace(\'double\', \'float\', gettype(' . $from . '));';
+                $method_value[] = 'if(!in_array($type, [\'array\', \'object\'], true)){';
+                if(
+                    array_key_exists('is_multiline', $record) &&
+                    $record['is_multiline'] === true
+                ){
+                    $method_value[] = 'throw new Exception(\'' . $record['tag'] . PHP_EOL . 'Invalid argument type: \' . $type . \' for foreach on line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: ' . $source . '\');';
+                } else {
+                    $method_value[] = 'throw new Exception(\'' . $record['tag'] . PHP_EOL . 'Invalid argument type: \' . $type . \' for foreach on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\');';
+                }
+                $method_value[] = '}';
+                if($key){
+                    $method_value[] = 'foreach(' . $from . ' as ' . $key . ' => ' . $value . '){';
+                    $foreach_set =[];
+                    $foreach_set[] = '$data->set(\'' . $foreach_key['name'] . '\', ' . $key . ');';
+                    $foreach_set[] = '$data->set(\'' . $foreach_value['name'] . '\', ' . $value . ');';
+                    $foreach_value = implode(PHP_EOL, $foreach_set);
+                } else {
+                    $method_value[] = 'foreach(' . $from . ' as ' . $value . '){';
+                    $foreach_value = '$data->set(\'' . $foreach_value['name'] . '\', ' . $value . ');';
+                }
+
+                $method_value[] = $foreach_value . PHP_EOL;
+                $method_value = implode(PHP_EOL, $method_value);
+            break;
             default:
                 $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $method_name));
                 $method_value = '$this->' . $plugin . '(';

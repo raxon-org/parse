@@ -559,7 +559,6 @@ class Token
                                         true
                                     )
                                 ){
-                                    // (++ -- **) operators
                                     $variable = [
                                         'is_assign' => true,
                                         'operator' => $operator,

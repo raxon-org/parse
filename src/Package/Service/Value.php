@@ -48,8 +48,8 @@ class Value
                 $char['value'] === '.'
             ){
                 if(
-                    is_int($previous) &&
-                    is_int($next)
+                    is_int($previous['execute']) &&
+                    is_int($next['execute'])
                 ){
                     $input['array'][$nr] = [
                         'type' => 'float',

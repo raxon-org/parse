@@ -429,8 +429,6 @@ class Token
                                     $operator = $char;
                                     continue;
                                 }
-                                d($operator);
-                                d($char);
                                 if($operator && $is_after === false){
                                     if($operator === '.' && $char === '='){
                                         $is_after = true;
@@ -987,7 +985,6 @@ class Token
         if($cache->has($hash)){
             $input = $cache->get($hash);
         } else {
-            d($input);
             $input = Symbol::define($object, $flags, $options, $input);
             $input = Cast::define($object, $flags, $options, $input);
             $input = Method::define($object, $flags, $options, $input);

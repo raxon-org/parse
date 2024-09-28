@@ -254,7 +254,6 @@ class Build
                                     $variable_assign_next_tag = true;
                                 }
                             }
-                            ddd($has_close);
                             if($has_close === false){
                                 if(
                                     array_key_exists('is_multiline', $record) &&
@@ -269,7 +268,6 @@ class Build
                                         ' in source: '.
                                         $source,
                                     );
-
                                 } else {
                                     throw new TemplateException(
                                         $record['tag'] . PHP_EOL .
@@ -389,6 +387,7 @@ class Build
             } elseif(
                 array_key_exists('method', $while_record)
             ) {
+                ddd($while_record);
                 if(
                     array_key_exists('is_multiline', $while_record) &&
                     $while_record['is_multiline'] === true

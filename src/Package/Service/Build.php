@@ -1351,7 +1351,7 @@ class Build
                         $method_value[] = 'throw new TemplateException(\'';
                         $method_value[] = $record['tag'] . ' . ';
                         $method_value[] = 'PHP_EOL .';
-                        $method_value[] = '\'Cannot \'break\' \' . $value . \' levels for {{break()}}, only \' . $break_level . \' is allowed here...\' .';
+                        $method_value[] = '\'Cannot \\\'break\\\' \' . $break . \' levels for {{break()}}, only \' . $break_level . \' is allowed here...\' .';
                         $method_value[] = 'PHP_EOL .';
                         $method_value[] = '\'On line: \' .';
                         $method_value[] = '\'' . $record['line']['start'] . '\'';
@@ -1361,7 +1361,7 @@ class Build
                         $method_value[] = 'throw new TemplateException(\'';
                         $method_value[] = $record['tag'] . ' . ';
                         $method_value[] = 'PHP_EOL .';
-                        $method_value[] = '\'Cannot \'break\' \' . $value . \' levels for {{break()}}, only \' . $break_level . \' is allowed here...\' .';
+                        $method_value[] = '\'Cannot \\\'break\\\' \' . $break . \' levels for {{break()}}, only \' . $break_level . \' is allowed here...\' .';
                         $method_value[] = 'PHP_EOL .';
                         $method_value[] = '\'On line: \' .';
                         $method_value[] = '\'' . $record['line'] . '\'';

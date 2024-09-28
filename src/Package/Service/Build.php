@@ -1269,7 +1269,6 @@ class Build
                 break;
             case 'break' :
                 $is_argument = false;
-                $is_variable = false;
                 $value = false;
                 if(
                     array_key_exists('argument', $record['method']) &&
@@ -1327,8 +1326,7 @@ class Build
                 }
                 elseif(
                     is_numeric($value) &&
-                    is_int(($value + 0)) &&
-                    $is_variable === false
+                    is_int(($value + 0))
                 ) {
                     $level = $value + 0;
                     $break_level = $object->config('package.raxon/parse.build.state.break.level');

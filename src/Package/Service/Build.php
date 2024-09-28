@@ -11,6 +11,7 @@ use Plugin;
 use Exception;
 
 use Raxon\Exception\LocateException;
+use Raxon\Exception\TemplateException;
 
 class Build
 {
@@ -77,6 +78,7 @@ class Build
     /**
      * @throws Exception
      * @throws LocateException
+     * @throws TemplateException
      */
     public static function document_tag(App $object, $flags, $options, $tags = []): array
     {
@@ -183,7 +185,7 @@ class Build
                                 array_key_exists('is_multiline', $record) &&
                                 $record['is_multiline'] === true
                             ){
-                                throw new Exception(
+                                throw new TemplateException(
                                     $record['tag'] . PHP_EOL .
                                     'Unused foreach close tag "{{/foreach}}" on line: ' .
                                     $record['line']['start']  .
@@ -194,7 +196,7 @@ class Build
                                 );
 
                             } else {
-                                throw new Exception(
+                                throw new TemplateException(
                                     $record['tag'] . PHP_EOL .
                                     'Unused foreach close tag "{{/foreach}}" on line: ' .
                                     $record['line'] .
@@ -223,7 +225,7 @@ class Build
                     array_key_exists('is_multiline', $foreach_record) &&
                     $foreach_record['is_multiline'] === true
                 ){
-                    throw new Exception(
+                    throw new TemplateException(
                         $foreach_record['tag'] . PHP_EOL .
                         'Unclosed foreach open tag "{{foreach()}}" on line: ' .
                         $foreach_record['line']['start']  .
@@ -234,7 +236,7 @@ class Build
                     );
 
                 } else {
-                    throw new Exception(
+                    throw new TemplateException(
                         $foreach_record['tag'] . PHP_EOL .
                         'Unclosed foreach open tag "{{foreach()}}" on line: ' .
                         $foreach_record['line'] .
@@ -360,6 +362,7 @@ class Build
             $use_class[] = 'Package\Raxon\Parse\Service\Parse';
             $use_class[] = 'Plugin';
             $use_class[] = 'Exception';
+            $use_class[] = 'Raxon\Exception\TemplateException';
         }
         $object->config('package.raxon/parse.build.use.class', $use_class);
         $use_trait = $object->config('package.raxon/parse.build.use.trait');
@@ -774,11 +777,11 @@ class Build
                 $record['is_multiline'] === true
             ){
                 $data[] = 'if(' . $variable_uuid .' === null){';
-                $data[] = 'throw new Exception(\'Null-pointer exception: "$' . $variable_name . '" on line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '. You can use modifier "default" to surpress it \');';
+                $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . '" on line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '. You can use modifier "default" to surpress it \');';
                 $data[] = '}';
             } else {
                 $data[] = 'if(' . $variable_uuid .' === null){';
-                $data[] = 'throw new Exception(\'Null-pointer exception: "$' . $variable_name . '" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . 'in source: '. $source . '. You can use modifier "default" to surpress it \');';
+                $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . '" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . 'in source: '. $source . '. You can use modifier "default" to surpress it \');';
                 $data[] = '}';
             }
             $data[] = 'if(!is_scalar('. $variable_uuid. ')){';
@@ -798,11 +801,11 @@ class Build
                 $record['is_multiline'] === true
             ){
                 $data[] = 'if(' . $variable_uuid .' === null){';
-                $data[] = 'throw new Exception(\'Null-pointer exception: "$' . $variable_name . '" on line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '. You can use modifier "default" to surpress it \');';
+                $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . '" on line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '. You can use modifier "default" to surpress it \');';
                 $data[] = '}';
             } else {
                 $data[] = 'if(' . $variable_uuid .' === null){';
-                $data[] = 'throw new Exception(\'Null-pointer exception: "$' . $variable_name . '" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '. You can use modifier "default" to surpress it \');';
+                $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . '" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '. You can use modifier "default" to surpress it \');';
                 $data[] = '}';
             }
             $data[] = 'if(!is_scalar('. $variable_uuid. ')){';
@@ -820,6 +823,7 @@ class Build
     /**
      * @throws Exception
      * @throws LocateException
+     * @throws TemplateException
      */
     public static function method(App $object, $flags, $options, $record = []): bool | string
     {
@@ -834,7 +838,6 @@ class Build
             case 'for_each':
             case 'foreach':
                 $foreach_from = $record['method']['argument'][0]['array'][0] ?? null;
-                d($foreach_from);
                 $foreach_key = $record['method']['argument'][0]['array'][2] ?? null;
                 $foreach_value = $record['method']['argument'][0]['array'][4] ?? null;
                 if($foreach_value === null){
@@ -868,10 +871,10 @@ class Build
                     $record['is_multiline'] === true
                 ){
                     //invalid from
-                    throw new Exception($record['tag'] . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.');
+                    throw new TemplateException($record['tag'] . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.');
                 } else {
                     //invalid from
-                    throw new Exception($record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.');
+                    throw new TemplateException($record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.');
                 }
                 if($key){
                     if(
@@ -884,10 +887,10 @@ class Build
                         $record['is_multiline'] === true
                     ){
                         //invalid key
-                        throw new Exception($record['tag'] . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.');
+                        throw new TemplateException($record['tag'] . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.');
                     } else {
                         //invalid key
-                        throw new Exception($record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.');
+                        throw new TemplateException($record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.');
                     }
                 }
                 if(
@@ -900,10 +903,10 @@ class Build
                     $record['is_multiline'] === true
                 ){
                     //invalid value
-                    throw new Exception($record['tag'] . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.');
+                    throw new TemplateException($record['tag'] . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.');
                 } else {
                     //invalid value
-                    throw new Exception($record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.');
+                    throw new TemplateException($record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.');
                 }
                 $foreach_from = Build::value($object, $flags, $options, $record, $value);
                 $from = Core::uuid_variable();
@@ -941,9 +944,7 @@ class Build
                 $is_argument = false;
                 $argument_value = '';
                 foreach($record['method']['argument'] as $nr => $argument) {
-                    d($argument);
                     $argument_value .= Build::value($object, $flags, $options, $record, $argument)  . ', ';
-                    d($argument_value);
                     $is_argument = true;
                 }
                 if($is_argument){
@@ -965,9 +966,9 @@ class Build
                         array_key_exists('is_multiline', $record) &&
                         $record['is_multiline'] === true
                     ){
-                        throw new Exception($record['tag'] . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.', 0, $exception);
+                        throw new TemplateException($record['tag'] . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.', 0, $exception);
                     } else {
-                        throw new Exception($record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.', 0, $exception);
+                        throw new TemplateException($record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.', 0, $exception);
                     }
                 }
                 //will remove whitespace at the beginning of the line type text with block functions
@@ -989,9 +990,9 @@ class Build
                         array_key_exists('is_multiline', $record) &&
                         $record['is_multiline'] === true
                     ){
-                        throw new Exception($record['tag'] . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.', 0, $exception);
+                        throw new TemplateException($record['tag'] . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.', 0, $exception);
                     } else {
-                        throw new Exception($record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.', 0, $exception);
+                        throw new TemplateException($record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.', 0, $exception);
                     }
                 }
                 $uuid_variable = Core::uuid_variable();
@@ -1007,9 +1008,9 @@ class Build
                     array_key_exists('is_multiline', $record) &&
                     $record['is_multiline'] === true
                 ){
-                    $data[] = 'throw new Exception(\'' . str_replace('\'', '\\\'', $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.' . '\', 0, $exception);';
+                    $data[] = 'throw new TemplateException(\'' . str_replace('\'', '\\\'', $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.' . '\', 0, $exception);';
                 } else {
-                    $data[] = 'throw new Exception(\'' . str_replace('\'', '\\\'', $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.' . '\', 0, $exception);';
+                    $data[] = 'throw new TemplateException(\'' . str_replace('\'', '\\\'', $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.' . '\', 0, $exception);';
                 }
                 $data[] = '}';
                 return implode(PHP_EOL, $data);
@@ -1021,6 +1022,7 @@ class Build
     /**
      * @throws Exception
      * @throws LocateException
+     * @throws TemplateException
      */
     public static function variable_assign(App $object, $flags, $options, $record = []): bool | string
     {
@@ -1142,9 +1144,9 @@ class Build
                     array_key_exists('is_multiline', $record) &&
                     $record['is_multiline'] === true
                 ){
-                    throw new Exception($record['tag'] . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.', 0, $exception);
+                    throw new TemplateException($record['tag'] . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.', 0, $exception);
                 } else {
-                    throw new Exception($record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.', 0, $exception);
+                    throw new TemplateException($record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.', 0, $exception);
                 }
             }
             return $result;
@@ -1739,6 +1741,9 @@ class Build
             case '(':
                 $set_depth = 1;
                 for($i = $nr + 1; $i < $count; $i++){
+                    if(!array_key_exists($i, $input['array'])){
+                        continue;
+                    }
                     $previous = Token::item($input, $i - 1);
                     $item = Token::item($input, $i);
                     if($item === '('){
@@ -1758,17 +1763,15 @@ class Build
                         break;
                     }
                     $right .= $item;
-                    if(!array_key_exists($i, $input['array'])){
-                        d($i);
-                        d($item);
-                        ddd($input);
-                    }
                     $right_array[] = $input['array'][$i];
                     $skip++;
                 }
                 break;
             case '\'':
                 for($i = $nr + 1; $i < $count; $i++){
+                    if(!array_key_exists($i, $input['array'])){
+                        continue;
+                    }
                     $previous = Token::item($input, $i - 1);
                     $item = Token::item($input, $i);
                     if(
@@ -1788,6 +1791,9 @@ class Build
                 break;
             case '"':
                 for($i = $nr + 1; $i < $count; $i++){
+                    if(!array_key_exists($i, $input['array'])){
+                        continue;
+                    }
                     $previous = Token::item($input, $i - 1);
                     $item = Token::item($input, $i);
                     if(
@@ -1816,6 +1822,9 @@ class Build
             break;
             default:
                 for($i = $nr + 1; $i < $count; $i++){
+                    if(!array_key_exists($i, $input['array'])){
+                        continue;
+                    }
                     $previous = Token::item($input, $i - 1);
                     $item = Token::item($input, $i);
                     if(

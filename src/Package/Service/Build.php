@@ -185,7 +185,7 @@ class Build
                             ){
                                 throw new Exception(
                                     $record['tag'] . PHP_EOL .
-                                    'Unused foreach close tag on line: ' .
+                                    'Unused foreach close tag "{{/foreach}}" on line: ' .
                                     $record['line']['start']  .
                                     ', column: ' .
                                     $record['column'][$record['line']['start']]['start'] .
@@ -196,7 +196,7 @@ class Build
                             } else {
                                 throw new Exception(
                                     $record['tag'] . PHP_EOL .
-                                    'Unused foreach close tag on line: ' .
+                                    'Unused foreach close tag "{{/foreach}}" on line: ' .
                                     $record['line'] .
                                     ', column: ' .
                                     $record['column']['start'] .
@@ -225,7 +225,7 @@ class Build
                 ){
                     throw new Exception(
                         $foreach_record['tag'] . PHP_EOL .
-                        'Unclosed foreach close tag on line: ' .
+                        'Unclosed foreach close tag "{{/foreach}}" on line: ' .
                         $foreach_record['line']['start']  .
                         ', column: ' .
                         $foreach_record['column'][$foreach_record['line']['start']]['start'] .
@@ -236,7 +236,7 @@ class Build
                 } else {
                     throw new Exception(
                         $foreach_record['tag'] . PHP_EOL .
-                        'Unclosed foreach close tag on line: ' .
+                        'Unclosed foreach close tag "{{/foreach}}" on line: ' .
                         $foreach_record['line'] .
                         ', column: ' .
                         $foreach_record['column']['start'] .

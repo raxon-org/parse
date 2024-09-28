@@ -1,5 +1,5 @@
 {{$counter = 1}}
 {{while($counter <= 10)}}
     {{$counter}}
-    {{value.plus($counter)}}
+    {{$counter = value.plus.plus($counter)}}
 {{/while}}

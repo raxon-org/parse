@@ -1,4 +1,4 @@
-{{$counter = 1.01}}
+{{$counter = 1.00001}}
 {{while($counter <= 10)}}
     {{$counter++}}
     {{$counter}}

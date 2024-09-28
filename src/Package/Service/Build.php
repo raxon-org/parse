@@ -1354,8 +1354,8 @@ class Build
                         $method_value[] = '\'Cannot \\\'break\\\' \' . $break . \' levels for {{break()}}, only \' . $break_level . \' is allowed here...\' .';
                         $method_value[] = 'PHP_EOL .';
                         $method_value[] = '\'On line: \' .';
-                        $method_value[] = '\'' . $record['line']['start'] . '\'';
-                        $method_value[] = ', column: \' .';
+                        $method_value[] = '\'' . $record['line']['start'] . '\' . ';
+                        $method_value[] = '\', column: \' .';
                         $method_value[] = '\'' .  $record['column'][$record['line']['start']]['start'] . '\'';
                     } else {
                         $method_value[] = 'throw new TemplateException(\'';
@@ -1364,8 +1364,8 @@ class Build
                         $method_value[] = '\'Cannot \\\'break\\\' \' . $break . \' levels for {{break()}}, only \' . $break_level . \' is allowed here...\' .';
                         $method_value[] = 'PHP_EOL .';
                         $method_value[] = '\'On line: \' .';
-                        $method_value[] = '\'' . $record['line'] . '\'';
-                        $method_value[] = ', column: \' .';
+                        $method_value[] = '\'' . $record['line'] . '\' . ';
+                        $method_value[] = '\', column: \' .';
                         $method_value[] = '\'' .  $record['column']['start'] . '\'';
                     }
                     $method_value[] = ' in source: \'.';

@@ -434,11 +434,13 @@ class Token
                                 if($operator && $is_after === false){
                                     if($operator === '.' && $char === '='){
                                         $is_after = true;
-                                    } elseif($operator === '.'){
+                                    }
+                                    elseif($operator === '.'){
                                         //fix false positives
                                         $variable_name .= $operator . $char;
                                         $operator = false;
-                                    } elseif(
+                                    }
+                                    elseif(
                                         (
                                             $char === ' ' ||
                                             $char === "\t" ||
@@ -450,7 +452,25 @@ class Token
                                         $after === ''
                                     ) {
                                         continue;
-                                    } else {
+                                    }
+                                    elseif(
+                                        (
+                                            $operator === '+' &&
+                                            $char === '+'
+                                        ) ||
+                                        (
+                                            $operator === '-' &&
+                                            $char === '-'
+                                        ) ||
+                                        (
+                                            $operator === '*' &&
+                                            $char === '*'
+                                        )
+                                    ){
+                                        $operator .= $char;
+                                        continue;
+                                    }
+                                    else {
                                         $is_after = true;
                                         $after .= $char;
                                         $after_array[] = $char;

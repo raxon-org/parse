@@ -1276,7 +1276,10 @@ class Build
                     is_array($record['method']['argument']) &&
                     array_key_exists(0, $record['method']['argument'])
                 ) {
-                    if(array_key_exists('type', $record['method']['argument'][0]) && $record['method']['argument'][0]['type'] === 'variable'){
+                    if(
+                        array_key_exists('type', $record['method']['argument'][0]) &&
+                        $record['method']['argument'][0]['type'] === 'variable'
+                    ){
                         $value = Build::value($object, $flags, $options, $record, $record['method']['argument'][0]);
                         $is_argument = true;
                         $is_variable = true;

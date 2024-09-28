@@ -1285,6 +1285,42 @@ class Build
                     is_numeric($value) &&
                     is_int(($value + 0))
                 ) {
+                    $level = $value + 0;
+                    $break_level = $object->config('package.raxon/parse.build.state.break.level');
+                    if($level > $break_level){
+                        if(
+                            array_key_exists('is_multiline', $record) &&
+                            $record['is_multiline'] === true
+                        ){
+                            throw new TemplateException(
+                                $record['tag'] .
+                                PHP_EOL .
+                                'Cannot \'break\' ' . $value . ' levels for {{break()}}, only ' . $break_level . ' is allowed' .
+                                PHP_EOL .
+                                'On line: ' .
+                                $record['line']['start']  .
+                                ', column: ' .
+                                $record['column'][$record['line']['start']]['start'] .
+                                ' in source: '.
+                                $source .
+                                '.'
+                            );
+                        } else {
+                            throw new TemplateException(
+                                $record['tag'] .
+                                PHP_EOL .
+                                'Cannot \'break\' ' . $value . ' levels for {{break()}}, only ' . $break_level . ' is allowed' .
+                                PHP_EOL .
+                                'On line: ' .
+                                $record['line']  .
+                                ', column: ' .
+                                $record['column']['start'] .
+                                ' in source: ' .
+                                $source .
+                                '.'
+                            );
+                        }
+                    }
                     $method_value = 'break ' . $value . ';';
                 }
                 else {

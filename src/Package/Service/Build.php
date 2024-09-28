@@ -1143,6 +1143,13 @@ class Build
                 $method_value = implode(PHP_EOL, $method_value);
             break;
             case 'while':
+                $method_value[] = 'while(';
+                foreach($record['method']['argument'] as $nr => $argument){
+                    $value = Build::value($object, $flags, $options, $record, $argument);
+                    $method_value[] = $value;
+                }
+                $method_value[] = '){';
+                d($method_value);
                 ddd($record);
 //                $foreach_from = $record['method']['argument'][0]['array'][0] ?? null;
 //                $foreach_key = $record['method']['argument'][0]['array'][2] ?? null;

@@ -1368,9 +1368,8 @@ class Build
                         $method_value[] = '\', column: \' .';
                         $method_value[] = '\'' .  $record['column']['start'] . '\' . ';
                     }
-                    $method_value[] = ' in source: \'.';
-                    $method_value[] = $source;
-                    $method_value[] = '\');';
+                    $method_value[] = '\' in source: \'.';
+                    $method_value[] = '\'' . $source . '\');';
                     $method_value[] = '}';
                     $method_value = implode(PHP_EOL, $method_value);
                 }

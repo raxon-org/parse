@@ -391,7 +391,6 @@ class Build
             } elseif(
                 array_key_exists('method', $while_record)
             ) {
-                ddd($while_record);
                 if(
                     array_key_exists('is_multiline', $while_record) &&
                     $while_record['is_multiline'] === true
@@ -1202,6 +1201,62 @@ class Build
                 $method_value[] = '){';
                 $method_value = implode(PHP_EOL, $method_value);
             break;
+            case 'if':
+                $method_value[] = 'if(';
+                $is_argument = false;
+                foreach($record['method']['argument'] as $nr => $argument){
+                    $value = Build::value($object, $flags, $options, $record, $argument);
+                    if(
+                        !in_array(
+                            $value,
+                            [
+                                null,
+                                ''
+                            ],
+                            true
+                        )
+                    ){
+                        $is_argument = true;
+                    }
+                    $method_value[] = $value;
+                }
+                if($is_argument === false){
+                    if(
+                        array_key_exists('is_multiline', $record) &&
+                        $record['is_multiline'] === true
+                    ){
+                        throw new TemplateException(
+                            $record['tag'] .
+                            PHP_EOL .
+                            'Invalid argument for {{if()}}' .
+                            PHP_EOL .
+                            'On line: ' .
+                            $record['line']['start']  .
+                            ', column: ' .
+                            $record['column'][$record['line']['start']]['start'] .
+                            ' in source: '.
+                            $source .
+                            '.'
+                        );
+                    } else {
+                        throw new TemplateException(
+                            $record['tag'] .
+                            PHP_EOL .
+                            'Invalid argument for {{if()}}' .
+                            PHP_EOL .
+                            'On line: ' .
+                            $record['line']  .
+                            ', column: ' .
+                            $record['column']['start'] .
+                            ' in source: ' .
+                            $source .
+                            '.'
+                        );
+                    }
+                }
+                $method_value[] = '){';
+                $method_value = implode(PHP_EOL, $method_value);
+                break;
             default:
                 $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $method_name));
                 $method_value = '$this->' . $plugin . '(';

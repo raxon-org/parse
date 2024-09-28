@@ -1278,6 +1278,8 @@ class Build
                     $value = Build::value($object, $flags, $options, $record, $record['method']['argument'][0]);
                     $is_argument = true;
                 }
+                d($value);
+                ddd($record['method']['argument'][0]);
                 if($is_argument === false) {
                     $method_value = 'break;';
                 }
@@ -1323,8 +1325,6 @@ class Build
                     }
                     $method_value = 'break ' . $value . ';';
                 }
-                d($value);
-                ddd($record['method']['argument'][0]);
                 /*
                 elseif(
                     is_numeric($value) &&

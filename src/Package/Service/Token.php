@@ -568,9 +568,6 @@ class Token
                                     ];
                                 }
                             } else {
-                                d($operator);
-                                d($char);
-                                d($after);
                                 if($operator){
                                     $list = Token::value(
                                         $object,

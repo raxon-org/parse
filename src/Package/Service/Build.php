@@ -1268,10 +1268,10 @@ class Build
                     $is_argument = true;
                 }
                 if($is_argument === false) {
-                    $method_value[] = 'break;';
+                    $method_value = 'break;';
                 }
                 elseif(is_numeric($value)) {
-                    $method_value[] = 'break ' . $value . ';';
+                    $method_value = 'break ' . $value . ';';
                 }
                 else {
                     if(
@@ -1307,6 +1307,7 @@ class Build
                         );
                     }
                 }
+                ddd($method_value);
             break;
             default:
                 $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $method_name));

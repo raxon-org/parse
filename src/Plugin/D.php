@@ -10,11 +10,11 @@
  */
 namespace Plugin;
 
-trait Dd {
+trait D {
 
-    public function dd($value): void
+    public function d($value): void
     {
-        dd($value);
+        d($value);
     }
 
 }

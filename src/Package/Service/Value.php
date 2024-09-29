@@ -116,7 +116,13 @@ class Value
                     }
                     if(
                         $previous === '-' &&
-                        $input['array'][$value_nr]['type'] === 'integer'
+                        in_array(
+                            $input['array'][$value_nr]['type'],
+                            [
+                                'integer',
+                                'float'
+                            ]
+                        )
                     ){
                         $input['array'][$value_nr]['execute'] = $input['array'][$value_nr]['execute'] * -1;
                         $input['array'][$value_nr]['value'] = '-' . $input['array'][$value_nr]['value'];
@@ -166,7 +172,13 @@ class Value
                         }
                         if(
                             $previous === '-' &&
-                            $input['array'][$value_nr]['type'] === 'integer'
+                            in_array(
+                                $input['array'][$value_nr]['type'],
+                                [
+                                    'integer',
+                                    'float'
+                                ]
+                            )
                         ){
                             $input['array'][$value_nr]['execute'] = $input['array'][$value_nr]['execute'] * -1;
                             $input['array'][$value_nr]['value'] = '-' . $input['array'][$value_nr]['value'];
@@ -204,7 +216,13 @@ class Value
                         }
                         if(
                             $previous === '-' &&
-                            $input['array'][$value_nr]['type'] === 'integer'
+                            in_array(
+                                $input['array'][$value_nr]['type'],
+                                [
+                                    'integer',
+                                    'float'
+                                ]
+                            )
                         ){
                             $input['array'][$value_nr]['execute'] = $input['array'][$value_nr]['execute'] * -1;
                             $input['array'][$value_nr]['value'] = '-' . $input['array'][$value_nr]['value'];
@@ -229,7 +247,13 @@ class Value
                     }
                     if(
                         $previous === '-' &&
-                        $input['array'][$value_nr]['type'] === 'integer'
+                        in_array(
+                            $input['array'][$value_nr]['type'],
+                            [
+                                'integer',
+                                'float'
+                            ]
+                        )
                     ){
                         $input['array'][$value_nr]['execute'] = $input['array'][$value_nr]['execute'] * -1;
                         $input['array'][$value_nr]['value'] = '-' . $input['array'][$value_nr]['value'];
@@ -261,7 +285,13 @@ class Value
                     }
                     if(
                         $previous === '-' &&
-                        $input['array'][$value_nr]['type'] === 'integer'
+                        in_array(
+                            $input['array'][$value_nr]['type'],
+                            [
+                                'integer',
+                                'float'
+                            ]
+                        )
                     ){
                         $input['array'][$value_nr]['execute'] = $input['array'][$value_nr]['execute'] * -1;
                         $input['array'][$value_nr]['value'] = '-' . $input['array'][$value_nr]['value'];
@@ -301,7 +331,13 @@ class Value
             }
             if(
                 $previous === '-' &&
-                $input['array'][$value_nr]['type'] === 'integer'
+                in_array(
+                    $input['array'][$value_nr]['type'],
+                    [
+                        'integer',
+                        'float'
+                    ]
+                )
             ){
                 $input['array'][$value_nr]['execute'] = $input['array'][$value_nr]['execute'] * -1;
                 $input['array'][$value_nr]['value'] = '-' . $input['array'][$value_nr]['value'];

@@ -5,6 +5,6 @@
     {{if($counter > 10)}}
         {{break()}}
     {{else}}
-        {{$counter}}
+        {{$counter}} onder de 10
     {{/if}}
 {{/while}}

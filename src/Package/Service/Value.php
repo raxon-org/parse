@@ -79,6 +79,7 @@ class Value
         $array_nr = false;
         $array_string = '';
         $array = [];
+        $previous = false;
         foreach($input['array'] as $nr => $char){
             if(!is_numeric($nr)){
                 // ',' in modifier causes this
@@ -259,8 +260,13 @@ class Value
                 }
                 $input['array'][$i] = null;
             }
-            if($previous){
-                ddd($previous);
+            if(
+                $previous === '-' &&
+                $input['array'][$value_nr]['type'] === 'integer'
+            ){
+                $input['array'][$value_nr]['execute'] = $input['array'][$value_nr]['execute'] * -1;
+                $input['array'][$value_nr]['value'] = '-' . $input['array'][$value_nr]['value'];
+                $input['array'][$value_nr -1] = null;
             }
         }
         d($input);

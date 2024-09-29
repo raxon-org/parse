@@ -1465,8 +1465,14 @@ class Build
             case 'foreach':
             case 'while':
             case 'if':
+            case 'elseif':
                 try {
-                    Validator::validate($object, $flags, $options, $method_value . '}');
+                    if($method_name === 'elseif'){
+                        $method_validate = 'if(){}' . PHP_EOL . $method_value;
+                    } else {
+                        $method_validate = $method_value;
+                    }
+                    Validator::validate($object, $flags, $options, $method_validate . '}');
                 }
                 catch(Exception $exception){
                     if(

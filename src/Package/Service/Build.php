@@ -1253,7 +1253,8 @@ class Build
                 $method_value = implode(PHP_EOL, $method_value);
             break;
             case 'if':
-                $method_value[] = 'if(';
+            case 'elseif':
+                $method_value[] = $method_name . '(';
                 $is_argument = false;
                 foreach($record['method']['argument'] as $nr => $argument){
                     $value = Build::value($object, $flags, $options, $record, $argument);

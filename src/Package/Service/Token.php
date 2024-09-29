@@ -628,6 +628,7 @@ class Token
                             $list = $cache->get($method_hash);
                         } else {
                             $tag_array = mb_str_split($record['tag'], 1);
+                            ddd($tag_array);
                             $list = Token::value(
                                 $object,
                                 $flags,

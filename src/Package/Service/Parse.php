@@ -240,6 +240,7 @@ class Parse
                     $object->config('extension.php')
                 ;
             }
+            ddd($url_json);
             $document = Build::create($object, $flags, $options, $token);
             File::write($url_php, implode(PHP_EOL, $document));
             File::permission(
@@ -252,7 +253,6 @@ class Parse
             );
             File::touch($url_json, $mtime);
             File::touch($url_php, $mtime);
-            ddd($url_php);
         }
         if($url_php){
             $pre_require = microtime(true);

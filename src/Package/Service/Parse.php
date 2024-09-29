@@ -252,7 +252,7 @@ class Parse
             );
             File::touch($url_json, $mtime);
             File::touch($url_php, $mtime);
-            d($url_php);
+            ddd($url_php);
         }
         if($url_php){
             $pre_require = microtime(true);

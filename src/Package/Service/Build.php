@@ -360,7 +360,7 @@ class Build
                     ){
                         throw new TemplateException(
                             $record['tag'] . PHP_EOL .
-                            'Unknown marker "{{..}}" on line: ' .
+                            'Unknown marker "{{' . $record['marker']['name'] .'}}" on line: ' .
                             $record['line']['start']  .
                             ', column: ' .
                             $record['column'][$record['line']['start']]['start'] .
@@ -371,7 +371,7 @@ class Build
                     } else {
                         throw new TemplateException(
                             $record['tag'] . PHP_EOL .
-                            'Unknown marker "{{..}}" on line: ' .
+                            'Unknown marker "{{' . $record['marker']['name'] .'}}" on line: ' .
                             $record['line'] .
                             ', column: ' .
                             $record['column']['start'] .

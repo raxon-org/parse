@@ -2,7 +2,7 @@
 {{while(true)}}
     {{$counter}}
     {{$counter++}}
-    {{if $counter > 10}}
+    {{if($counter > 10)}}
         {{break()}}
     {{else}}
         {{$counter + ' is less than 10'}}

@@ -1472,7 +1472,7 @@ class Build
             case 'elseif':
                 try {
                     if($method_name === 'elseif'){
-                        $method_validate = 'if(true){}' . PHP_EOL . $method_value;
+                        $method_validate = 'if(true){' . PHP_EOL . $method_value;
                     } else {
                         $method_validate = $method_value;
                     }

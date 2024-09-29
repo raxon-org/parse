@@ -107,6 +107,7 @@ class Value
                     $length = mb_strlen($value);
                     $value = Value::basic($object, $flags, $options, $value);
                     $input['array'][$value_nr] = $value;
+                    d($input['array'][$value_nr]);
                     for($i = $value_nr; $i < $value_nr + $length; $i++){
                         if($i === $value_nr){
                             continue;
@@ -148,6 +149,7 @@ class Value
                         $length = mb_strlen($value);
                         $value = Value::basic($object, $flags, $options, $value);
                         $input['array'][$value_nr] = $value;
+                        d($input['array'][$value_nr]);
                         for($i = $value_nr; $i < $value_nr + $length; $i++){
                             if($i === $value_nr){
                                 continue;
@@ -177,6 +179,7 @@ class Value
                         $length = mb_strlen($value);
                         $value = Value::basic($object, $flags, $options, $value);
                         $input['array'][$value_nr] = $value;
+                        d($input['array'][$value_nr]);
                         for($i = $value_nr; $i < $value_nr + $length; $i++){
                             if($i === $value_nr){
                                 continue;
@@ -193,6 +196,7 @@ class Value
                     $length = mb_strlen($value);
                     $value = Value::basic($object, $flags, $options, $value);
                     $input['array'][$value_nr] = $value;
+                    d($input['array'][$value_nr]);
                     for($i = $value_nr; $i < $value_nr + $length; $i++){
                         if($i === $value_nr){
                             continue;
@@ -216,6 +220,7 @@ class Value
                     $length = mb_strlen($value);
                     $value = Value::basic($object, $flags, $options, $value);
                     $input['array'][$value_nr] = $value;
+                    d($input['array'][$value_nr]);
                     for($i = $value_nr; $i < $value_nr + $length; $i++){
                         if($i === $value_nr){
                             continue;
@@ -245,7 +250,9 @@ class Value
         }
         if($value_nr !== false){
             $length = mb_strlen($value);
-            $input['array'][$value_nr] = Value::basic($object, $flags, $options, $value);
+            $value = Value::basic($object, $flags, $options, $value);
+            $input['array'][$value_nr] = $value;
+            d($input['array'][$value_nr]);
             for($i = $value_nr; $i < $value_nr + $length; $i++){
                 if($i === $value_nr){
                     continue;

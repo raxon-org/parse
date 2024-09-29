@@ -259,6 +259,9 @@ class Value
                 }
                 $input['array'][$i] = null;
             }
+            if($previous){
+                ddd($previous);
+            }
         }
         d($input);
         return $input;

@@ -628,7 +628,6 @@ class Token
                             $list = $cache->get($method_hash);
                         } else {
                             $tag_array = mb_str_split($record['tag'], 1);
-                            ddd($tag_array);
                             $list = Token::value(
                                 $object,
                                 $flags,
@@ -638,6 +637,7 @@ class Token
                                     'array' => $tag_array
                                 ]
                             );
+                            ddd($list);
                         }
                         if(
                             array_key_exists(0, $list['array']) &&
@@ -984,6 +984,7 @@ class Token
         if($cache->has($hash)){
             $input = $cache->get($hash);
         } else {
+            d($input);
             $input = Symbol::define($object, $flags, $options, $input);
             $input = Cast::define($object, $flags, $options, $input);
             $input = Method::define($object, $flags, $options, $input);

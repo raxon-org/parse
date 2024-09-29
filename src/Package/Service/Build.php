@@ -1254,7 +1254,11 @@ class Build
             break;
             case 'if':
             case 'elseif':
-                $method_value[] = $method_name . '(';
+                if($method_name === 'elseif'){
+                    $method_value[] = '} ' . PHP_EOL . 'elseif(';
+                } else {
+                    $method_value[] = 'if(';
+                }
                 $is_argument = false;
                 foreach($record['method']['argument'] as $nr => $argument){
                     $value = Build::value($object, $flags, $options, $record, $argument);

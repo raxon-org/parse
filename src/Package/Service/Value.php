@@ -47,6 +47,10 @@ class Value
                 $char['value'] === '.'
             ){
                 if(
+                    array_key_exists('value', $previous) &&
+                    array_key_exists('value', $next) &&
+                    array_key_exists('execute', $previous) &&
+                    array_key_exists('execute', $next) &&
                     is_int($previous['execute']) &&
                     is_int($next['execute'])
                 ){

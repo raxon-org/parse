@@ -671,6 +671,7 @@ class Token
                             if($name === ''){
                                 $name = null;
                             }
+                            ddd($list);
                             $tags[$line][$nr]['marker'] = [
                                 'value' => $list,
                                 'is_close' => $is_close,

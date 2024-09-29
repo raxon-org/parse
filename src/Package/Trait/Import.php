@@ -28,4 +28,18 @@ trait Import {
             $node->role_system_create($package);
         }
     }
+
+    public function system_parse(): void
+    {
+        $object = $this->object();
+        $node = new Node($object);
+
+        $url = $object->config('project.dir.vendor') .
+            '/raxon/parse/Data/System.Parse' .
+            $object->config('extension.json')
+        ;
+        $class = 'System.Parse';
+        ddd($url);
+        $node->patch($class, $node->role_system(), $record);
+    }
 }

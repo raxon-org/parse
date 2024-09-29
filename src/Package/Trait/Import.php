@@ -29,19 +29,26 @@ trait Import {
         }
     }
 
+    /**
+     * @throws FileWriteException
+     * @throws ObjectException
+     * @throws Exception
+     */
     public function system_parse(): void
     {
         $object = $this->object();
         $node = new Node($object);
 
-        $url = $object->config('project.dir.vendor') .
+        $options = App::options($object);
+
+        $options->url = $object->config('project.dir.vendor') .
             '/raxon/parse/Data/System.Parse' .
             $object->config('extension.json')
         ;
         $class = 'System.Parse';
 
-        $read = $node->record($class, $node->role_system());
-        ddd($read);
+        $import = $node->import($class, $node->role_system(), $options);
+        ddd($import);
 
 
         ddd($url);

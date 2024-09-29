@@ -1,5 +1,5 @@
 <?php
-$list = [];
+$list = (object) [];
 $counter = null;
 if($counter === 0){
 

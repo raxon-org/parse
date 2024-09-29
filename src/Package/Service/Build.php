@@ -175,8 +175,8 @@ class Build
                         $object->config('package.raxon/parse.build.state.ltrim', $ltrim);
                     }
                     //need to count them by name
-                    if(array_key_exists('name', $record['marker'])){
-                        if(
+                    if(array_key_exists('name', $record['marker'])) {
+                        if (
                             in_array(
                                 $record['marker']['name'],
                                 [
@@ -186,17 +186,17 @@ class Build
                                 ],
                                 true
                             )
-                        ){
+                        ) {
                             $foreach_reverse = array_reverse($foreach);
                             $has_close = false;
-                            foreach($foreach_reverse as $foreach_nr => &$foreach_record){
-                                if(
+                            foreach ($foreach_reverse as $foreach_nr => &$foreach_record) {
+                                if (
                                     array_key_exists('method', $foreach_record) &&
                                     array_key_exists('has_close', $foreach_record['method']) &&
                                     $foreach_record['method']['has_close'] === true
-                                ){
+                                ) {
                                     //skip
-                                } elseif(
+                                } elseif (
                                     array_key_exists('method', $foreach_record)
                                 ) {
                                     $has_close = true;
@@ -207,18 +207,18 @@ class Build
                                     $object->config('package.raxon/parse.build.state.break.level', $break_level);
                                 }
                             }
-                            if($has_close === false){
-                                if(
+                            if ($has_close === false) {
+                                if (
                                     array_key_exists('is_multiline', $record) &&
                                     $record['is_multiline'] === true
-                                ){
+                                ) {
                                     throw new TemplateException(
                                         $record['tag'] . PHP_EOL .
                                         'Unused foreach close tag "{{/foreach}}" on line: ' .
-                                        $record['line']['start']  .
+                                        $record['line']['start'] .
                                         ', column: ' .
                                         $record['column'][$record['line']['start']]['start'] .
-                                        ' in source: '.
+                                        ' in source: ' .
                                         $source,
                                     );
 
@@ -229,14 +229,13 @@ class Build
                                         $record['line'] .
                                         ', column: ' .
                                         $record['column']['start'] .
-                                        ' in source: '.
+                                        ' in source: ' .
                                         $source,
                                     );
                                 }
                             }
                             $foreach = array_reverse($foreach_reverse);
-                        }
-                        elseif(
+                        } elseif (
                             in_array(
                                 $record['marker']['name'],
                                 [
@@ -244,17 +243,17 @@ class Build
                                 ],
                                 true
                             )
-                        ){
+                        ) {
                             $while_reverse = array_reverse($while);
                             $has_close = false;
-                            foreach($while_reverse as $while_nr => $while_record){
-                                if(
+                            foreach ($while_reverse as $while_nr => $while_record) {
+                                if (
                                     array_key_exists('method', $while_record) &&
                                     array_key_exists('has_close', $while_record['method']) &&
                                     $while_record['method']['has_close'] === true
-                                ){
+                                ) {
                                     //skip
-                                } elseif(
+                                } elseif (
                                     array_key_exists('method', $while_record)
                                 ) {
                                     $has_close = true;
@@ -266,18 +265,18 @@ class Build
                                     $object->config('package.raxon/parse.build.state.break.level', $break_level);
                                 }
                             }
-                            if($has_close === false){
-                                if(
+                            if ($has_close === false) {
+                                if (
                                     array_key_exists('is_multiline', $record) &&
                                     $record['is_multiline'] === true
-                                ){
+                                ) {
                                     throw new TemplateException(
                                         $record['tag'] . PHP_EOL .
                                         'Unused while close tag "{{/while}}" on line: ' .
-                                        $record['line']['start']  .
+                                        $record['line']['start'] .
                                         ', column: ' .
                                         $record['column'][$record['line']['start']]['start'] .
-                                        ' in source: '.
+                                        ' in source: ' .
                                         $source,
                                     );
                                 } else {
@@ -287,14 +286,13 @@ class Build
                                         $record['line'] .
                                         ', column: ' .
                                         $record['column']['start'] .
-                                        ' in source: '.
+                                        ' in source: ' .
                                         $source,
                                     );
                                 }
                             }
                             $while = array_reverse($while_reverse);
-                        }
-                        elseif(
+                        } elseif (
                             in_array(
                                 $record['marker']['name'],
                                 [
@@ -302,17 +300,17 @@ class Build
                                 ],
                                 true
                             )
-                        ){
+                        ) {
                             $if_reverse = array_reverse($if);
                             $has_close = false;
-                            foreach($if_reverse as $if_nr => $if_record){
-                                if(
+                            foreach ($if_reverse as $if_nr => $if_record) {
+                                if (
                                     array_key_exists('method', $if_record) &&
                                     array_key_exists('has_close', $if_record['method']) &&
                                     $if_record['method']['has_close'] === true
-                                ){
+                                ) {
                                     //skip
-                                } elseif(
+                                } elseif (
                                     array_key_exists('method', $if_record)
                                 ) {
                                     $has_close = true;
@@ -322,18 +320,18 @@ class Build
                                     $variable_assign_next_tag = true;
                                 }
                             }
-                            if($has_close === false){
-                                if(
+                            if ($has_close === false) {
+                                if (
                                     array_key_exists('is_multiline', $record) &&
                                     $record['is_multiline'] === true
-                                ){
+                                ) {
                                     throw new TemplateException(
                                         $record['tag'] . PHP_EOL .
                                         'Unused if close tag "{{/if}}" on line: ' .
-                                        $record['line']['start']  .
+                                        $record['line']['start'] .
                                         ', column: ' .
                                         $record['column'][$record['line']['start']]['start'] .
-                                        ' in source: '.
+                                        ' in source: ' .
                                         $source,
                                     );
 
@@ -344,7 +342,7 @@ class Build
                                         $record['line'] .
                                         ', column: ' .
                                         $record['column']['start'] .
-                                        ' in source: '.
+                                        ' in source: ' .
                                         $source,
                                     );
                                 }
@@ -352,6 +350,19 @@ class Build
                             $if = array_reverse($if_reverse);
                         }
                     }
+                }
+                elseif (
+                    array_key_exists('marker', $record) &&
+                    in_array(
+                        $record['marker']['name'],
+                        [
+                            'else',
+                        ],
+                        true
+                    )
+                ) {
+                    $data[] = '} else {';
+                    $variable_assign_next_tag = true;
                 }
                 elseif(array_key_exists('marker', $record)){
                     if(

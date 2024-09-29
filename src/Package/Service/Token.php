@@ -637,7 +637,7 @@ class Token
                                     'array' => $tag_array
                                 ]
                             );
-                            ddd($list);
+                            d($list);
                         }
                         if(
                             array_key_exists(0, $list['array']) &&

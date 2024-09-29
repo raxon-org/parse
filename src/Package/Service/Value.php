@@ -253,6 +253,7 @@ class Value
                 $input['array'][$i] = null;
             }
         }
+        d($input);
         return $input;
     }
 

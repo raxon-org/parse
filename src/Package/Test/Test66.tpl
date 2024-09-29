@@ -1,6 +1,6 @@
 {{$counter = 1}}
 {{$elseif = '0'}}
-{{$elseif}}
+{{d($elseif)}}
 {{while(true)}}
     {{$counter}}
     {{$counter++}}

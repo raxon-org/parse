@@ -46,12 +46,7 @@ trait Import {
             $object->config('extension.json')
         ;
         $class = 'System.Parse';
-
         $import = $node->import($class, $node->role_system(), $options);
-        ddd($import);
-
-
-        ddd($url);
-        $node->patch($class, $node->role_system(), $record);
+        $node->stats($class, $import);
     }
 }

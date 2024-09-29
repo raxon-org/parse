@@ -8,9 +8,9 @@
  * $list = 0, list is empty
  * $list = 1, list is not empty
  * $list = '', list is empty
- * $list = '0', list is not empty
+ * $list = '0', list is empty
  */
-$list = (object) [];
+$list = '0';
 $counter = null;
 if($counter === 0){
 

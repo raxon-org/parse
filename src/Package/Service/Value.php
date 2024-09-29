@@ -108,12 +108,20 @@ class Value
                     $length = mb_strlen($value);
                     $value = Value::basic($object, $flags, $options, $value);
                     $input['array'][$value_nr] = $value;
-                    d($input['array'][$value_nr]);
                     for($i = $value_nr; $i < $value_nr + $length; $i++){
                         if($i === $value_nr){
                             continue;
                         }
                         $input['array'][$i] = null;
+                    }
+                    if(
+                        $previous === '-' &&
+                        $input['array'][$value_nr]['type'] === 'integer'
+                    ){
+                        $input['array'][$value_nr]['execute'] = $input['array'][$value_nr]['execute'] * -1;
+                        $input['array'][$value_nr]['value'] = '-' . $input['array'][$value_nr]['value'];
+                        $input['array'][$value_nr -1] = null;
+                        $previous = false;
                     }
                 }
                 if($char !== null){
@@ -150,12 +158,20 @@ class Value
                         $length = mb_strlen($value);
                         $value = Value::basic($object, $flags, $options, $value);
                         $input['array'][$value_nr] = $value;
-                        d($input['array'][$value_nr]);
                         for($i = $value_nr; $i < $value_nr + $length; $i++){
                             if($i === $value_nr){
                                 continue;
                             }
                             $input['array'][$i] = null;
+                        }
+                        if(
+                            $previous === '-' &&
+                            $input['array'][$value_nr]['type'] === 'integer'
+                        ){
+                            $input['array'][$value_nr]['execute'] = $input['array'][$value_nr]['execute'] * -1;
+                            $input['array'][$value_nr]['value'] = '-' . $input['array'][$value_nr]['value'];
+                            $input['array'][$value_nr -1] = null;
+                            $previous = false;
                         }
                     }
                 }
@@ -180,12 +196,20 @@ class Value
                         $length = mb_strlen($value);
                         $value = Value::basic($object, $flags, $options, $value);
                         $input['array'][$value_nr] = $value;
-                        d($input['array'][$value_nr]);
                         for($i = $value_nr; $i < $value_nr + $length; $i++){
                             if($i === $value_nr){
                                 continue;
                             }
                             $input['array'][$i] = null;
+                        }
+                        if(
+                            $previous === '-' &&
+                            $input['array'][$value_nr]['type'] === 'integer'
+                        ){
+                            $input['array'][$value_nr]['execute'] = $input['array'][$value_nr]['execute'] * -1;
+                            $input['array'][$value_nr]['value'] = '-' . $input['array'][$value_nr]['value'];
+                            $input['array'][$value_nr -1] = null;
+                            $previous = false;
                         }
                     }
                 }
@@ -197,12 +221,20 @@ class Value
                     $length = mb_strlen($value);
                     $value = Value::basic($object, $flags, $options, $value);
                     $input['array'][$value_nr] = $value;
-                    d($input['array'][$value_nr]);
                     for($i = $value_nr; $i < $value_nr + $length; $i++){
                         if($i === $value_nr){
                             continue;
                         }
                         $input['array'][$i] = null;
+                    }
+                    if(
+                        $previous === '-' &&
+                        $input['array'][$value_nr]['type'] === 'integer'
+                    ){
+                        $input['array'][$value_nr]['execute'] = $input['array'][$value_nr]['execute'] * -1;
+                        $input['array'][$value_nr]['value'] = '-' . $input['array'][$value_nr]['value'];
+                        $input['array'][$value_nr -1] = null;
+                        $previous = false;
                     }
                 }
                 $value = '';
@@ -221,12 +253,20 @@ class Value
                     $length = mb_strlen($value);
                     $value = Value::basic($object, $flags, $options, $value);
                     $input['array'][$value_nr] = $value;
-                    d($input['array'][$value_nr]);
                     for($i = $value_nr; $i < $value_nr + $length; $i++){
                         if($i === $value_nr){
                             continue;
                         }
                         $input['array'][$i] = null;
+                    }
+                    if(
+                        $previous === '-' &&
+                        $input['array'][$value_nr]['type'] === 'integer'
+                    ){
+                        $input['array'][$value_nr]['execute'] = $input['array'][$value_nr]['execute'] * -1;
+                        $input['array'][$value_nr]['value'] = '-' . $input['array'][$value_nr]['value'];
+                        $input['array'][$value_nr -1] = null;
+                        $previous = false;
                     }
                 }
                 $value = '';
@@ -253,7 +293,6 @@ class Value
             $length = mb_strlen($value);
             $value = Value::basic($object, $flags, $options, $value);
             $input['array'][$value_nr] = $value;
-            d($input['array'][$value_nr]);
             for($i = $value_nr; $i < $value_nr + $length; $i++){
                 if($i === $value_nr){
                     continue;
@@ -269,7 +308,6 @@ class Value
                 $input['array'][$value_nr -1] = null;
             }
         }
-        d($input);
         return $input;
     }
 

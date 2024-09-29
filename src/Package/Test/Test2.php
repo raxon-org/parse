@@ -11,7 +11,7 @@
  * $list = '0', List is not empty', list is empty in template engine
  */
 $list = '0';
-d($list);
+var_dump($list);
 $counter = null;
 if($counter === 0){
 

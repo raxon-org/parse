@@ -622,6 +622,7 @@ class Token
                         }
                         $tags[$line][$nr]['variable'] = $variable;
                     } else {
+                        d($record);
                         $method_hash = hash('sha256', 'method.' . $record['tag']);
                         if($cache->has($method_hash)){
                             $list = $cache->get($method_hash);

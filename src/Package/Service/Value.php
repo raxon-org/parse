@@ -311,9 +311,8 @@ class Value
         return $input;
     }
 
-    public static function basic(App $object, $flags, $options, $input=''){
-//        d($input);
-//        trace();
+    public static function basic(App $object, $flags, $options, $input=''): array
+    {
         switch($input){
             case 'true':
                 return [

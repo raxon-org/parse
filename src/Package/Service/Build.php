@@ -751,7 +751,7 @@ class Build
                     $char !== ' '
                 ){
                     if($skip_space > 0){
-                        $line .= str_repeat(' ', ($ltrim * 4 - $skip_space));
+                        $line .= str_repeat(' ', (($ltrim * 4) - $skip_space));
                     }
                     $skip_space = 0;
                 }

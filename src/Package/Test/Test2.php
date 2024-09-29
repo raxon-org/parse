@@ -8,7 +8,7 @@
  * $list = 0, list is empty
  * $list = 1, list is not empty
  * $list = '', list is empty
- * $list = '0', List is not empty', list is empty in template engine (is casted to numeric integer)
+ * $list = '0', List is not empty', list is empty in template engine
  */
 $list = '0';
 $counter = null;

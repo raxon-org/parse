@@ -353,6 +353,33 @@ class Build
                         }
                     }
                 }
+                elseif(array_key_exists('marker', $record)){
+                    if(
+                        array_key_exists('is_multiline', $record) &&
+                        $record['is_multiline'] === true
+                    ){
+                        throw new TemplateException(
+                            $record['tag'] . PHP_EOL .
+                            'Unknown marker "{{..}}" on line: ' .
+                            $record['line']['start']  .
+                            ', column: ' .
+                            $record['column'][$record['line']['start']]['start'] .
+                            ' in source: '.
+                            $source,
+                        );
+
+                    } else {
+                        throw new TemplateException(
+                            $record['tag'] . PHP_EOL .
+                            'Unknown marker "{{..}}" on line: ' .
+                            $record['line'] .
+                            ', column: ' .
+                            $record['column']['start'] .
+                            ' in source: '.
+                            $source,
+                        );
+                    }
+                }
             }
         }
         foreach($foreach as $foreach_nr => $foreach_record){

@@ -57,6 +57,15 @@ class Value
                     ];
                     $input['array'][$nr - $min] = null;
                     $input['array'][$nr + $plus] = null;
+                    if(
+                        array_key_exists(($nr - $min - 1), $input['array']) &&
+                        array_key_exists('value', $input['array'][($nr - $min - 1)]) &&
+                        $input['array'][($nr - $min - 1)]['value'] === '-'
+                    ){
+                        $input['array'][$nr]['execute'] = $input['array'][$nr]['execute'] * -1;
+                        $input['array'][$nr]['value'] = '-' . $input['array'][$nr]['value'];
+                        $input['array'][($nr - $min - 1)] = null;
+                    }
                 }
             }
         }

@@ -167,7 +167,7 @@ class Variable
                     $set_depth_argument--;
                 }
                 if($set_depth < 0){
-//                    $input['array'][$nr] = null; //disabled @2024-09-29
+//                    $input['array'][$nr] = null; //disabled @2024-09-29 (maybe return here)
                 }
                 if(
                     $is_modifier &&

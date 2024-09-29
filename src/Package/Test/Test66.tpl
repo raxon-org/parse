@@ -6,7 +6,7 @@
     {{$counter++}}
     {{if($counter > 10)}}
         {{break()}}
-    {{elseif($elseif === '0')}}
+    {{elseif($elseif)}}
         {{$counter}} onder de 10
     {{else}}
         {{$counter}} boven de 5

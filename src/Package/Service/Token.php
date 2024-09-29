@@ -985,28 +985,17 @@ class Token
             $input = $cache->get($hash);
         } else {
             $input = Symbol::define($object, $flags, $options, $input);
-            d($input);
             $input = Cast::define($object, $flags, $options, $input);
-            d($input);
             $input = Method::define($object, $flags, $options, $input);
-            d($input);
             $input = Variable::define($object, $flags, $options, $input);
-            d($input);
             $input = Variable::modifier($object, $flags, $options, $input);
-            d($input);
             $input = Value::define($object, $flags, $options, $input);
-            d($input);
             $input = Value::float($object, $flags, $options, $input);
-            d($input);
             $input = Value::double_quoted_string($object, $flags, $options, $input, false);
-            d($input);
             $input = Value::double_quoted_string($object, $flags, $options, $input, true);
-            d($input);
             $input = Value::array($object, $flags, $options, $input);
-            d($input);
 //            $input = Method::block($object, $flags, $options, $input);
             $input = Token::cleanup($object, $flags, $options, $input);
-            d($input);
             $cache->set($hash, $input);
         }
         return $input;

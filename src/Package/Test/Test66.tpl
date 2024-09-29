@@ -7,8 +7,10 @@
     {{if($counter > 10)}}
         {{break()}}
     {{elseif($elseif)}}
-        {{$counter}} onder de 10
+        {{$counter}} under 11 #error
+    {{elseif($elseif === '0')}}
+        {{$counter}} under 11 #ok
     {{else}}
-        {{$counter}} boven de 5
+        {{$counter}} up 2
     {{/if}}
 {{/while}}

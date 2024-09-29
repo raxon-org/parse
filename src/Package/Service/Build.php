@@ -750,6 +750,9 @@ class Build
                     $is_double_quote === false &&
                     $char !== ' '
                 ){
+                    if($skip_space > 0){
+                        $line .= str_repeat(' ', (4 - $skip_space));
+                    }
                     $skip_space = 0;
                 }
                 if($variable_assign_next_tag === false){

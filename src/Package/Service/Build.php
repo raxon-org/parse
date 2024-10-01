@@ -2449,6 +2449,7 @@ class Build
     public static function value_calculate(App $object, $flags, $options, $current, $left, $right): string
     {
         $value = '';
+        d($current);
         switch($current){
             case '.=':
             case '.':

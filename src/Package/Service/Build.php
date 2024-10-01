@@ -1370,7 +1370,9 @@ class Build
                 if($argument_count === 3){
                     foreach($record['method']['argument'] as $nr => $argument){
                         $value = Build::value($object, $flags, $options, $record, $argument);
-                        d($value);
+                        if(strtolower($value) === 'null'){
+                            $value = '';
+                        }
                         $method_value[] = $value . ';';
                     }
                     $method_value[3] = substr($method_value[3], 0, -1);

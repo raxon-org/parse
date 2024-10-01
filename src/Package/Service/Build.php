@@ -2173,6 +2173,7 @@ class Build
                                 );
                                 $assign = Build::value($object, $flags, $options, $tag, $assign);
                                 $value = '$data->set(\'' . $previous['name'] . '\', ' .  $assign . ')';
+                                d($value);
                             break;
                             case '++' :
                                 $value = '$data->set(\'' . $previous['name'] . '\', ' .  '$this->value_plus_plus($data->get(\'' . $previous['name'] . '\')))';

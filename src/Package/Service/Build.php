@@ -1373,6 +1373,7 @@ class Build
                         if($nr < 2){
                             $method_value[] = $value . ';';
                         } else {
+                            d($value);
                             ddd($argument);
                             $method_value[] = $value;
                         }

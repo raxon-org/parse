@@ -1370,11 +1370,7 @@ class Build
                 if($argument_count === 3){
                     foreach($record['method']['argument'] as $nr => $argument){
                         $value = Build::value($object, $flags, $options, $record, $argument);
-                        if($nr < 2){
-                            $method_value[] = $value;
-                        } else {
-                            $method_value[] = substr($value, -1);
-                        }
+                        $method_value[] = $value;
                     }
                     $is_argument = true;
                 }
@@ -1413,6 +1409,7 @@ class Build
                     }
                 }
                 $method_value[] = '){';
+                ddd($method_value);
                 $method_value = implode(PHP_EOL, $method_value);
             break;
             case 'if':

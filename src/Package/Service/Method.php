@@ -338,7 +338,10 @@ class Method
                                 'is_null' => true
                             ];
                             $argument = 'null';
-                            $argument_list[$argument_nr] = $argument_value;
+                            $argument_list[$argument_nr] = [
+                                'string' => $argument,
+                                'array' => $argument_array
+                            ];
                             $argument_array = [];
                             $argument = '';
                         }

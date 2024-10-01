@@ -2622,6 +2622,7 @@ class Build
                         in_array(
                             $item,
                             [
+                                ',',
                                 '.',
                                 '+',
                                 '-',

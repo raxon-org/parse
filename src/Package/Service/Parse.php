@@ -255,7 +255,7 @@ class Parse
             File::touch($url_php, $mtime);
         }
         if($url_php){
-            ddd($url_php);
+            d($url_php);
             $pre_require = microtime(true);
             require_once $url_php;
             $post_require = microtime(true);

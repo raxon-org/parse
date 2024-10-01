@@ -2155,6 +2155,19 @@ class Build
                         true
                     )
                 ){
+                    $previous = $input['array'][$nr - 1] ?? null;
+                    ddd($previous);
+                    switch($record['value']){
+                        case '++' :
+                            $result = '$data->set(\'' . $variable_name . '\', ' .  '$this->value_plus_plus($data->get(\'' . $variable_name . '\')));';
+                            break;
+                        case '--' :
+                            $result = '$data->set(\'' . $variable_name . '\', ' .  '$this->value_minus_minus($data->get(\'' . $variable_name . '\')));';
+                            break;
+                        case '**' :
+                            $result = '$data->set(\'' . $variable_name . '\', ' .  '$this->value_multiply_multiply($data->get(\'' . $variable_name . '\')));';
+                            break;
+                    }
                     d($record);
                     d($value);
                     ddd($next);

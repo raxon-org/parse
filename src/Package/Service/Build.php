@@ -2266,7 +2266,7 @@ class Build
                     );
                     $right = Build::value($object, $flags, $options, $tag, $right);
                     ddd($right);
-                    $value = Build::value_calculate($object, $flags, $options, $current, $value, $right);
+                    $value = Build::value_calculate($object, $flags, $options, $record['value'], $value, $right);
                 }
                 else {
                     $value .= $record['value'];
@@ -2451,10 +2451,7 @@ class Build
                     $skip
                 );
                 $right = Build::value($object, $flags, $options, $tag, $right);
-                d($right);
-                d($value);
-                d($current);
-                $value = Build::value_calculate($object, $flags, $options, $current, $value, $right);
+                $value = Build::value_calculate($object, $flags, $options, $record['value'], $value, $right);
             }
         }
         return $value;

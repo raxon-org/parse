@@ -330,7 +330,7 @@ class Build
                                     array_key_exists('method', $for_record)
                                 ) {
                                     $has_close = true;
-                                    $for_reverse[$while_nr]['method']['has_close'] = true;
+                                    $for_reverse[$for_nr]['method']['has_close'] = true;
                                     $for_record['method']['has_close'] = true;
                                     $data[] = '}';
                                     $variable_assign_next_tag = true;

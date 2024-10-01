@@ -28,6 +28,7 @@ class Method
         $argument_array = [];
         $argument_list = [];
         $separator = ',';
+        $is_for = false;
         foreach($input['array'] as $nr => $char){
             if(!is_numeric($nr)){
                 // ',' in modifier causes this
@@ -122,6 +123,7 @@ class Method
                 if($name === 'for'){
                     $old_separator = $separator;
                     $separator = ';';
+                    $is_for = true;
                 }
                 if(
                     is_array($char) &&
@@ -354,7 +356,6 @@ class Method
                         }
                     }
                 }
-                d($name);
                 if($name === 'for'){
                     $separator = $old_separator;
                 }

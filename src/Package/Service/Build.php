@@ -2453,6 +2453,8 @@ class Build
                     $skip
                 );
                 $right = Build::value($object, $flags, $options, $tag, $right);
+                d($right);
+                ddd($record);
                 $value = Build::value_calculate($object, $flags, $options, $record['value'], $value, $right);
             }
         }

@@ -2252,7 +2252,7 @@ class Build
                     );
                     d($right);
                     $right = Build::value($object, $flags, $options, $tag, $right);
-                    d($right);
+                    ddd($right);
                     $value = Build::value_calculate($object, $flags, $options, $current, $value, $right);
                     d($value);
                 }

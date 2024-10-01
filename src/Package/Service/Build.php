@@ -2600,6 +2600,7 @@ class Build
                     $skip++;
                 }
                 break;
+                /*
             case NULL:
                 $right = 'NULL';
                 $right_array[] = [
@@ -2609,6 +2610,7 @@ class Build
                 ];
                 $skip++;
             break;
+                */
             default:
                 for($i = $nr + 1; $i < $count; $i++){
                     if(!array_key_exists($i, $input['array'])){

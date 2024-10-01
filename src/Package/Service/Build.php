@@ -1371,9 +1371,9 @@ class Build
                     foreach($record['method']['argument'] as $nr => $argument){
                         $value = Build::value($object, $flags, $options, $record, $argument);
                         if($nr < 2){
-                            $method_value[] = $value . ';';
-                        } else {
                             $method_value[] = $value;
+                        } else {
+                            $method_value[] = substr($value, -1);
                         }
                     }
                     $is_argument = true;

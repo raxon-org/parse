@@ -1802,6 +1802,7 @@ class Build
                         ;
                         break;
                     case '.=' :
+                        d('here');
                         $result = '$data->set(\'' .
                             $variable_name .
                             '\', ' .
@@ -2465,6 +2466,7 @@ class Build
             case '.=':
             case '.':
                 $value = '$this->value_concatenate(' . $left . ', ' . $right . ')';
+                ddd($value);
             break;
             case '+':
                 $value = '$this->value_plus(' . $left . ', ' . $right . ')';

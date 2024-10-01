@@ -2161,7 +2161,6 @@ class Build
                     ){
                         switch($record['value']){
                             case '=':
-//                                $assign = $input['array'][$nr + 1] ?? null;
                                 $assign = Build::value_right(
                                     $object,
                                     $flags,
@@ -2172,18 +2171,17 @@ class Build
                                     $skip
                                 );
                                 $assign = Build::value($object, $flags, $options, $tag, $assign);
-                                d($assign);
-                                ddd('find, make assign');
-                                break;
+                                $value = '$data->set(\'' . $previous['name'] . '\', ' .  $assign . ')';
+                            break;
                             case '++' :
                                 $value = '$data->set(\'' . $previous['name'] . '\', ' .  '$this->value_plus_plus($data->get(\'' . $previous['name'] . '\')))';
-                                break;
+                            break;
                             case '--' :
                                 $value = '$data->set(\'' . $previous['name'] . '\', ' .  '$this->value_minus_minus($data->get(\'' . $previous['name'] . '\')))';
-                                break;
+                            break;
                             case '**' :
                                 $value = '$data->set(\'' . $previous['name'] . '\', ' .  '$this->value_multiply_multiply($data->get(\'' . $previous['name'] . '\')))';
-                                break;
+                            break;
                         }
                     } else {
                         if(

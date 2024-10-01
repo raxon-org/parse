@@ -330,6 +330,17 @@ class Method
                             $argument_list[$argument_nr] = $argument_value;
                             $argument_array = [];
                             $argument = '';
+                        } else {
+                            $argument_array[] = [
+                                'value' => null,
+                                'execute' => null,
+                                'type' => 'null',
+                                'is_null' => true
+                            ];
+                            $argument = 'null';
+                            $argument_list[$argument_nr] = $argument_value;
+                            $argument_array = [];
+                            $argument = '';
                         }
                         $argument_nr++;
                     } else {

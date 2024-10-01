@@ -2144,6 +2144,7 @@ class Build
                     in_array(
                         $record['value'],
                         [
+                            '=',
                             '++',
                             '--',
                             '**',
@@ -2159,6 +2160,9 @@ class Build
                         array_key_exists('name', $previous)
                     ){
                         switch($record['value']){
+                            case '=':
+                                ddd('find, make assign');
+                                break;
                             case '++' :
                                 $value = '$data->set(\'' . $previous['name'] . '\', ' .  '$this->value_plus_plus($data->get(\'' . $previous['name'] . '\')))';
                                 break;
@@ -2214,7 +2218,6 @@ class Build
                             '/',
                             '%',
                             '.',
-                            '=',
                             '<',
                             '<=',
                             '<<',

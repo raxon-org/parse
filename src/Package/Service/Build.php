@@ -2464,10 +2464,14 @@ class Build
         d($left);
         d($right);
         switch($current){
+            case 'true':
+            case 'false':
+            case 'null':
+                $value = $current;
+            break;
             case '.=':
             case '.':
                 $value = '$this->value_concatenate(' . $left . ', ' . $right . ')';
-                ddd($value);
             break;
             case '+':
                 $value = '$this->value_plus(' . $left . ', ' . $right . ')';

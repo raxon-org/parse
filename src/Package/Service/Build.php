@@ -2148,6 +2148,21 @@ class Build
                     in_array(
                         $record['value'],
                         [
+                            '++',
+                            '--',
+                            '**',
+                        ],
+                        true
+                    )
+                ){
+                    d($record);
+                    d($value);
+                    ddd($next);
+                }
+                elseif(
+                    in_array(
+                        $record['value'],
+                        [
                             '+',
                             '-',
                             '*',
@@ -2170,9 +2185,6 @@ class Build
                             '*=',
                             '...',
                             '=>',
-                            '++',
-                            '--',
-                            '**',
                             '&&',
                             '||',
                             'xor',

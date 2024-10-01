@@ -2144,7 +2144,7 @@ class Build
                     in_array(
                         $record['value'],
                         [
-                            '=',
+//                            '=',
                             '++',
                             '--',
                             '**',
@@ -2220,6 +2220,7 @@ class Build
                             '/',
                             '%',
                             '.',
+                            '=',
                             '<',
                             '<=',
                             '<<',
@@ -2258,7 +2259,7 @@ class Build
                     d($next);
                     d($right);
                     $right = Build::value($object, $flags, $options, $tag, $right);
-                    d($right);
+                    ddd($right);
                     $value = Build::value_calculate($object, $flags, $options, $current, $value, $right);
                     d($value);
                 }

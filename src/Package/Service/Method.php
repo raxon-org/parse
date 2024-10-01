@@ -120,11 +120,9 @@ class Method
                 $has_name === true
             ){
                 if($name === 'for'){
-                    ddd($name);
+                    $old_separator = $separator;
+                    $separator = ';';
                 }
-
-
-
                 if(
                     is_array($char) &&
                     array_key_exists('value', $char) &&
@@ -355,6 +353,10 @@ class Method
                             }
                         }
                     }
+                }
+                d($name);
+                if($name === 'for'){
+                    $separator = $old_separator;
                 }
             }
         }

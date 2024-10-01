@@ -1373,6 +1373,7 @@ class Build
                         if($nr < 2){
                             $method_value[] = $value . ';';
                         } else {
+                            ddd($argument);
                             $method_value[] = $value;
                         }
                     }
@@ -1630,6 +1631,7 @@ class Build
             case 'for.each':
             case 'for_each':
             case 'foreach':
+            case 'for':
             case 'while':
             case 'if':
             case 'elseif':

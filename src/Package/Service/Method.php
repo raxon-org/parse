@@ -332,9 +332,9 @@ class Method
                             $argument = '';
                         } else {
                             $argument_array[] = [
-                                'value' => null,
-                                'execute' => null,
                                 'type' => 'null',
+                                'value' => 'null',
+                                'execute' => null,
                                 'is_null' => true
                             ];
                             $argument = 'null';

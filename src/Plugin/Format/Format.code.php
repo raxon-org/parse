@@ -128,9 +128,9 @@ trait Format_code {
                             ';',
                             ')',
                             ' ',
-                            '\'',
-                            '"',
-                            '$'
+//                            '\'', //same line
+//                            '"',  //same line
+//                            '$'   //same line
                         ],
                         true
                     )

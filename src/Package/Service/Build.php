@@ -1527,7 +1527,7 @@ class Build
                         $is_argument = true;
                     }
                 }
-                d($value);
+                ddd($value);
                 if($is_argument === false) {
                     $method_value = 'break;';
                 }

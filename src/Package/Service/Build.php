@@ -2161,6 +2161,8 @@ class Build
                     ){
                         switch($record['value']){
                             case '=':
+                                $assign = $input['array'][$nr + 1] ?? null;
+                                d($assign);
                                 ddd('find, make assign');
                                 break;
                             case '++' :

@@ -119,7 +119,10 @@ class Method
                 $name &&
                 $has_name === true
             ){
-                d($name);
+                if($name === 'for'){
+                    ddd($name);
+                }
+
 
 
                 if(

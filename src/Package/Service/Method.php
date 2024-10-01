@@ -27,6 +27,7 @@ class Method
         $argument = '';
         $argument_array = [];
         $argument_list = [];
+        $separator = ',';
         foreach($input['array'] as $nr => $char){
             if(!is_numeric($nr)){
                 // ',' in modifier causes this
@@ -118,6 +119,9 @@ class Method
                 $name &&
                 $has_name === true
             ){
+                d($name);
+
+
                 if(
                     is_array($char) &&
                     array_key_exists('value', $char) &&
@@ -295,7 +299,7 @@ class Method
                     elseif(
                         is_array($char) &&
                         array_key_exists('value', $char) &&
-                        $char['value'] === ',' &&
+                        $char['value'] === $separator &&
                         $set_depth === 1 &&
                         $array_depth === 0 &&
                         $is_single_quote === false &&

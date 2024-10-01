@@ -27,6 +27,7 @@ class Method
         $argument = '';
         $argument_array = [];
         $argument_list = [];
+        $argument_nr = 0;
         $separator = ',';
         $is_for = false;
         foreach($input['array'] as $nr => $char){
@@ -162,9 +163,10 @@ class Method
                                 $options,
                                 $argument_value
                             );
-                            $argument_list[] = $argument_value;
+                            $argument_list[$argument_nr] = $argument_value;
                             $argument_array = [];
                             $argument = '';
+                            $argument_nr = 0;
                         }
                         $input['array'][$is_method]['method'] = [
                             'name' => $name,
@@ -175,6 +177,7 @@ class Method
                         $argument_list = [];
                         $argument_array = [];
                         $argument = '';
+                        $argument_nr = 0;
                         for($i = $is_method - 1; $i >= 0; $i--){
                             if(
                                 !is_array($input['array'][$i]) &&
@@ -324,10 +327,11 @@ class Method
                                 $options,
                                 $argument_value,
                             );
-                            $argument_list[] = $argument_value;
+                            $argument_list[$argument_nr] = $argument_value;
                             $argument_array = [];
                             $argument = '';
                         }
+                        $argument_nr++;
                     } else {
                         if(
                             is_string($char) &&

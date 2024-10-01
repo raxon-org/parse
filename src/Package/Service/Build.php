@@ -1527,8 +1527,11 @@ class Build
                         $is_argument = true;
                     }
                 }
-                ddd($value);
-                if($is_argument === false) {
+
+                if(
+                    $is_argument === false ||
+                    strtolower($value) === 'null'
+                ){
                     $method_value = 'break;';
                 }
                 elseif(

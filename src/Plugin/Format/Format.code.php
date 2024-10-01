@@ -127,7 +127,7 @@ trait Format_code {
                             "\n",
                             ';',
                             ')',
-                            ',',
+//                            ',',
                             ' ',
 //                            '\'', //same line
 //                            '"',  //same line

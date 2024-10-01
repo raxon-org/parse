@@ -2450,6 +2450,8 @@ class Build
     {
         $value = '';
         d($current);
+        d($left);
+        d($right);
         switch($current){
             case '.=':
             case '.':

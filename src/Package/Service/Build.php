@@ -2156,21 +2156,57 @@ class Build
                     )
                 ){
                     $previous = $input['array'][$nr - 1] ?? null;
-                    ddd($previous);
-                    switch($record['value']){
-                        case '++' :
-                            $result = '$data->set(\'' . $variable_name . '\', ' .  '$this->value_plus_plus($data->get(\'' . $variable_name . '\')));';
-                            break;
-                        case '--' :
-                            $result = '$data->set(\'' . $variable_name . '\', ' .  '$this->value_minus_minus($data->get(\'' . $variable_name . '\')));';
-                            break;
-                        case '**' :
-                            $result = '$data->set(\'' . $variable_name . '\', ' .  '$this->value_multiply_multiply($data->get(\'' . $variable_name . '\')));';
-                            break;
+                    if(
+                        $previous &&
+                        array_key_exists('type', $previous) &&
+                        $previous['type'] === 'variable' &&
+                        array_key_exists('name', $previous)
+                    ){
+                        switch($record['value']){
+                            case '++' :
+                                $result = '$data->set(\'' . $previous['name'] . '\', ' .  '$this->value_plus_plus($data->get(\'' . $previous['name'] . '\')));';
+                                break;
+                            case '--' :
+                                $result = '$data->set(\'' . $previous['name'] . '\', ' .  '$this->value_minus_minus($data->get(\'' . $previous['name'] . '\')));';
+                                break;
+                            case '**' :
+                                $result = '$data->set(\'' . $previous['name'] . '\', ' .  '$this->value_multiply_multiply($data->get(\'' . $previous['name'] . '\')));';
+                                break;
+                        }
+                    } else {
+                        if(
+                            array_key_exists('is_multiline', $record) &&
+                            $record['is_multiline'] === true
+                        ){
+                            throw new TemplateException(
+                                $record['tag'] .
+                                PHP_EOL .
+                                'Invalid argument for {{' . $record['value'] . '}}' .
+                                PHP_EOL .
+                                'On line: ' .
+                                $record['line']['start']  .
+                                ', column: ' .
+                                $record['column'][$record['line']['start']]['start'] .
+                                ' in source: '.
+                                $source .
+                                '.'
+                            );
+                        } else {
+                            throw new TemplateException(
+                                $record['tag'] .
+                                PHP_EOL .
+                                'Invalid argument for {{' . $record['value'] . '}}' .
+                                PHP_EOL .
+                                'On line: ' .
+                                $record['line']  .
+                                ', column: ' .
+                                $record['column']['start'] .
+                                ' in source: ' .
+                                $source .
+                                '.'
+                            );
+                        }
                     }
-                    d($record);
-                    d($value);
-                    ddd($next);
                 }
                 elseif(
                     in_array(

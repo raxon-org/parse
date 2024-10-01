@@ -86,6 +86,7 @@ class Build
         $source = $options->source ?? '';
         $data = [];
         $variable_assign_next_tag = false;
+        $for = [];
         $foreach = [];
         $while = [];
         $if = [];
@@ -133,6 +134,19 @@ class Build
                             )
                         ){
                             $foreach[] = $record;
+                            $break_level++;
+                            $object->config('package.raxon/parse.build.state.break.level', $break_level);
+                        }
+                        elseif(
+                            in_array(
+                                $record['method']['name'],
+                                [
+                                    'for',
+                                ],
+                                true
+                            )
+                        ){
+                            $for[] = $record;
                             $break_level++;
                             $object->config('package.raxon/parse.build.state.break.level', $break_level);
                         }
@@ -235,7 +249,8 @@ class Build
                                 }
                             }
                             $foreach = array_reverse($foreach_reverse);
-                        } elseif (
+                        }
+                        elseif (
                             in_array(
                                 $record['marker']['name'],
                                 [
@@ -292,7 +307,66 @@ class Build
                                 }
                             }
                             $while = array_reverse($while_reverse);
-                        } elseif (
+                        }
+                        elseif (
+                            in_array(
+                                $record['marker']['name'],
+                                [
+                                    'for',
+                                ],
+                                true
+                            )
+                        ) {
+                            $for_reverse = array_reverse($for);
+                            $has_close = false;
+                            foreach ($for_reverse as $for_nr => $for_record) {
+                                if (
+                                    array_key_exists('method', $for_record) &&
+                                    array_key_exists('has_close', $for_record['method']) &&
+                                    $for_record['method']['has_close'] === true
+                                ) {
+                                    //skip
+                                } elseif (
+                                    array_key_exists('method', $for_record)
+                                ) {
+                                    $has_close = true;
+                                    $for_reverse[$while_nr]['method']['has_close'] = true;
+                                    $for_record['method']['has_close'] = true;
+                                    $data[] = '}';
+                                    $variable_assign_next_tag = true;
+                                    $break_level--;
+                                    $object->config('package.raxon/parse.build.state.break.level', $break_level);
+                                }
+                            }
+                            if ($has_close === false) {
+                                if (
+                                    array_key_exists('is_multiline', $record) &&
+                                    $record['is_multiline'] === true
+                                ) {
+                                    throw new TemplateException(
+                                        $record['tag'] . PHP_EOL .
+                                        'Unused for close tag "{{/for}}" on line: ' .
+                                        $record['line']['start'] .
+                                        ', column: ' .
+                                        $record['column'][$record['line']['start']]['start'] .
+                                        ' in source: ' .
+                                        $source,
+                                    );
+                                } else {
+                                    throw new TemplateException(
+                                        $record['tag'] . PHP_EOL .
+                                        'Unused for close tag "{{/for}}" on line: ' .
+                                        $record['line'] .
+                                        ', column: ' .
+                                        $record['column']['start'] .
+                                        ' in source: ' .
+                                        $source,
+                                    );
+                                }
+                            }
+                            $for = array_reverse($for_reverse);
+                        }
+                        elseif (
                             in_array(
                                 $record['marker']['name'],
                                 [
@@ -460,6 +534,43 @@ class Build
                         $while_record['line'] .
                         ', column: ' .
                         $while_record['column']['start'] .
+                        ' in source: '.
+                        $source,
+                    );
+                }
+            }
+        }
+        foreach($for as $for_nr => $for_record){
+            if(
+                array_key_exists('method', $for_record) &&
+                array_key_exists('has_close', $for_record['method']) &&
+                $for_record['method']['has_close'] === true
+            ){
+                //skip
+            } elseif(
+                array_key_exists('method', $for_record)
+            ) {
+                if(
+                    array_key_exists('is_multiline', $for_record) &&
+                    $for_record['is_multiline'] === true
+                ){
+                    throw new TemplateException(
+                        $for_record['tag'] . PHP_EOL .
+                        'Unclosed while open tag "{{while()}}" on line: ' .
+                        $for_record['line']['start']  .
+                        ', column: ' .
+                        $for_record['column'][$for_record['line']['start']]['start'] .
+                        ' in source: '.
+                        $source,
+                    );
+
+                } else {
+                    throw new TemplateException(
+                        $for_record['tag'] . PHP_EOL .
+                        'Unclosed while open tag "{{while()}}" on line: ' .
+                        $for_record['line'] .
+                        ', column: ' .
+                        $for_record['column']['start'] .
                         ' in source: '.
                         $source,
                     );
@@ -1238,6 +1349,58 @@ class Build
                             $record['tag'] .
                             PHP_EOL .
                             'Invalid argument for {{while()}}' .
+                            PHP_EOL .
+                            'On line: ' .
+                            $record['line']  .
+                            ', column: ' .
+                            $record['column']['start'] .
+                            ' in source: ' .
+                            $source .
+                            '.'
+                        );
+                    }
+                }
+                $method_value[] = '){';
+                $method_value = implode(PHP_EOL, $method_value);
+            break;
+            case 'for':
+                $method_value[] = 'for(';
+                $is_argument = false;
+                $argument_count = count($record['method']['argument']);
+                if($argument_count === 3){
+                    foreach($record['method']['argument'] as $nr => $argument){
+                        $value = Build::value($object, $flags, $options, $record, $argument);
+                        if($nr < 2){
+                            $method_value[] = $value . ';';
+                        } else {
+                            $method_value[] = $value;
+                        }
+                    }
+                    $is_argument = true;
+                }
+                if($is_argument === false){
+                    if(
+                        array_key_exists('is_multiline', $record) &&
+                        $record['is_multiline'] === true
+                    ){
+                        throw new TemplateException(
+                            $record['tag'] .
+                            PHP_EOL .
+                            'Invalid argument for {{for()}}' .
+                            PHP_EOL .
+                            'On line: ' .
+                            $record['line']['start']  .
+                            ', column: ' .
+                            $record['column'][$record['line']['start']]['start'] .
+                            ' in source: '.
+                            $source .
+                            '.'
+                        );
+                    } else {
+                        throw new TemplateException(
+                            $record['tag'] .
+                            PHP_EOL .
+                            'Invalid argument for {{for()}}' .
                             PHP_EOL .
                             'On line: ' .
                             $record['line']  .

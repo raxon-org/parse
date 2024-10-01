@@ -2165,13 +2165,13 @@ class Build
                     ){
                         switch($record['value']){
                             case '++' :
-                                $result = '$data->set(\'' . $previous['name'] . '\', ' .  '$this->value_plus_plus($data->get(\'' . $previous['name'] . '\')));';
+                                $value = '$data->set(\'' . $previous['name'] . '\', ' .  '$this->value_plus_plus($data->get(\'' . $previous['name'] . '\')));';
                                 break;
                             case '--' :
-                                $result = '$data->set(\'' . $previous['name'] . '\', ' .  '$this->value_minus_minus($data->get(\'' . $previous['name'] . '\')));';
+                                $value = '$data->set(\'' . $previous['name'] . '\', ' .  '$this->value_minus_minus($data->get(\'' . $previous['name'] . '\')));';
                                 break;
                             case '**' :
-                                $result = '$data->set(\'' . $previous['name'] . '\', ' .  '$this->value_multiply_multiply($data->get(\'' . $previous['name'] . '\')));';
+                                $value = '$data->set(\'' . $previous['name'] . '\', ' .  '$this->value_multiply_multiply($data->get(\'' . $previous['name'] . '\')));';
                                 break;
                         }
                     } else {

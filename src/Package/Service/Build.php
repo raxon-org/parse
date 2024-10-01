@@ -1372,6 +1372,7 @@ class Build
                         $value = Build::value($object, $flags, $options, $record, $argument);
                         $method_value[] = $value . ';';
                     }
+                    $method_value[3] = substr($method_value[3], -1);
                     $is_argument = true;
                 }
                 if($is_argument === false){

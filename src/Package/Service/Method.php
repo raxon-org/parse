@@ -167,6 +167,21 @@ class Method
                             $argument_array = [];
                             $argument = '';
                             $argument_nr = 0;
+                        } else {
+                            $argument_array[] = [
+                                'type' => 'null',
+                                'value' => 'null',
+                                'execute' => null,
+                                'is_null' => true
+                            ];
+                            $argument = 'null';
+                            $argument_list[$argument_nr] = [
+                                'string' => $argument,
+                                'array' => $argument_array
+                            ];
+                            $argument_array = [];
+                            $argument = '';
+                            $argument_nr = 0;
                         }
                         $input['array'][$is_method]['method'] = [
                             'name' => $name,

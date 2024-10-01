@@ -99,9 +99,9 @@ trait Format_code {
                             "\n",
                             '(',
                             ' ',
-//                            '\'',     //same line
-//                            '"',      //same line
-//                            '$'       //same line
+                            '\'',     //same line
+                            '"',      //same line
+                            '$'       //same line
                         ],
                         true
                     )
@@ -127,7 +127,8 @@ trait Format_code {
                             "\n",
                             ';',
                             ')',
-//                            ',',
+                            '{',
+                            ',',
                             ' ',
 //                            '\'', //same line
 //                            '"',  //same line

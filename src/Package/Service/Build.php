@@ -2451,6 +2451,9 @@ class Build
                     $skip
                 );
                 $right = Build::value($object, $flags, $options, $tag, $right);
+                d($right);
+                d($value);
+                d($current);
                 $value = Build::value_calculate($object, $flags, $options, $current, $value, $right);
             }
         }

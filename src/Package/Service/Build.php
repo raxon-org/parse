@@ -2250,6 +2250,7 @@ class Build
                         $next,
                         $skip
                     );
+                    d($next);
                     d($right);
                     $right = Build::value($object, $flags, $options, $tag, $right);
                     ddd($right);

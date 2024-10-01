@@ -2172,17 +2172,17 @@ class Build
                                     $skip
                                 );
                                 $assign = Build::value($object, $flags, $options, $tag, $assign);
-                                $value = '$data->set(\'' . $previous['name'] . '\', ' .  $assign . ')';
+                                $value .= '$data->set(\'' . $previous['name'] . '\', ' .  $assign . ')';
                                 d($value);
                             break;
                             case '++' :
-                                $value = '$data->set(\'' . $previous['name'] . '\', ' .  '$this->value_plus_plus($data->get(\'' . $previous['name'] . '\')))';
+                                $value .= '$data->set(\'' . $previous['name'] . '\', ' .  '$this->value_plus_plus($data->get(\'' . $previous['name'] . '\')))';
                             break;
                             case '--' :
-                                $value = '$data->set(\'' . $previous['name'] . '\', ' .  '$this->value_minus_minus($data->get(\'' . $previous['name'] . '\')))';
+                                $value .= '$data->set(\'' . $previous['name'] . '\', ' .  '$this->value_minus_minus($data->get(\'' . $previous['name'] . '\')))';
                             break;
                             case '**' :
-                                $value = '$data->set(\'' . $previous['name'] . '\', ' .  '$this->value_multiply_multiply($data->get(\'' . $previous['name'] . '\')))';
+                                $value .= '$data->set(\'' . $previous['name'] . '\', ' .  '$this->value_multiply_multiply($data->get(\'' . $previous['name'] . '\')))';
                             break;
                         }
                     } else {
@@ -2267,7 +2267,7 @@ class Build
                     );
                     $right = Build::value($object, $flags, $options, $tag, $right);
                     d($right);
-                    $value = Build::value_calculate($object, $flags, $options, $record['value'], $value, $right);
+                    $value .= Build::value_calculate($object, $flags, $options, $record['value'], $value, $right);
                 }
                 else {
                     $value .= $record['value'];

@@ -2144,7 +2144,7 @@ class Build
                     in_array(
                         $record['value'],
                         [
-//                            '=',
+                            '=',
                             '++',
                             '--',
                             '**',
@@ -2162,6 +2162,7 @@ class Build
                         switch($record['value']){
                             case '=':
                                 $assign = $input['array'][$nr + 1] ?? null;
+                                $assign = Build::value($object, $flags, $options, $tag, $assign);
                                 d($assign);
                                 ddd('find, make assign');
                                 break;
@@ -2220,7 +2221,6 @@ class Build
                             '/',
                             '%',
                             '.',
-                            '=',
                             '<',
                             '<=',
                             '<<',
@@ -2256,12 +2256,8 @@ class Build
                         $next,
                         $skip
                     );
-                    d($next);
-                    d($right);
                     $right = Build::value($object, $flags, $options, $tag, $right);
-                    d($right);
                     $value = Build::value_calculate($object, $flags, $options, $current, $value, $right);
-                    ddd($value);
                 }
                 else {
                     $value .= $record['value'];

@@ -1410,7 +1410,6 @@ class Build
                     }
                 }
                 $method_value[] = '){';
-                ddd($method_value);
                 $method_value = implode(PHP_EOL, $method_value);
             break;
             case 'if':

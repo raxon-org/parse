@@ -2161,7 +2161,16 @@ class Build
                     ){
                         switch($record['value']){
                             case '=':
-                                $assign = $input['array'][$nr + 1] ?? null;
+//                                $assign = $input['array'][$nr + 1] ?? null;
+                                $assign = Build::value_right(
+                                    $object,
+                                    $flags,
+                                    $options,
+                                    $input,
+                                    $nr,
+                                    $next,
+                                    $skip
+                                );
                                 $assign = Build::value($object, $flags, $options, $tag, $assign);
                                 d($assign);
                                 ddd('find, make assign');

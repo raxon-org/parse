@@ -175,7 +175,7 @@ class Parse
             ddd($options);
         }
         */
-        $depth = $object->config('package.raxon/parse.build.state.compile.depth');
+        $depth = $options->depth ?? null;
         if(
             is_scalar($input) ||
             $input === null
@@ -186,7 +186,10 @@ class Parse
             $options->hash = hash('sha256', $input);
             $data->set('this', $this->local($depth));
             $rootNode = $this->local(0);
-            if($rootNode && is_object($rootNode)){
+            if(
+                $rootNode &&
+                is_object($rootNode)
+            ){
                 $key = 'this.' . $object->config('package.raxon/parse.object.this.rootNode');
                 $data->set($key, $rootNode);
                 $key = 'this';
@@ -197,11 +200,7 @@ class Parse
             }
         } else {
             $options->hash = hash('sha256', Core::object($input, Core::OBJECT_JSON_LINE));
-
-//            $parentNode = $object->config('package.raxon/parse.build.state.input.key');
-//            $data->set('this.#parentNode', $parentNode);
             if(is_array($input)){
-//                $data->set('this.#parentNode', $input);
                 foreach($input as $key => $value){
                     $temp_source = $options->source ?? 'source';
                     $temp_class = $options->class;
@@ -227,8 +226,7 @@ class Parse
                     $depth++;
                     $this->local($depth, $input);
                 }
-                $object->config('package.raxon/parse.build.state.compile.depth', $depth);
-//                $data->set('this.#parentNode', $input);
+                $options->depth = $depth;
                 foreach($input as $key => $value){
                     $temp_source = $options->source ?? 'source';
                     $temp_class = $options->class;

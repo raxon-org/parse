@@ -1534,7 +1534,6 @@ class Build
                         $is_argument = true;
                     }
                 }
-
                 if(
                     $is_argument === false ||
                     strtolower($value) === 'null'
@@ -1618,7 +1617,7 @@ class Build
                 }
             break;
             default:
-                $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $method_name));
+                $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
                 $method_value = '$this->' . $plugin . '(';
                 $is_argument = false;
                 $argument_value = '';

@@ -1375,7 +1375,7 @@ class Build
                 if($argument_count === 3){
                     foreach($record['method']['argument'] as $nr => $argument){
                         $value = Build::value($object, $flags, $options, $record, $argument);
-                        if(strtolower($value) === 'null'){
+                        if(mb_strtolower($value) === 'null'){
                             $value = '';
                         }
                         $method_value[] = $value . ';';
@@ -1537,7 +1537,7 @@ class Build
                 }
                 if(
                     $is_argument === false ||
-                    strtolower($value) === 'null'
+                    mb_strtolower($value) === 'null'
                 ){
                     $method_value = 'break;';
                 }

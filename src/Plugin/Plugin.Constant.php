@@ -14,7 +14,7 @@ trait Plugin_constant {
 
     protected function plugin_constant(string $constant, mixed $value=null): mixed
     {
-        $constant = strtoupper($constant);
+        $constant = mb_strtoupper($constant);
         if($value === null){
             return constant($constant);
         } else {

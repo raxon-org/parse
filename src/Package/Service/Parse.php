@@ -253,6 +253,7 @@ class Parse
                     $input->{$attribute} = $key;
                     d($attribute);
                     $data->set('this.' . $attribute, $key);
+                    d($data->get('this'));
                     $input->{$key} = $this->compile($value, $data);
                     $options->source = $temp_source;
                     $options->class = $temp_class;

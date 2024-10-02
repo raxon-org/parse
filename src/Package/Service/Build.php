@@ -91,11 +91,15 @@ class Build
         $while = [];
         $if = [];
         $is_block = false;
+        $is_literal = false;
         $block = [];
         $break_level = 0;
         $object->config('package.raxon/parse.build.state.break.level', $break_level);
         foreach($tags as $row_nr => $list){
             foreach($list as $nr => &$record){
+                if($is_literal === true){
+                    ddd($record);
+                }
                 $text = Build::text($object, $flags, $options, $record, $variable_assign_next_tag);
                 if($text){
                     if($is_block){

@@ -2,11 +2,13 @@
     "string": "test",
     "number": 1,
     "boolean": true,
+    "float": 3.0003,
     "array": [1, 2, 3],
     "object": {
         "string": "test",
         "number": 1,
-        "boolean": true,
+        "float": 1.0001,
+        "boolean": false,
         "array": [1, 2, 3]
     }
     "function": "{{echo('test')}}",

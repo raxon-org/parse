@@ -99,9 +99,9 @@ class Build
             foreach($list as $nr => &$record){
                 if($is_literal === true){
                     if($is_block){
-                        $block[] = $record['tag'];
+                        $block[] = '$this->plugin_echo(\'' . $record['tag'] . '\');';
                     } else {
-                        $data[] = $record['tag'];
+                        $data[] = '$this->plugin_echo(\'' . $record['tag'] . '\');';
                     }
                 }
                 $text = Build::text($object, $flags, $options, $record, $variable_assign_next_tag);

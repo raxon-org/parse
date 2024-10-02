@@ -230,7 +230,7 @@ class Parse
             }
             elseif(is_object($input)){
                 if($depth === null){
-                    d($options);
+//                    d($options);
                     $depth = 0;
                     $key = $object->config('package.raxon/parse.object.this.url');
                     $data->set('this.' . $key, $options->source ?? 'source');
@@ -286,7 +286,6 @@ class Parse
         }
         $object->config('package.raxon/parse.build.state.source.mtime', $mtime);
         $class = Parse::class_name($object, $object->config('package.raxon/parse.build.state.source.url'));
-        d($class);
         $cache_url = false;
         $is_plugin = false;
         $is_cache_url = false;

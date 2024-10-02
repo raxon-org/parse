@@ -92,6 +92,7 @@ class Build
         $if = [];
         $is_block = false;
         $is_literal = false;
+        $is_literal_block = false;
         $block = [];
         $break_level = 0;
         $object->config('package.raxon/parse.build.state.break.level', $break_level);
@@ -99,10 +100,15 @@ class Build
             foreach($list as $nr => &$record){
                 if(
                     $is_literal === true ||
-                    $is_block === true
+                    $is_literal_block === true &&
+                    (
+                        array_key_exists('marker', $record) &&
+                        array_key_exists('name', $record['marker']) &&
+                        array_key_exists('is_close', $record['marker']) &&
+                        $record['marker']['name'] !== 'block'
+                    )
                 ){
                     if(
-                        $is_block === false &&
                         array_key_exists('marker', $record) &&
                         array_key_exists('name', $record['marker']) &&
                         array_key_exists('is_close', $record['marker']) &&
@@ -237,6 +243,7 @@ class Build
                             )
                         ){
                             $is_block = true;
+                            $is_literal_block = true;
                             continue;
                         }
                     }

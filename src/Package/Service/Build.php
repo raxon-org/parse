@@ -978,9 +978,10 @@ class Build
     public static function plugin(App $object, $flags, $options, $record, $name): string
     {
         $source = $options->source ?? '';
+        $name_lowercase = mb_strtolower($name);
         if(
             in_array(
-                $name,
+                $name_lowercase,
                 [
                     'default',
                     'object',
@@ -994,9 +995,9 @@ class Build
                 true
             )
         ){
-            $plugin = 'plugin_' . $name;
+            $plugin = 'plugin_' . $name_lowercase;
         } else {
-            $plugin = $name;
+            $plugin = $name_lowercase;
         }
         $plugin = str_replace('.', '_', $plugin);
         $plugin = str_replace('-', '_', $plugin);

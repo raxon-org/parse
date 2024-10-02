@@ -250,8 +250,7 @@ class Parse
                     $attribute = $object->config('package.raxon/parse.object.this.key');
                     $data->set('this.' . $attribute, $key);
                     $attribute = $object->config('package.raxon/parse.object.this.attribute');
-//                    $input->{$attribute} = $key;
-
+                    $input->{$attribute} = $key;
 
                     $data->set('this.' . $attribute, $key);
                     $input->{$key} = $this->compile($value, $data);

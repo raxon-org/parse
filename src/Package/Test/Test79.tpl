@@ -15,7 +15,7 @@
     "options": {
 
     },
-    "assign": "{{literal}}{{$this.attribute|default:'no-attribute'}}{{/literal}}",
+    "assign": "{{$this.attribute|default:'no-attribute'}}",
     "null": null
 }
 {{/block}}

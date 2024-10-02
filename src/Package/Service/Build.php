@@ -510,8 +510,6 @@ class Build
                             $is_block = false;
                             //there is plugin name and record with the arguments
                             $object->config('delete', 'package.raxon/parse.build.state.block');
-
-                            $data[] = '} else {';
                             $variable_assign_next_tag = true;
                         }
                     }

@@ -271,6 +271,7 @@ class Parse
                 ;
             }
             if($object->config('package.raxon/parse.build.state.input.debug') === true){
+                trace();
                 ddd($url_json);
             }
             d($url_json);

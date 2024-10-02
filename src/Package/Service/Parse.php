@@ -135,6 +135,12 @@ class Parse
 
             }
             elseif(is_object($input)){
+                foreach($input as $key => $value){
+                    $object->config('package.raxon/parse.build.state.input.key', $key);
+                    $attribute = $object->config('package.raxon/parse.object.this.attribute');
+                    $input->{$attribute} = $key;
+                    $input->{$key} = $this->compile($value, $data);
+                }
                 ddd($input);
             }
         }

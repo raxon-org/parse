@@ -15,6 +15,6 @@
 
     },
     "trait": "{{Raxon.Node:Data:list($this.class,Raxon.Node:Role:role_system(), $this.options)}}",
-    "assign": "{{$assign_double = 'assign'}}",
+    "assign": "{{$this.attribute|default:'assign'}}",
     "null": null
 }

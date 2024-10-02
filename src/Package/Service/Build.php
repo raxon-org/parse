@@ -103,6 +103,7 @@ class Build
                     } else {
                         $data[] = '$this->plugin_echo(\'' . $record['tag'] . '\');';
                     }
+                    continue;
                 }
                 $text = Build::text($object, $flags, $options, $record, $variable_assign_next_tag);
                 if($text){

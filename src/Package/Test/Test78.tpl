@@ -1,3 +1,4 @@
+{{block.data()}}
 {
     "string": "test",
     "number": 1,
@@ -17,3 +18,4 @@
     "assign": "{{$this.attribute|default:'no-attribute'}}",
     "null": null
 }
+{{/block}}

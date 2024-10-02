@@ -540,7 +540,6 @@ class Build
                             $plugin = $object->config('package.raxon/parse.build.state.block.plugin');
                             $data[] = '$block = rtrim(ob_get_clean());';
                             $data[] = '$block = Core::object($block, Core::OBJECT_OBJECT);';
-                            $data[] = 'ddd($block);';
                             $data[] = '$block = $parse->compile($block, $data);';
                             $argument = [];
                             if(

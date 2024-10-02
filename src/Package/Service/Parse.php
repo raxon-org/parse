@@ -184,7 +184,7 @@ class Parse
                 return $input;
             }
             $options->hash = hash('sha256', $input);
-            $data->set('this', $this->local($depth));
+            $data->set('this', Core::object_merge($data->get('this'), $this->local($depth)));
             $rootNode = $this->local(0);
             if(
                 $rootNode &&

@@ -198,6 +198,7 @@ class Build
                             )
                         ){
                             $is_block = true;
+                            continue;
                         }
                     }
                     if($is_block){
@@ -482,7 +483,16 @@ class Build
                                 true
                             )
                         ) {
-                            ddd($block);
+                            $data[] = 'ob_start();';
+                            foreach($block as $block_nr => $block_record){
+                                $data[] = $block_record;
+                            }
+                            $data[] = '$block = ob_get_clean();';
+                            $data[] = '$this->block_data(';
+                            $data[] = '    $block,';
+                            $method = $object->config('package.raxon/parse.build.state.record');
+                            d($method);
+                            ddd($data);
                             $is_block = false;
                             //there is plugin name and record with the arguments
                             $object->config('delete', 'package.raxon/parse.build.state.block');

@@ -125,7 +125,7 @@ trait Format_code {
                         $next,
                         [
                             "\n",
-                            ';',
+//                            ';', //same line
 //                            ')', //same line
 //                            '{',
 //                            ',',

@@ -487,12 +487,26 @@ class Build
                             foreach($block as $block_nr => $block_record){
                                 $data[] = $block_record;
                             }
-                            $data[] = '$block = ob_get_clean();';
-                            $data[] = '$this->block_data(';
-                            $data[] = '    $block,';
                             $method = $object->config('package.raxon/parse.build.state.block.record');
-                            d($method);
-                            ddd($data);
+                            $plugin = $object->config('package.raxon/parse.build.state.block.plugin');
+                            $data[] = '$block = ob_get_clean();';
+                            $argument = [];
+                            foreach($method['argument'] as $argument_nr => $argument_record){
+                                $value = Build::value($object, $flags, $options, $record, $argument_record);
+                                if(mb_strtolower($value) === 'null'){
+                                    $value = '';
+                                }
+                                if($value !== ''){
+                                    $argument[] = $value;
+                                }
+                            }
+                            $method_value = '$this->' . $plugin . '(' . PHP_EOL;
+                            $method_value .= '$block,' . PHP_EOL;
+                            foreach($argument as $argument_nr => $argument_record){
+                                $method_value = $argument_record . ',' . PHP_EOL;
+                            }
+                            $method_value = substr($method_value, 0, -2) . PHP_EOL;
+                            $data[] = $method_value . ');';
                             $is_block = false;
                             //there is plugin name and record with the arguments
                             $object->config('delete', 'package.raxon/parse.build.state.block');

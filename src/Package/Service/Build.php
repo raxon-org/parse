@@ -503,7 +503,7 @@ class Build
                             $method_value .= '$block,' . PHP_EOL;
                             $is_argument = false;
                             foreach($argument as $argument_nr => $argument_record){
-                                $method_value = $argument_record . ',' . PHP_EOL;
+                                $method_value .= $argument_record . ',' . PHP_EOL;
                                 $is_argument = true;
                             }
                             if($is_argument){

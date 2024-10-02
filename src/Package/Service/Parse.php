@@ -140,11 +140,14 @@ class Parse
             }
             elseif(is_object($input)){
                 foreach($input as $key => $value){
+                    $source = $options->source ?? 'source';
+                    $options->source = Core::uuid();
                     $object->config('package.raxon/parse.build.state.input.debug', true);
                     $object->config('package.raxon/parse.build.state.input.key', $key);
                     $attribute = $object->config('package.raxon/parse.object.this.attribute');
                     $input->{$attribute} = $key;
                     $input->{$key} = $this->compile($value, $data);
+                    $options->source = $source;
                 }
                 ddd($input);
             }

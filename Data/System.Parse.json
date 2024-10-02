@@ -186,6 +186,7 @@
             "class" : [
               "Raxon\\App",
               "Raxon\\Module\\Data",
+              "Raxon\\Module\\Core",
               "Package\\Raxon\\Parse\\Service\\Parse",
               "Plugin",
               "Exception",

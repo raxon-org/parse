@@ -884,6 +884,18 @@ class Build
                 }
                 elseif($variable_assign_next_tag === true){
                     $line .= $char;
+                    if(
+                        !in_array(
+                            $char,
+                            [
+                                ' ',
+                                "\t"
+                            ],
+                            true
+                        )
+                    ){
+                        $variable_assign_next_tag = false;
+                    }
                 }
             }
             if($line !== ''){

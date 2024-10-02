@@ -472,6 +472,24 @@ class Build
                             }
                             $if = array_reverse($if_reverse);
                         }
+                        elseif (
+                            array_key_exists('marker', $record) &&
+                            in_array(
+                                $record['marker']['name'],
+                                [
+                                    'block',
+                                ],
+                                true
+                            )
+                        ) {
+                            ddd($block);
+                            $is_block = false;
+                            //there is plugin name and record with the arguments
+                            $object->config('delete', 'package.raxon/parse.build.state.block');
+
+                            $data[] = '} else {';
+                            $variable_assign_next_tag = true;
+                        }
                     }
                 }
                 elseif (
@@ -489,24 +507,6 @@ class Build
                     } else {
                         $data[] = '} else {';
                     }
-                    $variable_assign_next_tag = true;
-                }
-                elseif (
-                    array_key_exists('marker', $record) &&
-                    in_array(
-                        $record['marker']['name'],
-                        [
-                            'block',
-                        ],
-                        true
-                    )
-                ) {
-                    ddd($block);
-                    $is_block = false;
-                    //there is plugin name and record with the arguments
-                    $object->config('delete', 'package.raxon/parse.build.state.block');
-
-                    $data[] = '} else {';
                     $variable_assign_next_tag = true;
                 }
                 elseif(array_key_exists('marker', $record)){

@@ -184,9 +184,12 @@ class Parse
                 return $input;
             }
             $options->hash = hash('sha256', $input);
-            $attribute = $data->get('this.' . $object->config('package.raxon/parse.object.this.attribute'));
+            //url, key & attribute are already set.
+            $url = $data->get('this.' . $object->config('package.raxon/parse.object.this.url'));
             $key = $data->get('this.' . $object->config('package.raxon/parse.object.this.key'));
+            $attribute = $data->get('this.' . $object->config('package.raxon/parse.object.this.attribute'));
             $data->set('this', $this->local($depth));
+            $data->set('this.' . $object->config('package.raxon/parse.object.this.url'), $url);
             $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
             $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $attribute);
             $rootNode = $this->local(0);

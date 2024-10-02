@@ -248,9 +248,11 @@ class Parse
                     $object->config('package.raxon/parse.build.state.input.debug', true);
                     $object->config('package.raxon/parse.build.state.input.key', $key);
                     $attribute = $object->config('package.raxon/parse.object.this.key');
-                    $input->{$attribute} = $key;
                     $data->set('this.' . $attribute, $key);
                     $attribute = $object->config('package.raxon/parse.object.this.attribute');
+//                    $input->{$attribute} = $key;
+
+
                     $data->set('this.' . $attribute, $key);
                     $input->{$key} = $this->compile($value, $data);
                     $options->source = $temp_source;

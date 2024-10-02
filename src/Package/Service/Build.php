@@ -101,6 +101,7 @@ class Build
                     if($is_block){
                         if(array_key_exists('tag', $record)){
                             $block[] = 'echo \'' . $record['tag'] . '\';';
+                            d($record);
                         }
                         elseif(array_key_exists('text', $record)){
                             $block[] = 'echo \'' . $record['text'] . '\';';

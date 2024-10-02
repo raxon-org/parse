@@ -97,8 +97,12 @@ class Build
         $object->config('package.raxon/parse.build.state.break.level', $break_level);
         foreach($tags as $row_nr => $list){
             foreach($list as $nr => &$record){
-                if($is_literal === true){
+                if(
+                    $is_literal === true ||
+                    $is_block === true
+                ){
                     if(
+                        $is_block === false &&
                         array_key_exists('marker', $record) &&
                         array_key_exists('name', $record['marker']) &&
                         array_key_exists('is_close', $record['marker']) &&

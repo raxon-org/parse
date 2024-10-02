@@ -541,7 +541,7 @@ class Build
                             $data[] = '$block = rtrim(ob_get_clean());';
                             $data[] = '$block = Core::object($block, Core::OBJECT_OBJECT);';
                             $data[] = '$source = $options->source ?? null;';
-                            $data[] = '$options->source = ' . Core::uuid() . ';';
+                            $data[] = '$options->source = \'' . Core::uuid() . '\';';
                             $data[] = '$block = $parse->compile($block, $data);';
                             $data[] = '$options->source = $source;';
                             $argument = [];

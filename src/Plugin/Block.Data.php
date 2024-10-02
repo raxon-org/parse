@@ -12,7 +12,7 @@ namespace Plugin;
 
 trait Block_data {
 
-    protected function block_data($attribute=null, $data=null){
+    protected function block_data($data=null, $attribute=null){
         d($attribute);
         ddd($data);
     }

@@ -284,6 +284,7 @@ class Parse
         ){
             $mtime = File::mtime($options->source);
         }
+        d($options->source);
         $object->config('package.raxon/parse.build.state.source.mtime', $mtime);
         $class = Parse::class_name($object, $object->config('package.raxon/parse.build.state.source.url'));
         $cache_url = false;

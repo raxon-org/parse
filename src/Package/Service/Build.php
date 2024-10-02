@@ -1684,12 +1684,17 @@ class Build
                 }
             break;
             case 'block.data':
+            case 'block.html':
+            case 'block.xml':
+            case 'block.script':
+            case 'block.link':
+            case 'block.code':
                 $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
 //                $method_value = '$this->' . $plugin . '(';
-                $method_value = '';
                 $object->config('package.raxon/parse.build.state.block.record', $record);
                 $object->config('package.raxon/parse.build.state.block.plugin', $plugin);
                 //we do the rest in the marker /block
+                return $method_name;
             break;
             default:
                 $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));

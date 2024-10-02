@@ -98,7 +98,11 @@ class Build
         foreach($tags as $row_nr => $list){
             foreach($list as $nr => &$record){
                 if($is_literal === true){
-                    ddd($record);
+                    if($is_block){
+                        $block[] = $record['tag'];
+                    } else {
+                        $data[] = $record['tag'];
+                    }
                 }
                 $text = Build::text($object, $flags, $options, $record, $variable_assign_next_tag);
                 if($text){

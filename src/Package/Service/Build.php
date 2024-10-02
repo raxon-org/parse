@@ -502,7 +502,9 @@ class Build
                     )
                 ) {
                     ddd($block);
-
+                    $is_block = false;
+                    //there is plugin name and record with the arguments
+                    $object->config('delete', 'package.raxon/parse.build.state.block');
 
                     $data[] = '} else {';
                     $variable_assign_next_tag = true;
@@ -1682,59 +1684,12 @@ class Build
                 }
             break;
             case 'block.data':
-                ddd($record);
-                /*
-                $method_value[] = 'for(';
-                $is_argument = false;
-                $argument_count = count($record['method']['argument']);
-                if($argument_count === 3){
-                    foreach($record['method']['argument'] as $nr => $argument){
-                        $value = Build::value($object, $flags, $options, $record, $argument);
-                        if(mb_strtolower($value) === 'null'){
-                            $value = '';
-                        }
-                        $method_value[] = $value . ';';
-                    }
-                    $method_value[3] = substr($method_value[3], 0, -1);
-                    $is_argument = true;
-                }
-                if($is_argument === false){
-                    if(
-                        array_key_exists('is_multiline', $record) &&
-                        $record['is_multiline'] === true
-                    ){
-                        throw new TemplateException(
-                            $record['tag'] .
-                            PHP_EOL .
-                            'Invalid argument for {{for()}}' .
-                            PHP_EOL .
-                            'On line: ' .
-                            $record['line']['start']  .
-                            ', column: ' .
-                            $record['column'][$record['line']['start']]['start'] .
-                            ' in source: '.
-                            $source .
-                            '.'
-                        );
-                    } else {
-                        throw new TemplateException(
-                            $record['tag'] .
-                            PHP_EOL .
-                            'Invalid argument for {{for()}}' .
-                            PHP_EOL .
-                            'On line: ' .
-                            $record['line']  .
-                            ', column: ' .
-                            $record['column']['start'] .
-                            ' in source: ' .
-                            $source .
-                            '.'
-                        );
-                    }
-                }
-                $method_value[] = '){';
-                $method_value = implode(PHP_EOL, $method_value);
-                */
+                $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
+//                $method_value = '$this->' . $plugin . '(';
+                $method_value = '';
+                $object->config('package.raxon/parse.build.state.block.record', $record);
+                $object->config('package.raxon/parse.build.state.block.plugin', $plugin);
+                //we do the rest in the marker /block
             break;
             default:
                 $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
@@ -1817,6 +1772,12 @@ class Build
                 $object->config('package.raxon/parse.build.state.ltrim', $ltrim);
             break;
             case 'break' :
+            case 'block.data':
+            case 'block.html':
+            case 'block.xml':
+            case 'block.code':
+            case 'block.script':
+            case 'block.link':
                 //nothing, checks have been done already
             break;
             default:

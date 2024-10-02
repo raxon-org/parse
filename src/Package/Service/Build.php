@@ -516,6 +516,19 @@ class Build
                             $object->config('delete', 'package.raxon/parse.build.state.block');
                             $variable_assign_next_tag = true;
                         }
+                        elseif (
+                            array_key_exists('marker', $record) &&
+                            in_array(
+                                $record['marker']['name'],
+                                [
+                                    'literal',
+                                ],
+                                true
+                            )
+                        ) {
+                            $is_literal = false;
+                            $variable_assign_next_tag = true;
+                        }
                     }
                 }
                 elseif (
@@ -533,6 +546,19 @@ class Build
                     } else {
                         $data[] = '} else {';
                     }
+                    $variable_assign_next_tag = true;
+                }
+                elseif (
+                    array_key_exists('marker', $record) &&
+                    in_array(
+                        $record['marker']['name'],
+                        [
+                            'literal',
+                        ],
+                        true
+                    )
+                ) {
+                    $is_literal = true;
                     $variable_assign_next_tag = true;
                 }
                 elseif(array_key_exists('marker', $record)){

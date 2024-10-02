@@ -10,7 +10,7 @@
  */
 namespace Plugin;
 
-trait Block_Data {
+trait Block_data {
 
     protected function block_data($attribute=null, $data=null){
         d($attribute);

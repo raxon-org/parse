@@ -142,7 +142,7 @@ class Parse
             }
             elseif(is_object($input)){
                 foreach($input as $key => $value){
-                    $source = $options->source ?? 'source';
+                    $source_temp = $options->source ?? 'source';
                     $options->source = Core::uuid();
                     $object->config('package.raxon/parse.build.state.source.url', $options->source);
                     $object->config('package.raxon/parse.build.state.input.debug', true);
@@ -150,7 +150,7 @@ class Parse
                     $attribute = $object->config('package.raxon/parse.object.this.attribute');
                     $input->{$attribute} = $key;
                     $input->{$key} = $this->compile($value, $data);
-                    $options->source = $source;
+                    $options->source = $source_temp;
                 }
                 ddd($input);
             }
@@ -207,6 +207,7 @@ class Parse
             ),
             '_'
         );
+        d($class);
         $cache_url = false;
         $is_plugin = false;
         $is_cache_url = false;

@@ -100,7 +100,7 @@ class Parse
         $object->config(Parse::CONFIG . '.time.start', microtime(true));
     }
 
-    private static function class_name(App $object, $class=''){
+    public static function class_name(App $object, $class=''){
         return ltrim(
             str_replace(
                 [

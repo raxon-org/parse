@@ -781,19 +781,6 @@ class Build
             array_key_exists('text', $record) &&
             $record['text'] !== ''
         ){
-            d($record);
-            /* wrong
-            if(
-                array_key_exists('is_multiline', $record) &&
-                $record['is_multiline'] === true
-            ){
-                $text = explode("\n", $record['text'], 2);
-                $test = trim($text[0]);
-                if($test === ''){
-                    $record['text'] = $text[1];
-                }
-            }
-            */
             $is_single_quote = false;
             $is_double_quote = false;
             $data = mb_str_split($record['text']);
@@ -871,8 +858,6 @@ class Build
                     }
                     $skip_space = 0;
                 }
-                d($char);
-                d($variable_assign_next_tag);
                 if($variable_assign_next_tag === false){
                     $line .= $char;
                 }

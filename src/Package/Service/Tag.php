@@ -39,7 +39,6 @@ class Tag
             for($j = 0; $j < $chunk; $j++){
                 $char_list[] = $split[$i + $j] ?? null;
             }
-
             foreach($char_list as $nr => $char){
                 if(array_key_exists($nr - 1, $char_list)){
                     $previous = $char_list[$nr - 1];
@@ -59,6 +58,8 @@ class Tag
                     $previous !== '\\'
                 ){
                     $is_single_quoted = true;
+                    $is_curly_open = false;
+                    $is_curly_close = false;
                 }
                 elseif(
                     $char === '\'' &&
@@ -68,24 +69,30 @@ class Tag
                     $previous !== '\\'
                 ){
                     $is_single_quoted = false;
+                    $is_curly_open = false;
+                    $is_curly_close = false;
                 }
                 elseif(
                     $char === '"' &&
-                    $is_double_quoted === false &&
+                    $is_single_quoted === false &&
                     $is_double_quoted === false &&
                     $is_double_quoted_backslash === false &&
                     $previous !== '\\'
                 ){
                     $is_double_quoted = true;
+                    $is_curly_open = false;
+                    $is_curly_close = false;
                 }
                 elseif(
                     $char === '"' &&
-                    $is_double_quoted === true &&
                     $is_single_quoted === false &&
+                    $is_double_quoted === true &&
                     $is_double_quoted_backslash === false &&
                     $previous !== '\\'
                 ){
                     $is_double_quoted = false;
+                    $is_curly_open = false;
+                    $is_curly_close = false;
                 }
                 elseif(
                     $char === '"' &&
@@ -94,6 +101,8 @@ class Tag
                     $previous === '\\'
                 ){
                     $is_double_quoted_backslash = true;
+                    $is_curly_open = false;
+                    $is_curly_close = false;
                 }
                 elseif(
                     $char === '"' &&
@@ -102,6 +111,8 @@ class Tag
                     $previous === '\\'
                 ){
                     $is_double_quoted_backslash = false;
+                    $is_curly_open = false;
+                    $is_curly_close = false;
                 }
                 elseif(
                     $char === '{' &&
@@ -191,6 +202,9 @@ class Tag
                         $is_curly_open = false;
                         $is_curly_close = false;
                     }
+                } else {
+                    $is_curly_open = false;
+                    $is_curly_close = false;
                 }
                 if(
                     $curly_count === 1 &&

@@ -100,13 +100,7 @@ class Build
             foreach($list as $nr => &$record){
                 if(
                     $is_literal === true ||
-                    $is_literal_block === true &&
-                    (
-                        array_key_exists('marker', $record) &&
-                        array_key_exists('name', $record['marker']) &&
-                        array_key_exists('is_close', $record['marker']) &&
-                        $record['marker']['name'] !== 'block'
-                    )
+                    $is_literal_block === true
                 ){
                     if(
                         array_key_exists('marker', $record) &&
@@ -118,28 +112,37 @@ class Build
                         $is_literal = false;
                         continue;
                     }
-                    if($is_block){
-                        if(array_key_exists('tag', $record)){
-                            $block[] = 'echo \'' . str_replace('\'', '\\\'', $record['tag']) . '\';';
-                            d($record);
-                        }
-                        elseif(array_key_exists('text', $record)){
-                            $block[] = 'echo \'' . str_replace('\'', '\\\'', $record['text']) . '\';';
-                        } else {
-                            ddd($record);
-                        }
+                    elseif(
+                        array_key_exists('marker', $record) &&
+                        array_key_exists('name', $record['marker']) &&
+                        array_key_exists('is_close', $record['marker']) &&
+                        $record['marker']['name'] !== 'block'
+                    ){
+                        $is_literal_block = false;
                     } else {
-                        if(array_key_exists('tag', $record)){
-                            $data[] = 'echo \'' . str_replace('\'', '\\\'', $record['tag']) . '\';';
-                            d($record);
-                        }
-                        elseif(array_key_exists('text', $record)){
-                            $data[] = 'echo \'' . str_replace('\'', '\\\'', $record['text']) . '\';';
+                        if($is_block){
+                            if(array_key_exists('tag', $record)){
+                                $block[] = 'echo \'' . str_replace('\'', '\\\'', $record['tag']) . '\';';
+                                d($record);
+                            }
+                            elseif(array_key_exists('text', $record)){
+                                $block[] = 'echo \'' . str_replace('\'', '\\\'', $record['text']) . '\';';
+                            } else {
+                                ddd($record);
+                            }
                         } else {
-                            ddd($record);
+                            if(array_key_exists('tag', $record)){
+                                $data[] = 'echo \'' . str_replace('\'', '\\\'', $record['tag']) . '\';';
+                                d($record);
+                            }
+                            elseif(array_key_exists('text', $record)){
+                                $data[] = 'echo \'' . str_replace('\'', '\\\'', $record['text']) . '\';';
+                            } else {
+                                ddd($record);
+                            }
                         }
+                        continue;
                     }
-                    continue;
                 }
                 $text = Build::text($object, $flags, $options, $record, $variable_assign_next_tag);
                 if($text){

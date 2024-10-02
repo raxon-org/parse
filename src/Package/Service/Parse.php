@@ -198,7 +198,7 @@ class Parse
                     $options->source = $temp_source;
                     $options->class = $temp_class;
                 }
-                ddd($input);
+                return $input;
             }
             elseif(is_object($input)){
                 foreach($input as $key => $value){

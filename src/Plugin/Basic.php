@@ -11,6 +11,7 @@ trait Basic {
     protected Data $data;
     protected object $flags;
     protected object $options;
+    protected array $local = [];
 
     public function object(App $object=null): ?App
     {
@@ -82,6 +83,20 @@ trait Basic {
     private function getFlags(): ?object
     {
         return $this->flags;
+    }
+
+    public function local($depth=0, $local=null): ?object
+    {
+        if($local !== null){
+            $this->local[$depth] = $local;
+        }
+        if(
+            $depth !== null &&
+            array_key_exists($depth, $this->local)
+        ){
+            return clone $this->local[$depth];
+        }
+        return null;
     }
 
 }

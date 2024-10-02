@@ -227,6 +227,11 @@ class Parse
                     $this->local($depth, $input);
                 }
                 $options->depth = $depth;
+                $reserved_keys = [];
+                foreach($object->config('package.raxon/parse.object.this') as $key => $value){
+                    $reserved_keys[] = $value;
+                }
+                ddd($reserved_keys);
                 foreach($input as $key => $value){
                     $temp_source = $options->source ?? 'source';
                     $temp_class = $options->class;

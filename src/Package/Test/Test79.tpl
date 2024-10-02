@@ -20,6 +20,7 @@
     "parentNode": "{{$this.#parentNode.string|default:'no-parentNode'}}",
     "rootNode": "{{$this.#rootNode.function|default:'no-rootNode'}}",
     "key": "{{$this.#key|default:'no-key'}}",
+    "url": "{{$this.#url|default:'no-url'}}",
     "null": null
 }
 {{/block}}

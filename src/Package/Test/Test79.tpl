@@ -11,7 +11,7 @@
         "array": [1, 2, 3],
         "parentNode": "{{$this.#parentNode.number|default:'no-parentNode'}}"
     },
-    "function": "{{echo('test')}}",
+    "function": "{{echo('test123')}}",
     "class": "System.Config",
     "options": {
 

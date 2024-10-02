@@ -99,8 +99,14 @@ class Build
             foreach($list as $nr => &$record){
                 if($is_literal === true){
                     if($is_block){
+                        if(!array_key_exists('tag', $record)){
+                            ddd($record);
+                        }
                         $block[] = 'echo \'' . $record['tag'] . '\';';
                     } else {
+                        if(!array_key_exists('tag', $record)){
+                            ddd($record);
+                        }
                         $data[] = 'echo \'' . $record['tag'] . '\';';
                     }
                     continue;

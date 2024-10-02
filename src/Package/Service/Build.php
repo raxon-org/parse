@@ -781,6 +781,7 @@ class Build
             array_key_exists('text', $record) &&
             $record['text'] !== ''
         ){
+            d($record);
             /* wrong
             if(
                 array_key_exists('is_multiline', $record) &&

@@ -1333,7 +1333,7 @@ class Build
             } else {
                 $data[] = 'if(' . $variable_uuid .' === null){';
                 $data[] = 'ddd($data);';
-                $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . '" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . 'in source: '. $source . '. You can use modifier "default" to surpress it \');';
+                $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . '" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: '. $source . '. You can use modifier "default" to surpress it \');';
                 $data[] = '}';
             }
             $data[] = 'if(!is_scalar('. $variable_uuid. ')){';

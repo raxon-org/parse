@@ -184,7 +184,7 @@ class Parse
                 return $input;
             }
             $options->hash = hash('sha256', $input);
-            //url, key & attribute are already set.
+            //url, key & attribute might be already set.
             $url = $data->get('this.' . $object->config('package.raxon/parse.object.this.url'));
             $key = $data->get('this.' . $object->config('package.raxon/parse.object.this.key'));
             $attribute = $data->get('this.' . $object->config('package.raxon/parse.object.this.attribute'));

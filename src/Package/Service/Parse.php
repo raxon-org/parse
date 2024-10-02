@@ -100,6 +100,51 @@ class Parse
         $object->config(Parse::CONFIG . '.time.start', microtime(true));
     }
 
+    private static function class_name(App $object, $class=''){
+        return ltrim(
+            str_replace(
+                [
+                    '!',
+                    '@',
+                    '#',
+                    '$',
+                    '%',
+                    '^',
+                    '&',
+                    '*',
+                    '(',
+                    ')',
+                    '-',
+                    '+',
+                    '=',
+                    '{',
+                    '}',
+                    '|',
+                    ':',
+                    '\'',
+                    '"',
+                    '<',
+                    '>',
+                    ',',
+                    '?',
+                    '/',
+                    ';',
+                    '.',
+                    ' ',
+                    '~',
+                    '`',
+                    '[',
+                    ']',
+                    '\\',
+                ],
+                '_',
+                $class
+            ),
+            '_'
+        );
+    }
+
+
     /**
      * @throws Exception
      * @throws ObjectException
@@ -145,7 +190,7 @@ class Parse
                     $temp_source = $options->source ?? 'source';
                     $temp_class = $options->class;
                     $options->source = 'internal_' . Core::uuid();
-                    $options->class = $options->source;
+                    $options->class = Parse::class_name($object, $options->source);
                     $object->config('package.raxon/parse.build.state.input.debug', true);
                     $object->config('package.raxon/parse.build.state.input.key', $key);
                     $attribute = $object->config('package.raxon/parse.object.this.attribute');
@@ -168,47 +213,7 @@ class Parse
             $mtime = File::mtime($options->source);
         }
         $object->config('package.raxon/parse.build.state.source.mtime', $mtime);
-        $class = ltrim(
-            str_replace(
-                [
-                    '!',
-                    '@',
-                    '#',
-                    '$',
-                    '%',
-                    '^',
-                    '&',
-                    '*',
-                    '(',
-                    ')',
-                    '-',
-                    '+',
-                    '=',
-                    '{',
-                    '}',
-                    '|',
-                    ':',
-                    '\'',
-                    '"',
-                    '<',
-                    '>',
-                    ',',
-                    '?',
-                    '/',
-                    ';',
-                    '.',
-                    ' ',
-                    '~',
-                    '`',
-                    '[',
-                    ']',
-                    '\\',
-                ],
-                '_',
-                $object->config('package.raxon/parse.build.state.source.url')
-            ),
-            '_'
-        );
+        $class = Parse::class_name($object, $object->config('package.raxon/parse.build.state.source.url'));
         d($class);
         $cache_url = false;
         $is_plugin = false;

@@ -1206,7 +1206,6 @@ class Build
         }
         $source = $options->source ?? '';
         $method_name = mb_strtolower($record['method']['name']);
-
         switch($method_name){
             case 'for.each':
             case 'for_each':
@@ -1616,6 +1615,61 @@ class Build
                         );
                     }
                 }
+            break;
+            case 'block.data':
+                ddd($record);
+                /*
+                $method_value[] = 'for(';
+                $is_argument = false;
+                $argument_count = count($record['method']['argument']);
+                if($argument_count === 3){
+                    foreach($record['method']['argument'] as $nr => $argument){
+                        $value = Build::value($object, $flags, $options, $record, $argument);
+                        if(mb_strtolower($value) === 'null'){
+                            $value = '';
+                        }
+                        $method_value[] = $value . ';';
+                    }
+                    $method_value[3] = substr($method_value[3], 0, -1);
+                    $is_argument = true;
+                }
+                if($is_argument === false){
+                    if(
+                        array_key_exists('is_multiline', $record) &&
+                        $record['is_multiline'] === true
+                    ){
+                        throw new TemplateException(
+                            $record['tag'] .
+                            PHP_EOL .
+                            'Invalid argument for {{for()}}' .
+                            PHP_EOL .
+                            'On line: ' .
+                            $record['line']['start']  .
+                            ', column: ' .
+                            $record['column'][$record['line']['start']]['start'] .
+                            ' in source: '.
+                            $source .
+                            '.'
+                        );
+                    } else {
+                        throw new TemplateException(
+                            $record['tag'] .
+                            PHP_EOL .
+                            'Invalid argument for {{for()}}' .
+                            PHP_EOL .
+                            'On line: ' .
+                            $record['line']  .
+                            ', column: ' .
+                            $record['column']['start'] .
+                            ' in source: ' .
+                            $source .
+                            '.'
+                        );
+                    }
+                }
+                $method_value[] = '){';
+                $method_value = implode(PHP_EOL, $method_value);
+                */
             break;
             default:
                 $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));

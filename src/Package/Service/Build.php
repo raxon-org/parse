@@ -871,6 +871,8 @@ class Build
                     }
                     $skip_space = 0;
                 }
+                d($char);
+                d($variable_assign_next_tag);
                 if($variable_assign_next_tag === false){
                     $line .= $char;
                 }

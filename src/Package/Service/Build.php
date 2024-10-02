@@ -497,12 +497,7 @@ class Build
                             ){
                                 foreach($method['method']['argument'] as $argument_nr => $argument_record){
                                     $value = Build::value($object, $flags, $options, $record, $argument_record);
-                                    if(mb_strtolower($value) === 'null'){
-                                        $value = '';
-                                    }
-                                    if($value !== ''){
-                                        $argument[] = $value;
-                                    }
+                                    $argument[] = $value;
                                 }
                             }
                             $method_value = '$this->' . $plugin . '(' . PHP_EOL;

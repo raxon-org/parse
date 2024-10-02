@@ -490,7 +490,7 @@ class Build
                             $data[] = '$block = ob_get_clean();';
                             $data[] = '$this->block_data(';
                             $data[] = '    $block,';
-                            $method = $object->config('package.raxon/parse.build.state.record');
+                            $method = $object->config('package.raxon/parse.build.state.block.record');
                             d($method);
                             ddd($data);
                             $is_block = false;

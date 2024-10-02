@@ -538,7 +538,7 @@ class Build
                             }
                             $method = $object->config('package.raxon/parse.build.state.block.record');
                             $plugin = $object->config('package.raxon/parse.build.state.block.plugin');
-                            $data[] = '$block = ob_get_clean();';
+                            $data[] = '$block = rtrim(ob_get_clean());';
                             $data[] = 'ddd($block);';
                             $data[] = '$block = Core::object($block, Core::OBJECT_OBJECT);';
                             $data[] = '$block = $parse->compile($block, $data);';

@@ -14,6 +14,6 @@
     "options": {
 
     },
-    "assign": "{{$this.attribute|default:'assign'}}",
+    "assign": "{{$this.attribute|default:'no-attribute'}}",
     "null": null
 }

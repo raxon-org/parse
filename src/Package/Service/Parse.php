@@ -124,6 +124,10 @@ class Parse
         $object = $this->object();
         $flags = $this->flags();
         $options = $this->options();
+        if($object->config('package.raxon/parse.build.state.input.debug') === true){
+            d($input);
+            ddd($options);
+        }
         if(
             is_scalar($input) ||
             $input === null
@@ -136,6 +140,7 @@ class Parse
             }
             elseif(is_object($input)){
                 foreach($input as $key => $value){
+                    $object->config('package.raxon/parse.build.state.input.debug', true);
                     $object->config('package.raxon/parse.build.state.input.key', $key);
                     $attribute = $object->config('package.raxon/parse.object.this.attribute');
                     $input->{$attribute} = $key;

@@ -341,9 +341,7 @@ class Build
                                     break; //only 1 at a time
                                 }
                             }
-                            d($for_reverse);
                             if ($has_close === false) {
-                                ddd('false');
                                 if (
                                     array_key_exists('is_multiline', $record) &&
                                     $record['is_multiline'] === true

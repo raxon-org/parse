@@ -219,6 +219,7 @@ class Build
                                     $variable_assign_next_tag = true;
                                     $break_level--;
                                     $object->config('package.raxon/parse.build.state.break.level', $break_level);
+                                    break; //only 1 at a time
                                 }
                             }
                             if ($has_close === false) {
@@ -278,6 +279,7 @@ class Build
                                     $variable_assign_next_tag = true;
                                     $break_level--;
                                     $object->config('package.raxon/parse.build.state.break.level', $break_level);
+                                    break; //only 1 at a time
                                 }
                             }
                             if ($has_close === false) {
@@ -336,6 +338,7 @@ class Build
                                     $variable_assign_next_tag = true;
                                     $break_level--;
                                     $object->config('package.raxon/parse.build.state.break.level', $break_level);
+                                    break; //only 1 at a time
                                 }
                             }
                             d($for_reverse);
@@ -394,6 +397,7 @@ class Build
                                     $if_record['method']['has_close'] = true;
                                     $data[] = '}';
                                     $variable_assign_next_tag = true;
+                                    break; //only 1 at a time
                                 }
                             }
                             if ($has_close === false) {

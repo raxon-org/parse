@@ -124,8 +124,10 @@ class Parse
         $object = $this->object();
         $flags = $this->flags();
         $options = $this->options();
-
-        if(is_scalar($input) || $input === null){
+        if(
+            is_scalar($input) ||
+            $input === null
+        ){
             $options->hash = hash('sha256', $input);
         } else {
             $options->hash = hash('sha256', Core::object($input, Core::OBJECT_JSON_LINE));

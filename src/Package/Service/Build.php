@@ -99,6 +99,16 @@ class Build
             foreach($list as $nr => &$record){
                 if($is_literal === true){
                     if($is_block){
+                        if(
+                            array_key_exists('marker', $record) &&
+                            array_key_exists('name', $record['marker']) &&
+                            array_key_exists('is_close', $record['marker']) &&
+                            $record['marker']['is_close'] === true &&
+                            $record['marker']['name'] === 'literal'
+                        ){
+                            $is_literal = false;
+                            continue;
+                        }
                         if(array_key_exists('tag', $record)){
                             $block[] = 'echo \'' . $record['tag'] . '\';';
                             d($record);
@@ -108,7 +118,6 @@ class Build
                         } else {
                             ddd($record);
                         }
-
                     } else {
                         if(!array_key_exists('tag', $record)){
                             ddd($record);

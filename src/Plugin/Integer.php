@@ -12,7 +12,7 @@ namespace Plugin;
 
 trait Integer {
 
-    protected function integer(mixed $value=null): mixed
+    protected function integer(mixed $value=null): int
     {
         return (int) $value;
     }

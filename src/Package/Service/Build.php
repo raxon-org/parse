@@ -116,7 +116,7 @@ class Build
                         array_key_exists('marker', $record) &&
                         array_key_exists('name', $record['marker']) &&
                         array_key_exists('is_close', $record['marker']) &&
-                        $record['marker']['name'] !== 'block'
+                        $record['marker']['name'] === 'block'
                     ){
                         $is_literal_block = false;
                     } else {

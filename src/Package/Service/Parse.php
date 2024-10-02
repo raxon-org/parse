@@ -218,6 +218,7 @@ class Parse
             }
             elseif(is_object($input)){
                 if($depth === null){
+                    d($options);
                     $depth = 0;
                     $key = $object->config('package.raxon/parse.object.this.url');
                     $input->{$key} = $options->source ?? 'source';

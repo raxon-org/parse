@@ -179,6 +179,9 @@ class Parse
             is_scalar($input) ||
             $input === null
         ){
+            if(!str_contains($input, '{{') && !str_contains($input, '}}')){
+                return $input;
+            }
             $options->hash = hash('sha256', $input);
         } else {
             $options->hash = hash('sha256', Core::object($input, Core::OBJECT_JSON_LINE));

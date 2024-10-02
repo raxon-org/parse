@@ -183,7 +183,7 @@ class Parse
         } else {
             $options->hash = hash('sha256', Core::object($input, Core::OBJECT_JSON_LINE));
             if(is_array($input)){
-
+                ddd($input);
             }
             elseif(is_object($input)){
                 foreach($input as $key => $value){

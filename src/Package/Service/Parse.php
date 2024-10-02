@@ -186,6 +186,18 @@ class Parse
         } else {
             $options->hash = hash('sha256', Core::object($input, Core::OBJECT_JSON_LINE));
             if(is_array($input)){
+                foreach($input as $key => $value){
+                    $temp_source = $options->source ?? 'source';
+                    $temp_class = $options->class;
+                    $options->source = 'internal_' . Core::uuid();
+                    $options->class = Parse::class_name($object, $options->source);
+                    $object->config('package.raxon/parse.build.state.input.debug', true);
+                    $object->config('package.raxon/parse.build.state.input.key', $key);
+                    $attribute = $object->config('package.raxon/parse.object.this.attribute');
+                    $input[$key] = $this->compile($value, $data);
+                    $options->source = $temp_source;
+                    $options->class = $temp_class;
+                }
                 ddd($input);
             }
             elseif(is_object($input)){

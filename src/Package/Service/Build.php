@@ -123,7 +123,6 @@ class Build
                         if($is_block){
                             if(array_key_exists('tag', $record)){
                                 $block[] = 'echo \'' . str_replace('\'', '\\\'', $record['tag']) . '\';';
-                                d($record);
                             }
                             elseif(array_key_exists('text', $record)){
                                 $block[] = 'echo \'' . str_replace('\'', '\\\'', $record['text']) . '\';';
@@ -133,7 +132,6 @@ class Build
                         } else {
                             if(array_key_exists('tag', $record)){
                                 $data[] = 'echo \'' . str_replace('\'', '\\\'', $record['tag']) . '\';';
-                                d($record);
                             }
                             elseif(array_key_exists('text', $record)){
                                 $data[] = 'echo \'' . str_replace('\'', '\\\'', $record['text']) . '\';';
@@ -541,9 +539,12 @@ class Build
                             $data[] = '$block = rtrim(ob_get_clean());';
                             $data[] = '$block = Core::object($block, Core::OBJECT_OBJECT);';
                             $data[] = '$source = $options->source ?? null;';
-                            $data[] = '$options->source = \'' . Core::uuid() . '\';';
+                            $data[] = '$class = $options->class ?? null;';
+                            $data[] = '$options->source = \'internal_' . Core::uuid() . '\';';
+                            $data[] = '$options->class = Parse::class_name($object, $options->source);';
                             $data[] = '$block = $parse->compile($block, $data);';
                             $data[] = '$options->source = $source;';
+                            $data[] = '$options->class = $class;';
                             $argument = [];
                             if(
                                 array_key_exists('method', $method) &&

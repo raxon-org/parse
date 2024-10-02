@@ -98,31 +98,36 @@ class Build
         foreach($tags as $row_nr => $list){
             foreach($list as $nr => &$record){
                 if($is_literal === true){
+                    if(
+                        array_key_exists('marker', $record) &&
+                        array_key_exists('name', $record['marker']) &&
+                        array_key_exists('is_close', $record['marker']) &&
+                        $record['marker']['is_close'] === true &&
+                        $record['marker']['name'] === 'literal'
+                    ){
+                        $is_literal = false;
+                        continue;
+                    }
                     if($is_block){
-                        if(
-                            array_key_exists('marker', $record) &&
-                            array_key_exists('name', $record['marker']) &&
-                            array_key_exists('is_close', $record['marker']) &&
-                            $record['marker']['is_close'] === true &&
-                            $record['marker']['name'] === 'literal'
-                        ){
-                            $is_literal = false;
-                            continue;
-                        }
                         if(array_key_exists('tag', $record)){
-                            $block[] = 'echo \'' . $record['tag'] . '\';';
+                            $block[] = 'echo \'' . str_replace('\'', '\\\'', $record['tag']) . '\';';
                             d($record);
                         }
                         elseif(array_key_exists('text', $record)){
-                            $block[] = 'echo \'' . $record['text'] . '\';';
+                            $block[] = 'echo \'' . str_replace('\'', '\\\'', $record['text']) . '\';';
                         } else {
                             ddd($record);
                         }
                     } else {
-                        if(!array_key_exists('tag', $record)){
+                        if(array_key_exists('tag', $record)){
+                            $data[] = 'echo \'' . str_replace('\'', '\\\'', $record['tag']) . '\';';
+                            d($record);
+                        }
+                        elseif(array_key_exists('text', $record)){
+                            $data[] = 'echo \'' . str_replace('\'', '\\\'', $record['text']) . '\';';
+                        } else {
                             ddd($record);
                         }
-                        $data[] = 'echo \'' . $record['tag'] . '\';';
                     }
                     continue;
                 }

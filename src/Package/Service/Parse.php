@@ -251,7 +251,7 @@ class Parse
                     $data->set('this.' . $attribute, $key);
                     $attribute = $object->config('package.raxon/parse.object.this.attribute');
                     $input->{$attribute} = $key;
-
+                    d($attribute);
                     $data->set('this.' . $attribute, $key);
                     $input->{$key} = $this->compile($value, $data);
                     $options->source = $temp_source;

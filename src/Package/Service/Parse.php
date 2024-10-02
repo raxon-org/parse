@@ -189,6 +189,7 @@ class Parse
             $parentNode = $object->config('package.raxon/parse.build.state.input.key');
             $data->set('this.#parentNode', $parentNode);
             if(is_array($input)){
+                $data->set('this.#parentNode', $input);
                 foreach($input as $key => $value){
                     $temp_source = $options->source ?? 'source';
                     $temp_class = $options->class;
@@ -201,10 +202,10 @@ class Parse
                     $options->source = $temp_source;
                     $options->class = $temp_class;
                 }
-                $data->set('this.#parentNode', $parentNode);
                 return $input;
             }
             elseif(is_object($input)){
+                $data->set('this.#parentNode', $input);
                 foreach($input as $key => $value){
                     $temp_source = $options->source ?? 'source';
                     $temp_class = $options->class;
@@ -220,7 +221,7 @@ class Parse
                     $options->source = $temp_source;
                     $options->class = $temp_class;
                 }
-                $data->set('this.#parentNode', $parentNode);
+
                 return $input;
             }
         }

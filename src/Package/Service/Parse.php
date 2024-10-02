@@ -214,7 +214,7 @@ class Parse
                     $options->source = $temp_source;
                     $options->class = $temp_class;
                 }
-                ddd($input);
+                return $input;
             }
         }
         d($options);

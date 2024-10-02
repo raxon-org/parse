@@ -74,7 +74,6 @@ class Build
         $document[] = '';
         $document[] = 'namespace Package\Raxon\Parse;';
         $document[] = '';
-        $object->config('package.raxon/parse.time.start', $time);
         return $document;
     }
 

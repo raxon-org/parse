@@ -144,7 +144,7 @@ class Parse
                 foreach($input as $key => $value){
                     $source_temp = $options->source ?? 'source';
                     $options->source = 'internal_' . Core::uuid();
-                    $object->config('package.raxon/parse.build.state.source.url', $options->source);
+                    $options->class = $options->source;
                     $object->config('package.raxon/parse.build.state.input.debug', true);
                     $object->config('package.raxon/parse.build.state.input.key', $key);
                     $attribute = $object->config('package.raxon/parse.object.this.attribute');

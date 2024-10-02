@@ -185,6 +185,9 @@ class Parse
             $options->hash = hash('sha256', $input);
         } else {
             $options->hash = hash('sha256', Core::object($input, Core::OBJECT_JSON_LINE));
+
+            $parentNode = $object->config('package.raxon/parse.build.state.input.key');
+            $data->set('this.#parentNode', $parentNode);
             if(is_array($input)){
                 foreach($input as $key => $value){
                     $temp_source = $options->source ?? 'source';
@@ -193,11 +196,12 @@ class Parse
                     $options->class = Parse::class_name($object, $options->source);
                     $object->config('package.raxon/parse.build.state.input.debug', true);
                     $object->config('package.raxon/parse.build.state.input.key', $key);
-                    $attribute = $object->config('package.raxon/parse.object.this.attribute');
+                    $data->set('this.#key', $key);
                     $input[$key] = $this->compile($value, $data);
                     $options->source = $temp_source;
                     $options->class = $temp_class;
                 }
+                $data->set('this.#parentNode', $parentNode);
                 return $input;
             }
             elseif(is_object($input)){
@@ -210,10 +214,13 @@ class Parse
                     $object->config('package.raxon/parse.build.state.input.key', $key);
                     $attribute = $object->config('package.raxon/parse.object.this.attribute');
                     $input->{$attribute} = $key;
+                    $data->set('this.#key', $key);
+                    $data->set('this.#attribute', $key);
                     $input->{$key} = $this->compile($value, $data);
                     $options->source = $temp_source;
                     $options->class = $temp_class;
                 }
+                $data->set('this.#parentNode', $parentNode);
                 return $input;
             }
         }

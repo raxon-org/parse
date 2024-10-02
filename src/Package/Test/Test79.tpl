@@ -16,6 +16,8 @@
 
     },
     "assign": "{{$this.#attribute|default:'no-attribute'}}",
+    "parentNode": "{{$this.#parentNode|default:'no-parentNode'}}",
+    "rootNode": "{{$this.#rootNode.string|default:'no-parentNode'}}",
     "null": null
 }
 {{/block}}

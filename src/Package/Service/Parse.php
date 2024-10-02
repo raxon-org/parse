@@ -257,7 +257,7 @@ class Parse
                     }
                     $temp_source = $options->source ?? 'source';
                     $temp_class = $options->class;
-                    $options->source = 'internal_' . Core::uuid();
+                    $options->source = 'internal_' . $options->source . '_' . $key;
                     $options->class = Parse::class_name($object, $options->source);
                     $object->config('package.raxon/parse.build.state.input.debug', true);
                     $object->config('package.raxon/parse.build.state.input.key', $key);

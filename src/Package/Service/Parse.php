@@ -124,7 +124,12 @@ class Parse
         $object = $this->object();
         $flags = $this->flags();
         $options = $this->options();
-        $options->hash = hash('sha256', $input);
+
+        if(is_scalar($input) || $input === null){
+            $options->hash = hash('sha256', $input);
+        } else {
+            $options->hash = hash('sha256', Core::object($input, Core::OBJECT_JSON_LINE));
+        }
         $source = $options->source ?? 'source';
         $object->config('package.raxon/parse.build.state.source.url', $source);
         $mtime = false;

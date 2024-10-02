@@ -490,16 +490,19 @@ class Build
                             $method = $object->config('package.raxon/parse.build.state.block.record');
                             $plugin = $object->config('package.raxon/parse.build.state.block.plugin');
                             $data[] = '$block = ob_get_clean();';
-                            $argument = [];
-                            d($plugin);
                             ddd($method);
-                            foreach($method['argument'] as $argument_nr => $argument_record){
-                                $value = Build::value($object, $flags, $options, $record, $argument_record);
-                                if(mb_strtolower($value) === 'null'){
-                                    $value = '';
-                                }
-                                if($value !== ''){
-                                    $argument[] = $value;
+                            if(
+                                array_key_exists('method', $method) &&
+                                array_key_exists('argument', $method['method'])
+                            ){
+                                foreach($method['method']['argument'] as $argument_nr => $argument_record){
+                                    $value = Build::value($object, $flags, $options, $record, $argument_record);
+                                    if(mb_strtolower($value) === 'null'){
+                                        $value = '';
+                                    }
+                                    if($value !== ''){
+                                        $argument[] = $value;
+                                    }
                                 }
                             }
                             $method_value = '$this->' . $plugin . '(' . PHP_EOL;

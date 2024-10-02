@@ -502,10 +502,14 @@ class Build
                             }
                             $method_value = '$this->' . $plugin . '(' . PHP_EOL;
                             $method_value .= '$block,' . PHP_EOL;
+                            $is_argument = false;
                             foreach($argument as $argument_nr => $argument_record){
                                 $method_value = $argument_record . ',' . PHP_EOL;
+                                $is_argument = true;
                             }
-                            $method_value = substr($method_value, 0, -2) . PHP_EOL;
+                            if($is_argument){
+                                $method_value = substr($method_value, 0, -2) . PHP_EOL;
+                            }
                             $data[] = $method_value . ');';
                             $is_block = false;
                             //there is plugin name and record with the arguments

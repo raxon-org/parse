@@ -283,6 +283,10 @@ class Parse
             File::exist($options->source)
         ){
             $mtime = File::mtime($options->source);
+            $object->config('package.raxon/parse.build.state.source.mtime', $mtime);
+        }
+        elseif(str_starts_with($source, 'internal_')){
+            $mtime = $object->config('package.raxon/parse.build.state.source.mtime');
         }
         d($options->source);
         $object->config('package.raxon/parse.build.state.source.mtime', $mtime);

@@ -16,7 +16,7 @@
     "options": {
 
     },
-    "attribute": "{{$this.#attribute|default:'no-attribute'}}",
+    "attribute": "{{$this.#attribute}}",
     "parentNode": "{{$this.#parentNode.string|default:'no-parentNode'}}",
     "rootNode": "{{$this.#rootNode.function|default:'no-rootNode'}}",
     "key": "{{$this.#key|default:'no-key'}}",

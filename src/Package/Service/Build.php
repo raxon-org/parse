@@ -510,7 +510,6 @@ class Build
                                 $method_value = substr($method_value, 0, -2) . PHP_EOL;
                             }
                             $data[] = $method_value . ');';
-                            ddd($data);
                             $is_block = false;
                             //there is plugin name and record with the arguments
                             $object->config('delete', 'package.raxon/parse.build.state.block');

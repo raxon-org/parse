@@ -290,7 +290,7 @@ class Parse
         elseif(str_starts_with($source, 'internal_')){
             $mtime = $object->config('package.raxon/parse.build.state.source.mtime');
         }
-        d($options->source);
+//        d($options->source);
         $object->config('package.raxon/parse.build.state.source.mtime', $mtime);
         $class = Parse::class_name($object, $object->config('package.raxon/parse.build.state.source.url'));
         $cache_url = false;

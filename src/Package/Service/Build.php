@@ -56,6 +56,7 @@ class Build
     public static function document_header(App $object, $flags, $options): array
     {
         $source = $options->source ?? '';
+        $time = microtime(true);
         $object->config('package.raxon/parse.build.state.source.url', $source);
         $object->config('package.raxon/parse.build.state.indent', 0);
         $document[] = '<?php';
@@ -65,7 +66,7 @@ class Build
         $document[] = ' * @version ' . $object->config('framework.version');
         $document[] = ' * @author ' . 'Remco van der Velde (remco@universeorange.com)';
         $document[] = ' * @compile-date ' . date('Y-m-d H:i:s');
-        $document[] = ' * @compile-time ' . round((microtime(true) - $object->config('package.raxon/parse.time.start')) * 1000, 3) . ' ms';
+        $document[] = ' * @compile-time ' . round(($time - $object->config('package.raxon/parse.time.start')) * 1000, 3) . ' ms';
         $document[] = ' * @note compiled by ' . $object->config('framework.name') . ' ' . $object->config('framework.version');
         $document[] = ' * @url ' . $object->config('framework.url');
         $document[] = ' * @source ' . $source;
@@ -73,6 +74,7 @@ class Build
         $document[] = '';
         $document[] = 'namespace Package\Raxon\Parse;';
         $document[] = '';
+        $object->config('package.raxon/parse.time.start', $time);
         return $document;
     }
 

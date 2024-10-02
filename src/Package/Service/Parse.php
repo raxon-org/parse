@@ -143,6 +143,7 @@ class Parse
             elseif(is_object($input)){
                 foreach($input as $key => $value){
                     $source_temp = $options->source ?? 'source';
+                    $class_temp = $options->class;
                     $options->source = 'internal_' . Core::uuid();
                     $options->class = $options->source;
                     $object->config('package.raxon/parse.build.state.input.debug', true);
@@ -151,6 +152,7 @@ class Parse
                     $input->{$attribute} = $key;
                     $input->{$key} = $this->compile($value, $data);
                     $options->source = $source_temp;
+                    $options->class = $class_temp;
                 }
                 ddd($input);
             }

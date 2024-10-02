@@ -338,8 +338,9 @@ class Build
                                     $object->config('package.raxon/parse.build.state.break.level', $break_level);
                                 }
                             }
-                            ddd($for_reverse);
+                            d($for_reverse);
                             if ($has_close === false) {
+                                ddd('false');
                                 if (
                                     array_key_exists('is_multiline', $record) &&
                                     $record['is_multiline'] === true

@@ -10,7 +10,7 @@
         "float": 1.0001,
         "boolean": false,
         "array": [1, 2, 3]
-    }
+    },
     "function": "{{echo('test')}}",
     "class": "System.Config",
     "options": {

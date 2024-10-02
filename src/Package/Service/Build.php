@@ -99,9 +99,9 @@ class Build
             foreach($list as $nr => &$record){
                 if($is_literal === true){
                     if($is_block){
-                        $block[] = '$this->plugin_echo(\'' . $record['tag'] . '\');';
+                        $block[] = 'echo \'' . $record['tag'] . '\';';
                     } else {
-                        $data[] = '$this->plugin_echo(\'' . $record['tag'] . '\');';
+                        $data[] = 'echo \'' . $record['tag'] . '\';';
                     }
                     continue;
                 }

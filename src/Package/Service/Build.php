@@ -90,18 +90,28 @@ class Build
         $foreach = [];
         $while = [];
         $if = [];
+        $is_block = false;
+        $block = [];
         $break_level = 0;
         $object->config('package.raxon/parse.build.state.break.level', $break_level);
         foreach($tags as $row_nr => $list){
             foreach($list as $nr => &$record){
                 $text = Build::text($object, $flags, $options, $record, $variable_assign_next_tag);
                 if($text){
-                    $data[] = $text;
+                    if($is_block){
+                        $block[] = $text;
+                    } else {
+                        $data[] = $text;
+                    }
                 }
                 $variable_assign_next_tag = false; //Build::text is taking care of this
                 $variable_assign = Build::variable_assign($object, $flags, $options, $record);
                 if($variable_assign){
-                    $data[] = $variable_assign;
+                    if($is_block){
+                        $block[] = $variable_assign;
+                    } else {
+                        $data[] = $variable_assign;
+                    }
                     $next = $list[$nr + 1] ?? false;
                     if($next !== false){
                         $tags[$row_nr][$nr + 1] = Build::variable_assign_next($object, $flags, $options, $record, $next);
@@ -113,7 +123,11 @@ class Build
                 $variable_define = Build::variable_define($object, $flags, $options, $record);
                 if($variable_define){
                     foreach($variable_define as $variable_define_nr => $line){
-                        $data[] = $line;
+                        if($is_block){
+                            $block[] = $line;
+                        } else {
+                            $data[] = $line;
+                        }
                     }
                 }
                 $method = Build::method($object, $flags, $options, $record);
@@ -174,8 +188,23 @@ class Build
                         ){
                             $if[] = $record;
                         }
+                        elseif(
+                            in_array(
+                                $record['method']['name'],
+                                [
+                                    'block.data',
+                                ],
+                                true
+                            )
+                        ){
+                            $is_block = true;
+                        }
                     }
-                    $data[] = $method;
+                    if($is_block){
+                        $block[] = $method;
+                    } else {
+                        $data[] = $method;
+                    }
                     $variable_assign_next_tag = true;
                 }
                 if(
@@ -215,7 +244,11 @@ class Build
                                 ) {
                                     $has_close = true;
                                     $foreach_record['method']['has_close'] = true;
-                                    $data[] = '}';
+                                    if($is_block){
+                                        $block[] = '}';
+                                    } else {
+                                        $data[] = '}';
+                                    }
                                     $variable_assign_next_tag = true;
                                     $break_level--;
                                     $object->config('package.raxon/parse.build.state.break.level', $break_level);
@@ -275,7 +308,11 @@ class Build
                                     $has_close = true;
                                     $while_reverse[$while_nr]['method']['has_close'] = true;
                                     $while_record['method']['has_close'] = true;
-                                    $data[] = '}';
+                                    if($is_block){
+                                        $block[] = '}';
+                                    } else {
+                                        $data[] = '}';
+                                    }
                                     $variable_assign_next_tag = true;
                                     $break_level--;
                                     $object->config('package.raxon/parse.build.state.break.level', $break_level);
@@ -334,7 +371,11 @@ class Build
                                     $has_close = true;
                                     $for_reverse[$for_nr]['method']['has_close'] = true;
                                     $for_record['method']['has_close'] = true;
-                                    $data[] = '}';
+                                    if($is_block){
+                                        $block[] = '}';
+                                    } else {
+                                        $data[] = '}';
+                                    }
                                     $variable_assign_next_tag = true;
                                     $break_level--;
                                     $object->config('package.raxon/parse.build.state.break.level', $break_level);
@@ -393,7 +434,11 @@ class Build
                                     $has_close = true;
                                     $if_reverse[$if_nr]['method']['has_close'] = true;
                                     $if_record['method']['has_close'] = true;
-                                    $data[] = '}';
+                                    if($is_block){
+                                        $block[] = '}';
+                                    } else {
+                                        $data[] = '}';
+                                    }
                                     $variable_assign_next_tag = true;
                                     break; //only 1 at a time
                                 }
@@ -439,6 +484,26 @@ class Build
                         true
                     )
                 ) {
+                    if($is_block){
+                        $block[] = '} else {';
+                    } else {
+                        $data[] = '} else {';
+                    }
+                    $variable_assign_next_tag = true;
+                }
+                elseif (
+                    array_key_exists('marker', $record) &&
+                    in_array(
+                        $record['marker']['name'],
+                        [
+                            'block',
+                        ],
+                        true
+                    )
+                ) {
+                    ddd($block);
+
+
                     $data[] = '} else {';
                     $variable_assign_next_tag = true;
                 }

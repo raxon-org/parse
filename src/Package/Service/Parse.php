@@ -184,7 +184,11 @@ class Parse
                 return $input;
             }
             $options->hash = hash('sha256', $input);
-            $data->set('this', Core::object_merge($data->get('this'), $this->local($depth)));
+            $attribute = $data->get('this.' . $object->config('package.raxon/parse.object.this.attribute'));
+            $key = $data->get('this.' . $object->config('package.raxon/parse.object.this.key'));
+            $data->set('this', $this->local($depth));
+            $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
+            $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $attribute);
             $rootNode = $this->local(0);
             if(
                 $rootNode &&

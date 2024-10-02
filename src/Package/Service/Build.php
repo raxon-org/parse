@@ -491,6 +491,8 @@ class Build
                             $plugin = $object->config('package.raxon/parse.build.state.block.plugin');
                             $data[] = '$block = ob_get_clean();';
                             $argument = [];
+                            d($plugin);
+                            ddd($method);
                             foreach($method['argument'] as $argument_nr => $argument_record){
                                 $value = Build::value($object, $flags, $options, $record, $argument_record);
                                 if(mb_strtolower($value) === 'null'){

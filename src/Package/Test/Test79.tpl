@@ -3,7 +3,7 @@
     "string": "test",
     "number": 1,
     "boolean": true,
-    "array": [1, 2, 3, "{{$this.#key}}"],
+    "array": [1, 2, 3, "0000{{$this.#key}}"],
     "object": {
         "string": "test",
         "number": 1,

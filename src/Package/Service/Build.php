@@ -656,9 +656,6 @@ class Build
 //                            $data[] = $record['marker']['name'] . '();';
                         }
                     }
-
-
-
                     $class_static = Build::class_static($object);
                     if(
                         in_array(
@@ -667,7 +664,7 @@ class Build
                             true
                         ) &&
                         array_key_exists('value', $record['marker'])
-                    ){..
+                    ){
                         //this should be able to be disabled, (security)
                         $name = $record['marker']['value']['array'][2]['method']['name'];
                         $argument = $record['marker']['value']['array'][2]['method']['argument'];

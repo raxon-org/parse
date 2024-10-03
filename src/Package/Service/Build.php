@@ -620,6 +620,8 @@ class Build
                     $variable_assign_next_tag = true;
                 }
                 elseif(array_key_exists('marker', $record)){
+                    $use_class = $object->config('package.raxon/parse.build.use.class');
+                    ddd($use_class);
                     if(
                         array_key_exists('is_multiline', $record) &&
                         $record['is_multiline'] === true

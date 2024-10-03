@@ -1,7 +1,7 @@
 {{block.data()}}
 {
     "string": "test",
-    "number": 1,
+    "float": 1,
     "boolean": true,
     "array": [1, 2, 3, "0000{{$this.#key}}"],
     "object": {
@@ -9,7 +9,7 @@
         "number": 1,
         "boolean": true,
         "array": [1, 2, 3],
-        "parentNode": "{{$this.#parentNode.number|default:'no-parentNode'}}",
+        "parentNode": "{{$this.#parentNode.float|default:'no-parentNode'}}",
         "selector": "{{$this.boolean}}"
     },
     "function": "{{echo('test123')}}",

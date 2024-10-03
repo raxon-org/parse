@@ -629,7 +629,9 @@ class Build
                             $temp = explode('\\', $explode[0]);
                             $use_class[$use_class_nr] = array_pop($temp);
                         }
+                        $use_class[$use_class_nr] .= '::';
                     }
+                    d(in_array($record['marker']['name'], $use_class, true));
                     ddd($use_class);
                     if(
                         array_key_exists('is_multiline', $record) &&

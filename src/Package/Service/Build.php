@@ -651,6 +651,9 @@ class Build
                             $value = Build::value($object, $flags, $options, $record, $argument_record);
                             $argument[$argument_nr] = $value;
                         }
+                        if($is_block){
+                            $block[] = $name . '(' . implode(', ', $argument) . ');';
+                        }
                         d($name);
                         d($argument);
 

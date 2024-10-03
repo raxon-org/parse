@@ -653,16 +653,16 @@ class Build
                         if($is_block){
                             $block[] = '$boolean =  ' . $value . ';';
                             $block[] = 'if($boolean === true){';
-                            $block[] = 'echo \'true\'';
+                            $block[] = 'echo \'true\';';
                             $block[] = '} else {';
-                            $block[] = 'echo \'false\'';
+                            $block[] = 'echo \'false\';';
                             $block[] = '}';
                         } else {
                             $data[] = '$boolean = ' . $value . ';';
                             $data[] = 'if($boolean === true){';
-                            $data[] = 'echo \'true\'';
+                            $data[] = 'echo \'true\';';
                             $data[] = '} else {';
-                            $data[] = 'echo \'false\'';
+                            $data[] = 'echo \'false\';';
                             $data[] = '}';
                         }
                     }

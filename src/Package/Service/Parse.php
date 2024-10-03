@@ -266,6 +266,8 @@ class Parse
                 foreach($object->config('package.raxon/parse.object.this') as $key => $value){
                     $reserved_keys[] = $value;
                 }
+                $attribute = $object->config('package.raxon/parse.build.state.this.attribute');
+                $property = $object->config('package.raxon/parse.build.state.this.property');
                 foreach($input as $key => $value){
                     if(
                         in_array(
@@ -296,6 +298,8 @@ class Parse
                     $options->source = $temp_source;
                     $options->class = $temp_class;
                 }
+                $object->config('package.raxon/parse.build.state.this.attribute', $attribute);
+                $object->config('package.raxon/parse.build.state.this.property', $property);
                 return $input;
             }
         }

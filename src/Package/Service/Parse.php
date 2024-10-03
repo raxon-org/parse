@@ -289,12 +289,12 @@ class Parse
 //                    $object->config('package.raxon/parse.build.state.input.key', $key);
 //                    $attribute = $object->config('package.raxon/parse.object.this.key');
 //                    $data->set('this.' . $attribute, $key);
-                    $attribute = $object->config('package.raxon/parse.object.this.attribute');
+//                    $attribute = $object->config('package.raxon/parse.object.this.attribute');
                     $object->config('package.raxon/parse.build.state.this.attribute', $key);
 //                    $data->set('this.' . $attribute, $key);
-                    $attribute = $object->config('package.raxon/parse.object.this.property');
+//                    $attribute = $object->config('package.raxon/parse.object.this.property');
                     $object->config('package.raxon/parse.build.state.this.property', $key);
-//                    $data->set('this.' . $attribute, $key);
+                    $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
                     $input->{$key} = $this->compile($value, $data);
                     $options->source = $temp_source;
                     $options->class = $temp_class;

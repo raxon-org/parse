@@ -10,11 +10,13 @@
         "boolean": true,
         "array": [1, 2, 3],
         "parentNode": "{{$this.#parentNode.number|default:'no-parentNode'}}"
+        "selector": "{{$this.boolean}}"
     },
     "function": "{{echo('test123')}}",
     "class": "System.Config",
     "options": {
-        "node": "{{$this.#node}}"
+        "parentProperty": "{{$this.#parentProperty}}",
+        "parentNodeProperty": "{{$this.#parentNode.property}}",
     },
     "attribute": "{{$this.#attribute}}",
     "property": "{{$this.#property}}",

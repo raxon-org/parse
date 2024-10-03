@@ -211,14 +211,15 @@ class Parse
             $url = $data->get('this.' . $object->config('package.raxon/parse.object.this.url'));
             $key = $data->get('this.' . $object->config('package.raxon/parse.object.this.key'));
             $attribute = $data->get('this.' . $object->config('package.raxon/parse.object.this.attribute'));
+            d($attribute);
             $data->set('this', $this->local($depth));
-            if($url){
+            if($url !== null){
                 $data->set('this.' . $object->config('package.raxon/parse.object.this.url'), $url);
             }
-            if($key){
+            if($key !== null){
                 $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
             }
-            if($attribute){
+            if($attribute !== null){
                 $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $attribute);
             }
             $rootNode = $this->local(0);

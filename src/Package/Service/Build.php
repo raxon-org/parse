@@ -651,9 +651,19 @@ class Build
                         // !!!! $this.boolean
                         $value = Build::value($object, $flags, $options, $record, $record['marker']['value']);
                         if($is_block){
-                            $block[] = 'echo ' . $value . ';';
+                            $block[] = '$boolean =  ' . $value . ';';
+                            $block[] = 'if($boolean === true){';
+                            $block[] = 'echo \'true\'';
+                            $block[] = '} else {';
+                            $block[] = 'echo \'false\'';
+                            $block[] = '}';
                         } else {
-                            $data[] = 'echo ' . $value . ';';
+                            $data[] = '$boolean ' . $value . ';';
+                            $data[] = 'if($boolean === true){';
+                            $data[] = 'echo \'true\'';
+                            $data[] = '} else {';
+                            $data[] = 'echo \'false\'';
+                            $data[] = '}';
                         }
                     }
                     elseif(

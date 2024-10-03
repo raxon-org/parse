@@ -168,18 +168,19 @@ class Method
                             $argument = '';
                             $argument_nr = 0;
                         } else {
-                            d($name);
-                            $argument_array[] = [
-                                'type' => 'null',
-                                'value' => 'null',
-                                'execute' => null,
-                                'is_null' => true
-                            ];
-                            $argument = 'null';
-                            $argument_list[$argument_nr] = [
-                                'string' => $argument,
-                                'array' => $argument_array
-                            ];
+                            if($name === 'for'){
+                                $argument_array[] = [
+                                    'type' => 'null',
+                                    'value' => 'null',
+                                    'execute' => null,
+                                    'is_null' => true
+                                ];
+                                $argument = 'null';
+                                $argument_list[$argument_nr] = [
+                                    'string' => $argument,
+                                    'array' => $argument_array
+                                ];
+                            }
                             $argument_array = [];
                             $argument = '';
                             $argument_nr = 0;
@@ -347,18 +348,19 @@ class Method
                             $argument_array = [];
                             $argument = '';
                         } else {
-                            d($name);
-                            $argument_array[] = [
-                                'type' => 'null',
-                                'value' => 'null',
-                                'execute' => null,
-                                'is_null' => true
-                            ];
-                            $argument = 'null';
-                            $argument_list[$argument_nr] = [
-                                'string' => $argument,
-                                'array' => $argument_array
-                            ];
+                            if($name === 'for'){
+                                $argument_array[] = [
+                                    'type' => 'null',
+                                    'value' => 'null',
+                                    'execute' => null,
+                                    'is_null' => true
+                                ];
+                                $argument = 'null';
+                                $argument_list[$argument_nr] = [
+                                    'string' => $argument,
+                                    'array' => $argument_array
+                                ];
+                            }
                             $argument_array = [];
                             $argument = '';
                         }

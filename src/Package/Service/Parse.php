@@ -181,11 +181,14 @@ class Parse
             $this->data($data);
         }
         elseif(
-            is_object($data) &&
-            !($data instanceof Data)
+            is_object($data)
         ){
-            $data = new Data($data);
-            $this->data($data);
+            if($data instanceof Data){
+                $this->data($data);
+            } else {
+                $data = new Data($data);
+                $this->data($data);
+            }
         } else {
             $data = $this->data();
         }

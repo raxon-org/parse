@@ -114,11 +114,10 @@ class Parse
             elseif(is_numeric($result)){
                 if(trim($result) === $result){
                     return $result + 0;
-                } else {
-                    return $result;
                 }
             }
         }
+        return $result;
     }
 
     public static function class_name(App $object, $class=''){

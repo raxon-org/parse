@@ -621,6 +621,15 @@ class Build
                 }
                 elseif(array_key_exists('marker', $record)){
                     $use_class = $object->config('package.raxon/parse.build.use.class');
+                    foreach($use_class as $use_class_nr => $use_class_record){
+                        $explode = explode('as', $use_class_record);
+                        if(array_key_exists(1, $explode)){
+                            $use_class[$use_class_nr] = trim($explode[1]);
+                        } else {
+                            $temp = explode('\\', $explode[0]);
+                            $use_class[$use_class_nr] = array_pop($temp);
+                        }
+                    }
                     ddd($use_class);
                     if(
                         array_key_exists('is_multiline', $record) &&

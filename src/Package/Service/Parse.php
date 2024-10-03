@@ -116,7 +116,10 @@ class Parse
                 if(ltrim($result, '0') === $result){
                     return $result + 0;
                 }
-                elseif(trim($result) === $result){
+                if(
+                    trim($result, " \t\n\r\0\x0B") === $result &&
+                    ltrim($result, '0') === $result
+                ){
                     return $result + 0;
                 }
             }

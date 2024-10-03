@@ -11,7 +11,7 @@
         "array": [1, 2, 3],
         "parentNode": "{{$this.#parentNode.float|default:'no-parentNode'}}",
         "selector": "{{$this.array|object:Core::OBJECT_OBJECT}}",
-        "uuid": "{{$this.uuid = Core::uuid()}}"
+        "uuid": "{{data.set('object.uuid', Core::uuid())}}"
     },
     "function": "{{echo('test123')}}",
     "class": "System.Config",

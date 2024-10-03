@@ -1305,6 +1305,7 @@ class Build
                         );
 
                     } else {
+                        ddd('end');
                         throw new LocateException(
                             'Plugin not found (' .
                             str_replace('_', '.', $name) .
@@ -2027,6 +2028,7 @@ class Build
         ){
             $value = ''; //init ++, --, **
         } else {
+            d($record);
             $value = Build::value($object, $flags, $options, $record, $record['variable']['value']);
         }
         if(array_key_exists('modifier', $record['variable'])){

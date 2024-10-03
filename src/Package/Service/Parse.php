@@ -243,6 +243,7 @@ class Parse
                     $options->source = 'internal_' . Core::uuid();
                     $options->class = Parse::class_name($object, $options->source);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
+                    d($data);
                     $input[$key] = $this->compile($value, $data);
                     $options->source = $temp_source;
                     $options->class = $temp_class;
@@ -251,11 +252,8 @@ class Parse
             }
             elseif(is_object($input)){
                 if($depth === null){
-//                    d($options);
                     $depth = 0;
-                    $key = $object->config('package.raxon/parse.object.this.url');
-                    $data->set('this.' . $key, $options->source ?? 'source');
-//                    $input->{$key} = $options->source ?? 'source';
+                    $data->set('this.' . $object->config('package.raxon/parse.object.this.url'), $options->source ?? 'source');
                     $this->local($depth, $input);
                 } else {
                     $depth++;
@@ -270,7 +268,7 @@ class Parse
 //                $property = $object->config('package.raxon/parse.build.state.this.property');
                 $data->set(
                     'this.' .
-                    $object->config('package.raxon/parse.object.this.node'),
+                    $object->config('package.raxon/parse.object.this.parentProperty'),
                     $data->get(
                         'this.' .
                         $object->config('package.raxon/parse.object.this.property')

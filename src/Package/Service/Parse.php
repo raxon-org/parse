@@ -200,6 +200,7 @@ class Parse
         }
         */
         $depth = $options->depth ?? null;
+        d($depth);
         if(
             is_scalar($input) ||
             $input === null

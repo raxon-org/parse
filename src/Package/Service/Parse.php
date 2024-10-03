@@ -212,13 +212,15 @@ class Parse
             d($data);
             $url = $data->get('this.' . $object->config('package.raxon/parse.object.this.url'));
             $key = $data->get('this.' . $object->config('package.raxon/parse.object.this.key'));
-            $attribute = $object->config('package.raxon/parse.build.state.this.attribute');
-            $property = $object->config('package.raxon/parse.build.state.this.property');
+            $attribute = $data->get('this.' . $object->config('package.raxon/parse.object.this.attribute'));
+            $property = $data->get('this.' . $object->config('package.raxon/parse.object.this.property'));
+            $node = $data->get('this.' . $object->config('package.raxon/parse.object.this.node'));
             $data->set('this', $this->local($depth));
             $data->set('this.' . $object->config('package.raxon/parse.object.this.url'), $url);
             $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $attribute);
             $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $property);
             $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
+            $data->set('this.' . $object->config('package.raxon/parse.object.this.node'), $node);
             $rootNode = $this->local(0);
             if(
                 $rootNode &&
@@ -240,11 +242,7 @@ class Parse
                     $temp_class = $options->class;
                     $options->source = 'internal_' . Core::uuid();
                     $options->class = Parse::class_name($object, $options->source);
-                    $attribute = $object->config('package.raxon/parse.object.this.key');
-                    $data->set('this.' . $attribute, $key);
-
-//                    $object->config('package.raxon/parse.build.state.input.key', $key);
-//                    $data->set('this.#key', $key);
+                    $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
                     $input[$key] = $this->compile($value, $data);
                     $options->source = $temp_source;
                     $options->class = $temp_class;
@@ -268,8 +266,8 @@ class Parse
                 foreach($object->config('package.raxon/parse.object.this') as $key => $value){
                     $reserved_keys[] = $value;
                 }
-                $attribute = $object->config('package.raxon/parse.build.state.this.attribute');
-                $property = $object->config('package.raxon/parse.build.state.this.property');
+//                $attribute = $object->config('package.raxon/parse.build.state.this.attribute');
+//                $property = $object->config('package.raxon/parse.build.state.this.property');
                 foreach($input as $key => $value){
                     if(
                         in_array(
@@ -296,15 +294,14 @@ class Parse
 //                    $attribute = $object->config('package.raxon/parse.object.this.property');
 //                    $object->config('package.raxon/parse.build.state.this.property', $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
-                    d($data);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
                     d($data);
                     $input->{$key} = $this->compile($value, $data);
                     $options->source = $temp_source;
                     $options->class = $temp_class;
                 }
-                $object->config('package.raxon/parse.build.state.this.attribute', $attribute);
-                $object->config('package.raxon/parse.build.state.this.property', $property);
+//                $object->config('package.raxon/parse.build.state.this.attribute', $attribute);
+//                $object->config('package.raxon/parse.build.state.this.property', $property);
                 return $input;
             }
         }

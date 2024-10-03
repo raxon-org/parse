@@ -290,12 +290,9 @@ class Parse
                     $temp_source = $options->source ?? 'source';
                     $temp_class = $options->class;
                     $options->source = 'internal_' . $options->source . '_' . $key;
-                    d($key);
-//                    d($options->source);
                     $options->class = Parse::class_name($object, $options->source);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
-                    d($data);
                     $input->{$key} = $this->compile($value, $data);
                     $options->source = $temp_source;
                     $options->class = $temp_class;

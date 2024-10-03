@@ -283,14 +283,16 @@ class Parse
                     $temp_source = $options->source ?? 'source';
                     $temp_class = $options->class;
                     $options->source = 'internal_' . $options->source . '_' . $key;
+                    d($key);
+//                    d($options->source);
                     $options->class = Parse::class_name($object, $options->source);
 //                    $object->config('package.raxon/parse.build.state.input.debug', true);
 //                    $object->config('package.raxon/parse.build.state.input.key', $key);
-                    $attribute = $object->config('package.raxon/parse.object.this.key');
-                    $data->set('this.' . $attribute, $key);
+//                    $attribute = $object->config('package.raxon/parse.object.this.key');
+//                    $data->set('this.' . $attribute, $key);
                     $attribute = $object->config('package.raxon/parse.object.this.attribute');
-//                    $input->{$attribute} = $key;
-//                    d($attribute);
+                    $data->set('this.' . $attribute, $key);
+                    $attribute = $object->config('package.raxon/parse.object.this.property');
                     $data->set('this.' . $attribute, $key);
                     $input->{$key} = $this->compile($value, $data);
                     $options->source = $temp_source;
@@ -402,7 +404,6 @@ class Parse
             $run = $options->namespace . '\\' . $options->class;
             $main = new $run($object, $this, $data, $flags, $options);
             $result = $main->run();
-
             $microtime = microtime(true);
             $duration_require = round(($post_require - $pre_require) * 1000, 2) . ' ms';
             $duration_parse = round(($microtime - $post_require) * 1000, 2) . ' ms';
@@ -421,8 +422,7 @@ class Parse
                 ];
                 echo Core::object($output, Core::OBJECT_JSON) . PHP_EOL;
             }
-            $result = Parse::result($result);
-            return $result;
+            return Parse::result($result);
         }
     }
 

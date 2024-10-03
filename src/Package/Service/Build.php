@@ -2582,7 +2582,6 @@ class Build
                                 );
                                 $assign = Build::value($object, $flags, $options, $tag, $assign);
                                 $value .= '$data->set(\'' . $previous['name'] . '\', ' .  $assign . ')';
-                                d($value);
                             break;
                             case '++' :
                                 $value = '$data->set(\'' . $previous['name'] . '\', ' .  '$this->value_plus_plus($data->get(\'' . $previous['name'] . '\')))';
@@ -2675,7 +2674,6 @@ class Build
                         $skip
                     );
                     $right = Build::value($object, $flags, $options, $tag, $right);
-                    d($right);
                     if(array_key_exists('value', $record)){
                         $value = Build::value_calculate($object, $flags, $options, $record['value'], $value, $right);
                     }
@@ -2885,9 +2883,6 @@ class Build
     public static function value_calculate(App $object, $flags, $options, $current, $left, $right): string
     {
         $value = '';
-        d($current);
-        d($left);
-        d($right);
         switch($current){
             case 'true':
             case 'false':

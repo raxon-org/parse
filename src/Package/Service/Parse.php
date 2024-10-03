@@ -268,6 +268,14 @@ class Parse
                 }
 //                $attribute = $object->config('package.raxon/parse.build.state.this.attribute');
 //                $property = $object->config('package.raxon/parse.build.state.this.property');
+                $data->set(
+                    'this.' .
+                    $object->config('package.raxon/parse.object.this.node'),
+                    $data->set(
+                        'this.' .
+                        $object->config('package.raxon/parse.object.this.property')
+                    )
+                );
                 foreach($input as $key => $value){
                     if(
                         in_array(
@@ -284,15 +292,6 @@ class Parse
                     d($key);
 //                    d($options->source);
                     $options->class = Parse::class_name($object, $options->source);
-//                    $object->config('package.raxon/parse.build.state.input.debug', true);
-//                    $object->config('package.raxon/parse.build.state.input.key', $key);
-//                    $attribute = $object->config('package.raxon/parse.object.this.key');
-//                    $data->set('this.' . $attribute, $key);
-//                    $attribute = $object->config('package.raxon/parse.object.this.attribute');
-//                    $object->config('package.raxon/parse.build.state.this.attribute', $key);
-//                    $data->set('this.' . $attribute, $key);
-//                    $attribute = $object->config('package.raxon/parse.object.this.property');
-//                    $object->config('package.raxon/parse.build.state.this.property', $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
                     d($data);

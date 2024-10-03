@@ -229,6 +229,8 @@ class Parse
                 $key = 'this.' . $object->config('package.raxon/parse.object.this.rootNode');
                 $data->set($key, $rootNode);
                 $key = 'this';
+                d($data);
+                ddd($depth);
                 $data->set($key, Core::object_merge($data->get($key), $this->local($depth - 1)));
                 for($index = $depth - 2; $index >= 0; $index--){
                     $key .= '.' . $object->config('package.raxon/parse.object.this.parentNode');

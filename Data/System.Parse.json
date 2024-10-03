@@ -11,6 +11,7 @@
             "property": "#property",
             "attribute": "#attribute",
             "key": "#key",
+            "value": "#value",
             "url": "#url",
             "parallel": "#parallel",
             "output": "#output"

@@ -112,9 +112,6 @@ class Parse
                 return false;
             }
             elseif(is_numeric($result)){
-                if(ltrim($result, '0') === $result){
-                    return $result + 0;
-                }
                 if(
                     trim($result, " \t\n\r\0\x0B") === $result &&
                     ltrim($result, '0') === $result

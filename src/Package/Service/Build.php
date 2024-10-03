@@ -648,6 +648,7 @@ class Build
                         $record['marker']['value']['array'][1]['type'] === 'variable'
                         //add method
                     ){
+                        // !!!!
                         $value = Build::value($object, $flags, $options, $record, $record['marker']['value']);
                         if($is_block){
                             $block[] = $value . ';';

@@ -636,6 +636,7 @@ class Build
                     $variable_assign_next_tag = true;
                 }
                 elseif(array_key_exists('marker', $record)){
+                    $class_static = Build::class_static($object);
                     if(
                         array_key_exists('value', $record['marker']) &&
                         array_key_exists('array', $record['marker']['value']) &&
@@ -654,8 +655,7 @@ class Build
                             $data[] = $value . ';';
                         }
                     }
-                    $class_static = Build::class_static($object);
-                    if(
+                    elseif(
                         in_array(
                             $record['marker']['name'],
                             $class_static,

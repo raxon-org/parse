@@ -15,28 +15,36 @@
             "multiple": false,
             "property": [
               {
-                "name": "rootNode",
-                "type": "string"
+                "name": "attribute",
+                "type": "scalar"
+              },
+              {
+                "name": "key",
+                "type": "scalar"
+              },
+              {
+                "name": "parallel",
+                "type": "array"
               },
               {
                 "name": "parentNode",
                 "type": "string"
               },
               {
-                "name": "key",
+                "name": "rootNode",
                 "type": "string"
               },
               {
-                "name": "attribute",
-                "type": "string"
+                "name": "parentProperty",
+                "type": "scalar"
+              },
+              {
+                "name": "property",
+                "type": "scalar"
               },
               {
                 "name": "url",
                 "type": "string"
-              },
-              {
-                "name": "parallel",
-                "type": "array"
               },
               {
                 "name": "output",

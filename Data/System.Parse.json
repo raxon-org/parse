@@ -2,12 +2,17 @@
   "System": {
     "Parse": [
       {
+        "#comment": [
+          "must match: src/Node/Expose/System.Parse.json",
+          "must match: src/Node/Object/System.Parse.json",
+          "must match: src/Node/Validate/System.Parse.json"
+        ],
         "#class": "System.Parse",
         "object": {
           "this": {
             "parentNode": "#parentNode",
             "rootNode": "#rootNode",
-            "node": "#node",
+            "parentProperty": "#parentProperty",
             "property": "#property",
             "attribute": "#attribute",
             "key": "#key",

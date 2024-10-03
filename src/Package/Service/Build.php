@@ -1901,11 +1901,11 @@ class Build
                                 $value = Build::value($object, $flags, $options, $record, $argument_record);
                                 $argument[$argument_nr] = $value;
                             }
-                            if (array_key_exists(0, $argument)) {
-                                $method_value .= $name . '(' . implode(', ', $argument) . '));';
-                            } else {
-                                $method_value .= $name . '());';
-                            }
+                        }
+                        if (array_key_exists(0, $argument)) {
+                            $argument = $name . '(' . implode(', ', $argument) . ')';
+                        } else {
+                            $argument = $name . '()';
                         }
                     } else {
                         $argument = Build::value($object, $flags, $options, $record, $argument);

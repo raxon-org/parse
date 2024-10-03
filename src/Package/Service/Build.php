@@ -655,15 +655,15 @@ class Build
                         }
                         if($is_block){
                             if(array_key_exists(0, $argument)){
-                                $block[] = $name . '(' . implode(', ', $argument) . ');';
+                                $block[] = $record['marker']['name'] . $name . '(' . implode(', ', $argument) . ');';
                             } else {
-                                $block[] = $name . '();';
+                                $block[] = $record['marker']['name'] . $name . '();';
                             }
                         } else {
                             if(array_key_exists(0, $argument)){
-                                $data[] = $name . '(' . implode(', ', $argument) . ');';
+                                $data[] = $record['marker']['name'] . $name . '(' . implode(', ', $argument) . ');';
                             } else {
-                                $data[] = $name . '();';
+                                $data[] = $record['marker']['name'] . $name . '();';
                             }
                         }
                     } else {

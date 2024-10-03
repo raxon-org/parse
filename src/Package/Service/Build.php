@@ -1885,8 +1885,12 @@ class Build
                     $record['variable']['value']['array'][1]['value'] === '::' &&
                     $record['variable']['value']['array'][2]['type'] === 'method'
                 ){
-                    $name = $record['variable']['value']['array'][0]['value'];
-                    $name .= $record['variable']['value']['array'][1]['value'];
+                    $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
+                    $method_value = '$this->' . $plugin . '(';
+                    $argument = Build::value($object, $flags, $options, $record, $record['method']['argument'][0]);
+                    $method_value .= $argument . ', ';
+                    $name = $record['method']['argument'][1]['array'][0]['value'];
+                    $name .= $record['method']['argument'][1]['array'][1]['value'];
                     $class_static = Build::class_static($object);
                     if(
                         in_array(
@@ -1895,16 +1899,16 @@ class Build
                             true
                         )
                     ) {
-                        $name .= $record['variable']['value']['array'][2]['method']['name'];
-                        $argument = $record['variable']['value']['array'][2]['method']['argument'];
+                        $name .= $record['method']['argument'][1]['array'][2]['method']['name'];
+                        $argument = $record['method']['argument'][1]['array'][2]['method']['argument'];
                         foreach ($argument as $argument_nr => $argument_record) {
                             $value = Build::value($object, $flags, $options, $record, $argument_record);
                             $argument[$argument_nr] = $value;
                         }
                         if (array_key_exists(0, $argument)) {
-                            $value = $name . '(' . implode(', ', $argument) . ')';
+                            $method_value .= $name . '(' . implode(', ', $argument) . '));';
                         } else {
-                            $value = $name . '()';
+                            $method_value .= $name . '());';
                         }
                     } else {
                         //exception class not found

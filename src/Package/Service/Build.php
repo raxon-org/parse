@@ -645,6 +645,15 @@ class Build
                         ) &&
                         array_key_exists('value', $record['marker'])
                     ){
+                        $name = $record['marker']['value']['array'][2]['method']['name'];
+                        $argument = $record['marker']['value']['array'][2]['method']['argument'];
+                        foreach($argument as $argument_nr => $argument_record){
+                            $value = Build::value($object, $flags, $options, $record, $argument_record);
+                            $argument[$argument_nr] = $value;
+                        }
+                        d($name);
+                        d($argument);
+
                         //lets fire this fucker...
                         //this should be able to be disabled, (security)
                         d($record);

@@ -235,8 +235,7 @@ class Parse
                     $data->set($key, $this->local($index));
                     if($index === 0){
                         $data->set($key . '.' . $object->config('package.raxon/parse.object.this.key'), $key);
-                        $data->set($key . '.' . $object->config('package.raxon/parse.object.this.property'), $property);
-                        $data->set($key . '.' . $object->config('package.raxon/parse.object.this.parentProperty'), $parentProperty);
+                        $data->set($key . '.' . $object->config('package.raxon/parse.object.this.property'), $parentProperty);
                     }
                 }
             }

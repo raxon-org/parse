@@ -113,7 +113,7 @@ class Parse
             }
             elseif(is_numeric($result)){
                 if(ltrim($result, '0') === $result){
-                    //nothing
+                    return $result + 0;
                 }
                 elseif(trim($result) === $result){
                     return $result + 0;

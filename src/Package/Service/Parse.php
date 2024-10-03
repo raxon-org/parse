@@ -252,6 +252,7 @@ class Parse
                     $options->source = $temp_source;
                     $options->class = $temp_class;
                 }
+                $data->set('this.' . $object->config('package.raxon/parse.object.this.key', null);
                 return $input;
             }
             elseif(is_object($input)){
@@ -298,6 +299,7 @@ class Parse
                     $options->source = $temp_source;
                     $options->class = $temp_class;
                 }
+                $options->depth--;
 //                $object->config('package.raxon/parse.build.state.this.attribute', $attribute);
 //                $object->config('package.raxon/parse.build.state.this.property', $property);
                 return $input;

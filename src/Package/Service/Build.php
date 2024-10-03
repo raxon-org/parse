@@ -636,6 +636,29 @@ class Build
                     $variable_assign_next_tag = true;
                 }
                 elseif(array_key_exists('marker', $record)){
+                    if(
+                        array_key_exists('value', $record['marker']) &&
+                        array_key_exists('array', $record['marker']['value']) &&
+                        array_key_exists(0, $record['marker']['value']['array']) &&
+                        array_key_exists('type', $record['marker']['value']['array'][0]) &&
+                        $record['marker']['value']['array'][0]['type'] === 'symbol' &&
+                        array_key_exists(1, $record['marker']['value']['array']) &&
+                        array_key_exists('type', $record['marker']['value']['array'][1]) &&
+                        $record['marker']['value']['array'][1]['type'] === 'variable'
+                        //add method
+                    ){
+                        $value = Build::value($object, $flags, $options, $record, $record['marker']['value']);
+                        ddd($value);
+
+                        if($is_block){
+//                            $block[] = $record['marker']['name'] . '();';
+                        } else {
+//                            $data[] = $record['marker']['name'] . '();';
+                        }
+                    }
+
+
+
                     $class_static = Build::class_static($object);
                     if(
                         in_array(
@@ -644,8 +667,7 @@ class Build
                             true
                         ) &&
                         array_key_exists('value', $record['marker'])
-                    ){
-                        //lets fire this fucker...
+                    ){..
                         //this should be able to be disabled, (security)
                         $name = $record['marker']['value']['array'][2]['method']['name'];
                         $argument = $record['marker']['value']['array'][2]['method']['argument'];

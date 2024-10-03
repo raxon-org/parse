@@ -560,8 +560,10 @@ class Build
                             $method_value .= '$block,' . PHP_EOL;
                             $is_argument = false;
                             foreach($argument as $argument_nr => $argument_record){
-                                $method_value .= $argument_record . ',' . PHP_EOL;
-                                $is_argument = true;
+                                if($argument_record !== ''){
+                                    $method_value .= $argument_record . ',' . PHP_EOL;
+                                    $is_argument = true;
+                                }
                             }
                             if($is_argument){
                                 $method_value = substr($method_value, 0, -2) . PHP_EOL;
@@ -1305,8 +1307,11 @@ class Build
                 $is_argument = false;
                 if(array_key_exists('argument', $modifier)){
                     foreach($modifier['argument'] as $argument_nr => $argument){
-                        $modifier_value .= Build::value($object, $flags, $options, $record, $argument) . ',' . PHP_EOL;
-                        $is_argument = true;
+                        $argument = Build::value($object, $flags, $options, $record, $argument);
+                        if($argument !== ''){
+                            $modifier_value .= $argument . ',' . PHP_EOL;
+                            $is_argument = true;
+                        }
                     }
                     if($is_argument === true){
                         $modifier_value = mb_substr($modifier_value, 0, -2) . PHP_EOL;
@@ -1814,13 +1819,15 @@ class Build
                 $is_argument = false;
                 $argument_value = '';
                 foreach($record['method']['argument'] as $nr => $argument) {
-                    $argument_value .= Build::value($object, $flags, $options, $record, $argument)  . ', ';
-                    $is_argument = true;
+                    $argument = Build::value($object, $flags, $options, $record, $argument);
+                    if($argument !== ''){
+                        $argument_value .= $argument  . ', ';
+                        $is_argument = true;
+                    }
                 }
                 if($is_argument){
                     $argument_value = mb_substr($argument_value, 0, -2);
                     $method_value .= $argument_value;
-//                    $method_value .= Build::align_content($object, $flags, $options, $argument_value, $indent) . PHP_EOL;
                 }
                 $method_value .= ');';
             break;
@@ -1980,8 +1987,11 @@ class Build
                 if(array_key_exists('argument', $modifier)){
                     $is_argument = false;
                     foreach($modifier['argument'] as $argument_nr => $argument){
-                        $modifier_value .= Build::value($object, $flags, $options, $record, $argument) . ', ';
-                        $is_argument = true;
+                        $argument = Build::value($object, $flags, $options, $record, $argument);
+                        if($argument !== ''){
+                            $modifier_value .= $argument . ', ';
+                            $is_argument = true;
+                        }
                     }
                     if($is_argument === true){
                         $modifier_value = mb_substr($modifier_value, 0, -2);
@@ -2580,8 +2590,11 @@ class Build
                 ){
                     $is_argument = false;
                     foreach($record['method']['argument'] as $argument_nr => $argument){
-                        $method_value .= Build::value($object, $flags, $options, $tag, $argument) . ', ';
-                        $is_argument = true;
+                        $argument = Build::value($object, $flags, $options, $tag, $argument);
+                        if($argument){
+                            $method_value .= $argument . ', ';
+                            $is_argument = true;
+                        }
                     }
                     if($is_argument === true){
                         $method_value = mb_substr($method_value, 0, -2);
@@ -2614,11 +2627,18 @@ class Build
                         if(array_key_exists('argument', $modifier)){
                             foreach($modifier['argument'] as $argument_nr => $argument){
                                 if($is_single_line){
-                                    $modifier_value .= Build::value($object, $flags, $options, $tag, $argument) . ', ';
+                                    $argument = Build::value($object, $flags, $options, $tag, $argument);
+                                    if($argument !== ''){
+                                        $modifier_value .= $argument . ', ';
+                                        $is_argument = true;
+                                    }
                                 } else {
-                                    $modifier_value .= Build::value($object, $flags, $options, $tag, $argument) . ', ';
+                                    $argument = Build::value($object, $flags, $options, $tag, $argument);
+                                    if($argument !== '') {
+                                        $modifier_value .= $argument . ', ';
+                                        $is_argument = true;
+                                    }
                                 }
-                                $is_argument = true;
                             }
                             if($is_argument === true){
                                 if($is_single_line){

@@ -214,13 +214,13 @@ class Parse
             $key = $data->get('this.' . $object->config('package.raxon/parse.object.this.key'));
             $attribute = $data->get('this.' . $object->config('package.raxon/parse.object.this.attribute'));
             $property = $data->get('this.' . $object->config('package.raxon/parse.object.this.property'));
-            $node = $data->get('this.' . $object->config('package.raxon/parse.object.this.node'));
+            $parentProperty = $data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty'));
             $data->set('this', $this->local($depth));
             $data->set('this.' . $object->config('package.raxon/parse.object.this.url'), $url);
             $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $attribute);
             $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $property);
+            $data->set('this.' . $object->config('package.raxon/parse.object.this.parentProperty'), $parentProperty);
             $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
-            $data->set('this.' . $object->config('package.raxon/parse.object.this.parentProperty'), $node);
             $rootNode = $this->local(0);
             if(
                 $rootNode &&

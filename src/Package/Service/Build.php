@@ -1866,6 +1866,49 @@ class Build
                 return $method_name;
             break;
             default:
+                ddd($record);
+                if(
+                    array_key_exists('value', $record['variable']) &&
+                    is_array($record['variable']['value']) &&
+                    array_key_exists('array', $record['variable']['value']) &&
+                    is_array($record['variable']['value']['array']) &&
+                    array_key_exists(0, $record['variable']['value']['array']) &&
+                    is_array($record['variable']['value']['array'][0]) &&
+                    array_key_exists('type', $record['variable']['value']['array'][0]) &&
+                    array_key_exists(1, $record['variable']['value']['array']) &&
+                    is_array($record['variable']['value']['array'][1]) &&
+                    array_key_exists('value', $record['variable']['value']['array'][1]) &&
+                    array_key_exists(2, $record['variable']['value']['array']) &&
+                    is_array($record['variable']['value']['array'][2]) &&
+                    array_key_exists('type', $record['variable']['value']['array'][2]) &&
+                    $record['variable']['value']['array'][0]['type'] === 'string' &&
+                    $record['variable']['value']['array'][1]['value'] === '::' &&
+                    $record['variable']['value']['array'][2]['type'] === 'method'
+                ){
+                $name = $record['variable']['value']['array'][0]['value'];
+                    $name .= $record['variable']['value']['array'][1]['value'];
+                    $class_static = Build::class_static($object);
+                    if(
+                        in_array(
+                            $name,
+                            $class_static,
+                            true
+                        )
+                    ){
+                        $name .= $record['variable']['value']['array'][2]['method']['name'];
+                        $argument = $record['variable']['value']['array'][2]['method']['argument'];
+                        foreach($argument as $argument_nr => $argument_record){
+                            $value = Build::value($object, $flags, $options, $record, $argument_record);
+                            $argument[$argument_nr] = $value;
+                        }
+                        if(array_key_exists(0, $argument)){
+                            $value = $name . '(' . implode(', ', $argument) . ')';
+                        } else {
+                            $value = $name . '()';
+                        }
+                    } else {
+
+
                 $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
                 $method_value = '$this->' . $plugin . '(';
                 $is_argument = false;

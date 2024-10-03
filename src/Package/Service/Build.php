@@ -1895,8 +1895,8 @@ class Build
                                 true
                             )
                         ) {
-                            $name .= $record['method']['argument'][1]['array'][2]['method']['name'];
-                            $argument = $record['method']['argument'][1]['array'][2]['method']['argument'];
+                            $name .= $argument['array'][2]['method']['name'];
+                            $argument = $argument['array'][2]['method']['argument'];
                             foreach ($argument as $argument_nr => $argument_record) {
                                 $value = Build::value($object, $flags, $options, $record, $argument_record);
                                 $argument[$argument_nr] = $value;

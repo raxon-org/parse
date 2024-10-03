@@ -252,7 +252,7 @@ class Parse
                     $options->source = $temp_source;
                     $options->class = $temp_class;
                 }
-                $data->set('this.' . $object->config('package.raxon/parse.object.this.key', null);
+                $data->set('this.' . $object->config('package.raxon/parse.object.this.key', null));
                 return $input;
             }
             elseif(is_object($input)){

@@ -14,11 +14,10 @@
     "function": "{{echo('test123')}}",
     "class": "System.Config",
     "options": {
-
+        "node": "{{$this.#node}}"
     },
     "attribute": "{{$this.#attribute}}",
     "property": "{{$this.#property}}",
-    "node": "{{$this.#node}}",
     "parentNode": "{{$this.#parentNode.string|default:'no-parentNode'}}",
     "rootNode": "{{$this.#rootNode.function|default:'no-rootNode'}}",
     "key": "{{$this.#key|default:'no-key'}}",

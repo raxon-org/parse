@@ -5,7 +5,7 @@
     "boolean": true,
     "array": [1, 2, 3, "0000{{$this.#key}}"],
     "object": {
-        "string": "test",
+        "string": "test2",
         "number": 1,
         "boolean": true,
         "array": [1, 2, 3],

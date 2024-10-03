@@ -210,6 +210,9 @@ class Parse
             //url, key & attribute might be already set.
             $url = $data->get('this.' . $object->config('package.raxon/parse.object.this.url'));
             $key = $data->get('this.' . $object->config('package.raxon/parse.object.this.key'));
+
+            d($object->config('package.raxon/parse.build.state.this.attribute'));
+
             $attribute = $data->get('this.' . $object->config('package.raxon/parse.object.this.attribute'));
             d($attribute);
             $data->set('this', $this->local($depth));
@@ -292,9 +295,11 @@ class Parse
 //                    $attribute = $object->config('package.raxon/parse.object.this.key');
 //                    $data->set('this.' . $attribute, $key);
                     $attribute = $object->config('package.raxon/parse.object.this.attribute');
-                    $data->set('this.' . $attribute, $key);
+                    $object->config('package.raxon/parse.build.state.this.attribute', $key);
+//                    $data->set('this.' . $attribute, $key);
                     $attribute = $object->config('package.raxon/parse.object.this.property');
-                    $data->set('this.' . $attribute, $key);
+                    $object->config('package.raxon/parse.build.state.this.property', $key);
+//                    $data->set('this.' . $attribute, $key);
                     $input->{$key} = $this->compile($value, $data);
                     $options->source = $temp_source;
                     $options->class = $temp_class;

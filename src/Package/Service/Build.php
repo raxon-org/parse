@@ -648,12 +648,10 @@ class Build
                         //add method
                     ){
                         $value = Build::value($object, $flags, $options, $record, $record['marker']['value']);
-                        ddd($value);
-
                         if($is_block){
-//                            $block[] = $record['marker']['name'] . '();';
+                            $block[] = $value . ';';
                         } else {
-//                            $data[] = $record['marker']['name'] . '();';
+                            $data[] = $value . ';';
                         }
                     }
                     $class_static = Build::class_static($object);

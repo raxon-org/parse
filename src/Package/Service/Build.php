@@ -651,9 +651,9 @@ class Build
                         // !!!! $this.boolean
                         $value = Build::value($object, $flags, $options, $record, $record['marker']['value']);
                         if($is_block){
-                            $block[] = $value . ';';
+                            $block[] = 'echo ' . $value . ';';
                         } else {
-                            $data[] = $value . ';';
+                            $data[] = 'echo ' . $value . ';';
                         }
                     }
                     elseif(

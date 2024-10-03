@@ -101,6 +101,7 @@ class Parse
     }
 
     public static function result($result=''){
+        d($result);
         if(is_string($result)){
             if($result === 'null'){
                 return null;

@@ -1316,7 +1316,7 @@ class Build
                     if($is_argument === true){
                         $modifier_value = mb_substr($modifier_value, 0, -2) . PHP_EOL;
                     } else {
-                        $modifier_value = mb_substr($modifier_value, 0, -1);
+                        $modifier_value = mb_substr($modifier_value, 0, -3);
                     }
                 }
                 $modifier_value .= ')';

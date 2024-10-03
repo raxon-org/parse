@@ -19,7 +19,7 @@
     "class": "System.Config",
     "options": {
         "parentProperty": "{{$this.#parentProperty}}",
-        "parentProperty": "{{$this.#parentNode.#property}}",
+        "parentProperty": "{{$this.#parentNode.#parentProperty}}",
         "float": "{{$this.#parentNode.object.parentNode}}",
         "bool": "{{$this.#parentNode.object.boolean}}"
     },

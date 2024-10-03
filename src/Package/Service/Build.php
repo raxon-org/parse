@@ -645,6 +645,8 @@ class Build
                         ) &&
                         array_key_exists('value', $record['marker'])
                     ){
+                        //lets fire this fucker...
+                        //this should be able to be disabled, (security)
                         $name = $record['marker']['value']['array'][2]['method']['name'];
                         $argument = $record['marker']['value']['array'][2]['method']['argument'];
                         foreach($argument as $argument_nr => $argument_record){
@@ -652,15 +654,21 @@ class Build
                             $argument[$argument_nr] = $value;
                         }
                         if($is_block){
-                            $block[] = $name . '(' . implode(', ', $argument) . ');';
+                            if(array_key_exists(0, $argument)){
+                                $block[] = $name . '(' . implode(', ', $argument) . ');';
+                            } else {
+                                $block[] = $name . '();';
+                            }
+                        } else {
+                            if(array_key_exists(0, $argument)){
+                                $data[] = $name . '(' . implode(', ', $argument) . ');';
+                            } else {
+                                $data[] = $name . '();';
+                            }
                         }
-                        d($name);
-                        d($argument);
 
-                        //lets fire this fucker...
-                        //this should be able to be disabled, (security)
-                        d($record);
-                        ddd('fuck');
+
+
                     } else {
                         if(
                             array_key_exists('is_multiline', $record) &&

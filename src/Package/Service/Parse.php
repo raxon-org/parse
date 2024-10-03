@@ -296,6 +296,7 @@ class Parse
 //                    $attribute = $object->config('package.raxon/parse.object.this.property');
 //                    $object->config('package.raxon/parse.build.state.this.property', $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
+                    d($data);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
                     d($data);
                     $input->{$key} = $this->compile($value, $data);

@@ -10,7 +10,7 @@
         "boolean": true,
         "array": [1, 2, 3],
         "parentNode": "{{$this.#parentNode.float|default:'no-parentNode'}}",
-        "selector": "{{$this.boolean}}"
+        "selector": "{{$this.string}}"
     },
     "function": "{{echo('test123')}}",
     "class": "System.Config",

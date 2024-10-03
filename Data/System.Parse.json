@@ -7,6 +7,8 @@
           "this": {
             "parentNode": "#parentNode",
             "rootNode": "#rootNode",
+            "node": "#node",
+            "property": "#property",
             "attribute": "#attribute",
             "key": "#key",
             "url": "#url",

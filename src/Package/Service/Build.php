@@ -1805,6 +1805,7 @@ class Build
             case 'block.xml':
             case 'block.script':
             case 'block.link':
+            case 'block.function':
             case 'block.code':
                 $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
 //                $method_value = '$this->' . $plugin . '(';
@@ -1902,6 +1903,7 @@ class Build
             case 'block.code':
             case 'block.script':
             case 'block.link':
+            case 'block.function':
                 //nothing, checks have been done already
             break;
             default:

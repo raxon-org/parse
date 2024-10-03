@@ -2027,8 +2027,29 @@ class Build
             )
         ){
             $value = ''; //init ++, --, **
-        } else {
+        }
+        elseif(
+            array_key_exists('value', $record['variable']) &&
+            is_array($record['variable']['value']) &&
+            array_key_exists('array', $record['variable']['value']) &&
+            is_array($record['variable']['value']['array']) &&
+            array_key_exists(0, $record['variable']['value']['array']) &&
+            is_array($record['variable']['value']['array'][0]) &&
+            array_key_exists('type', $record['variable']['value']['array'][0]) &&
+            array_key_exists(1, $record['variable']['value']['array']) &&
+            is_array($record['variable']['value']['array'][1]) &&
+            array_key_exists('value', $record['variable']['value']['array'][1]) &&
+            array_key_exists(2, $record['variable']['value']['array']) &&
+            is_array($record['variable']['value']['array'][2]) &&
+            array_key_exists('type', $record['variable']['value']['array'][2]) &&
+            $record['variable']['value']['array'][0]['type'] === 'string' &&
+            $record['variable']['value']['array'][1]['value'] === '::' &&
+            $record['variable']['value']['array'][2]['type'] === 'method'
+        ){
             d($record);
+            ddd('found');
+
+        } else {
             $value = Build::value($object, $flags, $options, $record, $record['variable']['value']);
         }
         if(array_key_exists('modifier', $record['variable'])){

@@ -24,8 +24,10 @@
                                         "output": [
                                             "rootNode",
                                             "parentNode",
+                                            "node",
                                             "key",
                                             "attribute",
+                                            "property",
                                             "url",
                                             "parallel",
                                             "output"
@@ -92,8 +94,10 @@
                                         "output": [
                                             "rootNode",
                                             "parentNode",
+                                            "node",
                                             "key",
                                             "attribute",
+                                            "property",
                                             "url",
                                             "parallel",
                                             "output"
@@ -160,8 +164,10 @@
                                         "output": [
                                             "rootNode",
                                             "parentNode",
+                                            "node",
                                             "key",
                                             "attribute",
+                                            "property",
                                             "url",
                                             "parallel",
                                             "output"
@@ -228,8 +234,10 @@
                                         "output": [
                                             "rootNode",
                                             "parentNode",
+                                            "node",
                                             "key",
                                             "attribute",
+                                            "property",
                                             "url",
                                             "parallel",
                                             "output"
@@ -296,8 +304,10 @@
                                         "output": [
                                             "rootNode",
                                             "parentNode",
+                                            "node",
                                             "key",
                                             "attribute",
+                                            "property",
                                             "url",
                                             "parallel",
                                             "output"
@@ -364,8 +374,10 @@
                                         "output": [
                                             "rootNode",
                                             "parentNode",
+                                            "node",
                                             "key",
                                             "attribute",
+                                            "property",
                                             "url",
                                             "parallel",
                                             "output"
@@ -432,8 +444,10 @@
                                         "output": [
                                             "rootNode",
                                             "parentNode",
+                                            "node",
                                             "key",
                                             "attribute",
+                                            "property",
                                             "url",
                                             "parallel",
                                             "output"
@@ -500,8 +514,10 @@
                                         "output": [
                                             "rootNode",
                                             "parentNode",
+                                            "node",
                                             "key",
                                             "attribute",
+                                            "property",
                                             "url",
                                             "parallel",
                                             "output"
@@ -568,8 +584,10 @@
                                         "output": [
                                             "rootNode",
                                             "parentNode",
+                                            "node",
                                             "key",
                                             "attribute",
+                                            "property",
                                             "url",
                                             "parallel",
                                             "output"
@@ -636,8 +654,10 @@
                                         "output": [
                                             "rootNode",
                                             "parentNode",
+                                            "node",
                                             "key",
                                             "attribute",
+                                            "property",
                                             "url",
                                             "parallel",
                                             "output"
@@ -704,8 +724,10 @@
                                         "output": [
                                             "rootNode",
                                             "parentNode",
+                                            "node",
                                             "key",
                                             "attribute",
+                                            "property",
                                             "url",
                                             "parallel",
                                             "output"

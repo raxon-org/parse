@@ -19,6 +19,7 @@
     "options": {
         "parentProperty": "{{$this.#parentProperty}}",
         "parentNodeProperty": "{{$this.#parentNode.object.parentNode}}"
+        "bool": "{{$this.#parentNode.object.boolean}}"
     },
     "attribute": "{{$this.#attribute}}",
     "property": "{{$this.#property}}",

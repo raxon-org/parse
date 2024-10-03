@@ -2068,7 +2068,31 @@ class Build
                     $value = $name . '();';
                 }
             } else {
-                //exception class not found
+                if(
+                    array_key_exists('is_multiline', $record) &&
+                    $record['is_multiline'] === true
+                ){
+                    throw new TemplateException(
+                        $record['tag'] . PHP_EOL .
+                        'Unknown static class call "{{' . $name .'}}" please add the class usage on line: ' .
+                        $record['line']['start']  .
+                        ', column: ' .
+                        $record['column'][$record['line']['start']]['start'] .
+                        ' in source: '.
+                        $source,
+                    );
+
+                } else {
+                    throw new TemplateException(
+                        $record['tag'] . PHP_EOL .
+                        'Unknown static class call "{{' . $name .'}}" please add the class usage on line: ' .
+                        $record['line'] .
+                        ', column: ' .
+                        $record['column']['start'] .
+                        ' in source: '.
+                        $source,
+                    );
+                }
             }
         } else {
             $value = Build::value($object, $flags, $options, $record, $record['variable']['value']);

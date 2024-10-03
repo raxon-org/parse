@@ -271,7 +271,7 @@ class Parse
                 $data->set(
                     'this.' .
                     $object->config('package.raxon/parse.object.this.node'),
-                    $data->set(
+                    $data->get(
                         'this.' .
                         $object->config('package.raxon/parse.object.this.property')
                     )

@@ -220,7 +220,7 @@ class Parse
             $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $attribute);
             $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $property);
             $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
-            $data->set('this.' . $object->config('package.raxon/parse.object.this.node'), $node);
+            $data->set('this.' . $object->config('package.raxon/parse.object.this.parentProperty'), $node);
             $rootNode = $this->local(0);
             if(
                 $rootNode &&

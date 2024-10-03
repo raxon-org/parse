@@ -2591,7 +2591,7 @@ class Build
                     $is_argument = false;
                     foreach($record['method']['argument'] as $argument_nr => $argument){
                         $argument = Build::value($object, $flags, $options, $tag, $argument);
-                        if($argument){
+                        if($argument !== ''){
                             $method_value .= $argument . ', ';
                             $is_argument = true;
                         }

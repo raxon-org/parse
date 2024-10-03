@@ -18,7 +18,7 @@
     "class": "System.Config",
     "options": {
         "parentProperty": "{{$this.#parentProperty}}",
-        "parentNodeProperty": "{{$this.#parentNode.#property}}"
+        "parentNodeProperty": "{{$this.#parentNode.object.parentNode}}"
     },
     "attribute": "{{$this.#attribute}}",
     "property": "{{$this.#property}}",

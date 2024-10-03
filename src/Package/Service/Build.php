@@ -642,8 +642,11 @@ class Build
                             $record['marker']['name'],
                             $class_static,
                             true
-                        )
+                        ) &&
+                        array_key_exists('value', $record['marker'])
                     ){
+                        $value = Build::value($object, $flags, $options, $record, $record['marker']['value']);
+                        d($value);
                         //lets fire this fucker...
                         //this should be able to be disabled, (security)
                         d($record);

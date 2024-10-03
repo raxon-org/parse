@@ -666,9 +666,6 @@ class Build
                                 $data[] = $name . '();';
                             }
                         }
-
-
-
                     } else {
                         if(
                             array_key_exists('is_multiline', $record) &&

@@ -347,6 +347,7 @@ class Method
                             $argument_array = [];
                             $argument = '';
                         } else {
+                            d($name);
                             $argument_array[] = [
                                 'type' => 'null',
                                 'value' => 'null',

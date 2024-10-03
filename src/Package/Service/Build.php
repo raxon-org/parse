@@ -1443,6 +1443,7 @@ class Build
             $data[] = '//array or object';
             $data[] = 'ob_get_clean();';
             $data[] = 'return ' . $variable_uuid .';';
+            $data[] = '}';
             $data[] = 'elseif(is_bool('. $variable_uuid. ')){';
             $data[] = 'return ' . $variable_uuid .';';
             $data[] = '} else {';

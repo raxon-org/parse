@@ -1391,6 +1391,7 @@ class Build
                 $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . '" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: '. $source . '. You can use modifier "default" to surpress it \');';
                 $data[] = '}';
             }
+            $data[] = 'd(gettype(' . $variable_uuid .');';
             $data[] = 'if(!is_scalar('. $variable_uuid. ')){';
             $data[] = '//array or object';
             $data[] = 'ob_get_clean();';

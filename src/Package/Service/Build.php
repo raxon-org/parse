@@ -1303,7 +1303,7 @@ class Build
             foreach($record['variable']['modifier'] as $nr => $modifier){
                 $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $modifier['name']));
                 $modifier_value = '$this->' . $plugin . '(' . PHP_EOL;
-                $modifier_value .= $previous_modifier .', ' . PHP_EOL;
+                $modifier_value .= $previous_modifier . ',' . PHP_EOL;
                 $is_argument = false;
                 if(array_key_exists('argument', $modifier)){
                     foreach($modifier['argument'] as $argument_nr => $argument){
@@ -1316,7 +1316,7 @@ class Build
                     if($is_argument === true){
                         $modifier_value = mb_substr($modifier_value, 0, -2) . PHP_EOL;
                     } else {
-                        $modifier_value = mb_substr($modifier_value, 0, -3);
+                        $modifier_value = mb_substr($modifier_value, 0, -2);
                     }
                 }
                 $modifier_value .= ')';

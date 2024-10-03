@@ -100,6 +100,27 @@ class Parse
         $object->config(Parse::CONFIG . '.time.start', microtime(true));
     }
 
+    public static function result($result=''){
+        if(is_string($result)){
+            if($result === 'null'){
+                return null;
+            }
+            elseif($result === 'true'){
+                return true;
+            }
+            elseif($result === 'false'){
+                return false;
+            }
+            elseif(is_numeric($result)){
+                if(trim($result, "\n\t ") === $result){
+                    return $result + 0;
+                } else {
+                    return $result;
+                }
+            }
+        }
+    }
+
     public static function class_name(App $object, $class=''){
         return ltrim(
             str_replace(
@@ -398,7 +419,7 @@ class Parse
                 ];
                 echo Core::object($output, Core::OBJECT_JSON) . PHP_EOL;
             }
-            d($result);
+            $result = Parse::result($result);
             return $result;
         }
     }

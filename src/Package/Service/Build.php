@@ -77,6 +77,22 @@ class Build
         return $document;
     }
 
+    public static function class_static(App $object): array
+    {
+        $use_class = $object->config('package.raxon/parse.build.use.class');
+        foreach($use_class as $use_class_nr => $use_class_record){
+            $explode = explode('as', $use_class_record);
+            if(array_key_exists(1, $explode)){
+                $use_class[$use_class_nr] = trim($explode[1]);
+            } else {
+                $temp = explode('\\', $explode[0]);
+                $use_class[$use_class_nr] = array_pop($temp);
+            }
+            $use_class[$use_class_nr] .= '::';
+        }
+        return $use_class;
+    }
+
     /**
      * @throws Exception
      * @throws LocateException
@@ -620,45 +636,47 @@ class Build
                     $variable_assign_next_tag = true;
                 }
                 elseif(array_key_exists('marker', $record)){
-                    $use_class = $object->config('package.raxon/parse.build.use.class');
-                    foreach($use_class as $use_class_nr => $use_class_record){
-                        $explode = explode('as', $use_class_record);
-                        if(array_key_exists(1, $explode)){
-                            $use_class[$use_class_nr] = trim($explode[1]);
-                        } else {
-                            $temp = explode('\\', $explode[0]);
-                            $use_class[$use_class_nr] = array_pop($temp);
-                        }
-                        $use_class[$use_class_nr] .= '::';
-                    }
-                    d(in_array($record['marker']['name'], $use_class, true));
-                    ddd($use_class);
+                    $class_static = Build::class_static($object);
                     if(
-                        array_key_exists('is_multiline', $record) &&
-                        $record['is_multiline'] === true
+                        in_array(
+                            $record['marker']['name'],
+                            $class_static,
+                            true
+                        )
                     ){
-                        throw new TemplateException(
-                            $record['tag'] . PHP_EOL .
-                            'Unknown marker "{{' . $record['marker']['name'] .'}}" on line: ' .
-                            $record['line']['start']  .
-                            ', column: ' .
-                            $record['column'][$record['line']['start']]['start'] .
-                            ' in source: '.
-                            $source,
-                        );
-
+                        //lets fire this fucker...
+                        d($record);
+                        ddd('fuck');
                     } else {
-                        ddd($record);
-                        throw new TemplateException(
-                            $record['tag'] . PHP_EOL .
-                            'Unknown marker "{{' . $record['marker']['name'] .'}}" on line: ' .
-                            $record['line'] .
-                            ', column: ' .
-                            $record['column']['start'] .
-                            ' in source: '.
-                            $source,
-                        );
+                        if(
+                            array_key_exists('is_multiline', $record) &&
+                            $record['is_multiline'] === true
+                        ){
+                            throw new TemplateException(
+                                $record['tag'] . PHP_EOL .
+                                'Unknown marker "{{' . $record['marker']['name'] .'}}" on line: ' .
+                                $record['line']['start']  .
+                                ', column: ' .
+                                $record['column'][$record['line']['start']]['start'] .
+                                ' in source: '.
+                                $source,
+                            );
+
+                        } else {
+                            ddd($record);
+                            throw new TemplateException(
+                                $record['tag'] . PHP_EOL .
+                                'Unknown marker "{{' . $record['marker']['name'] .'}}" on line: ' .
+                                $record['line'] .
+                                ', column: ' .
+                                $record['column']['start'] .
+                                ' in source: '.
+                                $source,
+                            );
+                        }
                     }
+
+
                 }
             }
         }

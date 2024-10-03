@@ -232,6 +232,7 @@ class Parse
                 for($index = $depth - 1; $index >= 0; $index--){
                     $key .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
                     $data->set($key, $this->local($index));
+                    $data->set($key . '.' . $object->config('package.raxon/parse.object.this.key'), $key);
                     $data->set($key . '.' . $object->config('package.raxon/parse.object.this.property'), $property);
                     $data->set($key . '.' . $object->config('package.raxon/parse.object.this.parentProperty'), $parentProperty);
                 }

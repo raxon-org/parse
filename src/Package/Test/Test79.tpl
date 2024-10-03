@@ -17,6 +17,8 @@
 
     },
     "attribute": "{{$this.#attribute}}",
+    "property": "{{$this.#property}}",
+    "node": "{{$this.#node}}",
     "parentNode": "{{$this.#parentNode.string|default:'no-parentNode'}}",
     "rootNode": "{{$this.#rootNode.function|default:'no-rootNode'}}",
     "key": "{{$this.#key|default:'no-key'}}",

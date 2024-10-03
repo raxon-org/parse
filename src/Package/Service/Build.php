@@ -2046,9 +2046,19 @@ class Build
             $record['variable']['value']['array'][1]['value'] === '::' &&
             $record['variable']['value']['array'][2]['type'] === 'method'
         ){
-            d($record);
-            ddd('found');
-
+            $name = $record['variable']['value']['array'][0]['value'];
+            $name .= $record['variable']['value']['array'][1]['value'];
+            $name .= $record['variable']['value']['array'][2]['method']['name'];
+            $argument = $record['variable']['value']['array'][2]['method']['argument'];
+            foreach($argument as $argument_nr => $argument_record){
+                $value = Build::value($object, $flags, $options, $record, $argument_record);
+                $argument[$argument_nr] = $value;
+            }
+            if(array_key_exists(0, $argument)){
+                $value = $name . '(' . implode(', ', $argument) . ');';
+            } else {
+                $value = $name . '();';
+            }
         } else {
             $value = Build::value($object, $flags, $options, $record, $record['variable']['value']);
         }
@@ -2096,7 +2106,6 @@ class Build
                         ;
                         break;
                     case '.=' :
-                        d('here');
                         $result = '$data->set(\'' .
                             $variable_name .
                             '\', ' .

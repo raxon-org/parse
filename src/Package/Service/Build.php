@@ -658,7 +658,7 @@ class Build
                             $block[] = 'echo \'false\'';
                             $block[] = '}';
                         } else {
-                            $data[] = '$boolean ' . $value . ';';
+                            $data[] = '$boolean = ' . $value . ';';
                             $data[] = 'if($boolean === true){';
                             $data[] = 'echo \'true\'';
                             $data[] = '} else {';

@@ -2048,15 +2048,13 @@ class Build
         ){
             $name = $record['variable']['value']['array'][0]['value'];
             $name .= $record['variable']['value']['array'][1]['value'];
-
             $class_static = Build::class_static($object);
             if(
                 in_array(
                     $name,
                     $class_static,
                     true
-                ) &&
-                array_key_exists('value', $record['marker'])
+                )
             ){
                 $name .= $record['variable']['value']['array'][2]['method']['name'];
                 $argument = $record['variable']['value']['array'][2]['method']['argument'];
@@ -2069,6 +2067,8 @@ class Build
                 } else {
                     $value = $name . '();';
                 }
+            } else {
+                //exception class not found
             }
         } else {
             $value = Build::value($object, $flags, $options, $record, $record['variable']['value']);

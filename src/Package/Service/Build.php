@@ -2063,9 +2063,9 @@ class Build
                     $argument[$argument_nr] = $value;
                 }
                 if(array_key_exists(0, $argument)){
-                    $value = $name . '(' . implode(', ', $argument) . ');';
+                    $value = $name . '(' . implode(', ', $argument) . ')';
                 } else {
-                    $value = $name . '();';
+                    $value = $name . '()';
                 }
             } else {
                 if(

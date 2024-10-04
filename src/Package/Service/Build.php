@@ -2786,6 +2786,8 @@ class Build
                         true
                     )
                 ){
+                    d($nr);
+                    d($next);
                     $right = Build::value_right(
                         $object,
                         $flags,

@@ -2604,7 +2604,8 @@ class Build
                         }
                     }
                     elseif($record['value'] === '('){
-                        $value .= '$this->value_set(' . PHP_EOL;
+//                        $value .= '$this->value_set(' . PHP_EOL;
+                        $value .= $record['value'] . PHP_EOL;
                     } else {
                         $value .= $record['value'] . PHP_EOL;
                     }

@@ -197,6 +197,7 @@
               "Package\\Raxon\\Parse\\Service\\Parse",
               "Plugin",
               "Exception",
+              "ReflectionClass",
               "Raxon\\Exception\\TemplateException",
               "Raxon\\Exception\\LocateException"
             ],

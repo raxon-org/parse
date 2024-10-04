@@ -39,6 +39,11 @@ trait Value {
         return $variable * $variable;
     }
 
+    protected function value_set($variable=null): mixed
+    {
+        return $variable;
+    }
+
     protected function value_plus($variable1=null, $variable2=null) : int |  float | string
     {
         $type1 = getType($variable1);

@@ -197,7 +197,7 @@
               "Package\\Raxon\\Parse\\Service\\Parse",
               "Plugin",
               "Exception",
-              "Raxon\\Exception\\TemplateException"
+              "Raxon\\Exception\\TemplateException",
               "Raxon\\Exception\\LocateException"
             ],
             "trait": [

@@ -2124,7 +2124,7 @@ class Build
             $method = str_replace('.', '_', $method);
             $uuid = Core::uuid_variable();
             $uuid_methods = Core::uuid_variable();
-            $argument = $record['variable']['value']['array'][1]['method']['argument'];
+            $argument = $record['variable']['value']['array'][0]['method']['argument'];
             foreach($argument as $argument_nr => $argument_record){
                 $value = Build::value($object, $flags, $options, $record, $argument_record);
                 $argument[$argument_nr] = $value;

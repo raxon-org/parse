@@ -1,4 +1,4 @@
-{{$framework = framework()}}}
+{{$framework = framework()}}
 {{$data = $framework.data()}}
 {{$parse = parse()}}
 {{dd($data)}}

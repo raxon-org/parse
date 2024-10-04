@@ -2124,6 +2124,7 @@ class Build
             $method = str_replace('.', '_', $method);
             $explode = explode('::', $method);
             $function = array_pop($explode);
+            $class_name = $method;
             $method = implode('\\', $explode) . '::' . $function;
             $uuid = Core::uuid_variable();
             $uuid_methods = Core::uuid_variable();
@@ -2132,6 +2133,12 @@ class Build
                 $value = Build::value($object, $flags, $options, $record, $argument_record);
                 $argument[$argument_nr] = $value;
             }
+            $before[] = 'try {';
+            $before[] = $uuid_methods . ' = get_class_methods(' . $class_name . ');';
+            $before[] = '}';
+            $before[] = 'catch(Exception | LocateException $exception){';
+            $before[] = 'throw new TemplateException(\'' . $record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.\', 0, $exception);';
+            $before[] = '}';
             /*
             $before[] = $uuid . ' = $data->get(\'' . $class_name . '\');';
             $before[] = 'try {';
@@ -2180,8 +2187,8 @@ class Build
                 $value = Build::value($object, $flags, $options, $record, $argument_record);
                 $argument[$argument_nr] = $value;
             }
-            $before[] = $uuid . ' = $data->get(\'' . $class_name . '\');';
             $before[] = 'try {';
+            $before[] = $uuid . ' = $data->get(\'' . $class_name . '\');';
             $before[] = $uuid_methods . ' = get_class_methods(' . $uuid . ');';
             $before[] = 'if(!in_array(\'' . $class_method . '\', ' . $uuid_methods. ', true)){';
             $before[] = 'sort(' . $uuid_methods .', SORT_NATURAL);';

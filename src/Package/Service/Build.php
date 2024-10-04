@@ -2129,7 +2129,7 @@ class Build
             if(array_key_exists(0, $argument)){
                 $value = $class_object . '->' . $class_method .  '(' . implode(', ', $argument) . ')';
             } else {
-                $value = $class_object . '->' . $class_method .  . '()';
+                $value = $class_object . '->' . $class_method . '()';
             }
             d($value);
             d($class_object);

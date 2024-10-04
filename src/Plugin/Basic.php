@@ -99,4 +99,9 @@ trait Basic {
         return null;
     }
 
+    public function framework(): ?App
+    {
+        return $this->object();
+    }
+
 }

@@ -1,6 +1,4 @@
 {{$framework = framework()}}
-{{$app = ::Raxon::App::instance()}}
-{{$time.start = $framework.config('time.start')}}
-{{$time.instance = $app.config('time.start')}}
-{{$time.duration = $time.instance - ($time.start * 1000) + 'ms'}}
+{{$app = 1000}}
+{{$time.duration = $app - ($framework.config('time.start') * 1000) + 'ms'}}
 {{dd($time)}}

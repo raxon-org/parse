@@ -195,6 +195,9 @@ class Method
                             'argument' => $argument_list
                         ];
                         $input['array'][$is_method]['type'] = 'method';
+                        if($is_class_method === true){
+                            $input['array'][$is_method]['is_class_method'] = true;
+                        }
                         unset($input['array'][$is_method]['value']);
                         $argument_list = [];
                         $argument_array = [];

@@ -2118,6 +2118,22 @@ class Build
             is_array($record['variable']['value']['array']) &&
             array_key_exists(0, $record['variable']['value']['array']) &&
             is_array($record['variable']['value']['array'][0]) &&
+            array_key_exists('value', $record['variable']['value']['array'][0]) &&
+            array_key_exists(1, $record['variable']['value']['array']) &&
+            is_array($record['variable']['value']['array'][1]) &&
+            array_key_exists('method', $record['variable']['value']['array'][1]) &&
+            array_key_exists('name', $record['variable']['value']['array'][1]['method'])
+        ){
+            d($record);
+            ddd('found');
+        }
+        elseif(
+            array_key_exists('value', $record['variable']) &&
+            is_array($record['variable']['value']) &&
+            array_key_exists('array', $record['variable']['value']) &&
+            is_array($record['variable']['value']['array']) &&
+            array_key_exists(0, $record['variable']['value']['array']) &&
+            is_array($record['variable']['value']['array'][0]) &&
             array_key_exists('type', $record['variable']['value']['array'][0]) &&
             array_key_exists(1, $record['variable']['value']['array']) &&
             is_array($record['variable']['value']['array'][1]) &&
@@ -2129,6 +2145,7 @@ class Build
             $record['variable']['value']['array'][1]['value'] === '::' &&
             $record['variable']['value']['array'][2]['type'] === 'method'
         ){
+            //static method call
             $name = $record['variable']['value']['array'][0]['value'];
             $name .= $record['variable']['value']['array'][1]['value'];
             $class_static = Build::class_static($object);

@@ -24,7 +24,7 @@ class Method
         $array_depth = 0;
         $is_single_quote = false;
         $is_double_quote = false;
-        $is_static_class_method = false;
+        $is_class_method = false;
         $argument = '';
         $argument_array = [];
         $argument_list = [];
@@ -63,7 +63,7 @@ class Method
                                 $name !== ''
                             ){
                                 if($input['array'][$i]['value'] === '::'){
-                                    $is_static_class_method = true;
+                                    $is_class_method = true;
                                 }
                                 $name .= $input['array'][$i]['value'];
                             } else {
@@ -195,9 +195,8 @@ class Method
                             'argument' => $argument_list
                         ];
                         $input['array'][$is_method]['type'] = 'method';
-                        if($is_static_class_method === true){
-                            $input['array'][$is_method]['is_static_class_method'] = true;
-                            $is_static_class_method = false;
+                        if($is_class_method === true){
+                            $input['array'][$is_method]['is_class_method'] = true;
                         }
                         unset($input['array'][$is_method]['value']);
                         $argument_list = [];
@@ -219,7 +218,7 @@ class Method
                                 ) &&
                                 $is_single_quote === false &&
                                 $is_double_quote === false &&
-                                $is_static_class_method === false
+                                $is_class_method === false
                             ){
                                 break;
                             }
@@ -236,7 +235,7 @@ class Method
                                 ) &&
                                 $is_single_quote === false &&
                                 $is_double_quote === false &&
-                                $is_static_class_method === true
+                                $is_class_method === true
                             ){
                                 break;
                             }

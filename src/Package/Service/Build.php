@@ -2147,25 +2147,19 @@ class Build
             $before[] = 'd( ' . $uuid_methods . ');';
             $before[] = 'if(!in_array(\'' . $function . '\', ' . $uuid_methods. ', true)){';
             $before[] = 'sort(' . $uuid_methods .', SORT_NATURAL);';
-            $before[] = 'throw new TemplateException(\'Method "' . $function . '" not found in class: ' . $class_name . '\' . PHP_EOL . \'Available methods:\' . PHP_EOL . implode(PHP_EOL, ' . $uuid_methods . ') . PHP_EOL);';
+            $before[] = 'throw new TemplateException(\'Static method "' . $function . '" not found in class: ' . $class_name . '\' . PHP_EOL . \'Available methods:\' . PHP_EOL . implode(PHP_EOL, ' . $uuid_methods . ') . PHP_EOL);';
             $before[] = '}';
             $before[] = '}';
             $before[] = 'catch(Exception | LocateException $exception){';
-            $before[] = 'throw new TemplateException(\'' . $record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.\', 0, $exception);';
+            if(
+                array_key_exists('is_multiline', $record) &&
+                $record['is_multiline'] === true
+            ){
+                $before[] = 'throw new TemplateException(\'' . $record['tag'] . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: ' . $source . '.\', 0, $exception);';
+            } else {
+                $before[] = 'throw new TemplateException(\'' . $record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.\', 0, $exception);';
+            }
             $before[] = '}';
-            /*
-            $before[] = $uuid . ' = $data->get(\'' . $class_name . '\');';
-            $before[] = 'try {';
-            $before[] = $uuid_methods . ' = get_class_methods(' . $uuid . ');';
-            $before[] = 'if(!in_array(\'' . $class_method . '\', ' . $uuid_methods. ', true)){';
-            $before[] = 'sort(' . $uuid_methods .', SORT_NATURAL);';
-            $before[] = 'throw new TemplateException(\'Method "' . $class_method . '" not found in class: ' . $class_raw . '\' . PHP_EOL . \'Available methods:\' . PHP_EOL . implode(PHP_EOL, ' . $uuid_methods . ') . PHP_EOL);';
-            $before[] = '}';
-            $before[] = '}';
-            $before[] = 'catch(Exception | TemplateException $exception){';
-            $before[] = 'throw new TemplateException(\'' . $record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.\', 0, $exception);';
-            $before[] = '}';
-            */
             if(array_key_exists(0, $argument)){
                 $value = $method . '(' . implode(', ', $argument) . ')';
             } else {
@@ -2210,7 +2204,14 @@ class Build
             $before[] = '}';
             $before[] = '}';
             $before[] = 'catch(Exception | TemplateException $exception){';
-            $before[] = 'throw new TemplateException(\'' . $record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.\', 0, $exception);';
+            if(
+                array_key_exists('is_multiline', $record) &&
+                $record['is_multiline'] === true
+            ){
+                $before[] = 'throw new TemplateException(\'' . $record['tag'] . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: ' . $source . '.\', 0, $exception);';
+            } else {
+                $before[] = 'throw new TemplateException(\'' . $record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.\', 0, $exception);';
+            }
             $before[] = '}';
             if(array_key_exists(0, $argument)){
                 $value = $uuid . '->' . $class_method .  '(' . implode(', ', $argument) . ')';

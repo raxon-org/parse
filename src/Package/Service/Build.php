@@ -2090,6 +2090,7 @@ class Build
         $variable_name = $record['variable']['name'];
         $operator = $record['variable']['operator'];
         $before = [];
+        d($record);
         if(
             in_array(
                 $operator,

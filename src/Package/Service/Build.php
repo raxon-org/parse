@@ -3224,6 +3224,7 @@ class Build
                 }
                 break;
         }
+        d($right_array);
         return [
             'string' => $right,
             'array' => $right_array

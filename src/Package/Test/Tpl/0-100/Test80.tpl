@@ -1,8 +1,6 @@
 {{$framework = framework()}}
 {{$data = $framework.data()}}
 {{dd($data)}}
-{{$parse = parse()}}
-
 {{$flags = flags()}}
 {{$options = options()}}
 {{$config = $framework.config()}}

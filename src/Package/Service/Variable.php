@@ -85,6 +85,7 @@ class Variable
                         }
                     }
                     elseif($has_name === false){
+                        d($i);
                         $name .= $current;
                     }
                 }

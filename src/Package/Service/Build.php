@@ -1269,6 +1269,7 @@ class Build
         }
         $variable_function = $record['variable']['value']['array'][0]['value'] ?? null;
         if($variable_function === '$'){
+            trace();
             d($name);
             $explode = explode('_', $name);
             ddd($plugin);

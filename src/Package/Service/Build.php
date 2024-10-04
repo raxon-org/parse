@@ -2121,10 +2121,12 @@ class Build
             $method = $record['variable']['value']['array'][1]['method']['name'] ?? null;
             $explode = explode('.', $method, 2);
             //replace : with \\ for namespace in $explode[0]
-            $class_name = str_replace(':', '\\', $explode[0]);
+            $class_raw = $explode[0];
+            $class_name = str_replace(':', '\\', $class_raw);
             $class_object = '$' . $class_name;
             $class_method = str_replace('.', '_', $explode[1]);
             $uuid = Core::uuid_variable();
+            $uuid_methods = Core::uuid_variable();
             $argument = $record['variable']['value']['array'][1]['method']['argument'];
             foreach($argument as $argument_nr => $argument_record){
                 $value = Build::value($object, $flags, $options, $record, $argument_record);
@@ -2132,10 +2134,10 @@ class Build
             }
             $before[] = $uuid . ' = $data->get(\'' . $class_name . '\');';
             $before[] = 'try {';
-            $before[] = '$methods = get_class_methods(' . $uuid . ');';
-            $before[] = 'if(!in_array(\'' . $class_method . '\', $methods, true)){';
+            $before[] = $uuid_methods . ' = get_class_methods(' . $uuid . ');';
+            $before[] = 'if(!in_array(\'' . $class_method . '\', ' . $uuid_methods. ', true)){';
             $before[] = 'sort($methods, SORT_NATURAL);';
-            $before[] = 'throw new TemplateException(\'Method "' . $class_method . '" not found in: ' . $method . '\' . PHP_EOL . \'Available methods:\' . PHP_EOL . implode(PHP_EOL, $methods));';
+            $before[] = 'throw new TemplateException(\'Method "' . $class_method . '" not found in: ' . $class_raw . '\' . PHP_EOL . \'Available methods:\' . PHP_EOL . implode(PHP_EOL, $methods));';
             $before[] = '}';
             $before[] = '}';
             $before[] = 'catch(Exception | TemplateException $exception){';

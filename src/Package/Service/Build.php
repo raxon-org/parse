@@ -2133,11 +2133,12 @@ class Build
             $before[] = $uuid . ' = $data->get(\'' . $class_name . '\');';
             $before[] = 'try {';
             $before[] = '$methods = get_class_methods(' . $uuid . ');';
+            $before[] = 'd($methods);';
             $before[] = 'if(!in_array(\'' . $class_method . '\', $methods, true)){';
             $before[] = 'throw new TemplateException(\'Method "' . $class_method . '" not found in: ' . $method . '\');';
             $before[] = '}';
             $before[] = '}';
-            $before[] = 'catch(Exception $exception){';
+            $before[] = 'catch(Exception | TemplateException $exception){';
             $before[] = 'throw new TemplateException(\'' . $record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.\', 0, $exception);';
             $before[] = '}';
             if(array_key_exists(0, $argument)){

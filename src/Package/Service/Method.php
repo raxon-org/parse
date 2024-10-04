@@ -266,7 +266,6 @@ class Method
                                 $input['array'][$i] = null;
                             }
                         }
-                        d($input['array']);
                         for($i = $is_method + 1; $i <= $nr; $i++){
                             $input['array'][$i] = null;
                         }

@@ -3083,6 +3083,7 @@ class Build
         $count = count($input['array']);
         $right = '';
         $right_array = [];
+        d($input);
         d($next);
         switch($next){
             case '(':

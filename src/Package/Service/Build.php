@@ -2123,16 +2123,17 @@ class Build
             $class_name = str_replace(':', '\\', $explode[0]);
             $class_object = '$' . $class_name;
             $class_method = $explode[1];
+            $uuid = Core::uuid_variable();
             $argument = $record['variable']['value']['array'][1]['method']['argument'];
             foreach($argument as $argument_nr => $argument_record){
                 $value = Build::value($object, $flags, $options, $record, $argument_record);
                 $argument[$argument_nr] = $value;
             }
-            $value = $class_object = '$data->get(\'' . $class_name . '\');' . PHP_EOL;
+            $value = $uuid . ' = $data->get(\'' . $class_name . '\');' . PHP_EOL;
             if(array_key_exists(0, $argument)){
-                $value .= $class_object . '->' . $class_method .  '(' . implode(', ', $argument) . ')';
+                $value .= $uuid . '->' . $class_method .  '(' . implode(', ', $argument) . ')';
             } else {
-                $value .= $class_object . '->' . $class_method . '()';
+                $value .= $uuid . '->' . $class_method . '()';
             }
             d($value);
             d($class_object);

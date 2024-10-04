@@ -2796,10 +2796,10 @@ class Build
                         true
                     )
                 ){
-                    d($record['value']);
-                    d($input);
-                    d($nr);
-                    d($next);
+//                    d($record['value']);
+//                    d($input);
+//                    d($nr);
+//                    d($next);
                     $right = Build::value_right(
                         $object,
                         $flags,

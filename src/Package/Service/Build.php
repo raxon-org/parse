@@ -2119,11 +2119,11 @@ class Build
         ){
             //class method call
             $method = $record['variable']['value']['array'][1]['method']['name'] ?? null;
-            $explode = explode('.', $method);
+            $explode = explode('.', $method, 2);
             //replace : with \\ for namespace in $explode[0]
             $class_name = str_replace(':', '\\', $explode[0]);
             $class_object = '$' . $class_name;
-            $class_method = $explode[1];
+            $class_method = str_replace('.', '_', $explode[1]);
             $uuid = Core::uuid_variable();
             $argument = $record['variable']['value']['array'][1]['method']['argument'];
             foreach($argument as $argument_nr => $argument_record){

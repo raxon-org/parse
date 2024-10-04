@@ -2689,6 +2689,9 @@ class Build
                     ){
                         switch($record['value']){
                             case '=':
+                                d($input);
+                                d($nr);
+                                d($next);
                                 $assign = Build::value_right(
                                     $object,
                                     $flags,
@@ -2698,6 +2701,7 @@ class Build
                                     $next,
                                     $skip
                                 );
+                                d($assign);
                                 $assign = Build::value($object, $flags, $options, $tag, $assign);
                                 $value .= '$data->set(\'' . $previous['name'] . '\', ' .  $assign . ')';
                             break;

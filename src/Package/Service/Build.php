@@ -3032,6 +3032,9 @@ class Build
             case '-':
                 $value = '$this->value_minus(' . $left . ', ' . $right . ')';
             break;
+            case '(':
+                d($left);
+                ddd($right);
             case '*':
                 $value = '$this->value_multiply(' . $left . ', ' . $right . ')';
             break;

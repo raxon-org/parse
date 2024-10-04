@@ -1910,6 +1910,7 @@ class Build
                 return $method_name;
             break;
             default:
+                d($record);
                 $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
                 $method_value = '$this->' . $plugin . '(';
                 $is_argument = false;

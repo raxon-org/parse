@@ -216,6 +216,7 @@ class Method
                                 break;
                             }
                             elseif(is_array($input['array'][$i])){
+                                d($input['array'][$i]);
                                 if(
                                     array_key_exists('value', $input['array'][$i]) &&
                                     in_array(

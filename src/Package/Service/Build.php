@@ -2145,6 +2145,10 @@ class Build
             $before[] = '}';
             $before[] = '}';
             $before[] = 'd( ' . $uuid_methods . ');';
+            $before[] = 'if(!in_array(\'' . $function . '\', ' . $uuid_methods. ', true)){';
+            $before[] = 'sort(' . $uuid_methods .', SORT_NATURAL);';
+            $before[] = 'throw new TemplateException(\'Method "' . $function . '" not found in class: ' . $class_raw . '\' . PHP_EOL . \'Available methods:\' . PHP_EOL . implode(PHP_EOL, ' . $uuid_methods . ') . PHP_EOL);';
+            $before[] = '}';
             $before[] = '}';
             $before[] = 'catch(Exception | LocateException $exception){';
             $before[] = 'throw new TemplateException(\'' . $record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.\', 0, $exception);';

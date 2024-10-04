@@ -1,4 +1,8 @@
 {{$framework = framework()}}}
+{{$data = data()}}
+{{$parse = parse()}}
+{{$flags = flags()}}
+{{$options = options()}}
 {{$config = $framework.config()}}
 {{dd($config)}}
 {{block.data()}}

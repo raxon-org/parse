@@ -10,13 +10,13 @@
  */
 namespace Plugin;
 
-trait Plugin_case {
+use Raxon\App;
 
-    protected function plugin_case($value, $default=null){
-        if(empty($value)){
-            return $default;
-        }
-        return $value;
+trait Framework {
+
+    protected function framework(): App
+    {
+        return $this->object();
     }
 
 }

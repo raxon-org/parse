@@ -1006,9 +1006,6 @@ class Token
             if (array_key_exists('execute', $input['array'][$index])) {
                 $item = $input['array'][$index]['execute'] ?? null;
             }
-            elseif (array_key_exists('method', $input['array'][$index])) {
-                $item = $input['array'][$index]['method']['name'] ?? null;
-            }
             elseif (array_key_exists('tag', $input['array'][$index])) {
                 $item = $input['array'][$index]['tag'] ?? null;
                 if(

@@ -2136,7 +2136,7 @@ class Build
             }
             $before[] = 'try {';
             $before[] = $uuid . ' = new ReflectionClass(\'' . $class_name . '\');';
-            $before[] = $uuid_methods . ' = $uuid->getMethods();';
+            $before[] = $uuid_methods . ' = ' . $uuid . '->getMethods();';
             $before[] = 'd($uuid_methods);';
             $before[] = '}';
             $before[] = 'catch(Exception | LocateException $exception){';

@@ -1267,15 +1267,6 @@ class Build
         if(!$use){
             $use = [];
         }
-        $variable_function = $record['variable']['value']['array'][0]['value'] ?? null;
-        if($variable_function === '$'){
-            trace();
-            d($name);
-            $explode = explode('_', $name);
-            ddd($plugin);
-            return $plugin;
-        }
-
         if(
             !in_array(
                 $use_plugin,
@@ -2119,13 +2110,30 @@ class Build
             array_key_exists(0, $record['variable']['value']['array']) &&
             is_array($record['variable']['value']['array'][0]) &&
             array_key_exists('value', $record['variable']['value']['array'][0]) &&
+            $record['variable']['value']['array'][0]['value'] === '$' &&
             array_key_exists(1, $record['variable']['value']['array']) &&
             is_array($record['variable']['value']['array'][1]) &&
             array_key_exists('method', $record['variable']['value']['array'][1]) &&
             array_key_exists('name', $record['variable']['value']['array'][1]['method'])
         ){
             //class method call
-            d($record);
+            $method = $record['variable']['value']['array'][1]['method']['name'] ?? null;
+            $explode = explode('.', $method);
+            $class_object = '$' . $explode[0];
+            $class_method = $explode[1];
+            $argument = $record['variable']['value']['array'][1]['method']['argument'];
+            foreach($argument as $argument_nr => $argument_record){
+                $value = Build::value($object, $flags, $options, $record, $argument_record);
+                $argument[$argument_nr] = $value;
+            }
+            if(array_key_exists(0, $argument)){
+                $value = $class_object . '->' . $class_method .  '(' . implode(', ', $argument) . ')';
+            } else {
+                $value = $class_object . '->' . $class_method .  . '()';
+            }
+            d($value);
+            d($class_object);
+            d($class_method);
             ddd('found');
         }
         elseif(

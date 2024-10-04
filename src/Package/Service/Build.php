@@ -2139,7 +2139,7 @@ class Build
             $before[] = 'unset(' . $uuid_methods . '[$nr]);';
             $before[] = '}';
             $before[] = '}';
-            $before[] = 'd( ' . $uuid_methods . ');';
+//            $before[] = 'd( ' . $uuid_methods . ');';
             $before[] = 'if(!in_array(\'' . $function . '\', ' . $uuid_methods. ', true)){';
             $before[] = 'sort(' . $uuid_methods .', SORT_NATURAL);';
             $before[] = 'throw new TemplateException(\'Static method "' . $function . '" not found in class: ' . $class_name . '\' . PHP_EOL . \'Available methods:\' . PHP_EOL . implode(PHP_EOL, ' . $uuid_methods . ') . PHP_EOL);';

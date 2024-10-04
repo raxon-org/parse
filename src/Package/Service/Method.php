@@ -231,7 +231,6 @@ class Method
                                     $input['array'][$i] = null;
                                 }
                                 elseif(
-                                    is_array($input['array'][$i]) &&
                                     array_key_exists('type', $input['array'][$i]) &&
                                     in_array(
                                         $input['array'][$i]['type'],
@@ -241,6 +240,7 @@ class Method
                                         ],true
                                     )
                                 ){
+                                    d('yes');
                                     if($input['array'][$i]['type'] === 'symbol') {
                                         if (
                                             array_key_exists('value', $input['array'][$i]) &&

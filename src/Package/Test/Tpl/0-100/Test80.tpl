@@ -1,8 +1,3 @@
-{{$framework = framework()}}
-{{$data = $framework.data()}}
-{{dd($data)}}
-{{$config = $framework.config()}}
-{{dd($config)}}
 {{block.data()}}
 {
     "string": "test",

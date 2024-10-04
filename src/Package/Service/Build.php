@@ -2124,6 +2124,7 @@ class Build
             array_key_exists('method', $record['variable']['value']['array'][1]) &&
             array_key_exists('name', $record['variable']['value']['array'][1]['method'])
         ){
+            //class method call
             d($record);
             ddd('found');
         }

@@ -2136,10 +2136,6 @@ class Build
             } else {
                 $value = $uuid . '->' . $class_method . '()';
             }
-            d($value);
-            d($class_object);
-            d($class_method);
-            ddd('found');
         }
         elseif(
             array_key_exists('value', $record['variable']) &&

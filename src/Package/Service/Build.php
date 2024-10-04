@@ -2137,6 +2137,13 @@ class Build
             $before[] = 'try {';
             $before[] = $uuid . ' = new ReflectionClass(\'' . $class_name . '\');';
             $before[] = $uuid_methods . ' = ' . $uuid . '->getMethods();';
+            $before[] = 'foreach (' . $uuid_methods . ' as $nr => $method) {';
+            $before[] = 'if ($method->isStatic()) {';
+            $before[] = $uuid_methods . '[$nr] = $method->name;';
+            $before[] = '} else {';
+            $before[] = 'unset(' . $uuid_methods . '[$nr]);';
+            $before[] = '}';
+            $before[] = '}';
             $before[] = 'd( ' . $uuid_methods . ');';
             $before[] = '}';
             $before[] = 'catch(Exception | LocateException $exception){';

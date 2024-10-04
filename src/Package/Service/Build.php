@@ -2136,6 +2136,7 @@ class Build
             $before[] = 'if(!in_array(\'' . $class_method . '\', $methods, true)){';
             $before[] = 'throw new TemplateException(\'Method "' . $class_method . '" not found in: ' . $method . '\');';
             $before[] = '}';
+            $before[] = '}';
             $before[] = 'catch(Exception $exception){';
             $before[] = 'throw new TemplateException(\'' . $record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.\', 0, $exception);';
             $before[] = '}';

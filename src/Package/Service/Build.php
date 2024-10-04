@@ -2786,6 +2786,7 @@ class Build
                         true
                     )
                 ){
+                    d($input);
                     d($nr);
                     d($next);
                     $right = Build::value_right(

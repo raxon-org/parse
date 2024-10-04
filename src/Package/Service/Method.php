@@ -245,6 +245,29 @@ class Method
                         for($i = $is_method + 1; $i <= $nr; $i++){
                             $input['array'][$i] = null;
                         }
+                        for($i = $is_method - 1; $i >= 0; $i--){
+                            if(
+                                in_array(
+                                    $input['array'][$i]['type'],
+                                    [
+                                        'symbol',
+                                        'string'
+                                    ],true
+                                )
+                            ){
+                                if($input['array'][$i]['type'] === 'symbol') {
+                                    if ($input['array'][$i]['value'] === '::') {
+                                        $input['array'][$i] = null;
+                                    } else {
+                                        break;
+                                    }
+                                } else {
+                                    $input['array'][$i] = null;
+                                }
+                            } else {
+                                break;
+                            }
+                        }
                         // add modifier for methods
                         $is_method = false;
                         $has_name = false;

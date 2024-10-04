@@ -247,6 +247,8 @@ class Method
                         }
                         for($i = $is_method - 1; $i >= 0; $i--){
                             if(
+                                is_array($input['array'][$i]) &&
+                                array_key_exists('type', $input['array'][$i]) &&
                                 in_array(
                                     $input['array'][$i]['type'],
                                     [
@@ -256,7 +258,10 @@ class Method
                                 )
                             ){
                                 if($input['array'][$i]['type'] === 'symbol') {
-                                    if ($input['array'][$i]['value'] === '::') {
+                                    if (
+                                        array_key_exists('value', $input['array'][$i]) &&
+                                        $input['array'][$i]['value'] === '::'
+                                    ) {
                                         $input['array'][$i] = null;
                                     } else {
                                         break;

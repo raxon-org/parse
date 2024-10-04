@@ -2119,6 +2119,7 @@ class Build
             //class method call
             $method = $record['variable']['value']['array'][1]['method']['name'] ?? null;
             $explode = explode('.', $method);
+            //replace : with \\ for namespace in $explode[0]
             $class_object = '$' . $explode[0];
             $class_method = $explode[1];
             $argument = $record['variable']['value']['array'][1]['method']['argument'];

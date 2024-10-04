@@ -24,6 +24,7 @@ class Method
         $array_depth = 0;
         $is_single_quote = false;
         $is_double_quote = false;
+        $is_class_method = false;
         $argument = '';
         $argument_array = [];
         $argument_list = [];
@@ -61,6 +62,9 @@ class Method
                                 ) &&
                                 $name !== ''
                             ){
+                                if($input['array'][$i]['value'] === '::'){
+                                    $is_class_method = true;
+                                }
                                 $name .= $input['array'][$i]['value'];
                             } else {
                                 break;
@@ -211,7 +215,8 @@ class Method
                                     ]
                                 ) &&
                                 $is_single_quote === false &&
-                                $is_double_quote === false
+                                $is_double_quote === false &&
+                                $is_class_method === false
                             ){
                                 break;
                             }

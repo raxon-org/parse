@@ -1267,6 +1267,12 @@ class Build
         if(!$use){
             $use = [];
         }
+        $variable_function = $record['variable']['value']['array'][0]['value'] ?? null;
+        if($variable_function === '$'){
+            ddd($plugin);
+            return $plugin;
+        }
+
         if(
             !in_array(
                 $use_plugin,

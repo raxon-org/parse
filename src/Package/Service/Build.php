@@ -2110,6 +2110,51 @@ class Build
             is_array($record['variable']['value']['array']) &&
             array_key_exists(0, $record['variable']['value']['array']) &&
             is_array($record['variable']['value']['array'][0]) &&
+            array_key_exists('is_class_method', $record['variable']['value']['array'][0]) &&
+            $record['variable']['value']['array'][0]['is_class_method'] === true
+        ){
+            //static class method call
+            $method = $record['variable']['value']['array'][0]['method']['name'] ?? null;
+
+//            $explode = explode('.', $method, 2);
+            //replace : with \\ for namespace in $explode[0]
+//            $class_raw = $explode[0];
+//            $class_name = str_replace(':', '\\', $class_raw);
+//            $class_object = '$' . $class_name;
+            $method = str_replace('.', '_', $method);
+            $uuid = Core::uuid_variable();
+            $uuid_methods = Core::uuid_variable();
+            $argument = $record['variable']['value']['array'][1]['method']['argument'];
+            foreach($argument as $argument_nr => $argument_record){
+                $value = Build::value($object, $flags, $options, $record, $argument_record);
+                $argument[$argument_nr] = $value;
+            }
+            /*
+            $before[] = $uuid . ' = $data->get(\'' . $class_name . '\');';
+            $before[] = 'try {';
+            $before[] = $uuid_methods . ' = get_class_methods(' . $uuid . ');';
+            $before[] = 'if(!in_array(\'' . $class_method . '\', ' . $uuid_methods. ', true)){';
+            $before[] = 'sort(' . $uuid_methods .', SORT_NATURAL);';
+            $before[] = 'throw new TemplateException(\'Method "' . $class_method . '" not found in class: ' . $class_raw . '\' . PHP_EOL . \'Available methods:\' . PHP_EOL . implode(PHP_EOL, ' . $uuid_methods . ') . PHP_EOL);';
+            $before[] = '}';
+            $before[] = '}';
+            $before[] = 'catch(Exception | TemplateException $exception){';
+            $before[] = 'throw new TemplateException(\'' . $record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.\', 0, $exception);';
+            $before[] = '}';
+            */
+            if(array_key_exists(0, $argument)){
+                $value = $method . '(' . implode(', ', $argument) . ')';
+            } else {
+                $value = $method . '()';
+            }
+        }
+        elseif(
+            array_key_exists('value', $record['variable']) &&
+            is_array($record['variable']['value']) &&
+            array_key_exists('array', $record['variable']['value']) &&
+            is_array($record['variable']['value']['array']) &&
+            array_key_exists(0, $record['variable']['value']['array']) &&
+            is_array($record['variable']['value']['array'][0]) &&
             array_key_exists('value', $record['variable']['value']['array'][0]) &&
             $record['variable']['value']['array'][0]['value'] === '$' &&
             array_key_exists(1, $record['variable']['value']['array']) &&

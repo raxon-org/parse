@@ -2110,8 +2110,8 @@ class Build
             is_array($record['variable']['value']['array']) &&
             array_key_exists(0, $record['variable']['value']['array']) &&
             is_array($record['variable']['value']['array'][0]) &&
-            array_key_exists('is_static_class_method', $record['variable']['value']['array'][0]) &&
-            $record['variable']['value']['array'][0]['is_static_class_method'] === true
+            array_key_exists('is_class_method', $record['variable']['value']['array'][0]) &&
+            $record['variable']['value']['array'][0]['is_class_method'] === true
         ){
             //static class method call
             $method = $record['variable']['value']['array'][0]['method']['name'] ?? null;

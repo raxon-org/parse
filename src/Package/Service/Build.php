@@ -2602,7 +2602,11 @@ class Build
                         } else {
                             $value .= PHP_EOL . $record['value'];
                         }
-                    } else {
+                    }
+                    elseif($record['value'] === '('){
+                        ddd($previous);
+                    }
+                    else {
                         $value .= $record['value'] . PHP_EOL;
                     }
                 }

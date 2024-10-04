@@ -2782,7 +2782,7 @@ class Build
                 array_key_exists('type', $record) &&
                 $record['type'] === 'method'
             ){
-                d($record);
+                d($tag);
                 $plugin = Build::plugin($object, $flags, $options, $tag, str_replace('.', '_', $record['method']['name']));
                 $method_value = '$this->' . $plugin . '(' . PHP_EOL;
                 if(

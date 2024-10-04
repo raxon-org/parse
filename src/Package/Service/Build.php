@@ -2135,7 +2135,7 @@ class Build
                 $argument[$argument_nr] = $value;
             }
             $before[] = 'try {';
-            $before[] = $uuid . ' = new ReflectionClass(' . $class_name . ');';
+            $before[] = $uuid . ' = new ReflectionClass(\'' . $class_name . '\');';
             $before[] = $uuid_methods . ' = $uuid->getMethods();';
             $before[] = 'd($uuid_methods);';
             $before[] = '}';

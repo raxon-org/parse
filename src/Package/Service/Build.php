@@ -2604,6 +2604,7 @@ class Build
                         }
                     }
                     elseif($record['value'] === '('){
+                        d($input);
                         ddd($previous);
                     }
                     else {

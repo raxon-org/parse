@@ -1294,6 +1294,7 @@ class Build
                     'Plugin\\Value_Or',
                     'Plugin\\Value_Xor',
                     'Plugin\\Value_Null_Coalescing',
+                    'Plugin\\Framework',
                 ],
                 true
             )

@@ -1,3 +1,3 @@
 {{$framework = framework()}}
-{{$app = Raxon:App:instance()}}
+{{$app = Raxon:App::instance()}}
 {{dd($app)}}

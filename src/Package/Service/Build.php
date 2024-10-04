@@ -2122,9 +2122,12 @@ class Build
 //            $class_name = str_replace(':', '\\', $class_raw);
 //            $class_object = '$' . $class_name;
             $method = str_replace('.', '_', $method);
+            $explode = explode('::', $method);
+            $function = array_pop($explode);
+            $method = implode('\\', $explode) . '::' . $function;
             $uuid = Core::uuid_variable();
             $uuid_methods = Core::uuid_variable();
-            $argument = $record['variable']['value']['array'][0]['method']['argument'];
+            $argument = $record['variable']['value']['array'][0]['method']['argument'] ?? [];
             foreach($argument as $argument_nr => $argument_record){
                 $value = Build::value($object, $flags, $options, $record, $argument_record);
                 $argument[$argument_nr] = $value;

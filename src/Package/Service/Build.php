@@ -2090,6 +2090,7 @@ class Build
         $source = $options->source ?? '';
         $variable_name = $record['variable']['name'];
         $operator = $record['variable']['operator'];
+        d($operator);
         $before = [];
         d($record);
         if(

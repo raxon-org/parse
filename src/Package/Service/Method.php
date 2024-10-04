@@ -196,6 +196,7 @@ class Method
                         $argument_array = [];
                         $argument = '';
                         $argument_nr = 0;
+                        d($is_method);
                         for($i = $is_method - 1; $i >= 0; $i--){
                             if(
                                 !is_array($input['array'][$i]) &&

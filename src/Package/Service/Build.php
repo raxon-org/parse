@@ -2135,7 +2135,9 @@ class Build
                 $argument[$argument_nr] = $value;
             }
             $before[] = 'try {';
-            $before[] = $uuid_methods . ' = get_class_methods(' . $class_name . '());';
+            $before[] = $uuid . ' = new ReflectionClass(' . $class_name . ');';
+            $before[] = $uuid_methods . ' = $uuid->getMethods();';
+            $before[] = 'd($uuid_methods);';
             $before[] = '}';
             $before[] = 'catch(Exception | LocateException $exception){';
             $before[] = 'throw new TemplateException(\'' . $record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.\', 0, $exception);';

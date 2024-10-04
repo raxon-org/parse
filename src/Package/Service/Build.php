@@ -2115,12 +2115,6 @@ class Build
         ){
             //static class method call
             $method = $record['variable']['value']['array'][0]['method']['name'] ?? null;
-
-//            $explode = explode('.', $method, 2);
-            //replace : with \\ for namespace in $explode[0]
-//            $class_raw = $explode[0];
-//            $class_name = str_replace(':', '\\', $class_raw);
-//            $class_object = '$' . $class_name;
             $method = str_replace('.', '_', $method);
             $explode = explode('::', $method);
             $function = array_pop($explode);

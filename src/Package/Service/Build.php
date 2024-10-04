@@ -2089,6 +2089,7 @@ class Build
         $source = $options->source ?? '';
         $variable_name = $record['variable']['name'];
         $operator = $record['variable']['operator'];
+        $before = '';
         if(
             in_array(
                 $operator,
@@ -2129,11 +2130,11 @@ class Build
                 $value = Build::value($object, $flags, $options, $record, $argument_record);
                 $argument[$argument_nr] = $value;
             }
-            $value = $uuid . ' = $data->get(\'' . $class_name . '\');' . PHP_EOL;
+            $before = $uuid . ' = $data->get(\'' . $class_name . '\');' . PHP_EOL;
             if(array_key_exists(0, $argument)){
-                $value .= $uuid . '->' . $class_method .  '(' . implode(', ', $argument) . ')';
+                $value = $uuid . '->' . $class_method .  '(' . implode(', ', $argument) . ')';
             } else {
-                $value .= $uuid . '->' . $class_method . '()';
+                $value = $uuid . '->' . $class_method . '()';
             }
             d($value);
             d($class_object);
@@ -2242,11 +2243,12 @@ class Build
             $variable_name !== '' &&
             $operator !== ''
         ){
-            $result = '';
+            $result = [];
+            $result[] = $before;
             if($value !== ''){
                 switch($operator){
                     case '=' :
-                        $result = '$data->set(\'' .
+                        $result[] = '$data->set(\'' .
                             $variable_name .
                             '\', ' .
                             $value .
@@ -2254,7 +2256,7 @@ class Build
                         ;
                         break;
                     case '.=' :
-                        $result = '$data->set(\'' .
+                        $result[] = '$data->set(\'' .
                             $variable_name .
                             '\', ' .
                             '$this->value_concatenate($data->get(\'' .
@@ -2265,7 +2267,7 @@ class Build
                         ;
                         break;
                     case '+=' :
-                        $result = '$data->set(\'' .
+                        $result[] = '$data->set(\'' .
                             $variable_name .
                             '\', ' .
                             '$this->value_plus($data->get(\'' .
@@ -2276,7 +2278,7 @@ class Build
                         ;
                         break;
                     case '-=' :
-                        $result = '$data->set(\'' . $variable_name . '\', ' .
+                        $result[] = '$data->set(\'' . $variable_name . '\', ' .
                             '$this->value_minus($data->get(\'' .
                             $variable_name .
                             '\'), ' .
@@ -2285,7 +2287,7 @@ class Build
                         ;
                         break;
                     case '*=' :
-                        $result = '$data->set(\'' .
+                        $result[] = '$data->set(\'' .
                             $variable_name .
                             '\', ' .
                             '$this->value_multiply($data->get(\'' .
@@ -2296,7 +2298,7 @@ class Build
                         ;
                         break;
                 }
-
+                $result = implode(PHP_EOL, $result);
             } else {
                 switch($operator){
                     case '++' :

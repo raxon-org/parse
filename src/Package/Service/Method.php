@@ -197,7 +197,6 @@ class Method
                         $input['array'][$is_method]['type'] = 'method';
                         if($is_class_method === true){
                             $input['array'][$is_method]['is_class_method'] = true;
-                            ddd($input['array'][$is_method]);
                         }
                         unset($input['array'][$is_method]['value']);
                         $argument_list = [];

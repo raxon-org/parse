@@ -197,7 +197,6 @@ class Method
                         $argument = '';
                         $argument_nr = 0;
                         d($is_method);
-                        d($input['array']);
                         for($i = $is_method - 1; $i >= 0; $i--){
                             if(
                                 !is_array($input['array'][$i]) &&
@@ -269,6 +268,7 @@ class Method
                                 $input['array'][$i] = null;
                             }
                         }
+                        d($input['array']);
                         for($i = $is_method + 1; $i <= $nr; $i++){
                             $input['array'][$i] = null;
                         }

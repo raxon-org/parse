@@ -231,6 +231,30 @@ class Method
                                     $input['array'][$i] = null;
                                 }
                                 elseif(
+                                    is_array($input['array'][$i]) &&
+                                    array_key_exists('type', $input['array'][$i]) &&
+                                    in_array(
+                                        $input['array'][$i]['type'],
+                                        [
+                                            'symbol',
+                                            'string'
+                                        ],true
+                                    )
+                                ){
+                                    if($input['array'][$i]['type'] === 'symbol') {
+                                        if (
+                                            array_key_exists('value', $input['array'][$i]) &&
+                                            $input['array'][$i]['value'] === '::'
+                                        ) {
+                                            $input['array'][$i] = null;
+                                        } else {
+                                            break;
+                                        }
+                                    } else {
+                                        $input['array'][$i] = null;
+                                    }
+                                }
+                                elseif(
                                     $input['array'][$i]['value'] === '|' &&
                                     $previous !== '|' &&
                                     $next !== '|' &&
@@ -245,34 +269,6 @@ class Method
                         }
                         for($i = $is_method + 1; $i <= $nr; $i++){
                             $input['array'][$i] = null;
-                        }
-                        for($i = $is_method - 1; $i >= 0; $i--){
-                            if(
-                                is_array($input['array'][$i]) &&
-                                array_key_exists('type', $input['array'][$i]) &&
-                                in_array(
-                                    $input['array'][$i]['type'],
-                                    [
-                                        'symbol',
-                                        'string'
-                                    ],true
-                                )
-                            ){
-                                if($input['array'][$i]['type'] === 'symbol') {
-                                    if (
-                                        array_key_exists('value', $input['array'][$i]) &&
-                                        $input['array'][$i]['value'] === '::'
-                                    ) {
-                                        $input['array'][$i] = null;
-                                    } else {
-                                        break;
-                                    }
-                                } else {
-                                    $input['array'][$i] = null;
-                                }
-                            } else {
-                                break;
-                            }
                         }
                         // add modifier for methods
                         $is_method = false;

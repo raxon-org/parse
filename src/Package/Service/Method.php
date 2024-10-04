@@ -220,6 +220,23 @@ class Method
                             ){
                                 break;
                             }
+                            elseif(
+                                !is_array($input['array'][$i]) &&
+                                in_array(
+                                    $input['array'][$i],
+                                    [
+                                        ' ',
+                                        "\n",
+                                        "\r",
+                                        "\t",
+                                    ]
+                                ) &&
+                                $is_single_quote === false &&
+                                $is_double_quote === false &&
+                                $is_class_method === true
+                            ){
+                                break;
+                            }
                             elseif(is_array($input['array'][$i])){
                                 d($input['array'][$i]);
                                 if(
@@ -235,30 +252,6 @@ class Method
                                     )
                                 ){
                                     $input['array'][$i] = null;
-                                }
-                                elseif(
-                                    array_key_exists('type', $input['array'][$i]) &&
-                                    in_array(
-                                        $input['array'][$i]['type'],
-                                        [
-                                            'symbol',
-                                            'string'
-                                        ],true
-                                    )
-                                ){
-                                    d('yes');
-                                    if($input['array'][$i]['type'] === 'symbol') {
-                                        if (
-                                            array_key_exists('value', $input['array'][$i]) &&
-                                            $input['array'][$i]['value'] === '::'
-                                        ) {
-                                            $input['array'][$i] = null;
-                                        } else {
-                                            break;
-                                        }
-                                    } else {
-                                        $input['array'][$i] = null;
-                                    }
                                 }
                                 elseif(
                                     $input['array'][$i]['value'] === '|' &&

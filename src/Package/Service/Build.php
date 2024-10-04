@@ -2089,7 +2089,7 @@ class Build
         $source = $options->source ?? '';
         $variable_name = $record['variable']['name'];
         $operator = $record['variable']['operator'];
-        $before = '';
+        $before = [];
         if(
             in_array(
                 $operator,
@@ -2130,7 +2130,15 @@ class Build
                 $value = Build::value($object, $flags, $options, $record, $argument_record);
                 $argument[$argument_nr] = $value;
             }
-            $before = $uuid . ' = $data->get(\'' . $class_name . '\');' . PHP_EOL;
+            $before[] = $uuid . ' = $data->get(\'' . $class_name . '\');';
+            $before[] = 'try {';
+            $before[] = '$methods = get_class_methods(' . $uuid . ');';
+            $before[] = 'if(!in_array(\'' . $class_method . '\', $methods, true)){';
+            $before[] = 'throw new TemplateException(\'Method "' . $class_method . '" not found in: ' . $method . ');';
+            $before[] = '}';
+            $before[] = 'catch(Exception $exception){';
+            $before[] = 'throw new TemplateException(\'' . $record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.\', 0, $exception);';
+            $before[] = '}';
             if(array_key_exists(0, $argument)){
                 $value = $uuid . '->' . $class_method .  '(' . implode(', ', $argument) . ')';
             } else {
@@ -2239,8 +2247,7 @@ class Build
             $variable_name !== '' &&
             $operator !== ''
         ){
-            $result = [];
-            $result[] = $before;
+            $result = $before;
             if($value !== ''){
                 switch($operator){
                     case '=' :

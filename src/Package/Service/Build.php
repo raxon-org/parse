@@ -117,8 +117,8 @@ class Build
             foreach($list as $nr => &$record){
                 $tag = [
                     'tag' => $record['tag'],
-                    'line' => $record['line']['start'],
-                    'column' => $record['column'][$record['line']['start']]['start'],
+                    'line' => $record['line'],
+                    'column' => $record['column'],
                 ];
                 $data[] = '$object->config(\'package.raxon/parse.build.state.tag\', \'' . Core::object($tag, Core::JSON_DATA) .'\');';
                 if(

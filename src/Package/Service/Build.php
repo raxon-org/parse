@@ -3094,7 +3094,6 @@ class Build
                         }
                     }
                     $value .= '$data->get(\'' . $record['variable']['name'] . '\')' . $method_value;
-                    ddd($value);
                 }
             }
             elseif(

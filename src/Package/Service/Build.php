@@ -2493,8 +2493,7 @@ class Build
 
     public static function value_set(App $object, $flags, $options, $input): array
     {
-        $is_set = false;
-
+        $count = count($input['array']);
         $first = reset($input['array']);
         $last = end ($input['array']);
         d($first);
@@ -2505,6 +2504,15 @@ class Build
             array_key_exists('value', $last) &&
             $last['value'] === ')'
         ){
+            $set = [];
+            $set['value'] = '';
+            for($i = 1; $i < $count - 1; $i++){
+                $current = Token::item($input, $i);
+                $set['value'] .= $current;
+                $set['array'][$i] = $input[$i];
+            }
+            $set['type'] = 'set';
+            ddd($set);
             ddd('found');
         }
         /*

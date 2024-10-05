@@ -3111,7 +3111,6 @@ class Build
             } else {
                 d($nr);
                 d($record);
-                ddd($input);
                 $right = Build::value_right(
                     $object,
                     $flags,
@@ -3121,7 +3120,7 @@ class Build
                     $next,
                     $skip
                 );
-                d($right);
+                ddd($right);
                 $right = Build::value($object, $flags, $options, $tag, $right);
                 if(array_key_exists('value', $record)){
                     $value = Build::value_calculate($object, $flags, $options, $record['value'], $value, $right);

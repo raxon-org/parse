@@ -76,8 +76,7 @@ class Method
                                     [
                                         '$',
                                     ]
-                                ) &&
-                                $name !== ''
+                                )
                             ){
                                 $is_variable_method = true;
                                 break;

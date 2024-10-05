@@ -3186,9 +3186,6 @@ class Build
         $count = count($input['array']);
         $right = '';
         $right_array = [];
-        d($nr);
-        d($input);
-        d($next);
         switch($next){
             case '(':
                 $set_depth = 1;

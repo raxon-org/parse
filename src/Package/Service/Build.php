@@ -2285,6 +2285,8 @@ class Build
             }
         } else {
             $value = Build::value($object, $flags, $options, $record, $record['variable']['value'],$is_set);
+            d($is_set);
+            d($value);
         }
         if(array_key_exists('modifier', $record['variable'])){
             d($value);

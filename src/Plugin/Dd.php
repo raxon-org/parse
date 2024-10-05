@@ -22,15 +22,15 @@ trait Dd {
     {
         $object = $this->object();
         $tag = Core::object($object->config('package.raxon/parse.build.state.tag'), Core::OBJECT);
-        if(property_exists($tag, 'tag')){
+        if(property_exists($tag, 'source')){
             if(
                 property_exists($tag, 'line') &&
                 is_object($tag->line) &&
                 property_exists($tag->line, 'start')
             ){
-                echo $tag->tag . PHP_EOL . ' on line ' . $tag->line->start . PHP_EOL;
+                echo $tag->source . PHP_EOL . ':' . $tag->line->start . PHP_EOL;
             } else {
-                echo $tag->tag . PHP_EOL . ' on line ' . $tag->line . PHP_EOL;
+                echo $tag->source . PHP_EOL . ':' . $tag->line . PHP_EOL;
             }
         }
         dd($value);

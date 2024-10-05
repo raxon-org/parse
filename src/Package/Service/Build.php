@@ -3192,7 +3192,7 @@ class Build
         switch($next){
             case '(':
                 $set_depth = 1;
-                for($i = $nr + 1; $i < $count; $i++){
+                for($i = $nr + 2; $i < $count; $i++){
                     if(!array_key_exists($i, $input['array'])){
                         continue;
                     }

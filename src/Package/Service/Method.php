@@ -129,6 +129,7 @@ class Method
                         $is_method = false;
                     } else {
                         $name = strrev($name);
+                        $name = str_replace('>-', '->', $name);
                         $has_name = true;
                     }
                 }

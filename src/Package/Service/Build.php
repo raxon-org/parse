@@ -2514,10 +2514,16 @@ class Build
 
     public static function value_set(App $object, $flags, $options, $input, &$is_set=false): array
     {
+        d($input);
         $count = count($input['array']);
         $first = reset($input['array']);
+        if($first === false){
+            trace();
+            ddd($input);
+        }
 //        $last = end ($input['array']);
         if(
+            $first !== false &&
             array_key_exists('value', $first) &&
             $first['value'] === '('
         ){

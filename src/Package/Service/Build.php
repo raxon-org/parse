@@ -2503,13 +2503,14 @@ class Build
             $last['value'] === ')'
         ){
             $set = [];
-            $set['value'] = '';
+            $set['value'] = '(';
             $set['array'] = [];
             for($i = 1; $i < $count - 1; $i++){
                 $current = Token::item($input, $i);
                 $set['value'] .= $current;
                 $set['array'][$i] = $input['array'][$i];
             }
+            $set['value'] .= ')';
             $set['type'] = 'set';
             $input['array'] = [
                 0 => $set,

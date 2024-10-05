@@ -219,11 +219,11 @@ class Method
                                 $input['array'][$is_method]['method']['name'] = $explode[1];
                             }
                             $input['array'][$is_method]['type'] = 'variable_method';
+                            $input['array'][$is_method]['method']['call_type'] = $call_type;
                             $input['array'][$is_method]['variable'] = [
                                 'type' => 'variable',
                                 'tag' => $explode[0],
                                 'name' => mb_substr($explode[0], 1),
-                                'call_type' => $call_type,
                                 'is_reference' => false
                             ];
                             $input['array'][$is_method]['tag'] = $name .'(';

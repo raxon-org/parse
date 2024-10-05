@@ -28,7 +28,6 @@ class Method
         $argument = '';
         $argument_array = [];
         $argument_list = [];
-        $argument_tag = '';
         $argument_nr = 0;
         $separator = ',';
         $is_for = false;
@@ -215,10 +214,10 @@ class Method
                                 'is_reference' => false
                             ];
                             $input['array'][$is_method]['tag'] = $name .'(';
-                            ddd($argument_nr);
+                            $argument_count = count($argument_list);
                             foreach($argument_list as $argument_nr => $argument){
                                 $input['array'][$is_method]['tag'] .= $argument['string'];
-                                if($argument_nr < count($argument_list) - 1){
+                                if($argument_nr < $argument_count - 1){
                                     $input['array'][$is_method]['tag'] .= ', ';
                                 }
                             }

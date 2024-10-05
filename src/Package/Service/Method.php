@@ -73,7 +73,6 @@ class Method
                                 }
                                 $name .= $input['array'][$i]['value'];
                             } else {
-                                d($input['array'][$i]);
                                 break;
                             }
                         } else {

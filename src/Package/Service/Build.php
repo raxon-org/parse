@@ -2984,9 +2984,31 @@ class Build
                     $is_single_line = false;
                 } else {
                     $plugin = Build::plugin($object, $flags, $options, $tag, str_replace('.', '_', $record['method']['name']));
+                    $method_value = '::' . $plugin . '(' . PHP_EOL;
+                    if(
+                        array_key_exists('method', $record) &&
+                        array_key_exists('argument', $record['method'])
+                    ){
+                        $is_argument = false;
+                        foreach($record['method']['argument'] as $argument_nr => $argument){
+                            $argument = Build::value($object, $flags, $options, $tag, $argument);
+                            if($argument !== ''){
+                                $method_value .= $argument . ', ';
+                                $is_argument = true;
+                            }
+                        }
+                        if($is_argument === true){
+                            $method_value = mb_substr($method_value, 0, -2);
+                            $method_value .= ')';
+                        } else {
+                            $method_value = mb_substr($method_value, 0, -1);
+                            $method_value .= ')';
+                        }
+                    }
+                    $value .= '$data->get(\'' . $record['variable']['name'] . '\')' . $method_value;
+                    d($value);
                     d($plugin);
                     ddd($record);
-                    $value .= '$data->get(\'' . $record['variable']['name'] . '\')';
                 }
             }
             elseif(

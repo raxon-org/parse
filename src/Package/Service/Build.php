@@ -2939,6 +2939,8 @@ class Build
                 $modifier_value = '';
                 if(array_key_exists('modifier', $record)){
                     $previous_modifier = '$data->get(\'' . $record['name'] . '\')';
+                    //add method and arguments
+
                     foreach($record['modifier'] as $modifier_nr => $modifier){
                         $plugin = Build::plugin($object, $flags, $options, $tag, str_replace('.', '_', $modifier['name']));
                         if($is_single_line){
@@ -2981,6 +2983,8 @@ class Build
                     $value .= $modifier_value;
                     $is_single_line = false;
                 } else {
+                    $plugin = Build::plugin($object, $flags, $options, $tag, str_replace('.', '_', $record['method']['name']));
+                    d($plugin);
                     ddd($record);
                     $value .= '$data->get(\'' . $record['variable']['name'] . '\')';
                 }

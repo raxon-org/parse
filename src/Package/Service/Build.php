@@ -2322,53 +2322,100 @@ class Build
             if($value !== ''){
                 switch($operator){
                     case '=' :
-                        $result[] = '$data->set(\'' .
+                        $result[] = '$data->set(' .
+                            PHP_EOL .
+                            '\'' .
                             $variable_name .
                             '\', ' .
+                            PHP_EOL .
                             $value .
+                            PHP_EOL .
                             ');'
                         ;
                         break;
                     case '.=' :
-                        $result[] = '$data->set(\'' .
+                        $result[] = '$data->set(' .
+                            PHP_EOL .
+                            '\'' .
                             $variable_name .
                             '\', ' .
-                            '$this->value_concatenate($data->get(\'' .
+                            PHP_EOL .
+                            '$this->value_concatenate(' .
+                            PHP_EOL .
+                            '$data->get(' .
+                            PHP_EOL .
+                            '\'' .
                             $variable_name .
                             '\'), ' .
+                            PHP_EOL .
                             $value .
-                            '));'
+                            PHP_EOL .
+                            ')' .
+                            PHP_EOL .
+                            ');'
                         ;
                         break;
                     case '+=' :
-                        $result[] = '$data->set(\'' .
+                        $result[] = '$data->set(' .
+                            PHP_EOL .
+                            '\'' .
                             $variable_name .
                             '\', ' .
-                            '$this->value_plus($data->get(\'' .
+                            PHP_EOL .
+                            '$this->value_plus('.
+                            PHP_EOL .
+                            '$data->get('.
+                            PHP_EOL .
+                            '\'' .
                             $variable_name .
                             '\'), ' .
+                            PHP_EOL .
                             $value .
-                            '));'
+                            ')' .
+                            PHP_EOL .
+                            ');'
                         ;
                         break;
                     case '-=' :
-                        $result[] = '$data->set(\'' . $variable_name . '\', ' .
-                            '$this->value_minus($data->get(\'' .
+                        $result[] = '$data->set('.
+                            PHP_EOL .
+                            '\'' .
+                            $variable_name .
+                            '\', ' .
+                            PHP_EOL .
+                            '$this->value_minus('.
+                            PHP_EOL .
+                            '$data->get('.
+                            PHP_EOL .
+                            '\'' .
                             $variable_name .
                             '\'), ' .
+                            PHP_EOL .
                             $value .
-                            '));'
+                            ')'.
+                            PHP_EOL .
+                            ');'
                         ;
                         break;
                     case '*=' :
-                        $result[] = '$data->set(\'' .
+                        $result[] = '$data->set('.
+                            PHP_EOL .
+                            '\'' .
                             $variable_name .
                             '\', ' .
-                            '$this->value_multiply($data->get(\'' .
+                            PHP_EOL .
+                            '$this->value_multiply('.
+                            PHP_EOL .
+                            '$data->get('.
+                            PHP_EOL .
+                            '\'' .
                             $variable_name .
                             '\'), ' .
+                            PHP_EOL .
                             $value .
-                            '));'
+                            ')'.
+                            PHP_EOL .
+                            ');'
                         ;
                         break;
                 }

@@ -2940,7 +2940,7 @@ class Build
                 $record['type'] === 'set'
             ){
                 $set_value = '$this->>value_set(' . PHP_EOL;
-                $set_value .= Build::value($object, $flags, $options, $tag, $record) . PHP_EOL
+                $set_value .= Build::value($object, $flags, $options, $tag, $record) . PHP_EOL;
                 $set_value .= ')';
                 $value .= $set_value;
             }

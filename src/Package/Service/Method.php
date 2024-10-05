@@ -58,7 +58,8 @@ class Method
                                         '.',
                                         '_',
                                         ':',
-                                        '::'
+                                        '::',
+                                        '$'
                                     ],
                                     true
                                 ) &&
@@ -67,22 +68,11 @@ class Method
                                 if($input['array'][$i]['value'] === '::'){
                                     $is_class_method = true;
                                 }
+                                elseif($input['array'][$i]['value'] === '$'){
+                                    $is_variable_method = true;
+                                }
                                 $name .= $input['array'][$i]['value'];
-                            }
-                            elseif(
-                                array_key_exists('value', $input['array'][$i]) &&
-                                in_array(
-                                    $input['array'][$i]['value'],
-                                    [
-                                        '$',
-                                    ],
-                                    true
-                                )
-                            ){
-                                $is_variable_method = true;
-                                break;
-                            }
-                            else {
+                            } else {
                                 d($input['array'][$i]);
                                 break;
                             }

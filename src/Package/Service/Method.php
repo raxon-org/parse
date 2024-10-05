@@ -209,11 +209,13 @@ class Method
                         ];
                         $input['array'][$is_method]['type'] = 'method';
                         if($is_variable_method === true){
-                            $explode = explode('::', $name, 2);
+                            $call_type = '::';
+                            $explode = explode($call_type, $name, 2);
                             if(array_key_exists(1, $explode)){
                                 $input['array'][$is_method]['method']['name'] = $explode[1];
                             } else {
-                                $explode = explode('->', $name, 2);
+                                $call_type = '->';
+                                $explode = explode($call_type, $name, 2);
                                 $input['array'][$is_method]['method']['name'] = $explode[1];
                             }
                             $input['array'][$is_method]['type'] = 'variable_method';
@@ -221,6 +223,7 @@ class Method
                                 'type' => 'variable',
                                 'tag' => $explode[0],
                                 'name' => mb_substr($explode[0], 1),
+                                'call_type' => $call_type,
                                 'is_reference' => false
                             ];
                             $input['array'][$is_method]['tag'] = $name .'(';

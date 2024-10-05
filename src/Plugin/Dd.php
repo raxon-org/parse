@@ -22,7 +22,16 @@ trait Dd {
     {
         $object = $this->object();
         $tag = Core::object($object->config('package.raxon/parse.build.state.tag'), Core::OBJECT);
-        d($tag);
+        if(property_exists($tag, 'tag')){
+            if(
+                property_exists($tag, 'line') &&
+                property_exists($tag->line, 'start')
+            ){
+                echo $tag . PHP_EOL . ' on line ' . $tag->line->start . PHP_EOL;
+            } else {
+                echo $tag . PHP_EOL . ' on line ' . $tag->line . PHP_EOL;
+            }
+        }
         dd($value);
     }
 

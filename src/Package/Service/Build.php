@@ -2886,6 +2886,7 @@ class Build
                         $skip
                     );
                     d($right);
+                    d($input);
                     d($value);
                     d($record);
                     $right = Build::value($object, $flags, $options, $tag, $right);

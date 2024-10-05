@@ -2578,11 +2578,6 @@ class Build
         $skip = 0;
         $input = Build::value_single_quote($object, $flags, $options, $input);
         $input = Build::value_set($object, $flags, $options, $input, $is_set);
-        if($is_set === true){
-            d($input['array']);
-            ddd($is_set);
-        }
-
         $is_double_quote = false;
         $double_quote_previous = false;
         $is_cast = false;

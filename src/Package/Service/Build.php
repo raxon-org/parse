@@ -115,7 +115,12 @@ class Build
         $object->config('package.raxon/parse.build.state.break.level', $break_level);
         foreach($tags as $row_nr => $list){
             foreach($list as $nr => &$record){
-                $data[] = '$object->config(\'package.raxon/parse.build.state.tag\', \'' . Core::object($record, Core::JSON_DATA) .'\');';
+                $tag = [
+                    'tag' => $record['tag'],
+                    'line' => $record['line']['start'],
+                    'column' => $record['column'][$record['line']['start']]['start'],
+                ];
+                $data[] = '$object->config(\'package.raxon/parse.build.state.tag\', \'' . Core::object($tag, Core::JSON_DATA) .'\');';
                 if(
                     $is_literal === true ||
                     $is_literal_block === true

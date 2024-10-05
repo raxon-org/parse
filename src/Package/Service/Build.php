@@ -2139,7 +2139,21 @@ class Build
                 $argument[$argument_nr] = $value;
             }
             $use_class = $object->config('package.raxon/parse.build.use.class');
-            ddd($use_class);
+            foreach($use_class as $use_as){
+                $explode = explode('as', $use_as);
+                if(array_key_exists(1, $explode)){
+                    $use_class_name = trim($explode[1]);
+                } else {
+                    $explode = explode('\\', $use_as);
+                    $use_class_name = array_pop($explode);
+                }
+                if($use_class_name === $class_name){
+                    $class_name = $use_as;
+                    break;
+                }
+            }
+
+            ddd($class_name);
             $before[] = 'try {';
             $before[] = $uuid . ' = new ReflectionClass(\'' . $class_name . '\');';
             $before[] = $uuid_methods . ' = ' . $uuid . '->getMethods();';

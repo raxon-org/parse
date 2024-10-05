@@ -2984,7 +2984,7 @@ class Build
                     $is_single_line = false;
                 } else {
                     $plugin = Build::plugin($object, $flags, $options, $tag, str_replace('.', '_', $record['method']['name']));
-                    $method_value = '::' . $plugin . '(' . PHP_EOL;
+                    $method_value = '::' . $plugin . '(';
                     if(
                         array_key_exists('method', $record) &&
                         array_key_exists('argument', $record['method'])

@@ -28,9 +28,9 @@ trait Dd {
                 is_object($tag->line) &&
                 property_exists($tag->line, 'start')
             ){
-                echo $tag . PHP_EOL . ' on line ' . $tag->line->start . PHP_EOL;
+                echo $tag->tag . PHP_EOL . ' on line ' . $tag->line->start . PHP_EOL;
             } else {
-                echo $tag . PHP_EOL . ' on line ' . $tag->line . PHP_EOL;
+                echo $tag->tag . PHP_EOL . ' on line ' . $tag->line . PHP_EOL;
             }
         }
         dd($value);

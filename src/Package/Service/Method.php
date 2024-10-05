@@ -31,6 +31,7 @@ class Method
         $argument_nr = 0;
         $separator = ',';
         $is_for = false;
+        $is_variable_method = false;
         foreach($input['array'] as $nr => $char){
             if(!is_numeric($nr)){
                 // ',' in modifier causes this
@@ -66,7 +67,21 @@ class Method
                                     $is_class_method = true;
                                 }
                                 $name .= $input['array'][$i]['value'];
-                            } else {
+                            }
+                            elseif(
+                                array_key_exists('value', $input['array'][$i]) &&
+                                in_array(
+                                    $input['array'][$i]['value'],
+                                    [
+                                        '$',
+                                    ]
+                                ) &&
+                                $name !== ''
+                            ){
+                                $is_variable_method = true;
+                                break;
+                            }
+                            else {
                                 break;
                             }
                         } else {
@@ -198,6 +213,9 @@ class Method
                         if($is_class_method === true){
                             $input['array'][$is_method]['is_class_method'] = true;
                         }
+                        elseif($is_variable_method === true){
+                            $input['array'][$is_method]['is_variable_method'] = true;
+                        }
                         unset($input['array'][$is_method]['value']);
                         $argument_list = [];
                         $argument_array = [];
@@ -248,7 +266,8 @@ class Method
                                             '.',
                                             '_',
                                             ':',
-                                            '::'
+                                            '::',
+                                            '$'
                                         ]
                                     )
                                 ){
@@ -272,6 +291,7 @@ class Method
                         }
                         // add modifier for methods
                         $is_method = false;
+                        $is_variable_method = false;
                         $has_name = false;
                     }
                 }

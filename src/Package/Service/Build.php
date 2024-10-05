@@ -2990,9 +2990,6 @@ class Build
                 $set_value .= Build::value($object, $flags, $options, $tag, $record) . PHP_EOL;
                 $set_value .= ')';
                 $value .= $set_value;
-                d($nr);
-                d($record);
-                ddd($input);
             }
             elseif(
                 array_key_exists('type', $record) &&

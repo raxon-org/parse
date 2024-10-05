@@ -2538,7 +2538,7 @@ class Build
         return $input;
     }
 
-    public static function value_set(App $object, $flags, $options, $input): array
+    public static function value_set(App $object, $flags, $options, $input, &$is_set=false): array
     {
         $count = count($input['array']);
         $first = reset($input['array']);
@@ -2562,6 +2562,7 @@ class Build
             $input['array'] = [
                 0 => $set,
             ];
+            $is_set = true;
         }
         return $input;
     }
@@ -2576,7 +2577,7 @@ class Build
         $value = '';
         $skip = 0;
         $input = Build::value_single_quote($object, $flags, $options, $input);
-        $input = Build::value_set($object, $flags, $options, $input);
+        $input = Build::value_set($object, $flags, $options, $input, &$is_set);
         $is_double_quote = false;
         $double_quote_previous = false;
         $is_cast = false;
@@ -2678,7 +2679,11 @@ class Build
                                 $value .= ' ' . $record['value'] . PHP_EOL;
                             }
                             $is_cast = false;
-                        } else {
+                        }
+                        elseif($is_set){
+                            //nothing
+                        }
+                        else {
                             d($nr);
                             $value .= PHP_EOL . $record['value'];
                         }

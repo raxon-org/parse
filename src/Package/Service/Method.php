@@ -207,6 +207,14 @@ class Method
                             $input['array'][$is_method]['is_class_method'] = true;
                         }
                         if($is_variable_method === true){
+                            $explode = explode('::', $name);
+                            $input['array'][$is_method]['method']['name'] = $explode[1];
+                            $input['array'][$is_method]['variable'] = [
+                                'type' => 'variable',
+                                'tag' => $explode[0],
+                                'name' => mb_substr($explode[0], 1),
+                                'is_reference' => false
+                            ];
                             $input['array'][$is_method]['is_variable_method'] = true;
                         }
                         unset($input['array'][$is_method]['value']);

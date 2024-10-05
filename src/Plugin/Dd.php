@@ -28,9 +28,9 @@ trait Dd {
                 is_object($tag->line) &&
                 property_exists($tag->line, 'start')
             ){
-                echo $tag->source . PHP_EOL . ':' . $tag->line->start . PHP_EOL;
+                echo $tag->source . ':' . $tag->line->start . PHP_EOL;
             } else {
-                echo $tag->source . PHP_EOL . ':' . $tag->line . PHP_EOL;
+                echo $tag->source . ':' . $tag->line . PHP_EOL;
             }
         }
         dd($value);

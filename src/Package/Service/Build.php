@@ -2897,7 +2897,8 @@ class Build
                     d($record);
                     $right = Build::value($object, $flags, $options, $tag, $right, $is_set);
                     if($is_set === true){
-                        ddd($input);
+                        d($nr);
+                        d($input);
                     }
                     if(array_key_exists('value', $record)){
                         d($value);

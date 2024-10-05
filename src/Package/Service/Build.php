@@ -2890,7 +2890,7 @@ class Build
                     d($record);
                     $right = Build::value($object, $flags, $options, $tag, $right);
                     if(array_key_exists('value', $record)){
-                        ddd($value);
+                        d($value);
                         $value = Build::value_calculate($object, $flags, $options, $record['value'], $value, $right);
                     }
                 }

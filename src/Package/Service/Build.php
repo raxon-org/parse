@@ -2503,6 +2503,7 @@ class Build
             $last['value'] === ')'
         ){
             $set = [];
+            $set['type'] = 'set';
             $set['value'] = '(';
             $set['array'] = [];
             for($i = 1; $i < $count - 1; $i++){
@@ -2511,7 +2512,6 @@ class Build
                 $set['array'][] = $input['array'][$i];
             }
             $set['value'] .= ')';
-            $set['type'] = 'set';
             $input['array'] = [
                 0 => $set,
             ];

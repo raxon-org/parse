@@ -216,7 +216,6 @@ class Method
                                 'name' => mb_substr($explode[0], 1),
                                 'is_reference' => false
                             ];
-                            $input['array'][$is_method]['is_variable_method'] = true;
                         }
                         unset($input['array'][$is_method]['value']);
                         $argument_list = [];

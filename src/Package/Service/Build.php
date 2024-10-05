@@ -2500,11 +2500,9 @@ class Build
         d($first);
         d($last);
         if(
-            array_key_exists('type', $first) &&
-            $first['type'] === 'symbol' &&
+            array_key_exists('value', $first) &&
             $first['value'] === '(' &&
-            array_key_exists('type', $last) &&
-            $last['type'] === 'symbol' &&
+            array_key_exists('value', $last) &&
             $last['value'] === ')'
         ){
             ddd('found');

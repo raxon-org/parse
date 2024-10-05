@@ -2152,8 +2152,6 @@ class Build
                     break;
                 }
             }
-
-            ddd($class_name);
             $before[] = 'try {';
             $before[] = $uuid . ' = new ReflectionClass(\'' . $class_name . '\');';
             $before[] = $uuid_methods . ' = ' . $uuid . '->getMethods();';

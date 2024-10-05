@@ -206,7 +206,7 @@ class Method
                         if($is_class_method === true){
                             $input['array'][$is_method]['is_class_method'] = true;
                         }
-                        elseif($is_variable_method === true){
+                        if($is_variable_method === true){
                             $input['array'][$is_method]['is_variable_method'] = true;
                         }
                         unset($input['array'][$is_method]['value']);

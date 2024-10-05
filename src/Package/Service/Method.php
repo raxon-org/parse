@@ -212,6 +212,7 @@ class Method
                             if(array_key_exists(1, $explode)){
                                 $input['array'][$is_method]['method']['name'] = $explode[1];
                             } else {
+                                ddd($name);
                                 $explode = explode('->', $name, 2);
                                 $input['array'][$is_method]['method']['name'] = $explode[1];
                             }

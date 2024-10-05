@@ -2981,6 +2981,7 @@ class Build
                     $value .= $modifier_value;
                     $is_single_line = false;
                 } else {
+                    ddd($record);
                     $value .= '$data->get(\'' . $record['variable']['name'] . '\')';
                 }
             }

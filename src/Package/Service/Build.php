@@ -2989,6 +2989,7 @@ class Build
                 $set_value = '$this->value_set(' . PHP_EOL;
                 $set_value .= Build::value($object, $flags, $options, $tag, $record) . PHP_EOL;
                 $set_value .= ')';
+                ddd($set_value);
                 $value .= $set_value;
             }
             elseif(

@@ -2516,26 +2516,48 @@ class Build
     {
         $count = count($input['array']);
         $first = reset($input['array']);
-        $last = end ($input['array']);
+//        $last = end ($input['array']);
         if(
             array_key_exists('value', $first) &&
-            $first['value'] === '(' &&
-            array_key_exists('value', $last) &&
-            $last['value'] === ')'
+            $first['value'] === '('
         ){
             $set = [];
             $set['type'] = 'set';
             $set['value'] = '(';
             $set['array'] = [];
+            $set_depth = 1;
+            $after = null;
             for($i = 1; $i < $count - 1; $i++){
                 $current = Token::item($input, $i);
-                $set['value'] .= $current;
-                $set['array'][] = $input['array'][$i];
+                if($current === '('){
+                    $set_depth++;
+                }
+                elseif($current === ')'){
+                    $set_depth--;
+                    if($set_depth === 0){
+                        $after = [];
+                    }
+                }
+                elseif($after !== null){
+                    $after[] = $input['array'][$i];
+                } else {
+                    $set['value'] .= $current;
+                    $set['array'][] = $input['array'][$i];
+                }
             }
             $set['value'] .= ')';
-            $input['array'] = [
-                0 => $set,
-            ];
+            if($after !== null){
+                $input['array'] = [
+                    0 => $set,
+                ];
+                foreach($after as $item){
+                    $input['array'][] = $item;
+                }
+            } else {
+                $input['array'] = [
+                    0 => $set,
+                ];
+            }
             $is_set = true;
         }
         return $input;

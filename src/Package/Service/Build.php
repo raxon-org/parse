@@ -116,7 +116,7 @@ class Build
         foreach($tags as $row_nr => $list){
             foreach($list as $nr => &$record){
                 $tag = [
-                    'tag' => $record['tag'],
+                    'tag' => $record['tag'] ?? null,
                     'line' => $record['line'],
                     'column' => $record['column'],
                 ];

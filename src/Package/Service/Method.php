@@ -221,6 +221,7 @@ class Method
                                     $input['array'][$is_method]['tag'] .= ', ';
                                 }
                             }
+                            $input['array'][$is_method]['tag'] .= ')';
                         }
                         elseif($is_class_method === true){
                             $input['array'][$is_method]['is_class_method'] = true;

@@ -2510,7 +2510,7 @@ class Build
             for($i = 1; $i < $count - 1; $i++){
                 $current = Token::item($input, $i);
                 $set['value'] .= $current;
-                $set['array'][$i] = $input[$i];
+                $set['array'][$i] = $input['array'][$i];
             }
             $set['type'] = 'set';
             ddd($set);

@@ -386,7 +386,7 @@ class Parse
                     $object->config('extension.php')
                 ;
             }
-            ddd($url_json);
+            d($url_json);
             $document = Build::create($object, $flags, $options, $token);
             File::write($url_php, implode(PHP_EOL, $document));
             File::permission(

@@ -3218,6 +3218,9 @@ class Build
                     $right_array[] = $input['array'][$i];
                     $skip++;
                 }
+                d($i);
+                d($nr);
+                d($set_depth);
                 d($right);
                 ddd($right_array);
                 break;

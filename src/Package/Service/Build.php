@@ -2497,10 +2497,18 @@ class Build
 
         $first = reset($input['array']);
         $last = end ($input['array']);
-
         d($first);
         d($last);
-
+        if(
+            array_key_exists('type', $first) &&
+            $first['type'] === 'symbol' &&
+            $first['value'] === '(' &&
+            array_key_exists('type', $last) &&
+            $last['type'] === 'symbol' &&
+            $last['value'] === ')'
+        ){
+            ddd('found');
+        }
         /*
         foreach($input['array'] as $nr => $record){
             $current = Token::item($input, $nr);

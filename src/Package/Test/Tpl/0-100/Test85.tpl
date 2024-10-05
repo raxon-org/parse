@@ -1,4 +1,4 @@
 {{$framework.test = framework()}}
-{{$app = 1000}}
-{{$time.duration = $app - ($framework.test->config('time.start') * 1000) + 'ms'}}
+{{$app = ::Raxon::App::instance()}}
+{{$time.duration = $app.config('time.start') - ($framework.test->config('time.start') * 1000) + ' ms'}}
 {{dd($time)}}

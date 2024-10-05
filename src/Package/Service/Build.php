@@ -2579,6 +2579,7 @@ class Build
         $input = Build::value_single_quote($object, $flags, $options, $input);
         $input = Build::value_set($object, $flags, $options, $input, $is_set);
         if($is_set === true){
+            d($input['array']);
             ddd($is_set);
         }
 

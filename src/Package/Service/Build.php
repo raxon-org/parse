@@ -2758,7 +2758,7 @@ class Build
                         }
                     }
                 }
-                elseif(
+                if(
                     in_array(
                         $record['value'],
                         [
@@ -2797,7 +2797,8 @@ class Build
                     )
                 ){
                     d($nr);
-                    d($record['value']);
+                    d($value);
+                    ddd($record['value']);
 //                    d($input);
 //                    d($nr);
 //                    d($next);

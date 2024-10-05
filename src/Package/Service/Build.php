@@ -2506,8 +2506,8 @@ class Build
         $is_cast = false;
         $is_clone = false;
         $is_single_line = false;
-        d($tag);
-        d($input['array']);
+//        d($tag);
+//        d($input['array']);
         foreach($input['array'] as $nr => $record){
             if($skip > 0){
                 $skip--;

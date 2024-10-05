@@ -2533,7 +2533,7 @@ class Build
             $set['array'] = [];
             $set_depth = 1;
             $after = null;
-            for($i = 1; $i < $count - 1; $i++){
+            for($i = 1; $i <= $count - 1; $i++){
                 $current = Token::item($input, $i);
                 if($current === '('){
                     $set_depth++;

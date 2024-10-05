@@ -59,6 +59,7 @@ class Method
                                         '_',
                                         ':',
                                         '::',
+                                        '->',
                                         '$'
                                     ],
                                     true
@@ -66,6 +67,9 @@ class Method
                                 $name !== ''
                             ){
                                 if($input['array'][$i]['value'] === '::'){
+                                    $is_class_method = true;
+                                }
+                                elseif($input['array'][$i]['value'] === '->'){
                                     $is_class_method = true;
                                 }
                                 elseif($input['array'][$i]['value'] === '$'){
@@ -204,8 +208,13 @@ class Method
                         ];
                         $input['array'][$is_method]['type'] = 'method';
                         if($is_variable_method === true){
-                            $explode = explode('::', $name);
-                            $input['array'][$is_method]['method']['name'] = $explode[1];
+                            $explode = explode('::', $name, 2);
+                            if(array_key_exists(1, $explode)){
+                                $input['array'][$is_method]['method']['name'] = $explode[1];
+                            } else {
+                                $explode = explode('->', $name, 2);
+                                $input['array'][$is_method]['method']['name'] = $explode[1];
+                            }
                             $input['array'][$is_method]['type'] = 'variable_method';
                             $input['array'][$is_method]['variable'] = [
                                 'type' => 'variable',

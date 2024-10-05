@@ -3192,6 +3192,8 @@ class Build
         switch($next){
             case '(':
                 $set_depth = 1;
+                $right = $next;
+                $right_array[] = $input['array'][$nr + 1];
                 for($i = $nr + 2; $i < $count; $i++){
                     if(!array_key_exists($i, $input['array'])){
                         continue;

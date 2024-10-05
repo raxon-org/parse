@@ -2607,8 +2607,8 @@ class Build
                         }
                     }
                     elseif($record['value'] === '('){
-                        $value .= '$this->value_set(' . PHP_EOL;
-//                        $value .= $record['value'] . PHP_EOL;
+//                        $value .= '$this->value_set(' . PHP_EOL;
+                        $value .= $record['value'] . PHP_EOL;
                     } else {
                         $value .= $record['value'] . PHP_EOL;
                     }
@@ -2984,7 +2984,10 @@ class Build
                     $is_single_line = false;
                 } else {
                     $plugin = Build::plugin($object, $flags, $options, $tag, str_replace('.', '_', $record['method']['name']));
-                    $method_value = '::' . $plugin . '(';
+                    //need to get static class methods here...
+
+
+                    $method_value = '->' . $plugin . '(';
                     if(
                         array_key_exists('method', $record) &&
                         array_key_exists('argument', $record['method'])

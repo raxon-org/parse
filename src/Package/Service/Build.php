@@ -2571,7 +2571,7 @@ class Build
      * @throws Exception
      * @throws LocateException
      */
-    public static function value(App $object, $flags, $options, $tag, $input): string
+    public static function value(App $object, $flags, $options, $tag, $input, &$is_set=false): string
     {
         $source = $options->source ?? '';
         $value = '';
@@ -2900,7 +2900,10 @@ class Build
                     d($input);
                     d($value);
                     d($record);
-                    $right = Build::value($object, $flags, $options, $tag, $right);
+                    $right = Build::value($object, $flags, $options, $tag, $right, $is_set);
+                    if($is_set === true){
+                        ddd($input);
+                    }
                     if(array_key_exists('value', $record)){
                         d($value);
                         $value = Build::value_calculate($object, $flags, $options, $record['value'], $value, $right);

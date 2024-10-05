@@ -3283,6 +3283,7 @@ class Build
                     }
                     $previous = Token::item($input, $i - 1);
                     $item = Token::item($input, $i);
+                    d($item);
                     if(
                         in_array(
                             $item,

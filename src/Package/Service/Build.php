@@ -2937,6 +2937,13 @@ class Build
             }
             elseif(
                 array_key_exists('type', $record) &&
+                $record['type'] === 'set'
+            ){
+                d($value);
+                ddd($record);
+            }
+            elseif(
+                array_key_exists('type', $record) &&
                 $record['type'] === 'method'
             ){
                 $plugin = Build::plugin($object, $flags, $options, $tag, str_replace('.', '_', $record['method']['name']));
@@ -3150,9 +3157,6 @@ class Build
             case '-':
                 $value = '$this->value_minus(' . $left . ', ' . $right . ')';
             break;
-            case '(':
-                d($left);
-                ddd($right);
             case '*':
                 $value = '$this->value_multiply(' . $left . ', ' . $right . ')';
             break;
@@ -3230,7 +3234,6 @@ class Build
                     }
                     $previous = Token::item($input, $i - 1);
                     $item = Token::item($input, $i);
-                    d($item);
                     if($item === '('){
                         $set_depth++;
                     }

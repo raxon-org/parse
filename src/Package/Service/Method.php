@@ -214,8 +214,14 @@ class Method
                                 'name' => mb_substr($explode[0], 1),
                                 'is_reference' => false
                             ];
-                            ddd($argument_list);
-                            $input['array'][$is_method]['tag'] = $name .'(' . $argument . ')';
+                            $input['array'][$is_method]['tag'] = $name .'(';
+                            ddd($argument_nr);
+                            foreach($argument_list as $argument_nr => $argument){
+                                $input['array'][$is_method]['tag'] .= $argument['string'];
+                                if($argument_nr < count($argument_list) - 1){
+                                    $input['array'][$is_method]['tag'] .= ', ';
+                                }
+                            }
                         }
                         elseif($is_class_method === true){
                             $input['array'][$is_method]['is_class_method'] = true;

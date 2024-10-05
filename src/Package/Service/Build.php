@@ -2796,7 +2796,7 @@ class Build
                         true
                     )
                 ){
-//                    d($record['value']);
+                    d($record['value']);
 //                    d($input);
 //                    d($nr);
 //                    d($next);

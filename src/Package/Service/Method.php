@@ -209,6 +209,7 @@ class Method
                         if($is_variable_method === true){
                             $explode = explode('::', $name);
                             $input['array'][$is_method]['method']['name'] = $explode[1];
+                            $input['array'][$is_method]['type'] = 'variable_method';
                             $input['array'][$is_method]['variable'] = [
                                 'type' => 'variable',
                                 'tag' => $explode[0],

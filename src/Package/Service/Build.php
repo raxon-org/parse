@@ -2513,6 +2513,7 @@ class Build
                 $set['array'][$i] = $input['array'][$i];
             }
             $set['type'] = 'set';
+            d($input);
             ddd($set);
             ddd('found');
         }

@@ -2906,7 +2906,14 @@ class Build
             }
             elseif(
                 array_key_exists('type', $record) &&
-                $record['type'] === 'method'
+                in_array(
+                    $record['type'],
+                    [
+                        'variable-method',
+                        'method'
+                    ],
+                    true
+                )
             ){
                 $plugin = Build::plugin($object, $flags, $options, $tag, str_replace('.', '_', $record['method']['name']));
                 $method_value = '$this->' . $plugin . '(' . PHP_EOL;

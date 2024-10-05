@@ -203,9 +203,6 @@ class Method
                             'argument' => $argument_list
                         ];
                         $input['array'][$is_method]['type'] = 'method';
-                        if($is_class_method === true){
-                            $input['array'][$is_method]['is_class_method'] = true;
-                        }
                         if($is_variable_method === true){
                             $explode = explode('::', $name);
                             $input['array'][$is_method]['method']['name'] = $explode[1];
@@ -216,6 +213,9 @@ class Method
                                 'name' => mb_substr($explode[0], 1),
                                 'is_reference' => false
                             ];
+                        }
+                        elseif($is_class_method === true){
+                            $input['array'][$is_method]['is_class_method'] = true;
                         }
                         unset($input['array'][$is_method]['value']);
                         $argument_list = [];

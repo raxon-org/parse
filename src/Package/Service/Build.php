@@ -3207,8 +3207,6 @@ class Build
                 $value = '$this->value_minus(' . PHP_EOL . $left . ', ' . PHP_EOL . $right . PHP_EOL . ')';
             break;
             case '*':
-                d($left);
-                ddd($right);
                 $value = '$this->value_multiply(' . PHP_EOL . $left . ', ' . PHP_EOL . $right . PHP_EOL . ')';
             break;
             case '%':

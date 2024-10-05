@@ -2909,7 +2909,7 @@ class Build
                 in_array(
                     $record['type'],
                     [
-                        'variable-method',
+                        'variable_method',
                         'method'
                     ],
                     true

@@ -28,6 +28,7 @@ class Method
         $argument = '';
         $argument_array = [];
         $argument_list = [];
+        $argument_tag = '';
         $argument_nr = 0;
         $separator = ',';
         $is_for = false;
@@ -213,6 +214,7 @@ class Method
                                 'name' => mb_substr($explode[0], 1),
                                 'is_reference' => false
                             ];
+                            ddd($argument_list);
                             $input['array'][$is_method]['tag'] = $name .'(' . $argument . ')';
                         }
                         elseif($is_class_method === true){

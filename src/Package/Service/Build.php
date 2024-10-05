@@ -2323,98 +2323,70 @@ class Build
                 switch($operator){
                     case '=' :
                         $result[] = '$data->set(' .
-                            PHP_EOL .
                             '\'' .
                             $variable_name .
                             '\', ' .
-                            PHP_EOL .
                             $value .
-                            PHP_EOL .
                             ');'
                         ;
                         break;
                     case '.=' :
                         $result[] = '$data->set(' .
-                            PHP_EOL .
                             '\'' .
                             $variable_name .
                             '\', ' .
-                            PHP_EOL .
                             '$this->value_concatenate(' .
-                            PHP_EOL .
                             '$data->get(' .
-                            PHP_EOL .
                             '\'' .
                             $variable_name .
                             '\'), ' .
-                            PHP_EOL .
                             $value .
-                            PHP_EOL .
                             ')' .
-                            PHP_EOL .
                             ');'
                         ;
                         break;
                     case '+=' :
                         $result[] = '$data->set(' .
-                            PHP_EOL .
                             '\'' .
                             $variable_name .
                             '\', ' .
-                            PHP_EOL .
                             '$this->value_plus('.
-                            PHP_EOL .
                             '$data->get('.
-                            PHP_EOL .
                             '\'' .
                             $variable_name .
                             '\'), ' .
-                            PHP_EOL .
                             $value .
                             ')' .
-                            PHP_EOL .
                             ');'
                         ;
                         break;
                     case '-=' :
                         $result[] = '$data->set('.
-                            PHP_EOL .
                             '\'' .
                             $variable_name .
                             '\', ' .
-                            PHP_EOL .
                             '$this->value_minus('.
-                            PHP_EOL .
                             '$data->get('.
-                            PHP_EOL .
                             '\'' .
                             $variable_name .
                             '\'), ' .
-                            PHP_EOL .
                             $value .
                             ')'.
-                            PHP_EOL .
                             ');'
                         ;
                         break;
                     case '*=' :
                         $result[] = '$data->set('.
-                            PHP_EOL .
                             '\'' .
                             $variable_name .
                             '\', ' .
-                            PHP_EOL .
                             '$this->value_multiply('.
-                            PHP_EOL .
                             '$data->get('.
-                            PHP_EOL .
                             '\'' .
                             $variable_name .
                             '\'), ' .
-                            PHP_EOL .
                             $value .
                             ')'.
-                            PHP_EOL .
                             ');'
                         ;
                         break;
@@ -2441,7 +2413,7 @@ class Build
                     array_key_exists('is_multiline', $record) &&
                     $record['is_multiline'] === true
                 ){
-                    throw new TemplateException(str_replace('\'', '\\\'', $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.', 0, $exception);
+                    throw new TemplateException(str_replace('\'', '\\\'', $record['tag']) .  'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.', 0, $exception);
                 } else {
                     d($result);
                     ddd($record);

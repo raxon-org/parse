@@ -2506,6 +2506,7 @@ class Build
         ){
             $set = [];
             $set['value'] = '';
+            $set['array'] = [];
             for($i = 1; $i < $count - 1; $i++){
                 $current = Token::item($input, $i);
                 $set['value'] .= $current;

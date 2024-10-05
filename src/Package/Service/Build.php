@@ -3081,6 +3081,8 @@ class Build
             ){
                 //nothing
             } else {
+                d($nr);
+                d($record);
                 $right = Build::value_right(
                     $object,
                     $flags,

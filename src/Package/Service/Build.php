@@ -2496,8 +2496,6 @@ class Build
         $count = count($input['array']);
         $first = reset($input['array']);
         $last = end ($input['array']);
-        d($first);
-        d($last);
         if(
             array_key_exists('value', $first) &&
             $first['value'] === '(' &&
@@ -2513,37 +2511,10 @@ class Build
                 $set['array'][$i] = $input['array'][$i];
             }
             $set['type'] = 'set';
-            d($input);
-            ddd($set);
-            ddd('found');
+            $input['array'] = [
+                0 => $set,
+            ];
         }
-        /*
-        foreach($input['array'] as $nr => $record){
-            $current = Token::item($input, $nr);
-            $next = Token::item($input, $nr + 1);
-            if(
-                $current === '\''  &&
-                $is_single_quote === false
-            ){
-                $is_single_quote = $nr;
-            }
-            elseif(
-                $current === '\''  &&
-                $is_single_quote !== false
-            ){
-                for($i = $is_single_quote + 1; $i <= $nr; $i++){
-                    $current = Token::item($input, $i);
-                    $input['array'][$is_single_quote]['value'] .= $current;
-                    $input['array'][$i] = null;
-                }
-                $input['array'][$is_single_quote]['type'] = 'string';
-                $input['array'][$is_single_quote]['execute'] = $input['array'][$is_single_quote]['value'];
-                $input['array'][$is_single_quote]['is_single_quoted'] = true;
-                $is_single_quote = false;
-            }
-        }
-        $input = Token::cleanup($object, $flags, $options, $input);
-        */
         return $input;
     }
 

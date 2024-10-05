@@ -32,7 +32,6 @@ class Method
         $separator = ',';
         $is_for = false;
         $is_variable_method = false;
-        d($input['array']);
         foreach($input['array'] as $nr => $char){
             if(!is_numeric($nr)){
                 // ',' in modifier causes this
@@ -49,6 +48,7 @@ class Method
                 $name = '';
                 $is_method = $nr;
                 for($i = $nr - 1; $i >= 0; $i--){
+                    d($input['array'][$i]);
                     if($input['array'][$i] !== null){
                         if(is_array($input['array'][$i])){
                             if(

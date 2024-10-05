@@ -2679,6 +2679,7 @@ class Build
                             }
                             $is_cast = false;
                         } else {
+                            d($nr);
                             $value .= PHP_EOL . $record['value'];
                         }
                     }

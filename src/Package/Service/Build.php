@@ -2798,7 +2798,7 @@ class Build
                 ){
                     d($nr);
                     d($value);
-                    ddd($record['value']);
+                    d($record['value']);
 //                    d($input);
 //                    d($nr);
 //                    d($next);

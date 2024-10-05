@@ -48,7 +48,6 @@ class Method
                 $name = '';
                 $is_method = $nr;
                 for($i = $nr - 1; $i >= 0; $i--){
-                    d($input['array'][$i]);
                     if($input['array'][$i] !== null){
                         if(is_array($input['array'][$i])){
                             if(
@@ -60,7 +59,8 @@ class Method
                                         '_',
                                         ':',
                                         '::'
-                                    ]
+                                    ],
+                                    true
                                 ) &&
                                 $name !== ''
                             ){
@@ -75,13 +75,15 @@ class Method
                                     $input['array'][$i]['value'],
                                     [
                                         '$',
-                                    ]
+                                    ],
+                                    true
                                 )
                             ){
                                 $is_variable_method = true;
                                 break;
                             }
                             else {
+                                d($input['array'][$i]);
                                 break;
                             }
                         } else {
@@ -94,7 +96,8 @@ class Method
                                         "\n",
                                         "\r",
                                         "\t"
-                                    ]
+                                    ],
+                                    true
                                 ) &&
                                 $is_single_quote === false &&
                                 $is_double_quote === false &&
@@ -111,7 +114,8 @@ class Method
                                         "\n",
                                         "\r",
                                         "\t"
-                                    ]
+                                    ],
+                                    true
                                 )
                             ){
                                 continue;
@@ -232,7 +236,8 @@ class Method
                                         "\n",
                                         "\r",
                                         "\t",
-                                    ]
+                                    ],
+                                    true
                                 ) &&
                                 $is_single_quote === false &&
                                 $is_double_quote === false &&
@@ -249,7 +254,8 @@ class Method
                                         "\n",
                                         "\r",
                                         "\t",
-                                    ]
+                                    ],
+                                    true
                                 ) &&
                                 $is_single_quote === false &&
                                 $is_double_quote === false &&
@@ -268,7 +274,8 @@ class Method
                                             ':',
                                             '::',
                                             '$'
-                                        ]
+                                        ],
+                                        true
                                     )
                                 ){
                                     $input['array'][$i] = null;

@@ -3199,7 +3199,9 @@ class Build
                 $value = '$this->value_concatenate(' . PHP_EOL . $left . ', ' . PHP_EOL . $right . PHP_EOL . ')';
             break;
             case '+':
-                $value = '$this->value_plus(' . PHP_EOL . $left . ', ' . PHP_EOL . $right . PHP_EOL . ')';
+                d($left);
+                ddd($right);
+                $value = '$this->value_plus(' . $left . ', ' . $right . ')';
             break;
             case '-':
                 $value = '$this->value_minus(' . PHP_EOL . $left . ', ' . PHP_EOL . $right . PHP_EOL . ')';

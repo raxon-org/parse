@@ -3204,6 +3204,8 @@ class Build
                 $value = '$this->value_plus(' . $left . ', ' . $right . ')';
             break;
             case '-':
+                d($left);
+                ddd($right);
                 $value = '$this->value_minus(' . PHP_EOL . $left . ', ' . PHP_EOL . $right . PHP_EOL . ')';
             break;
             case '*':

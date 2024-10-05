@@ -10,10 +10,19 @@
  */
 namespace Plugin;
 
+use Raxon\Exception\ObjectException;
+use Raxon\Module\Core;
+
 trait Dd {
 
+    /**
+     * @throws ObjectException
+     */
     public function dd($value): void
     {
+        $object = $this->object();
+        $tag = Core::object($object->config('package.raxon/parse.build.state.tag'), Core::OBJECT);
+        d($tag);
         dd($value);
     }
 

@@ -2138,7 +2138,7 @@ class Build
                 $value = Build::value($object, $flags, $options, $record, $argument_record, $is_set);
                 $argument[$argument_nr] = $value;
             }
-            $use_class = $object->config('package.raxon/parse.build.state.use.class');
+            $use_class = $object->config('package.raxon/parse.build.use.class');
             ddd($use_class);
             $before[] = 'try {';
             $before[] = $uuid . ' = new ReflectionClass(\'' . $class_name . '\');';

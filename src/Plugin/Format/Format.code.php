@@ -137,7 +137,6 @@ trait Format_code {
                         true
                     )
                 ){
-                    $options->indent--;
                     $next_line_indent--;
                     $parentheses_open--;
                 }

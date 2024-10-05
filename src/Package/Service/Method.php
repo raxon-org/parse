@@ -213,6 +213,7 @@ class Method
                                 'name' => mb_substr($explode[0], 1),
                                 'is_reference' => false
                             ];
+                            $input['array'][$is_method]['tag'] = $name;
                         }
                         elseif($is_class_method === true){
                             $input['array'][$is_method]['is_class_method'] = true;

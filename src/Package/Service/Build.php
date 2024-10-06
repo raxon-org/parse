@@ -2130,7 +2130,7 @@ class Build
             $explode = explode('::', $method);
             $function = array_pop($explode);
             $method = implode('\\', $explode);
-            if(array_key_exists(1, $explode)){
+            if(array_key_exists(1, $explode) && $explode[0] !== ''){
                 $method = '\\' . $method;
             }
             $class_name = $method;

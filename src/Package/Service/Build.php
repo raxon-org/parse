@@ -117,7 +117,7 @@ class Build
             foreach($list as $nr => &$record){
                 $tag = [
                     'source' => $options->source ?? null,
-                    'tag' => $record['tag'] ?? $record['value'] ?? null,
+                    'tag' => $record['tag'] ?? $record['execute'] ?? $record['value'] ?? null,
                     'line' => $record['line'],
                     'column' => $record['column'],
                 ];

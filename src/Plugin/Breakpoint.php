@@ -22,6 +22,7 @@ trait Breakpoint {
     {
         $object = $this->object();
         $tag = $object->config('package.raxon/parse.build.state.tag');
+        dd($tag);
         if(property_exists($tag, 'source')){
             if(
                 property_exists($tag, 'line') &&

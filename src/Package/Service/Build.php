@@ -2132,11 +2132,9 @@ class Build
             $method = implode('\\', $explode);
             if(array_key_exists(1, $explode)){
                 $method = '\\' . $method;
-                ddd($method);
             }
             $class_name = $method;
             $method .= '::' . $function;
-            ddd($method);
             $uuid = Core::uuid_variable();
             $uuid_methods = Core::uuid_variable();
             $argument = $record['variable']['value']['array'][0]['method']['argument'] ?? [];

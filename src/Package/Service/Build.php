@@ -2803,6 +2803,7 @@ class Build
                 ){
                     $previous = $input['array'][$nr - 1] ?? null;
                     d($previous);
+                    d($input);
                     if(
                         $previous &&
                         array_key_exists('type', $previous) &&

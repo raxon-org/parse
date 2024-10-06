@@ -2130,6 +2130,9 @@ class Build
             $explode = explode('::', $method);
             $function = array_pop($explode);
             $method = implode('\\', $explode);
+            if(array_key_exists(2, $explode)){
+                $method = '\\' . $method;
+            }
             $class_name = $method;
             $method .= '::' . $function;
             $uuid = Core::uuid_variable();

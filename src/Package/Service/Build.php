@@ -2308,6 +2308,7 @@ class Build
                 }
             }
         } else {
+            ddd($record);
             $value = Build::value($object, $flags, $options, $record, $record['variable']['value'],$is_set);
 //            d($is_set);
 //            d($value);

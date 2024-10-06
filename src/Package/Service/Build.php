@@ -2817,7 +2817,6 @@ class Build
                                     $next,
                                     $skip
                                 );
-                                ddd($assign);
                                 $assign = Build::value($object, $flags, $options, $tag, $assign, $is_set);
                                 $value .= '$data->set(\'' . $previous['name'] . '\', ' .  $assign . ')';
                             break;
@@ -2902,12 +2901,6 @@ class Build
                         true
                     )
                 ){
-                    d($nr);
-                    d($value);
-                    d($record['value']);
-//                    d($input);
-//                    d($nr);
-//                    d($next);
                     $right = Build::value_right(
                         $object,
                         $flags,
@@ -2919,7 +2912,6 @@ class Build
                     );
                     $right = Build::value($object, $flags, $options, $tag, $right, $is_set);
                     if(array_key_exists('value', $record)){
-//                        d($value);
                         $value = Build::value_calculate($object, $flags, $options, $record['value'], $value, $right);
                     }
                 }
@@ -3394,7 +3386,6 @@ class Build
                     }
                     $previous = Token::item($input, $i - 1);
                     $item = Token::item($input, $i);
-                    d($item);
                     if(
                         in_array(
                             $item,
@@ -3446,7 +3437,6 @@ class Build
                 }
                 break;
         }
-        d($right_array);
         return [
             'string' => $right,
             'array' => $right_array

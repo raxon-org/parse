@@ -49,10 +49,16 @@ trait Value {
         $type1 = getType($variable1);
         $type2 = getType($variable2);
         if(
-            $type1 == self::STRING ||
-            $type2 == self::STRING
+            $type1 === self::STRING ||
+            $type2 === self::STRING
         ){
             return (string) $variable1 . (string) $variable2;
+        }
+        elseif(
+            $type1 === self::ARRAY &&
+            $type2 === self::ARRAY
+        ){
+            return array_merge($variable1, $variable2);
         } else {
             $variable1 += 0;
             $variable2 += 0;

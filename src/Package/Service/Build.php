@@ -2128,7 +2128,6 @@ class Build
             $method = $record['variable']['value']['array'][0]['method']['name'] ?? null;
             $method = str_replace('.', '_', $method);
             $explode = explode('::', $method);
-            ddd($explode);
             $function = array_pop($explode);
             $method = implode('\\', $explode);
             if(array_key_exists(2, $explode)){
@@ -2136,6 +2135,7 @@ class Build
             }
             $class_name = $method;
             $method .= '::' . $function;
+            ddd($method);
             $uuid = Core::uuid_variable();
             $uuid_methods = Core::uuid_variable();
             $argument = $record['variable']['value']['array'][0]['method']['argument'] ?? [];

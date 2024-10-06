@@ -2877,9 +2877,6 @@ class Build
                                 $value .= '$data->set(\'' . $previous['name'] . '\', value_multiply($data->get(\'' . $previous['name'] .'\', ' .  $assign . ')';
                             break;
                             case '=':
-//                                d($input);
-//                                d($nr);
-//                                d($next);
                                 $assign = Build::value_right(
                                     $object,
                                     $flags,

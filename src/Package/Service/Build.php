@@ -2306,23 +2306,7 @@ class Build
                 }
             }
         } else {
-            d($record);
-            /*
-            foreach($record['variable']['value']['array'] as $record_variable_array_nr => $record_variable_array){
-                if(
-                    array_key_exists('type', $record_variable_array) &&
-                    $record_variable_array['type'] === 'variable_method' &&
-                    array_key_exists('name', $record_variable_array['method']) &&
-                    is_array($record_variable_array['method']['name'])
-                ){
-                }
-            }
-            */
-
-
             $value = Build::value($object, $flags, $options, $record, $record['variable']['value'],$is_set);
-//            d($is_set);
-//            d($value);
         }
         if(array_key_exists('modifier', $record['variable'])){
             d($value);

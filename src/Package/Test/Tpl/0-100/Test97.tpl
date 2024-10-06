@@ -7,4 +7,4 @@
 2,
 ]}}
 {{$array = $array1 + $array2}}
-{{$array|object:'json'}}
+{{dd($array)}}

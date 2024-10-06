@@ -2128,6 +2128,7 @@ class Build
             $method = $record['variable']['value']['array'][0]['method']['name'] ?? null;
             $method = str_replace('.', '_', $method);
             $explode = explode('::', $method);
+            ddd($explode);
             $function = array_pop($explode);
             $method = implode('\\', $explode);
             if(array_key_exists(2, $explode)){

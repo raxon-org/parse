@@ -121,6 +121,9 @@ class Build
                     'line' => $record['line'],
                     'column' => $record['column'],
                 ];
+                if($tag['tag'] === null){
+                    ddd($record);
+                }
                 $data[] = '$object->config(\'package.raxon/parse.build.state.tag\', Core::object(\'' . Core::object($tag, Core::TRANSFER) .'\', Core::FINALIZE));';
                 if(
                     $is_literal === true ||

@@ -1241,8 +1241,6 @@ class Build
      */
     public static function plugin(App $object, $flags, $options, $record, $name): string
     {
-        d($record);
-        d($name);
         $source = $options->source ?? '';
         $name_lowercase = mb_strtolower($name);
         if(
@@ -1345,9 +1343,6 @@ class Build
                         );
 
                     } else {
-                        trace();
-                        d($name);
-                        ddd($record);
                         throw new LocateException(
                             'Plugin not found (' .
                             str_replace('_', '.', $name) .

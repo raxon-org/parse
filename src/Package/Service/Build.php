@@ -2372,7 +2372,7 @@ class Build
                             $value .
                             ');'
                         ;
-                        $result[] = '} catch(Exception $exception){';
+                        $result[] = '} catch(ErrorException | Error | Exception $exception){';
                         if(
                             array_key_exists('is_multiline', $record) &&
                             $record['is_multiline'] === true

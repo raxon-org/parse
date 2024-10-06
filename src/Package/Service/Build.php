@@ -121,9 +121,9 @@ class Build
                     'line' => $record['line'],
                     'column' => $record['column'],
                 ];
-                $data[] = '$object->config(\'package.raxon/parse.build.state.tag\', \'' . Core::object($tag, Core::JSON_DATA) .'\');';
+                $data[] = '$object->config(\'package.raxon/parse.build.state.tag\', \'' . Core::object($tag, Core::TRANSFER) .'\');';
                 $data[] = '$object->config(\'package.raxon/parse.build.state.tag\', \'' . Core::object($record, Core::JSON) .'\');';
-                $data[] = '$object->config(\'package.raxon/parse.build.state.tag\', Core::object($object->config(\'package.raxon/parse.build.state.tag\'), Core::OBJECT)));';
+                $data[] = '$object->config(\'package.raxon/parse.build.state.tag\', Core::object($object->config(\'package.raxon/parse.build.state.tag\'), Core::FINALIZE)));';
                 if(
                     $is_literal === true ||
                     $is_literal_block === true

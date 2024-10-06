@@ -2373,7 +2373,6 @@ class Build
                             ');'
                         ;
                         $result[] = '} catch(ErrorException | Error | Exception $exception){';
-                        $result[] = '$exception->setMessage(str_replace([\'\\\\\'],[\'::\'], $exception->getMessage()));';
                         if(
                             array_key_exists('is_multiline', $record) &&
                             $record['is_multiline'] === true

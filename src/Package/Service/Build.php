@@ -3165,7 +3165,7 @@ class Build
                     $value .= $modifier_value;
                     $is_single_line = false;
                 } else {
-                    $plugin = Build::plugin($object, $flags, $options, $tag, str_replace('.', '_', $record['method']['name']));
+                    $plugin = str_replace('.', '_', $record['method']['name']);
                     //call_type = :: or ->
                     $call_type = $record['method']['call_type'];
                     if(array_key_exists('variable', $record)){

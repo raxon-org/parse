@@ -21,7 +21,7 @@ trait Breakpoint {
     public function breakpoint($value, $options=[]): void
     {
         $object = $this->object();
-        if(array_key_exists('trace', $options)){
+        if(!array_key_exists('trace', $options)){
             $options['trace'] = true;
         }
         if($options['trace'] === true){

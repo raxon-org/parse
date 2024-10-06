@@ -39,7 +39,7 @@ trait Value {
         return $variable * $variable;
     }
 
-    protected function value_set($variable=null): mixed
+    protected function value_set(mixed $variable=null): mixed
     {
         return $variable;
     }

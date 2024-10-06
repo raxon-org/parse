@@ -3091,10 +3091,12 @@ class Build
                     $is_single_line = false;
                 } else {
                     $plugin = Build::plugin($object, $flags, $options, $tag, str_replace('.', '_', $record['method']['name']));
-                    d($record);
-                    d($plugin);
-                    //call_type = :: or ->
-                    $method_value = $record['method']['call_type'] . $plugin . '(';
+                    //call_type = :: or -> or .
+                    $call_type = $record['method']['call_type'];
+                    if($call_type === '.'){
+                        $call_type = '->';
+                    }
+                    $method_value = $call_type . $plugin . '(';
                     if(
                         array_key_exists('method', $record) &&
                         array_key_exists('argument', $record['method'])

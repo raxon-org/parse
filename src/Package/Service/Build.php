@@ -3023,8 +3023,6 @@ class Build
                 array_key_exists('type', $record) &&
                 $record['type'] === 'set'
             ){
-                trace();
-                ddd($record);
                 $set_value = '$this->value_set(' . PHP_EOL;
                 $set_value .= Build::value($object, $flags, $options, $tag, $record, $is_set) . PHP_EOL;
                 $set_value .= ')';

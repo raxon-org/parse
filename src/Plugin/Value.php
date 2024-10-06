@@ -44,7 +44,7 @@ trait Value {
         return $variable;
     }
 
-    protected function value_plus($variable1=null, $variable2=null) : int |  float | string
+    protected function value_plus($variable1=null, $variable2=null) : int |  float | string | array
     {
         $type1 = getType($variable1);
         $type2 = getType($variable2);

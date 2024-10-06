@@ -1345,6 +1345,7 @@ class Build
                         );
 
                     } else {
+                        trace();
                         d($name);
                         ddd($record);
                         throw new LocateException(

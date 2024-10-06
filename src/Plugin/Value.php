@@ -1,6 +1,7 @@
 <?php
 namespace Plugin;
 
+use Raxon\Exception\ObjectException;
 use Raxon\Module\Core;
 
 trait Value {
@@ -46,6 +47,9 @@ trait Value {
         return $variable;
     }
 
+    /**
+     * @throws ObjectException
+     */
     protected function value_plus(mixed $variable1=null, mixed $variable2=null) : int |  float | string | array | object
     {
         $type1 = getType($variable1);

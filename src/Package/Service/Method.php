@@ -216,6 +216,7 @@ class Method
                             } else {
                                 $call_type = '->';
                                 $explode = explode($call_type, $name, 2);
+                                ddd($name);
                                 $input['array'][$is_method]['method']['name'] = $explode[1];
                             }
                             $input['array'][$is_method]['type'] = 'variable_method';

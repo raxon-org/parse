@@ -21,7 +21,7 @@ trait Dd {
     public function dd($value): void
     {
         $object = $this->object();
-        $tag = Core::object($object->config('package.raxon/parse.build.state.tag'), Core::OBJECT);
+        $tag = $object->config('package.raxon/parse.build.state.tag');
         if(property_exists($tag, 'source')){
             if(
                 property_exists($tag, 'line') &&

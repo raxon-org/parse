@@ -2271,6 +2271,7 @@ class Build
                 )
             ){
                 $name .= $record['variable']['value']['array'][2]['method']['name'];
+                ddd($name);
                 $argument = $record['variable']['value']['array'][2]['method']['argument'];
                 foreach($argument as $argument_nr => $argument_record){
                     $value = Build::value($object, $flags, $options, $record, $argument_record, $is_set);

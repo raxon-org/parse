@@ -2801,6 +2801,7 @@ class Build
                     )
                 ){
                     $previous = $input['array'][$nr - 1] ?? null;
+                    d($previous);
                     if(
                         $previous &&
                         array_key_exists('type', $previous) &&
@@ -2820,6 +2821,7 @@ class Build
                                 );
                                 $assign = Build::value($object, $flags, $options, $tag, $assign, $is_set);
                                 $value .= '$data->set(\'' . $previous['name'] . '\', value_plus($data->get(\'' . $previous['name'] .'\', ' .  $assign . ')';
+                                ddd($value);
                             break;
                             case '-=':
                                 $assign = Build::value_right(
@@ -2874,6 +2876,7 @@ class Build
                             break;
                         }
                     } else {
+                        ddd($record);
                         if(
                             array_key_exists('is_multiline', $record) &&
                             $record['is_multiline'] === true

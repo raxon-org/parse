@@ -2169,7 +2169,7 @@ class Build
 //            $before[] = 'd( ' . $uuid_methods . ');';
             $before[] = 'if(!in_array(\'' . $function . '\', ' . $uuid_methods. ', true)){';
             $before[] = 'sort(' . $uuid_methods .', SORT_NATURAL);';
-            $before[] = 'throw new TemplateException(\'Static method "' . $function . '" not found in class: ' . $class_name . '\' . PHP_EOL . \'Available methods:\' . PHP_EOL . implode(PHP_EOL, ' . $uuid_methods . ') . PHP_EOL);';
+            $before[] = 'throw new TemplateException(\'Static method "' . $function . '" not found in class: ' . $class_name . '\' . PHP_EOL . \'Available static methods:\' . PHP_EOL . implode(PHP_EOL, ' . $uuid_methods . ') . PHP_EOL);';
             $before[] = '}';
             $before[] = '}';
             $before[] = 'catch(Exception | LocateException $exception){';
@@ -2802,8 +2802,6 @@ class Build
                     )
                 ){
                     $previous = $input['array'][$nr - 1] ?? null;
-                    d($previous);
-                    d($input);
                     if(
                         $previous &&
                         array_key_exists('type', $previous) &&
@@ -2823,7 +2821,6 @@ class Build
                                 );
                                 $assign = Build::value($object, $flags, $options, $tag, $assign, $is_set);
                                 $value .= '$data->set(\'' . $previous['name'] . '\', value_concatenate($data->get(\'' . $previous['name'] .'\', ' .  $assign . ')';
-                                ddd($value);
                                 break;
                             case '+=':
                                 $assign = Build::value_right(

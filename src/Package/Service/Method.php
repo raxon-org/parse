@@ -216,8 +216,13 @@ class Method
                             } else {
                                 $call_type = '->';
                                 $explode = explode($call_type, $name, 2);
-                                ddd($name);
-                                $input['array'][$is_method]['method']['name'] = $explode[1];
+                                if(array_key_exists(1, $explode)){
+                                    $input['array'][$is_method]['method']['name'] = $explode[1];
+                                } else {
+                                    $call_type = '.';
+                                    $explode = explode($call_type, $name, 2);
+                                    $input['array'][$is_method]['method']['name'] = $explode[1];
+                                }
                             }
                             $input['array'][$is_method]['type'] = 'variable_method';
                             $input['array'][$is_method]['method']['call_type'] = $call_type;

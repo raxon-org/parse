@@ -10,14 +10,8 @@
  */
 namespace Plugin;
 
-use Raxon\Exception\ObjectException;
-use Raxon\Module\Core;
-
 trait Dd {
 
-    /**
-     * @throws ObjectException
-     */
     public function dd($value, $options=[]): void
     {
         $object = $this->object();

@@ -3091,6 +3091,8 @@ class Build
                     $is_single_line = false;
                 } else {
                     $plugin = Build::plugin($object, $flags, $options, $tag, str_replace('.', '_', $record['method']['name']));
+                    d($call_type);
+                    d($plugin);
                     //call_type = :: or ->
                     $method_value = $record['method']['call_type'] . $plugin . '(';
                     if(

@@ -1241,6 +1241,9 @@ class Build
      */
     public static function plugin(App $object, $flags, $options, $record, $name): string
     {
+        if(!is_string($name)){
+            return $name;
+        }
         $source = $options->source ?? '';
         $name_lowercase = mb_strtolower($name);
         if(

@@ -1416,6 +1416,7 @@ class Build
             }
             $value = $modifier_value;
             $data = [
+                'try {',
                 $variable_uuid . ' = ' . $value . ';',
             ];
             if(
@@ -1442,6 +1443,19 @@ class Build
             $data[] = 'return ' . $variable_uuid .';';
             $data[] = '} else {';
             $data[] = 'echo '. $variable_uuid .';';
+            $data[] = '}';
+            $data[] = '} catch (Exception $exception) {'; //catch
+            if(
+                array_key_exists('is_multiline', $record) &&
+                $record['is_multiline'] === true
+            ){
+//                $data[] = 'ddd($data);';
+                $data[] = 'throw new TemplateException(\'Exception: "$' . $variable_name . '" on line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '. You can use modifier "default" to surpress it \');';
+            } else {
+                $data[] = 'if(' . $variable_uuid .' === null){';
+//                $data[] = 'ddd($data);';
+                $data[] = 'throw new TemplateException(\'Exception: "$' . $variable_name . '" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: '. $source . '. You can use modifier "default" to surpress it \');';
+            }
             $data[] = '}';
             return $data;
         } else {

@@ -3,7 +3,7 @@
 'test4' => 2
 ]}}
 {{$array2 = (object) [
-'test3', => 3
+'test3' => 3
 'test2' => 4
 ]}}
 {{$array = $array1 + $array2}}

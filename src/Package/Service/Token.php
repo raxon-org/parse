@@ -430,6 +430,7 @@ class Token
                                 }
                                 if($operator && $is_after === false){
                                     if($operator === '.' && $char === '='){
+                                        $operator .= $char;
                                         $is_after = true;
                                     }
                                     elseif($operator === '.'){

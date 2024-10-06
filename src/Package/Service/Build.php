@@ -2132,6 +2132,7 @@ class Build
             $method = implode('\\', $explode);
             if(array_key_exists(2, $explode)){
                 $method = '\\' . $method;
+                ddd($method);
             }
             $class_name = $method;
             $method .= '::' . $function;

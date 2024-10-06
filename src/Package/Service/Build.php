@@ -2876,7 +2876,7 @@ class Build
                             break;
                         }
                     } else {
-                        d($previous);
+                        d($tag);
                         ddd($record);
                         if(
                             array_key_exists('is_multiline', $record) &&

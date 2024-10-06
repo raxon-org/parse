@@ -2364,6 +2364,7 @@ class Build
             if($value !== ''){
                 switch($operator){
                     case '=' :
+                        $result[] = 'try {';
                         $result[] = '$data->set(' .
                             '\'' .
                             $variable_name .
@@ -2371,6 +2372,16 @@ class Build
                             $value .
                             ');'
                         ;
+                        $result[] = '} catch(Exception $exception){';
+                        if(
+                            array_key_exists('is_multiline', $record) &&
+                            $record['is_multiline'] === true
+                        ){
+                            $result[] = 'throw new TemplateException(\'' . str_replace('\'', '\\\'', $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '\', 0, $exception);';
+                        } else {
+                            $result[] = 'throw new TemplateException(\'' . str_replace('\'', '\\\'', $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\', 0, $exception);';
+                        }
+                        $result[] = '}';
                         break;
                     case '.=' :
                         $result[] = '$data->set(' .

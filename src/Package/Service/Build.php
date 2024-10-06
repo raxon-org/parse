@@ -3113,6 +3113,9 @@ class Build
                     if($call_type === '.'){
                         $call_type = '->';
                     }
+                    if(array_key_exists('variable', $record)){
+                        ddd($record);
+                    }
                     $method_value = $call_type . $plugin . '(';
                     if(
                         array_key_exists('method', $record) &&

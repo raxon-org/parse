@@ -18,22 +18,28 @@ trait Breakpoint {
     /**
      * @throws ObjectException
      */
-    public function breakpoint($value): void
+    public function breakpoint($value, $options=[]): void
     {
         $object = $this->object();
-        $tag = $object->config('package.raxon/parse.build.state.tag');
-        if(property_exists($tag, 'source')){
-            if(
-                property_exists($tag, 'line') &&
-                is_object($tag->line) &&
-                property_exists($tag->line, 'start')
-            ){
-                echo $tag->source . ':' . $tag->line->start . PHP_EOL;
-            } else {
-                echo $tag->source . ':' . $tag->line . PHP_EOL;
+        if(array_key_exists('trace', $options)){
+            $options['trace'] = true;
+        }
+        if($options['trace'] === true){
+            $tag = $object->config('package.raxon/parse.build.state.tag');
+            if(property_exists($tag, 'source')){
+                if(
+                    property_exists($tag, 'line') &&
+                    is_object($tag->line) &&
+                    property_exists($tag->line, 'start')
+                ){
+                    echo $tag->source . ':' . $tag->line->start . PHP_EOL;
+                } else {
+                    echo $tag->source . ':' . $tag->line . PHP_EOL;
+                }
             }
         }
-        breakpoint($value);
+        $options['trace'] = false;
+        breakpoint($value, $options);
     }
 
 }

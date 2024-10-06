@@ -1346,8 +1346,6 @@ class Build
                         );
 
                     } else {
-                        trace();
-                        ddd($record);
                         throw new LocateException(
                             'Plugin not found (' .
                             str_replace('_', '.', $name) .

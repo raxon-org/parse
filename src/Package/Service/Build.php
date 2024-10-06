@@ -2790,6 +2790,9 @@ class Build
                         $record['value'],
                         [
                             '=',
+                            '+=',
+                            '-=',
+                            '*=',
                             '++',
                             '--',
                             '**',
@@ -2805,6 +2808,45 @@ class Build
                         array_key_exists('name', $previous)
                     ){
                         switch($record['value']){
+                            case '+=':
+                                $assign = Build::value_right(
+                                    $object,
+                                    $flags,
+                                    $options,
+                                    $input,
+                                    $nr,
+                                    $next,
+                                    $skip
+                                );
+                                $assign = Build::value($object, $flags, $options, $tag, $assign, $is_set);
+                                $value .= '$data->set(\'' . $previous['name'] . '\', value_plus($data->get(\'' . $previous['name'] .'\', ' .  $assign . ')';
+                            break;
+                            case '-=':
+                                $assign = Build::value_right(
+                                    $object,
+                                    $flags,
+                                    $options,
+                                    $input,
+                                    $nr,
+                                    $next,
+                                    $skip
+                                );
+                                $assign = Build::value($object, $flags, $options, $tag, $assign, $is_set);
+                                $value .= '$data->set(\'' . $previous['name'] . '\', value_minus($data->get(\'' . $previous['name'] .'\', ' .  $assign . ')';
+                            break;
+                            case '*=':
+                                $assign = Build::value_right(
+                                    $object,
+                                    $flags,
+                                    $options,
+                                    $input,
+                                    $nr,
+                                    $next,
+                                    $skip
+                                );
+                                $assign = Build::value($object, $flags, $options, $tag, $assign, $is_set);
+                                $value .= '$data->set(\'' . $previous['name'] . '\', value_multiply($data->get(\'' . $previous['name'] .'\', ' .  $assign . ')';
+                            break;
                             case '=':
 //                                d($input);
 //                                d($nr);

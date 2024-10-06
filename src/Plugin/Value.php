@@ -1,6 +1,8 @@
 <?php
 namespace Plugin;
 
+use Raxon\Module\Core;
+
 trait Value {
     const STRING = 'string';
     const BOOLEAN = 'boolean';
@@ -53,6 +55,12 @@ trait Value {
             $type2 === self::STRING
         ){
             return (string) $variable1 . (string) $variable2;
+        }
+        elseif(
+            $type1 === self::OBJECT &&
+            $type2 === self::OBJECT
+        ){
+            return Core::object_merge($variable1, $variable2);
         }
         elseif(
             $type1 === self::ARRAY &&

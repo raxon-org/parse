@@ -467,6 +467,23 @@ class Token
                                         $operator .= $char;
                                         continue;
                                     }
+                                    elseif(
+                                        (
+                                            $operator === '+' &&
+                                            $char === '='
+                                        ) ||
+                                        (
+                                            $operator === '-' &&
+                                            $char === '='
+                                        ) ||
+                                        (
+                                            $operator === '*' &&
+                                            $char === '='
+                                        )
+                                    ){
+                                        $operator .= $char;
+                                        continue;
+                                    }
                                     else {
                                         $is_after = true;
                                         $after .= $char;
@@ -551,11 +568,7 @@ class Token
                                         [
                                             '++',
                                             '--',
-                                            '**',
-                                            '+=',
-                                            '-=',
-                                            '*=',
-                                            '.='
+                                            '**'
                                         ],
                                         true
                                     )

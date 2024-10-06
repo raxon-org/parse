@@ -220,8 +220,8 @@ class Method
                                     $input['array'][$is_method]['method']['name'] = $explode[1];
                                 } else {
                                     $call_type = '.';
-                                    $explode = explode($call_type, $name, 2);
-                                    $input['array'][$is_method]['method']['name'] = $explode[1];
+                                    $explode = explode($call_type, $name);
+                                    $input['array'][$is_method]['method']['name'] = $explode;
                                 }
                             }
                             $input['array'][$is_method]['type'] = 'variable_method';

@@ -46,7 +46,7 @@ trait Value {
         return $variable;
     }
 
-    protected function value_plus(mixed $variable1=null, mixed $variable2=null) : int |  float | string | array
+    protected function value_plus(mixed $variable1=null, mixed $variable2=null) : int |  float | string | array | object
     {
         $type1 = getType($variable1);
         $type2 = getType($variable2);

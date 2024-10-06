@@ -1,10 +1,10 @@
 {{$array1 = (object) [
-1,
-4
+'test1',
+'test4'
 ]}}
 {{$array2 = (object) [
-3,
-2
+'test3',
+'test2'
 ]}}
 {{$array = $array1 + $array2}}
 {{dd($array)}}

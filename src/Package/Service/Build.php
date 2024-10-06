@@ -2308,8 +2308,8 @@ class Build
             }
         } else {
             $value = Build::value($object, $flags, $options, $record, $record['variable']['value'],$is_set);
-            d($is_set);
-            d($value);
+//            d($is_set);
+//            d($value);
         }
         if(array_key_exists('modifier', $record['variable'])){
             d($value);
@@ -2537,7 +2537,7 @@ class Build
 
     public static function value_set(App $object, $flags, $options, $input, &$is_set=false): array
     {
-        d($input);
+//        d($input);
         $count = count($input['array']);
         $first = reset($input['array']);
         if($first === false){
@@ -2609,7 +2609,7 @@ class Build
         $is_clone = false;
         $is_single_line = false;
 //        d($tag);
-        d($input['array']);
+//        d($input['array']);
         foreach($input['array'] as $nr => $record){
             if($skip > 0){
                 $skip--;
@@ -2917,17 +2917,9 @@ class Build
                         $next,
                         $skip
                     );
-                    d($right);
-                    d($input);
-                    d($value);
-                    d($record);
                     $right = Build::value($object, $flags, $options, $tag, $right, $is_set);
-                    if($is_set === true){
-                        d($nr);
-                        d($input);
-                    }
                     if(array_key_exists('value', $record)){
-                        d($value);
+//                        d($value);
                         $value = Build::value_calculate($object, $flags, $options, $record['value'], $value, $right);
                     }
                 }

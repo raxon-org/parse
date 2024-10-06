@@ -2636,6 +2636,27 @@ class Build
                 }
                 elseif($after !== null){
                     $after[] = $input['array'][$i];
+                }
+                elseif(
+                    in_array(
+                        $current,
+                        [
+                            'array',
+                            'bool',
+                            'boolean',
+                            'int',
+                            'integer',
+                            'float',
+                            'double',
+                            'string',
+                            'object',
+                            'clone'
+                        ],
+                        true
+                    )
+                ){
+                    $is_set = false;
+                    return $input;
                 } else {
                     $set['value'] .= $current;
                     $set['array'][] = $input['array'][$i];

@@ -1441,6 +1441,7 @@ class Build
             $data[] = 'return ' . $variable_uuid .';';
             $data[] = '} else {';
             $data[] = 'echo '. $variable_uuid .';';
+            $data[] = 'flush();';
             $data[] = '}';
             $data[] = '} catch (Exception $exception) {'; //catch
             if(

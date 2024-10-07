@@ -68,6 +68,18 @@ trait Value {
         }
         elseif(
             $type1 === self::ARRAY &&
+            $type2 === self::OBJECT
+        ){
+            return array_merge($variable1, (array) $variable2);
+        }
+        elseif(
+            $type1 === self::OBJECT &&
+            $type2 === self::ARRAY
+        ){
+            return Core::object_merge($variable1, (object) $variable2);
+        }
+        elseif(
+            $type1 === self::ARRAY &&
             $type2 === self::ARRAY
         ){
             return array_merge($variable1, $variable2);

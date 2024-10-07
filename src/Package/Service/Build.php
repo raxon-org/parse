@@ -1433,15 +1433,13 @@ class Build
 //            $data[] = 'd(' . $variable_uuid . ');';
             $data[] = 'if(!is_scalar('. $variable_uuid. ')){';
             $data[] = '//array or object';
-            $data[] = 'echo ob_get_clean();';
-            $data[] = 'flush()';
+            $data[] = 'ob_get_clean();';
             $data[] = 'return ' . $variable_uuid .';';
             $data[] = '}';
             $data[] = 'elseif(is_bool('. $variable_uuid. ')){';
             $data[] = 'return ' . $variable_uuid .';';
             $data[] = '} else {';
             $data[] = 'echo '. $variable_uuid .';';
-            $data[] = 'flush();';
             $data[] = '}';
             $data[] = '} catch (Exception $exception) {'; //catch
             if(
@@ -1477,15 +1475,13 @@ class Build
             }
             $data[] = 'if(!is_scalar('. $variable_uuid. ')){';
             $data[] = '//array or object';
-            $data[] = 'echo ob_get_clean();';
-            $data[] = 'flush()';
+            $data[] = 'ob_get_clean();';
             $data[] = 'return ' . $variable_uuid .';';
             $data[] = '}';
             $data[] = 'elseif(is_bool('. $variable_uuid. ')){';
             $data[] = 'return ' . $variable_uuid .';';
             $data[] = '} else {';
             $data[] = 'echo '. $variable_uuid .';';
-            $data[] = 'flush()';
             $data[] = '}';
             return $data;;
         }

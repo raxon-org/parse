@@ -2794,9 +2794,7 @@ class Build
                         elseif($is_set){
                             $is_set = false;
                             //nothing
-                        }
-                        else {
-                            d($nr);
+                        } else {
                             $value .= PHP_EOL . $record['value'];
                         }
                     }
@@ -2971,14 +2969,12 @@ class Build
                             break;
                         }
                     } else {
-                        d($tag);
-                        ddd($record);
                         if(
                             array_key_exists('is_multiline', $record) &&
                             $record['is_multiline'] === true
                         ){
                             throw new TemplateException(
-                                str_replace('\'', '\\\'', $record['tag']) .
+                                $record['tag'] .
                                 PHP_EOL .
                                 'Invalid argument for {{' . $record['value'] . '}}' .
                                 PHP_EOL .
@@ -2992,7 +2988,7 @@ class Build
                             );
                         } else {
                             throw new TemplateException(
-                                str_replace('\'', '\\\'', $record['tag']) .
+                                $record['tag'] .
                                 PHP_EOL .
                                 'Invalid argument for {{' . $record['value'] . '}}' .
                                 PHP_EOL .

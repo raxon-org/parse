@@ -32,13 +32,13 @@ trait Breakpoint {
                     is_object($tag->line) &&
                     property_exists($tag->line, 'start')
                 ){
-                    echo $tag->source . ':' . $tag->line->start . PHP_EOL;
+                    $options['trace'] =  $tag->source . ':' . $tag->line->start . PHP_EOL;
                 } else {
-                    echo $tag->source . ':' . $tag->line . PHP_EOL;
+                    $options['trace'] =  $tag->source . ':' . $tag->line . PHP_EOL;
                 }
             }
         }
-        $options['trace'] = false;
+//        $options['trace'] = false;
         breakpoint($value, $options);
     }
 

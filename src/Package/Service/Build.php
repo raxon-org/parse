@@ -1421,11 +1421,13 @@ class Build
                 $record['is_multiline'] === true
             ){
                 $data[] = 'if(' . $variable_uuid .' === null){';
+                $data[] = 'ob_end_clean();';
 //                $data[] = 'ddd($data);';
                 $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . '" on line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '. You can use modifier "default" to surpress it \');';
                 $data[] = '}';
             } else {
                 $data[] = 'if(' . $variable_uuid .' === null){';
+                $data[] = 'ob_end_clean();';
 //                $data[] = 'ddd($data);';
                 $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . '" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: '. $source . '. You can use modifier "default" to surpress it \');';
                 $data[] = '}';
@@ -1446,12 +1448,17 @@ class Build
                 array_key_exists('is_multiline', $record) &&
                 $record['is_multiline'] === true
             ){
+                $data[] = 'if(' . $variable_uuid .' === null){';
+                $data[] = 'ob_end_clean();';
 //                $data[] = 'ddd($data);';
                 $data[] = 'throw new TemplateException(\'Exception: "$' . $variable_name . '" on line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '. You can use modifier "default" to surpress it \');';
+                $data[] = '}';
             } else {
                 $data[] = 'if(' . $variable_uuid .' === null){';
+                $data[] = 'ob_end_clean();';
 //                $data[] = 'ddd($data);';
                 $data[] = 'throw new TemplateException(\'Exception: "$' . $variable_name . '" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: '. $source . '. You can use modifier "default" to surpress it \');';
+                $data[] = '}';
             }
             $data[] = '}';
             return $data;
@@ -1464,11 +1471,13 @@ class Build
                 $record['is_multiline'] === true
             ){
                 $data[] = 'if(' . $variable_uuid .' === null){';
+                $data[] = 'ob_end_clean();';
 //                $data[] = 'ddd($data);';
                 $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . '" on line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '. You can use modifier "default" to surpress it \');';
                 $data[] = '}';
             } else {
                 $data[] = 'if(' . $variable_uuid .' === null){';
+                $data[] = 'ob_end_clean();';
 //                $data[] = 'ddd($data);';
                 $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . '" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '. You can use modifier "default" to surpress it \');';
                 $data[] = '}';

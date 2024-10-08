@@ -9,3 +9,15 @@
 {{$array = $array1 + $array2}}
 test1 {{breakpoint($array)}}
 test2
+
+/*
+
+
+*/
+
+{{/*}} or {{/* ... */}}
+
+{{*/}}
+
+
+{{/* test */}}

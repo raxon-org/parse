@@ -709,7 +709,7 @@ class Build
                             $record['is_multiline'] === true
                         ){
                             throw new TemplateException(
-                                str_replace('\'', '\\\'', $record['tag']) . PHP_EOL .
+                                $record['tag'] . PHP_EOL .
                                 'Unknown marker "{{' . $record['marker']['name'] .'}}" on line: ' .
                                 $record['line']['start']  .
                                 ', column: ' .
@@ -720,7 +720,7 @@ class Build
 
                         } else {
                             throw new TemplateException(
-                                str_replace('\'', '\\\'', $record['tag']) . PHP_EOL .
+                                $record['tag'] . PHP_EOL .
                                 'Unknown marker "{{' . $record['marker']['name'] .'}}" on line: ' .
                                 $record['line'] .
                                 ', column: ' .
@@ -1639,7 +1639,7 @@ class Build
                         $record['is_multiline'] === true
                     ){
                         throw new TemplateException(
-                            str_replace('\'', '\\\'', $record['tag']) .
+                            $record['tag'] .
                             PHP_EOL .
                             'Invalid argument for {{while()}}' .
                             PHP_EOL .
@@ -1653,7 +1653,7 @@ class Build
                         );
                     } else {
                         throw new TemplateException(
-                            str_replace('\'', '\\\'', $record['tag']) .
+                            $record['tag'] .
                             PHP_EOL .
                             'Invalid argument for {{while()}}' .
                             PHP_EOL .
@@ -1691,7 +1691,7 @@ class Build
                         $record['is_multiline'] === true
                     ){
                         throw new TemplateException(
-                            str_replace('\'', '\\\'', $record['tag']) .
+                            $record['tag'] .
                             PHP_EOL .
                             'Invalid argument for {{for()}}' .
                             PHP_EOL .
@@ -1705,7 +1705,7 @@ class Build
                         );
                     } else {
                         throw new TemplateException(
-                            str_replace('\'', '\\\'', $record['tag']) .
+                            $record['tag'] .
                             PHP_EOL .
                             'Invalid argument for {{for()}}' .
                             PHP_EOL .
@@ -1752,7 +1752,7 @@ class Build
                         $record['is_multiline'] === true
                     ){
                         throw new TemplateException(
-                            str_replace('\'', '\\\'', $record['tag']) .
+                            $record['tag'] .
                             PHP_EOL .
                             'Invalid argument for {{if()}}' .
                             PHP_EOL .
@@ -1766,7 +1766,7 @@ class Build
                         );
                     } else {
                         throw new TemplateException(
-                            str_replace('\'', '\\\'', $record['tag']) .
+                            $record['tag'] .
                             PHP_EOL .
                             'Invalid argument for {{if()}}' .
                             PHP_EOL .
@@ -1805,7 +1805,7 @@ class Build
                             $record['is_multiline'] === true
                         ){
                             throw new TemplateException(
-                                str_replace('\'', '\\\'', $record['tag']) .
+                                $record['tag'] .
                                 PHP_EOL .
                                 'break operator with non-integer operand is no longer supported...' .
                                 PHP_EOL .
@@ -1819,7 +1819,7 @@ class Build
                             );
                         } else {
                             throw new TemplateException(
-                                str_replace('\'', '\\\'', $record['tag']) .
+                                $record['tag'] .
                                 PHP_EOL .
                                 'break operator with non-integer operand is no longer supported...' .
                                 PHP_EOL .
@@ -1855,7 +1855,7 @@ class Build
                             $record['is_multiline'] === true
                         ){
                             throw new TemplateException(
-                                str_replace('\'', '\\\'', $record['tag']) .
+                                $record['tag'] .
                                 PHP_EOL .
                                 'Cannot \'break\' ' . $value . ' levels for {{break()}}, only ' . $break_level . ' is allowed here...' .
                                 PHP_EOL .
@@ -1869,7 +1869,7 @@ class Build
                             );
                         } else {
                             throw new TemplateException(
-                                str_replace('\'', '\\\'', $record['tag']) .
+                                $record['tag'] .
                                 PHP_EOL .
                                 'Cannot \'break\' ' . $value . ' levels for {{break()}}, only ' . $break_level . ' is allowed here...' .
                                 PHP_EOL .
@@ -1890,7 +1890,7 @@ class Build
                         $record['is_multiline'] === true
                     ){
                         throw new TemplateException(
-                            str_replace('\'', '\\\'', $record['tag']) .
+                            $record['tag'] .
                             PHP_EOL .
                             'Invalid argument for {{break()}}, only numeric integer is allowed' .
                             PHP_EOL .
@@ -1904,7 +1904,7 @@ class Build
                         );
                     } else {
                         throw new TemplateException(
-                            str_replace('\'', '\\\'', $record['tag']) .
+                            $record['tag'] .
                             PHP_EOL .
                             'Invalid argument for {{break()}}, only numeric integer is allowed' .
                             PHP_EOL .
@@ -2012,7 +2012,7 @@ class Build
                         $record['is_multiline'] === true
                     ){
                         throw new TemplateException(
-                            str_replace('\'', '\\\'', $record['tag']) .
+                            $record['tag'] .
                             PHP_EOL .
                             'Validation error...' .
                             PHP_EOL .
@@ -2028,7 +2028,7 @@ class Build
                         );
                     } else {
                         throw new TemplateException(
-                            str_replace('\'', '\\\'', $record['tag']) .
+                            $record['tag'] .
                             PHP_EOL .
                             'Validation error...' .
                             PHP_EOL .
@@ -2072,9 +2072,9 @@ class Build
                         array_key_exists('is_multiline', $record) &&
                         $record['is_multiline'] === true
                     ){
-                        throw new TemplateException(str_replace('\'', '\\\'', $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.', 0, $exception);
+                        throw new TemplateException($record['tag'] . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.', 0, $exception);
                     } else {
-                        throw new TemplateException(str_replace('\'', '\\\'', $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.', 0, $exception);
+                        throw new TemplateException($record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.', 0, $exception);
                     }
                 }
                 $uuid_variable = Core::uuid_variable();
@@ -2090,8 +2090,10 @@ class Build
                     array_key_exists('is_multiline', $record) &&
                     $record['is_multiline'] === true
                 ){
+                    $data[] = 'ob_get_clean();';
                     $data[] = 'throw new TemplateException(\'' . str_replace('\'', '\\\'', $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.' . '\', 0, $exception);';
                 } else {
+                    $data[] = 'ob_get_clean();';
                     $data[] = 'throw new TemplateException(\'' . str_replace('\'', '\\\'', $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.' . '\', 0, $exception);';
                 }
                 $data[] = '}';
@@ -2189,6 +2191,7 @@ class Build
 //            $before[] = 'd( ' . $uuid_methods . ');';
             $before[] = 'if(!in_array(\'' . $function . '\', ' . $uuid_methods. ', true)){';
             $before[] = 'sort(' . $uuid_methods .', SORT_NATURAL);';
+            $before[] = 'ob_get_clean();';
             $before[] = 'throw new TemplateException(\'Static method "' . $function . '" not found in class: ' . $class_name . '\' . PHP_EOL . \'Available static methods:\' . PHP_EOL . implode(PHP_EOL, ' . $uuid_methods . ') . PHP_EOL);';
             $before[] = '}';
             $before[] = '}';
@@ -2197,8 +2200,10 @@ class Build
                 array_key_exists('is_multiline', $record) &&
                 $record['is_multiline'] === true
             ){
+                $before[] = 'ob_get_clean();';
                 $before[] = 'throw new TemplateException(\'' . str_replace('\'', '\\\'', $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: ' . $source . '.\', 0, $exception);';
             } else {
+                $before[] = 'ob_get_clean();';
                 $before[] = 'throw new TemplateException(\'' . str_replace('\'', '\\\'', $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.\', 0, $exception);';
             }
             $before[] = '}';
@@ -2242,6 +2247,7 @@ class Build
             $before[] = $uuid_methods . ' = get_class_methods(' . $uuid . ');';
             $before[] = 'if(!in_array(\'' . $class_method . '\', ' . $uuid_methods. ', true)){';
             $before[] = 'sort(' . $uuid_methods .', SORT_NATURAL);';
+            $before[] = 'ob_get_clean();';
             $before[] = 'throw new TemplateException(\'Method "' . $class_method . '" not found in class: ' . $class_raw . '\' . PHP_EOL . \'Available methods:\' . PHP_EOL . implode(PHP_EOL, ' . $uuid_methods . ') . PHP_EOL);';
             $before[] = '}';
             $before[] = '}';
@@ -2250,8 +2256,10 @@ class Build
                 array_key_exists('is_multiline', $record) &&
                 $record['is_multiline'] === true
             ){
+                $before[] = 'ob_get_clean();';
                 $before[] = 'throw new TemplateException(\'' . str_replace('\'', '\\\'', $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: ' . $source . '.\', 0, $exception);';
             } else {
+                $before[] = 'ob_get_clean();';
                 $before[] = 'throw new TemplateException(\'' . str_replace('\'', '\\\'', $record['tag'])  . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.\', 0, $exception);';
             }
             $before[] = '}';
@@ -2291,7 +2299,6 @@ class Build
                 )
             ){
                 $name .= $record['variable']['value']['array'][2]['method']['name'];
-                ddd($name);
                 $argument = $record['variable']['value']['array'][2]['method']['argument'];
                 foreach($argument as $argument_nr => $argument_record){
                     $value = Build::value($object, $flags, $options, $record, $argument_record, $is_set);
@@ -2308,7 +2315,7 @@ class Build
                     $record['is_multiline'] === true
                 ){
                     throw new TemplateException(
-                        str_replace('\'', '\\\'', $record['tag']) . PHP_EOL .
+                        $record['tag'] . PHP_EOL .
                         'Unknown static class call "{{' . $name .'}}" please add the class usage on line: ' .
                         $record['line']['start']  .
                         ', column: ' .
@@ -2319,7 +2326,7 @@ class Build
 
                 } else {
                     throw new TemplateException(
-                        str_replace('\'', '\\\'', $record['tag']) . PHP_EOL .
+                        $record['tag'] . PHP_EOL .
                         'Unknown static class call "{{' . $name .'}}" please add the class usage on line: ' .
                         $record['line'] .
                         ', column: ' .
@@ -2381,8 +2388,10 @@ class Build
                             array_key_exists('is_multiline', $record) &&
                             $record['is_multiline'] === true
                         ){
+                            $result[] = 'ob_get_clean();';
                             $result[] = 'throw new TemplateException(\'' . str_replace('\'', '\\\'', $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '\', 0, $exception);';
                         } else {
+                            $result[] = 'ob_get_clean();';
                             $result[] = 'throw new TemplateException(\'' . str_replace('\'', '\\\'', $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\', 0, $exception);';
                         }
                         $result[] = '}';
@@ -2407,8 +2416,10 @@ class Build
                             array_key_exists('is_multiline', $record) &&
                             $record['is_multiline'] === true
                         ){
+                            $result[] = 'ob_get_clean();';
                             $result[] = 'throw new TemplateException(\'' . str_replace('\'', '\\\'', $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '\', 0, $exception);';
                         } else {
+                            $result[] = 'ob_get_clean();';
                             $result[] = 'throw new TemplateException(\'' . str_replace('\'', '\\\'', $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\', 0, $exception);';
                         }
                         $result[] = '}';
@@ -2433,8 +2444,10 @@ class Build
                             array_key_exists('is_multiline', $record) &&
                             $record['is_multiline'] === true
                         ){
+                            $result[] = 'ob_get_clean();';
                             $result[] = 'throw new TemplateException(\'' . str_replace('\'', '\\\'', $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '\', 0, $exception);';
                         } else {
+                            $result[] = 'ob_get_clean();';
                             $result[] = 'throw new TemplateException(\'' . str_replace('\'', '\\\'', $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\', 0, $exception);';
                         }
                         $result[] = '}';
@@ -2459,8 +2472,10 @@ class Build
                             array_key_exists('is_multiline', $record) &&
                             $record['is_multiline'] === true
                         ){
+                            $result[] = 'ob_get_clean();';
                             $result[] = 'throw new TemplateException(\'' . str_replace('\'', '\\\'', $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '\', 0, $exception);';
                         } else {
+                            $result[] = 'ob_get_clean();';
                             $result[] = 'throw new TemplateException(\'' . str_replace('\'', '\\\'', $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\', 0, $exception);';
                         }
                         $result[] = '}';
@@ -2485,8 +2500,10 @@ class Build
                             array_key_exists('is_multiline', $record) &&
                             $record['is_multiline'] === true
                         ){
+                            $result[] = 'ob_get_clean();';
                             $result[] = 'throw new TemplateException(\'' . str_replace('\'', '\\\'', $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '\', 0, $exception);';
                         } else {
+                            $result[] = 'ob_get_clean();';
                             $result[] = 'throw new TemplateException(\'' . str_replace('\'', '\\\'', $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\', 0, $exception);';
                         }
                         $result[] = '}';
@@ -2926,7 +2943,6 @@ class Build
                                 );
                                 $assign = Build::value($object, $flags, $options, $tag, $assign, $is_set);
                                 $value .= '$data->set(\'' . $previous['name'] . '\', value_plus($data->get(\'' . $previous['name'] .'\', ' .  $assign . ')';
-                                ddd($value);
                             break;
                             case '-=':
                                 $assign = Build::value_right(
@@ -3336,8 +3352,6 @@ class Build
             ){
                 //nothing
             } else {
-                d($nr);
-                d($record);
                 $right = Build::value_right(
                     $object,
                     $flags,
@@ -3347,11 +3361,9 @@ class Build
                     $next,
                     $skip
                 );
-                ddd($right);
                 $right = Build::value($object, $flags, $options, $tag, $right, $is_set);
                 if(array_key_exists('value', $record)){
                     $value = Build::value_calculate($object, $flags, $options, $record['value'], $value, $right);
-                    d($value);
                 }
             }
         }

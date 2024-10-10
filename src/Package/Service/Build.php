@@ -714,15 +714,12 @@ class Build
                             array_key_exists('value', $last) &&
                             $last['value'] === '*/'
                         ){
-                            breakpoint($first);
-                            breakpoint($last);
-                            breakpoint($record);
+                            //comment leave out of data
                         } else {
                             if(
                                 array_key_exists('is_multiline', $record) &&
                                 $record['is_multiline'] === true
                             ){
-                                d($record);
                                 throw new TemplateException(
                                     $record['tag'] . PHP_EOL .
                                     'Unknown marker "{{' . $record['marker']['name'] .'}}" on line: ' .
@@ -734,7 +731,6 @@ class Build
                                 );
 
                             } else {
-                                d($record);
                                 throw new TemplateException(
                                     $record['tag'] . PHP_EOL .
                                     'Unknown marker "{{' . $record['marker']['name'] .'}}" on line: ' .

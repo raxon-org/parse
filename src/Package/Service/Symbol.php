@@ -175,8 +175,6 @@ class Symbol
                     $symbol = $previous . $char . $next . $next_next;
                     switch ($symbol){
                         case '!!!!':
-                        case '{{/*':
-                        case '*/}}':
                             $input['array'][$previous_nr] = [
                                 'type' => 'symbol',
                                 'value' => $symbol,
@@ -185,6 +183,20 @@ class Symbol
                             $input['array'][$nr + 1] = null;
                             $input['array'][$nr + 2] = null;
                             $skip += 2;
+                        break;
+                        case '{{/*':
+                        case '*/}}':
+                        $input['array'][$previous_nr] = [
+                            'type' => 'symbol',
+                            'value' => $previous . $char,
+                        ];
+                        $input['array'][$nr] = [
+                            'type' => 'symbol',
+                            'value' => $next . $next_next,
+                        ];
+                        $input['array'][$nr + 1] = null;
+                        $input['array'][$nr + 2] = null;
+                        $skip += 2;
                         break;
                     }
                 } else {

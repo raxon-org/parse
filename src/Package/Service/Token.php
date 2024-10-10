@@ -586,7 +586,7 @@ class Token
                                     ];
                                 }
                             } else {
-                                d($after);
+                                breakpoint($after);
                                 if($operator){
                                     $list = Token::value(
                                         $object,
@@ -613,7 +613,7 @@ class Token
                                         'name' => mb_substr($variable_name, 1),
                                         'is_reference' => false
                                     ]);
-                                    d($after);
+                                    breakpoint($after);
                                     $list = Token::value(
                                         $object,
                                         $flags,
@@ -646,7 +646,7 @@ class Token
                         if($cache->has($method_hash)){
                             $list = $cache->get($method_hash);
                         } else {
-                            d($record['tag']);
+                            breakpoint($record['tag']);
                             $tag_array = mb_str_split($record['tag'], 1);
                             $list = Token::value(
                                 $object,
@@ -790,7 +790,7 @@ class Token
         $is_parse = false;
         $whitespace_nr = false;
         $curly_depth = 0;
-        d($input);
+        breakpoint($input);
         foreach($input['array'] as $nr => $char){
             if(!is_numeric($nr)){
                 // ',' in modifier causes this
@@ -917,7 +917,7 @@ class Token
                 if($curly_depth === 0){
                     $is_parse = false;
                 }
-                d($input);
+                breakpoint($input);
             }
             elseif(
                 (

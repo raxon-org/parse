@@ -704,6 +704,7 @@ class Build
                             }
                         }
                     } else {
+                        breakpoint($record);
                         if(
                             array_key_exists('is_multiline', $record) &&
                             $record['is_multiline'] === true

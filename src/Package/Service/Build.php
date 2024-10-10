@@ -703,7 +703,13 @@ class Build
                                 $data[] = $record['marker']['name'] . $name . '();';
                             }
                         }
-                    } else {
+                    }
+                    else {
+                        $count = count($record['marker']['value']['array']);
+                        $first = $record['marker']['value']['array'][0];
+                        $last = $record['marker']['value']['array'][$count - 1];
+                        breakpoint($first);
+                        breakpoint($last);
                         breakpoint($record);
                         if(
                             array_key_exists('is_multiline', $record) &&

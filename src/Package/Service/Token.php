@@ -914,6 +914,7 @@ class Token
                 if($curly_depth === 0){
                     $is_parse = false;
                 }
+                d($input);
             }
             elseif(
                 (

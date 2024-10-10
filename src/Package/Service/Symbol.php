@@ -136,6 +136,9 @@ class Symbol
                         case '->':
                         case '::':
                         case '..':
+                        case '/*':
+                        case '*/':
+                        case '//':
                             $input['array'][$previous_nr] = [
                                 'type' => 'symbol',
                                 'value' => $symbol,
@@ -156,6 +159,8 @@ class Symbol
                         case '=>>':
                         case '!==':
                         case '!!!':
+                        case '/**':
+                        case '**/':
                             $input['array'][$previous_nr] = [
                                 'type' => 'symbol',
                                 'value' => $symbol,

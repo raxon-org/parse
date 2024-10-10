@@ -28,8 +28,6 @@ class Tag
         $is_double_quoted = false;
         $is_double_quoted_backslash = false;
         $is_tag_in_double_quoted = false;
-        $is_curly_open = false;
-        $is_curly_close = false;
         $next = false;
         $chunk = 64;
         $previous = false;
@@ -58,8 +56,6 @@ class Tag
                     $previous !== '\\'
                 ){
                     $is_single_quoted = true;
-                    $is_curly_open = false;
-                    $is_curly_close = false;
                 }
                 elseif(
                     $char === '\'' &&
@@ -69,8 +65,6 @@ class Tag
                     $previous !== '\\'
                 ){
                     $is_single_quoted = false;
-                    $is_curly_open = false;
-                    $is_curly_close = false;
                 }
                 elseif(
                     $char === '"' &&
@@ -80,8 +74,6 @@ class Tag
                     $previous !== '\\'
                 ){
                     $is_double_quoted = true;
-                    $is_curly_open = false;
-                    $is_curly_close = false;
                 }
                 elseif(
                     $char === '"' &&
@@ -91,8 +83,6 @@ class Tag
                     $previous !== '\\'
                 ){
                     $is_double_quoted = false;
-                    $is_curly_open = false;
-                    $is_curly_close = false;
                 }
                 elseif(
                     $char === '"' &&
@@ -101,8 +91,6 @@ class Tag
                     $previous === '\\'
                 ){
                     $is_double_quoted_backslash = true;
-                    $is_curly_open = false;
-                    $is_curly_close = false;
                 }
                 elseif(
                     $char === '"' &&
@@ -111,9 +99,24 @@ class Tag
                     $previous === '\\'
                 ){
                     $is_double_quoted_backslash = false;
-                    $is_curly_open = false;
-                    $is_curly_close = false;
                 }
+                elseif(
+                    $char === '{' &&
+                    $is_single_quoted === false &&
+                    $is_double_quoted === false &&
+                    $is_double_quoted_backslash === false
+                ){
+                    $curly_count++;
+                }
+                elseif(
+                    $char === '}' &&
+                    $is_single_quoted === false &&
+                    $is_double_quoted === false &&
+                    $is_double_quoted_backslash === false
+                ){
+                    $curly_count--;
+                }
+                /*
                 elseif(
                     $char === '{' &&
                     $is_curly_open === false &&
@@ -206,8 +209,9 @@ class Tag
                     $is_curly_open = false;
                     $is_curly_close = false;
                 }
+                */
                 if(
-                    $curly_count === 1 &&
+                    $curly_count === 2 &&
                     $tag === false
                 ){
                     $tag = '{{';

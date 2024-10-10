@@ -706,16 +706,16 @@ class Build
                     }
                     else {
                         $count = count($record['marker']['value']['array']);
-                        $first_first = $record['marker']['value']['array'][1];
-                        $last_last = $record['marker']['value']['array'][$count - 2];
+                        $first = $record['marker']['value']['array'][0];
+                        $last = $record['marker']['value']['array'][$count - 1];
                         if(
-                            array_key_exists('value', $first_first) &&
-                            $first_first['value'] === '/*' &&
-                            array_key_exists('value', $last_last) &&
-                            $last_last['value'] === '*/'
+                            array_key_exists('value', $first) &&
+                            $first['value'] === '/*' &&
+                            array_key_exists('value', $last) &&
+                            $last['value'] === '*/'
                         ){
-                            breakpoint($first_first);
-                            breakpoint($last_last);
+                            breakpoint($first);
+                            breakpoint($last);
                             breakpoint($record);
                         } else {
                             if(

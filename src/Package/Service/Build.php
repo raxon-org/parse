@@ -712,7 +712,7 @@ class Build
                             array_key_exists('value', $first) &&
                             $first['value'] === '{{/*' &&
                             array_key_exists('value', $last) &&
-                            $last['value'] === '{{/*'
+                            $last['value'] === '*/}}'
                         ){
                             breakpoint($first);
                             breakpoint($last);

@@ -11,13 +11,10 @@ test1 {{breakpoint($array)}}
 test2
 
 /*
-
+comment
 
 */
 
-{{/*}} or {{/* ... */}}
-
-{{*/}}
-
+{{/* ... */}}
 
 {{/* test */}}

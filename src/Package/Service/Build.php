@@ -722,6 +722,7 @@ class Build
                                 array_key_exists('is_multiline', $record) &&
                                 $record['is_multiline'] === true
                             ){
+                                d($record);
                                 throw new TemplateException(
                                     $record['tag'] . PHP_EOL .
                                     'Unknown marker "{{' . $record['marker']['name'] .'}}" on line: ' .

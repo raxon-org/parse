@@ -11,6 +11,8 @@ class Symbol
 {
     public static function define(App $object, $flags, $options, $input=[]): array
     {
+        trace();
+        d($input);
         if(!is_array($input)){
             return $input;
         }

@@ -706,8 +706,8 @@ class Build
                     }
                     else {
                         $count = count($record['marker']['value']['array']);
-                        $first = $record['marker']['value']['array'][0];
-                        $last = $record['marker']['value']['array'][$count - 1];
+                        $first_first = $record['marker']['value']['array'][1];
+                        $last_last = $record['marker']['value']['array'][$count - 2];
                         if(
                             array_key_exists('value', $first) &&
                             $first['value'] === '/*' &&

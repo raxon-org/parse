@@ -916,6 +916,7 @@ class Token
                 $curly_depth--;
                 if($curly_depth === 0){
                     $is_parse = false;
+                    unset($input['array'][$nr]);
                 }
                 breakpoint($input);
             }

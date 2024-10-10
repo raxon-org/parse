@@ -710,9 +710,9 @@ class Build
                         $last = $record['marker']['value']['array'][$count - 1];
                         if(
                             array_key_exists('value', $first) &&
-                            $first['value'] === '{{/*' &&
+                            $first['value'] === '/*' &&
                             array_key_exists('value', $last) &&
-                            $last['value'] === '*/}}'
+                            $last['value'] === '*/'
                         ){
                             breakpoint($first);
                             breakpoint($last);

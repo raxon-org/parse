@@ -586,6 +586,7 @@ class Token
                                     ];
                                 }
                             } else {
+                                d($after);
                                 if($operator){
                                     $list = Token::value(
                                         $object,
@@ -612,6 +613,7 @@ class Token
                                         'name' => mb_substr($variable_name, 1),
                                         'is_reference' => false
                                     ]);
+                                    d($after);
                                     $list = Token::value(
                                         $object,
                                         $flags,
@@ -644,6 +646,7 @@ class Token
                         if($cache->has($method_hash)){
                             $list = $cache->get($method_hash);
                         } else {
+                            d($record['tag']);
                             $tag_array = mb_str_split($record['tag'], 1);
                             $list = Token::value(
                                 $object,

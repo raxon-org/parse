@@ -708,37 +708,43 @@ class Build
                         $count = count($record['marker']['value']['array']);
                         $first = $record['marker']['value']['array'][0];
                         $last = $record['marker']['value']['array'][$count - 1];
-                        breakpoint($first);
-                        breakpoint($last);
-                        breakpoint($record);
                         if(
-                            array_key_exists('is_multiline', $record) &&
-                            $record['is_multiline'] === true
+                            array_key_exists('value', $first) &&
+                            $first['value'] === '{{/*' &&
+                            array_key_exists('value', $last) &&
+                            $last['value'] === '{{/*'
                         ){
-                            throw new TemplateException(
-                                $record['tag'] . PHP_EOL .
-                                'Unknown marker "{{' . $record['marker']['name'] .'}}" on line: ' .
-                                $record['line']['start']  .
-                                ', column: ' .
-                                $record['column'][$record['line']['start']]['start'] .
-                                ' in source: '.
-                                $source,
-                            );
-
+                            breakpoint($first);
+                            breakpoint($last);
+                            breakpoint($record);
                         } else {
-                            throw new TemplateException(
-                                $record['tag'] . PHP_EOL .
-                                'Unknown marker "{{' . $record['marker']['name'] .'}}" on line: ' .
-                                $record['line'] .
-                                ', column: ' .
-                                $record['column']['start'] .
-                                ' in source: '.
-                                $source,
-                            );
+                            if(
+                                array_key_exists('is_multiline', $record) &&
+                                $record['is_multiline'] === true
+                            ){
+                                throw new TemplateException(
+                                    $record['tag'] . PHP_EOL .
+                                    'Unknown marker "{{' . $record['marker']['name'] .'}}" on line: ' .
+                                    $record['line']['start']  .
+                                    ', column: ' .
+                                    $record['column'][$record['line']['start']]['start'] .
+                                    ' in source: '.
+                                    $source,
+                                );
+
+                            } else {
+                                throw new TemplateException(
+                                    $record['tag'] . PHP_EOL .
+                                    'Unknown marker "{{' . $record['marker']['name'] .'}}" on line: ' .
+                                    $record['line'] .
+                                    ', column: ' .
+                                    $record['column']['start'] .
+                                    ' in source: '.
+                                    $source,
+                                );
+                            }
                         }
                     }
-
-
                 }
             }
         }

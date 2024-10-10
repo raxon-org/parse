@@ -173,6 +173,8 @@ class Symbol
                     $symbol = $previous . $char . $next . $next_next;
                     switch ($symbol){
                         case '!!!!':
+                        case '{{/*':
+                        case '*/}}':
                             $input['array'][$previous_nr] = [
                                 'type' => 'symbol',
                                 'value' => $symbol,

@@ -709,13 +709,13 @@ class Build
                         $first_first = $record['marker']['value']['array'][1];
                         $last_last = $record['marker']['value']['array'][$count - 2];
                         if(
-                            array_key_exists('value', $first) &&
-                            $first['value'] === '/*' &&
-                            array_key_exists('value', $last) &&
-                            $last['value'] === '*/'
+                            array_key_exists('value', $first_first) &&
+                            $first_first['value'] === '/*' &&
+                            array_key_exists('value', $last_last) &&
+                            $last_last['value'] === '*/'
                         ){
-                            breakpoint($first);
-                            breakpoint($last);
+                            breakpoint($first_first);
+                            breakpoint($last_last);
                             breakpoint($record);
                         } else {
                             if(

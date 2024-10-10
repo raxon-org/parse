@@ -910,7 +910,9 @@ class Token
                 $char['value'] === '}}'
             ){
                 $curly_depth--;
-                $is_parse = false;
+                if($curly_depth === 0){
+                    $is_parse = false;
+                }
             }
             elseif(
                 (

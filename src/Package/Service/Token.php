@@ -779,6 +779,26 @@ class Token
         }
     }
 
+    public static function remove_comment(App $object, $flags, $options, $input=[]): array
+    {
+        breakpoint($input);
+        $is_single_comment = false;
+        foreach($input['array'] as $nr => $char){
+            if(
+                is_array($char) &&
+                array_key_exists('value', $char) &&
+                $char['value'] === '//'
+            ){
+                $input['array'][$nr] = null;
+                $is_single_comment = true;
+            }
+            if($is_single_comment){
+                $input['array'][$nr] = null;
+            }
+        }
+        return $input;
+    }
+
     public static function cleanup(App $object, $flags, $options, $input=[]): array
     {
         $is_single_quote = false;
@@ -1029,8 +1049,8 @@ class Token
         } else {
 //            d($input);
             $input = Symbol::define($object, $flags, $options, $input);
-//            $input = Token::remove_comment($object, $flags, $options, $input);
-//            breakpoint($input);
+            $input = Token::remove_comment($object, $flags, $options, $input);
+            breakpoint($input);
             $input = Cast::define($object, $flags, $options, $input);
             $input = Method::define($object, $flags, $options, $input);
             $input = Variable::define($object, $flags, $options, $input);

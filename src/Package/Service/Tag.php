@@ -38,9 +38,10 @@ class Tag
                 $char_list[] = $split[$i + $j] ?? null;
             }
             foreach($char_list as $nr => $char){
-                if(array_key_exists($nr - 1, $char_list)){
-                    $previous = $char_list[$nr - 1];
-                }
+                $previous = $char_list[$nr - 1] ?? null;
+                $next = $char_list[$nr + 1] ?? null;
+                $next_next = $char_list[$nr + 2] ?? null;
+                $next_next_next = $char_list[$nr + 3] ?? null;
                 if($char === null){
                     break;
                 }
@@ -116,6 +117,16 @@ class Tag
                 ){
                     $curly_count--;
                 }
+                elseif(
+                    $char === '/' &&
+                    $is_single_quoted === false &&
+                    $is_double_quoted === false &&
+                    $is_double_quoted_backslash === false &&
+                    $next === '*'
+                ){
+                    ddd('yes');
+                }
+
                 /*
                 elseif(
                     $char === '{' &&

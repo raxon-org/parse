@@ -21,5 +21,5 @@ test
 */}}
 test3 //dit is een comment
 {{ //dit is ook een comment
-}}
+$test3|default:'test3'}}
 {{ //dit is ook een comment2}}

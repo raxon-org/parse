@@ -788,17 +788,19 @@ class Token
                 array_key_exists('value', $char) &&
                 $char['value'] === '//'
             ){
-                $input['array'][$nr] = null;
+//                $input['array'][$nr] = null;
+                unset($input['array'][$nr]);
                 $is_single_comment = true;
             }
             if($is_single_comment){
-                $input['array'][$nr] = null;
+//                $input['array'][$nr] = null;
+                unset($input['array'][$nr]);
                 if($char === "\n"){
                     $is_single_comment = false;
                 }
             }
         }
-        return $input;
+        return array_values($input);
     }
 
     public static function cleanup(App $object, $flags, $options, $input=[]): array

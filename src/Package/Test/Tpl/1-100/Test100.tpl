@@ -8,7 +8,7 @@
 ]}}
 {{$array = $array1 + $array2}}
 test1 {{breakpoint($array)}}
-test2
+test2/*test3*/
 /*
 comment
 

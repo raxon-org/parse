@@ -1049,6 +1049,7 @@ class Build
         $is_echo = $object->config('package.raxon/parse.build.state.echo');
         $ltrim = $object->config('package.raxon/parse.build.state.ltrim');
         $skip_space = $ltrim * 4;
+        $skip = 0;
         if($is_echo !== true){
             return false;
         }
@@ -1064,6 +1065,10 @@ class Build
             $is_comment = false;
             $is_doc_comment = false;
             foreach($data as $nr => $char){
+                if($skip > 0){
+                    $skip--;
+                    continue;
+                }
                 $previous = $data[$nr - 1] ?? null;
                 $next = $data[$nr + 1] ?? null;
                 $next_next = $data[$nr + 2] ?? null;
@@ -1172,8 +1177,12 @@ class Build
                     )
                 ){
                     $is_comment = false;
+                    $skip++;
                 }
-                if($is_comment === false){
+                if(
+                    $is_comment === false &&
+                    $skip === 0
+                ){
                     if($variable_assign_next_tag === false){
                         $line .= $char;
                     }

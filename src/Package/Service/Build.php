@@ -1174,7 +1174,8 @@ class Build
                             "\n",
                         ],
                         true
-                    )
+                    ) &&
+                    $is_comment === true
                 ){
                     $is_comment = false;
                     $skip++;

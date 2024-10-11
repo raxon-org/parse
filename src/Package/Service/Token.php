@@ -782,6 +782,7 @@ class Token
     public static function remove_comment(App $object, $flags, $options, $input=[]): array
     {
         $is_single_comment = false;
+        $is_array_values = false;
         foreach($input['array'] as $nr => $char){
             if(
                 is_array($char) &&
@@ -791,6 +792,7 @@ class Token
 //                $input['array'][$nr] = null;
                 unset($input['array'][$nr]);
                 $is_single_comment = true;
+                $is_array_values = true;
             }
             if($is_single_comment){
 //                $input['array'][$nr] = null;
@@ -800,7 +802,10 @@ class Token
                 }
             }
         }
-        return array_values($input);
+        if($is_array_values){
+            return array_values($input);
+        }
+        return $input;
     }
 
     public static function cleanup(App $object, $flags, $options, $input=[]): array

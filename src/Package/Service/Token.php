@@ -781,7 +781,6 @@ class Token
 
     public static function remove_comment(App $object, $flags, $options, $input=[]): array
     {
-        breakpoint($input);
         $is_single_comment = false;
         foreach($input['array'] as $nr => $char){
             if(
@@ -794,6 +793,9 @@ class Token
             }
             if($is_single_comment){
                 $input['array'][$nr] = null;
+                if($char === "\n"){
+                    $is_single_comment = false;
+                }
             }
         }
         return $input;

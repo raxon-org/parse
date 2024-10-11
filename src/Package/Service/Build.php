@@ -1146,17 +1146,7 @@ class Build
                     $is_single_quote === false &&
                     $is_double_quote === false &&
                     $char === '/' &&
-                    $next === '*' &&
-                    in_array(
-                        $previous,
-                        [
-                            ' ',
-                            "\t",
-                            "\r",
-                            "\n",
-                        ],
-                        true
-                    )
+                    $next === '*'
                 ){
                     $is_comment = true;
                 }
@@ -1165,16 +1155,6 @@ class Build
                     $is_double_quote === false &&
                     $char === '*' &&
                     $next === '/' &&
-                    in_array(
-                        $next_next,
-                        [
-                            ' ',
-                            "\t",
-                            "\r",
-                            "\n",
-                        ],
-                        true
-                    ) &&
                     $is_comment === true
                 ){
                     $is_comment = false;

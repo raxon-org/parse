@@ -906,6 +906,7 @@ class Token
                 $char['value'] === '//'
             ){
                 $is_single_comment = true;
+                ddd($input);
             }
             elseif(
                 is_array($char) &&
@@ -1014,9 +1015,10 @@ class Token
         if($cache->has($hash)){
             $input = $cache->get($hash);
         } else {
-            d($input);
+//            d($input);
             $input = Symbol::define($object, $flags, $options, $input);
-            breakpoint($input);
+            $input = Token::remove_comment($object, $flags, $options, $input);
+//            breakpoint($input);
             $input = Cast::define($object, $flags, $options, $input);
             $input = Method::define($object, $flags, $options, $input);
             $input = Variable::define($object, $flags, $options, $input);

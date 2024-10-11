@@ -911,7 +911,8 @@ class Token
             elseif(
                 is_array($char) &&
                 array_key_exists('value', $char) &&
-                $char['value'] === '{{'
+                $char['value'] === '{{' &&
+                $is_single_comment === false
             ){
                 $is_parse = true;
                 $curly_depth++;
@@ -920,7 +921,8 @@ class Token
                 $is_parse === true &&
                 is_array($char) &&
                 array_key_exists('value', $char) &&
-                $char['value'] === '}}'
+                $char['value'] === '}}' &&
+                $is_single_comment === false
             ){
                 $curly_depth--;
                 if($curly_depth === 0){
@@ -957,6 +959,14 @@ class Token
                     )
                 )
             ){
+                if(
+                    $is_single_comment &&
+                    is_array($char) &&
+                    array_key_exists('value', $char) &&
+                    $char['value'] === "\n"
+                ){
+                    $is_single_comment = false;
+                }
                 unset($input['array'][$nr]);
             }
             elseif($char === null){
@@ -992,6 +1002,9 @@ class Token
                     true
                 )
             ){
+                unset($input['array'][$nr]);
+            }
+            if($is_single_comment){
                 unset($input['array'][$nr]);
             }
         }

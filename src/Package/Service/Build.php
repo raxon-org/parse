@@ -1061,8 +1061,12 @@ class Build
             $data = mb_str_split($record['text']);
             $line = '';
             $result = [];
+            $is_comment = false;
+            $is_doc_comment = false;
             foreach($data as $nr => $char){
                 $previous = $data[$nr - 1] ?? null;
+                $next = $data[$nr + 1] ?? null;
+                $next_next = $data[$nr + 2] ?? null;
                 if(
                     $is_single_quote === false &&
                     $is_double_quote === false &&
@@ -1133,28 +1137,66 @@ class Build
                     }
                     $skip_space = 0;
                 }
-                if($variable_assign_next_tag === false){
-                    $line .= $char;
+                if(
+                    $is_single_quote === false &&
+                    $is_double_quote === false &&
+                    $char === '/' &&
+                    $next === '*' &&
+                    in_array(
+                        $previous,
+                        [
+                            ' ',
+                            "\t",
+                            "\r",
+                            "\n",
+                        ],
+                        true
+                    )
+                ){
+                    $is_comment = true;
                 }
                 elseif(
-                    $variable_assign_next_tag === true &&
-                    $char === "\n"
+                    $is_single_quote === false &&
+                    $is_double_quote === false &&
+                    $char === '*' &&
+                    $next === '/' &&
+                    in_array(
+                        $next_next,
+                        [
+                            ' ',
+                            "\t",
+                            "\r",
+                            "\n",
+                        ],
+                        true
+                    )
                 ){
-                    $variable_assign_next_tag = false;
+                    $is_comment = false;
                 }
-                elseif($variable_assign_next_tag === true){
-                    $line .= $char;
-                    if(
-                        !in_array(
-                            $char,
-                            [
-                                ' ',
-                                "\t"
-                            ],
-                            true
-                        )
+                if($is_comment === false){
+                    if($variable_assign_next_tag === false){
+                        $line .= $char;
+                    }
+                    elseif(
+                        $variable_assign_next_tag === true &&
+                        $char === "\n"
                     ){
                         $variable_assign_next_tag = false;
+                    }
+                    elseif($variable_assign_next_tag === true){
+                        $line .= $char;
+                        if(
+                            !in_array(
+                                $char,
+                                [
+                                    ' ',
+                                    "\t"
+                                ],
+                                true
+                            )
+                        ){
+                            $variable_assign_next_tag = false;
+                        }
                     }
                 }
             }

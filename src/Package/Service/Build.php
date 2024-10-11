@@ -731,7 +731,7 @@ class Build
                                 );
 
                             } else {
-                                d($record);
+                                breakpoint($record);
                                 throw new TemplateException(
                                     $record['tag'] . PHP_EOL .
                                     'Unknown marker "{{' . $record['marker']['name'] .'}}" on line: ' .

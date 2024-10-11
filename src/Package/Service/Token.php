@@ -906,7 +906,6 @@ class Token
                 $char['value'] === '//'
             ){
                 $is_single_comment = true;
-                ddd($input);
             }
             elseif(
                 is_array($char) &&

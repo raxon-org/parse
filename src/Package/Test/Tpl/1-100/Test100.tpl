@@ -19,3 +19,5 @@ test
 {{$test = true}}
 {{$test}}
 */}}
+test3 //dit is een comment
+{{ //dit is ook een comment }}

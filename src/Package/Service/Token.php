@@ -1016,7 +1016,7 @@ class Token
         } else {
             d($input);
             $input = Symbol::define($object, $flags, $options, $input);
-            d($input);
+            breakpoint($input);
             $input = Cast::define($object, $flags, $options, $input);
             $input = Method::define($object, $flags, $options, $input);
             $input = Variable::define($object, $flags, $options, $input);

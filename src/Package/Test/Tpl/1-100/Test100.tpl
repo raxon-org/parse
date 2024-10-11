@@ -20,7 +20,6 @@ test
 {{$test}}
 */}}
 test3 //dit is een comment
-{{ //dit is ook een comment }}
-{{ //dit is ook een comment2
-
+{{ //dit is ook een comment
 }}
+{{ //dit is ook een comment2}}

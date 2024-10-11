@@ -782,6 +782,7 @@ class Token
     public static function cleanup(App $object, $flags, $options, $input=[]): array
     {
         $is_single_quote = false;
+        $is_single_comment = false;
         $is_double_quote = false;
         $is_double_quote_backslash = false;
         $is_parse = false;
@@ -895,6 +896,16 @@ class Token
                 $previous === '\\'
             ){
                 $is_double_quote_backslash = false;
+            }
+            elseif(
+                $is_single_quote === false &&
+                $is_double_quote === false &&
+                $is_double_quote_backslash === false &&
+                is_array($char) &&
+                array_key_exists('value', $char) &&
+                $char['value'] === '//'
+            ){
+                $is_single_comment = true;
             }
             elseif(
                 is_array($char) &&

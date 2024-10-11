@@ -787,6 +787,7 @@ class Token
         $is_parse = false;
         $whitespace_nr = false;
         $curly_depth = 0;
+        d($input['array']);
         foreach($input['array'] as $nr => $char){
             if(!is_numeric($nr)){
                 // ',' in modifier causes this

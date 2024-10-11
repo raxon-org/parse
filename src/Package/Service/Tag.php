@@ -117,16 +117,6 @@ class Tag
                 ){
                     $curly_count--;
                 }
-                elseif(
-                    $char === '/' &&
-                    $is_single_quoted === false &&
-                    $is_double_quoted === false &&
-                    $is_double_quoted_backslash === false &&
-                    $next === '*'
-                ){
-                    ddd('yes');
-                }
-
                 /*
                 elseif(
                     $char === '{' &&

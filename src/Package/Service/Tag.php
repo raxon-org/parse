@@ -51,6 +51,7 @@ class Tag
                     $column[$line] = 1;
                     if($is_comment === true){
                         $is_comment = false;
+                        $column[$line] = 3;
                         continue;
                     }
                 }

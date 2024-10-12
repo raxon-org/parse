@@ -115,6 +115,10 @@ class Build
         $object->config('package.raxon/parse.build.state.break.level', $break_level);
         foreach($tags as $row_nr => $list){
             foreach($list as $nr => &$record){
+                if(!array_key_exists('line', $record)){
+                    trace();
+                    ddd($record);
+                }
                 $tag = [
                     'source' => $options->source ?? null,
                     'tag' => $record['tag'] ?? $record['execute'] ?? $record['value'] ?? null,

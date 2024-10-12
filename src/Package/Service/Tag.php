@@ -474,23 +474,14 @@ class Tag
         return $tag_list;
     }
 
-    public static function remove_comment(App $object, $flags, $options, $record): array
-    {
-        if(array_key_exists('tag', $record)){
-
-        }
-        return $record;
-    }
-
     public static function remove(App $object, $flags, $options, $tags=[]): array
     {
         if(!is_array($tags)){
             return $tags;
         }
-        breakpoint($tags);
         foreach($tags as $line => $tag){
             foreach($tag as $nr => $record){
-                $tags[$line][$nr] = Tag::remove_comment($object, $flags, $options, $record);
+                breakpoint($record);
                 if(
                     array_key_exists('is_header', $record) ||
                     array_key_exists('is_literal', $record) &&

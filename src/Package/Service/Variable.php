@@ -617,6 +617,8 @@ class Variable
                         $argument_array[$argument_nr] = [];
                         $argument[$argument_nr] = '';
                     }
+                    // if char == '}}' && outer_curly_depth > 0, ignore it
+                    d($char);
                     $argument[$argument_nr] .= $current;
                     $argument_array[$argument_nr][] = $char;
                 }

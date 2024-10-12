@@ -148,7 +148,6 @@ class Variable
         $argument = [];
         $argument_array = [];
         $nr = $count - 1;
-        breakpoint($input);
         foreach($input['array'] as $nr => $char) {
             if(!is_numeric($nr)){
                 // ',' in modifier causes this
@@ -210,7 +209,6 @@ class Variable
                             ddd($set_depth_argument);
                         }
                     }
-                    breakpoint($argument_array);
                     foreach($argument_array as $argument_nr => $array){
                         $argument_value = Cast::define(
                             $object,
@@ -356,7 +354,6 @@ class Variable
                 )
             ){
                 if($is_argument !== false){
-                    breakpoint($argument_array);
                     foreach($argument_array as $argument_nr => $array){
                         $argument_value = Cast::define(
                             $object,
@@ -403,15 +400,6 @@ class Variable
                         'name' => $modifier_name,
                         'argument' => []
                     ];
-                    /*
-                    if(array_key_exists('modifier', $input)){
-                        foreach($input['modifier'] as $index => $modifier){
-                            $input['array'][$is_variable]['modifier'][] = $modifier;
-                        }
-                        unset($input['modifier']);
-                    }
-                    */
-                    //check this
                     for($index = $is_variable + 1; $index <= $nr; $index++){
                         $input['array'][$index] = null;
                     }
@@ -458,7 +446,6 @@ class Variable
                     $is_modifier !== false
                 ){
                     if($is_argument !== false){
-                        breakpoint($argument_array);
                         foreach($argument_array as $argument_nr => $array){
                             if(array_key_exists('string', $array)){
                                 continue;
@@ -644,7 +631,6 @@ class Variable
                     );
                     $argument_array[$argument_nr] = $argument_value;
                 }
-                breakpoint($argument_array);
                 $input['array'][$is_variable]['modifier'][] = [
                     'string' => $modifier_string,
                     'name' => $modifier_name,

@@ -481,8 +481,16 @@ class Tag
         }
         foreach($tags as $line => $tag){
             foreach($tag as $nr => $record){
-                breakpoint($record);
                 if(
+                    array_key_exists('tag', $record) &&
+                    $record['tag'] === '{{'
+                ){
+                    unset($tags[$line][$nr]);
+                    if(empty($tags[$line])){
+                        unset($tags[$line]);
+                    }
+                }
+                elseif(
                     array_key_exists('is_header', $record) ||
                     array_key_exists('is_literal', $record) &&
                     !array_key_exists('is_literal_start', $record) &&

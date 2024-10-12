@@ -171,9 +171,6 @@ class Tag
                     $is_comment = false;
                     $is_comment_multiline = false;
                     $skip++;
-                    $text .= $nr . $char . $next;
-                    breakpoint($text);
-
                 }
                 /*
                 elseif(

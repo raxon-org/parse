@@ -187,9 +187,18 @@ class Variable
                             $argument_array[$argument_nr] = [];
                             $argument[$argument_nr] = '';
                         }
-                        $argument[$argument_nr] .= $current;
-                        $argument_array[$argument_nr][] = $char;
-                        $modifier_string .= $current;
+                        if(
+                            is_array($char) &&
+                            array_key_exists('value', $char) &&
+                            $char['value'] === '}}' &&
+                            $outer_curly_depth > 0
+                        ){
+                            $outer_curly_depth--;
+                        } else {
+                            $argument[$argument_nr] .= $current;
+                            $argument_array[$argument_nr][] = $char;
+                            $modifier_string .= $current;
+                        }
                     }
                     elseif($set_depth_argument < 0){
                         for($i = $nr - 1; $i >= 0; $i--){
@@ -609,8 +618,17 @@ class Variable
                             $argument_array[$argument_nr] = [];
                             $argument[$argument_nr] = '';
                         }
-                        $argument[$argument_nr] .= $current;
-                        $argument_array[$argument_nr][] = $char;
+                        if(
+                            is_array($char) &&
+                            array_key_exists('value', $char) &&
+                            $char['value'] === '}}' &&
+                            $outer_curly_depth > 0
+                        ){
+                            $outer_curly_depth--;
+                        } else {
+                            $argument[$argument_nr] .= $current;
+                            $argument_array[$argument_nr][] = $char;
+                        }
                     }
                 } else {
                     if(!array_key_exists($argument_nr, $argument_array)){

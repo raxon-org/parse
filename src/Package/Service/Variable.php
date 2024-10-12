@@ -187,18 +187,9 @@ class Variable
                             $argument_array[$argument_nr] = [];
                             $argument[$argument_nr] = '';
                         }
-                        if(
-                            is_array($char) &&
-                            array_key_exists('value', $char) &&
-                            $char['value'] === '}}' &&
-                            $outer_curly_depth > 0
-                        ){
-                            $outer_curly_depth--;
-                        } else {
-                            $argument[$argument_nr] .= $current;
-                            $argument_array[$argument_nr][] = $char;
-                            $modifier_string .= $current;
-                        }
+                        $argument[$argument_nr] .= $current;
+                        $argument_array[$argument_nr][] = $char;
+                        $modifier_string .= $current;
                     }
                     elseif($set_depth_argument < 0){
                         for($i = $nr - 1; $i >= 0; $i--){
@@ -280,7 +271,6 @@ class Variable
             }
             elseif($current === '{{'){
                 $outer_curly_depth++;
-                d('yes');
             }
             elseif($current === '}}'){
                 $outer_curly_depth--;
@@ -618,35 +608,16 @@ class Variable
                             $argument_array[$argument_nr] = [];
                             $argument[$argument_nr] = '';
                         }
-                        if(
-                            is_array($char) &&
-                            array_key_exists('value', $char) &&
-                            $char['value'] === '}}' &&
-                            $outer_curly_depth > 0
-                        ){
-                            $outer_curly_depth--;
-                        } else {
-                            $argument[$argument_nr] .= $current;
-                            $argument_array[$argument_nr][] = $char;
-                        }
+                        $argument[$argument_nr] .= $current;
+                        $argument_array[$argument_nr][] = $char;
                     }
                 } else {
                     if(!array_key_exists($argument_nr, $argument_array)){
                         $argument_array[$argument_nr] = [];
                         $argument[$argument_nr] = '';
                     }
-                    if(
-                        is_array($char) &&
-                        array_key_exists('value', $char) &&
-                        $char['value'] === '}}' &&
-                        $outer_curly_depth > 0
-                    ){
-                        $outer_curly_depth--;
-                    } else {
-                        $argument[$argument_nr] .= $current;
-                        $argument_array[$argument_nr][] = $char;
-                    }
-
+                    $argument[$argument_nr] .= $current;
+                    $argument_array[$argument_nr][] = $char;
                 }
             }
         }

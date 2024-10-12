@@ -132,6 +132,7 @@ class Variable
         $set_depth_argument = 0;
         $set_skip = 0;
         $outer_curly_depth = 0;
+        $curly_depth = 0;
         $outer_set_depth = 0;
         $modifier_string = '';
         $modifier_name = '';
@@ -270,6 +271,7 @@ class Variable
             }
             elseif($current === '{{'){
                 $outer_curly_depth++;
+                d('yes');
             }
             elseif($current === '}}'){
                 $outer_curly_depth--;

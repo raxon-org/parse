@@ -27,6 +27,7 @@ class Tag
         $is_single_quoted = false;
         $is_double_quoted = false;
         $is_double_quoted_backslash = false;
+        $is_comment = false;
         $is_tag_in_double_quoted = false;
         $next = false;
         $chunk = 64;
@@ -46,6 +47,9 @@ class Tag
                     break;
                 }
                 elseif($char === "\n"){
+                    if($is_comment === true){
+                        $is_comment = false;
+                    }
                     $line++;
                     $column[$line] = 1;
                 }
@@ -116,6 +120,15 @@ class Tag
                     $is_double_quoted_backslash === false
                 ){
                     $curly_count--;
+                }
+                elseif(
+                    $char === '/' &&
+                    $next === '/' &&
+                    $is_single_quoted === false &&
+                    $is_double_quoted === false &&
+                    $is_double_quoted_backslash === false
+                ){
+                    $is_comment = true;
                 }
                 /*
                 elseif(
@@ -222,7 +235,9 @@ class Tag
                         if(mb_strlen($text) > 0){
                             $text = mb_substr($text, 0, -1);
                         }
-                        $tag .= $char;
+                        if($is_comment === false){
+                            $tag .= $char;
+                        }
                         $column[$line]++;
                         if($text !== ''){
                             $explode = explode("\n", $text);
@@ -321,7 +336,7 @@ class Tag
                                 $record['is_header'] = true;
                                 $record['content'] = $content;
                             }
-                            elseif(mb_strtoupper(mb_substr($content, 0, 3)) === 'DIFFERENCE'){
+                            elseif(mb_strtoupper(mb_substr($content, 0, 3)) === 'RAX'){
                                 $record['is_header'] = true;
                                 $record['content'] = $content;
                             }
@@ -352,14 +367,17 @@ class Tag
                         $text .= $char;
                     }
                 }
-                elseif($tag){
+                elseif(
+                    $tag &&
+                    $is_comment === false
+                ){
                     $tag .= $char;
                 }
                 if($char !== "\n") {
                     $column[$line]++;
                 }
             }
-            $previous = $char_list[$chunk - 1] ?? null;
+//            $previous = $char_list[$chunk - 1] ?? null;
         }
         if($text !== ''){
             $explode = explode("\n", $text);
@@ -413,6 +431,14 @@ class Tag
         return $tag_list;
     }
 
+    public static function remove_comment(App $object, $flags, $options, $record): array
+    {
+        if(array_key_exists('tag', $record)){
+
+        }
+        return $record;
+    }
+
     public static function remove(App $object, $flags, $options, $tags=[]): array
     {
         if(!is_array($tags)){
@@ -421,6 +447,7 @@ class Tag
         breakpoint($tags);
         foreach($tags as $line => $tag){
             foreach($tag as $nr => $record){
+                $tags[$line][$nr] = Tag::remove_comment($object, $flags, $options, $record);
                 if(
                     array_key_exists('is_header', $record) ||
                     array_key_exists('is_literal', $record) &&

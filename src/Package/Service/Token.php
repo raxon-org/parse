@@ -803,6 +803,7 @@ class Token
             }
         }
         if($is_array_values){
+            breakpoint($input);
             $input['array'] = array_values($input['array']);
         }
         return $input;

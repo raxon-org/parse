@@ -173,7 +173,7 @@ class Tag
                     $skip++;
                     $text .= $nr . $char . $next;
                     breakpoint($text);
-                    continue;
+
                 }
                 /*
                 elseif(

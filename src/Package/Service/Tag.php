@@ -28,6 +28,7 @@ class Tag
         $is_double_quoted = false;
         $is_double_quoted_backslash = false;
         $is_comment = false;
+        $is_comment_multiline = false;
         $is_tag_in_double_quoted = false;
         $next = false;
         $chunk = 64;
@@ -49,7 +50,10 @@ class Tag
                 elseif($char === "\n"){
                     $line++;
                     $column[$line] = 1;
-                    if($is_comment === true){
+                    if(
+                        $is_comment === true &&
+                        $is_comment_multiline === false
+                    ){
                         $is_comment = false;
                     }
                 }
@@ -130,6 +134,7 @@ class Tag
                     in_array(
                         $previous,
                         [
+                            null,
                             ' ',
                             "\n",
                             "\t",
@@ -139,6 +144,27 @@ class Tag
                     )
                 ){
                     $is_comment = true;
+                }
+                elseif(
+                    $char === '/' &&
+                    $next === '*' &&
+                    $is_single_quoted === false &&
+                    $is_double_quoted === false &&
+                    $is_double_quoted_backslash === false
+                ){
+                    $is_comment = true;
+                    $is_comment_multiline = true;
+                }
+                elseif(
+                    $char === '*' &&
+                    $next === '/' &&
+                    $is_single_quoted === false &&
+                    $is_double_quoted === false &&
+                    $is_double_quoted_backslash === false &&
+                    $is_comment_multiline === true
+                ){
+                    $is_comment = false;
+                    $is_comment_multiline = false;
                 }
                 /*
                 elseif(

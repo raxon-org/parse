@@ -115,6 +115,15 @@ class Build
         $object->config('package.raxon/parse.build.state.break.level', $break_level);
         foreach($tags as $row_nr => $list){
             foreach($list as $nr => &$record){
+                if(
+                    array_key_exists('marker', $record) &&
+                    array_key_exists('value', $record['marker']) &&
+                    array_key_exists('array', $record['marker']['value']) &&
+                    empty($record['marker']['value']['array'])
+                ){
+                    unset($tags[$row_nr][$nr]);
+                    continue;
+                }
                 if(!array_key_exists('line', $record)){
                     trace();
                     ddd($record);

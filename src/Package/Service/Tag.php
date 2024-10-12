@@ -422,6 +422,7 @@ class Tag
 //            $previous = $char_list[$chunk - 1] ?? null;
         }
         if($text !== ''){
+            breakpoint($text);
             $explode = explode("\n", $text);
             $count = count($explode);
             $explode_tag = explode("\n", $tag);

@@ -124,15 +124,11 @@ class Build
                     unset($tags[$row_nr][$nr]);
                     continue;
                 }
-                if(!array_key_exists('line', $record)){
-                    trace();
-                    ddd($record);
-                }
                 $tag = [
                     'source' => $options->source ?? null,
                     'tag' => $record['tag'] ?? $record['execute'] ?? $record['value'] ?? null,
-                    'line' => $record['line'],
-                    'column' => $record['column'],
+                    'line' => $record['line'] ?? null,
+                    'column' => $record['column'] ?? null,
                 ];
                 if($tag['tag'] !== null){
                     $data[] = '$object->config(\'package.raxon/parse.build.state.tag\', Core::object(\'' . Core::object($tag, Core::TRANSFER) .'\', Core::FINALIZE));';

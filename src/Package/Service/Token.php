@@ -1063,7 +1063,7 @@ class Token
 //            d($input);
             $input = Symbol::define($object, $flags, $options, $input);
             $input = Token::remove_comment($object, $flags, $options, $input);
-            breakpoint($input);
+//            breakpoint($input);
             $input = Cast::define($object, $flags, $options, $input);
             $input = Method::define($object, $flags, $options, $input);
             $input = Variable::define($object, $flags, $options, $input);

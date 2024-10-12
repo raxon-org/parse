@@ -126,10 +126,19 @@ class Tag
                     $next === '/' &&
                     $is_single_quoted === false &&
                     $is_double_quoted === false &&
-                    $is_double_quoted_backslash === false
+                    $is_double_quoted_backslash === false &&
+                    in_array(
+                        $previous,
+                        [
+                            ' ',
+                            "\n",
+                            "\t",
+                            '{'
+                        ],
+                        true
+                    )
                 ){
                     $is_comment = true;
-                    breakpoint($previous);
                 }
                 /*
                 elseif(

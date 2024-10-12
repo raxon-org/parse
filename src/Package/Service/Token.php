@@ -130,7 +130,9 @@ class Token
                     array_key_exists('tag', $record)
                 ){
                     $content = trim(mb_substr($record['tag'], 2, -2));
-                    breakpoint($content);
+                    if(empty($content)){
+                        unset($tags[$line][$nr]);
+                    }
                     $hash = hash('sha256', 'tag.' . $content);
                     if(mb_substr($content, 0, 1) === '$'){
                         if($cache->has($hash)){

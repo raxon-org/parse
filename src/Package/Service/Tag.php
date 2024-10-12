@@ -34,12 +34,17 @@ class Tag
         $chunk = 64;
         $previous = false;
         $text = '';
+        $skip = 0;
         for($i = 0; $i < $length; $i+=$chunk){
             $char_list = [];
             for($j = 0; $j < $chunk; $j++){
                 $char_list[] = $split[$i + $j] ?? null;
             }
             foreach($char_list as $nr => $char){
+                if($skip > 0){
+                    $skip--;
+                    continue;
+                }
                 $previous = $char_list[$nr - 1] ?? null;
                 $next = $char_list[$nr + 1] ?? null;
                 $next_next = $char_list[$nr + 2] ?? null;
@@ -165,6 +170,8 @@ class Tag
                 ){
                     $is_comment = false;
                     $is_comment_multiline = false;
+                    $skip++;
+                    continue;
                 }
                 /*
                 elseif(

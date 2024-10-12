@@ -129,7 +129,7 @@ class Tag
                     $is_double_quoted_backslash === false
                 ){
                     $is_comment = true;
-                    d($previous);
+                    breakpoint($previous);
                 }
                 /*
                 elseif(

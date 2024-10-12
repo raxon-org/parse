@@ -618,6 +618,7 @@ class Variable
                         $argument[$argument_nr] = '';
                     }
                     if(
+                        is_array($char) &&
                         array_key_exists('value', $char) &&
                         $char['value'] === '}}' &&
                         $outer_curly_depth > 0

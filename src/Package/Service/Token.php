@@ -818,7 +818,6 @@ class Token
         $is_parse = false;
         $whitespace_nr = false;
         $curly_depth = 0;
-        d($input['array']);
         foreach($input['array'] as $nr => $char){
             if(!is_numeric($nr)){
                 // ',' in modifier causes this
@@ -927,6 +926,7 @@ class Token
             ){
                 $is_double_quote_backslash = false;
             }
+            /*
             elseif(
                 $is_single_quote === false &&
                 $is_double_quote === false &&
@@ -937,6 +937,7 @@ class Token
             ){
                 $is_single_comment = true;
             }
+            */
             elseif(
                 is_array($char) &&
                 array_key_exists('value', $char) &&
@@ -1033,9 +1034,11 @@ class Token
             ){
                 unset($input['array'][$nr]);
             }
+            /*
             if($is_single_comment){
                 unset($input['array'][$nr]);
             }
+            */
         }
         //re-index from 0
         $input['array'] = array_values($input['array']);

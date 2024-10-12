@@ -170,7 +170,7 @@ class Tag
                 ){
                     $is_comment = false;
                     $is_comment_multiline = false;
-                    $skip++;
+//                    $skip++;
                 }
                 /*
                 elseif(

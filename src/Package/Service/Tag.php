@@ -158,8 +158,8 @@ class Tag
                     $is_double_quoted_backslash === false
                 ){
                     $is_comment = true;
-                    $is_comment_multiline = true;}
-
+                    $is_comment_multiline = true;
+                }
                 elseif(
                     $char === '*' &&
                     $next === '/' &&
@@ -171,7 +171,7 @@ class Tag
                     $is_comment = false;
                     $is_comment_multiline = false;
                     $skip++;
-                    $text .= $char . $next;
+                    $text .= $nr . $char . $next;
                     breakpoint($text);
                     continue;
                 }

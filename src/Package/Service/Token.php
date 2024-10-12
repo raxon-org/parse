@@ -789,23 +789,25 @@ class Token
                 array_key_exists('value', $char) &&
                 $char['value'] === '//'
             ){
-//                $input['array'][$nr] = null;
-                unset($input['array'][$nr]);
+                $input['array'][$nr] = null;
+//                unset($input['array'][$nr]);
                 $is_single_comment = true;
-                $is_array_values = true;
+//                $is_array_values = true;
             }
             if($is_single_comment){
-//                $input['array'][$nr] = null;
-                unset($input['array'][$nr]);
+                $input['array'][$nr] = null;
+//                unset($input['array'][$nr]);
                 if($char === "\n"){
                     $is_single_comment = false;
                 }
             }
         }
+        /*
         if($is_array_values){
             breakpoint($input);
             $input['array'] = array_values($input['array']);
         }
+        */
         return $input;
     }
 

@@ -418,6 +418,7 @@ class Tag
         if(!is_array($tags)){
             return $tags;
         }
+        breakpoint($tags);
         foreach($tags as $line => $tag){
             foreach($tag as $nr => $record){
                 if(

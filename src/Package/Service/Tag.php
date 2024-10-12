@@ -47,11 +47,12 @@ class Tag
                     break;
                 }
                 elseif($char === "\n"){
-                    if($is_comment === true){
-                        $is_comment = false;
-                    }
                     $line++;
                     $column[$line] = 1;
+                    if($is_comment === true){
+                        $is_comment = false;
+                        continue;
+                    }
                 }
                 if(
                     $char === '\'' &&

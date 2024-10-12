@@ -1,1 +1,1 @@
-{{$test3|default:'test3'}}
+{{/* dit is comment */$test3|default:'test3'}}

@@ -626,8 +626,6 @@ class Variable
             $is_modifier !== false
         ){
             if($is_argument !== false){
-                d($outer_curly_depth);
-                breakpoint($argument_array);
                 foreach($argument_array as $argument_nr => $array){
                     $argument_value = Cast::define(
                         $object,
@@ -646,6 +644,7 @@ class Variable
                     );
                     $argument_array[$argument_nr] = $argument_value;
                 }
+                breakpoint($argument_array);
                 $input['array'][$is_variable]['modifier'][] = [
                     'string' => $modifier_string,
                     'name' => $modifier_name,

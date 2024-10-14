@@ -1125,6 +1125,7 @@ class Build
                             true
                         )
                     ){
+                        breakpoint($line);
                         $result[] = 'echo \'' . $line . '\';' . PHP_EOL;
                     }
                     $line = '';
@@ -1217,6 +1218,7 @@ class Build
                         true
                     )
                 ){
+                    breakpoint($line);
                     $result[] = 'echo \'' . $line . '\';' . PHP_EOL;
                 }
             }

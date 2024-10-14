@@ -1170,7 +1170,17 @@ class Build
                     $is_single_quote === false &&
                     $is_double_quote === false &&
                     $char === '/' &&
-                    $next === '/'
+                    $next === '/' &&
+                    in_array(
+                        $previous,
+                        [
+                            ' ',
+                            "\t",
+                            "\n",
+                            '}',
+                        ],
+                        true
+                    )
                 ){
                     $is_comment = true;
                 }

@@ -1110,6 +1110,12 @@ class Build
                     $char === "\n"
                 ){
                     if(
+                        $is_comment === true &&
+                        $is_comment_multiline === false
+                    ){
+                        $is_comment = false;
+                    }
+                    elseif(
                         !in_array(
                             $line,
                             [
@@ -1123,12 +1129,6 @@ class Build
                     }
                     $line = '';
                     $skip_space = $ltrim * 4;
-                    if(
-                        $is_comment === true &&
-                        $is_comment_multiline === false
-                    ){
-                        $is_comment = false;
-                    }
                 }
                 elseif(
                     $is_single_quote === false &&

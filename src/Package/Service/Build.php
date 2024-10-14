@@ -1116,6 +1116,12 @@ class Build
                         $is_comment = false;
                     }
                     elseif(
+                        $is_comment === true &&
+                        $is_comment_multiline === true
+                    ){
+                        //nothing
+                    }
+                    elseif(
                         !in_array(
                             $line,
                             [

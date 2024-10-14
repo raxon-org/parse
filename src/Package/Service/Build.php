@@ -1131,9 +1131,6 @@ class Build
                             true
                         )
                     ){
-                        d($is_comment);
-                        d($is_comment_multiline);
-                        breakpoint($line);
                         $result[] = 'echo \'' . $line . '\';' . PHP_EOL;
                     }
                     $line = '';
@@ -1195,6 +1192,9 @@ class Build
                     $is_comment = false;
                     $is_comment_multiline = false;
                     $skip++;
+                    if($next_next === "\n"){
+                        $skip++;
+                    }
                 }
                 if(
                     $is_comment === false &&

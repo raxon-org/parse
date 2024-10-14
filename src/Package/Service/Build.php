@@ -1123,7 +1123,10 @@ class Build
                     }
                     $line = '';
                     $skip_space = $ltrim * 4;
-                    if($is_comment){
+                    if(
+                        $is_comment === true &&
+                        $is_comment_multiline === false
+                    ){
                         $is_comment = false;
                     }
                 }

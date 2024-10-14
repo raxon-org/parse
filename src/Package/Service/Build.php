@@ -1220,6 +1220,7 @@ class Build
                     $result[] = 'echo \'' . $line . '\';' . PHP_EOL;
                 }
             }
+            breakpoint($result);
             if(array_key_exists(1, $result)){
 //                return implode('echo "\n";' . PHP_EOL, $result);
                 return implode(PHP_EOL, $result);

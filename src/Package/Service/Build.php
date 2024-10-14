@@ -1170,7 +1170,8 @@ class Build
                     $is_single_quote === false &&
                     $is_double_quote === false &&
                     $char === '/' &&
-                    $next === '/' &&
+                    $next === '/'
+                    /*
                     in_array(
                         $previous,
                         [
@@ -1181,7 +1182,9 @@ class Build
                         ],
                         true
                     )
+                    */
                 ){
+                    breakpoint($previous);
                     $is_comment = true;
                 }
                 elseif(

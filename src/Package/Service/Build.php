@@ -1062,6 +1062,7 @@ class Build
             $line = '';
             $result = [];
             $is_comment = false;
+            $is_comment_multiline = false;
             $is_doc_comment = false;
             foreach($data as $nr => $char){
                 if($skip > 0){
@@ -1122,6 +1123,9 @@ class Build
                     }
                     $line = '';
                     $skip_space = $ltrim * 4;
+                    if($is_comment){
+                        $is_comment = false;
+                    }
                 }
                 elseif(
                     $is_single_quote === false &&
@@ -1148,15 +1152,25 @@ class Build
                     $next === '*'
                 ){
                     $is_comment = true;
+                    $is_comment_multiline = true;
+                }
+                elseif(
+                    $is_single_quote === false &&
+                    $is_double_quote === false &&
+                    $char === '/' &&
+                    $next === '/'
+                ){
+                    $is_comment = true;
                 }
                 elseif(
                     $is_single_quote === false &&
                     $is_double_quote === false &&
                     $char === '*' &&
                     $next === '/' &&
-                    $is_comment === true
+                    $is_comment_multiline = true
                 ){
                     $is_comment = false;
+                    $is_comment_multiline = false;
                     $skip++;
                 }
                 if(

@@ -1125,6 +1125,8 @@ class Build
                             true
                         )
                     ){
+                        d($is_comment);
+                        d($is_comment_multiline);
                         breakpoint($line);
                         $result[] = 'echo \'' . $line . '\';' . PHP_EOL;
                     }

@@ -3694,6 +3694,16 @@ class Build
                 $skip++;
             break;
                 */
+            case '=':
+                d($nr);
+                d($count);
+                breakpoint($input);
+                /*
+                $right = '=';
+                $right_array[] = $input['array'][$nr + 1];
+                $skip++;
+                */
+                break;
             default:
                 for($i = $nr + 1; $i < $count; $i++){
                     if(!array_key_exists($i, $input['array'])){

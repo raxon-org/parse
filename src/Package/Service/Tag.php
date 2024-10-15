@@ -171,9 +171,9 @@ class Tag
                 ){
                     $is_comment = false;
                     $is_comment_multiline = false;
+                    breakpoint($next_next);
                     if($curly_count >= 2){
                         $skip++;
-                        breakpoint($next_next);
                         if(
                             in_array(
                                 $next_next ,

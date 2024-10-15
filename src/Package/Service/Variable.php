@@ -75,14 +75,12 @@ class Variable
                                         true
                                     )
                                 ){
-                                    ddd($variable_nr);
-                                    /*
                                     $variable = [
                                         'is_assign' => true,
                                         'operator' => $char['value'],
-                                        'name' => mb_substr($variable_name, 1)
+                                        'name' => $input['array'][$variable_nr]['name']
                                     ];
-                                    */
+                                    $input['array'][$variable_nr]['variable'] = $variable;
                                 }
                             } else {
                                 $list = Token::value(
@@ -122,14 +120,12 @@ class Variable
                                 true
                             )
                         ){
-                            ddd($variable_nr);
-                            /*
                             $variable = [
                                 'is_assign' => true,
                                 'operator' => $char['value'],
-                                'name' => mb_substr($variable_name, 1)
+                                'name' => $input['array'][$variable_nr]['name']
                             ];
-                            */
+                            $input['array'][$variable_nr]['variable'] = $variable;
                         }
                     } else {
                         $list = Token::value(

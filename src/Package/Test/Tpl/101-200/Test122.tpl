@@ -6,7 +6,7 @@
 {{$continue_outer = true}}
 {{break()}} // Breaks inner loop
 {{/if}}
-{{echo("i: {$i}, j: {$j}\n")}}
+{{echo('i: ' + $i + ', j: '+ $j + "\n")}}
 {{/for}}
 
 {{if($continue_outer)}}

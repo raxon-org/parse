@@ -56,6 +56,7 @@ class Variable
                 ){
                     $after = '';
                     $after_array = [];
+                    $input['array'][$nr] = null;
                     for($i = $nr + 1; $i < $count; $i++){
                         if(
                             is_array($input['array'][$i]) &&
@@ -149,6 +150,8 @@ class Variable
                         $input['array'][$variable_nr]['variable'] = $variable;
                         $variable_nr = false;
                     }
+                } else {
+                    $input['array'][$nr] = null;
                 }
             }
         }

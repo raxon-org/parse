@@ -146,9 +146,12 @@ class Variable
                         $input['array'][$variable_nr]['variable'] = $variable;
                         $variable_nr = false;
                     }
-                } else {
+                }
+                /* not this
+                 else {
                     $input['array'][$nr] = null;
                 }
+                */
             }
         }
         breakpoint($input);

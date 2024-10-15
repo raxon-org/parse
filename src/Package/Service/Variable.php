@@ -28,7 +28,6 @@ class Variable
                 // ',' in modifier causes this
                 continue;
             }
-
             if(is_array($char)){
                 if(
                     array_key_exists('type', $char) &&

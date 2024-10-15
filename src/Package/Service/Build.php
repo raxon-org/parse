@@ -211,6 +211,7 @@ class Build
                         }
                     }
                 }
+                breakpoint($record);
                 $method = Build::method($object, $flags, $options, $record);
                 if($method){
                     if(

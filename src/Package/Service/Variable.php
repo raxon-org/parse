@@ -22,6 +22,7 @@ class Variable
             return $input;
         }
         $variable_nr = false;
+        $count = count($input['array']);
         foreach($input['array'] as $nr => $char) {
             if (!is_numeric($nr)) {
                 // ',' in modifier causes this
@@ -51,12 +52,27 @@ class Variable
                     ) &&
                     $variable_nr !== false
                 ){
+                    $after = '';
+                    $after_array = [];
+                    for($i = $nr + 1; $i < $count; $i++){
+                        if(
+                            is_array($input['array'][$i]) &&
+                            array_key_exists('value', $input['array'][$i]) &&
+                            $input['array'][$i]['value'] === ','
+                        ){
+                            d($after);
+                            breakpoint($after_array);
+                            break;
+                        }
+                        $current = Token::item($input, $i);
+                        $after .= $current;
+                        $after_array[] = $input[$i];
+                    }
                     d($variable_nr);
                     d($input['array'][$variable_nr]);
                     breakpoint($input['array'][$nr]);
                 }
             }
-            d($char);
         }
         breakpoint($input);
         return $input;

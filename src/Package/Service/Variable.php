@@ -34,8 +34,8 @@ class Variable
                     $char['type'] === 'variable'
                 ){
                     $variable_nr = $nr;
-                    d($variable_nr);
-                    d($char);
+//                    d($variable_nr);
+//                    d($char);
                 }
                 elseif(
                     array_key_exists('value', $char) &&
@@ -125,10 +125,6 @@ class Variable
                                     true
                                 )
                             ){
-                                d($nr);
-                                d($variable_nr);
-                                d($input['array']);
-                                breakpoint($input['array'][$variable_nr]);
                                 $variable = [
                                     'is_assign' => true,
                                     'operator' => $char['value'],

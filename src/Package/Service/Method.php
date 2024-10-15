@@ -121,8 +121,6 @@ class Method
                         }
                     }
                 }
-                d($is_method);
-                breakpoint($name);
                 if($name === ''){
                     $is_method = false;
                 }
@@ -250,6 +248,7 @@ class Method
                         $argument_array = [];
                         $argument = '';
                         $argument_nr = 0;
+                        $method_name = '';
                         for($i = $is_method - 1; $i >= 0; $i--){
                             if(
                                 !is_array($input['array'][$i]) &&
@@ -266,7 +265,8 @@ class Method
                                 ) &&
                                 $is_single_quote === false &&
                                 $is_double_quote === false &&
-                                $is_class_method === false
+                                $is_class_method === false &&
+                                $method_name !== ''
                             ){
                                 break;
                             }
@@ -316,6 +316,7 @@ class Method
                                     break;
                                 }
                             } else {
+                                $method_name .= $input['array'][$i];
                                 $input['array'][$i] = null;
                             }
                         }

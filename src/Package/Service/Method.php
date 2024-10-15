@@ -414,13 +414,14 @@ class Method
                                     'array' => $argument_array
                                 ]
                             );
-                            breakpoint($argument_value);
+                            //need variable assign here
                             $argument_value = Token::value(
                                 $object,
                                 $flags,
                                 $options,
                                 $argument_value,
                             );
+                            breakpoint($argument_value);
                             $argument_list[$argument_nr] = $argument_value;
                             $argument_array = [];
                             $argument = '';

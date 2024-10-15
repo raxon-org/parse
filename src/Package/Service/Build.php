@@ -3438,6 +3438,10 @@ class Build
                             $variable_value = Build::value($object, $flags, $options, $tag, $record['variable']['value'], $is_set);
                             $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' . $variable_value . ')';
                         break;
+                        case '+=':
+                            $variable_value = Build::value($object, $flags, $options, $tag, $record['variable']['value'], $is_set);
+                            $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' .  '$this->value_plus($data->get(\'' . $record['variable']['name'] . '\', ' .  $variable_value . ')))';
+                            break;
                         case '++':
                             $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' .  '$this->value_plus_plus($data->get(\'' . $record['variable']['name'] . '\')))';
                         break;

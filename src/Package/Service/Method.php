@@ -121,6 +121,8 @@ class Method
                         }
                     }
                 }
+                d($is_method);
+                breakpoint($name);
                 if($name === ''){
                     $is_method = false;
                 }

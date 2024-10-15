@@ -65,42 +65,44 @@ class Variable
                             array_key_exists('value', $input['array'][$i]) &&
                             $input['array'][$i]['value'] === ','
                         ){
-                            if($after === ''){
-                                if(
-                                    in_array(
-                                        $char['value'],
+                            if($variable_nr !== false){
+                                if($after === ''){
+                                    if(
+                                        in_array(
+                                            $char['value'],
+                                            [
+                                                '++',
+                                                '--',
+                                                '**'
+                                            ],
+                                            true
+                                        )
+                                    ){
+                                        $variable = [
+                                            'is_assign' => true,
+                                            'operator' => $char['value'],
+                                            'name' => $input['array'][$variable_nr]['name']
+                                        ];
+                                        $input['array'][$variable_nr]['variable'] = $variable;
+                                    }
+                                } else {
+                                    $list = Token::value(
+                                        $object,
+                                        $flags,
+                                        $options,
                                         [
-                                            '++',
-                                            '--',
-                                            '**'
-                                        ],
-                                        true
-                                    )
-                                ){
+                                            'string' => $after,
+                                            'array' => $after_array,
+                                        ]
+                                    );
                                     $variable = [
                                         'is_assign' => true,
                                         'operator' => $char['value'],
-                                        'name' => $input['array'][$variable_nr]['name']
+                                        'name' => $input['array'][$variable_nr]['name'],
+                                        'value' => $list,
                                     ];
                                     $input['array'][$variable_nr]['variable'] = $variable;
                                 }
-                            } else {
-                                $list = Token::value(
-                                    $object,
-                                    $flags,
-                                    $options,
-                                    [
-                                        'string' => $after,
-                                        'array' => $after_array,
-                                    ]
-                                );
-                                $variable = [
-                                    'is_assign' => true,
-                                    'operator' => $char['value'],
-                                    'name' => $input['array'][$variable_nr]['name'],
-                                    'value' => $list,
-                                ];
-                                $input['array'][$variable_nr]['variable'] = $variable;
                             }
                             $variable_nr = false;
                             break;
@@ -110,47 +112,49 @@ class Variable
                         $after_array[] = $input['array'][$i];
                         $input['array'][$i] = null;
                     }
-                    if($after === ''){
-                        if(
-                            in_array(
-                                $char['value'],
+                    if($variable_nr !== false){
+                        if($after === ''){
+                            if(
+                                in_array(
+                                    $char['value'],
+                                    [
+                                        '++',
+                                        '--',
+                                        '**'
+                                    ],
+                                    true
+                                )
+                            ){
+                                d($nr);
+                                d($variable_nr);
+                                d($input['array']);
+                                breakpoint($input['array'][$variable_nr]);
+                                $variable = [
+                                    'is_assign' => true,
+                                    'operator' => $char['value'],
+                                    'name' => $input['array'][$variable_nr]['name']
+                                ];
+                                $input['array'][$variable_nr]['variable'] = $variable;
+                            }
+                        } else {
+                            $list = Token::value(
+                                $object,
+                                $flags,
+                                $options,
                                 [
-                                    '++',
-                                    '--',
-                                    '**'
-                                ],
-                                true
-                            )
-                        ){
-                            d($nr);
-                            d($variable_nr);
-                            d($input['array']);
-                            breakpoint($input['array'][$variable_nr]);
+                                    'string' => $after,
+                                    'array' => $after_array,
+                                ]
+                            );
                             $variable = [
                                 'is_assign' => true,
                                 'operator' => $char['value'],
-                                'name' => $input['array'][$variable_nr]['name']
+                                'name' => $input['array'][$variable_nr]['name'],
+                                'value' => $list,
                             ];
                             $input['array'][$variable_nr]['variable'] = $variable;
+                            $variable_nr = false;
                         }
-                    } else {
-                        $list = Token::value(
-                            $object,
-                            $flags,
-                            $options,
-                            [
-                                'string' => $after,
-                                'array' => $after_array,
-                            ]
-                        );
-                        $variable = [
-                            'is_assign' => true,
-                            'operator' => $char['value'],
-                            'name' => $input['array'][$variable_nr]['name'],
-                            'value' => $list,
-                        ];
-                        $input['array'][$variable_nr]['variable'] = $variable;
-                        $variable_nr = false;
                     }
                 }
                 /* not this

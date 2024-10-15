@@ -92,33 +92,63 @@ class Variable
                                     [
                                         'string' => $after,
                                         'array' => $after_array,
-//                                            'modifier' => $modifier_list
                                     ]
                                 );
-                                d($list);
-                                breakpoint($input['array'][$variable_nr]);
-
-//                                    $cache->set($after_hash, $list);
-                                /*
                                 $variable = [
                                     'is_assign' => true,
-                                    'operator' => $operator,
-                                    'name' => mb_substr($variable_name, 1),
+                                    'operator' => $char['value'],
+                                    'name' => $input['array'][$variable_nr]['name'],
                                     'value' => $list,
                                 ];
-                                */
+                                $input['array'][$variable_nr]['variable'] = $variable;
                             }
-                            d($after);
-                            breakpoint($after_array);
+                            $variable_nr = false;
                             break;
                         }
                         $current = Token::item($input, $i);
                         $after .= $current;
                         $after_array[] = $input['array'][$i];
                     }
-                    d($variable_nr);
-                    d($input['array'][$variable_nr]);
-                    breakpoint($input['array'][$nr]);
+                    if($after === ''){
+                        if(
+                            in_array(
+                                $char['value'],
+                                [
+                                    '++',
+                                    '--',
+                                    '**'
+                                ],
+                                true
+                            )
+                        ){
+                            ddd($variable_nr);
+                            /*
+                            $variable = [
+                                'is_assign' => true,
+                                'operator' => $char['value'],
+                                'name' => mb_substr($variable_name, 1)
+                            ];
+                            */
+                        }
+                    } else {
+                        $list = Token::value(
+                            $object,
+                            $flags,
+                            $options,
+                            [
+                                'string' => $after,
+                                'array' => $after_array,
+                            ]
+                        );
+                        $variable = [
+                            'is_assign' => true,
+                            'operator' => $char['value'],
+                            'name' => $input['array'][$variable_nr]['name'],
+                            'value' => $list,
+                        ];
+                        $input['array'][$variable_nr]['variable'] = $variable;
+                        $variable_nr = false;
+                    }
                 }
             }
         }

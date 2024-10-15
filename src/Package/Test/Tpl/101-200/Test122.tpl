@@ -2,6 +2,7 @@
 {{$continue_outer = false}}
 
 {{for($j = 0; $j < 5; $j++)}}
+{{echo((int) $j)}}
 {{if($j == 3)}}
 {{$continue_outer = true}}
 {{break()}} // Breaks inner loop

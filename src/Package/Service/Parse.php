@@ -205,6 +205,9 @@ class Parse
             is_scalar($input) ||
             $input === null
         ){
+            /**
+             * always parse the document (can have comment)
+             */
             /*
             if(
                 (

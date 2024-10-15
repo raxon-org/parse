@@ -120,6 +120,7 @@ class Variable
                                 true
                             )
                         ){
+                            breakpoint($input['array'][$variable_nr]);
                             $variable = [
                                 'is_assign' => true,
                                 'operator' => $char['value'],

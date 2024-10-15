@@ -268,6 +268,7 @@ class Method
                                 $is_class_method === false &&
                                 $method_name !== ''
                             ){
+                                breakpoint($method_name);
                                 break;
                             }
                             elseif(

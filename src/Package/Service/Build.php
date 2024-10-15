@@ -3434,55 +3434,58 @@ class Build
             }
             elseif(
                 array_key_exists('type', $record) &&
-                $record['type'] === 'variable' &&
-                $next !== '='
+                $record['type'] === 'variable'
             ){
-                $modifier_value = '';
-                if(array_key_exists('modifier', $record)){
-                    $previous_modifier = '$data->get(\'' . $record['name'] . '\')';
-                    foreach($record['modifier'] as $modifier_nr => $modifier){
-                        $plugin = Build::plugin($object, $flags, $options, $tag, str_replace('.', '_', $modifier['name']));
-                        if($is_single_line){
-                            $modifier_value = '$this->' . $plugin . '( ' ;
-                            $modifier_value .= $previous_modifier . ', ';
-                        } else {
-                            $modifier_value = '$this->' . $plugin . '(';
-                            $modifier_value .= $previous_modifier . ', ';
-                        }
-                        $is_argument = false;
-                        if(array_key_exists('argument', $modifier)){
-                            foreach($modifier['argument'] as $argument_nr => $argument){
-                                if($is_single_line){
-                                    $argument = Build::value($object, $flags, $options, $tag, $argument, $is_set);
-                                    if($argument !== ''){
-                                        $modifier_value .= $argument . ', ';
-                                        $is_argument = true;
-                                    }
-                                } else {
-                                    $argument = Build::value($object, $flags, $options, $tag, $argument, $is_set);
-                                    if($argument !== '') {
-                                        $modifier_value .= $argument . ', ';
-                                        $is_argument = true;
-                                    }
-                                }
-                            }
-                            if($is_argument === true){
-                                if($is_single_line){
-                                    $modifier_value = mb_substr($modifier_value, 0, -2);
-                                } else {
-                                    $modifier_value = mb_substr($modifier_value, 0, -2);
-                                }
+                d($next);
+                breakpoint($record);
+                if($next !== '='){
+                    $modifier_value = '';
+                    if(array_key_exists('modifier', $record)){
+                        $previous_modifier = '$data->get(\'' . $record['name'] . '\')';
+                        foreach($record['modifier'] as $modifier_nr => $modifier){
+                            $plugin = Build::plugin($object, $flags, $options, $tag, str_replace('.', '_', $modifier['name']));
+                            if($is_single_line){
+                                $modifier_value = '$this->' . $plugin . '( ' ;
+                                $modifier_value .= $previous_modifier . ', ';
                             } else {
-                                $modifier_value = mb_substr($modifier_value, 0, -1);
+                                $modifier_value = '$this->' . $plugin . '(';
+                                $modifier_value .= $previous_modifier . ', ';
                             }
+                            $is_argument = false;
+                            if(array_key_exists('argument', $modifier)){
+                                foreach($modifier['argument'] as $argument_nr => $argument){
+                                    if($is_single_line){
+                                        $argument = Build::value($object, $flags, $options, $tag, $argument, $is_set);
+                                        if($argument !== ''){
+                                            $modifier_value .= $argument . ', ';
+                                            $is_argument = true;
+                                        }
+                                    } else {
+                                        $argument = Build::value($object, $flags, $options, $tag, $argument, $is_set);
+                                        if($argument !== '') {
+                                            $modifier_value .= $argument . ', ';
+                                            $is_argument = true;
+                                        }
+                                    }
+                                }
+                                if($is_argument === true){
+                                    if($is_single_line){
+                                        $modifier_value = mb_substr($modifier_value, 0, -2);
+                                    } else {
+                                        $modifier_value = mb_substr($modifier_value, 0, -2);
+                                    }
+                                } else {
+                                    $modifier_value = mb_substr($modifier_value, 0, -1);
+                                }
+                            }
+                            $modifier_value .= ')';
+                            $previous_modifier = $modifier_value;
                         }
-                        $modifier_value .= ')';
-                        $previous_modifier = $modifier_value;
+                        $value .= $modifier_value;
+                        $is_single_line = false;
+                    } else {
+                        $value .= '$data->get(\'' . $record['name'] . '\')';
                     }
-                    $value .= $modifier_value;
-                    $is_single_line = false;
-                } else {
-                    $value .= '$data->get(\'' . $record['name'] . '\')';
                 }
             }
             elseif(

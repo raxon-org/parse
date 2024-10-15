@@ -3695,6 +3695,7 @@ class Build
             break;
                 */
             case '=':
+                $skip++;
                 for($i = $nr + 2; $i < $count; $i++){
                     if(!array_key_exists($i, $input['array'])){
                         continue;

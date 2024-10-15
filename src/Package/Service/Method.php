@@ -248,7 +248,7 @@ class Method
                         $argument_array = [];
                         $argument = '';
                         $argument_nr = 0;
-                        $method_name = '';
+                        $method_name_reverse = '';
                         for($i = $is_method - 1; $i >= 0; $i--){
                             if(
                                 !is_array($input['array'][$i]) &&
@@ -266,9 +266,9 @@ class Method
                                 $is_single_quote === false &&
                                 $is_double_quote === false &&
                                 $is_class_method === false &&
-                                $method_name !== ''
+                                $method_name_reverse !== ''
                             ){
-                                breakpoint($method_name);
+                                breakpoint($method_name_reverse);
                                 break;
                             }
                             elseif(
@@ -286,7 +286,7 @@ class Method
                                 $is_single_quote === false &&
                                 $is_double_quote === false &&
                                 $is_class_method === true &&
-                                $method_name !== ''
+                                $method_name_reverse !== ''
                             ){
                                 break;
                             }
@@ -306,6 +306,7 @@ class Method
                                         true
                                     )
                                 ){
+                                    $method_name_reverse .= $input['array'][$i]['value'];
                                     $input['array'][$i] = null;
                                 }
                                 elseif(
@@ -318,7 +319,8 @@ class Method
                                     break;
                                 }
                             } else {
-                                $method_name .= $input['array'][$i];
+                                d($input['array'][$i]);
+                                $method_name_reverse .= $input['array'][$i];
                                 $input['array'][$i] = null;
                             }
                         }

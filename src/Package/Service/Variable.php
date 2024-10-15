@@ -147,6 +147,9 @@ class Variable
                         $variable_nr = false;
                     }
                 }
+                elseif($variable_nr !== false){
+                    $input['array'][$nr] = null;
+                }
                 /* not this
                  else {
                     $input['array'][$nr] = null;

@@ -3513,6 +3513,7 @@ class Build
                 );
                 breakpoint($right);
                 $right = Build::value($object, $flags, $options, $tag, $right, $is_set);
+                d($record);
                 breakpoint($right);
                 if(array_key_exists('value', $record)){
                     $value = Build::value_calculate($object, $flags, $options, $record['value'], $value, $right);

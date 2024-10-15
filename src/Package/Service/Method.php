@@ -32,7 +32,6 @@ class Method
         $separator = ',';
         $is_for = false;
         $is_variable_method = false;
-        breakpoint($input['array']);
         foreach($input['array'] as $nr => $char){
             if(!is_numeric($nr)){
                 // ',' in modifier causes this

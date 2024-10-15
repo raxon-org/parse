@@ -63,6 +63,51 @@ class Variable
                             array_key_exists('value', $input['array'][$i]) &&
                             $input['array'][$i]['value'] === ','
                         ){
+                            if($after === ''){
+                                if(
+                                    in_array(
+                                        $char['value'],
+                                        [
+                                            '++',
+                                            '--',
+                                            '**'
+                                        ],
+                                        true
+                                    )
+                                ){
+                                    ddd($variable_nr);
+                                    /*
+                                    $variable = [
+                                        'is_assign' => true,
+                                        'operator' => $char['value'],
+                                        'name' => mb_substr($variable_name, 1)
+                                    ];
+                                    */
+                                }
+                            } else {
+                                $list = Token::value(
+                                    $object,
+                                    $flags,
+                                    $options,
+                                    [
+                                        'string' => $after,
+                                        'array' => $after_array,
+//                                            'modifier' => $modifier_list
+                                    ]
+                                );
+                                d($list);
+                                breakpoint($input['array'][$variable_nr]);
+
+//                                    $cache->set($after_hash, $list);
+                                /*
+                                $variable = [
+                                    'is_assign' => true,
+                                    'operator' => $operator,
+                                    'name' => mb_substr($variable_name, 1),
+                                    'value' => $list,
+                                ];
+                                */
+                            }
                             d($after);
                             breakpoint($after_array);
                             break;

@@ -780,38 +780,6 @@ class Token
         }
     }
 
-    public static function remove_comment(App $object, $flags, $options, $input=[]): array
-    {
-        $is_single_comment = false;
-        $is_array_values = false;
-        foreach($input['array'] as $nr => $char){
-            if(
-                is_array($char) &&
-                array_key_exists('value', $char) &&
-                $char['value'] === '//'
-            ){
-                $input['array'][$nr] = null;
-//                unset($input['array'][$nr]);
-                $is_single_comment = true;
-//                $is_array_values = true;
-            }
-            if($is_single_comment){
-                $input['array'][$nr] = null;
-//                unset($input['array'][$nr]);
-                if($char === "\n"){
-                    $is_single_comment = false;
-                }
-            }
-        }
-        /*
-        if($is_array_values){
-            breakpoint($input);
-            $input['array'] = array_values($input['array']);
-        }
-        */
-        return $input;
-    }
-
     public static function cleanup(App $object, $flags, $options, $input=[]): array
     {
         $is_single_quote = false;

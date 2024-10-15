@@ -414,6 +414,7 @@ class Method
                                     'array' => $argument_array
                                 ]
                             );
+                            breakpoint($argument_value);
                             $argument_value = Token::value(
                                 $object,
                                 $flags,

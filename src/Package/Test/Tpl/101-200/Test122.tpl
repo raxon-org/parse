@@ -10,6 +10,6 @@
 {{/for}}
 
 {{if($continue_outer)}}
-continue; // Continue the outer loop
+{{continue()}} // Continue the outer loop
 {{/if}}
 {{/for}}

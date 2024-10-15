@@ -173,7 +173,16 @@ class Tag
                     $is_comment_multiline = false;
                     if($curly_count >= 2){
                         $skip++;
-                        if($next_next === "\n"){
+                        breakpoint($next_next);
+                        if(
+                            in_array(
+                                $next_next ,
+                                [
+                                    "\n"
+                                ],
+                                true
+                            )
+                        ){
                             $skip++;
                         }
                         continue;

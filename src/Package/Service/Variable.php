@@ -3,12 +3,16 @@ namespace Package\Raxon\Parse\Service;
 
 use Raxon\App;
 
+use Raxon\Exception\ObjectException;
 use Raxon\Module\Core;
 use Raxon\Module\File;
 
 use Exception;
 class Variable
 {
+    /**
+     * @throws ObjectException
+     */
     public static function assign(App $object, $flags, $options, $input=[]): array
     {
         if(!is_array($input)){
@@ -17,10 +21,29 @@ class Variable
         if(array_key_exists('array', $input) === false){
             return $input;
         }
+        $variable_nr = false;
         foreach($input['array'] as $nr => $char) {
             if (!is_numeric($nr)) {
                 // ',' in modifier causes this
                 continue;
+            }
+
+            if(is_array($char)){
+                if(
+                    array_key_exists('type', $char) &&
+                    $char['type'] === 'variable'
+                ){
+                    $variable_nr = $nr;
+                }
+                elseif(
+                    array_key_exists('value', $char) &&
+                    $char['value'] === '=' &&
+                    $variable_nr !== false
+                ){
+                    d($variable_nr);
+                    d($input['array'][$variable_nr]);
+                    breakpoint($input['array'][$nr]);
+                }
             }
             d($char);
         }

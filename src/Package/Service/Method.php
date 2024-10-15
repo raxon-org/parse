@@ -268,7 +268,6 @@ class Method
                                 $is_class_method === false &&
                                 $method_name_reverse !== ''
                             ){
-                                breakpoint($method_name_reverse);
                                 break;
                             }
                             elseif(

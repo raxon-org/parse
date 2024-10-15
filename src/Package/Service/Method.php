@@ -319,8 +319,19 @@ class Method
                                     break;
                                 }
                             } else {
-                                d($input['array'][$i]);
-                                $method_name_reverse .= $input['array'][$i];
+                                if(
+                                    !in_array(
+                                        $input['array'][$i],
+                                        [
+                                            ' ',
+                                            "\n",
+                                            "\r",
+                                            "\t"
+                                        ], true
+                                    )
+                                ){
+                                    $method_name_reverse .= $input['array'][$i];
+                                }
                                 $input['array'][$i] = null;
                             }
                         }

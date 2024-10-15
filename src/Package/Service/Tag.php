@@ -188,12 +188,10 @@ class Tag
                         }
                         continue;
                     }
-                    /*
-                    elseif($curly_count === 0){
+                    elseif($curly_count === 0 && $next_next === null){
                         $skip++;
                         continue;
                     }
-                    */
                 }
                 /*
                 elseif(

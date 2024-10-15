@@ -1162,6 +1162,19 @@ class Build
                 ){
                     $is_comment = true;
                     $is_comment_multiline = true;
+                    if(
+                        !in_array(
+                            $line,
+                            [
+                                '',
+                                "\r",
+                            ],
+                            true
+                        )
+                    ){
+                        $result[] = 'echo \'' . $line . '\';' . PHP_EOL;
+                    }
+                    $line = '';
                 }
                 elseif(
                     $is_single_quote === false &&
@@ -1181,6 +1194,19 @@ class Build
                     )
                 ){
                     $is_comment = true;
+                    if(
+                        !in_array(
+                            $line,
+                            [
+                                '',
+                                "\r",
+                            ],
+                            true
+                        )
+                    ){
+                        $result[] = 'echo \'' . $line . '\';' . PHP_EOL;
+                    }
+                    $line = '';
                 }
                 elseif(
                     $is_single_quote === false &&

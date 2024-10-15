@@ -69,7 +69,7 @@ class Variable
                         }
                         $current = Token::item($input, $i);
                         $after .= $current;
-                        $after_array[] = $input[$i];
+                        $after_array[] = $input['array'][$i];
                     }
                     d($variable_nr);
                     d($input['array'][$variable_nr]);

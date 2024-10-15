@@ -156,9 +156,6 @@ class Variable
                 }
                 */
             }
-            elseif($variable_nr !== false){
-                $input['array'][$nr] = null;
-            }
         }
         breakpoint($input);
         return $input;

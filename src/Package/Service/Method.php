@@ -96,6 +96,7 @@ class Method
                                 $is_double_quote === false &&
                                 $name !== ''
                             ){
+                                breakpoint($name);
                                 break;
                             }
                             elseif(

@@ -3496,6 +3496,9 @@ class Build
             ){
                 //nothing
             } else {
+                d($input);
+                breakpoint($record);
+
                 $right = Build::value_right(
                     $object,
                     $flags,

@@ -284,7 +284,8 @@ class Method
                                 ) &&
                                 $is_single_quote === false &&
                                 $is_double_quote === false &&
-                                $is_class_method === true
+                                $is_class_method === true &&
+                                $method_name !== ''
                             ){
                                 break;
                             }

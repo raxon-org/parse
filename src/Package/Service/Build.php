@@ -211,7 +211,6 @@ class Build
                         }
                     }
                 }
-                breakpoint($record);
                 $method = Build::method($object, $flags, $options, $record);
                 if($method){
                     if(
@@ -440,7 +439,6 @@ class Build
                                 true
                             )
                         ) {
-                            breakpoint('for reached');
                             $for_reverse = array_reverse($for);
                             $has_close = false;
                             foreach ($for_reverse as $for_nr => $for_record) {
@@ -720,7 +718,7 @@ class Build
                             array_key_exists('is_multiline', $record) &&
                             $record['is_multiline'] === true
                         ){
-                            breakpoint($record);
+//                            breakpoint($record);
                             throw new TemplateException(
                                 $record['tag'] . PHP_EOL .
                                 'Unknown marker "{{' . $record['marker']['name'] .'}}" on line: ' .
@@ -732,7 +730,7 @@ class Build
                             );
 
                         } else {
-                            breakpoint($record);
+//                            breakpoint($record);
                             throw new TemplateException(
                                 $record['tag'] . PHP_EOL .
                                 'Unknown marker "{{' . $record['marker']['name'] .'}}" on line: ' .
@@ -3520,11 +3518,6 @@ class Build
             ){
                 //nothing
             } else {
-                d($input);
-                d($nr);
-                d($next);
-                breakpoint($record);
-
                 $right = Build::value_right(
                     $object,
                     $flags,
@@ -3534,16 +3527,12 @@ class Build
                     $next,
                     $skip
                 );
-                breakpoint($right);
                 $right = Build::value($object, $flags, $options, $tag, $right, $is_set);
-                d($record);
-                breakpoint($right);
                 if(array_key_exists('value', $record)){
                     $value = Build::value_calculate($object, $flags, $options, $record['value'], $value, $right);
                 }
             }
         }
-        breakpoint($value);
         return $value;
     }
 
@@ -3776,9 +3765,6 @@ class Build
                     $right_array[] = $input['array'][$i];
                     $skip++;
                 }
-                d($right);
-                d($right_array);
-                breakpoint($skip);
                 break;
             default:
                 for($i = $nr + 1; $i < $count; $i++){

@@ -205,9 +205,22 @@ class Parse
             is_scalar($input) ||
             $input === null
         ){
-            if(!str_contains($input, '{{') && !str_contains($input, '}}')){
+            /*
+            if(
+                (
+                    !str_contains($input, '{{') &&
+                    !str_contains($input, '}}')
+                ) ||
+                (
+                    !str_contains($input, '/*')
+                ) ||
+                (
+                    !str_contains($input, '//')
+                )
+            ){
                 return $input;
             }
+            */
             $options->hash = hash('sha256', $input);
             //url, key & attribute might be already set.
             $url = $data->get('this.' . $object->config('package.raxon/parse.object.this.url'));

@@ -171,8 +171,6 @@ class Tag
                 ){
                     $is_comment = false;
                     $is_comment_multiline = false;
-                    d($curly_count);
-                    breakpoint($next_next);
                     if($curly_count >= 2){
                         $skip++;
                         if(
@@ -443,7 +441,7 @@ class Tag
 //            $previous = $char_list[$chunk - 1] ?? null;
         }
         if($text !== ''){
-            breakpoint($text);
+//            breakpoint($text);
             $explode = explode("\n", $text);
             $count = count($explode);
             $explode_tag = explode("\n", $tag);

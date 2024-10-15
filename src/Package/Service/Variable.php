@@ -37,7 +37,18 @@ class Variable
                 }
                 elseif(
                     array_key_exists('value', $char) &&
-                    $char['value'] === '=' &&
+                    in_array(
+                        $char['value'],
+                        [
+                            '=',
+                            '.=',
+                            '+=',
+                            '-=',
+                            '*=',
+                            '%=',
+                        ],
+                        true
+                    ) &&
                     $variable_nr !== false
                 ){
                     d($variable_nr);

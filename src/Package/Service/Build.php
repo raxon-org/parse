@@ -3436,9 +3436,21 @@ class Build
                 array_key_exists('type', $record) &&
                 $record['type'] === 'variable'
             ){
-                d($next);
-                breakpoint($record);
-                if($next !== '='){
+                if(array_key_exists('variable', $record)){
+                    //assign
+                    switch($record['variable']['operator']){
+                        case '=':
+                            $variable_value = Build::value($object, $flags, $options, $tag, $record['variable']['value'], $is_set);
+                            breakpoint($variable_value);
+                            $value .= '$data->set(\'' . $record['variable']['name'] . '\')';
+                        break;
+                        default:
+                            breakpoint($record);
+                            throw new Exception('Not implemented...');
+                    }
+
+
+                } else {
                     $modifier_value = '';
                     if(array_key_exists('modifier', $record)){
                         $previous_modifier = '$data->get(\'' . $record['name'] . '\')';

@@ -108,6 +108,7 @@ class Variable
                         $current = Token::item($input, $i);
                         $after .= $current;
                         $after_array[] = $input['array'][$i];
+                        $input['array'][$i] = null;
                     }
                     if($after === ''){
                         if(

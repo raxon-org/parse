@@ -1039,6 +1039,7 @@ class Token
             $input = Method::define($object, $flags, $options, $input);
             $input = Variable::define($object, $flags, $options, $input);
             $input = Variable::modifier($object, $flags, $options, $input);
+            $input = Variable::assign($object, $flags, $options, $input);
             $input = Value::define($object, $flags, $options, $input);
             $input = Value::float($object, $flags, $options, $input);
             $input = Value::double_quoted_string($object, $flags, $options, $input, false);

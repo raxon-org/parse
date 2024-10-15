@@ -9,7 +9,27 @@ use Raxon\Module\File;
 use Exception;
 class Variable
 {
-    public static function define(App $object, $flags, $options, $input=[]){
+    public static function assign(App $object, $flags, $options, $input=[]): array
+    {
+        if(!is_array($input)){
+            return $input;
+        }
+        if(array_key_exists('array', $input) === false){
+            return $input;
+        }
+        foreach($input['array'] as $nr => $char) {
+            if (!is_numeric($nr)) {
+                // ',' in modifier causes this
+                continue;
+            }
+            d($char);
+        }
+        breakpoint($input);
+        return $input;
+    }
+
+    public static function define(App $object, $flags, $options, $input=[]): array
+    {
         if(!is_array($input)){
             return $input;
         }

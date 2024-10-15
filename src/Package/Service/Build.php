@@ -3544,53 +3544,53 @@ class Build
             break;
             case '.=':
             case '.':
-                $value = '$this->value_concatenate(' .$left . ', ' .$right .')';
+                $value = '$this->value_concatenate(' .$left . ', ' .$right . ')';
             break;
             case '+':
-                $value = '$this->value_plus(' .$left . ', ' .$right .')';
+                $value = '$this->value_plus(' .$left . ', ' .$right . ')';
             break;
             case '-':
-                $value = '$this->value_minus(' .$left . ', ' .$right .')';
+                $value = '$this->value_minus(' .$left . ', ' .$right . ')';
             break;
             case '*':
-                $value = '$this->value_multiply(' .$left . ', ' .$right .')';
+                $value = '$this->value_multiply(' .$left . ', ' .$right . ')';
             break;
             case '%':
-                $value = '$this->value_modulo(' .$left . ', ' .$right .')';
+                $value = '$this->value_modulo(' .$left . ', ' .$right . ')';
             break;
             case '/':
-                $value = '$this->value_divide(' .$left . ', ' .$right . PHP_EOL .')';
+                $value = '$this->value_divide(' .$left . ', ' .$right . ')';
             break;
             case '<':
-                $value = '$this->value_smaller(' . PHP_EOL .$left . ', ' .$right .')';
+                $value = '$this->value_smaller(' . $left . ', ' .$right . ')';
             break;
             case '<=':
-                $value = '$this->value_smaller_equal(' .$left . ', ' .$right .')';
+                $value = '$this->value_smaller_equal(' .$left . ', ' .$right . ')';
             break;
             case '<<':
-                $value = '$this->value_smaller_smaller(' .$left . ', ' .$right .')';
+                $value = '$this->value_smaller_smaller(' .$left . ', ' .$right . ')';
             break;
             case '>':
-                $value = '$this->value_greater(' .$left . ', ' .$right .')';
+                $value = '$this->value_greater(' .$left . ', ' .$right . ')';
             break;
             case '>=':
-                $value = '$this->value_greater_equal(' .$left . ', ' .$right .')';
+                $value = '$this->value_greater_equal(' .$left . ', ' .$right . ')';
             break;
             case '>>':
-                $value = '$this->value_greater_greater(' .$left . ', ' .$right .')';
+                $value = '$this->value_greater_greater(' .$left . ', ' .$right . ')';
             break;
             case '==':
-                $value = '$this->value_equal(' .$left . ', ' .$right .')';
+                $value = '$this->value_equal(' .$left . ', ' .$right . ')';
             break;
             case '===':
-                $value = '$this->value_identical(' .$left . ', ' .$right .')';
+                $value = '$this->value_identical(' .$left . ', ' .$right . ')';
             break;
             case '!=':
             case '<>':
-                $value = '$this->value_not_equal(' .$left . ', ' .$right .')';
+                $value = '$this->value_not_equal(' .$left . ', ' .$right . ')';
             break;
             case '!==':
-                $value = '$this->value_not_identical(' .$left . ', ' .$right .')';
+                $value = '$this->value_not_identical(' .$left . ', ' .$right . ')';
             break;
             case '??':
                 $value = $left . ' ?? ' . $right;

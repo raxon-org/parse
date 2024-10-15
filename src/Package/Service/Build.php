@@ -1786,6 +1786,7 @@ class Build
                         d($record);
                         breakpoint($argument);
                         $value = Build::value($object, $flags, $options, $record, $argument, $is_set);
+                        breakpoint($value);
                         if(mb_strtolower($value) === 'null'){
                             $value = '';
                         }

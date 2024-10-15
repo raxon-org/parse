@@ -3497,6 +3497,8 @@ class Build
                 //nothing
             } else {
                 d($input);
+                d($nr);
+                d($next);
                 breakpoint($record);
 
                 $right = Build::value_right(

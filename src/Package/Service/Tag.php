@@ -171,6 +171,7 @@ class Tag
                 ){
                     $is_comment = false;
                     $is_comment_multiline = false;
+                    d($curly_count);
                     breakpoint($next_next);
                     if($curly_count >= 2){
                         $skip++;

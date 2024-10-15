@@ -1114,6 +1114,7 @@ class Build
                         $is_comment_multiline === false
                     ){
                         $is_comment = false;
+                        $skip++;
                     }
                     elseif(
                         $is_comment === true &&
@@ -1267,8 +1268,6 @@ class Build
                     $result[] = 'echo \'' . $line . '\';' . PHP_EOL;
                 }
             }
-            d($record);
-            breakpoint($result);
             if(array_key_exists(1, $result)){
 //                return implode('echo "\n";' . PHP_EOL, $result);
                 return implode(PHP_EOL, $result);

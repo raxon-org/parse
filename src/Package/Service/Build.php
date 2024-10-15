@@ -3443,12 +3443,19 @@ class Build
                             $variable_value = Build::value($object, $flags, $options, $tag, $record['variable']['value'], $is_set);
                             $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' . $variable_value . ')';
                         break;
+                        case '++':
+                            $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' .  '$this->value_plus_plus($data->get(\'' . $record['variable']['name'] . '\')))';
+                        break;
+                        case '--':
+                            $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' .  '$this->value_minus_minus($data->get(\'' . $record['variable']['name'] . '\')))';
+                        break;
+                        case '**':
+                            $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' .  '$this->value_multiply_multiply($data->get(\'' . $record['variable']['name'] . '\')))';
+                        break;
                         default:
                             breakpoint($record);
                             throw new Exception('Not implemented...');
                     }
-
-
                 } else {
                     $modifier_value = '';
                     if(array_key_exists('modifier', $record)){

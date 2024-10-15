@@ -122,6 +122,7 @@ class Variable
                                 true
                             )
                         ){
+                            d($nr);
                             d($variable_nr);
                             d($input['array']);
                             breakpoint($input['array'][$variable_nr]);

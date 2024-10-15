@@ -1114,7 +1114,7 @@ class Build
                         $is_comment_multiline === false
                     ){
                         $is_comment = false;
-                        $skip++;
+                        continue;
                     }
                     elseif(
                         $is_comment === true &&

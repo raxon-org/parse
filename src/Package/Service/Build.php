@@ -440,6 +440,7 @@ class Build
                                 true
                             )
                         ) {
+                            breakpoint('for reached');
                             $for_reverse = array_reverse($for);
                             $has_close = false;
                             foreach ($for_reverse as $for_nr => $for_record) {

@@ -3695,14 +3695,64 @@ class Build
             break;
                 */
             case '=':
-                d($nr);
-                d($count);
-                breakpoint($input);
-                /*
-                $right = '=';
-                $right_array[] = $input['array'][$nr + 1];
-                $skip++;
-                */
+                for($i = $nr + 2; $i < $count; $i++){
+                    if(!array_key_exists($i, $input['array'])){
+                        continue;
+                    }
+                    $previous = Token::item($input, $i - 1);
+                    $item = Token::item($input, $i);
+                    if(
+                        in_array(
+                            $item,
+                            [
+                                ',',
+                                '.',
+                                '+',
+                                '-',
+                                '*',
+                                '%',
+                                '/',
+                                '=',
+                                '<',
+                                '(',
+                                ')',
+                                '<=',
+                                '<<',
+                                '>',
+                                '>=',
+                                '>>',
+                                '==',
+                                '===',
+                                '!=',
+                                '!==',
+                                '??',
+                                '&&',
+                                '||',
+                                '.=',
+                                '+=',
+                                '-=',
+                                '*=',
+                                '...',
+                                '=>',
+                                '++',
+                                '--',
+                                '**',
+                                'and',
+                                'or',
+                                'xor'
+                            ],
+                            true
+                        )
+                    ){
+                        break;
+                    }
+                    $right .= $item;
+                    $right_array[] = $input['array'][$i];
+                    $skip++;
+                }
+                d($right);
+                d($right_array);
+                breakpoint($skip);
                 break;
             default:
                 for($i = $nr + 1; $i < $count; $i++){

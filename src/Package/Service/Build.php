@@ -3441,8 +3441,7 @@ class Build
                     switch($record['variable']['operator']){
                         case '=':
                             $variable_value = Build::value($object, $flags, $options, $tag, $record['variable']['value'], $is_set);
-                            breakpoint($variable_value);
-                            $value .= '$data->set(\'' . $record['variable']['name'] . '\')';
+                            $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' . $variable_value . ')';
                         break;
                         default:
                             breakpoint($record);

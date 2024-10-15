@@ -3433,6 +3433,7 @@ class Build
             ){
                 if(array_key_exists('variable', $record)){
                     //assign
+                    breakpoint($record);
                     switch($record['variable']['operator']){
                         case '=':
                             $variable_value = Build::value($object, $flags, $options, $tag, $record['variable']['value'], $is_set);

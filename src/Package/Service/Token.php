@@ -745,7 +745,6 @@ class Token
                     'is_boolean' => true
                 ]];
                 return $input;
-                break;
             case 'null':
                 $input['array'] = [[
                     'value' => $value,
@@ -753,7 +752,6 @@ class Token
                     'is_null' => true
                 ]];
                 return $input;
-                break;
             default:
                 $trim_value = trim($value);
                 if(
@@ -1073,7 +1071,6 @@ class Token
             $input = Method::define($object, $flags, $options, $input);
             $input = Variable::define($object, $flags, $options, $input);
             $input = Variable::modifier($object, $flags, $options, $input);
-            breakpoint($input);
             $input = Value::define($object, $flags, $options, $input);
             $input = Value::float($object, $flags, $options, $input);
             $input = Value::double_quoted_string($object, $flags, $options, $input, false);

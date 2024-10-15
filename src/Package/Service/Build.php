@@ -1264,7 +1264,6 @@ class Build
                         true
                     )
                 ){
-                    breakpoint($line);
                     $result[] = 'echo \'' . $line . '\';' . PHP_EOL;
                 }
             }
@@ -1478,7 +1477,6 @@ class Build
      */
     public static function variable_define(App $object, $flags, $options, $record = []): bool | array
     {
-        breakpoint($record);
         if (!array_key_exists('variable', $record)) {
             return false;
         }
@@ -1892,6 +1890,7 @@ class Build
                 $method_value = implode(PHP_EOL, $method_value);
                 break;
             case 'break' :
+            case 'continue' :
                 $is_argument = false;
                 $value = false;
                 if(
@@ -1915,7 +1914,7 @@ class Build
                             throw new TemplateException(
                                 $record['tag'] .
                                 PHP_EOL .
-                                'break operator with non-integer operand is no longer supported...' .
+                                $method_name . ' operator with non-integer operand is no longer supported...' .
                                 PHP_EOL .
                                 'On line: ' .
                                 $record['line']['start']  .
@@ -1929,7 +1928,7 @@ class Build
                             throw new TemplateException(
                                 $record['tag'] .
                                 PHP_EOL .
-                                'break operator with non-integer operand is no longer supported...' .
+                                $method_name . ' operator with non-integer operand is no longer supported...' .
                                 PHP_EOL .
                                 'On line: ' .
                                 $record['line']  .
@@ -1949,9 +1948,10 @@ class Build
                     $is_argument === false ||
                     mb_strtolower($value) === 'null'
                 ){
-                    $method_value = 'break;';
+                    $method_value = $method_name . ';';
                 }
                 elseif(
+                    $method_name === 'break' &&
                     is_numeric($value) &&
                     is_int(($value + 0))
                 ) {
@@ -1992,7 +1992,7 @@ class Build
                         }
                     }
                     $method_value = 'break ' . $value . ';';
-                } else {
+                } elseif($method_name === 'break') {
                     if(
                         array_key_exists('is_multiline', $record) &&
                         $record['is_multiline'] === true
@@ -2025,6 +2025,39 @@ class Build
                             '.'
                         );
                     }
+                } else {
+                    if(
+                        array_key_exists('is_multiline', $record) &&
+                        $record['is_multiline'] === true
+                    ){
+                        throw new TemplateException(
+                            $record['tag'] .
+                            PHP_EOL .
+                            'Invalid argument for {{continue()}}, empty argument required' .
+                            PHP_EOL .
+                            'On line: ' .
+                            $record['line']['start']  .
+                            ', column: ' .
+                            $record['column'][$record['line']['start']]['start'] .
+                            ' in source: '.
+                            $source .
+                            '.'
+                        );
+                    } else {
+                        throw new TemplateException(
+                            $record['tag'] .
+                            PHP_EOL .
+                            'Invalid argument for {{continue()}}, empty argument required' .
+                            PHP_EOL .
+                            'On line: ' .
+                            $record['line']  .
+                            ', column: ' .
+                            $record['column']['start'] .
+                            ' in source: ' .
+                            $source .
+                            '.'
+                        );
+                    }
                 }
             break;
             case 'block.data':
@@ -2040,7 +2073,6 @@ class Build
                 $object->config('package.raxon/parse.build.state.block.plugin', $plugin);
                 //we do the rest in the marker /block
                 return $method_name;
-            break;
             default:
                 $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
                 $method_value = '$this->' . $plugin . '(';
@@ -2162,6 +2194,7 @@ class Build
                 $object->config('package.raxon/parse.build.state.ltrim', $ltrim);
             break;
             case 'break' :
+            case 'continue':
             case 'block.data':
             case 'block.html':
             case 'block.xml':

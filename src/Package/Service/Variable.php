@@ -24,6 +24,7 @@ class Variable
         $variable_nr = false;
         $count = count($input['array']);
         $array_depth = 0;
+        $set_depth = 0;
         foreach($input['array'] as $nr => $char) {
             if (!is_numeric($nr)) {
                 // ',' in modifier causes this
@@ -52,6 +53,18 @@ class Variable
                 }
                 elseif(
                     array_key_exists('value', $char) &&
+                    $char['value'] === '('
+                ){
+                    $set_depth++;
+                }
+                elseif(
+                    array_key_exists('value', $char) &&
+                    $char['value'] === ')'
+                ){
+                    $set_depth--;
+                }
+                elseif(
+                    array_key_exists('value', $char) &&
                     in_array(
                         $char['value'],
                         [
@@ -67,8 +80,7 @@ class Variable
                         ],
                         true
                     ) &&
-                    $variable_nr !== false &&
-                    $array_depth === 0
+                    $variable_nr !== false
                 ){
                     $after = '';
                     $after_array = [];
@@ -91,8 +103,23 @@ class Variable
                         elseif(
                             is_array($input['array'][$i]) &&
                             array_key_exists('value', $input['array'][$i]) &&
+                            $input['array'][$i]['value'] === '('
+                        ){
+                            $set_depth++;
+                        }
+                        elseif(
+                            is_array($input['array'][$i]) &&
+                            array_key_exists('value', $input['array'][$i]) &&
+                            $input['array'][$i]['value'] === ')'
+                        ){
+                            $set_depth--;
+                        }
+                        elseif(
+                            is_array($input['array'][$i]) &&
+                            array_key_exists('value', $input['array'][$i]) &&
                             $input['array'][$i]['value'] === ',' &&
-                            $array_depth === 0
+                            $array_depth === 0 &&
+                            $set_depth === 0
                         ){
                             if($variable_nr !== false){
                                 if($after === ''){

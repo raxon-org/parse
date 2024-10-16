@@ -77,9 +77,24 @@ class Variable
                     $input['array'][$nr] = null;
                     for($i = $nr + 1; $i < $count; $i++){
                         if(
+                            array_key_exists('value', $char) &&
+                            $char['value'] === '['
+                        ){
+                            $array_depth++;
+                            breakpoint($array_depth);
+                        }
+                        elseif(
+                            array_key_exists('value', $char) &&
+                            $char['value'] === ']'
+                        ){
+                            $array_depth--;
+                            breakpoint($array_depth);
+                        }
+                        elseif(
                             is_array($input['array'][$i]) &&
                             array_key_exists('value', $input['array'][$i]) &&
-                            $input['array'][$i]['value'] === ','
+                            $input['array'][$i]['value'] === ',' &&
+                            $array_depth === 0
                         ){
                             if($variable_nr !== false){
                                 if($after === ''){

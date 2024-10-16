@@ -160,7 +160,6 @@ class Tag
                 ){
                     $is_comment = true;
                     $is_comment_multiline = true;
-                    $text = substr($text, 0, -2);
                 }
                 elseif(
                     $char === '*' &&
@@ -426,7 +425,7 @@ class Tag
                         }
                         $tag = false;
                         $column[$line]--;
-                    } else {
+                    } elseif($is_comment === false) {
                         $text .= $char;
                     }
                 }

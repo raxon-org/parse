@@ -290,8 +290,6 @@ class Tag
                     $char === '{' &&
                     $previous === '{' &&
                     $is_single_quoted === false &&
-                    $is_double_quoted === false &&
-                    $is_double_quoted_backslash === false &&
                     $is_comment === false
                 ){
                     $tag = '{{';

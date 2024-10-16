@@ -1,5 +1,4 @@
 this is a test
-/*
 {
     "string": "test",
     "number": 1,
@@ -22,4 +21,3 @@ this is a test
     "assign": "{{$this.attribute|default:'no-attribute'}}",
     "null": null
 }
-*/

@@ -296,7 +296,7 @@ class Tag
                 ){
                     $tag = '{{';
                 }
-                elseif($curly_count === 0){
+                elseif($curly_count >= 0){
                     if($tag){
                         if(mb_strlen($text) > 0){
                             $text = mb_substr($text, 0, -1);

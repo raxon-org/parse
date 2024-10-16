@@ -1795,6 +1795,7 @@ class Build
                 if($argument_count === 3){
                     foreach($record['method']['argument'] as $nr => $argument){
                         $value = Build::value($object, $flags, $options, $record, $argument, $is_set);
+                        breakpoint($value);
                         if(mb_strtolower($value) === 'null'){
                             $value = '';
                         }
@@ -1838,6 +1839,7 @@ class Build
                     }
                 }
                 $method_value[] = '){';
+                breakpoint($method_value);
                 $method_value = implode(PHP_EOL, $method_value);
             break;
             case 'if':
@@ -2157,6 +2159,7 @@ class Build
                     } else {
                         $method_validate = $method_value;
                     }
+                    breakpoint($method_value);
                     Validator::validate($object, $flags, $options, $method_validate . '}');
                 }
                 catch(Exception $exception){

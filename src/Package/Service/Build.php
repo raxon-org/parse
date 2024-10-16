@@ -1144,7 +1144,7 @@ class Build
                             true
                         )
                     ){
-                        $result[] = 'echo \'' . $line . '\';' . PHP_EOL;
+                        $result[] = 'echo \'' . str_replace('\'', '\\\'', $line) . '\';' . PHP_EOL;
                     }
                     $line = '';
                     $skip_space = $ltrim * 4;

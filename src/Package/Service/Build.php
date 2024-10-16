@@ -1838,7 +1838,6 @@ class Build
                     }
                 }
                 $method_value[] = '){';
-                breakpoint($method_value);
                 $method_value = implode(PHP_EOL, $method_value);
             break;
             case 'if':
@@ -2130,7 +2129,6 @@ class Build
                         }
                     } else {
                         $argument = Build::value($object, $flags, $options, $record, $argument, $is_set);
-                        breakpoint($argument);
                     }
                     if($argument !== ''){
                         $argument_value .= $argument  . ', ';
@@ -2158,7 +2156,6 @@ class Build
                     } else {
                         $method_validate = $method_value;
                     }
-                    breakpoint($method_value);
                     Validator::validate($object, $flags, $options, $method_validate . '}');
                 }
                 catch(Exception $exception){

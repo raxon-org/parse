@@ -12,9 +12,27 @@ namespace Plugin;
 
 trait D {
 
-    public function d($value): void
+    public function d($value, $options=[]): void
     {
-        d($value);
+        $object = $this->object();
+        if(!array_key_exists('trace', $options)){
+            $options['trace'] = true;
+        }
+        if($options['trace'] === true){
+            $tag = $object->config('package.raxon/parse.build.state.tag');
+            if(property_exists($tag, 'source')){
+                if(
+                    property_exists($tag, 'line') &&
+                    is_object($tag->line) &&
+                    property_exists($tag->line, 'start')
+                ){
+                    $options['trace'] =  $tag->source . ':' . $tag->line->start . PHP_EOL;
+                } else {
+                    $options['trace'] =  $tag->source . ':' . $tag->line . PHP_EOL;
+                }
+            }
+        }
+        d($value, $options);
     }
 
 }

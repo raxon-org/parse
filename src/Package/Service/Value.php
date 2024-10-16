@@ -47,6 +47,8 @@ class Value
                 $char['value'] === '.'
             ){
                 if(
+                    is_array($previous) &&
+                    is_array($next) &&
                     array_key_exists('value', $previous) &&
                     array_key_exists('value', $next) &&
                     array_key_exists('execute', $previous) &&

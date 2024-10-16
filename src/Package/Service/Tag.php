@@ -425,7 +425,8 @@ class Tag
                         }
                         $tag = false;
                         $column[$line]--;
-                    } elseif($is_comment === false) {
+                    }
+                    elseif($is_comment === false) {
                         $text .= $char;
                     }
                 }

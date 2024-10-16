@@ -113,6 +113,7 @@ class Build
         $block = [];
         $break_level = 0;
         $object->config('package.raxon/parse.build.state.break.level', $break_level);
+        $data[] = '$object->config(\'package.raxon/parse.build.state.source\', \''. $source .'\');';
         foreach($tags as $row_nr => $list){
             foreach($list as $nr => &$record){
                 if(
@@ -125,7 +126,6 @@ class Build
                     continue;
                 }
                 $tag = [
-                    'source' => $options->source ?? null,
                     'tag' => $record['tag'] ?? $record['execute'] ?? $record['value'] ?? null,
                     'line' => $record['line'] ?? null,
                     'column' => $record['column'] ?? null,

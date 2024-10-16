@@ -1,4 +1,3 @@
-this is a test
 {
     "string": "test",
     "number": 1,

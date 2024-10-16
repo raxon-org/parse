@@ -122,6 +122,7 @@ class Tag
                     $is_double_quoted_backslash === false
                 ){
                     $curly_count++;
+                    breakpoint($curly_count);
                 }
                 elseif(
                     $char === '}' &&
@@ -131,6 +132,7 @@ class Tag
                     $is_double_quoted_backslash === false
                 ){
                     $curly_count--;
+                    breakpoint($curly_count);
                 }
                 elseif(
                     $char === '/' &&

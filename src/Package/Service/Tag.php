@@ -296,6 +296,16 @@ class Tag
                 ){
                     $tag = '{{';
                 }
+                elseif(
+                    $tag !== false &&
+                    $char === '}' &&
+                    $previous === '}'
+                ){
+                    ddd($tag);
+                }
+
+
+                /*
                 elseif($curly_count === 0){
                     if($tag){
                         if(mb_strlen($text) > 0){
@@ -433,6 +443,7 @@ class Tag
                         $text .= $char;
                     }
                 }
+                */
                 elseif(
                     $tag &&
                     $is_comment === false

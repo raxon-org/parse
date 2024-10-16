@@ -122,7 +122,6 @@ class Tag
                     $is_double_quoted_backslash === false
                 ){
                     $curly_count++;
-                    breakpoint($curly_count);
                 }
                 elseif(
                     $char === '}' &&
@@ -132,7 +131,6 @@ class Tag
                     $is_double_quoted_backslash === false
                 ){
                     $curly_count--;
-                    breakpoint($curly_count);
                 }
                 elseif(
                     $char === '/' &&
@@ -175,7 +173,7 @@ class Tag
                 ){
                     $is_comment = false;
                     $is_comment_multiline = false;
-                    if($curly_count >= 1){
+                    if($curly_count >= 2){
                         $skip++;
                         if(
                             in_array(
@@ -292,14 +290,11 @@ class Tag
                 if(
                     $tag === false &&
                     $char === '{' &&
-                    $previous === '{' &&
-                    $is_single_quoted === false &&
-                    $is_comment === false
+                    $previous === '{'
                 ){
                     $tag = '{{';
                 }
-                elseif($curly_count === 0){
-                    breakpoint($nr);
+                elseif($curly_count === 1){
                     if($tag){
                         if(mb_strlen($text) > 0){
                             $text = mb_substr($text, 0, -1);
@@ -432,8 +427,7 @@ class Tag
                         }
                         $tag = false;
                         $column[$line]--;
-                    }
-                    elseif($is_comment === false) {
+                    } else {
                         $text .= $char;
                     }
                 }

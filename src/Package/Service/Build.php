@@ -1795,7 +1795,6 @@ class Build
                 if($argument_count === 3){
                     foreach($record['method']['argument'] as $nr => $argument){
                         $value = Build::value($object, $flags, $options, $record, $argument, $is_set);
-                        breakpoint($value);
                         if(mb_strtolower($value) === 'null'){
                             $value = '';
                         }
@@ -3133,10 +3132,8 @@ class Build
                                     $next,
                                     $skip
                                 );
-                                breakpoint($assign);
                                 $assign = Build::value($object, $flags, $options, $tag, $assign, $is_set);
                                 $value .= '$data->set(\'' . $previous['name'] . '\', ' .  $assign . ')';
-                                breakpoint($assign);
                             break;
                             case '++' :
                                 $value = '$data->set(\'' . $previous['name'] . '\', ' .  '$this->value_plus_plus($data->get(\'' . $previous['name'] . '\')))';

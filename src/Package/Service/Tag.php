@@ -116,6 +116,7 @@ class Tag
                 }
                 elseif(
                     $char === '{' &&
+                    $previous === '{' &&
                     $is_single_quoted === false &&
                     $is_double_quoted === false &&
                     $is_double_quoted_backslash === false
@@ -124,6 +125,7 @@ class Tag
                 }
                 elseif(
                     $char === '}' &&
+                    $previous === '}' &&
                     $is_single_quoted === false &&
                     $is_double_quoted === false &&
                     $is_double_quoted_backslash === false

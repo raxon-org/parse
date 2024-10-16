@@ -290,6 +290,7 @@ class Tag
                 if(
                     $curly_count === 2 &&
                     $tag === false &&
+                    $char === '{' &&
                     $previous === '{'
                 ){
                     $tag = '{{';

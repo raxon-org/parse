@@ -43,14 +43,12 @@ class Variable
                     $char['value'] === '['
                 ){
                     $array_depth++;
-                    breakpoint($array_depth);
                 }
                 elseif(
                     array_key_exists('value', $char) &&
                     $char['value'] === ']'
                 ){
                     $array_depth--;
-                    breakpoint($array_depth);
                 }
                 elseif(
                     array_key_exists('value', $char) &&
@@ -82,7 +80,6 @@ class Variable
                             $input['array'][$i]['value'] === '['
                         ){
                             $array_depth++;
-                            breakpoint($array_depth);
                         }
                         elseif(
                             is_array($input['array'][$i]) &&
@@ -90,7 +87,6 @@ class Variable
                             $input['array'][$i]['value'] === ']'
                         ){
                             $array_depth--;
-                            breakpoint($array_depth);
                         }
                         elseif(
                             is_array($input['array'][$i]) &&

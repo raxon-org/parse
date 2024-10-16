@@ -43,14 +43,14 @@ class Variable
                     $char['value'] === '['
                 ){
                     $array_depth++;
-                    breakpoint('yes1');
+                    breakpoint($array_depth);
                 }
                 elseif(
                     array_key_exists('value', $char) &&
                     $char['value'] === ']'
                 ){
                     $array_depth--;
-                    breakpoint('yes2');
+                    breakpoint($array_depth);
                 }
                 elseif(
                     array_key_exists('value', $char) &&
@@ -69,7 +69,8 @@ class Variable
                         ],
                         true
                     ) &&
-                    $variable_nr !== false
+                    $variable_nr !== false &&
+                    $array_depth === 0
                 ){
                     $after = '';
                     $after_array = [];
@@ -78,8 +79,7 @@ class Variable
                         if(
                             is_array($input['array'][$i]) &&
                             array_key_exists('value', $input['array'][$i]) &&
-                            $input['array'][$i]['value'] === ',' &&
-                            $array_depth === 0
+                            $input['array'][$i]['value'] === ','
                         ){
                             if($variable_nr !== false){
                                 if($after === ''){

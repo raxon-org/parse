@@ -175,7 +175,7 @@ class Tag
                 ){
                     $is_comment = false;
                     $is_comment_multiline = false;
-                    if($curly_count >= 2){
+                    if($curly_count >= 1){
                         $skip++;
                         if(
                             in_array(
@@ -296,7 +296,7 @@ class Tag
                 ){
                     $tag = '{{';
                 }
-                elseif($curly_count === 1){
+                elseif($curly_count === 0){
                     if($tag){
                         if(mb_strlen($text) > 0){
                             $text = mb_substr($text, 0, -1);

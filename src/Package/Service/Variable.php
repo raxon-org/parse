@@ -23,6 +23,7 @@ class Variable
         }
         $variable_nr = false;
         $count = count($input['array']);
+        $array_depth = 0;
         foreach($input['array'] as $nr => $char) {
             if (!is_numeric($nr)) {
                 // ',' in modifier causes this
@@ -36,6 +37,18 @@ class Variable
                     $variable_nr = $nr;
 //                    d($variable_nr);
 //                    d($char);
+                }
+                elseif(
+                    array_key_exists('value', $char) &&
+                    $char['value'] === '['
+                ){
+                    $array_depth++;
+                }
+                elseif(
+                    array_key_exists('value', $char) &&
+                    $char['value'] === ']'
+                ){
+                    $array_depth--;
                 }
                 elseif(
                     array_key_exists('value', $char) &&
@@ -63,7 +76,8 @@ class Variable
                         if(
                             is_array($input['array'][$i]) &&
                             array_key_exists('value', $input['array'][$i]) &&
-                            $input['array'][$i]['value'] === ','
+                            $input['array'][$i]['value'] === ',' &&
+                            $array_depth === 0
                         ){
                             if($variable_nr !== false){
                                 if($after === ''){

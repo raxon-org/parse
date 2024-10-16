@@ -718,7 +718,7 @@ class Build
                             array_key_exists('is_multiline', $record) &&
                             $record['is_multiline'] === true
                         ){
-                            breakpoint($record);
+//                            breakpoint($record);
                             throw new TemplateException(
                                 $record['tag'] . PHP_EOL .
                                 'Unknown marker "{{' . $record['marker']['name'] .'}}" on line: ' .
@@ -730,7 +730,7 @@ class Build
                             );
 
                         } else {
-                            breakpoint($record);
+//                            breakpoint($record);
                             throw new TemplateException(
                                 $record['tag'] . PHP_EOL .
                                 'Unknown marker "{{' . $record['marker']['name'] .'}}" on line: ' .

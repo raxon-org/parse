@@ -440,6 +440,9 @@ class Tag
                 ){
                     $tag .= $char;
                 }
+                elseif($is_comment === false){
+                    $text .= $char;
+                }
                 if($char !== "\n") {
                     $column[$line]++;
                 }

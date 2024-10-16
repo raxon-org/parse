@@ -925,8 +925,13 @@ class Build
     {
         $build = new Build($object, $flags, $options);
         $indent = $object->config('package.raxon/parse.build.state.indent');
+        $throws = $object->config('package.raxon/parse.build.run.throw');
         $document[] = str_repeat(' ', $indent * 4) . '/**';
-        $document[] = str_repeat(' ', $indent * 4) . ' * @throws Exception';
+        if(is_array($throws)){
+            foreach($throws as $throw){
+                $document[] = str_repeat(' ', $indent * 4) . ' * @throws ' . $throw;
+            }
+        }
         $document[] = str_repeat(' ', $indent * 4) . ' */';
         $document[] = str_repeat(' ', $indent * 4) . 'public function run(): mixed';
         $document[] = str_repeat(' ', $indent * 4) . '{';

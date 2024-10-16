@@ -208,6 +208,15 @@
               "Plugin\\Parse",
               "Plugin\\Value"
             ]
+          },
+          "run" : {
+            "throw": [
+              "Exception",
+              "Error",
+              "ErrorException",
+              "Raxon\\Exception\\TemplateException",
+              "Raxon\\Exception\\LocateException"
+            ]
           }
         }
       }

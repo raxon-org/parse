@@ -921,18 +921,25 @@ class Build
         return $document;
     }
 
+    public static function document_run_throw(App $object, $flags, $options, $document=[]): array
+    {
+        $indent = $object->config('package.raxon/parse.build.state.indent');
+        $throws = $object->config('package.raxon/parse.build.run.throw');
+        if(is_array($throws)){
+            $document[] = str_repeat(' ', $indent * 4) . '/**';
+            foreach($throws as $throw){
+                $document[] = str_repeat(' ', $indent * 4) . ' * @throws ' . $throw;
+            }
+            $document[] = str_repeat(' ', $indent * 4) . ' */';
+        }
+        return $document;
+    }
+
     public static function document_run(App $object, $flags, $options, $document = [], $data = []): array
     {
         $build = new Build($object, $flags, $options);
         $indent = $object->config('package.raxon/parse.build.state.indent');
-        $throws = $object->config('package.raxon/parse.build.run.throw');
-        $document[] = str_repeat(' ', $indent * 4) . '/**';
-        if(is_array($throws)){
-            foreach($throws as $throw){
-                $document[] = str_repeat(' ', $indent * 4) . ' * @throws ' . $throw;
-            }
-        }
-        $document[] = str_repeat(' ', $indent * 4) . ' */';
+        $document = Build::document_run_throw($object, $flags, $options, $document);
         $document[] = str_repeat(' ', $indent * 4) . 'public function run(): mixed';
         $document[] = str_repeat(' ', $indent * 4) . '{';
         $indent++;
@@ -945,27 +952,27 @@ class Build
         $document[] = str_repeat(' ', $indent * 4) . '$options->debug = true;';
         $document[] = str_repeat(' ', $indent * 4) . 'if (!($object instanceof App)) {';
         $indent++;
-        $document[] = str_repeat(' ', $indent * 4) . 'throw new Exception(\'$object is not an instance of Raxon\App\');';
+        $document[] = str_repeat(' ', $indent * 4) . 'throw new TemplateException(\'$object is not an instance of Raxon\App\');';
         $indent--;
         $document[] = str_repeat(' ', $indent * 4) . '}';
         $document[] = str_repeat(' ', $indent * 4) . 'if (!($parse instanceof Parse)) {';
         $indent++;
-        $document[] = str_repeat(' ', $indent * 4) . 'throw new Exception(\'$parse is not an instance of Package\Raxon\Parse\Service\Parse\');';
+        $document[] = str_repeat(' ', $indent * 4) . 'throw new TemplateException(\'$parse is not an instance of Package\Raxon\Parse\Service\Parse\');';
         $indent--;
         $document[] = str_repeat(' ', $indent * 4) . '}';
         $document[] = str_repeat(' ', $indent * 4) . 'if (!($data instanceof Data)) {';
         $indent++;
-        $document[] = str_repeat(' ', $indent * 4) . 'throw new Exception(\'$data is not an instance of Raxon\Module\Data\');';
+        $document[] = str_repeat(' ', $indent * 4) . 'throw new TemplateException(\'$data is not an instance of Raxon\Module\Data\');';
         $indent--;
         $document[] = str_repeat(' ', $indent * 4) . '}';
         $document[] = str_repeat(' ', $indent * 4) . 'if (!is_object($flags)) {';
         $indent++;
-        $document[] = str_repeat(' ', $indent * 4) . 'throw new Exception(\'$flags is not an object\');';
+        $document[] = str_repeat(' ', $indent * 4) . 'throw new TemplateException(\'$flags is not an object\');';
         $indent--;
         $document[] = str_repeat(' ', $indent * 4) . '}';
         $document[] = str_repeat(' ', $indent * 4) . 'if (!is_object($options)) {';
         $indent++;
-        $document[] = str_repeat(' ', $indent * 4) . 'throw new Exception(\'$options is not an object\');';
+        $document[] = str_repeat(' ', $indent * 4) . 'throw new TemplateException(\'$options is not an object\');';
         $indent--;
         $document[] = str_repeat(' ', $indent * 4) . '}';
         $document = Build::format($build, $document, $data, $indent);

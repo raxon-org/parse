@@ -190,8 +190,6 @@ class Tag
                         $skip++;
                         continue;
                     }
-                } else {
-
                 }
                 /*
                 elseif(
@@ -493,6 +491,7 @@ class Tag
                 $tag_list[$line][] = $record;
             }
         }
+        breakpoint($tag_list);
         return $tag_list;
     }
 

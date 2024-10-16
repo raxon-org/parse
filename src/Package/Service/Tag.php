@@ -292,24 +292,22 @@ class Tag
                 if(
                     $tag === false &&
                     $char === '{' &&
-                    $previous === '{'
+                    $previous === '{' &&
+                    $is_comment === false
                 ){
                     $tag = '{{';
                 }
                 elseif(
                     $tag !== false &&
                     $char === '}' &&
-                    $previous === '}'
+                    $previous === '}' &&
+                    $is_comment === false
                 ){
-                    $tag .= $char;
-                    ddd($tag);
                     if($tag){
                         if(mb_strlen($text) > 0){
                             $text = mb_substr($text, 0, -1);
                         }
-                        if($is_comment === false){
-                            $tag .= $char;
-                        }
+                        $tag .= $char;
                         $column[$line]++;
                         if($text !== ''){
                             $explode = explode("\n", $text);

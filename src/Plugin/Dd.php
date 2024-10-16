@@ -19,6 +19,7 @@ trait Dd {
             $options['trace'] = true;
         }
         if($options['trace'] === true){
+            $source = $object->config('package.raxon/parse.build.state.source');
             $tag = $object->config('package.raxon/parse.build.state.tag');
             if(property_exists($tag, 'source')){
                 if(
@@ -26,9 +27,9 @@ trait Dd {
                     is_object($tag->line) &&
                     property_exists($tag->line, 'start')
                 ){
-                    $options['trace'] =  $tag->source . ':' . $tag->line->start . PHP_EOL;
+                    $options['trace'] =  $source . ':' . $tag->line->start . PHP_EOL;
                 } else {
-                    $options['trace'] =  $tag->source . ':' . $tag->line . PHP_EOL;
+                    $options['trace'] =  $source . ':' . $tag->line . PHP_EOL;
                 }
             }
         }

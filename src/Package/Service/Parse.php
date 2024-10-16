@@ -313,6 +313,7 @@ class Parse
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
                     breakpoint($value);
                     $input->{$key} = $this->compile($value, $data);
+                    breakpoint($input->{$key});
                     $options->source = $temp_source;
                     $options->class = $temp_class;
                 }

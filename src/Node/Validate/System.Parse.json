@@ -37,6 +37,11 @@
                         {
                             "is.array": true
                         }
+                    ],
+                    "build.run.throw": [
+                        {
+                            "is.array": true
+                        }
                     ]
                 }
             },
@@ -76,6 +81,11 @@
                         {
                             "is.array": true
                         }
+                    ],
+                    "build.run.throw": [
+                        {
+                            "is.array": true
+                        }
                     ]
                 }
             },
@@ -112,6 +122,11 @@
                         }
                     ],
                     "?build.use.trait": [
+                        {
+                            "is.array": true
+                        }
+                    ],
+                    "?build.run.throw": [
                         {
                             "is.array": true
                         }

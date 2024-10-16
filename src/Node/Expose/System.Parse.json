@@ -55,7 +55,8 @@
                             "build": {
                                 "multiple": false,
                                 "output": [
-                                    "use"
+                                    "use",
+                                    "run"
                                 ],
                                 "object" : {
                                     "use" : {
@@ -63,6 +64,12 @@
                                         "output": [
                                             "class",
                                             "trait"
+                                        ]
+                                    },
+                                    "run" : {
+                                        "multiple": false,
+                                        "output": [
+                                            "throw"
                                         ]
                                     }
                                 }
@@ -125,7 +132,8 @@
                             "build": {
                                 "multiple": false,
                                 "output": [
-                                    "use"
+                                    "use",
+                                    "run"
                                 ],
                                 "object" : {
                                     "use" : {
@@ -133,6 +141,12 @@
                                         "output": [
                                             "class",
                                             "trait"
+                                        ]
+                                    },
+                                    "run" : {
+                                        "multiple": false,
+                                        "output": [
+                                            "throw"
                                         ]
                                     }
                                 }
@@ -195,7 +209,8 @@
                             "build": {
                                 "multiple": false,
                                 "output": [
-                                    "use"
+                                    "use",
+                                    "run"
                                 ],
                                 "object" : {
                                     "use" : {
@@ -203,6 +218,12 @@
                                         "output": [
                                             "class",
                                             "trait"
+                                        ]
+                                    },
+                                    "run" : {
+                                        "multiple": false,
+                                        "output": [
+                                            "throw"
                                         ]
                                     }
                                 }
@@ -265,7 +286,8 @@
                             "build": {
                                 "multiple": false,
                                 "output": [
-                                    "use"
+                                    "use",
+                                    "run"
                                 ],
                                 "object" : {
                                     "use" : {
@@ -273,6 +295,12 @@
                                         "output": [
                                             "class",
                                             "trait"
+                                        ]
+                                    },
+                                    "run" : {
+                                        "multiple": false,
+                                        "output": [
+                                            "throw"
                                         ]
                                     }
                                 }
@@ -335,7 +363,8 @@
                             "build": {
                                 "multiple": false,
                                 "output": [
-                                    "use"
+                                    "use",
+                                    "run"
                                 ],
                                 "object" : {
                                     "use" : {
@@ -343,6 +372,12 @@
                                         "output": [
                                             "class",
                                             "trait"
+                                        ]
+                                    },
+                                    "run" : {
+                                        "multiple": false,
+                                        "output": [
+                                            "throw"
                                         ]
                                     }
                                 }
@@ -405,7 +440,8 @@
                             "build": {
                                 "multiple": false,
                                 "output": [
-                                    "use"
+                                    "use",
+                                    "run"
                                 ],
                                 "object" : {
                                     "use" : {
@@ -413,6 +449,12 @@
                                         "output": [
                                             "class",
                                             "trait"
+                                        ]
+                                    },
+                                    "run" : {
+                                        "multiple": false,
+                                        "output": [
+                                            "throw"
                                         ]
                                     }
                                 }
@@ -475,7 +517,8 @@
                             "build": {
                                 "multiple": false,
                                 "output": [
-                                    "use"
+                                    "use",
+                                    "run"
                                 ],
                                 "object" : {
                                     "use" : {
@@ -483,6 +526,12 @@
                                         "output": [
                                             "class",
                                             "trait"
+                                        ]
+                                    },
+                                    "run" : {
+                                        "multiple": false,
+                                        "output": [
+                                            "throw"
                                         ]
                                     }
                                 }
@@ -545,7 +594,8 @@
                             "build": {
                                 "multiple": false,
                                 "output": [
-                                    "use"
+                                    "use",
+                                    "run"
                                 ],
                                 "object" : {
                                     "use" : {
@@ -553,6 +603,12 @@
                                         "output": [
                                             "class",
                                             "trait"
+                                        ]
+                                    },
+                                    "run" : {
+                                        "multiple": false,
+                                        "output": [
+                                            "throw"
                                         ]
                                     }
                                 }
@@ -615,7 +671,8 @@
                             "build": {
                                 "multiple": false,
                                 "output": [
-                                    "use"
+                                    "use",
+                                    "run"
                                 ],
                                 "object" : {
                                     "use" : {
@@ -623,6 +680,12 @@
                                         "output": [
                                             "class",
                                             "trait"
+                                        ]
+                                    },
+                                    "run" : {
+                                        "multiple": false,
+                                        "output": [
+                                            "throw"
                                         ]
                                     }
                                 }
@@ -685,7 +748,8 @@
                             "build": {
                                 "multiple": false,
                                 "output": [
-                                    "use"
+                                    "use",
+                                    "run"
                                 ],
                                 "object" : {
                                     "use" : {
@@ -693,6 +757,12 @@
                                         "output": [
                                             "class",
                                             "trait"
+                                        ]
+                                    },
+                                    "run" : {
+                                        "multiple": false,
+                                        "output": [
+                                            "throw"
                                         ]
                                     }
                                 }
@@ -755,7 +825,8 @@
                             "build": {
                                 "multiple": false,
                                 "output": [
-                                    "use"
+                                    "use",
+                                    "run"
                                 ],
                                 "object" : {
                                     "use" : {
@@ -763,6 +834,12 @@
                                         "output": [
                                             "class",
                                             "trait"
+                                        ]
+                                    },
+                                    "run" : {
+                                        "multiple": false,
+                                        "output": [
+                                            "throw"
                                         ]
                                     }
                                 }

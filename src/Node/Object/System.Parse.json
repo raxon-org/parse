@@ -93,20 +93,30 @@
             "name": "build",
             "type": "object",
             "property": [
-                {
-                    "name": "use",
-                    "type": "object",
-                    "property": [
-                        {
-                            "name": "class",
-                            "type": "array"
-                        },
-                        {
-                            "name": "trait",
-                            "type": "array"
-                        }
-                    ]
-                }
+              {
+                "name": "use",
+                "type": "object",
+                "property": [
+                  {
+                      "name": "class",
+                      "type": "array"
+                  },
+                  {
+                      "name": "trait",
+                      "type": "array"
+                  }
+                ]
+              },
+              {
+                "name": "run",
+                "type": "object",
+                "property": [
+                  {
+                    "name": "throw",
+                    "type": "array"
+                  }
+                ]
+              }
             ]
           }
         ]

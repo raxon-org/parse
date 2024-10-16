@@ -43,12 +43,14 @@ class Variable
                     $char['value'] === '['
                 ){
                     $array_depth++;
+                    breakpoint('yes1');
                 }
                 elseif(
                     array_key_exists('value', $char) &&
                     $char['value'] === ']'
                 ){
                     $array_depth--;
+                    breakpoint('yes2');
                 }
                 elseif(
                     array_key_exists('value', $char) &&

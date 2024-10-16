@@ -113,7 +113,7 @@ class Build
         $block = [];
         $break_level = 0;
         $object->config('package.raxon/parse.build.state.break.level', $break_level);
-        $data[] = '$object->config(\'package.raxon/parse.build.state.source\', \''. $source .'\');';
+        $data[] = '$object->config(\'package.raxon/parse.build.state.source\', \''. str_replace('\'', '\\\'', $source) .'\');';
         foreach($tags as $row_nr => $list){
             foreach($list as $nr => &$record){
                 if(

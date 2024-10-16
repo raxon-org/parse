@@ -201,10 +201,16 @@ class Parse
         }
         */
         $depth = $options->depth ?? null;
+        $type = gettype($input);
         if(
-            is_scalar($input) ||
+            $type === 'integer' ||
+            $type === 'double' ||
+            $type === 'boolean' ||
             $input === null
         ){
+            return $input;
+        }
+        elseif($type === 'string'){
             /**
              * always parse the document (can have comment)
              */

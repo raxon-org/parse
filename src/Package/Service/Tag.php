@@ -190,6 +190,8 @@ class Tag
                         $skip++;
                         continue;
                     }
+                } else {
+
                 }
                 /*
                 elseif(
@@ -287,7 +289,8 @@ class Tag
                 */
                 if(
                     $curly_count === 2 &&
-                    $tag === false
+                    $tag === false &&
+                    $previous === '{'
                 ){
                     $tag = '{{';
                 }

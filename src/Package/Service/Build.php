@@ -926,6 +926,8 @@ class Build
         $build = new Build($object, $flags, $options);
         $indent = $object->config('package.raxon/parse.build.state.indent');
         $throws = $object->config('package.raxon/parse.build.run.throw');
+        $throws = $object->config('package.raxon/parse.build.run.throw');
+        breakpoint($throws);
         $document[] = str_repeat(' ', $indent * 4) . '/**';
         if(is_array($throws)){
             foreach($throws as $throw){

@@ -173,7 +173,7 @@ class Tag
                 ){
                     $is_comment = false;
                     $is_comment_multiline = false;
-                    if($curly_count >= 2){
+                    if($curly_count >= 1){
                         $skip++;
                         if(
                             in_array(

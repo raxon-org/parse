@@ -237,7 +237,7 @@ class Variable
         $is_variable = false;
         $has_name = false;
         $name = '';
-        breakpoint($input);
+//        breakpoint($input);
         foreach($input['array'] as $nr => $char){
             if(!is_numeric($nr)){
                 // ',' in modifier causes this

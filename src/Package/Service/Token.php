@@ -630,11 +630,38 @@ class Token
                                 if(array_key_exists(0, $modifier_list)){
                                     $variable_target = Token::variable_name($object, $flags, $options, $variable_name);
                                     $before = str_replace($variable_target, '', $variable_name);
+                                    $is_not_count = mb_substr_count($before, '!');
+                                    $is_not = null;
+                                    if(
+                                        in_array(
+                                            $is_not_count,
+                                            [
+                                                2,
+                                                4
+                                            ],
+                                            true
+                                        )
+                                    ){
+                                        $is_not = true;
+                                    }
+                                    elseif(
+                                        in_array(
+                                            $is_not_count,
+                                            [
+                                                1,
+                                                3,
+                                            ],
+                                            true
+                                        )
+                                    ){
+                                        $is_not = false;
+                                    }
                                     breakpoint($before);
                                     breakpoint($variable_name);
 
                                     $variable = [
                                         'is_define' => true,
+                                        'is_not' => $is_not,
                                         'name' => mb_substr($variable_name, 1),
                                         'modifier' => $modifier_list,
                                     ];
@@ -658,10 +685,35 @@ class Token
                                 } else {
                                     $variable_target = Token::variable_name($object, $flags, $options, $variable_name);
                                     $before = str_replace($variable_target, '', $variable_name);
-                                    breakpoint($before);
-                                    breakpoint($variable_name);
+                                    $is_not_count = mb_substr_count($before, '!');
+                                    $is_not = null;
+                                    if(
+                                        in_array(
+                                            $is_not_count,
+                                            [
+                                                2,
+                                                4
+                                            ],
+                                            true
+                                        )
+                                    ){
+                                        $is_not = true;
+                                    }
+                                    elseif(
+                                        in_array(
+                                            $is_not_count,
+                                            [
+                                                1,
+                                                3,
+                                            ],
+                                            true
+                                        )
+                                    ){
+                                        $is_not = false;
+                                    }
                                     $variable = [
                                         'is_define' => true,
+                                        'is_not' => $is_not,
                                         'name' => mb_substr($variable_name, 1),
                                     ];
                                 }

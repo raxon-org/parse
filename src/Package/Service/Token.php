@@ -630,6 +630,7 @@ class Token
                                 if(array_key_exists(0, $modifier_list)){
                                     $variable_target = Token::variable_name($object, $flags, $options, $variable_name);
                                     $before = str_replace($variable_target, '', $variable_name);
+                                    breakpoint($before);
                                     $is_not_count = mb_substr_count($before, '!');
                                     $is_not = null;
                                     if(
@@ -682,6 +683,7 @@ class Token
                                 } else {
                                     $variable_target = Token::variable_name($object, $flags, $options, $variable_name);
                                     $before = str_replace($variable_target, '', $variable_name);
+                                    breakpoint($before);
                                     $is_not_count = mb_substr_count($before, '!');
                                     $is_not = null;
                                     if(

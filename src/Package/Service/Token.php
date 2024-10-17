@@ -621,6 +621,7 @@ class Token
                                         'name' => mb_substr($variable_name, 1)
                                     ];
                                 } else {
+                                    breakpoint($variable_name);
                                     $variable = [
                                         'is_define' => true,
                                         'name' => mb_substr($variable_name, 1),

@@ -319,8 +319,10 @@ class Parse
                     }
                     $old_source = $options->source ?? 'source';
                     $old_class = $options->class;
-
-                    $source = str_replace('internal_' . ($depth -1) . 'x', '', $options->source);
+                    $source = $options->source;
+                    for($i = 0; $i < $depth; $i++){
+                        $source = str_replace('internal_' . $i . 'x', '', $source);
+                    }
                     $options->source = 'internal_' . ($depth + 1) . 'x_' . $source . '_' . $key;
                     $options->class = Parse::class_name($object, $options->source);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);

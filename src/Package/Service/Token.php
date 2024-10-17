@@ -183,7 +183,7 @@ class Token
     {
         $explode = explode(')', $content, 2);
         $explode_explode = explode('(', $explode[0], 2);
-        $cast = trim($explode_explode[1]) ?? '';;
+        $cast = trim($explode_explode[1] ?? '');
         switch($cast){
             case 'integer':
             case 'int':

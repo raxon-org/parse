@@ -326,7 +326,6 @@ class Parse
                         } else {
                             $source = str_replace('internal_' . $i . 'x', '', $source);
                         }
-
                     }
                     $options->source = 'internal_' . ($depth + 1) . 'x_' . $source . '_' . $key;
                     $options->class = Parse::class_name($object, $options->source);

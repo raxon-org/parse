@@ -136,6 +136,9 @@ class Token
                     $hash = hash('sha256', 'tag.' . $content);
                     d($content);
                     breakpoint($record);
+                    $content_variable = str_replace([
+
+                    ],[], $content);
                     if(mb_substr($content, 0, 1) === '$'){
                         if($cache->has($hash)){
                             $variable = $cache->get($hash);

@@ -317,8 +317,8 @@ class Parse
                     ){
                         continue;
                     }
-                    $temp_source = $options->source ?? 'source';
-                    $temp_class = $options->class;
+                    $old_source = $options->source ?? 'source';
+                    $old_class = $options->class;
 
                     $count = substr_count($options->source, 'internal_') + 1;
                     $source = str_replace('internal_', '', $options->source);
@@ -328,8 +328,8 @@ class Parse
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
                     $input->{$key} = $this->compile($value, $data);
-                    $options->source = $temp_source;
-                    $options->class = $temp_class;
+                    $options->source = $old_source;
+                    $options->class = $old_class;
                 }
                 $options->depth--;
 //                $object->config('package.raxon/parse.build.state.this.attribute', $attribute);

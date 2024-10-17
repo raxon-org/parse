@@ -12,6 +12,9 @@
         "array": [1, 2, 3],
         "parentNode": "{{$this.#parentNode.float|default:'no-parentNode'}}",
         "selector": "{{$this.array|object:Core::JSON}}"
+        "three": {
+            "bool": true
+        }
     },
     "function": "{{echo('test123')}}",
     "class": "System.Config",

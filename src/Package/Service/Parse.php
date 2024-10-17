@@ -320,10 +320,8 @@ class Parse
                     $old_source = $options->source ?? 'source';
                     $old_class = $options->class;
 
-                    $count = substr_count($options->source, 'internal_') + 1;
                     $source = str_replace('internal_', '', $options->source);
-
-                    $options->source = 'internal_' . $count . 'x_' . $source . '_' . $key;
+                    $options->source = 'internal_' . $depth . 'x_' . $source . '_' . $key;
                     $options->class = Parse::class_name($object, $options->source);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);

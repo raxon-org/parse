@@ -1531,9 +1531,20 @@ class Build
                 $previous_modifier = $modifier_value;
             }
             $value = $modifier_value;
+            $is_not = '';
+            if(
+                array_key_exists('is_not', $record['variable'])
+            ){
+                if($record['variable']['is_not'] === true){
+                    $is_not = ' !! ';
+                }
+                elseif($record['variable']['is_not'] === false){
+                    $is_not = ' !';
+                }
+            }
             $data = [
                 'try {',
-                $variable_uuid . ' = ' . $value . ';',
+                $variable_uuid . ' = ' . $is_not . $value . ';',
             ];
             if(
                 array_key_exists('is_multiline', $record) &&
@@ -1582,8 +1593,19 @@ class Build
             $data[] = '}';
             return $data;
         } else {
+            $is_not = '';
+            if(
+                array_key_exists('is_not', $record['variable'])
+            ){
+                if($record['variable']['is_not'] === true){
+                    $is_not = ' !! ';
+                }
+                elseif($record['variable']['is_not'] === false){
+                    $is_not = ' !';
+                }
+            }
             $data = [
-                $variable_uuid . ' = $data->get(\'' . $variable_name . '\');' ,
+                $variable_uuid . ' = ' . $is_not . '$data->get(\'' . $variable_name . '\');' ,
             ];
             if(
                 array_key_exists('is_multiline', $record) &&

@@ -668,16 +668,17 @@ class Build
                     ){
                         // !!!! $this.boolean
                         $value = Build::value($object, $flags, $options, $record, $record['marker']['value'], $is_set);
+                        $uuid_variable = Core::uuid_variable();
                         if($is_block){
-                            $block[] = '$boolean =  ' . $value . ';';
-                            $block[] = 'if($boolean === true){';
+                            $block[] = $uuid_variable . ' =  ' . $value . ';';
+                            $block[] = 'if(' . $uuid_variable . ' === true){';
                             $block[] = 'echo \'true\';';
                             $block[] = '} else {';
                             $block[] = 'echo \'false\';';
                             $block[] = '}';
                         } else {
-                            $data[] = '$boolean = ' . $value . ';';
-                            $data[] = 'if($boolean === true){';
+                            $data[] = $uuid_variable . ' =  ' . $value . ';';
+                            $data[] = 'if(' . $uuid_variable . ' === true){';
                             $data[] = 'echo \'true\';';
                             $data[] = '} else {';
                             $data[] = 'echo \'false\';';

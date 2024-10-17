@@ -189,12 +189,14 @@ class Token
             case 'integer':
             case 'int':
                 return 'int';
+            case 'bool':
+            case 'boolean':
+                return 'bool';
             case 'float':
             case 'double':
             case 'string':
             case 'array':
             case 'object':
-            case 'bool':
             case 'clone':
                 return $cast;
         }

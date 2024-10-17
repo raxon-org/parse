@@ -324,6 +324,7 @@ class Parse
                         if($i === 0){
                             $source = str_replace('internal_', '', $source);
                         } else {
+                            breakpoint($source);
                             $source = str_replace('internal_' . $i . 'x', '', $source);
                         }
                     }

@@ -115,6 +115,38 @@ class Token
     }
 
 
+    public static function is_variable_tag(App $object, $flags, $options, $content=''): bool
+    {
+        $explode = explode('$', $content, 2);
+        $before = str_replace(
+            [
+                '!',
+                '&',
+                '(',
+                ')',
+                'integer',
+                'int',
+                'float',
+                'double',
+                'string',
+                'array',
+                'object',
+                'bool',
+                'clone',
+                "\n",
+                "\t",
+                ' '
+            ],
+            '',
+            $explode[0]
+        );
+        if($before === ''){
+            return true;
+        }
+        return false;
+    }
+
+
     /**
      * @throws Exception
      */
@@ -134,12 +166,9 @@ class Token
                         unset($tags[$line][$nr]);
                     }
                     $hash = hash('sha256', 'tag.' . $content);
-                    d($content);
-                    breakpoint($record);
-                    $content_variable = str_replace([
-
-                    ],[], $content);
-                    if(mb_substr($content, 0, 1) === '$'){
+                    $is_variable_tag = Token::is_variable_tag($object, $flags, $options, $content);
+                    breakpoint($is_variable_tag);
+                    if$is_variable_tag === true){
                         if($cache->has($hash)){
                             $variable = $cache->get($hash);
                         } else {

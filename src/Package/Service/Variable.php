@@ -279,6 +279,7 @@ class Variable
                         if($name !== '$'){
                             $has_name = true;
                             $is_reference = false;
+                            breakpoint($previous);
                             if ($previous === '&') {
                                 $is_reference = true;
                                 $input['array'][$is_variable - 1] = null;

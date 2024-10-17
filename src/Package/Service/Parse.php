@@ -201,7 +201,9 @@ class Parse
         }
         */
         $depth = $options->depth ?? null;
+        $input = null;
         $type = gettype($input);
+        breakpoint($type);
         if(
             in_array(
                 $type,

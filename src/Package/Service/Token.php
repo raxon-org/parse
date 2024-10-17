@@ -595,6 +595,9 @@ class Token
                             }
                             if($after === ''){
                                 if(array_key_exists(0, $modifier_list)){
+
+                                    breakpoint($variable_name);
+
                                     $variable = [
                                         'is_define' => true,
                                         'name' => mb_substr($variable_name, 1),

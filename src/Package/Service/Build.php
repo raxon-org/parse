@@ -1532,15 +1532,19 @@ class Build
             }
             $value = $modifier_value;
             $is_not = '';
-            if(
-                array_key_exists('is_not', $record['variable'])
-            ){
+            if(array_key_exists('is_not', $record['variable'])){
                 if($record['variable']['is_not'] === true){
                     $is_not = ' !! ';
                 }
                 elseif($record['variable']['is_not'] === false){
                     $is_not = ' !';
                 }
+            }
+            if(
+                array_key_exists('cast', $record['variable']) &&
+                $record['variable']['cast'] !== false
+            ){
+                $value = '(' . $record['variable']['cast'] . ') ' . $value;
             }
             $data = [
                 'try {',
@@ -1598,14 +1602,20 @@ class Build
                 array_key_exists('is_not', $record['variable'])
             ){
                 if($record['variable']['is_not'] === true){
-                    $is_not = ' !! ';
+                    $is_not = '!! ';
                 }
                 elseif($record['variable']['is_not'] === false){
-                    $is_not = ' !';
+                    $is_not = '! ';
                 }
             }
+            if(
+                array_key_exists('cast', $record['variable']) &&
+                $record['variable']['cast'] !== false
+            ){
+                $cast = '(' . $record['variable']['cast'] . ') ';
+            }
             $data = [
-                $variable_uuid . ' = ' . $is_not . '$data->get(\'' . $variable_name . '\');' ,
+                $variable_uuid . ' = ' . $is_not . $cast . '$data->get(\'' . $variable_name . '\');' ,
             ];
             if(
                 array_key_exists('is_multiline', $record) &&

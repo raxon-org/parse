@@ -323,9 +323,7 @@ class Parse
                     $options->class = Parse::class_name($object, $options->source);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
-                    breakpoint($value);
                     $input->{$key} = $this->compile($value, $data);
-                    breakpoint($input->{$key});
                     $options->source = $temp_source;
                     $options->class = $temp_class;
                 }

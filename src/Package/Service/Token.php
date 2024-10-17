@@ -146,7 +146,7 @@ class Token
         return false;
     }
 
-    public static function variable_name(App $object, $flags, $options, $content=''): bool
+    public static function variable_name(App $object, $flags, $options, $content=''): bool | string
     {
         d($content);
         $explode = explode('$', $content, 2);
@@ -174,7 +174,7 @@ class Token
             $explode[0]
         );
         if($before === ''){
-            return  '$' . $explode[1];
+            return '$' . $explode[1];
         }
         return false;
     }

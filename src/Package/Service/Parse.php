@@ -202,13 +202,13 @@ class Parse
         */
         $depth = $options->depth ?? null;
         $input = null;
-        $type = gettype($input);
+        $type = strtolower(gettype($input));
         breakpoint($type);
         if(
             in_array(
                 $type,
                 [
-                    null,
+                    'null',
                     'integer',
                     'double',
                     'boolean'

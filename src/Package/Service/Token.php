@@ -148,7 +148,9 @@ class Token
 
     public static function variable_name(App $object, $flags, $options, $content=''): bool
     {
+        d($content);
         $explode = explode('$', $content, 2);
+        d($explode);
         $before = str_replace(
             [
                 '!',

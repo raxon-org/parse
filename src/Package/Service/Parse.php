@@ -321,7 +321,12 @@ class Parse
                     $old_class = $options->class;
                     $source = $options->source;
                     for($i = 0; $i < $depth; $i++){
-                        $source = str_replace('internal_' . $i . 'x', '', $source);
+                        if($i === 0){
+                            $source = str_replace('internal_', '', $source);
+                        } else {
+                            $source = str_replace('internal_' . $i . 'x', '', $source);
+                        }
+
                     }
                     $options->source = 'internal_' . ($depth + 1) . 'x_' . $source . '_' . $key;
                     $options->class = Parse::class_name($object, $options->source);

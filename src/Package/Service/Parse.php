@@ -320,7 +320,7 @@ class Parse
                     $old_source = $options->source ?? 'source';
                     $old_class = $options->class;
                     $source = $options->source;
-                    for($i = 0; $i < $depth; $i++){
+                    for($i = 0; $i <= $depth; $i++){
                         if($i === 0){
                             $source = str_replace('internal_', '', $source);
                         } else {

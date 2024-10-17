@@ -656,13 +656,10 @@ class Token
                                     ){
                                         $is_not = false;
                                     }
-                                    breakpoint($before);
-                                    breakpoint($variable_name);
-
                                     $variable = [
                                         'is_define' => true,
                                         'is_not' => $is_not,
-                                        'name' => mb_substr($variable_name, 1),
+                                        'name' => mb_substr($variable_target, 1),
                                         'modifier' => $modifier_list,
                                     ];
                                 }
@@ -714,7 +711,7 @@ class Token
                                     $variable = [
                                         'is_define' => true,
                                         'is_not' => $is_not,
-                                        'name' => mb_substr($variable_name, 1),
+                                        'name' => mb_substr($variable_target, 1),
                                     ];
                                 }
                             } else {
@@ -726,23 +723,80 @@ class Token
                                         [
                                             'string' => $after,
                                             'array' => $after_array,
-//                                            'modifier' => $modifier_list
                                         ]
                                     );
+                                    $variable_target = Token::variable_name($object, $flags, $options, $variable_name);
+                                    $before = str_replace($variable_target, '', $variable_name);
+                                    $is_not_count = mb_substr_count($before, '!');
+                                    $is_not = null;
+                                    if(
+                                        in_array(
+                                            $is_not_count,
+                                            [
+                                                2,
+                                                4
+                                            ],
+                                            true
+                                        )
+                                    ){
+                                        $is_not = true;
+                                    }
+                                    elseif(
+                                        in_array(
+                                            $is_not_count,
+                                            [
+                                                1,
+                                                3,
+                                            ],
+                                            true
+                                        )
+                                    ){
+                                        $is_not = false;
+                                    }
 //                                    $cache->set($after_hash, $list);
                                     $variable = [
                                         'is_assign' => true,
+                                        'is_not' => $is_not,
                                         'operator' => $operator,
-                                        'name' => mb_substr($variable_name, 1),
+                                        'name' => mb_substr($variable_target, 1),
                                         'value' => $list,
                                     ];
                                 } else {
                                     $after = $variable_name . $after;
+                                    $variable_target = Token::variable_name($object, $flags, $options, $variable_name);
+                                    $before = str_replace($variable_target, '', $variable_name);
+                                    $is_not_count = mb_substr_count($before, '!');
+                                    $is_not = null;
+                                    if(
+                                        in_array(
+                                            $is_not_count,
+                                            [
+                                                2,
+                                                4
+                                            ],
+                                            true
+                                        )
+                                    ){
+                                        $is_not = true;
+                                    }
+                                    elseif(
+                                        in_array(
+                                            $is_not_count,
+                                            [
+                                                1,
+                                                3,
+                                            ],
+                                            true
+                                        )
+                                    ){
+                                        $is_not = false;
+                                    }
                                     array_unshift($after_array, [
                                         'type'=> 'variable',
                                         'tag' => $variable_name,
-                                        'name' => mb_substr($variable_name, 1),
-                                        'is_reference' => false
+                                        'name' => mb_substr($variable_target, 1),
+                                        'is_reference' => false,
+                                        'is_not' => $is_not,
                                     ]);
                                     $list = Token::value(
                                         $object,

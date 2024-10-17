@@ -656,7 +656,9 @@ class Token
                                         'name' => mb_substr($variable_name, 1)
                                     ];
                                 } else {
-                                    $variable_name = Token::variable_name($object, $flags, $options, $variable_name);
+                                    $variable_target = Token::variable_name($object, $flags, $options, $variable_name);
+                                    $before = str_replace($variable_target, $variable_name);
+                                    breakpoint($before);
                                     breakpoint($variable_name);
                                     $variable = [
                                         'is_define' => true,

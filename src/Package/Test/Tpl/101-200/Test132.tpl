@@ -13,7 +13,7 @@
         "parentNode": "{{$this.#parentNode.float|default:'no-parentNode'}}",
         "selector": "{{$this.array|object:Core::JSON}}",
         "three": {
-            "bool": "{{!$this.#parentNode.boolean}}"
+            "bool": "{{$this.#parentNode.boolean}}"
         }
     },
     "function": "{{echo('test123')}}",

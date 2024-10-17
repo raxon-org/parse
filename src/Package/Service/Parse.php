@@ -203,10 +203,16 @@ class Parse
         $depth = $options->depth ?? null;
         $type = gettype($input);
         if(
-            $type === 'integer' ||
-            $type === 'double' ||
-            $type === 'boolean' ||
-            $input === null
+            in_array(
+                $type,
+                [
+                    null,
+                    'integer',
+                    'double',
+                    'boolean'
+                ],
+                true
+            )
         ){
             return $input;
         }

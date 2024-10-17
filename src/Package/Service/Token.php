@@ -134,6 +134,8 @@ class Token
                         unset($tags[$line][$nr]);
                     }
                     $hash = hash('sha256', 'tag.' . $content);
+                    d($content);
+                    breakpoint($record);
                     if(mb_substr($content, 0, 1) === '$'){
                         if($cache->has($hash)){
                             $variable = $cache->get($hash);

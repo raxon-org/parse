@@ -8,7 +8,7 @@
         "boolean": true,
         "boolean-false": "{{!$this.boolean}}",
         "three": {
-            "bool": "{{!$this.#parentNode.boolean}}"
+            "bool": "{{!!!!$this.#parentNode.boolean}}"
         }
     }
 }

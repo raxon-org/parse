@@ -167,6 +167,7 @@ class Token
                     }
                     $hash = hash('sha256', 'tag.' . $content);
                     $is_variable_tag = Token::is_variable_tag($object, $flags, $options, $content);
+                    d($content);
                     breakpoint($is_variable_tag);
                     if($is_variable_tag === true){
                         if($cache->has($hash)){

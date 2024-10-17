@@ -1608,6 +1608,7 @@ class Build
                     $is_not = '! ';
                 }
             }
+            $cast = '';
             if(
                 array_key_exists('cast', $record['variable']) &&
                 $record['variable']['cast'] !== false

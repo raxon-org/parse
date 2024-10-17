@@ -9,7 +9,7 @@
         "boolean-false": "{{!$this.boolean}}",
         "three": {
             "bool": "{{!$this.#parentNode.boolean}}",
-            "bool2": "{{!!!!$this.#parentNode.boolean}}"
+            "bool2": "{{!!!!$this.#parentNode.boolean}}",
             "int": "{{(int) $this.#rootNode.float}}"
         }
     }

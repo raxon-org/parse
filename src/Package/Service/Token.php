@@ -148,9 +148,7 @@ class Token
 
     public static function variable_name(App $object, $flags, $options, $content=''): bool | string
     {
-        d($content);
         $explode = explode('$', $content, 2);
-        d($explode);
         $before = str_replace(
             [
                 '!',
@@ -173,7 +171,10 @@ class Token
             '',
             $explode[0]
         );
-        if($before === ''){
+        if(
+            $before === '' &&
+            array_key_exists(1, $explode)
+        ){
             return '$' . $explode[1];
         }
         return false;

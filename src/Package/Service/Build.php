@@ -1544,7 +1544,11 @@ class Build
                 array_key_exists('cast', $record['variable']) &&
                 $record['variable']['cast'] !== false
             ){
-                $value = '(' . $record['variable']['cast'] . ') ' . $value;
+                if($record['variable']['cast'] === 'clone'){
+                    $value = 'clone ' . $value;
+                } else {
+                    $value = '(' . $record['variable']['cast'] . ') ' . $value;
+                }
             }
             $data = [
                 'try {',
@@ -1613,7 +1617,11 @@ class Build
                 array_key_exists('cast', $record['variable']) &&
                 $record['variable']['cast'] !== false
             ){
-                $cast = '(' . $record['variable']['cast'] . ') ';
+                if($record['variable']['cast'] === 'clone'){
+                    $cast = 'clone ';
+                } else {
+                    $cast = '(' . $record['variable']['cast'] . ') ';
+                }
             }
             $data = [
                 $variable_uuid . ' = ' . $is_not . $cast . '$data->get(\'' . $variable_name . '\');' ,

@@ -19,7 +19,7 @@ trait Dd {
             $options['trace'] = true;
         }
         if($options['trace'] === true){
-            $source = $object->config('package.raxon/parse.build.state.source');
+            $source = $object->config('package.raxon/parse.build.state.source.url');
             $tag = $object->config('package.raxon/parse.build.state.tag');
             if(property_exists($tag, 'source')){
                 if(

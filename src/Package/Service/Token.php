@@ -628,7 +628,9 @@ class Token
                             }
                             if($after === ''){
                                 if(array_key_exists(0, $modifier_list)){
-                                    $variable_name = Token::variable_name($object, $flags, $options, $variable_name);
+                                    $variable_target = Token::variable_name($object, $flags, $options, $variable_name);
+                                    $before = str_replace($variable_target, $variable_name);
+                                    breakpoint($before);
                                     breakpoint($variable_name);
 
                                     $variable = [

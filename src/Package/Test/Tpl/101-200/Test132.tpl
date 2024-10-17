@@ -11,7 +11,7 @@
         "boolean-false": "{{!$this.boolean}}",
         "array": [1, 2, 3],
         "parentNode": "{{$this.#parentNode.float|default:'no-parentNode'}}",
-        "selector": "{{$this.array|object:Core::JSON}}"
+        "selector": "{{$this.array|object:Core::JSON}}",
         "three": {
             "bool": true
         }

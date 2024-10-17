@@ -181,12 +181,14 @@ class Token
 
     public static function cast_get(App $object, $flags, $options, $content=''): bool | string
     {
+
         $explode = explode(')', $content, 2);
         $explode_explode = explode('(', $explode[0], 2);
         $cast = trim($explode_explode[1] ?? '');
         switch($cast){
             case 'integer':
             case 'int':
+                return 'int';
             case 'float':
             case 'double':
             case 'string':

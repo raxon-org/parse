@@ -280,10 +280,34 @@ class Variable
                         if($name !== '$'){
                             $has_name = true;
                             $is_reference = false;
-                            if($previous === '!'){
-                                breakpoint($previous);
+                            $is_not = null; //neutral
+                            if(
+                                in_array(
+                                    $previous,
+                                    [
+                                        '!',
+                                        '!!!',
+                                    ],
+                                    true
+                                )
+                            ){
+                                $is_not = false;
+                                $input['array'][$is_variable - 1] = null;
                             }
-                            if ($previous === '&') {
+                            elseif(
+                                in_array(
+                                    $previous,
+                                    [
+                                        '!!',
+                                        '!!!!'
+                                    ],
+                                    true
+                                )
+                            ){
+                                $is_not = true;
+                                $input['array'][$is_variable - 1] = null;
+                            }
+                            elseif ($previous === '&') {
                                 $is_reference = true;
                                 $input['array'][$is_variable - 1] = null;
                             }
@@ -291,7 +315,8 @@ class Variable
                                 'type' => 'variable',
                                 'tag' => $name,
                                 'name' => mb_substr($name, 1),
-                                'is_reference' => $is_reference
+                                'is_reference' => $is_reference,
+                                'is_not' => $is_not
                             ];
                             $name = '';
                             $has_name = false;
@@ -317,7 +342,34 @@ class Variable
                     )
                 ){
                     $is_reference = false;
-                    if ($previous === '&') {
+                    $is_not = null; //neutral
+                    if(
+                        in_array(
+                            $previous,
+                            [
+                                '!',
+                                '!!!',
+                            ],
+                            true
+                        )
+                    ){
+                        $is_not = false;
+                        $input['array'][$is_variable - 1] = null;
+                    }
+                    elseif(
+                        in_array(
+                            $previous,
+                            [
+                                '!!',
+                                '!!!!'
+                            ],
+                            true
+                        )
+                    ){
+                        $is_not = true;
+                        $input['array'][$is_variable - 1] = null;
+                    }
+                    elseif ($previous === '&') {
                         $is_reference = true;
                         $input['array'][$is_variable - 1] = null;
                     }
@@ -325,7 +377,8 @@ class Variable
                         'type' => 'variable',
                         'tag' => $name,
                         'name' => mb_substr($name, 1),
-                        'is_reference' => $is_reference
+                        'is_reference' => $is_reference,
+                        'is_not' => $is_not
                     ];
                     for($j = $is_variable + 1; $j < $i; $j++){
                         $input['array'][$j] = null;

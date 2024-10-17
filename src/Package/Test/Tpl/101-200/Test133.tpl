@@ -12,9 +12,7 @@
             "bool2": "{{!!!!$this.#parentNode.boolean}}",
             "int": "{{(int) $this.#rootNode.float}}"
         },
-        "four": "{{(clone)
-        $this.#rootNode.object.three
-        }}"
+        "four": "{{(clone) $this.#rootNode.object.three}}"
     }
 }
 {{/block}}

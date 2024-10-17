@@ -146,6 +146,37 @@ class Token
         return false;
     }
 
+    public static function variable_name(App $object, $flags, $options, $content=''): bool
+    {
+        $explode = explode('$', $content, 2);
+        $before = str_replace(
+            [
+                '!',
+                '&',
+                '(',
+                ')',
+                'integer',
+                'int',
+                'float',
+                'double',
+                'string',
+                'array',
+                'object',
+                'bool',
+                'clone',
+                "\n",
+                "\t",
+                ' '
+            ],
+            '',
+            $explode[0]
+        );
+        if($before === ''){
+            return  '$' . $explode[1];
+        }
+        return false;
+    }
+
 
     /**
      * @throws Exception
@@ -595,7 +626,7 @@ class Token
                             }
                             if($after === ''){
                                 if(array_key_exists(0, $modifier_list)){
-
+                                    $variable_name = Token::variable_name($object, $flags, $options, $variable_name);
                                     breakpoint($variable_name);
 
                                     $variable = [
@@ -621,6 +652,7 @@ class Token
                                         'name' => mb_substr($variable_name, 1)
                                     ];
                                 } else {
+                                    $variable_name = Token::variable_name($object, $flags, $options, $variable_name);
                                     breakpoint($variable_name);
                                     $variable = [
                                         'is_define' => true,

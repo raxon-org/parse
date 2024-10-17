@@ -174,7 +174,7 @@ class Parse
      * @throws ObjectException
      * @throws TemplateException
      */
-    public function compile($input, $data=null)
+    public function compile($input, $data=null): mixed
     {
         $start = microtime(true);
         if(is_array($data)){
@@ -464,6 +464,6 @@ class Parse
             }
             return Parse::result($result);
         }
+        return null;
     }
-
 }

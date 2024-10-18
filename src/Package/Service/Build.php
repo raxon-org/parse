@@ -1508,8 +1508,28 @@ class Build
         $source = $options->source ?? '';
         $variable_name = $record['variable']['name'];
         $variable_uuid = Core::uuid_variable();
+        $method_value = '';
+        if(array_key_exists('method', $record['variable'])){
+            $method_value .= $record['variable']['method']['operator'] . $record['variable']['method']['name'] . '(' . PHP_EOL;
+            $is_argument = false;
+            if(array_key_exists('argument', $record['variable']['method'])){
+                foreach($record['variable']['method']['argument'] as $argument_nr => $argument){
+                    $argument = Build::value($object, $flags, $options, $record, $argument, $is_set);
+                    if($argument !== ''){
+                        $method_value .= $argument . ',' . PHP_EOL;
+                        $is_argument = true;
+                    }
+                }
+                if($is_argument === true){
+                    $method_value = mb_substr($method_value, 0, -2) . PHP_EOL . ')' . PHP_EOL;
+                } else {
+                    $method_value .= ')' . PHP_EOL;
+                }
+            }
+            breakpoint($method_value);
+        }
         if(array_key_exists('modifier', $record['variable'])){
-            $previous_modifier = '$data->get(\'' . $variable_name . '\')';
+            $previous_modifier = '$data->get(\'' . $variable_name . '\')' . $method_value;
             $modifier_value = $previous_modifier;
             foreach($record['variable']['modifier'] as $nr => $modifier){
                 $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $modifier['name']));
@@ -1534,25 +1554,6 @@ class Build
                 $previous_modifier = $modifier_value;
             }
             $value = $modifier_value;
-            if(array_key_exists('method', $record['variable'])){
-                $value .= $record['variable']['method']['operator'] . $record['variable']['method']['name'] . '(' . PHP_EOL;
-                $is_argument = false;
-                if(array_key_exists('argument', $record['variable']['method'])){
-                    foreach($record['variable']['method']['argument'] as $argument_nr => $argument){
-                        $argument = Build::value($object, $flags, $options, $record, $argument, $is_set);
-                        if($argument !== ''){
-                            $value .= $argument . ',' . PHP_EOL;
-                            $is_argument = true;
-                        }
-                    }
-                    if($is_argument === true){
-                        $value = mb_substr($modifier_value, 0, -2) . PHP_EOL . ')' . PHP_EOL;
-                    } else {
-                        $value .= ')' . PHP_EOL;
-                    }
-                }
-                breakpoint($value);
-            }
             $is_not = '';
             if(array_key_exists('is_not', $record['variable'])){
                 if($record['variable']['is_not'] === true){

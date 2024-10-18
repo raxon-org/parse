@@ -842,13 +842,21 @@ class Token
                                             true
                                         )
                                     ){
-                                        $method =
+                                        d($method);
+                                        d($method_array);
                                         $variable = [
                                             'is_assign' => false,
                                             'is_not' => $is_not,
                                             'operator' => $operator,
                                             'name' => mb_substr($variable_target, 1),
-                                            'method' => $list,
+                                            'method' => [
+                                                'name' => $method,
+                                                'value' => [
+                                                    'string' => $method,
+                                                    'array' => $method_array,
+                                                ]
+                                            ],
+                                            'value' => $list,
                                             'cast' => $cast
                                         ];
                                     } else {

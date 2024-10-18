@@ -870,6 +870,7 @@ class Token
                                             'cast' => $cast,
                                             'method' => $method_value['array'][0]['method']
                                         ]);
+                                        breakpoint($after_array);
                                         $list = Token::value(
                                             $object,
                                             $flags,

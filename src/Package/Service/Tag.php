@@ -296,6 +296,7 @@ class Tag
                     $is_comment === false
                 ){
                     $tag = '{{';
+                    breakpoint($tag);
                 }
                 elseif(
                     $tag !== false &&
@@ -591,6 +592,7 @@ class Tag
             }
 //            $previous = $char_list[$chunk - 1] ?? null;
         }
+        breakpoint($text);
         if($text !== ''){
 //            breakpoint($text);
             $explode = explode("\n", $text);

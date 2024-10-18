@@ -668,6 +668,7 @@ class Token
                                     }
                                 }
                             }
+                            /*
                             if($argument !== ''){
                                 $argument_hash = hash('sha256', 'argument.' . $argument);
                                 if($cache->has($argument_hash)){
@@ -699,7 +700,9 @@ class Token
                                 $modifier_string = '';
                                 $argument_list = [];
                             }
+                            */
                             if($after === ''){
+                                /*
                                 if(array_key_exists(0, $modifier_list)){
                                     $variable_target = Token::variable_name($object, $flags, $options, $variable_name);
                                     $variable_explode = explode($variable_target, $variable_name, 2);
@@ -740,7 +743,8 @@ class Token
                                     d($variable_name);
                                     breakpoint($variable);
                                 }
-                                elseif(
+                                */
+                                if(
                                     in_array(
                                         $operator,
                                         [
@@ -848,6 +852,19 @@ class Token
                                             true
                                         )
                                     ){
+                                        $method_value = Token::value(
+                                            $object,
+                                            $flags,
+                                            $options,
+                                            [
+                                                'string' => $method,
+                                                'array' => $method_array,
+                                            ]
+                                        );
+                                        breakpoint($method_value);
+
+                                        $explode = explode('(', $method);
+                                        $method_name = $explode[0];
                                         d($method);
                                         d($method_array);
                                         $variable = [
@@ -856,7 +873,7 @@ class Token
                                             'operator' => $operator,
                                             'name' => mb_substr($variable_target, 1),
                                             'method' => [
-                                                'name' => $method,
+                                                'name' => $method_name,
                                                 'value' => [
                                                     'string' => $method,
                                                     'array' => $method_array,

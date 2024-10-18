@@ -590,7 +590,10 @@ class Tag
             }
 //            $previous = $char_list[$chunk - 1] ?? null;
         }
-        breakpoint($tag);
+        d($is_comment);
+        d($char);
+        d($previous);
+        d($tag);
         breakpoint($text);
         if($text !== ''){
 //            breakpoint($text);

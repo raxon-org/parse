@@ -867,7 +867,7 @@ class Token
                                             'operator' => $operator,
                                             'name' => mb_substr($variable_target, 1),
                                             'method' => $method_value['array'][0]['method'],
-                                            'value' => $list,
+                                            'modifier' => $list,
                                             'cast' => $cast
                                         ];
                                     } else {

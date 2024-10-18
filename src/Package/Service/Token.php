@@ -766,8 +766,6 @@ class Token
                                     breakpoint($variable);
                                 }
                             } else {
-                                d($char);
-                                breakpoint($operator);
                                 if($operator){
                                     $list = Token::value(
                                         $object,

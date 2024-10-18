@@ -1534,6 +1534,9 @@ class Build
                 $previous_modifier = $modifier_value;
             }
             $value = $modifier_value;
+            if(array_key_exists('method', $record['variable'])){
+                breakpoint($record);
+            }
             $is_not = '';
             if(array_key_exists('is_not', $record['variable'])){
                 if($record['variable']['is_not'] === true){

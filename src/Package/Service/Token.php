@@ -793,36 +793,33 @@ class Token
                                     ){
                                         $is_not = false;
                                     }
-                                    $variable = [
-                                        'is_define' => true,
-                                        'is_not' => $is_not,
-                                        'name' => mb_substr($variable_target, 1),
-                                        'cast' => $cast
-                                    ];
-                                    d($operator);
-                                    d($method);
-                                    d($variable_name);
-                                    breakpoint($variable);
-
-                                    
-                                    $method_value = Token::value(
-                                        $object,
-                                        $flags,
-                                        $options,
-                                        [
-                                            'string' => $method,
-                                            'array' => $method_array,
-                                        ]
-                                    );
-                                    $variable = [
-                                        'is_define' => true,
-                                        'is_not' => $is_not,
-                                        'operator' => $operator,
-                                        'name' => mb_substr($variable_target, 1),
-                                        'method' => $method_value['array'][0]['method'],
-                                        'modifier' => [],
-                                        'cast' => $cast
-                                    ];
+                                    if($method){
+                                        $method_value = Token::value(
+                                            $object,
+                                            $flags,
+                                            $options,
+                                            [
+                                                'string' => $method,
+                                                'array' => $method_array,
+                                            ]
+                                        );
+                                        $variable = [
+                                            'is_define' => true,
+                                            'is_not' => $is_not,
+                                            'operator' => $operator,
+                                            'name' => mb_substr($variable_target, 1),
+                                            'method' => $method_value['array'][0]['method'],
+                                            'modifier' => [],
+                                            'cast' => $cast
+                                        ];
+                                    } else {
+                                        $variable = [
+                                            'is_define' => true,
+                                            'is_not' => $is_not,
+                                            'name' => mb_substr($variable_target, 1),
+                                            'cast' => $cast
+                                        ];
+                                    }
                                 }
                             } else {
                                 if($operator){

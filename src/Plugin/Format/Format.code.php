@@ -97,8 +97,9 @@ trait Format_code {
                         $next,
                         [
                             "\n",
-//                            '(',      //same line
+                            "\t",
                             ' ',
+//                            '(',      //same line
 //                            '\'',     //same line
 //                            '"',      //same line
 //                            '$'       //same line
@@ -125,11 +126,12 @@ trait Format_code {
                         $next,
                         [
                             "\n",
+                            "\t",
+                            ' ',
 //                            ';', //same line
 //                            ')', //same line
 //                            '{',
 //                            ',',
-                            ' ',
 //                            '\'', //same line
 //                            '"',  //same line
 //                            '$'   //same line

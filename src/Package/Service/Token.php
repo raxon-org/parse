@@ -175,7 +175,8 @@ class Token
             $before === '' &&
             array_key_exists(1, $explode)
         ){
-            return '$' . $explode[1];
+            $temp = explode('::', $explode[1], 2);
+            return '$' . $temp[0];
         }
         return false;
     }

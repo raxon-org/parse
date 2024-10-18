@@ -861,24 +861,12 @@ class Token
                                                 'array' => $method_array,
                                             ]
                                         );
-                                        breakpoint($method_value);
-
-                                        $explode = explode('(', $method);
-                                        $method_name = $explode[0];
-                                        d($method);
-                                        d($method_array);
                                         $variable = [
                                             'is_assign' => false,
                                             'is_not' => $is_not,
                                             'operator' => $operator,
                                             'name' => mb_substr($variable_target, 1),
-                                            'method' => [
-                                                'name' => $method_name,
-                                                'value' => [
-                                                    'string' => $method,
-                                                    'array' => $method_array,
-                                                ]
-                                            ],
+                                            'method' => $method_value['array'][0]['method'],
                                             'value' => $list,
                                             'cast' => $cast
                                         ];
@@ -893,7 +881,6 @@ class Token
                                         ];
                                     }
 //                                    $cache->set($after_hash, $list);
-
                                     d($variable_name);
                                     breakpoint($variable);
                                 } else {

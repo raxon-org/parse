@@ -1511,7 +1511,7 @@ class Build
         $method_value = '';
         if(array_key_exists('method', $record['variable'])){
             breakpoint($record);;
-            $method_value .= $record['variable']['method']['operator'] . $record['variable']['method']['name'] . '(' . PHP_EOL;
+            $method_value .= $record['variable']['operator'] . $record['variable']['method']['name'] . '(' . PHP_EOL;
             $is_argument = false;
             if(array_key_exists('argument', $record['variable']['method'])){
                 foreach($record['variable']['method']['argument'] as $argument_nr => $argument){

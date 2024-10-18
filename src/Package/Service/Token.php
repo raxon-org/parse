@@ -630,9 +630,15 @@ class Token
                                         continue;
                                     }
                                     if($is_method){
-                                        d($char);
                                         $method .= $char;
                                         $method_array[] = $char;
+                                        if(
+                                            $previous !== '\\' &&
+                                            $char === ')' &&
+                                            $set_depth === 0
+                                        ){
+                                            $is_method = false;
+                                        }
                                     } else {
                                         $after .= $char;
                                         $after_array[] = $char;

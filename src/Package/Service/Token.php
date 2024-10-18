@@ -805,15 +805,36 @@ class Token
                                     ){
                                         $is_not = false;
                                     }
+                                    if(
+                                        in_array(
+                                            $operator,
+                                             [
+                                                 '->',
+                                                 '::'
+                                             ],
+                                            true
+                                        )
+                                    ){
+                                        $variable = [
+                                            'is_assign' => false,
+                                            'is_not' => $is_not,
+                                            'operator' => $operator,
+                                            'name' => mb_substr($variable_target, 1),
+                                            'method' => $list,
+                                            'cast' => $cast
+                                        ];
+                                    } else {
+                                        $variable = [
+                                            'is_assign' => true,
+                                            'is_not' => $is_not,
+                                            'operator' => $operator,
+                                            'name' => mb_substr($variable_target, 1),
+                                            'value' => $list,
+                                            'cast' => $cast
+                                        ];
+                                    }
 //                                    $cache->set($after_hash, $list);
-                                    $variable = [
-                                        'is_assign' => true,
-                                        'is_not' => $is_not,
-                                        'operator' => $operator,
-                                        'name' => mb_substr($variable_target, 1),
-                                        'value' => $list,
-                                        'cast' => $cast
-                                    ];
+
                                     d($variable_name);
                                     breakpoint($variable);
                                 } else {

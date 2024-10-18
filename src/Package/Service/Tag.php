@@ -592,6 +592,7 @@ class Tag
             }
 //            $previous = $char_list[$chunk - 1] ?? null;
         }
+        breakpoint($tag);
         breakpoint($text);
         if($text !== ''){
 //            breakpoint($text);

@@ -692,6 +692,7 @@ class Token
                                         'modifier' => $modifier_list,
                                         'cast' => $cast
                                     ];
+                                    d($variable_name);
                                     breakpoint($variable);
                                 }
                                 elseif(
@@ -746,6 +747,7 @@ class Token
                                         'name' => mb_substr($variable_target, 1),
                                         'cast' => $cast
                                     ];
+                                    d($variable_name);
                                     breakpoint($variable);
                                 }
                             } else {

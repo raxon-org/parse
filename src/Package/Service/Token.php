@@ -176,6 +176,10 @@ class Token
             array_key_exists(1, $explode)
         ){
             $temp = explode('::', $explode[1], 2);
+            if(array_key_exists(1, $temp)){
+                return '$' . $temp[0];
+            }
+            $temp = explode('->', $explode[1], 2);
             return '$' . $temp[0];
         }
         return false;

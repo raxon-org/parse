@@ -1,2 +1,2 @@
 {{$app = app()}}
-{{breakpoint($app)}}
+{{breakpoint($app::request())}}

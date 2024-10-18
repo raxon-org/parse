@@ -251,6 +251,7 @@ class Token
                             $argument_list = [];
                             $is_after = false;
                             $is_modifier = false;
+                            $is_method = false;
                             $is_single_quoted = false;
                             $is_double_quoted = false;
                             $after_array = [];
@@ -564,7 +565,12 @@ class Token
                                         (
                                             $operator === '*' &&
                                             $char === '*'
-                                        ) ||
+                                        )
+                                    ){
+                                        $operator .= $char;
+                                        continue;
+                                    }
+                                    elseif(
                                         (
                                             $operator === ':' &&
                                             $char === ':'
@@ -575,6 +581,7 @@ class Token
                                         )
                                     ){
                                         $operator .= $char;
+                                        $is_method = true;
                                         continue;
                                     }
                                     elseif(
@@ -595,6 +602,7 @@ class Token
                                         continue;
                                     }
                                     else {
+                                        d($is_method);
                                         $is_after = true;
                                         $after .= $char;
                                         $after_array[] = $char;
@@ -815,6 +823,7 @@ class Token
                                             true
                                         )
                                     ){
+                                        $method =
                                         $variable = [
                                             'is_assign' => false,
                                             'is_not' => $is_not,

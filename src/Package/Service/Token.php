@@ -603,8 +603,13 @@ class Token
                                     }
                                     else {
                                         $is_after = true;
-                                        $after .= $char;
-                                        $after_array[] = $char;
+                                        if($is_method){
+                                            $method .= $char;
+                                            $method_array[] = $char;
+                                        } else {
+                                            $after .= $char;
+                                            $after_array[] = $char;
+                                        }
                                     }
                                 }
                                 elseif($is_after) {
@@ -621,9 +626,14 @@ class Token
                                     ) {
                                         continue;
                                     }
-                                    d($is_method);
-                                    $after .= $char;
-                                    $after_array[] = $char;
+                                    if($is_method){
+                                        d($char);
+                                        $method .= $char;
+                                        $method_array[] = $char;
+                                    } else {
+                                        $after .= $char;
+                                        $after_array[] = $char;
+                                    }
                                 }
                                 elseif(
                                     (

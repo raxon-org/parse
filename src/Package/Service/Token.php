@@ -249,6 +249,8 @@ class Token
                             $argument = '';
                             $argument_array = [];
                             $argument_list = [];
+                            $method = '';
+                            $method_array = [];
                             $is_after = false;
                             $is_modifier = false;
                             $is_method = false;
@@ -622,7 +624,8 @@ class Token
                                         ) &&
                                         $is_single_quoted === false &&
                                         $is_double_quoted === false &&
-                                        $after === ''
+                                        $after === '' &&
+                                        $method === ''
                                     ) {
                                         continue;
                                     }

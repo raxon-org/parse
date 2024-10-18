@@ -1,4 +1,3 @@
 {{$app = app()}}
-{{breakpoint($app::request('package'))}}
-{{breakpoint($app::request('module'))}}
-{{breakpoint($app::request())}}
+{{$app::request('package'))}}
+{{$app::request('module'))}}

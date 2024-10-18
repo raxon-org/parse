@@ -1,2 +1,2 @@
-{{$framework = framework()}}
-{{breakpoint($framework)}}
+{{$app = app()}}
+{{breakpoint($app)}}

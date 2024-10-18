@@ -10,11 +10,11 @@
  */
 namespace Plugin;
 
-use Raxon\App;
+use Raxon\App as Framework;
 
-trait Framework {
+trait App {
 
-    protected function framework(): App
+    protected function app(): Framework
     {
         return $this->object();
     }

@@ -1510,6 +1510,7 @@ class Build
         $variable_uuid = Core::uuid_variable();
         if(array_key_exists('modifier', $record['variable'])){
             $previous_modifier = '$data->get(\'' . $variable_name . '\')';
+            $modifier_value = '';
             foreach($record['variable']['modifier'] as $nr => $modifier){
                 $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $modifier['name']));
                 $modifier_value = '$this->' . $plugin . '(' . PHP_EOL;

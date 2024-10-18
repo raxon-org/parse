@@ -613,14 +613,12 @@ class Token
                                         $char !== ' ' &&
                                         $char !== "\t" &&
                                         $char !== "\r" &&
-                                        $char !== "\n"
+                                        $char !== "\n" &&
+                                        $char !== '\''
                                     ) &&
                                     $is_single_quoted === false &&
                                     $is_double_quoted === false
                                 ){
-                                    d($char);
-                                    d($previous);
-                                    d($is_single_quoted);
                                     $variable_name .= $char;
                                     if($curly_depth_variable === false){
                                         $curly_depth_variable = $curly_depth;

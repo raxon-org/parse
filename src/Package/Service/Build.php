@@ -2818,6 +2818,9 @@ class Build
 
     public static function value_single_quote(App $object, $flags, $options, $input): array
     {
+        if(!array_key_exists('array', $input)){
+            return $input;
+        }
         $is_single_quote = false;
         foreach($input['array'] as $nr => $record){
             $current = Token::item($input, $nr);

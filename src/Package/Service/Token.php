@@ -238,6 +238,7 @@ class Token
                             $length = mb_strlen($content);
                             $data = mb_str_split($content, 1);
                             $operator = false;
+                            $variable = [];
                             $variable_name = '';
                             $modifier_name = false;
                             $after = '';
@@ -617,6 +618,7 @@ class Token
                                     $is_single_quoted === false &&
                                     $is_double_quoted === false
                                 ){
+                                    d($char);
                                     $variable_name .= $char;
                                     if($curly_depth_variable === false){
                                         $curly_depth_variable = $curly_depth;

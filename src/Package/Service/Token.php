@@ -714,6 +714,8 @@ class Token
                                         'operator' => $operator,
                                         'name' => mb_substr($variable_name, 1)
                                     ];
+                                    d($variable_name);
+                                    breakpoint($variable);
                                 } else {
                                     $variable_target = Token::variable_name($object, $flags, $options, $variable_name);
                                     $variable_explode = explode($variable_target, $variable_name, 2);
@@ -803,6 +805,8 @@ class Token
                                         'value' => $list,
                                         'cast' => $cast
                                     ];
+                                    d($variable_name);
+                                    breakpoint($variable);
                                 } else {
                                     $after = $variable_name . $after;
                                     $variable_target = Token::variable_name($object, $flags, $options, $variable_name);

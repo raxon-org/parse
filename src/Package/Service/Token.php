@@ -899,11 +899,18 @@ class Token
                                                 array_key_exists('value', $list_value) &&
                                                 $list_value['value'] === '|'
                                             ){
+                                                $argument_value = [];
+                                                foreach($argument as $argument_nr => $argument_value){
+                                                    $argument_value[] = [
+                                                        'string' => $argument[$argument_nr],
+                                                        'array' => $argument_array[$argument_nr]
+                                                    ];
+                                                }
                                                 if($modifier_name !== ''){
                                                     $modifier_array[] = [
                                                         'string' => $modifier_string,
                                                         'name' => $modifier_name,
-                                                        'argument' => $argument_array
+                                                        'argument' => $argument_value
                                                     ];
                                                 }
                                                 //new modifier
@@ -934,10 +941,17 @@ class Token
                                             }
                                         }
                                         if($modifier_name !== ''){
+                                            $argument_value = [];
+                                            foreach($argument as $argument_nr => $argument_value){
+                                                $argument_value[] = [
+                                                    'string' => $argument[$argument_nr],
+                                                    'array' => $argument_array[$argument_nr]
+                                                ];
+                                            }
                                             $modifier_array[] = [
                                                 'string' => $modifier_string,
                                                 'name' => $modifier_name,
-                                                'argument' => $argument_array
+                                                'argument' => $argument_value
                                             ];
                                         }
                                         $variable = [

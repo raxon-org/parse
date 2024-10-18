@@ -3443,6 +3443,7 @@ class Build
                         $modifier_value .= ')';
                         $previous_modifier = $modifier_value;
                     }
+                    breakpoint($modifier_value);
                     $value .= $modifier_value;
                     $is_single_line = false;
                 } else {

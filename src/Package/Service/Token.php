@@ -563,6 +563,14 @@ class Token
                                         (
                                             $operator === '*' &&
                                             $char === '*'
+                                        ) ||
+                                        (
+                                            $operator === ':' &&
+                                            $char === ':'
+                                        ) ||
+                                        (
+                                            $operator === '-' &&
+                                            $char === '>'
                                         )
                                     ){
                                         $operator .= $char;

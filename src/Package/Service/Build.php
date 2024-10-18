@@ -1535,7 +1535,23 @@ class Build
             }
             $value = $modifier_value;
             if(array_key_exists('method', $record['variable'])){
-                breakpoint($record);
+                $value .= $record['variable']['method']['operator'] . $record['variable']['method']['name'] . '(' . PHP_EOL;
+                $is_argument = false;
+                if(array_key_exists('argument', $record['variable']['method'])){
+                    foreach($record['variable']['method']['argument'] as $argument_nr => $argument){
+                        $argument = Build::value($object, $flags, $options, $record, $argument, $is_set);
+                        if($argument !== ''){
+                            $value .= $argument . ',' . PHP_EOL;
+                            $is_argument = true;
+                        }
+                    }
+                    if($is_argument === true){
+                        $value = mb_substr($modifier_value, 0, -2) . PHP_EOL . ')' . PHP_EOL;
+                    } else {
+                        $value .= ')' . PHP_EOL;
+                    }
+                }
+                breakpoint($value);
             }
             $is_not = '';
             if(array_key_exists('is_not', $record['variable'])){

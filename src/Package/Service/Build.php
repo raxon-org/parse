@@ -2853,6 +2853,9 @@ class Build
     public static function value_set(App $object, $flags, $options, $input, &$is_set=false): array
     {
 //        d($input);
+        if(!array_key_exists('array', $input)){
+            return $input;
+        }
         $count = count($input['array']);
         $first = reset($input['array']);
         if(

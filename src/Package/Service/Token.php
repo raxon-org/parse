@@ -900,7 +900,7 @@ class Token
                                                 $list_value['value'] === '|'
                                             ){
                                                 $argument_value = [];
-                                                foreach($argument as $argument_nr => $argument_value){
+                                                foreach($argument as $argument_nr => $argument_value_value){
                                                     $argument_value[] = [
                                                         'string' => $argument[$argument_nr],
                                                         'array' => $argument_array[$argument_nr]
@@ -942,7 +942,7 @@ class Token
                                         }
                                         if($modifier_name !== ''){
                                             $argument_value = [];
-                                            foreach($argument as $argument_nr => $argument_value){
+                                            foreach($argument as $argument_nr => $argument_value_value){
                                                 $argument_value[] = [
                                                     'string' => $argument[$argument_nr],
                                                     'array' => $argument_array[$argument_nr]

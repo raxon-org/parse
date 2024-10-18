@@ -513,19 +513,25 @@ class Token
                                 */
                                 elseif(
                                     !$operator &&
-                                    in_array(
-                                        $char,
-                                        [
-                                            '=',
-                                            '.',
-                                            '+',
-                                            '-',
-                                            '*',
-                                            ':',
-//                                        '/', //++ -- ** // (// is always =1)
-                                        ],
-                                        true
-                                    ) &&
+                                    (
+                                        in_array(
+                                            $char,
+                                            [
+                                                '=',
+                                                '.',
+                                                '+',
+                                                '-',
+                                                '*',
+    //                                        '/', //++ -- ** // (// is always =1)
+                                            ],
+                                            true
+                                        ) ||
+                                        (
+                                            $char === ':' &&
+                                            $next === ':'
+                                        )
+                                    )
+                                     &&
                                     $is_single_quoted === false &&
                                     $is_double_quoted === false
                                 ){

@@ -1541,6 +1541,7 @@ class Build
                 $is_argument = false;
                 if(array_key_exists('argument', $modifier)){
                     foreach($modifier['argument'] as $argument_nr => $argument){
+                        breakpoint($argument);
                         $argument = Build::value($object, $flags, $options, $record, $argument, $is_set);
                         if($argument !== ''){
                             $modifier_value .= $argument . ',' . PHP_EOL;

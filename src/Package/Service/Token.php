@@ -883,11 +883,13 @@ class Token
                                                 array_key_exists('value', $list_value) &&
                                                 $list_value['value'] === '|'
                                             ){
-                                                $modifier_array[] = [
-                                                    'string' => $modifier_string,
-                                                    'name' => $modifier_name,
-                                                    'argument' => $argument_array
-                                                ];
+                                                if($modifier_name !== ''){
+                                                    $modifier_array[] = [
+                                                        'string' => $modifier_string,
+                                                        'name' => $modifier_name,
+                                                        'argument' => $argument_array
+                                                    ];
+                                                }
                                                 //new modifier
                                                 $modifier_name = '';
                                                 $modifier_string = '';

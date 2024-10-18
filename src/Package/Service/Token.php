@@ -870,6 +870,86 @@ class Token
                                                 'array' => $after_array,
                                             ]
                                         );
+                                        $is_argument = false;
+                                        $argument_nr = -1;
+                                        $argument = [];
+                                        $argument_array = [];
+                                        $modifier_name = '';
+                                        $modifier_string = '';
+                                        $modifier_array = [];
+                                        foreach($list['array'] as $list_nr => $list_value){
+                                            if(
+                                                is_array($list_value) &&
+                                                array_key_exists('value', $list_value) &&
+                                                $list_value['value'] === '|'
+                                            ){
+                                                $modifier_array[] = [
+                                                    'string' => $modifier_string,
+                                                    'name' => $modifier_name,
+                                                    'argument' => $argument_array
+                                                ];
+                                                //new modifier
+                                                $modifier_name = '';
+                                                $modifier_string = '';
+                                                $argument_nr = -1;
+                                                $is_argument = false;
+                                            }
+                                            elseif(
+                                                is_array($list_value) &&
+                                                array_key_exists('value', $list_value) &&
+                                                $list_value['value'] === ':'
+                                            ){
+                                                $modifier_string .= Token::item($list, $list_nr);
+                                                $is_argument = true;
+                                                $argument_nr++;
+                                                $argument[$argument_nr] = '';
+                                                $argument_array[$argument_nr] = [];
+                                            }
+                                            elseif($is_argument === false){
+                                                $modifier_name .= Token::item($list, $list_nr);
+                                                $modifier_string .= Token::item($list, $list_nr);
+                                            }
+                                            elseif($is_argument === true){
+                                                $modifier_string .= Token::item($list, $list_nr);
+                                                $argument[$argument_nr] .= Token::item($list, $list_nr);
+                                                $argument_array[$argument_nr][] = $list_value;
+                                            }
+                                        }
+                                        if($modifier_name !== ''){
+                                            $modifier_array[] = [
+                                                'string' => $modifier_string,
+                                                'name' => $modifier_name,
+                                                'argument' => $argument_array
+                                            ];
+                                        }
+
+                                        breakpoint($modifier_array);
+                                        /*
+                                        foreach($argument_array as $argument_nr => $array){
+                                            $argument_value = Cast::define(
+                                                $object,
+                                                $flags,
+                                                $options,
+                                                [
+                                                    'string' => $argument[$argument_nr],
+                                                    'array' => $array
+                                                ]
+                                            );
+                                            $argument_value = Token::value(
+                                                $object,
+                                                $flags,
+                                                $options,
+                                                $argument_value,
+                                            );
+                                            $argument_array[$argument_nr] = $argument_value;
+                                        }
+                                        $input['array'][$is_variable]['modifier'][] = [
+                                            'string' => $modifier_string,
+                                            'name' => $modifier_name,
+                                            'argument' => $argument_array
+                                        ];
+                                        */
+
 breakpoint($list);
 
                                         /*

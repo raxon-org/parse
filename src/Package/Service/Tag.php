@@ -296,7 +296,6 @@ class Tag
                     $is_comment === false
                 ){
                     $tag = '{{';
-                    breakpoint($tag);
                 }
                 elseif(
                     $tag !== false &&

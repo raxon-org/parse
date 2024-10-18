@@ -602,7 +602,6 @@ class Token
                                         continue;
                                     }
                                     else {
-                                        d($is_method);
                                         $is_after = true;
                                         $after .= $char;
                                         $after_array[] = $char;
@@ -622,6 +621,7 @@ class Token
                                     ) {
                                         continue;
                                     }
+                                    d($is_method);
                                     $after .= $char;
                                     $after_array[] = $char;
                                 }

@@ -1,3 +1,3 @@
 {{$app = app()}}
-{{$app::request('package')}}
-{{$app::request('module')}}
+{{$app->request('package')}}
+{{$app->request('module')}}

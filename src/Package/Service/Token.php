@@ -861,6 +861,45 @@ class Token
                                                 'array' => $method_array,
                                             ]
                                         );
+                                        array_unshift($after_array, [
+                                            'type'=> 'variable',
+                                            'tag' => $variable_name,
+                                            'name' => mb_substr($variable_target, 1),
+                                            'is_reference' => false,
+                                            'is_not' => $is_not,
+                                            'cast' => $cast,
+                                            'method' => $method_value['array'][0]['method']
+                                        ]);
+                                        $list = Token::value(
+                                            $object,
+                                            $flags,
+                                            $options,
+                                            [
+                                                'string' => $after,
+                                                'array' => $after_array,
+                                            ]
+                                        );
+                                        breakpoint($list);
+                                        if(
+                                            array_key_exists(0, $list['array']) &&
+                                            is_array($list['array'][0]) &&
+                                            array_key_exists('type', $list['array'][0]) &&
+                                            $list['array'][0]['type'] === 'variable'
+                                        ){
+                                            $variable = $list['array'][0];
+                                            $variable['is_define'] = true;
+                                        }
+                                        breakpoint($variable);
+
+                                        /*
+                                        modifier = [
+                                        {
+                                        string,
+                                        name,
+                                        argument: []
+                                        ]
+
+
                                         $variable = [
                                             'is_assign' => false,
                                             'is_not' => $is_not,
@@ -870,6 +909,7 @@ class Token
                                             'modifier' => $list,
                                             'cast' => $cast
                                         ];
+                                        */
                                     } else {
                                         $variable = [
                                             'is_assign' => true,

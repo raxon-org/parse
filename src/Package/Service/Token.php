@@ -660,9 +660,9 @@ class Token
                             if($after === ''){
                                 if(array_key_exists(0, $modifier_list)){
                                     $variable_target = Token::variable_name($object, $flags, $options, $variable_name);
-                                    $before = str_replace($variable_target, '', $variable_name);
-                                    $cast = Token::cast_get($object, $flags, $options, $before);
-                                    $is_not_count = mb_substr_count($before, '!');
+                                    $before = explode($variable_target, $variable_name, 2);
+                                    $cast = Token::cast_get($object, $flags, $options, $before[0]);
+                                    $is_not_count = mb_substr_count($before[0], '!');
                                     $is_not = null;
                                     if(
                                         in_array(
@@ -716,10 +716,10 @@ class Token
                                     ];
                                 } else {
                                     $variable_target = Token::variable_name($object, $flags, $options, $variable_name);
-                                    $before = str_replace($variable_target, '', $variable_name);
+                                    $before = explode($variable_target, $variable_name, 2);
                                     breakpoint($before);
-                                    $cast = Token::cast_get($object, $flags, $options, $before);
-                                    $is_not_count = mb_substr_count($before, '!');
+                                    $cast = Token::cast_get($object, $flags, $options, $before[0]);
+                                    $is_not_count = mb_substr_count($before[0], '!');
                                     $is_not = null;
                                     if(
                                         in_array(
@@ -766,9 +766,9 @@ class Token
                                         ]
                                     );
                                     $variable_target = Token::variable_name($object, $flags, $options, $variable_name);
-                                    $before = str_replace($variable_target, '', $variable_name);
-                                    $cast = Token::cast_get($object, $flags, $options, $before);
-                                    $is_not_count = mb_substr_count($before, '!');
+                                    $before = explode($variable_target, $variable_name, 2);
+                                    $cast = Token::cast_get($object, $flags, $options, $before[0]);
+                                    $is_not_count = mb_substr_count($before[0], '!');
                                     $is_not = null;
                                     if(
                                         in_array(
@@ -806,9 +806,9 @@ class Token
                                 } else {
                                     $after = $variable_name . $after;
                                     $variable_target = Token::variable_name($object, $flags, $options, $variable_name);
-                                    $before = str_replace($variable_target, '', $variable_name);
-                                    $cast = Token::cast_get($object, $flags, $options, $before);
-                                    $is_not_count = mb_substr_count($before, '!');
+                                    $before = explode($variable_target, $variable_name, 2);
+                                    $cast = Token::cast_get($object, $flags, $options, $before[0]);
+                                    $is_not_count = mb_substr_count($before[0], '!');
                                     $is_not = null;
                                     if(
                                         in_array(

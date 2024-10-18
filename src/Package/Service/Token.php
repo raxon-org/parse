@@ -922,53 +922,13 @@ class Token
                                                 'argument' => $argument_array
                                             ];
                                         }
-
-                                        breakpoint($modifier_array);
-                                        /*
-                                        foreach($argument_array as $argument_nr => $array){
-                                            $argument_value = Cast::define(
-                                                $object,
-                                                $flags,
-                                                $options,
-                                                [
-                                                    'string' => $argument[$argument_nr],
-                                                    'array' => $array
-                                                ]
-                                            );
-                                            $argument_value = Token::value(
-                                                $object,
-                                                $flags,
-                                                $options,
-                                                $argument_value,
-                                            );
-                                            $argument_array[$argument_nr] = $argument_value;
-                                        }
-                                        $input['array'][$is_variable]['modifier'][] = [
-                                            'string' => $modifier_string,
-                                            'name' => $modifier_name,
-                                            'argument' => $argument_array
-                                        ];
-                                        */
-
-breakpoint($list);
-
-                                        /*
-                                        modifier = [
-                                        {
-                                        string,
-                                        name,
-                                        argument: []
-                                        ]
-
-                                        */
-
                                         $variable = [
                                             'is_assign' => false,
                                             'is_not' => $is_not,
                                             'operator' => $operator,
                                             'name' => mb_substr($variable_target, 1),
                                             'method' => $method_value['array'][0]['method'],
-                                            'modifier' => $list,
+                                            'modifier' => $modifier_array,
                                             'cast' => $cast
                                         ];
                                     } else {

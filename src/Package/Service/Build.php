@@ -1509,7 +1509,11 @@ class Build
         $variable_name = $record['variable']['name'];
         $variable_uuid = Core::uuid_variable();
         $method_value = '';
-        if(array_key_exists('method', $record['variable'])){
+        if(
+            array_key_exists('method', $record['variable']) &&
+            array_key_exists('operator', $record['variable']) &&
+            array_key_exists('name', $record['variable']['method'])
+        ){
             breakpoint($record);;
             $method_value .= $record['variable']['operator'] . $record['variable']['method']['name'] . '(' . PHP_EOL;
             $is_argument = false;

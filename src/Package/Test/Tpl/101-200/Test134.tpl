@@ -1,3 +1,3 @@
 {{$app = app()}}
-{{$app->request('package')}}
+{{$app->request('package')|default:'no-package'}}
 {{$app->request('module')}}

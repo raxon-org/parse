@@ -1514,7 +1514,6 @@ class Build
             array_key_exists('operator', $record['variable']) &&
             array_key_exists('name', $record['variable']['method'])
         ){
-            breakpoint($record);;
             $method_value .= $record['variable']['operator'] . $record['variable']['method']['name'] . '(' . PHP_EOL;
             $is_argument = false;
             if(array_key_exists('argument', $record['variable']['method'])){
@@ -1531,7 +1530,6 @@ class Build
                     $method_value .= ')' . PHP_EOL;
                 }
             }
-            breakpoint($method_value);
         }
         if(array_key_exists('modifier', $record['variable'])){
             $previous_modifier = '$data->get(\'' . $variable_name . '\')' . $method_value;

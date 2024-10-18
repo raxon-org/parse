@@ -960,8 +960,6 @@ class Token
                                         ];
                                     }
 //                                    $cache->set($after_hash, $list);
-                                    d($variable_name);
-                                    breakpoint($variable);
                                 } else {
                                     $after = $variable_name . $after;
                                     $variable_target = Token::variable_name($object, $flags, $options, $variable_name);

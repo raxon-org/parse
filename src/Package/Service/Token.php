@@ -799,6 +799,7 @@ class Token
                                         'name' => mb_substr($variable_target, 1),
                                         'cast' => $cast
                                     ];
+                                    d($method);
                                     d($variable_name);
                                     breakpoint($variable);
                                 }

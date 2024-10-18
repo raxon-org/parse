@@ -3471,7 +3471,6 @@ class Build
                             $method_value = mb_substr($method_value, 0, -2);
                             $method_value .= ')';
                         } else {
-                            $method_value = mb_substr($method_value, 0, -1);
                             $method_value .= ')';
                         }
                     }

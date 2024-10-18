@@ -760,12 +760,9 @@ class Token
                                         'operator' => $operator,
                                         'name' => mb_substr($variable_name, 1)
                                     ];
-                                    d($variable_name);
-                                    breakpoint($variable);
                                 } else {
                                     $variable_target = Token::variable_name($object, $flags, $options, $variable_name);
                                     $variable_explode = explode($variable_target, $variable_name, 2);
-                                    breakpoint($variable_explode);
                                     $cast = Token::cast_get($object, $flags, $options, $variable_explode[0]);
                                     $is_not_count = mb_substr_count($variable_explode[0], '!');
                                     $is_not = null;

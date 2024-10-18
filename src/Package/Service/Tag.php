@@ -39,10 +39,10 @@ class Tag
                 $skip--;
                 continue;
             }
-            $previous = $char_list[$nr - 1] ?? null;
-            $next = $char_list[$nr + 1] ?? null;
-            $next_next = $char_list[$nr + 2] ?? null;
-            $next_next_next = $char_list[$nr + 3] ?? null;
+            $previous = $split[$nr - 1] ?? null;
+            $next = $split[$nr + 1] ?? null;
+            $next_next = $split[$nr + 2] ?? null;
+            $next_next_next = $split[$nr + 3] ?? null;
             if($char === "\n"){
                 $line++;
                 $column[$line] = 1;

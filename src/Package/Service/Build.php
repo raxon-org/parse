@@ -2912,7 +2912,7 @@ class Build
         $is_single_line = false;
 //        d($tag);
 //        d($input['array']);
-        breakpoint($input);
+//        breakpoint($input);
         foreach($input['array'] as $nr => $record){
             if($skip > 0){
                 $skip--;
@@ -3399,7 +3399,6 @@ class Build
                 array_key_exists('type', $record) &&
                 $record['type'] === 'variable_method'
             ){
-                breakpoint('yes');
                 $modifier_value = '';
                 if(array_key_exists('modifier', $record)){
                     $previous_modifier = '$data->get(\'' . $record['name'] . '\')';
@@ -3444,7 +3443,6 @@ class Build
                         $modifier_value .= ')';
                         $previous_modifier = $modifier_value;
                     }
-                    breakpoint($modifier_value);
                     $value .= $modifier_value;
                     $is_single_line = false;
                 } else {
@@ -3475,7 +3473,6 @@ class Build
                         }
                     }
                     $value .= '$data->get(\'' . $record['variable']['name'] . '\')' . $method_value;
-                    breakpoint($value);
                 }
             }
             elseif(

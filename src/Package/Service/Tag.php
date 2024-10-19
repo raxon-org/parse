@@ -398,7 +398,7 @@ class Tag
                 $tag_list[$line][] = $record;
             }
         }
-        breakpoint($tag);
+        breakpoint($tag_list);
         return $tag_list;
     }
 

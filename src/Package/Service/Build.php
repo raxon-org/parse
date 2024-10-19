@@ -1721,8 +1721,9 @@ class Build
                     $argument = $argument['array'][2]['method']['argument'];
                     foreach ($argument as $argument_nr => $argument_record) {
                         $value = Build::value($object, $flags, $options, $record, $argument_record, $is_set);
-                        d($argument_record);
-                        breakpoint($value);
+                        $uuid_variable = Core::uuid_variable();
+                        $before[] = $uuid_variable . ' = ' . $value . ';';
+                        $value = $uuid_variable;
                         $argument[$argument_nr] = $value;
                     }
                 }
@@ -1733,7 +1734,9 @@ class Build
                 }
             } else {
                 $argument = Build::value($object, $flags, $options, $record, $argument, $is_set);
-                breakpoint($argument);
+                $uuid_variable = Core::uuid_variable();
+                $before[] = $uuid_variable . ' = ' . $argument . ';';
+                $argument = $uuid_variable;
             }
             if($argument !== ''){
                 $argument_value .= $argument  . ', ';

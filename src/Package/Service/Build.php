@@ -2349,6 +2349,9 @@ class Build
                 $uuid_variable = Core::uuid_variable();
                 $data = [];
                 $data[] = 'try {';
+                foreach($before as $before_record){
+                    $data[] = $before_record;
+                }
                 $data[] = $uuid_variable . ' = ' . $method_value;
                 $data[] = 'if(is_scalar(' . $uuid_variable . ')){';
                 $data[] = 'echo ' . $uuid_variable . ';';

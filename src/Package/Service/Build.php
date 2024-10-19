@@ -2450,7 +2450,7 @@ class Build
             $record['variable']['value']['array'][0]['is_class_method'] === true
         ){
             //static class method call
-//            breakpoint($record);
+            breakpoint($record);
             $method = $record['variable']['value']['array'][0]['method']['name'] ?? null;
             $method = str_replace('.', '_', $method);
             $explode = explode('::', $method);

@@ -3644,6 +3644,7 @@ class Build
                 } else {
                     $modifier_value = '';
                     if(array_key_exists('modifier', $record)){
+                        breakpoint($record);
                         $previous_modifier = '$data->get(\'' . $record['name'] . '\')';
                         $after[] = '$data->set(\'' . $record['name'] . '\', ';
                         foreach($record['modifier'] as $modifier_nr => $modifier){
@@ -3688,6 +3689,7 @@ class Build
                         $value .= $modifier_value;
                         $is_single_line = false;
                     } else {
+                        breakpoint($record);
                         $value .= '$data->get(\'' . $record['name'] . '\')';
                         $after[] = '$data->set(\'' . $record['name'] . '\', ';
                     }

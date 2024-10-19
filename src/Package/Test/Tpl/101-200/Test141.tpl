@@ -1,1 +1,1 @@
-{{Core::uuid()}}
+{{Core::uuid.variable()}}

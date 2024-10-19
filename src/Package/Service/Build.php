@@ -1692,6 +1692,7 @@ class Build
     {
         $is_argument = false;
         $argument_value = '';
+        $previous_count = 0;
         foreach($record['method']['argument'] as $nr => $argument) {
             if(
                 array_key_exists('array', $argument) &&
@@ -1725,8 +1726,13 @@ class Build
                         $before[] = $uuid_variable . ' = ' . $value . ';';
                         $value = $uuid_variable;
                         $argument[$argument_nr] = $value;
-                        $end = array_pop($after);
-                        $after[] = $end . $uuid_variable . ');';
+                        $count = count($after);
+                        if($count > $previous_count){
+                            $end = array_pop($after);
+                            $after[] = $end . $uuid_variable . ');';
+                            $previous_count = $count;
+                        }
+
                     }
                 }
                 if (array_key_exists(0, $argument)) {
@@ -1739,8 +1745,12 @@ class Build
                 $uuid_variable = Core::uuid_variable();
                 $before[] = $uuid_variable . ' = ' . $argument . ';';
                 $argument = $uuid_variable;
-                $end = array_pop($after);
-                $after[] = $end . $uuid_variable . ');';
+                $count = count($after);
+                if($count > $previous_count){
+                    $end = array_pop($after);
+                    $after[] = $end . $uuid_variable . ');';
+                    $previous_count = $count;
+                }
             }
             if($argument !== ''){
                 $argument_value .= $argument  . ', ';

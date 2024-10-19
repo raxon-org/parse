@@ -1,0 +1,2 @@
+{{$uuid = Core->uuid()}}
+{{$uuid}}

@@ -68,9 +68,11 @@ class Method
                             ){
                                 if($input['array'][$i]['value'] === '::'){
                                     $is_class_method = true;
+                                    $operator = '::';
                                 }
                                 elseif($input['array'][$i]['value'] === '->'){
                                     $is_class_method = true;
+                                    $operator = '->';
                                 }
                                 elseif($input['array'][$i]['value'] === '$'){
                                     $is_variable_method = true;
@@ -96,7 +98,6 @@ class Method
                                 $is_double_quote === false &&
                                 $name !== ''
                             ){
-                                breakpoint($name);
                                 break;
                             }
                             elseif(
@@ -124,6 +125,8 @@ class Method
                     $is_method = false;
                 }
                 if($name && $has_name === false){
+                    d($has_name);
+                    breakpoint($name);
                     if(mb_substr($name, 0, 1) === ':'){
                         //modifier with argument set
                         $name = '';

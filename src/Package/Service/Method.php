@@ -254,9 +254,9 @@ class Method
                             $input['array'][$is_method]['tag'] .= ')';
                         }
                         elseif($is_class_method === true){
-                            $input['array'][$is_method]['is_class_method'] = true;
-                            $input['array'][$is_method]['class'] = $class ?? null;
-                            $input['array'][$is_method]['call_type'] = $call_type;
+                            $input['array'][$is_method]['method']['is_class_method'] = true;
+                            $input['array'][$is_method]['method']['class'] = $class ?? null;
+                            $input['array'][$is_method]['method']['call_type'] = $call_type;
                         }
                         unset($input['array'][$is_method]['value']);
                         $argument_list = [];

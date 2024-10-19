@@ -15,6 +15,7 @@
 {{$index[] = $nr}}
 {{/for.each}}
 {{d($array)}}
+{{d(PHP_INT_SIZE)}}
 {{breakpoint($index)}}
 {{$search = 'test'}}
 {{$x = array.binarysearch($array, $search)}}

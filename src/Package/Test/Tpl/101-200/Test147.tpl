@@ -1,6 +1,6 @@
 {{Raxon:Module:Core::uuid.variable()}}
-{{$array = [3,5,7]}}
-{{$search = 5}}
+{{$array = ['beat','drum','base']}}
+{{$search = 'base'}}
 {{$x = array.binarysearch($array, $search)}}
 {{d($string)}}
 {{d($search)}}

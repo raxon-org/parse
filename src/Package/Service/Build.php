@@ -3656,6 +3656,7 @@ class Build
                         $value .= $modifier_value;
                         $is_single_line = false;
                     } else {
+                        breakpoint($record);
                         $value .= '$data->get(\'' . $record['name'] . '\')';
                     }
                 }

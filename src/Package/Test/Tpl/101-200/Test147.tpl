@@ -1,1 +1,1 @@
-{{Raxon:Core::uuid.variable()}}
+{{Raxon:Module:Core2::uuid.variable()}}

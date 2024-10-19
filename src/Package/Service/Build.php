@@ -2451,7 +2451,7 @@ class Build
             $record['variable']['value']['array'][0]['is_class_method'] === true
         ){
             //static class method call
-            breakpoint($record);
+//            breakpoint($record);
             $method = $record['variable']['value']['array'][0]['method']['name'] ?? null;
             $method = str_replace('.', '_', $method);
             $explode = explode('::', $method);
@@ -3151,12 +3151,8 @@ class Build
                 ){
                     if($next === '['){
                         $value .= ' ' . $record['value'] . PHP_EOL; //end must be a PHP_EOL
-                        d($value);
-                        breakpoint($after);
                     } else {
                         $value .= ' ' . $record['value'] . ' ';
-                        d($value);
-                        breakpoint($after);
                     }
                 }
                 elseif(
@@ -3478,8 +3474,6 @@ class Build
                     }
                 }
                 $value .= implode(PHP_EOL, $data);
-                d($value);
-                breakpoint($after);
             }
             elseif(
                 array_key_exists('type', $record) &&
@@ -3645,7 +3639,6 @@ class Build
                 } else {
                     $modifier_value = '';
                     if(array_key_exists('modifier', $record)){
-                        breakpoint($record);
                         $previous_modifier = '$data->get(\'' . $record['name'] . '\')';
                         $after[] = $record['name'];
                         foreach($record['modifier'] as $modifier_nr => $modifier){
@@ -3690,7 +3683,6 @@ class Build
                         $value .= $modifier_value;
                         $is_single_line = false;
                     } else {
-                        breakpoint($record);
                         $value .= '$data->get(\'' . $record['name'] . '\')';
                         $after[] = $record['name'];
                     }
@@ -3723,7 +3715,6 @@ class Build
                 if(array_key_exists('value', $record)){
                     $value = Build::value_calculate($object, $flags, $options, $record['value'], $value, $right);
                 }
-                breakpoint($value);
             }
         }
         return $value;

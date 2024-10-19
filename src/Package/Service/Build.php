@@ -1728,11 +1728,11 @@ class Build
                         $argument[$argument_nr] = $value;
                         $count = count($after);
                         if($count > $previous_count){
-                            $end = array_pop($after);
-                            $after[] = $end . $uuid_variable . ');';
+                            $after = [
+                                '$data->set(\'' .  implode('.', $after) . '\', ' . $uuid_variable . ');'
+                            ];
                             $previous_count = $count;
                         }
-
                     }
                 }
                 if (array_key_exists(0, $argument)) {
@@ -1747,8 +1747,9 @@ class Build
                 $argument = $uuid_variable;
                 $count = count($after);
                 if($count > $previous_count){
-                    $end = array_pop($after);
-                    $after[] = $end . $uuid_variable . ');';
+                    $after = [
+                        '$data->set(\'' .  implode('.', $after) . '\', ' . $uuid_variable . ');'
+                    ];
                     $previous_count = $count;
                 }
             }

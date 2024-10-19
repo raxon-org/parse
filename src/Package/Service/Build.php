@@ -2262,17 +2262,17 @@ class Build
                         '(';
                     $method_value .= Build::argument($object, $flags, $options, $record, $before, $after);
                     $method_value .= ');';
-                    d($method_value);
-                    d($after);
-                    breakpoint($before);
+//                    d($method_value);
+//                    d($after);
+//                    breakpoint($before);
                 } else {
                     $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
                     $method_value = '$this->' . $plugin . '(';
                     $method_value .= Build::argument($object, $flags, $options, $record, $before, $after);
                     $method_value .= ');';
-                    d($method_value);
-                    d($after);
-                    breakpoint($before);
+//                    d($method_value);
+//                    d($after);
+//                    breakpoint($before);
                 }
             break;
         }
@@ -2451,7 +2451,7 @@ class Build
             $record['variable']['value']['array'][0]['is_class_method'] === true
         ){
             //static class method call
-            breakpoint($record);
+//            breakpoint($record);
             $method = $record['variable']['value']['array'][0]['method']['name'] ?? null;
             $method = str_replace('.', '_', $method);
             $explode = explode('::', $method);
@@ -2533,7 +2533,7 @@ class Build
             array_key_exists('name', $record['variable']['value']['array'][1]['method'])
         ){
             //class method call
-            breakpoint($record);
+//            breakpoint($record);
             $method = $record['variable']['value']['array'][1]['method']['name'] ?? null;
             $explode = explode('.', $method, 2);
             //replace : with \\ for namespace in $explode[0]

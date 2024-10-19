@@ -18,6 +18,7 @@
 {{d($array)}}
 {{for.each($x as $nr => $key)}}
 {{d($array[$key])}}
+{{d($index[$key])}}
 {{/for.each}}
 {{breakpoint($x)}}
 /*

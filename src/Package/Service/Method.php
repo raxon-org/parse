@@ -70,15 +70,20 @@ class Method
                                 if($input['array'][$i]['value'] === '::'){
                                     $is_class_method = true;
                                     $operator = '::';
+                                    $name .= $input['array'][$i]['value'];
                                 }
                                 elseif($input['array'][$i]['value'] === '->'){
                                     $is_class_method = true;
                                     $operator = '->';
+                                    $name .= '>-'; //we are going to reverse this
                                 }
                                 elseif($input['array'][$i]['value'] === '$'){
                                     $is_variable_method = true;
+                                    $name .= $input['array'][$i]['value'];
+                                } else {
+                                    $name .= $input['array'][$i]['value'];
                                 }
-                                $name .= $input['array'][$i]['value'];
+
                             } else {
                                 break;
                             }

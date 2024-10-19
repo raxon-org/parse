@@ -2376,11 +2376,11 @@ class Build
                 }
                 $data[] = 'if(!is_scalar('. $uuid_variable. ')){';
                 $data[] = '//array or object';
-                $data[] = 'ob_get_clean();';
-                $data[] = 'return ' . $uuid_variable .';';
+                $data[] = '//ob_get_clean();';
+                $data[] = '//return ' . $uuid_variable .';';
                 $data[] = '}';
                 $data[] = 'elseif(is_bool('. $uuid_variable. ')){';
-                $data[] = 'return ' . $uuid_variable .';';
+                $data[] = '//return ' . $uuid_variable .';';
                 $data[] = '} else {';
                 $data[] = 'echo '. $uuid_variable .';';
                 $data[] = '}';

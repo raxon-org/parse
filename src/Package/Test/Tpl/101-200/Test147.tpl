@@ -14,6 +14,8 @@
 {{$array[] = $value}}
 {{$index[] = $nr}}
 {{/for.each}}
+{{d($array)}}
+{{breakpoint($index)}}
 {{$search = 'test'}}
 {{$x = array.binarysearch($array, $search)}}
 {{d($string)}}

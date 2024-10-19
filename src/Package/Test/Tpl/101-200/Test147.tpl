@@ -9,6 +9,7 @@
 {{array.asort($test, SORT_NATURAL)}}
 {{$array = []}}
 {{$index = []}}
+{{breakpoint($test)}}
 {{for.each($test as $nr => $value)}}
 {{$array[] = $value}}
 {{$index[] = $nr}}

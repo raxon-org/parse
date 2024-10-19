@@ -30,7 +30,7 @@ class Method
         $argument_list = [];
         $argument_nr = 0;
         $separator = ',';
-        $operator = '';
+        $call_type = '';
         $is_for = false;
         $is_variable_method = false;
         foreach($input['array'] as $nr => $char){
@@ -69,12 +69,12 @@ class Method
                             ){
                                 if($input['array'][$i]['value'] === '::'){
                                     $is_class_method = true;
-                                    $operator = '::';
+                                    $call_type = '::';
                                     $name .= $input['array'][$i]['value'];
                                 }
                                 elseif($input['array'][$i]['value'] === '->'){
                                     $is_class_method = true;
-                                    $operator = '->';
+                                    $call_type = '->';
                                     $name .= '>-'; //we are going to reverse this
                                 }
                                 elseif($input['array'][$i]['value'] === '$'){
@@ -137,11 +137,13 @@ class Method
                         $is_method = false;
                     } else {
                         $name = strrev($name);
-                        d($is_class_method);
-                        d($is_variable_method);
-                        d($operator);
-                        breakpoint($name);
-                        $name = str_replace('>-', '->', $name);
+                        if($is_class_method){
+                            $explode = explode($call_type, $name, 2);
+                            if(array_key_exists(1, $explode)){
+                                $class = $explode[0];
+                                $name = $explode[1];
+                            }
+                        }
                         $has_name = true;
                     }
                 }
@@ -252,6 +254,8 @@ class Method
                         }
                         elseif($is_class_method === true){
                             $input['array'][$is_method]['is_class_method'] = true;
+                            $input['array'][$is_method]['class'] = $class ?? null;
+                            $input['array'][$is_method]['call_type'] = $call_type;
                         }
                         unset($input['array'][$is_method]['value']);
                         $argument_list = [];

@@ -1726,10 +1726,6 @@ class Build
                         $before[] = $uuid_variable . ' = ' . $value . ';';
                         $value = $uuid_variable;
                         $argument[$argument_nr] = $value;
-                        $after = [
-                            '$data->set(\'' .  implode('.', $after) . '\', ' . $uuid_variable . ');'
-                        ];
-                        /*
                         $count = count($after);
                         if($count > $previous_count){
                             $after = [
@@ -1737,7 +1733,6 @@ class Build
                             ];
                             $previous_count = $count;
                         }
-                        */
                     }
                 }
                 if (array_key_exists(0, $argument)) {
@@ -1751,18 +1746,12 @@ class Build
                 $before[] = $uuid_variable . ' = ' . $argument . ';';
                 $argument = $uuid_variable;
                 $count = count($after);
-                $after = [
-                    '$data->set(\'' .  implode('.', $after) . '\', ' . $uuid_variable . ');'
-                ];
-                /*
                 if($count > $previous_count){
                     $after = [
                         '$data->set(\'' .  implode('.', $after) . '\', ' . $uuid_variable . ');'
                     ];
                     $previous_count = $count;
                 }
-                */
-
             }
             if($argument !== ''){
                 $argument_value .= $argument  . ', ';

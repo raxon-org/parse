@@ -9,6 +9,7 @@
  *    - all
  */
 
+namespace Plugin;
 
 use Raxon\App;
 use Raxon\App as Framework;

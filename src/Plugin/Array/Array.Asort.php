@@ -17,7 +17,7 @@ use Raxon\Module\Autoload;
 
 trait Array_Asort {
 
-    protected function array_asort(&$array, $flags=SORT_NATURAL): array
+    protected function array_asort(&$array, $flags=SORT_NATURAL): bool
     {
         asort($array, $flags);
         return true;

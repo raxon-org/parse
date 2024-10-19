@@ -6,7 +6,7 @@
 'test',
 'test'
 ]}}
-{{$array = array.sort($test, SORT_NATURAL, $index)}}
+{{$array = array.sort($test, 'ASC', SORT_NATURAL, $index)}}
 {{d($index)}}
 {{breakpoint($array)}}
 /*

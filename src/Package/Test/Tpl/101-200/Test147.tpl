@@ -20,8 +20,9 @@
 {{breakpoint($x)}}
 {{for.each($x as $nr => $key)}}
 {{d($array[$key])}}
-{{d($index[$key])}}
+{{d($key)}}
 {{/for.each}}
+{{d($index)}}
 /*
 {{system.autoload.prefix.add("Raxon:Module", config('framework.dir.module'))}}
 Raxon:Module is default 'framework.dir.module' now

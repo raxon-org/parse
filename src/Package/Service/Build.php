@@ -3551,7 +3551,6 @@ class Build
                     }
                     $value .= $modifier_value;
                     $is_single_line = false;
-                    $after[] = '';
                 } else {
                     $plugin = str_replace('.', '_', $record['method']['name']);
                     //call_type = :: or ->
@@ -3580,7 +3579,6 @@ class Build
                         }
                     }
                     $value .= '$data->get(\'' . $record['variable']['name'] . '\')' . $method_value;
-                    $after[] = '';
                 }
             }
             elseif(
@@ -3627,7 +3625,6 @@ class Build
                             breakpoint($record);
                             throw new Exception('Not implemented...');
                     }
-                    $after[] = '';
                 } else {
                     $modifier_value = '';
                     if(array_key_exists('modifier', $record)){

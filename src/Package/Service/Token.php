@@ -1053,6 +1053,7 @@ class Token
                                     'array' => $tag_array
                                 ]
                             );
+                            breakpoint($list);
                         }
                         if(
                             array_key_exists(0, $list['array']) &&

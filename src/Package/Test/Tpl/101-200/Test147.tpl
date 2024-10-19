@@ -9,17 +9,12 @@
 {{array.asort($test, SORT_NATURAL)}}
 {{$array = []}}
 {{$index = []}}
-{{breakpoint($test)}}
 {{for.each($test as $nr => $value)}}
 {{$array[] = $value}}
 {{$index[] = $nr}}
 {{/for.each}}
-{{d($array)}}
-{{d(PHP_INT_SIZE)}}
-{{breakpoint($index)}}
-{{$search = 'test'}}
+{{$search = 'a'}}
 {{$x = array.binarysearch($array, $search)}}
-{{d($string)}}
 {{d($search)}}
 {{breakpoint($x)}}
 /*

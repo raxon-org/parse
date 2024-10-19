@@ -26,9 +26,8 @@ trait Breakpoint {
         }
         if($options['trace'] === true){
             $source = $object->config('package.raxon/parse.build.state.source.url');
-            d($source);
             $tag = $object->config('package.raxon/parse.build.state.tag');
-            if(property_exists($tag, 'source')){
+            if($source){
                 if(
                     property_exists($tag, 'line') &&
                     is_object($tag->line) &&
@@ -39,6 +38,7 @@ trait Breakpoint {
                     $options['trace'] =  $source . ':' . $tag->line . PHP_EOL;
                 }
             }
+
         }
         breakpoint($value, $options);
     }

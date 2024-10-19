@@ -17,7 +17,7 @@
 {{/for.each}}
 {{$search = 'TEST'}}
 {{$x = array.binarysearch($array, $search)}}
-{{d($array)}}
+{{d($x)}}
 {{for.each($x as $nr => $key)}}
 {{d($array[$key])}}
 {{d($index)}}

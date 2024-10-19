@@ -1020,6 +1020,7 @@ class Build
             $use_class[] = 'Plugin';
             $use_class[] = 'Exception';
             $use_class[] = 'Raxon\Exception\TemplateException';
+            $use_class[] = 'Raxon\Exception\LocateException';
         }
         $object->config('package.raxon/parse.build.use.class', $use_class);
         $use_trait = $object->config('package.raxon/parse.build.use.trait');
@@ -2343,7 +2344,7 @@ class Build
                 $data[] = 'echo ' . $uuid_variable . ';';
                 $data[] = '}';
                 $data[] = '}';
-                $data[] = 'catch(Exception | Error | ErrorException $exception){';
+                $data[] = 'catch(LocateException | TemplateException | Exception | Error | ErrorException $exception){';
                 if(
                     array_key_exists('is_multiline', $record) &&
                     $record['is_multiline'] === true

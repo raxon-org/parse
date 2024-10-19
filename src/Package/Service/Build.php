@@ -2154,61 +2154,72 @@ class Build
                 //we do the rest in the marker /block
                 return $method_name;
             default:
-                breakpoint($record);
-                $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
-                $method_value = '$this->' . $plugin . '(';
-                $is_argument = false;
-                $argument_value = '';
-                foreach($record['method']['argument'] as $nr => $argument) {
-                    if(
-                        array_key_exists('array', $argument) &&
-                        is_array($argument['array']) &&
-                        array_key_exists(0, $argument['array']) &&
-                        is_array($argument['array'][0]) &&
-                        array_key_exists('value', $argument['array'][0]) &&
-                        array_key_exists(1, $argument['array']) &&
-                        is_array($argument['array'][1]) &&
-                        array_key_exists('value', $argument['array'][1]) &&
-                        array_key_exists(2, $argument['array']) &&
-                        is_array($argument['array'][2]) &&
-                        array_key_exists('type', $argument['array'][2]) &&
-                        $argument['array'][2]['type'] === 'method'
-                    ) {
-                        $name = $argument['array'][0]['value'];
-                        $name .= $argument['array'][1]['value'];
-                        $class_static = Build::class_static($object);
+                if(
+                    array_key_exists('is_class_method', $record['method']) &&
+                    $record['method']['is_class_method'] === true
+                ){
+                    $method_value = $record['method']['class'] .
+                        $record['method']['call_type'] .
+                        str_replace('.', '_', $record['method']['name']) .
+                        '(';
+                    d($method_name);
+                    breakpoint($record);
+                } else {
+                    $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
+                    $method_value = '$this->' . $plugin . '(';
+                    $is_argument = false;
+                    $argument_value = '';
+                    foreach($record['method']['argument'] as $nr => $argument) {
                         if(
-                            in_array(
-                                $name,
-                                $class_static,
-                                true
-                            )
+                            array_key_exists('array', $argument) &&
+                            is_array($argument['array']) &&
+                            array_key_exists(0, $argument['array']) &&
+                            is_array($argument['array'][0]) &&
+                            array_key_exists('value', $argument['array'][0]) &&
+                            array_key_exists(1, $argument['array']) &&
+                            is_array($argument['array'][1]) &&
+                            array_key_exists('value', $argument['array'][1]) &&
+                            array_key_exists(2, $argument['array']) &&
+                            is_array($argument['array'][2]) &&
+                            array_key_exists('type', $argument['array'][2]) &&
+                            $argument['array'][2]['type'] === 'method'
                         ) {
-                            $name .= $argument['array'][2]['method']['name'];
-                            $argument = $argument['array'][2]['method']['argument'];
-                            foreach ($argument as $argument_nr => $argument_record) {
-                                $value = Build::value($object, $flags, $options, $record, $argument_record, $is_set);
-                                $argument[$argument_nr] = $value;
+                            $name = $argument['array'][0]['value'];
+                            $name .= $argument['array'][1]['value'];
+                            $class_static = Build::class_static($object);
+                            if(
+                                in_array(
+                                    $name,
+                                    $class_static,
+                                    true
+                                )
+                            ) {
+                                $name .= $argument['array'][2]['method']['name'];
+                                $argument = $argument['array'][2]['method']['argument'];
+                                foreach ($argument as $argument_nr => $argument_record) {
+                                    $value = Build::value($object, $flags, $options, $record, $argument_record, $is_set);
+                                    $argument[$argument_nr] = $value;
+                                }
                             }
-                        }
-                        if (array_key_exists(0, $argument)) {
-                            $argument = $name . '(' . implode(', ', $argument) . ')';
+                            if (array_key_exists(0, $argument)) {
+                                $argument = $name . '(' . implode(', ', $argument) . ')';
+                            } else {
+                                $argument = $name . '()';
+                            }
                         } else {
-                            $argument = $name . '()';
+                            $argument = Build::value($object, $flags, $options, $record, $argument, $is_set);
                         }
-                    } else {
-                        $argument = Build::value($object, $flags, $options, $record, $argument, $is_set);
+                        if($argument !== ''){
+                            $argument_value .= $argument  . ', ';
+                            $is_argument = true;
+                        }
                     }
-                    if($argument !== ''){
-                        $argument_value .= $argument  . ', ';
-                        $is_argument = true;
+                    if($is_argument){
+                        $argument_value = mb_substr($argument_value, 0, -2);
+                        $method_value .= $argument_value;
                     }
+                    $method_value .= ');';
                 }
-                if($is_argument){
-                    $argument_value = mb_substr($argument_value, 0, -2);
-                    $method_value .= $argument_value;
-                }
-                $method_value .= ');';
             break;
         }
         switch($method_name){

@@ -16,6 +16,9 @@
 {{$search = 'a'}}
 {{$x = array.binarysearch($array, $search)}}
 {{d($search)}}
+{{for.each($x as $nr => $key)}}
+{{d($array[$key])}}
+{{/for.each}}
 {{breakpoint($x)}}
 /*
 {{system.autoload.prefix.add("Raxon:Module", config('framework.dir.module'))}}

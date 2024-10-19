@@ -1,6 +1,6 @@
 {{Raxon:Module:Core::uuid.variable()}}
 {{$string = 'Hello World!'}}
-{[$search = 'world'}}
+{{$search = 'world'}}
 {{$x = string.binarysearch.substring($string, $search)}}
 {{d($string)}}
 {{d($search)}}

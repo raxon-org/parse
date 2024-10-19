@@ -1061,6 +1061,7 @@ class Token
                             $list['array'][0]['type'] === 'method' &&
                             array_key_exists('method', $list['array'][0])
                         ){
+                            breakpoint($list);
                             $tags[$line][$nr]['method'] = $list['array'][0]['method'];
                         } else {
                             $is_close = false;

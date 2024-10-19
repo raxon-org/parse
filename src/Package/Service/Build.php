@@ -2162,7 +2162,7 @@ class Build
                         $record['method']['call_type'] .
                         str_replace('.', '_', $record['method']['name']) .
                         '(';
-                    d($method_name);
+                    d($method_value);
                     breakpoint($record);
                 } else {
                     $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));

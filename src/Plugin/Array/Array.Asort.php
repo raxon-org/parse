@@ -20,7 +20,6 @@ trait Array_Asort {
     protected function array_asort(&$array, $flags=SORT_NATURAL): bool
     {
         asort($array, $flags);
-        breakpoint($array);
         return true;
     }
 }

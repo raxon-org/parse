@@ -30,6 +30,7 @@ class Method
         $argument_list = [];
         $argument_nr = 0;
         $separator = ',';
+        $operator = '';
         $is_for = false;
         $is_variable_method = false;
         foreach($input['array'] as $nr => $char){
@@ -125,14 +126,16 @@ class Method
                     $is_method = false;
                 }
                 if($name && $has_name === false){
-                    d($has_name);
-                    breakpoint($name);
                     if(mb_substr($name, 0, 1) === ':'){
                         //modifier with argument set
                         $name = '';
                         $is_method = false;
                     } else {
                         $name = strrev($name);
+                        d($is_class_method);
+                        d($is_variable_method);
+                        d($operator);
+                        breakpoint($name);
                         $name = str_replace('>-', '->', $name);
                         $has_name = true;
                     }

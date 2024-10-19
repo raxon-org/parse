@@ -1061,19 +1061,7 @@ class Token
                             $list['array'][0]['type'] === 'method' &&
                             array_key_exists('method', $list['array'][0])
                         ){
-                            breakpoint($list);
                             $tags[$line][$nr]['method'] = $list['array'][0]['method'];
-                            /*
-                            if(array_key_exists('is_class_method', $list['array'][0])){
-                                $tags[$line][$nr]['is_class_method'] = $list['array'][0]['is_class_method'];
-                            }
-                            if(array_key_exists('class', $list['array'][0])){
-                                $tags[$line][$nr]['class'] = $list['array'][0]['class'];
-                            }
-                            if(array_key_exists('call_', $list['array'][0])){
-                                $tags[$line][$nr]['class'] = $list['array'][0]['class'];
-                            }
-                            */
                         } else {
                             $is_close = false;
                             $name = '';
@@ -1110,6 +1098,7 @@ class Token
                 }
             }
         }
+        breakpoint($tags);
         return $tags;
     }
 

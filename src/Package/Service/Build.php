@@ -2246,11 +2246,15 @@ class Build
                         '(';
                     $method_value .= Build::argument($object, $flags, $options, $record, $before);
                     $method_value .= ');';
+                    d($method_value);
+                    breakpoint($before);
                 } else {
                     $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
                     $method_value = '$this->' . $plugin . '(';
                     $method_value .= Build::argument($object, $flags, $options, $record, $before);
                     $method_value .= ');';
+                    d($method_value);
+                    breakpoint($before);
                 }
             break;
         }

@@ -2239,8 +2239,6 @@ class Build
                         '(';
                     $method_value .= Build::argument($object, $flags, $options, $record);
                     $method_value .= ');';
-                    d($method_value);
-                    breakpoint($record);
                 } else {
                     $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
                     $method_value = '$this->' . $plugin . '(';
@@ -2345,7 +2343,7 @@ class Build
                 $data[] = 'echo ' . $uuid_variable . ';';
                 $data[] = '}';
                 $data[] = '}';
-                $data[] = 'catch(Exception $exception){';
+                $data[] = 'catch(Exception | Error | ErrorException $exception){';
                 if(
                     array_key_exists('is_multiline', $record) &&
                     $record['is_multiline'] === true

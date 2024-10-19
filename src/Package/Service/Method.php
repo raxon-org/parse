@@ -71,7 +71,6 @@ class Method
                                     $is_class_method = true;
                                     $call_type = '::';
                                     $name .= $input['array'][$i]['value'];
-                                    breakpoint('yes');
                                 }
                                 elseif($input['array'][$i]['value'] === '->'){
                                     $is_class_method = true;

@@ -69,11 +69,8 @@ class Token
         }
         if($tags === false){
             $tags = Tag::define($object, $flags, $options, $input);
-            breakpoint($tags);
             $tags = Tag::remove($object, $flags, $options, $tags);
-            breakpoint($tags);
             $tags = Token::abstract_syntax_tree($object, $flags, $options, $tags);
-            breakpoint($tags);
             $is_new = true;
         }
         if(
@@ -222,7 +219,6 @@ class Token
             return $tags;
         }
         $cache = $object->get(App::CACHE);
-        breakpoint($tags);
         foreach($tags as $line => $tag){
             foreach($tag as $nr => $record){
                 if(
@@ -1057,7 +1053,6 @@ class Token
                                     'array' => $tag_array
                                 ]
                             );
-                            breakpoint($list);
                         }
                         if(
                             array_key_exists(0, $list['array']) &&
@@ -1103,7 +1098,6 @@ class Token
                 }
             }
         }
-        breakpoint($tags);
         return $tags;
     }
 

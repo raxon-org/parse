@@ -186,9 +186,6 @@ class Tag
                     continue;
                 }
             }
-            d($char);
-            d($previous);
-            d($is_comment);
             if(
                 $tag === false &&
                 $char === '{' &&
@@ -196,7 +193,6 @@ class Tag
                 $is_comment === false
             ){
                 $tag = '{{';
-                breakpoint($tag);
             }
             elseif(
                 $tag !== false &&
@@ -208,8 +204,6 @@ class Tag
                     $text = mb_substr($text, 0, -1);
                 }
                 $tag .= $char;
-                d($text);
-                breakpoint($tag);
                 $column[$line]++;
                 if($text !== ''){
                     $explode = explode("\n", $text);
@@ -398,7 +392,6 @@ class Tag
                 $tag_list[$line][] = $record;
             }
         }
-        breakpoint($tag_list);
         return $tag_list;
     }
 

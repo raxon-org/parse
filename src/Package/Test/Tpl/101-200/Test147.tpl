@@ -7,7 +7,7 @@
 'test'
 ]}}
 {{array.asort($test, SORT_NATURAL)}}
-{{d($test)}}
+{{dd($test)}}
 /*
 {{$array = ['beat','drum','base']}}
 {{$search = 'base'}}

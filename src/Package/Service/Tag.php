@@ -208,6 +208,8 @@ class Tag
                     $text = mb_substr($text, 0, -1);
                 }
                 $tag .= $char;
+                d($text);
+                breakpoint($tag);
                 $column[$line]++;
                 if($text !== ''){
                     $explode = explode("\n", $text);

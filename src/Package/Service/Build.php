@@ -1761,6 +1761,7 @@ class Build
         }
         $source = $options->source ?? '';
         $method_name = mb_strtolower($record['method']['name']);
+        $before = [];
         switch($method_name){
             case 'for.each':
             case 'for_each':

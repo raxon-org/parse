@@ -1727,8 +1727,6 @@ class Build
                         $argument[$argument_nr] = $value;
                         $end = array_pop($after);
                         $after[] = $end . $uuid_variable . ');';
-                        d($before);
-                        breakpoint($after);
                     }
                 }
                 if (array_key_exists(0, $argument)) {
@@ -1743,8 +1741,6 @@ class Build
                 $argument = $uuid_variable;
                 $end = array_pop($after);
                 $after[] = $end . $uuid_variable . ');';
-                d($before);
-                breakpoint($after);
             }
             if($argument !== ''){
                 $argument_value .= $argument  . ', ';
@@ -2256,6 +2252,7 @@ class Build
                     $method_value .= Build::argument($object, $flags, $options, $record, $before, $after);
                     $method_value .= ');';
                     d($method_value);
+                    d($after);
                     breakpoint($before);
                 } else {
                     $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
@@ -2263,6 +2260,7 @@ class Build
                     $method_value .= Build::argument($object, $flags, $options, $record, $before, $after);
                     $method_value .= ');';
                     d($method_value);
+                    d($after);
                     breakpoint($before);
                 }
             break;

@@ -2369,6 +2369,7 @@ class Build
             $record['variable']['value']['array'][0]['is_class_method'] === true
         ){
             //static class method call
+            breakpoint($record);
             $method = $record['variable']['value']['array'][0]['method']['name'] ?? null;
             $method = str_replace('.', '_', $method);
             $explode = explode('::', $method);
@@ -2450,6 +2451,7 @@ class Build
             array_key_exists('name', $record['variable']['value']['array'][1]['method'])
         ){
             //class method call
+            breakpoint($record);
             $method = $record['variable']['value']['array'][1]['method']['name'] ?? null;
             $explode = explode('.', $method, 2);
             //replace : with \\ for namespace in $explode[0]

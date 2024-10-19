@@ -17,7 +17,7 @@ use Raxon\Module\Autoload;
 
 trait Array_String_Lowercase {
 
-    protected function array_string_lowercase($array): array
+    protected function array_string_lowercase(&$array): bool
     {
         foreach($array as $key => $value){
             $array[$key] = strtolower($value);
@@ -25,7 +25,7 @@ trait Array_String_Lowercase {
                 $array[$key] = $this->array_string_lowercase($value);
             }
         }
-        return $array;
+        return true;
     }
 
 }

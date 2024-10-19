@@ -34,7 +34,6 @@ class Tag
         $previous = false;
         $text = '';
         $skip = 0;
-        breakpoint($input);
         foreach($split as $nr => $char){
             if($skip > 0){
                 $skip--;
@@ -187,6 +186,9 @@ class Tag
                     continue;
                 }
             }
+            d($char);
+            d($previous);
+            d($is_comment);
             if(
                 $tag === false &&
                 $char === '{' &&
@@ -194,6 +196,7 @@ class Tag
                 $is_comment === false
             ){
                 $tag = '{{';
+                breakpoint($tag);
             }
             elseif(
                 $tag !== false &&

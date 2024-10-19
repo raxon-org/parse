@@ -20,7 +20,7 @@
 {{breakpoint($x)}}
 {{for.each($x as $nr => $key)}}
 {{d($array[$key])}}
-{{d($key)}}
+{{d($index[$key])}}
 {{/for.each}}
 {{d($index)}}
 /*

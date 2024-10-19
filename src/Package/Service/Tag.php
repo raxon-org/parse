@@ -198,7 +198,8 @@ class Tag
                 $tag !== false &&
                 $char === '}' &&
                 $previous === '}' &&
-                $is_comment === false
+                $is_comment === false &&
+                $curly_count === 0
             ){
                 if(mb_strlen($text) > 0){
                     $text = mb_substr($text, 0, -1);

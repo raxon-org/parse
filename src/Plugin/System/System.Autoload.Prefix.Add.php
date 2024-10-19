@@ -19,7 +19,7 @@ trait System_Autoload_Prefix_Add {
 
     protected function system_autoload_prefix_add($prefix='', $directory='', $extension=''): void
     {
-        $prefix = str_replace(':', DIRECTORY_SEPARATOR, $prefix);
+        $prefix = str_replace(':', '\\\\', $prefix);
         $object = $this->object();
         $autoload = $object->data(App::NAMESPACE . '.' . Autoload::NAME . '.' . App::RAXON);
         $autoload->addPrefix($prefix, $directory, $extension);

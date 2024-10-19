@@ -1725,6 +1725,8 @@ class Build
                         $before[] = $uuid_variable . ' = ' . $value . ';';
                         $value = $uuid_variable;
                         $argument[$argument_nr] = $value;
+                        $end = array_pop($after);
+                        $after[] = $end . $uuid_variable . ');';
                         d($before);
                         breakpoint($after);
                     }
@@ -1739,6 +1741,8 @@ class Build
                 $uuid_variable = Core::uuid_variable();
                 $before[] = $uuid_variable . ' = ' . $argument . ';';
                 $argument = $uuid_variable;
+                $end = array_pop($after);
+                $after[] = $end . $uuid_variable . ');';
                 d($before);
                 breakpoint($after);
             }

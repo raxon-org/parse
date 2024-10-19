@@ -22,7 +22,7 @@ trait System_Autoload_Prefix_Add {
         $directory = str_replace(':', DIRECTORY_SEPARATOR, $directory);
         $object = $this->object();
         $autoload = $object->data(App::NAMESPACE . '.' . Autoload::NAME . '.' . App::RAXON);
-        $autoload->prefix($prefix, $directory, $extension);
+        $autoload->addPrefix($prefix, $directory, $extension);
     }
 
 }

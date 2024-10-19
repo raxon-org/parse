@@ -17,10 +17,10 @@ use Raxon\Module\Autoload;
 
 trait Array_Binarysearch {
 
-    protected function array_binarysearch($sorted_array, $target): array
+    protected function array_binarysearch($sorted_array, $target): bool | array
     {
         if(!is_array($sorted_array)){
-            return [];
+            return false;
         }
         $low = 0;
         $high = count($sorted_array) - 1;
@@ -36,7 +36,10 @@ trait Array_Binarysearch {
                 $high = $mid - 1;
             }
         }
-        return $result;
+        if(array_key_exists(0, $result)){
+            return $result[0];
+        }
+        return false;
     }
 
 }

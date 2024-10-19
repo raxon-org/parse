@@ -2374,15 +2374,16 @@ class Build
                 foreach($after as $after_record){
                     $data[] = $after_record;
                 }
-                $data[] = 'if(!is_scalar('. $variable_uuid. ')){';
+                $data[] = 'if(!is_scalar('. $uuid_variable. ')){';
                 $data[] = '//array or object';
                 $data[] = 'ob_get_clean();';
-                $data[] = 'return ' . $variable_uuid .';';
+                $data[] = 'return ' . $uuid_variable .';';
                 $data[] = '}';
-                $data[] = 'elseif(is_bool('. $variable_uuid. ')){';
-                $data[] = 'return ' . $variable_uuid .';';
+                $data[] = 'elseif(is_bool('. $uuid_variable. ')){';
+                $data[] = 'return ' . $uuid_variable .';';
                 $data[] = '} else {';
-                $data[] = 'echo '. $variable_uuid .';';
+                $data[] = 'echo '. $uuid_variable .';';
+                $data[] = '}';
                 $data[] = '}';
                 $data[] = 'catch(LocateException | TemplateException | Exception | Error | ErrorException $exception){';
                 if(

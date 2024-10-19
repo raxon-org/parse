@@ -298,11 +298,11 @@ class Tag
                         ]
                     ];
                     $content = trim(mb_substr($tag, 2, -2));
-                    if(mb_strtoupper(mb_substr($content, 0, 3)) === 'R3M'){
+                    if(mb_strtoupper(mb_substr($content, 0, 5)) === 'R3M}}'){
                         $record['is_header'] = true;
                         $record['content'] = $content;
                     }
-                    elseif(mb_strtoupper(mb_substr($content, 0, 3)) === 'RAX'){
+                    elseif(mb_strtoupper(mb_substr($content, 0, 5)) === 'RAX}}'){
                         $record['is_header'] = true;
                         $record['content'] = $content;
                     }

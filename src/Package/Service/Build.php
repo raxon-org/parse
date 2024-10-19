@@ -3650,7 +3650,7 @@ class Build
                         foreach($record['modifier'] as $modifier_nr => $modifier){
                             $plugin = Build::plugin($object, $flags, $options, $tag, str_replace('.', '_', $modifier['name']));
                             if($is_single_line){
-                                $modifier_value = '$this->' . $plugin . '( ' ;
+                                $modifier_value = '$this->' . $plugin . '(';
                                 $modifier_value .= $previous_modifier . ', ';
                             } else {
                                 $modifier_value = '$this->' . $plugin . '(';
@@ -3722,6 +3722,7 @@ class Build
                 if(array_key_exists('value', $record)){
                     $value = Build::value_calculate($object, $flags, $options, $record['value'], $value, $right);
                 }
+                breakpoint($value);
             }
         }
         return $value;

@@ -3150,8 +3150,12 @@ class Build
                 ){
                     if($next === '['){
                         $value .= ' ' . $record['value'] . PHP_EOL; //end must be a PHP_EOL
+                        d($value);
+                        breakpoint($after);
                     } else {
                         $value .= ' ' . $record['value'] . ' ';
+                        d($value);
+                        breakpoint($after);
                     }
                 }
                 elseif(
@@ -3473,6 +3477,8 @@ class Build
                     }
                 }
                 $value .= implode(PHP_EOL, $data);
+                d($value);
+                breakpoint($after);
             }
             elseif(
                 array_key_exists('type', $record) &&

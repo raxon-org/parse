@@ -7,6 +7,7 @@
 'test'
 ]}}
 {{array.string.lowercase($test)}}
+{{array.string.uppercase($test)}}
 {{array.asort($test, SORT_NATURAL)}}
 {{$array = []}}
 {{$index = []}}

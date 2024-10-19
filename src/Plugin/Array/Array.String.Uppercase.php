@@ -15,12 +15,12 @@ use Raxon\App;
 use Raxon\App as Framework;
 use Raxon\Module\Autoload;
 
-trait Array_String_Lowercase {
+trait Array_String_Uppercase {
 
-    protected function array_string_lowercase(&$array): bool
+    protected function array_string_uppercase(&$array): bool
     {
         foreach($array as $key => $value){
-            $array[$key] = mb_strtolower($value);
+            $array[$key] = mb_strtoupper($value);
             if(is_object($value) || is_array($value)){
                 $array[$key] = $this->array_string_lowercase($value);
             }

@@ -2154,6 +2154,7 @@ class Build
                 //we do the rest in the marker /block
                 return $method_name;
             default:
+                breakpoint($record);
                 $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
                 $method_value = '$this->' . $plugin . '(';
                 $is_argument = false;

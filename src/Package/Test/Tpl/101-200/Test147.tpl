@@ -6,9 +6,8 @@
 'test',
 'test'
 ]}}
-{{$array = array.sort($test, 'ASC', SORT_NATURAL, $index)}}
-{{d($index)}}
-{{breakpoint($array)}}
+{{array.asort($test, SORT_NATURAL)}}
+{{breakpoint($test)}}
 /*
 {{$array = ['beat','drum','base']}}
 {{$search = 'base'}}

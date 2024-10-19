@@ -17,10 +17,9 @@ use Raxon\Module\Autoload;
 
 trait Array_Sort {
 
-    protected function array_sort($array, $order='ASC', $flags=SORT_NATURAL, &$index=[]): array
+    protected function array_sort($array, $order='ASC', $flags=SORT_NATURAL): array
     {
-        d($index);
-        breakpoint($array);
+
         return $array;
     }
 

@@ -17,21 +17,26 @@ use Raxon\Module\Autoload;
 
 trait Array_Binarysearch {
 
-    protected function array_binarysearch($arr, $target): bool | int
+    protected function array_binarysearch($sorted_array, $target): array
     {
+        if(!is_array($sorted_array)){
+            return [];
+        }
         $low = 0;
-        $high = count($arr) - 1;
+        $high = count($sorted_array) - 1;
+        $result = [];
         while ($low <= $high) {
             $mid = floor(($low + $high) / 2);
-            if ($arr[$mid] == $target) {
-                return $mid; // element found, return key
-            } elseif ($arr[$mid] < $target) {
+            if ($sorted_array[$mid] === $target) {
+                $result[] = $mid;
+                $low = $mid + 1;
+            } elseif ($sorted_array[$mid] < $target) {
                 $low = $mid + 1;
             } else {
                 $high = $mid - 1;
             }
         }
-        return false; // element not found
+        return $result;
     }
 
 }

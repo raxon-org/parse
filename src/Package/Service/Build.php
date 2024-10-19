@@ -1430,7 +1430,7 @@ class Build
             )
         ){
             if(!in_array($use_plugin, $use, true)){
-                $autoload = $object->data(App::AUTOLOAD_DIFFERENCE);
+                $autoload = $object->data(App::AUTOLOAD_RAXON);
                 $location = $autoload->locate($use_plugin, false,  Autoload::MODE_LOCATION);
                 $exist = false;
                 $locate_exception = [];

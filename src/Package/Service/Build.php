@@ -1725,6 +1725,8 @@ class Build
                         $before[] = $uuid_variable . ' = ' . $value . ';';
                         $value = $uuid_variable;
                         $argument[$argument_nr] = $value;
+                        d($before);
+                        breakpoint($after);
                     }
                 }
                 if (array_key_exists(0, $argument)) {
@@ -1737,6 +1739,8 @@ class Build
                 $uuid_variable = Core::uuid_variable();
                 $before[] = $uuid_variable . ' = ' . $argument . ';';
                 $argument = $uuid_variable;
+                d($before);
+                breakpoint($after);
             }
             if($argument !== ''){
                 $argument_value .= $argument  . ', ';

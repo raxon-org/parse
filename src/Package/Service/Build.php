@@ -1733,6 +1733,7 @@ class Build
                 }
             } else {
                 $argument = Build::value($object, $flags, $options, $record, $argument, $is_set);
+                breakpoint($argument);
             }
             if($argument !== ''){
                 $argument_value .= $argument  . ', ';

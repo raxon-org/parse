@@ -26,7 +26,7 @@ trait Array_Binarysearch {
         $high = count($sorted_array) - 1;
         $result = [];
         while ($low <= $high) {
-            $mid = floor(($low + $high) / 2);
+            $mid = (int) floor(($low + $high) / 2);
             if ($sorted_array[$mid] === $target) {
                 $result[] = $mid;
                 $low = $mid + 1;

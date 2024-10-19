@@ -1688,7 +1688,7 @@ class Build
      * @throws Exception
      * @throws LocateException
      */
-    public static function argument(App $object, $flags, $options, $record = []): string
+    public static function argument(App $object, $flags, $options, $record = [], &$before = []): string
     {
         $is_argument = false;
         $argument_value = '';
@@ -1721,6 +1721,8 @@ class Build
                     $argument = $argument['array'][2]['method']['argument'];
                     foreach ($argument as $argument_nr => $argument_record) {
                         $value = Build::value($object, $flags, $options, $record, $argument_record, $is_set);
+                        d($argument_record);
+                        breakpoint($value);
                         $argument[$argument_nr] = $value;
                     }
                 }
@@ -2238,12 +2240,12 @@ class Build
                         $record['method']['call_type'] .
                         str_replace('.', '_', $record['method']['name']) .
                         '(';
-                    $method_value .= Build::argument($object, $flags, $options, $record);
+                    $method_value .= Build::argument($object, $flags, $options, $record, $before);
                     $method_value .= ');';
                 } else {
                     $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
                     $method_value = '$this->' . $plugin . '(';
-                    $method_value .= Build::argument($object, $flags, $options, $record);
+                    $method_value .= Build::argument($object, $flags, $options, $record, $before);
                     $method_value .= ');';
                 }
             break;

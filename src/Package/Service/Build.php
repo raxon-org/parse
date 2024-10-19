@@ -1768,7 +1768,7 @@ class Build
      * @throws LocateException
      * @throws TemplateException
      */
-    public static function method(App $object, $flags, $options, $record = []): bool | string
+    public static function method(App $object, $flags, $options, $record=[]): bool | string
     {
         if(!array_key_exists('method', $record)){
             return false;
@@ -1776,6 +1776,7 @@ class Build
         $source = $options->source ?? '';
         $method_name = mb_strtolower($record['method']['name']);
         $before = [];
+        $after = [];
         switch($method_name){
             case 'for.each':
             case 'for_each':
@@ -2370,9 +2371,18 @@ class Build
                     $data[] = $before_record;
                 }
                 $data[] = $uuid_variable . ' = ' . $method_value;
-                $data[] = 'if(is_scalar(' . $uuid_variable . ')){';
-                $data[] = 'echo ' . $uuid_variable . ';';
+                foreach($after as $after_record){
+                    $data[] = $after_record;
+                }
+                $data[] = 'if(!is_scalar('. $variable_uuid. ')){';
+                $data[] = '//array or object';
+                $data[] = 'ob_get_clean();';
+                $data[] = 'return ' . $variable_uuid .';';
                 $data[] = '}';
+                $data[] = 'elseif(is_bool('. $variable_uuid. ')){';
+                $data[] = 'return ' . $variable_uuid .';';
+                $data[] = '} else {';
+                $data[] = 'echo '. $variable_uuid .';';
                 $data[] = '}';
                 $data[] = 'catch(LocateException | TemplateException | Exception | Error | ErrorException $exception){';
                 if(

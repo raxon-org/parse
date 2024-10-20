@@ -18,7 +18,6 @@ trait Plugin_Unset {
     public function plugin_unset(...$attributes): void
     {
         $data = $this->data();
-        breakpoint($attributes);
         foreach($attributes as $unset){
             if(substr($unset, 0, 1) == '$'){
                 $attribute = substr($unset, 1);

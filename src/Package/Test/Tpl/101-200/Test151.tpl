@@ -28,6 +28,9 @@
 {{$test.original = $test.amazing}}
 {{array.string.uppercase($test.amazing)}}
 {{array.asort($test.amazing)}}
+{{$keys = array.keys($test.amazing)}}
+{{$test.amazing = array.values($test.amazing)}}
+{{d($keys)}}
 {{d($test.amazing)}}
 {{$index = array.binarysearch.list($test.amazing, 'A', $count)}}
 {{d($index)}}

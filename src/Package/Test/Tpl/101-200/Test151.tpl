@@ -27,6 +27,6 @@
 ]}}
 {{$test.original = $test.amazing}}
 {{array.string.uppercase($test.amazing)}}
-{{array.binarysearch.record($test.amazing, 'X', $count)}}
+{{$index = array.binarysearch.record($test.amazing, 'X', $count)}}
 {{d($index)}}
 {{breakpoint($count)}}

@@ -1711,6 +1711,7 @@ class Build
             $method_match = str_replace('.', '_', strtolower($record['method']['name']));
             $key = array_search($method_match, $use_trait_function, true);
             $trait = $use_trait[$key] ?? null;
+            d($trait);
             $reflection = new ReflectionClass($trait);
             $trait_methods = $reflection->getMethods();
             foreach($trait_methods as $nr => $method){

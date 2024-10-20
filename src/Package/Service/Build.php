@@ -1484,7 +1484,7 @@ class Build
                     }
                 }
                 $use[] = $use_plugin;
-                $use_trait_function[count($use) - 1] = $name_lowercase;
+                $use_trait_function[count($use) - 1] = $plugin;
             }
         }
         $object->config('package.raxon/parse.build.use.trait', $use);

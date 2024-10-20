@@ -22,6 +22,7 @@ trait Array_Binarysearch_List {
         ){
             $count = count($sorted_array);
         }
+        d($sorted_array);
         $high = $count - 1;
         $result = [];
         while ($low <= $high) {

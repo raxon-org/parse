@@ -41,6 +41,6 @@
 {{$index = array.binarysearch.record($test.amazing, 'THIS', $count)}}
 {{d($keys[$index])}}
 {{d($test.amazing[$index])}}
-{{$testing = array.binarysearch.record($test.amazing, 'TEST', $count)}}
+{{$testing = array.binarysearch.list($test.amazing, 'TEST', $count)}}
 {{d($testing)}}
 {{d($count)}}

@@ -2684,6 +2684,7 @@ class Build
                 }
             }
         } else {
+            breakpoint($record);
             $value = Build::value($object, $flags, $options, $record, $record['variable']['value'],$is_set);
         }
         if(array_key_exists('modifier', $record['variable'])){
@@ -2736,6 +2737,7 @@ class Build
                         foreach($after_value as $after_record){
                             $result[] = $after_record;
                         }
+                        d($value);
                         breakpoint($result);
                         $result[] = '} catch(ErrorException | Error | Exception $exception){';
                         if(

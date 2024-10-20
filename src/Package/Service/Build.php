@@ -1364,7 +1364,6 @@ class Build
     {
         $source = $options->source ?? '';
         $name_lowercase = mb_strtolower($name);
-        breakpoint($name_lowercase);
         if(
             in_array(
                 $name_lowercase,
@@ -1466,7 +1465,6 @@ class Build
                             $source,
                             $locate_exception
                         );
-
                     } else {
                         breakpoint($record);
                         throw new LocateException(
@@ -1760,22 +1758,18 @@ class Build
                         $before[] = $uuid_variable . ' = ' . $value . ';';
                         $value = $uuid_variable;
                         $argument[$argument_nr] = $value;
-                        $after[$argument_nr] = null;
-                        /* need to check this to work (variable by reference)
+                        /*
                         if(
-                            $count >
-                            $previous_count &&
                             array_key_exists($argument_nr, $argument_is_reference) &&
-                            $argument_is_reference[$argument_nr] === true
+                            $argument_is_reference[$nr] === true
                         ){
-                            $after = [
-                                '$data->set(\'' .  implode('.', $after) . '\', ' . $uuid_variable . ');'
-                            ];
-                            $previous_count = $count;
+                            $after[$nr] = '$data->set(\'' .  $after[$nr] . '\', ' . $uuid_variable . ');';
                         } else {
-                            $after = [];
+                            $after[$nr] = null;
                         }
                         */
+                        breakpoint('test reference, need class in reflection');
+                        $after[$argument_nr] = null;
                     }
                 }
                 if (array_key_exists(0, $argument)) {

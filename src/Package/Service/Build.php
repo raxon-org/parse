@@ -1761,6 +1761,7 @@ class Build
                         $value = $uuid_variable;
                         $argument[$argument_nr] = $value;
                         $count = count($after);
+                        /* need to check this to work (variable by reference)
                         if(
                             $count >
                             $previous_count &&
@@ -1772,6 +1773,7 @@ class Build
                             ];
                             $previous_count = $count;
                         }
+                        */
                     }
                 }
                 if (array_key_exists(0, $argument)) {
@@ -1787,8 +1789,8 @@ class Build
                 $count = count($after);
                 if(
                     $count > $previous_count &&
-                    array_key_exists($argument_nr, $argument_is_reference) &&
-                    $argument_is_reference[$argument_nr] === true
+                    array_key_exists($nr, $argument_is_reference) &&
+                    $argument_is_reference[$nr] === true
                 ){
                     $after = [
                         '$data->set(\'' .  implode('.', $after) . '\', ' . $uuid_variable . ');'

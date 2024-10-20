@@ -1713,7 +1713,7 @@ class Build
             $trait = $use_trait[$key] ?? null;
 
             $reflection = new ReflectionClass($trait);
-            $trait_methods =  $reflection . '->getMethods();';
+            $trait_methods = $reflection->getMethods();
             foreach($trait_methods as $nr => $method){
                 d($method);
             }

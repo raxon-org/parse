@@ -17,7 +17,7 @@ use Raxon\Module\Autoload;
 
 trait Array_String_Uppercase {
 
-    protected function array_string_uppercase(&$array, &$multiple=null): bool
+    protected function array_string_uppercase(object &$array): bool
     {
         foreach($array as $key => $value){
             $array[$key] = mb_strtoupper($value);

@@ -26,5 +26,5 @@
 'test'
 ]}}
 {{$test.original = $test.amazing}}
-{{array.string.uppercase($test.amazing, $multiple)}}
+{{array.string.uppercase($test.amazing)}}
 {{breakpoint($test)}}

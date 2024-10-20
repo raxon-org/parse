@@ -1701,7 +1701,7 @@ class Build
         $use_trait = $object->config('package.raxon/parse.build.use.trait');
         $use_trait_function = $object->config('package.raxon/parse.build.use.trait_function');
         $argument_is_reference = [];
-        $argument_is_literal = [];
+        $argument_attribute = [];
         $attributes = [];
         if(
             array_key_exists('method', $record) &&
@@ -1740,6 +1740,9 @@ class Build
                     foreach($attributes as $attribute_nr => $attribute){
                         $instance = $attribute->newInstance();
                         $instance->class = get_class($instance);
+                        if($instance->class === 'Raxon\Attribute\Argument'){
+                            $argument_attribute = $instance;
+                        }
                         $attributes[$attribute_nr] = $instance;
                     }
                     $parameters = $method->getParameters();
@@ -1806,7 +1809,7 @@ class Build
                     $argument = $name . '()';
                 }
             } else {
-                d($attributes);
+                d($argument_attribute);
                 breakpoint($argument);
                 $argument = Build::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
                 $uuid_variable = Core::uuid_variable();

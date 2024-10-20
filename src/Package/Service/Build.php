@@ -2735,7 +2735,9 @@ class Build
                             ');'
                         ;
                         foreach($after_value as $after_record){
-                            $result[] = $after_record;
+                            if(!is_array($after_record)){
+                                $result[] = $after_record;
+                            }
                         }
                         d($value);
                         breakpoint($result);

@@ -1715,6 +1715,8 @@ class Build
                 if(
                     strtolower($method->name) === $method_match
                 ){
+                    $attributes = $method->getAttributes();
+                    breakpoint($attributes);
                     $parameters = $method->getParameters();
                     foreach($parameters as $parameter_nr => $parameter){
                         if($parameter->isPassedByReference()){

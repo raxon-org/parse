@@ -1705,7 +1705,8 @@ class Build
 
         if(
             array_key_exists('method', $record) &&
-            array_key_exists('name', $record['method'])
+            array_key_exists('name', $record['method']) &&
+            is_array($use_trait_function)
         ){
             $key = array_search(str_replace('.', '_', strtolower($record['method']['name'])), $use_trait_function, true);
             breakpoint($key);

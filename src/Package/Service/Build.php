@@ -2685,7 +2685,7 @@ class Build
             }
         } else {
             breakpoint($record);
-            $value = Build::value($object, $flags, $options, $record, $record['variable']['value'],$is_set);
+            $value = Build::value($object, $flags, $options, $record, $record['variable']['value'],$is_set, $before_value, $after_value);
         }
         if(array_key_exists('modifier', $record['variable'])){
             d($value);
@@ -3742,7 +3742,9 @@ class Build
                         $is_single_line = false;
                     } else {
                         $value .= '$data->get(\'' . $record['name'] . '\')';
-                        $after[] = $record['name'];
+                        $after[] = [
+                            'attribute' => $record['name']
+                        ];
                     }
                 }
             }

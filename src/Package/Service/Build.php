@@ -2366,9 +2366,6 @@ class Build
                         '(';
                     $method_value .= Build::argument($object, $flags, $options, $record, $before, $after);
                     $method_value .= ');';
-//                    d($method_value);
-//                    d($after);
-//                    breakpoint($before);
                 } else {
                     $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
                     $method_value = '$this->' . $plugin . '(';

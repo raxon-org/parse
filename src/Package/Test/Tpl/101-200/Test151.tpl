@@ -31,8 +31,10 @@
 {{d($test.amazing)}}
 {{$index = array.binarysearch.list($test.amazing, 'A', $count)}}
 {{d($index)}}
+{{d($count)}}
 {{$index = array.binarysearch.list($test.amazing, 'X', $count)}}
 {{d($index)}}
+{{d($count)}}
 {{$index = array.binarysearch.list($test.amazing, 'THIS', $count)}}
 {{d($index)}}
 {{d($count)}}

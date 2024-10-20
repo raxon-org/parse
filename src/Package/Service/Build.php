@@ -3530,7 +3530,7 @@ class Build
                 $plugin = Build::plugin($object, $flags, $options, $tag, str_replace('.', '_', $record['method']['name']));
                 $method_value = '$this->' . $plugin . '(' . PHP_EOL;
                 $method_value .= Build::argument($object, $flags, $options, $record, $before, $after);
-                $method_value .= ');';
+                $method_value .= ')';
                 /*
                 if(
                     array_key_exists('method', $record) &&

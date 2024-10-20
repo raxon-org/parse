@@ -1785,9 +1785,10 @@ class Build
                 $argument = $uuid_variable;
                 if(
                     array_key_exists($nr, $argument_is_reference) &&
-                    $argument_is_reference[$nr] === true
+                    $argument_is_reference[$nr] === true &&
+                    array_key_exists('attribute', $after[$nr])
                 ){
-                    $after[$nr] = '$data->set(\'' .  $after[$nr] . '\', ' . $uuid_variable . ');';
+                    $after[$nr] = '$data->set(\'' .  $after[$nr]['attribute'] . '\', ' . $uuid_variable . ');';
                 } else {
                     $after[$nr] = null;
                 }

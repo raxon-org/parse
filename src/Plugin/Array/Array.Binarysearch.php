@@ -17,7 +17,7 @@ use Raxon\Module\Autoload;
 
 trait Array_Binarysearch {
 
-    protected function array_binarysearch($sorted_array, $target): array
+    protected function array_binarysearch($sorted_array, $target, $multiple=true): array
     {
         if(!is_array($sorted_array)){
             return [];
@@ -28,8 +28,25 @@ trait Array_Binarysearch {
         while ($low <= $high) {
             $mid = (int) floor(($low + $high) / 2);
             if ($sorted_array[$mid] === $target) {
-                $result[] = $mid;
-                $low = $mid + 1;
+                if($multiple === true){
+                    for($i = $mid -1; $i > $low; $i--){
+                        if($sorted_array[$i] === $target){
+                            $result[] = $i;
+                        } else {
+                            break;
+                        }
+                    }
+                    $result[] = $mid;
+                    for ($i = $mid + 1; $i < $high; $i++) {
+                        if ($sorted_array[$i] === $target) {
+                            $result[] = $i;
+                        } else {
+                            break;
+                        }
+                    }
+                    return $result;
+                }
+                return $mid;
             } elseif ($sorted_array[$mid] < $target) {
                 $low = $mid + 1;
             } else {

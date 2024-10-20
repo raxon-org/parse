@@ -1394,8 +1394,10 @@ class Build
         $use_plugin = 'Plugin\\' . implode('_', $use_plugin);
 
         $use = $object->config('package.raxon/parse.build.use.trait');
+        $use_trait_function = $object->config('package.raxon/parse.build.use.trait_function');
         if(!$use){
             $use = [];
+            $use_trait_function = [];
         }
         if(
             !in_array(
@@ -1482,9 +1484,11 @@ class Build
                     }
                 }
                 $use[] = $use_plugin;
+                $use_trait_function[] = $name_lowercase;
             }
         }
         $object->config('package.raxon/parse.build.use.trait', $use);
+        $object->config('package.raxon/parse.build.use.trait_function', $use_trait_function);
         return mb_strtolower($plugin);
     }
 

@@ -1699,7 +1699,9 @@ class Build
         $argument_value = '';
         $previous_count = 0;
         $use_trait = $object->config('package.raxon/parse.build.use.trait');
+        d($use_trait);
         $use_trait_function = $object->config('package.raxon/parse.build.use.trait_function');
+        d($use_trait_function);
         $argument_is_reference = [];
         if(
             array_key_exists('method', $record) &&

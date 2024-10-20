@@ -1693,6 +1693,7 @@ class Build
         $is_argument = false;
         $argument_value = '';
         $previous_count = 0;
+        breakpoint($record);
         foreach($record['method']['argument'] as $nr => $argument) {
             if(
                 array_key_exists('array', $argument) &&
@@ -1745,6 +1746,7 @@ class Build
                 $uuid_variable = Core::uuid_variable();
                 $before[] = $uuid_variable . ' = ' . $argument . ';';
                 $argument = $uuid_variable;
+
                 $count = count($after);
                 if($count > $previous_count){
                     $after = [

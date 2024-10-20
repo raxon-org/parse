@@ -1699,9 +1699,7 @@ class Build
         $argument_value = '';
         $previous_count = 0;
         $use_trait = $object->config('package.raxon/parse.build.use.trait');
-        d($use_trait);
         $use_trait_function = $object->config('package.raxon/parse.build.use.trait_function');
-        d($use_trait_function);
         $argument_is_reference = [];
         $argument_is_literal = [];
         if(
@@ -1731,8 +1729,6 @@ class Build
             }
             $key = array_search($method_match, $use_trait_function, true);
             $trait = $use_trait[$key] ?? null;
-            d($method_match);
-            d($trait);
             $reflection = new ReflectionClass($trait);
             $trait_methods = $reflection->getMethods();
             foreach($trait_methods as $nr => $method){

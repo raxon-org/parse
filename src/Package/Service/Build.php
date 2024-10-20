@@ -2736,6 +2736,7 @@ class Build
                         foreach($after_value as $after_record){
                             $result[] = $after_record;
                         }
+                        breakpoint($result);
                         $result[] = '} catch(ErrorException | Error | Exception $exception){';
                         if(
                             array_key_exists('is_multiline', $record) &&

@@ -1709,7 +1709,8 @@ class Build
             is_array($use_trait_function)
         ){
             $key = array_search(str_replace('.', '_', strtolower($record['method']['name'])), $use_trait_function, true);
-            breakpoint($key);
+            $trait = $use_trait[$key] ?? null;
+            breakpoint($trait);
         }
 
         breakpoint($record);

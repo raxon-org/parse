@@ -2682,7 +2682,7 @@ class Build
                 }
             }
         } else {
-            $value = Build::value($object, $flags, $options, $record, $record['variable']['value'],$is_set, $value_before, $value_after);
+            $value = Build::value($object, $flags, $options, $record, $record['variable']['value'],$is_set, $before_value, $after_value);
         }
         if(array_key_exists('modifier', $record['variable'])){
             d($value);
@@ -2720,7 +2720,7 @@ class Build
             if($value !== ''){
                 switch($operator){
                     case '=' :
-                        foreach($value_before as $before_record){
+                        foreach($before_value as $before_record){
                             $result[] = $before_record;
                         }
                         $result[] = 'try {';
@@ -2731,7 +2731,7 @@ class Build
                             $value .
                             ');'
                         ;
-                        foreach($value_after as $after_record){
+                        foreach($afer_value as $after_record){
                             $result[] = $after_record;
                         }
                         $result[] = '} catch(ErrorException | Error | Exception $exception){';

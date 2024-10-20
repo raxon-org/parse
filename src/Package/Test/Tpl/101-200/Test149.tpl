@@ -16,8 +16,8 @@
 {{$index.amazing[] = $nr}}
 {{/for.each}}
 {{$search = 'TEST'}}
-{{$x = array.binarysearch($array.amazing, $search, false)}}
-{{breakpoint($x)}}
+{{$x = array.binarysearch($array.amazing, $search)}}
+{{d($x)}}
 {{for.each($x as $nr => $key.key.doubt)}}
 {{d($array.amazing[$key.key.doubt])}}
 {{d($index.amazing[$key.key.doubt])}}

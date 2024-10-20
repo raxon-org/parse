@@ -1772,6 +1772,8 @@ class Build
                                 '$data->set(\'' .  implode('.', $after) . '\', ' . $uuid_variable . ');'
                             ];
                             $previous_count = $count;
+                        } else {
+                            $after = [];
                         }
                         */
                     }
@@ -1796,6 +1798,8 @@ class Build
                         '$data->set(\'' .  implode('.', $after) . '\', ' . $uuid_variable . ');'
                     ];
                     $previous_count = $count;
+                } else {
+                    $after = [];
                 }
             }
             if($argument !== ''){

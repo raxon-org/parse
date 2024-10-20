@@ -1,17 +1,17 @@
 {{Raxon:Module:Core::uuid.variable()}}
-{{$test = [
+{{$test.amazing = [
 'This',
 'is',
 'a',
 'test',
 'test'
 ]}}
-{{array.string.lowercase($test)}}
-{{array.string.uppercase($test)}}
-{{array.asort($test, SORT_NATURAL)}}
+{{array.string.lowercase($test.amazing)}}
+{{array.string.uppercase($test.amazing)}}
+{{array.asort($test.amazing, SORT_NATURAL)}}
 {{$array = []}}
 {{$index = []}}
-{{for.each($test as $nr => $value)}}
+{{for.each($test.amazing as $nr => $value)}}
 {{$array[] = $value}}
 {{$index[] = $nr}}
 {{/for.each}}

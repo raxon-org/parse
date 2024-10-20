@@ -2311,8 +2311,8 @@ class Build
                     $method_value .= Build::argument($object, $flags, $options, $record, $before, $after);
                     $method_value .= ');';
 //                    d($method_value);
-//                    d($after);
-//                    breakpoint($before);
+                    d($after);
+                    breakpoint($before);
                 }
             break;
         }

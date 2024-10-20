@@ -1788,18 +1788,13 @@ class Build
                 $uuid_variable = Core::uuid_variable();
                 $before[] = $uuid_variable . ' = ' . $argument . ';';
                 $argument = $uuid_variable;
-                $count = count($after);
                 if(
-                    $count > $previous_count &&
                     array_key_exists($nr, $argument_is_reference) &&
                     $argument_is_reference[$nr] === true
                 ){
-                    $after = [
-                        '$data->set(\'' .  implode('.', $after) . '\', ' . $uuid_variable . ');'
-                    ];
-                    $previous_count = $count;
+                    $after[$nr] = '$data->set(\'' .  $after[$nr] . '\', ' . $uuid_variable . ');';
                 } else {
-                    $after = [];
+                    $after[$nr] = null;
                 }
             }
             if($argument !== ''){

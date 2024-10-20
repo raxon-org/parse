@@ -1709,12 +1709,17 @@ class Build
             array_key_exists('name', $record['method']) &&
             is_array($use_trait_function)
         ){
-            $key = array_search(str_replace('.', '_', strtolower($record['method']['name'])), $use_trait_function, true);
+            $method_match = str_replace('.', '_', strtolower($record['method']['name']));
+            $key = array_search($method_match, $use_trait_function, true);
             $trait = $use_trait[$key] ?? null;
 
             $reflection = new ReflectionClass($trait);
             $trait_methods = $reflection->getMethods();
             foreach($trait_methods as $nr => $method){
+                if(strtolower($method) === $method_match){
+                    $parameters = $method->getParameters();
+                    d($parameters);
+                }
                 d($method);
             }
             breakpoint($trait);

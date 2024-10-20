@@ -3326,6 +3326,7 @@ class Build
                                     $next,
                                     $skip
                                 );
+                                breakpoint($assign);
                                 $assign = Build::value($object, $flags, $options, $tag, $assign, $is_set);
                                 $value .= '$data->set(\'' . $previous['name'] . '\', ' .  $assign . ')';
                             break;

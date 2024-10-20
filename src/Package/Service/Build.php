@@ -1375,7 +1375,8 @@ class Build
                     'break',
                     'continue',
                     'constant',
-                    'require'
+                    'require',
+                    'unset'
                 ],
                 true
             )

@@ -2682,8 +2682,7 @@ class Build
                 }
             }
         } else {
-            breakpoint($before);
-            $value = Build::value($object, $flags, $options, $record, $record['variable']['value'],$is_set);
+            $value = Build::value($object, $flags, $options, $record, $record['variable']['value'],$is_set, $value_before, $value_after);
         }
         if(array_key_exists('modifier', $record['variable'])){
             d($value);
@@ -2721,10 +2720,9 @@ class Build
             if($value !== ''){
                 switch($operator){
                     case '=' :
-                        d($before);
-                        d($after);
-                        breakpoint($result);
-
+                        foreach($value_before as $before_record){
+                            $result[] = $before_record;
+                        }
                         $result[] = 'try {';
                         $result[] = '$data->set(' .
                             '\'' .
@@ -2733,6 +2731,9 @@ class Build
                             $value .
                             ');'
                         ;
+                        foreach($value_after as $after_record){
+                            $result[] = $after_record;
+                        }
                         $result[] = '} catch(ErrorException | Error | Exception $exception){';
                         if(
                             array_key_exists('is_multiline', $record) &&

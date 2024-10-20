@@ -3496,7 +3496,7 @@ class Build
                 array_key_exists('type', $record) &&
                 $record['type'] === 'array'
             ){
-                $array_value = Build::value($object, $flags, $options, $tag, $record, $is_set, $after);
+                $array_value = Build::value($object, $flags, $options, $tag, $record, $is_set);
                 $data = Build::string_array($array_value);
                 foreach($data as $nr => $line){
                     $char = trim($line);

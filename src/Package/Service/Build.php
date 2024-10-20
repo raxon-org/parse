@@ -1710,6 +1710,12 @@ class Build
         ){
             $key = array_search(str_replace('.', '_', strtolower($record['method']['name'])), $use_trait_function, true);
             $trait = $use_trait[$key] ?? null;
+
+            $reflection = new ReflectionClass($trait);
+            $trait_methods =  $reflection . '->getMethods();';
+            foreach($trait_methods as $nr => $method){
+                d($method);
+            }
             breakpoint($trait);
         }
 

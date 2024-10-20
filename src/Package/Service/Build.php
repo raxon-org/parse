@@ -1703,6 +1703,7 @@ class Build
         $use_trait_function = $object->config('package.raxon/parse.build.use.trait_function');
         d($use_trait_function);
         $argument_is_reference = [];
+        $argument_is_literal = [];
         if(
             array_key_exists('method', $record) &&
             array_key_exists('name', $record['method']) &&
@@ -1739,8 +1740,10 @@ class Build
                     strtolower($method->name) === $method_match
                 ){
                     $attributes = $method->getAttributes();
-                    d($method_match);
-                    breakpoint($attributes);
+                    foreach($attributes as $attribute_nr => $attribute){
+                        $instance = $attribute->newInstance();
+                        breakpoint($instance);
+                    }
                     $parameters = $method->getParameters();
                     foreach($parameters as $parameter_nr => $parameter){
                         if($parameter->isPassedByReference()){

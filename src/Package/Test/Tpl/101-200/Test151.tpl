@@ -1,0 +1,29 @@
+{{Raxon:Module:Core::uuid.variable()}}
+{{$test.amazing = [
+'This',
+'is',
+'a',
+'x',
+'test',
+'test',
+'test',
+'test',
+'test',
+'test',
+'test',
+'test',
+'test',
+'test',
+'test',
+'test',
+'test',
+'test',
+'test',
+'test',
+'test',
+'test',
+'test',
+'test'
+]}}
+{{array.string.uppercase($test.amazing, $multiple)}}
+breakpoint($multiple)

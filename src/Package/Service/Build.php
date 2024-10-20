@@ -1701,8 +1701,7 @@ class Build
         $use_trait = $object->config('package.raxon/parse.build.use.trait');
         $use_trait_function = $object->config('package.raxon/parse.build.use.trait_function');
         $argument_is_reference = [];
-        $argument_attribute = [];
-        $attributes = [];
+        $argument_attribute = (object) [];
         if(
             array_key_exists('method', $record) &&
             array_key_exists('name', $record['method']) &&
@@ -1809,20 +1808,44 @@ class Build
                     $argument = $name . '()';
                 }
             } else {
-                d($argument_attribute);
-                breakpoint($argument);
-                $argument = Build::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
-                $uuid_variable = Core::uuid_variable();
-                $before[] = $uuid_variable . ' = ' . $argument . ';';
-                $argument = $uuid_variable;
                 if(
-                    array_key_exists($nr, $argument_is_reference) &&
-                    $argument_is_reference[$nr] === true &&
-                    array_key_exists('attribute', $after[$nr])
+                    property_exists($argument_attribute, 'count') &&
+                    $argument_attribute->count === '*'
                 ){
-                    $after[$nr] = '$data->set(\'' .  $after[$nr]['attribute'] . '\', ' . $uuid_variable . ');';
+                    //all arguments are literal
+                    $argument = $argument['string'];
+                }
+                elseif(
+                    is_array($argument_attribute->index) &&
+                    in_array(
+                        $nr,
+                        $argument_attribute->index,
+                        true
+                    )
+                ){
+                    //we have multiple indexes
+                    $argument = $argument['string'];
+                }
+                elseif (
+                    is_int($argument_attribute->index) &&
+                    $argument_attribute->index === $nr
+                ){
+                    //we have a single index
+                    $argument = $argument['string'];
                 } else {
-                    $after[$nr] = null;
+                    $argument = Build::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
+                    $uuid_variable = Core::uuid_variable();
+                    $before[] = $uuid_variable . ' = ' . $argument . ';';
+                    $argument = $uuid_variable;
+                    if(
+                        array_key_exists($nr, $argument_is_reference) &&
+                        $argument_is_reference[$nr] === true &&
+                        array_key_exists('attribute', $after[$nr])
+                    ){
+                        $after[$nr] = '$data->set(\'' .  $after[$nr]['attribute'] . '\', ' . $uuid_variable . ');';
+                    } else {
+                        $after[$nr] = null;
+                    }
                 }
             }
             if($argument !== ''){

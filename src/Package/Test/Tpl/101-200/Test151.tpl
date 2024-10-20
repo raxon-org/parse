@@ -26,4 +26,4 @@
 'test'
 ]}}
 {{array.string.uppercase($test.amazing, $multiple)}}
-breakpoint($multiple)
+{{breakpoint($multiple)}}

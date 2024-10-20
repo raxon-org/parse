@@ -1815,7 +1815,7 @@ class Build
                     $argument_attribute->count === '*'
                 ){
                     //all arguments are literal
-                    $argument = '\'' . str_replace('\'', '\\\'', $argument['string']) . '\'';
+                    $argument = '\'' . str_replace('\'', '\\\'', trim($argument['string'])) . '\'';
                 }
                 elseif(
                     property_exists($argument_attribute, 'apply') &&
@@ -1829,7 +1829,7 @@ class Build
                     )
                 ){
                     //we have multiple indexes
-                    $argument = '\'' . str_replace('\'', '\\\'', $argument['string']) . '\'';
+                    $argument = '\'' . str_replace('\'', '\\\'', trim($argument['string'])) . '\'';
                 }
                 elseif (
                     property_exists($argument_attribute, 'apply') &&
@@ -1839,7 +1839,7 @@ class Build
                     $argument_attribute->index === $nr
                 ){
                     //we have a single index
-                    $argument = '\'' . str_replace('\'', '\\\'', $argument['string']) . '\'';
+                    $argument = '\'' . str_replace('\'', '\\\'', trim($argument['string'])) . '\'';
                 } else {
                     $argument = Build::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
                     $uuid_variable = Core::uuid_variable();

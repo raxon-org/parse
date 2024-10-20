@@ -20,7 +20,6 @@ trait Plugin_Unset {
         $data = $this->data();
         breakpoint($attributes);
         foreach($attributes as $unset){
-            $unset = trim($unset);
             if(substr($unset, 0, 1) == '$'){
                 $attribute = substr($unset, 1);
             } else {

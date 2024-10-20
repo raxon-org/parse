@@ -30,12 +30,12 @@
 {{array.asort($test.amazing)}}
 {{$keys = array.keys($test.amazing)}}
 {{$test.amazing = array.values($test.amazing)}}
-{{$index = array.binarysearch.list($test.amazing, 'A', $count)}}
+{{$index = array.binarysearch.record($test.amazing, 'A', $count)}}
 {{d($keys[$index])}}
 {{d($count)}}
-{{$index = array.binarysearch.list($test.amazing, 'X', $count)}}
+{{$index = array.binarysearch.record($test.amazing, 'X', $count)}}
 {{d($keys[$index])}}
 {{d($count)}}
-{{$index = array.binarysearch.list($test.amazing, 'THIS', $count)}}
+{{$index = array.binarysearch.record($test.amazing, 'THIS', $count)}}
 {{d($keys[$index])}}
 {{d($count)}}

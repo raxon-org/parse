@@ -2310,9 +2310,6 @@ class Build
                     $method_value = '$this->' . $plugin . '(';
                     $method_value .= Build::argument($object, $flags, $options, $record, $before, $after);
                     $method_value .= ');';
-//                    d($method_value);
-                    d($after);
-                    breakpoint($before);
                 }
             break;
         }
@@ -2721,12 +2718,12 @@ class Build
         ){
             $result = $before;
             if($value !== ''){
+                $result[] = 'try {';
+                foreach($before_value as $before_record){
+                    $result[] = $before_record;
+                }
                 switch($operator){
                     case '=' :
-                        foreach($before_value as $before_record){
-                            $result[] = $before_record;
-                        }
-                        $result[] = 'try {';
                         $result[] = '$data->set(' .
                             '\'' .
                             $variable_name .
@@ -2739,8 +2736,6 @@ class Build
                                 $result[] = $after_record;
                             }
                         }
-                        d($value);
-                        breakpoint($result);
                         $result[] = '} catch(ErrorException | Error | Exception $exception){';
                         if(
                             array_key_exists('is_multiline', $record) &&
@@ -2755,7 +2750,6 @@ class Build
                         $result[] = '}';
                         break;
                     case '.=' :
-                        $result[] = 'try {';
                         $result[] = '$data->set(' .
                             '\'' .
                             $variable_name .
@@ -2769,6 +2763,11 @@ class Build
                             ')' .
                             ');'
                         ;
+                        foreach($after_value as $after_record){
+                            if(!is_array($after_record)){
+                                $result[] = $after_record;
+                            }
+                        }
                         $result[] = '} catch(ErrorException | Error | Exception $exception){';
                         if(
                             array_key_exists('is_multiline', $record) &&
@@ -2783,7 +2782,6 @@ class Build
                         $result[] = '}';
                         break;
                     case '+=' :
-                        $result[] = 'try {';
                         $result[] = '$data->set(' .
                             '\'' .
                             $variable_name .
@@ -2797,6 +2795,11 @@ class Build
                             ')' .
                             ');'
                         ;
+                        foreach($after_value as $after_record){
+                            if(!is_array($after_record)){
+                                $result[] = $after_record;
+                            }
+                        }
                         $result[] = '} catch(ErrorException | Error | Exception $exception){';
                         if(
                             array_key_exists('is_multiline', $record) &&
@@ -2811,7 +2814,6 @@ class Build
                         $result[] = '}';
                         break;
                     case '-=' :
-                        $result[] = 'try {';
                         $result[] = '$data->set('.
                             '\'' .
                             $variable_name .
@@ -2825,6 +2827,11 @@ class Build
                             ')'.
                             ');'
                         ;
+                        foreach($after_value as $after_record){
+                            if(!is_array($after_record)){
+                                $result[] = $after_record;
+                            }
+                        }
                         $result[] = '} catch(ErrorException | Error | Exception $exception){';
                         if(
                             array_key_exists('is_multiline', $record) &&
@@ -2839,7 +2846,6 @@ class Build
                         $result[] = '}';
                         break;
                     case '*=' :
-                        $result[] = 'try {';
                         $result[] = '$data->set('.
                             '\'' .
                             $variable_name .
@@ -2853,6 +2859,11 @@ class Build
                             ')'.
                             ');'
                         ;
+                        foreach($after_value as $after_record){
+                            if(!is_array($after_record)){
+                                $result[] = $after_record;
+                            }
+                        }
                         $result[] = '} catch(ErrorException | Error | Exception $exception){';
                         if(
                             array_key_exists('is_multiline', $record) &&

@@ -1753,7 +1753,7 @@ class Build
                     $name .= $argument['array'][2]['method']['name'];
                     $argument = $argument['array'][2]['method']['argument'];
                     foreach ($argument as $argument_nr => $argument_record) {
-                        $value = Build::value($object, $flags, $options, $record, $argument_record, $is_set, $after);
+                        $value = Build::value($object, $flags, $options, $record, $argument_record, $is_set, $before,$after);
                         $uuid_variable = Core::uuid_variable();
                         $before[] = $uuid_variable . ' = ' . $value . ';';
                         $value = $uuid_variable;
@@ -1778,7 +1778,7 @@ class Build
                     $argument = $name . '()';
                 }
             } else {
-                $argument = Build::value($object, $flags, $options, $record, $argument, $is_set, $after);
+                $argument = Build::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
                 $uuid_variable = Core::uuid_variable();
                 $before[] = $uuid_variable . ' = ' . $argument . ';';
                 $argument = $uuid_variable;
@@ -3053,7 +3053,7 @@ class Build
      * @throws Exception
      * @throws LocateException
      */
-    public static function value(App $object, $flags, $options, $tag, $input, &$is_set=false, &$after=[]): string
+    public static function value(App $object, $flags, $options, $tag, $input, &$is_set=false, &$before=[], &$after=[]): string
     {
         $source = $options->source ?? '';
         $value = '';

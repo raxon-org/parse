@@ -10,8 +10,11 @@
  */
 namespace Plugin;
 
+use Raxon\Attribute\Argument;
+
 trait Plugin_Unset {
 
+    #[Argument(apply: "literal", count: "*")]
     public function plugin_unset(...$attributes): void
     {
         breakpoint($attributes);

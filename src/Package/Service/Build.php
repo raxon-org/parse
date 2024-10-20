@@ -1808,7 +1808,6 @@ class Build
                     $argument = $name . '()';
                 }
             } else {
-                d($argument_attribute);
                 if(
                     property_exists($argument_attribute, 'apply') &&
                     $argument_attribute->apply === 'literal' &&
@@ -2373,7 +2372,6 @@ class Build
                 } else {
                     $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
                     $method_value = '$this->' . $plugin . '(';
-                    breakpoint($record);
                     $method_value .= Build::argument($object, $flags, $options, $record, $before, $after);
                     $method_value .= ');';
                 }

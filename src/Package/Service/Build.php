@@ -1816,6 +1816,7 @@ class Build
                     $argument = $argument['string'];
                 }
                 elseif(
+                    property_exists($argument_attribute, 'index') &&
                     is_array($argument_attribute->index) &&
                     in_array(
                         $nr,
@@ -1827,6 +1828,7 @@ class Build
                     $argument = $argument['string'];
                 }
                 elseif (
+                    property_exists($argument_attribute, 'index') &&
                     is_int($argument_attribute->index) &&
                     $argument_attribute->index === $nr
                 ){

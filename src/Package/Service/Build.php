@@ -1720,6 +1720,11 @@ class Build
                     strtolower($method->name) === $method_match
                 ){
                     $parameters = $method->getParameters();
+                    foreach($parameters as $parameter_nr => $parameter){
+                        d($parameter->name);
+                        d($parameter->isPassedByReference());
+
+                    }
                     d($parameters);
                 }
                 d($method);

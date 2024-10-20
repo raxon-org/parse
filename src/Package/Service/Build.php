@@ -1810,6 +1810,8 @@ class Build
             } else {
                 d($argument_attribute);
                 if(
+                    property_exists($argument_attribute, 'apply') &&
+                    $argument_attribute->apply === 'literal' &&
                     property_exists($argument_attribute, 'count') &&
                     $argument_attribute->count === '*'
                 ){
@@ -1817,6 +1819,8 @@ class Build
                     $argument = '\'' . str_replace('\'', '\\\'', $argument['string']) . '\'';
                 }
                 elseif(
+                    property_exists($argument_attribute, 'apply') &&
+                    $argument_attribute->apply === 'literal' &&
                     property_exists($argument_attribute, 'index') &&
                     is_array($argument_attribute->index) &&
                     in_array(
@@ -1829,6 +1833,8 @@ class Build
                     $argument = '\'' . str_replace('\'', '\\\'', $argument['string']) . '\'';
                 }
                 elseif (
+                    property_exists($argument_attribute, 'apply') &&
+                    $argument_attribute->apply === 'literal' &&
                     property_exists($argument_attribute, 'index') &&
                     is_int($argument_attribute->index) &&
                     $argument_attribute->index === $nr

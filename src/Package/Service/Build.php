@@ -1363,6 +1363,7 @@ class Build
     {
         $source = $options->source ?? '';
         $name_lowercase = mb_strtolower($name);
+        breakpoint($name_lowercase);
         if(
             in_array(
                 $name_lowercase,

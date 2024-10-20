@@ -13,7 +13,7 @@ namespace Plugin;
 
 trait Array_Binarysearch_List {
 
-    protected function array_binarysearch_list(array $sorted_array, mixed $target, ?int $count=0): array
+    protected function array_binarysearch_list(array $sorted_array, mixed $target, ?int &$count=0): array
     {
         $low = 0;
         if(
@@ -22,7 +22,6 @@ trait Array_Binarysearch_List {
         ){
             $count = count($sorted_array);
         }
-        d($sorted_array);
         $high = $count - 1;
         $result = [];
         while ($low <= $high) {

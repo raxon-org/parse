@@ -17,7 +17,14 @@ trait Plugin_Unset {
     #[Argument(apply: "literal", count: "*")]
     public function plugin_unset(...$attributes): void
     {
-        breakpoint($attributes);
+        $data = $this->data();
+        foreach($attributes as $unset){
+            if(substr($unset, 0, 1) == '$'){
+                $attribute = substr($unset, 1);
+            } else {
+                $attribute = $unset;
+            }
+            $data->data('delete', $attribute);
+        }
     }
-
 }

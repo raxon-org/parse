@@ -1484,7 +1484,7 @@ class Build
                     }
                 }
                 $use[] = $use_plugin;
-                $use_trait_function[] = $name_lowercase;
+                $use_trait_function[count($use - 1)] = $name_lowercase;
             }
         }
         $object->config('package.raxon/parse.build.use.trait', $use);
@@ -1698,10 +1698,10 @@ class Build
         $is_argument = false;
         $argument_value = '';
         $previous_count = 0;
-        $trait_use = $object->config('package.raxon/parse.build.use.trait');
-        $trait_function_use = $object->config('package.raxon/parse.build.use.trait_function');
-        d($trait_use);
-        d($trait_function_use);
+        $use_trait = $object->config('package.raxon/parse.build.use.trait');
+        $use_trait_function = $object->config('package.raxon/parse.build.use.trait_function');
+        d($use_trait);
+        d($use_trait_function);
         breakpoint($record);
         foreach($record['method']['argument'] as $nr => $argument) {
             if(

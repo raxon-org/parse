@@ -188,7 +188,6 @@ class Build
                 }
                 $variable_assign_next_tag = false; //Build::text is taking care of this
                 $variable_assign = Build::variable_assign($object, $flags, $options, $record);
-                breakpoint($variable_assign);
                 if($variable_assign){
                     if($is_block){
                         $block[] = $variable_assign;

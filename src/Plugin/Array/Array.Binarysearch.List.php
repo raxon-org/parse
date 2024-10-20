@@ -13,7 +13,7 @@ namespace Plugin;
 
 trait Array_Binarysearch_List {
 
-    protected function array_binarysearch_list(array $sorted_array, mixed $target, int $count=0): array
+    protected function array_binarysearch_list(array $sorted_array, mixed $target, ?int $count=0): array
     {
         $low = 0;
         if($count === 0){

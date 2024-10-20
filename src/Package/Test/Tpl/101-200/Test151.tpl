@@ -43,6 +43,6 @@
 {{d($test.amazing[$index])}}
 {{$testing = array.binarysearch.list($test.amazing, 'TEST', $count)}}
 {{for.each($testing as $key => $value)}}
-{{d($key + ' ' + $value)}}
+{{d($key + ' ' + $test.amazing[$value])}}
 {{/for.each}}
 {{d($count)}}

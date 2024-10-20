@@ -1716,7 +1716,10 @@ class Build
             $reflection = new ReflectionClass($trait);
             $trait_methods = $reflection->getMethods();
             foreach($trait_methods as $nr => $method){
-                if(strtolower($method) === $method_match){
+                if(
+                    array_key_exists('name', $method) &&
+                    strtolower($method['name']) === $method_match
+                ){
                     $parameters = $method->getParameters();
                     d($parameters);
                 }

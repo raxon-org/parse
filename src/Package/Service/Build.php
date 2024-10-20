@@ -1817,8 +1817,6 @@ class Build
         $method_name = mb_strtolower($record['method']['name']);
         $before = [];
         $after = [];
-        $before_value = [];
-        $after_value = [];
         switch($method_name){
             case 'for.each':
             case 'for_each':
@@ -2468,6 +2466,8 @@ class Build
         $variable_name = $record['variable']['name'];
         $operator = $record['variable']['operator'];
         $before = [];
+        $before_value = [];
+        $after_value = [];
         if(
             in_array(
                 $operator,

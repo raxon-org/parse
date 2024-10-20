@@ -13,8 +13,8 @@ namespace Plugin;
 
 trait Array_Keys {
 
-    protected function array_keys(array $array, int $flags=SORT_NATURAL, bool $strict=false): bool
+    protected function array_keys(array $array, mixed $filter_value=null, bool $strict=false): array
     {
-        return array_keys($array, $flags, $strict);
+        return array_keys($array, $filter_value, $strict);
     }
 }

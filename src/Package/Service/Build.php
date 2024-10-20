@@ -1817,6 +1817,8 @@ class Build
         $method_name = mb_strtolower($record['method']['name']);
         $before = [];
         $after = [];
+        $before_value = [];
+        $after_value = [];
         switch($method_name){
             case 'for.each':
             case 'for_each':
@@ -2731,7 +2733,7 @@ class Build
                             $value .
                             ');'
                         ;
-                        foreach($afer_value as $after_record){
+                        foreach($after_value as $after_record){
                             $result[] = $after_record;
                         }
                         $result[] = '} catch(ErrorException | Error | Exception $exception){';

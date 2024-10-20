@@ -11,12 +11,11 @@
 
 namespace Plugin;
 
-trait Array_Sort {
+trait Array_Arsort {
 
-    protected function array_sort(array &$array, int $flags=SORT_NATURAL): bool
+    protected function array_arsort(array &$array, int $flags=SORT_NATURAL): bool
     {
-        sort($array, $flags);
+        arsort($array, $flags);
         return true;
     }
-
 }

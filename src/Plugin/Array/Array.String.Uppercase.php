@@ -17,16 +17,17 @@ use Raxon\Module\Autoload;
 
 trait Array_String_Uppercase {
 
-    protected function array_string_uppercase(object &$array): bool
+    protected function array_string_uppercase(array &$array): int
     {
+        $count = 0;
         foreach($array as $key => $value){
             $array[$key] = mb_strtoupper($value);
             if(is_object($value) || is_array($value)){
                 $array[$key] = $this->array_string_lowercase($value);
             }
+            $count++;
         }
-        $multiple = true;
-        return true;
+        return $count;
     }
 
 }

@@ -11,13 +11,9 @@
 
 namespace Plugin;
 
-use Raxon\App;
-use Raxon\App as Framework;
-use Raxon\Module\Autoload;
-
 trait Array_Asort {
 
-    protected function array_asort(&$array, $flags=SORT_NATURAL): bool
+    protected function array_asort(array &$array, int $flags=SORT_NATURAL): bool
     {
         asort($array, $flags);
         return true;

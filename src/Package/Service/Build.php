@@ -3529,11 +3529,15 @@ class Build
             ){
                 $plugin = Build::plugin($object, $flags, $options, $tag, str_replace('.', '_', $record['method']['name']));
                 $method_value = '$this->' . $plugin . '(' . PHP_EOL;
+                $method_value .= Build::argument($object, $flags, $options, $record, $before, $after);
+                $method_value .= ');';
+                /*
                 if(
                     array_key_exists('method', $record) &&
                     array_key_exists('argument', $record['method'])
                 ){
                     $is_argument = false;
+
                     foreach($record['method']['argument'] as $argument_nr => $argument){
                         $argument = Build::value($object, $flags, $options, $tag, $argument, $is_set);
                         if($argument !== ''){
@@ -3549,6 +3553,7 @@ class Build
                         $method_value .= ')';
                     }
                 }
+                */
                 $value .= $method_value;
             }
             elseif(

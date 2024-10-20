@@ -15,6 +15,12 @@ trait Array_Keys {
 
     protected function array_keys(array $array, mixed $filter_value=null, bool $strict=false): array
     {
-        return array_keys($array, $filter_value, $strict);
+        if($filter_value !== null){
+            return array_keys($array, $filter_value, $strict);
+        }
+        elseif($strict === true){
+            return array_keys($array,  null, true);
+        }
+        return array_keys($array);
     }
 }

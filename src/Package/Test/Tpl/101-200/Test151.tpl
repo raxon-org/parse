@@ -31,6 +31,6 @@
 {{breakpoint($test.amazing)}}
 {{$index = array.binarysearch.list($test.amazing, 'A', $count)}}
 {{d($index)}}
-{{$index = array.binarysearch.list($test.amazing, 'a', $count)}}
+{{$index = array.binarysearch.list($test.amazing, 'X', $count)}}
 {{d($index)}}
 {{d($count)}}

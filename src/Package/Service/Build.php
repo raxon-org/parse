@@ -2682,6 +2682,7 @@ class Build
                 }
             }
         } else {
+            breakpoint($before);
             $value = Build::value($object, $flags, $options, $record, $record['variable']['value'],$is_set);
         }
         if(array_key_exists('modifier', $record['variable'])){

@@ -14,7 +14,6 @@ use ReflectionClass;
 use Raxon\Exception\LocateException;
 use Raxon\Exception\TemplateException;
 
-
 class Build
 {
     use Plugin\Format_code;

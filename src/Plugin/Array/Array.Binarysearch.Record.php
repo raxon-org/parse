@@ -15,7 +15,10 @@ trait Array_Binarysearch_Record {
 
     protected function array_binarysearch_record(array $sorted_array, mixed $target, ?int &$count=0): false | int
     {
-        if($count === 0){
+        if(
+            $count === 0 ||
+            $count === null
+        ){
             $count = count($sorted_array);
         }
         $low = 0;

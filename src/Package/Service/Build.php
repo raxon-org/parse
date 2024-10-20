@@ -1709,6 +1709,25 @@ class Build
             is_array($use_trait_function)
         ){
             $method_match = str_replace('.', '_', strtolower($record['method']['name']));
+            if(
+                in_array(
+                    $method_match,
+                    [
+                        'default',
+                        'object',
+                        'echo',
+                        'parse',
+                        'break',
+                        'continue',
+                        'constant',
+                        'require',
+                        'unset'
+                    ],
+                    true
+                )
+            ){
+                $method_match = 'plugin_' . $method_match;
+            }
             $key = array_search($method_match, $use_trait_function, true);
             $trait = $use_trait[$key] ?? null;
             d($method_match);

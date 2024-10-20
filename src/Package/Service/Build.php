@@ -1702,6 +1702,15 @@ class Build
         $use_trait_function = $object->config('package.raxon/parse.build.use.trait_function');
         d($use_trait);
         d($use_trait_function);
+
+        if(
+            array_key_exists('method', $record) &&
+            array_key_exists('name', $record['method'])
+        ){
+            $key = array_search(str_replace('.', '_', strtolower($record['method']['name'])), $use_trait_function, true);
+            breakpoint($key);
+        }
+
         breakpoint($record);
         foreach($record['method']['argument'] as $nr => $argument) {
             if(

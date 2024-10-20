@@ -1701,9 +1701,7 @@ class Build
         $previous_count = 0;
         $use_trait = $object->config('package.raxon/parse.build.use.trait');
         $use_trait_function = $object->config('package.raxon/parse.build.use.trait_function');
-        d($use_trait);
-        d($use_trait_function);
-
+        $argument_is_reference = [];
         if(
             array_key_exists('method', $record) &&
             array_key_exists('name', $record['method']) &&
@@ -1712,7 +1710,6 @@ class Build
             $method_match = str_replace('.', '_', strtolower($record['method']['name']));
             $key = array_search($method_match, $use_trait_function, true);
             $trait = $use_trait[$key] ?? null;
-
             $reflection = new ReflectionClass($trait);
             $trait_methods = $reflection->getMethods();
             foreach($trait_methods as $nr => $method){
@@ -1721,18 +1718,15 @@ class Build
                 ){
                     $parameters = $method->getParameters();
                     foreach($parameters as $parameter_nr => $parameter){
-                        d($parameter->name);
-                        d($parameter->isPassedByReference());
-
+                        if($parameter->isPassedByReference()){
+                            $argument_is_reference[$parameter_nr] = true;
+                        } else {
+                            $argument_is_reference[$parameter_nr] = false;
+                        }
                     }
-                    d($parameters);
                 }
-                d($method);
             }
-            breakpoint($trait);
         }
-
-        breakpoint($record);
         foreach($record['method']['argument'] as $nr => $argument) {
             if(
                 array_key_exists('array', $argument) &&
@@ -1767,7 +1761,12 @@ class Build
                         $value = $uuid_variable;
                         $argument[$argument_nr] = $value;
                         $count = count($after);
-                        if($count > $previous_count){
+                        if(
+                            $count >
+                            $previous_count &&
+                            array_key_exists($argument_nr, $argument_is_reference) &&
+                            $argument_is_reference[$argument_nr] === true
+                        ){
                             $after = [
                                 '$data->set(\'' .  implode('.', $after) . '\', ' . $uuid_variable . ');'
                             ];
@@ -1785,9 +1784,12 @@ class Build
                 $uuid_variable = Core::uuid_variable();
                 $before[] = $uuid_variable . ' = ' . $argument . ';';
                 $argument = $uuid_variable;
-
                 $count = count($after);
-                if($count > $previous_count){
+                if(
+                    $count > $previous_count &&
+                    array_key_exists($argument_nr, $argument_is_reference) &&
+                    $argument_is_reference[$argument_nr] === true
+                ){
                     $after = [
                         '$data->set(\'' .  implode('.', $after) . '\', ' . $uuid_variable . ');'
                     ];

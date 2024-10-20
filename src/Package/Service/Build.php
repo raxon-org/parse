@@ -2720,6 +2720,10 @@ class Build
             if($value !== ''){
                 switch($operator){
                     case '=' :
+                        d($before);
+                        d($after);
+                        breakpoint($result);
+
                         $result[] = 'try {';
                         $result[] = '$data->set(' .
                             '\'' .

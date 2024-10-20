@@ -18,9 +18,9 @@
 {{$search = 'TEST'}}
 {{$x = array.binarysearch($array, $search)}}
 {{breakpoint($x)}}
-{{for.each($x as $nr => $key.key)}}
-{{d($array[$key.key])}}
-{{d($index[$key.key])}}
+{{for.each($x as $nr => $key.key.doubt)}}
+{{d($array[$key.key.doubt])}}
+{{d($index[$key.key.doubt])}}
 {{/for.each}}
 {{d($index)}}
 /*

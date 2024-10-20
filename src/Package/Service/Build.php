@@ -1693,6 +1693,8 @@ class Build
         $is_argument = false;
         $argument_value = '';
         $previous_count = 0;
+        $trait_use = $object->config('package.raxon/parse.build.use.trait');
+        d($trait_use);
         breakpoint($record);
         foreach($record['method']['argument'] as $nr => $argument) {
             if(

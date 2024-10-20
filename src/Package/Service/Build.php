@@ -1716,6 +1716,7 @@ class Build
                     strtolower($method->name) === $method_match
                 ){
                     $attributes = $method->getAttributes();
+                    d($method_match);
                     breakpoint($attributes);
                     $parameters = $method->getParameters();
                     foreach($parameters as $parameter_nr => $parameter){

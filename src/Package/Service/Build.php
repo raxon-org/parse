@@ -1808,6 +1808,7 @@ class Build
                     $argument = $name . '()';
                 }
             } else {
+                d($argument_attribute);
                 if(
                     property_exists($argument_attribute, 'count') &&
                     $argument_attribute->count === '*'

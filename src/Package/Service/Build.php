@@ -1760,7 +1760,7 @@ class Build
                         $before[] = $uuid_variable . ' = ' . $value . ';';
                         $value = $uuid_variable;
                         $argument[$argument_nr] = $value;
-                        $count = count($after);
+                        $after[$argument_nr] = null;
                         /* need to check this to work (variable by reference)
                         if(
                             $count >

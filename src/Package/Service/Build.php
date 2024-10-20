@@ -3698,7 +3698,9 @@ class Build
                     $modifier_value = '';
                     if(array_key_exists('modifier', $record)){
                         $previous_modifier = '$data->get(\'' . $record['name'] . '\')';
-                        $after[] = $record['name'];
+                        $after[] = [
+                            'attribute' => $record['name']
+                        ];
                         foreach($record['modifier'] as $modifier_nr => $modifier){
                             $plugin = Build::plugin($object, $flags, $options, $tag, str_replace('.', '_', $modifier['name']));
                             if($is_single_line){

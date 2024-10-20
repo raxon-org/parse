@@ -1717,8 +1717,7 @@ class Build
             $trait_methods = $reflection->getMethods();
             foreach($trait_methods as $nr => $method){
                 if(
-                    array_key_exists('name', $method) &&
-                    strtolower($method['name']) === $method_match
+                    strtolower($method->name) === $method_match
                 ){
                     $parameters = $method->getParameters();
                     d($parameters);

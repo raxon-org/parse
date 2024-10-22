@@ -3295,7 +3295,7 @@ class Build
                     $is_static_class_call = true;
                     $explode = explode(':', $value);
                     if(array_key_exists(1, $explode)){
-                        $value = $explode[0] . '\\' . implode('\\', $explode) . $record['value'];
+                        $value = '\\' . implode('\\', $explode) . $record['value'];
                     } else {
                         $value .= $record['value'];
                     }

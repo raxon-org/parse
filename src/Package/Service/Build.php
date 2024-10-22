@@ -3639,12 +3639,39 @@ class Build
                 array_key_exists('type', $record) &&
                 $record['type'] === 'method'
             ){
-                d($record);
-                breakpoint($tag);
-                $plugin = Build::plugin($object, $flags, $options, $tag, str_replace('.', '_', $record['method']['name']));
-                $method_value = '$this->' . $plugin . '(' . PHP_EOL;
-                $method_value .= Build::argument($object, $flags, $options, $record, $before, $after);
-                $method_value .= ')';
+                if(
+                    array_key_exists('is_class_method', $record['method']) &&
+                    $record['method']['is_class_method'] === true
+                ){
+                    breakpoint($record);
+                    $explode = explode(':', $record['method']['class']);
+                    if(array_key_exists(1, $explode)){
+                        $class = '\\' . implode('\\', $explode);
+                    } else {
+                        $class_static = Build::class_static($object);
+                        $class = $record['method']['class'];
+                        if(
+                            !in_array(
+                                $class,
+                                $class_static,
+                                true
+                            )
+                        ) {
+                            throw new Exception('Invalid class: ' . $class . ', available classes: ' . PHP_EOL . implode(PHP_EOL, $class_static));
+                        }
+                    }
+                    $method_value = $class .
+                        $record['method']['call_type'] .
+                        str_replace('.', '_', $record['method']['name']) .
+                        '(';
+                    $method_value .= Build::argument($object, $flags, $options, $record, $before, $after);
+                    $method_value .= ')';
+                } else {
+                    $plugin = Build::plugin($object, $flags, $options, $tag, str_replace('.', '_', $record['method']['name']));
+                    $method_value = '$this->' . $plugin . '(' . PHP_EOL;
+                    $method_value .= Build::argument($object, $flags, $options, $record, $before, $after);
+                    $method_value .= ')';
+                }
                 $value .= $method_value;
             }
             elseif(

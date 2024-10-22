@@ -3439,7 +3439,6 @@ class Build
                                     $next,
                                     $skip
                                 );
-                                breakpoint($assign);
                                 $assign = Build::value($object, $flags, $options, $tag, $assign, $is_set);
                                 $value .= '$data->set(\'' . $previous['name'] . '\', ' .  $assign . ')';
                             break;
@@ -3640,6 +3639,7 @@ class Build
                 array_key_exists('type', $record) &&
                 $record['type'] === 'method'
             ){
+                breakpoint($tag);
                 $plugin = Build::plugin($object, $flags, $options, $tag, str_replace('.', '_', $record['method']['name']));
                 $method_value = '$this->' . $plugin . '(' . PHP_EOL;
                 $method_value .= Build::argument($object, $flags, $options, $record, $before, $after);

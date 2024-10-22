@@ -18,7 +18,7 @@
 ]}}
 {{$count = array.count($test)}}
 {{$limit = 5}}
-{{array.binarysearch.list(
+{{$search = array.binarysearch.list(
     $test,
     3,
     $count,

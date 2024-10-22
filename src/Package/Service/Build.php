@@ -3155,7 +3155,7 @@ class Build
         $is_static_class_call = false;
 //        d($tag);
         trace();
-        d($input['array']);
+        d($input);
 //        breakpoint($input);
         foreach($input['array'] as $nr => $record){
             if($skip > 0){

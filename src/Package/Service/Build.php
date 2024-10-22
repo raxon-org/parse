@@ -3645,29 +3645,6 @@ class Build
                 $method_value = '$this->' . $plugin . '(' . PHP_EOL;
                 $method_value .= Build::argument($object, $flags, $options, $record, $before, $after);
                 $method_value .= ')';
-                /*
-                if(
-                    array_key_exists('method', $record) &&
-                    array_key_exists('argument', $record['method'])
-                ){
-                    $is_argument = false;
-
-                    foreach($record['method']['argument'] as $argument_nr => $argument){
-                        $argument = Build::value($object, $flags, $options, $tag, $argument, $is_set);
-                        if($argument !== ''){
-                            $method_value .= $argument . ', ';
-                            $is_argument = true;
-                        }
-                    }
-                    if($is_argument === true){
-                        $method_value = mb_substr($method_value, 0, -2);
-                        $method_value .= ')';
-                    } else {
-                        $method_value = mb_substr($method_value, 0, -1);
-                        $method_value .= ')';
-                    }
-                }
-                */
                 $value .= $method_value;
             }
             elseif(

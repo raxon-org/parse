@@ -4,6 +4,7 @@ namespace Package\Raxon\Parse\Service;
 use Raxon\App;
 use Raxon\Config;
 
+use Raxon\Exception\ObjectException;
 use Raxon\Module\Core;
 use Raxon\Module\Data;
 use Raxon\Module\Dir;

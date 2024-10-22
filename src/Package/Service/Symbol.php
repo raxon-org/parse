@@ -31,10 +31,10 @@ class Symbol
                 $previous_nr = null;
                 $previous = null;
             } else {
-                $previous = $input['array'][$previous_nr];
+                $previous = Token::item($input, $previous_nr);
             }
-            $next = $input['array'][$nr + 1] ?? null;
-            $next_next = $input['array'][$nr + 2] ?? null;
+            $next = Token::item($input, $nr + 1);
+            $next_next = Token::item($input, $nr + 2);
             if($skip > 0){
                 $skip -= 1;
                 continue;

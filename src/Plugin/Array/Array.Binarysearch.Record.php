@@ -107,6 +107,7 @@ trait Array_Binarysearch_Record {
                 break;
                 case '>' :
                 case Filter::OPERATOR_GREATER_THAN :
+                    //not all records are found
                     if (
                         $sorted_array[$mid] > $target &&
                         !in_array($mid, $search, true)
@@ -125,6 +126,7 @@ trait Array_Binarysearch_Record {
                 break;
                 case '>=' :
                 case Filter::OPERATOR_GREATER_THAN_EQUAL :
+                    //not all records are found
                     if (
                         $sorted_array[$mid] >= $target &&
                         !in_array($mid, $search, true)
@@ -144,6 +146,7 @@ trait Array_Binarysearch_Record {
                 break;
                 case '<' :
                 case Filter::OPERATOR_LOWER_THAN :
+                    //not all records are found
                     if (
                         $sorted_array[$mid] < $target &&
                         !in_array($mid, $search, true)
@@ -162,12 +165,12 @@ trait Array_Binarysearch_Record {
                 break;
                 case '<=' :
                 case Filter::OPERATOR_LOWER_THAN_EQUAL :
+                    //not all records are found
                     if (
                         $sorted_array[$mid] <= $target &&
                         !in_array($mid, $search, true)
                     ) {
                         $search[] = $mid;
-                        d($search);
                         if ($return_as_bool === true){
                             return true;
                         } else {

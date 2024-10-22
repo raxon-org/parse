@@ -9,7 +9,7 @@ use Raxon\Module\File;
 use Exception;
 class Method
 {
-    public static function define(App $object, $flags, $options, $input=[]): array
+    public static function define(App $object, $flags, $options, $input=[], $tag=[]): array
     {
         if(!is_array($input)){
             return $input;
@@ -222,6 +222,9 @@ class Method
                             'argument' => $argument_list
                         ];
                         $input['array'][$is_method]['type'] = 'method';
+
+                        breakpoint($tag);
+
                         $input['array'][$is_method]['tag'] = $input['string'] ?? '';
                         $input['array'][$is_method]['line'] = 'unknown';
                         $input['array'][$is_method]['length'] = 'unknown';

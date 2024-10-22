@@ -10,9 +10,7 @@ use Raxon\Module\File;
 use Exception;
 class Variable
 {
-    /**
-     * @throws ObjectException
-     */
+
     public static function assign(App $object, $flags, $options, $input=[]): array
     {
         if(!is_array($input)){

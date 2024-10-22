@@ -18,13 +18,14 @@
 ]}}
 {{$count = array.count($test)}}
 {{$limit = 5}}
+{{$offset = 5}}
 {{$search = array.binarysearch.list(
     $test,
     5,
     Raxon:Module:Filter::OPERATOR.LOWER.THAN.EQUAL,
     $count,
     $limit,
-    2
+    $offset
 )}}
 {{d($search)}}
 

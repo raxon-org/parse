@@ -12,7 +12,7 @@
 10
 ]}}
 {{$count = array.count($test)}}
-{{$test2 = array.binarysearch.record($test, 10, $count, Raxon:Module:Filter::operator('<='))}}
+{{$test2 = array.binarysearch.record($test, 10, $count, Raxon:Module:Filter::operator.smaller.equal('<='))}}
 {{d($count)}}
 {{d($test)}}
 {{d($test2)}}

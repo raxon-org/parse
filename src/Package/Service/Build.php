@@ -1842,6 +1842,7 @@ class Build
                     $argument = '\'' . str_replace('\'', '\\\'', trim($argument['string'])) . '\'';
                 } else {
                     $argument = Build::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
+                    d($argument);
                     $uuid_variable = Core::uuid_variable();
                     $before[] = $uuid_variable . ' = ' . $argument . ';';
                     $argument = $uuid_variable;

@@ -798,7 +798,8 @@ class Token
                                             [
                                                 'string' => $method,
                                                 'array' => $method_array,
-                                            ]
+                                            ],
+                                            $tag
                                         );
                                         $variable = [
                                             'is_define' => true,
@@ -827,7 +828,8 @@ class Token
                                         [
                                             'string' => $after,
                                             'array' => $after_array,
-                                        ]
+                                        ],
+                                        $tag
                                     );
                                     $variable_target = Token::variable_name($object, $flags, $options, $variable_name);
                                     $variable_explode = explode($variable_target, $variable_name, 2);
@@ -875,7 +877,8 @@ class Token
                                             [
                                                 'string' => $method,
                                                 'array' => $method_array,
-                                            ]
+                                            ],
+                                            $tag
                                         );
                                         $list = Token::value(
                                             $object,
@@ -884,7 +887,8 @@ class Token
                                             [
                                                 'string' => $after,
                                                 'array' => $after_array,
-                                            ]
+                                            ],
+                                            $tag
                                         );
                                         $is_argument = false;
                                         $argument_nr = -1;
@@ -1020,7 +1024,8 @@ class Token
                                         [
                                             'string' => $after,
                                             'array' => $after_array,
-                                        ]
+                                        ],
+                                        $tag
                                     );
                                     if(
                                         array_key_exists(0, $list['array']) &&
@@ -1051,7 +1056,8 @@ class Token
                                 [
                                     'string' => $record['tag'],
                                     'array' => $tag_array
-                                ]
+                                ],
+                                $tag
                             );
                         }
                         if(
@@ -1101,7 +1107,7 @@ class Token
         return $tags;
     }
 
-    public static function value(App $object, $flags, $options, $input=[]): mixed
+    public static function value(App $object, $flags, $options, $input=[], $tag=[]): mixed
     {
         if(!is_array($input)){
             return $input;
@@ -1172,7 +1178,7 @@ class Token
                     ]];
                     return $input;
                 }
-                return Token::value_split($object, $flags, $options, $input);
+                return Token::value_split($object, $flags, $options, $input, $tag);
         }
     }
 
@@ -1412,7 +1418,8 @@ class Token
         return $input;
     }
 
-    public static function value_split(App $object, $flags, $options, $input=[]){
+    public static function value_split(App $object, $flags, $options, $input=[], $tag=[]): array
+    {
         if(!is_array($input)){
             return $input;
         }

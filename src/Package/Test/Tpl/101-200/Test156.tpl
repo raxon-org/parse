@@ -14,7 +14,7 @@
 {{$count = array.count($test)}}
 {{$limit = 5}}
 {{while(
-    (bool) array.binarysearch.record(
+    array.binarysearch.record(
         $test,
         3,
         $count,

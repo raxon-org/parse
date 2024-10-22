@@ -217,12 +217,12 @@ class Method
                             $argument = '';
                             $argument_nr = 0;
                         }
-                        breakpoint($input);
                         $input['array'][$is_method]['method'] = [
                             'name' => $name,
                             'argument' => $argument_list
                         ];
                         $input['array'][$is_method]['type'] = 'method';
+                        $input['array'][$is_method]['tag'] = $input['string'] ?? '';
                         if($is_variable_method === true){
                             $call_type = '::';
                             $explode = explode($call_type, $name, 2);

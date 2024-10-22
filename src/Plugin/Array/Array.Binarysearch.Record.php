@@ -15,7 +15,7 @@ use Raxon\Module\Filter;
 
 trait Array_Binarysearch_Record {
 
-    protected function array_binarysearch_record(array $sorted_array, mixed $target, ?int &$count=0, $operator=Filter::OPERATOR_STRICTLY_EQUAL, array &$search=[]): false | int
+    protected function array_binarysearch_record(array $sorted_array, mixed $target, ?int &$count=0, $operator=Filter::OPERATOR_STRICTLY_EQUAL, ?array &$search=[]): false | int
     {
         if(
             $count === 0 ||

@@ -2041,6 +2041,13 @@ class Build
                 }
                 $method_value[] = '){';
                 $method_value = implode(PHP_EOL, $method_value);
+                /*
+                $method_value = implode(PHP_EOL, $before) .
+                    PHP_EOL .
+                    implode(PHP_EOL, $method_value) .
+                    implode(PHP_EOL, $after)
+                ;
+                */
             break;
             case 'for':
                 $method_value[] = 'for(';

@@ -18,16 +18,11 @@
 ]}}
 {{$count = array.count($test)}}
 {{$limit = 5}}
-{{while(
-    array.binarysearch.record(
-        $test,
-        3,
-        $count,
-        Raxon:Module:Filter::OPERATOR.EQUAL,
-        $search,
-        $limit,
-        true
-    )
-)}}{{/while}}
+{{array.binarysearch.list(
+    $test,
+    3,
+    $count,
+    Raxon:Module:Filter::OPERATOR.EQUAL,
+)}}
 {{d($search)}}
 

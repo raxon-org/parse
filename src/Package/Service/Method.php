@@ -17,6 +17,11 @@ class Method
         if(array_key_exists('array', $input) === false){
             return $input;
         }
+        if(empty($tag)){
+            trace();
+            breakpoint($tag);
+        }
+
         $has_name = false;
         $name = false;
         $is_method = false;
@@ -222,7 +227,6 @@ class Method
                             'argument' => $argument_list
                         ];
                         $input['array'][$is_method]['type'] = 'method';
-                        trace();
                         breakpoint($tag);
 
                         $input['array'][$is_method]['tag'] = $input['string'] ?? '';

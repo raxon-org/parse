@@ -24,6 +24,7 @@ class Symbol
             ddd($input);
         }
         $skip = 0;
+        d($input);
         foreach($input['array'] as $nr => $char){
             $previous_nr = $nr - 1;
             if($previous_nr < 0){

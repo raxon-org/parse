@@ -1990,7 +1990,7 @@ class Build
                 $method_value[] = 'while(';
                 $is_argument = false;
                 foreach($record['method']['argument'] as $nr => $argument){
-                    $value = Build::value($object, $flags, $options, $record, $argument, $is_set);
+                    $value = Build::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
                     if(
                         !in_array(
                             $value,

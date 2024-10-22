@@ -3154,7 +3154,7 @@ class Build
         $is_clone = false;
         $is_single_line = false;
 //        d($tag);
-//        d($input['array']);
+        d($input['array']);
 //        breakpoint($input);
         foreach($input['array'] as $nr => $record){
             if($skip > 0){

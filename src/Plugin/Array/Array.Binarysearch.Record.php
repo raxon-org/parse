@@ -23,6 +23,9 @@ trait Array_Binarysearch_Record {
         ){
             $count = count($sorted_array);
         }
+        if($search === null){
+            $search = [];
+        }
         $low = 0;
         $high = $count - 1;
         $begin = null;

@@ -2508,6 +2508,8 @@ class Build
                 return implode(PHP_EOL, $data);
             break;
         }
+        trace();
+        d($method_value);
         d($after);
         breakpoint($before);
 

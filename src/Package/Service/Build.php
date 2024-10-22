@@ -3281,6 +3281,30 @@ class Build
                     }
                 }
                 elseif(
+                    $is_double_quote === false &&
+                    in_array(
+                        $record['value'],
+                        [
+                            '::',
+                        ],
+                        true
+                    )
+                ){
+                    /*
+                    $explode = explode('::', $method);
+                    $function = array_pop($explode);
+                    $method = implode('\\', $explode);
+                    if(array_key_exists(1, $explode) && $explode[0] !== ''){
+                        $method = '\\' . $method;
+                    }
+                    $class_name = $method;
+                    $method .= '::' . $function;
+                    */
+                    d($record);
+                    d($input);
+                    breakpoint($value);
+                }
+                elseif(
                     in_array(
                         $record['value'],
                         [

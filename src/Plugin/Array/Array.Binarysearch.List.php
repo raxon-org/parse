@@ -11,9 +11,11 @@
 
 namespace Plugin;
 
+use Raxon\Module\Filter;
+
 trait Array_Binarysearch_List {
 
-    protected function array_binarysearch_list(array $sorted_array, mixed $target, ?int &$count=0): array
+    protected function array_binarysearch_list(array $sorted_array, mixed $target, ?int &$count=0, $operator=Filter::OPERATOR_STRICTLY_EQUAL): array
     {
         $low = 0;
         if(
@@ -24,29 +26,359 @@ trait Array_Binarysearch_List {
         }
         $high = $count - 1;
         $result = [];
+        $begin = null;
+        $end = null;
+        if(
+            in_array(
+                $operator,
+                [
+                    Filter::OPERATOR_BETWEEN,
+                    Filter::OPERATOR_BETWEEN_EQUALS
+                ],
+                true
+            )
+        ){
+            if(is_array($target) && count($target) === 2){
+                $begin = $target[0];
+                $end = $target[1];
+            }
+            elseif(is_string($target)){
+                $explode = explode('..', $target, 2);
+                if (array_key_exists(1, $explode)) {
+                    if (is_numeric($explode[0])) {
+                        $explode[0] += 0;
+                    }
+                    if (is_numeric($explode[1])) {
+                        $explode[1] += 0;
+                    }
+                    $begin = $explode[0];
+                    $end = $explode[1];
+                }
+            }
+        }
         while ($low <= $high) {
             $mid = (int) floor(($low + $high) / 2);
-            if ($sorted_array[$mid] === $target) {
-                for($i = $mid -1; $i > $low; $i--){
-                    if($sorted_array[$i] === $target){
-                        $result[] = $i;
+            switch($operator){
+                case '===':
+                case Filter::OPERATOR_STRICTLY_EXACT:
+                case Filter::OPERATOR_STRICTLY_EQUAL:
+                    if ($sorted_array[$mid] === $target) {
+                        for($i = $mid -1; $i > $low; $i--){
+                            if($sorted_array[$i] === $target){
+                                $result[] = $i;
+                            } else {
+                                break;
+                            }
+                        }
+                        $result[] = $mid;
+                        for ($i = $mid + 1; $i < $high; $i++) {
+                            if ($sorted_array[$i] === $target) {
+                                $result[] = $i;
+                            } else {
+                                break;
+                            }
+                        }
+                        return $result;
+                    } elseif ($sorted_array[$mid] < $target) {
+                        $low = $mid + 1;
                     } else {
-                        break;
+                        $high = $mid - 1;
                     }
-                }
-                $result[] = $mid;
-                for ($i = $mid + 1; $i < $high; $i++) {
-                    if ($sorted_array[$i] === $target) {
-                        $result[] = $i;
+                break;
+                case '==' :
+                case Filter::OPERATOR_EXACT :
+                case Filter::OPERATOR_EQUAL :
+                    if ($sorted_array[$mid] == $target) {
+                        for($i = $mid -1; $i > $low; $i--){
+                            if($sorted_array[$i] == $target){
+                                $result[] = $i;
+                            } else {
+                                break;
+                            }
+                        }
+                        $result[] = $mid;
+                        for ($i = $mid + 1; $i < $high; $i++) {
+                            if ($sorted_array[$i] == $target) {
+                                $result[] = $i;
+                            } else {
+                                break;
+                            }
+                        }
+                        return $result;
+                    } elseif ($sorted_array[$mid] < $target) {
+                        $low = $mid + 1;
                     } else {
-                        break;
+                        $high = $mid - 1;
                     }
+                break;
+                case '>' :
+                case Filter::OPERATOR_GREATER_THAN :
+                    if ($sorted_array[$mid] > $target) {
+                        for($i = $mid -1; $i > $low; $i--){
+                            if($sorted_array[$i] > $target){
+                                $result[] = $i;
+                            } else {
+                                break;
+                            }
+                        }
+                        $result[] = $mid;
+                        for ($i = $mid + 1; $i < $high; $i++) {
+                            if ($sorted_array[$i] > $target) {
+                                $result[] = $i;
+                            } else {
+                                break;
+                            }
+                        }
+                        return $result;
+                    } elseif ($sorted_array[$mid] < $target) {
+                        $low = $mid + 1;
+                    } else {
+                        $high = $mid - 1;
+                    }
+                break;
+                case '>=' :
+                case Filter::OPERATOR_GREATER_THAN_EQUAL :
+                    if ($sorted_array[$mid] >= $target) {
+                        for($i = $mid -1; $i > $low; $i--){
+                            if($sorted_array[$i] >= $target){
+                                $result[] = $i;
+                            } else {
+                                break;
+                            }
+                        }
+                        $result[] = $mid;
+                        for ($i = $mid + 1; $i < $high; $i++) {
+                            if ($sorted_array[$i] >= $target) {
+                                $result[] = $i;
+                            } else {
+                                break;
+                            }
+                        }
+                        return $result;
+                    } elseif ($sorted_array[$mid] < $target) {
+                        $low = $mid + 1;
+                    } else {
+                        $high = $mid - 1;
+                    }
+                break;
+                case '<' :
+                case Filter::OPERATOR_LOWER_THAN :
+                if ($sorted_array[$mid] < $target) {
+                    for($i = $mid -1; $i > $low; $i--){
+                        if($sorted_array[$i] < $target){
+                            $result[] = $i;
+                        } else {
+                            break;
+                        }
+                    }
+                    $result[] = $mid;
+                    for ($i = $mid + 1; $i < $high; $i++) {
+                        if ($sorted_array[$i] < $target) {
+                            $result[] = $i;
+                        } else {
+                            break;
+                        }
+                    }
+                    return $result;
+                } elseif ($sorted_array[$mid] < $target) {
+                    $low = $mid + 1;
+                } else {
+                    $high = $mid - 1;
                 }
-                return $result;
-            } elseif ($sorted_array[$mid] < $target) {
-                $low = $mid + 1;
-            } else {
-                $high = $mid - 1;
+                break;
+                case '<=' :
+                case Filter::OPERATOR_LOWER_THAN_EQUAL :
+                    if ($sorted_array[$mid] <= $target) {
+                        for($i = $mid -1; $i > $low; $i--){
+                            if($sorted_array[$i] <= $target){
+                                $result[] = $i;
+                            } else {
+                                break;
+                            }
+                        }
+                        $result[] = $mid;
+                        for ($i = $mid + 1; $i < $high; $i++) {
+                            if ($sorted_array[$i] <= $target) {
+                                $result[] = $i;
+                            } else {
+                                break;
+                            }
+                        }
+                        return $result;
+                    } elseif ($sorted_array[$mid] < $target) {
+                        $low = $mid + 1;
+                    } else {
+                        $high = $mid - 1;
+                    }
+                break;
+                case '!=' :
+                case Filter::OPERATOR_NOT_EQUAL :
+                case Filter::OPERATOR_NOT_EXACT :
+                    if ($sorted_array[$mid] != $target) {
+                        for($i = $mid -1; $i > $low; $i--){
+                            if($sorted_array[$i] != $target){
+                                $result[] = $i;
+                            } else {
+                                break;
+                            }
+                        }
+                        $result[] = $mid;
+                        for ($i = $mid + 1; $i < $high; $i++) {
+                            if ($sorted_array[$i] != $target) {
+                                $result[] = $i;
+                            } else {
+                                break;
+                            }
+                        }
+                        return $result;
+                    } elseif ($sorted_array[$mid] < $target) {
+                        $low = $mid + 1;
+                    } else {
+                        $high = $mid - 1;
+                    }
+                break;
+                case '!==' :
+                case Filter::OPERATOR_NOT_STRICTLY_EQUAL :
+                case Filter::OPERATOR_NOT_STRICTLY_EXACT :
+                    if ($sorted_array[$mid] !== $target) {
+                        for($i = $mid -1; $i > $low; $i--){
+                            if($sorted_array[$i] !== $target){
+                                $result[] = $i;
+                            } else {
+                                break;
+                            }
+                        }
+                        $result[] = $mid;
+                        for ($i = $mid + 1; $i < $high; $i++) {
+                            if ($sorted_array[$i] !== $target) {
+                                $result[] = $i;
+                            } else {
+                                break;
+                            }
+                        }
+                        return $result;
+                    } elseif ($sorted_array[$mid] < $target) {
+                        $low = $mid + 1;
+                    } else {
+                        $high = $mid - 1;
+                    }
+                break;
+                case '> <' :
+                case Filter::OPERATOR_BETWEEN :
+                    if(
+                        $sorted_array[$mid] > $begin &&
+                        $sorted_array[$mid] < $end
+                    ){
+                        for($i = $mid -1; $i > $low; $i--){
+                            if(
+                                $sorted_array[$mid] > $begin &&
+                                $sorted_array[$mid] < $end
+                            ){
+                                $result[] = $i;
+                            } else {
+                                break;
+                            }
+                        }
+                        $result[] = $mid;
+                        for ($i = $mid + 1; $i < $high; $i++) {
+                            if (
+                                $sorted_array[$mid] > $begin &&
+                                $sorted_array[$mid] < $end
+                            ) {
+                                $result[] = $i;
+                            } else {
+                                break;
+                            }
+                        }
+                        return $result;
+                    } elseif ($sorted_array[$mid] < $target) {
+                        $low = $mid + 1;
+                    } else {
+                        $high = $mid - 1;
+                    }
+                break;
+                case '>=<' :
+                case Filter::OPERATOR_BETWEEN_EQUALS :
+                    if(
+                        $sorted_array[$mid] >= $begin &&
+                        $sorted_array[$mid] <= $end
+                    ){
+                        for($i = $mid -1; $i > $low; $i--){
+                            if(
+                                $sorted_array[$mid] >= $begin &&
+                                $sorted_array[$mid] <= $end
+                            ){
+                                $result[] = $i;
+                            } else {
+                                break;
+                            }
+                        }
+                        $result[] = $mid;
+                        for ($i = $mid + 1; $i < $high; $i++) {
+                            if (
+                                $sorted_array[$mid] >= $begin &&
+                                $sorted_array[$mid] <= $end
+                            ) {
+                                $result[] = $i;
+                            } else {
+                                break;
+                            }
+                        }
+                        return $result;
+                    } elseif ($sorted_array[$mid] < $target) {
+                        $low = $mid + 1;
+                    } else {
+                        $high = $mid - 1;
+                    }
+                break;
+                case Filter::OPERATOR_STRICTLY_START :
+                    if(mb_substr($sorted_array[$mid], 0, mb_strlen($target)) === $target){
+                        for($i = $mid -1; $i > $low; $i--){
+                            if(mb_substr($sorted_array[$i], 0, mb_strlen($target)) === $target){
+                                $result[] = $i;
+                            } else {
+                                break;
+                            }
+                        }
+                        $result[] = $mid;
+                        for ($i = $mid + 1; $i < $high; $i++) {
+                            if (mb_substr($sorted_array[$i], 0, mb_strlen($target)) === $target) {
+                                $result[] = $i;
+                            } else {
+                                break;
+                            }
+                        }
+                        return $result;
+                    } elseif (mb_substr($sorted_array[$mid], 0, mb_strlen($target)) < $target) {
+                        $low = $mid + 1;
+                    } else {
+                        $high = $mid - 1;
+                    }
+                break;
+                case Filter::OPERATOR_START :
+                    if(mb_strtolower(mb_substr($sorted_array[$mid], 0, mb_strlen($target))) === mb_strtolower($target)){
+                        for($i = $mid -1; $i > $low; $i--){
+                            if(mb_strtolower(mb_substr($sorted_array[$i], 0, mb_strlen($target))) === mb_strtolower($target)){
+                                $result[] = $i;
+                            } else {
+                                break;
+                            }
+                        }
+                        $result[] = $mid;
+                        for ($i = $mid + 1; $i < $high; $i++) {
+                            if (mb_strtolower(mb_substr($sorted_array[$i], 0, mb_strlen($target))) === mb_strtolower($target)) {
+                                $result[] = $i;
+                            } else {
+                                break;
+                            }
+                        }
+                        return $result;
+                    } elseif (mb_strtolower(mb_substr($sorted_array[$mid], 0, mb_strlen($target))) < mb_strtolower($target)) {
+                        $low = $mid + 1;
+                    } else {
+                        $high = $mid - 1;
+                    }
+                break;
             }
         }
         return $result;

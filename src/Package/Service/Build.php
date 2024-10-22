@@ -3643,7 +3643,6 @@ class Build
                     array_key_exists('is_class_method', $record['method']) &&
                     $record['method']['is_class_method'] === true
                 ){
-                    breakpoint($record);
                     $explode = explode(':', $record['method']['class']);
                     if(array_key_exists(1, $explode)){
                         $class = '\\' . implode('\\', $explode);

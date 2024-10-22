@@ -223,6 +223,12 @@ class Method
                         ];
                         $input['array'][$is_method]['type'] = 'method';
                         $input['array'][$is_method]['tag'] = $input['string'] ?? '';
+                        $input['array'][$is_method]['line'] = 'unknown';
+                        $input['array'][$is_method]['length'] = 'unknown';
+                        $input['array'][$is_method]['column'] = [
+                            'start' => 0,
+                            'end' => 0
+                        ];
                         if($is_variable_method === true){
                             $call_type = '::';
                             $explode = explode($call_type, $name, 2);

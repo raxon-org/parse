@@ -132,6 +132,7 @@ trait Array_Binarysearch_Record {
                 break;
                 case '<=' :
                 case Filter::OPERATOR_LOWER_THAN_EQUAL :
+                    breakpoint($target);
                     if (
                         $sorted_array[$mid] <= $target &&
                         !in_array($mid, $search, true)

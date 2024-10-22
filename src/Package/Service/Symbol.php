@@ -170,6 +170,10 @@ class Symbol
                             $skip += 1;
                         break;
                     }
+                    d($previous);
+                    d($char);
+                    d($next);
+                    breakpoint($next_next);
                     $symbol = $previous . $char . $next . $next_next;
                     switch ($symbol){
                         case '!!!!':

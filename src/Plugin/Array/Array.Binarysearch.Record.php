@@ -15,22 +15,13 @@ use Raxon\Module\Filter;
 
 trait Array_Binarysearch_Record {
 
-    protected function array_binarysearch_record(array $sorted_array, mixed $target, ?int &$count=0, $operator=Filter::OPERATOR_STRICTLY_EQUAL, ?array &$search=[], ?int $limit=0, $return_as_bool=false): false | int
+    protected function array_binarysearch_record(array $sorted_array, mixed $target, ?int &$count=0, $operator=Filter::OPERATOR_STRICTLY_EQUAL): false | int
     {
         if(
             $count === 0 ||
             $count === null
         ){
             $count = count($sorted_array);
-        }
-        if($search === null){
-            $search = [];
-        }
-        if(
-            $limit > 0 &&
-            count($search) >= $limit
-        ){
-            return false;
         }
         $low = 0;
         $high = $count - 1;
@@ -70,16 +61,8 @@ trait Array_Binarysearch_Record {
                 case '===':
                 case Filter::OPERATOR_STRICTLY_EXACT:
                 case Filter::OPERATOR_STRICTLY_EQUAL:
-                    if (
-                        $sorted_array[$mid] === $target &&
-                        !in_array($mid, $search, true)
-                    ) {
-                        $search[] = $mid;
-                        if ($return_as_bool === true){
-                            return true;
-                        } else {
-                            return $mid;
-                        }
+                    if ($sorted_array[$mid] === $target) {
+                        return $mid;
                     } elseif ($sorted_array[$mid] < $target) {
                         $low = $mid + 1;
                     } else {
@@ -89,16 +72,8 @@ trait Array_Binarysearch_Record {
                 case '==' :
                 case Filter::OPERATOR_EXACT :
                 case Filter::OPERATOR_EQUAL :
-                    if (
-                        $sorted_array[$mid] == $target &&
-                        !in_array($mid, $search, true)
-                    ) {
-                        $search[] = $mid;
-                        if ($return_as_bool === true){
-                            return true;
-                        } else {
-                            return $mid;
-                        }
+                    if ($sorted_array[$mid] == $target) {
+                        return $mid;
                     } elseif ($sorted_array[$mid] < $target) {
                         $low = $mid + 1;
                     } else {
@@ -108,16 +83,8 @@ trait Array_Binarysearch_Record {
                 case '>' :
                 case Filter::OPERATOR_GREATER_THAN :
                     //not all records are found
-                    if (
-                        $sorted_array[$mid] > $target &&
-                        !in_array($mid, $search, true)
-                    ) {
-                        $search[] = $mid;
-                        if ($return_as_bool === true){
-                            return true;
-                        } else {
-                            return $mid;
-                        }
+                    if ($sorted_array[$mid] > $target) {
+                        return $mid;
                     } elseif ($sorted_array[$mid] < $target) {
                         $low = $mid + 1;
                     } else {
@@ -127,17 +94,8 @@ trait Array_Binarysearch_Record {
                 case '>=' :
                 case Filter::OPERATOR_GREATER_THAN_EQUAL :
                     //not all records are found
-                    if (
-                        $sorted_array[$mid] >= $target &&
-                        !in_array($mid, $search, true)
-                    ) {
-                        $search[] = $mid;
-                        d($search);
-                        if ($return_as_bool === true){
-                            return true;
-                        } else {
-                            return $mid;
-                        }
+                    if ($sorted_array[$mid] >= $target) {
+                        return $mid;
                     } elseif ($sorted_array[$mid] < $target) {
                         $low = $mid + 1;
                     } else {
@@ -148,15 +106,9 @@ trait Array_Binarysearch_Record {
                 case Filter::OPERATOR_LOWER_THAN :
                     //not all records are found
                     if (
-                        $sorted_array[$mid] < $target &&
-                        !in_array($mid, $search, true)
+                        $sorted_array[$mid] < $target
                     ) {
-                        $search[] = $mid;
-                        if ($return_as_bool === true){
-                            return true;
-                        } else {
-                            return $mid;
-                        }
+                        return $mid;
                     } elseif ($sorted_array[$mid] < $target) {
                         $low = $mid + 1;
                     } else {
@@ -166,16 +118,8 @@ trait Array_Binarysearch_Record {
                 case '<=' :
                 case Filter::OPERATOR_LOWER_THAN_EQUAL :
                     //not all records are found
-                    if (
-                        $sorted_array[$mid] <= $target &&
-                        !in_array($mid, $search, true)
-                    ) {
-                        $search[] = $mid;
-                        if ($return_as_bool === true){
-                            return true;
-                        } else {
-                            return $mid;
-                        }
+                    if ($sorted_array[$mid] <= $target) {
+                        return $mid;
                     } elseif ($sorted_array[$mid] < $target) {
                         $low = $mid + 1;
                     } else {
@@ -185,16 +129,8 @@ trait Array_Binarysearch_Record {
                 case '!=' :
                 case Filter::OPERATOR_NOT_EQUAL :
                 case Filter::OPERATOR_NOT_EXACT :
-                    if (
-                        $sorted_array[$mid] != $target &&
-                        !in_array($mid, $search, true)
-                    ) {
-                        $search[] = $mid;
-                        if ($return_as_bool === true){
-                            return true;
-                        } else {
-                            return $mid;
-                        }
+                    if ($sorted_array[$mid] != $target) {
+                        return $mid;
                     } elseif ($sorted_array[$mid] < $target) {
                         $low = $mid + 1;
                     } else {
@@ -204,16 +140,8 @@ trait Array_Binarysearch_Record {
                 case '!==' :
                 case Filter::OPERATOR_NOT_STRICTLY_EQUAL :
                 case Filter::OPERATOR_NOT_STRICTLY_EXACT :
-                    if (
-                        $sorted_array[$mid] !== $target &&
-                        !in_array($mid, $search, true)
-                    ) {
-                        $search[] = $mid;
-                        if ($return_as_bool === true){
-                            return true;
-                        } else {
-                            return $mid;
-                        }
+                    if ($sorted_array[$mid] !== $target) {
+                        return $mid;
                     } elseif ($sorted_array[$mid] < $target) {
                         $low = $mid + 1;
                     } else {
@@ -224,15 +152,9 @@ trait Array_Binarysearch_Record {
                 case Filter::OPERATOR_BETWEEN :
                     if (
                         $sorted_array[$mid] > $begin &&
-                        $sorted_array[$mid] < $end &&
-                        !in_array($mid, $search, true)
+                        $sorted_array[$mid] < $end
                     ) {
-                        $search[] = $mid;
-                        if ($return_as_bool === true){
-                            return true;
-                        } else {
-                            return $mid;
-                        }
+                        return $mid;
                     }
                     elseif ($sorted_array[$mid] <= $begin) {
                         $low = $mid + 1;
@@ -248,15 +170,9 @@ trait Array_Binarysearch_Record {
                 case Filter::OPERATOR_BETWEEN_EQUALS :
                     if (
                         $sorted_array[$mid] >= $begin &&
-                        $sorted_array[$mid] <= $end &&
-                        !in_array($mid, $search, true)
+                        $sorted_array[$mid] <= $end
                     ) {
-                        $search[] = $mid;
-                        if ($return_as_bool === true){
-                            return true;
-                        } else {
-                            return $mid;
-                        }
+                        return $mid;
                     }
                     elseif ($sorted_array[$mid] < $begin) {
                         $low = $mid + 1;
@@ -270,15 +186,9 @@ trait Array_Binarysearch_Record {
                     break;
                 case Filter::OPERATOR_STRICTLY_START:
                     if(
-                        mb_substr($sorted_array[$mid], 0, mb_strlen($target)) === $target &&
-                        !in_array($mid, $search, true)
+                        mb_substr($sorted_array[$mid], 0, mb_strlen($target)) === $target
                     ){
-                        $search[] = $mid;
-                        if ($return_as_bool === true){
-                            return true;
-                        } else {
-                            return $mid;
-                        }
+                        return $mid;
                     }
                     elseif (mb_substr($sorted_array[$mid], 0, mb_strlen($target)) < $target) {
                         $low = $mid + 1;
@@ -288,15 +198,9 @@ trait Array_Binarysearch_Record {
                 break;
                 case Filter::OPERATOR_START:
                     if(
-                        mb_strtolower(mb_substr($sorted_array[$mid], 0, mb_strlen($target))) === mb_strtolower($target) &&
-                        !in_array($mid, $search, true)
+                        mb_strtolower(mb_substr($sorted_array[$mid], 0, mb_strlen($target))) === mb_strtolower($target)
                     ){
-                        $search[] = $mid;
-                        if ($return_as_bool === true){
-                            return true;
-                        } else {
-                            return $mid;
-                        }
+                        return $mid;
                     }
                     elseif (mb_strtolower(mb_substr($sorted_array[$mid], 0, mb_strlen($target))) < mb_strtolower($target)) {
                         $low = $mid + 1;

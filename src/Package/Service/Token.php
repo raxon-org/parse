@@ -800,7 +800,7 @@ class Token
                                                 'string' => $method,
                                                 'array' => $method_array,
                                             ],
-                                            $tag
+                                            $record
                                         );
                                         $variable = [
                                             'is_define' => true,
@@ -830,7 +830,7 @@ class Token
                                             'string' => $after,
                                             'array' => $after_array,
                                         ],
-                                        $tag
+                                        $record
                                     );
                                     $variable_target = Token::variable_name($object, $flags, $options, $variable_name);
                                     $variable_explode = explode($variable_target, $variable_name, 2);
@@ -879,7 +879,7 @@ class Token
                                                 'string' => $method,
                                                 'array' => $method_array,
                                             ],
-                                            $tag
+                                            $record
                                         );
                                         $list = Token::value(
                                             $object,
@@ -889,7 +889,7 @@ class Token
                                                 'string' => $after,
                                                 'array' => $after_array,
                                             ],
-                                            $tag
+                                            $record
                                         );
                                         $is_argument = false;
                                         $argument_nr = -1;
@@ -1026,7 +1026,7 @@ class Token
                                             'string' => $after,
                                             'array' => $after_array,
                                         ],
-                                        $tag
+                                        $record
                                     );
                                     if(
                                         array_key_exists(0, $list['array']) &&

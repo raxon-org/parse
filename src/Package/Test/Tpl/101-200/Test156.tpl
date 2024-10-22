@@ -18,7 +18,7 @@
         $test,
         3,
         $count,
-        Raxon:Module:Filter::operator.smaller.equal('<='),
+        Raxon:Module:Filter::OPERATOR.EQUAL,
         $search,
         $limit,
         true

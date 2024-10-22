@@ -130,6 +130,7 @@ trait Array_Binarysearch_Record {
                         !in_array($mid, $search, true)
                     ) {
                         $search[] = $mid;
+                        d($search);
                         if ($return_as_bool === true){
                             return true;
                         } else {

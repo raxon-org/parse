@@ -1842,7 +1842,6 @@ class Build
                     $argument = '\'' . str_replace('\'', '\\\'', trim($argument['string'])) . '\'';
                 } else {
                     $argument = Build::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
-                    d($argument);
                     $uuid_variable = Core::uuid_variable();
                     $before[] = $uuid_variable . ' = ' . $argument . ';';
                     $argument = $uuid_variable;
@@ -3641,7 +3640,6 @@ class Build
                 array_key_exists('type', $record) &&
                 $record['type'] === 'method'
             ){
-                breakpoint($record);
                 $plugin = Build::plugin($object, $flags, $options, $tag, str_replace('.', '_', $record['method']['name']));
                 $method_value = '$this->' . $plugin . '(' . PHP_EOL;
                 $method_value .= Build::argument($object, $flags, $options, $record, $before, $after);

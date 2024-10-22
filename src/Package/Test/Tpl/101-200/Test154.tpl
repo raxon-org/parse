@@ -11,7 +11,9 @@
 9,
 10
 ]}}
-{{$test2 = array.binarysearch.record($test, 10)}}
+{{$count = array.count($test)}}
+{{$test2 = array.binarysearch.record($test, 10, $count)}}
+{{d($count)}}
 {{d($test)}}
 {{d($test2)}}
 

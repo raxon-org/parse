@@ -1452,6 +1452,7 @@ class Build
                         array_key_exists('is_multiline', $record) &&
                         $record['is_multiline'] === true
                     ){
+                        trace();
                         breakpoint($record);
                         throw new LocateException(
                             'Plugin not found (' .
@@ -1467,6 +1468,7 @@ class Build
                             $locate_exception
                         );
                     } else {
+                        trace();
                         breakpoint($record);
                         throw new LocateException(
                             'Plugin not found (' .

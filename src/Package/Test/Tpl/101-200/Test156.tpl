@@ -24,7 +24,7 @@
     Raxon:Module:Filter::OPERATOR.LOWER.THAN.EQUAL,
     $count,
     $limit,
-    0
+    2
 )}}
 {{d($search)}}
 

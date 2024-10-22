@@ -2783,7 +2783,6 @@ class Build
                 foreach($before_value as $before_record){
                     $result[] = $before_record;
                 }
-                trace();
                 breakpoint($result);
                 switch($operator){
                     case '=' :

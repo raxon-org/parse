@@ -20,9 +20,9 @@
 {{$limit = 5}}
 {{$search = array.binarysearch.list(
     $test,
-    3,
+    5,
     $count,
-    Raxon:Module:Filter::OPERATOR.EQUAL
+    Raxon:Module:Filter::OPERATOR.SMALLER.EQUAL
 )}}
 {{d($search)}}
 

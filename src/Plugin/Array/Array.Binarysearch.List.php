@@ -15,7 +15,7 @@ use Raxon\Module\Filter;
 
 trait Array_Binarysearch_List {
 
-    protected function array_binarysearch_list(array $sorted_array, mixed $target, ?int &$count=0, $operator=Filter::OPERATOR_STRICTLY_EQUAL): array
+    protected function array_binarysearch_list(array $sorted_array, mixed $target, $operator=Filter::OPERATOR_STRICTLY_EQUAL, ?int &$count=0,   ?int $limit=0, ?int $offset=0): array
     {
         $low = 0;
         if(
@@ -28,6 +28,7 @@ trait Array_Binarysearch_List {
         $result = [];
         $begin = null;
         $end = null;
+        $found = 0;
         if(
             in_array(
                 $operator,
@@ -65,21 +66,49 @@ trait Array_Binarysearch_List {
                     if ($sorted_array[$mid] === $target) {
                         for($i = $mid -1; $i > $low; $i--){
                             if($sorted_array[$i] === $target){
-                                $result[] = $i;
+                                if(
+                                    $found >= $offset &&
+                                    $found < $offset + $limit
+                                ){
+                                    $result[] = $i;
+                                }
+                                elseif($found >= $offset + $limit){
+                                    break;
+                                }
+                                $found++;
                             } else {
                                 break;
                             }
                         }
-                        $result[] = $mid;
+                        if(
+                            $found >= $offset &&
+                            $found < $offset + $limit
+                        ){
+                            $result[] = $i;
+                        }
+                        elseif($found >= $offset + $limit){
+                            return $result;
+                        }
+                        $found++;
                         for ($i = $mid + 1; $i < $high; $i++) {
                             if ($sorted_array[$i] === $target) {
-                                $result[] = $i;
+                                if(
+                                    $found >= $offset &&
+                                    $found < $offset + $limit
+                                ){
+                                    $result[] = $i;
+                                }
+                                elseif($found >= $offset + $limit){
+                                    break;
+                                }
+                                $found++;
                             } else {
                                 break;
                             }
                         }
                         return $result;
-                    } elseif ($sorted_array[$mid] < $target) {
+                    }
+                    elseif ($sorted_array[$mid] < $target) {
                         $low = $mid + 1;
                     } else {
                         $high = $mid - 1;
@@ -91,21 +120,49 @@ trait Array_Binarysearch_List {
                     if ($sorted_array[$mid] == $target) {
                         for($i = $mid -1; $i > $low; $i--){
                             if($sorted_array[$i] == $target){
-                                $result[] = $i;
+                                if(
+                                    $found >= $offset &&
+                                    $found < $offset + $limit
+                                ){
+                                    $result[] = $i;
+                                }
+                                elseif($found >= $offset + $limit){
+                                    break;
+                                }
+                                $found++;
                             } else {
                                 break;
                             }
                         }
-                        $result[] = $mid;
+                        if(
+                            $found >= $offset &&
+                            $found < $offset + $limit
+                        ){
+                            $result[] = $i;
+                        }
+                        elseif($found >= $offset + $limit){
+                            return $result;
+                        }
+                        $found++;
                         for ($i = $mid + 1; $i < $high; $i++) {
                             if ($sorted_array[$i] == $target) {
-                                $result[] = $i;
+                                if(
+                                    $found >= $offset &&
+                                    $found < $offset + $limit
+                                ){
+                                    $result[] = $i;
+                                }
+                                elseif($found >= $offset + $limit){
+                                    break;
+                                }
+                                $found++;
                             } else {
                                 break;
                             }
                         }
                         return $result;
-                    } elseif ($sorted_array[$mid] < $target) {
+                    }
+                    elseif ($sorted_array[$mid] < $target) {
                         $low = $mid + 1;
                     } else {
                         $high = $mid - 1;
@@ -116,21 +173,49 @@ trait Array_Binarysearch_List {
                     if ($sorted_array[$mid] > $target) {
                         for($i = $mid -1; $i > $low; $i--){
                             if($sorted_array[$i] > $target){
-                                $result[] = $i;
+                                if(
+                                    $found >= $offset &&
+                                    $found < $offset + $limit
+                                ){
+                                    $result[] = $i;
+                                }
+                                elseif($found >= $offset + $limit){
+                                    break;
+                                }
+                                $found++;
                             } else {
                                 break;
                             }
                         }
-                        $result[] = $mid;
+                        if(
+                            $found >= $offset &&
+                            $found < $offset + $limit
+                        ){
+                            $result[] = $i;
+                        }
+                        elseif($found >= $offset + $limit){
+                            return $result;
+                        }
+                        $found++;
                         for ($i = $mid + 1; $i < $high; $i++) {
                             if ($sorted_array[$i] > $target) {
-                                $result[] = $i;
+                                if(
+                                    $found >= $offset &&
+                                    $found < $offset + $limit
+                                ){
+                                    $result[] = $i;
+                                }
+                                elseif($found >= $offset + $limit){
+                                    break;
+                                }
+                                $found++;
                             } else {
                                 break;
                             }
                         }
                         return $result;
-                    } elseif ($sorted_array[$mid] < $target) {
+                    }
+                    elseif ($sorted_array[$mid] < $target) {
                         $low = $mid + 1;
                     } else {
                         $high = $mid - 1;
@@ -141,21 +226,49 @@ trait Array_Binarysearch_List {
                     if ($sorted_array[$mid] >= $target) {
                         for($i = $mid -1; $i > $low; $i--){
                             if($sorted_array[$i] >= $target){
-                                $result[] = $i;
+                                if(
+                                    $found >= $offset &&
+                                    $found < $offset + $limit
+                                ){
+                                    $result[] = $i;
+                                }
+                                elseif($found >= $offset + $limit){
+                                    break;
+                                }
+                                $found++;
                             } else {
                                 break;
                             }
                         }
-                        $result[] = $mid;
+                        if(
+                            $found >= $offset &&
+                            $found < $offset + $limit
+                        ){
+                            $result[] = $i;
+                        }
+                        elseif($found >= $offset + $limit){
+                            return $result;
+                        }
+                        $found++;
                         for ($i = $mid + 1; $i < $high; $i++) {
                             if ($sorted_array[$i] >= $target) {
-                                $result[] = $i;
+                                if(
+                                    $found >= $offset &&
+                                    $found < $offset + $limit
+                                ){
+                                    $result[] = $i;
+                                }
+                                elseif($found >= $offset + $limit){
+                                    break;
+                                }
+                                $found++;
                             } else {
                                 break;
                             }
                         }
                         return $result;
-                    } elseif ($sorted_array[$mid] < $target) {
+                    }
+                    elseif ($sorted_array[$mid] < $target) {
                         $low = $mid + 1;
                     } else {
                         $high = $mid - 1;
@@ -166,21 +279,49 @@ trait Array_Binarysearch_List {
                 if ($sorted_array[$mid] < $target) {
                     for($i = $mid -1; $i > $low; $i--){
                         if($sorted_array[$i] < $target){
-                            $result[] = $i;
+                            if(
+                                $found >= $offset &&
+                                $found < $offset + $limit
+                            ){
+                                $result[] = $i;
+                            }
+                            elseif($found >= $offset + $limit){
+                                break;
+                            }
+                            $found++;
                         } else {
                             break;
                         }
                     }
-                    $result[] = $mid;
+                    if(
+                        $found >= $offset &&
+                        $found < $offset + $limit
+                    ){
+                        $result[] = $i;
+                    }
+                    elseif($found >= $offset + $limit){
+                        return $result;
+                    }
+                    $found++;
                     for ($i = $mid + 1; $i < $high; $i++) {
                         if ($sorted_array[$i] < $target) {
-                            $result[] = $i;
+                            if(
+                                $found >= $offset &&
+                                $found < $offset + $limit
+                            ){
+                                $result[] = $i;
+                            }
+                            elseif($found >= $offset + $limit){
+                                break;
+                            }
+                            $found++;
                         } else {
                             break;
                         }
                     }
                     return $result;
-                } elseif ($sorted_array[$mid] < $target) {
+                }
+                elseif ($sorted_array[$mid] < $target) {
                     $low = $mid + 1;
                 } else {
                     $high = $mid - 1;
@@ -191,21 +332,49 @@ trait Array_Binarysearch_List {
                     if ($sorted_array[$mid] <= $target) {
                         for($i = $mid -1; $i > $low; $i--){
                             if($sorted_array[$i] <= $target){
-                                $result[] = $i;
+                                if(
+                                    $found >= $offset &&
+                                    $found < $offset + $limit
+                                ){
+                                    $result[] = $i;
+                                }
+                                elseif($found >= $offset + $limit){
+                                    break;
+                                }
+                                $found++;
                             } else {
                                 break;
                             }
                         }
-                        $result[] = $mid;
+                        if(
+                            $found >= $offset &&
+                            $found < $offset + $limit
+                        ){
+                            $result[] = $i;
+                        }
+                        elseif($found >= $offset + $limit){
+                            return $result;
+                        }
+                        $found++;
                         for ($i = $mid + 1; $i < $high; $i++) {
                             if ($sorted_array[$i] <= $target) {
-                                $result[] = $i;
+                                if(
+                                    $found >= $offset &&
+                                    $found < $offset + $limit
+                                ){
+                                    $result[] = $i;
+                                }
+                                elseif($found >= $offset + $limit){
+                                    break;
+                                }
+                                $found++;
                             } else {
                                 break;
                             }
                         }
                         return $result;
-                    } elseif ($sorted_array[$mid] < $target) {
+                    }
+                    elseif ($sorted_array[$mid] < $target) {
                         $low = $mid + 1;
                     } else {
                         $high = $mid - 1;
@@ -217,21 +386,49 @@ trait Array_Binarysearch_List {
                     if ($sorted_array[$mid] != $target) {
                         for($i = $mid -1; $i > $low; $i--){
                             if($sorted_array[$i] != $target){
-                                $result[] = $i;
+                                if(
+                                    $found >= $offset &&
+                                    $found < $offset + $limit
+                                ){
+                                    $result[] = $i;
+                                }
+                                elseif($found >= $offset + $limit){
+                                    break;
+                                }
+                                $found++;
                             } else {
                                 break;
                             }
                         }
-                        $result[] = $mid;
+                        if(
+                            $found >= $offset &&
+                            $found < $offset + $limit
+                        ){
+                            $result[] = $i;
+                        }
+                        elseif($found >= $offset + $limit){
+                            return $result;
+                        }
+                        $found++;
                         for ($i = $mid + 1; $i < $high; $i++) {
                             if ($sorted_array[$i] != $target) {
-                                $result[] = $i;
+                                if(
+                                    $found >= $offset &&
+                                    $found < $offset + $limit
+                                ){
+                                    $result[] = $i;
+                                }
+                                elseif($found >= $offset + $limit){
+                                    break;
+                                }
+                                $found++;
                             } else {
                                 break;
                             }
                         }
                         return $result;
-                    } elseif ($sorted_array[$mid] < $target) {
+                    }
+                    elseif ($sorted_array[$mid] < $target) {
                         $low = $mid + 1;
                     } else {
                         $high = $mid - 1;
@@ -243,21 +440,49 @@ trait Array_Binarysearch_List {
                     if ($sorted_array[$mid] !== $target) {
                         for($i = $mid -1; $i > $low; $i--){
                             if($sorted_array[$i] !== $target){
-                                $result[] = $i;
+                                if(
+                                    $found >= $offset &&
+                                    $found < $offset + $limit
+                                ){
+                                    $result[] = $i;
+                                }
+                                elseif($found >= $offset + $limit){
+                                    break;
+                                }
+                                $found++;
                             } else {
                                 break;
                             }
                         }
-                        $result[] = $mid;
+                        if(
+                            $found >= $offset &&
+                            $found < $offset + $limit
+                        ){
+                            $result[] = $i;
+                        }
+                        elseif($found >= $offset + $limit){
+                            return $result;
+                        }
+                        $found++;
                         for ($i = $mid + 1; $i < $high; $i++) {
                             if ($sorted_array[$i] !== $target) {
-                                $result[] = $i;
+                                if(
+                                    $found >= $offset &&
+                                    $found < $offset + $limit
+                                ){
+                                    $result[] = $i;
+                                }
+                                elseif($found >= $offset + $limit){
+                                    break;
+                                }
+                                $found++;
                             } else {
                                 break;
                             }
                         }
                         return $result;
-                    } elseif ($sorted_array[$mid] < $target) {
+                    }
+                    elseif ($sorted_array[$mid] < $target) {
                         $low = $mid + 1;
                     } else {
                         $high = $mid - 1;
@@ -274,24 +499,52 @@ trait Array_Binarysearch_List {
                                 $sorted_array[$mid] > $begin &&
                                 $sorted_array[$mid] < $end
                             ){
-                                $result[] = $i;
+                                if(
+                                    $found >= $offset &&
+                                    $found < $offset + $limit
+                                ){
+                                    $result[] = $i;
+                                }
+                                elseif($found >= $offset + $limit){
+                                    break;
+                                }
+                                $found++;
                             } else {
                                 break;
                             }
                         }
-                        $result[] = $mid;
+                        if(
+                            $found >= $offset &&
+                            $found < $offset + $limit
+                        ){
+                            $result[] = $i;
+                        }
+                        elseif($found >= $offset + $limit){
+                            return $result;
+                        }
+                        $found++;
                         for ($i = $mid + 1; $i < $high; $i++) {
                             if (
                                 $sorted_array[$mid] > $begin &&
                                 $sorted_array[$mid] < $end
                             ) {
-                                $result[] = $i;
+                                if(
+                                    $found >= $offset &&
+                                    $found < $offset + $limit
+                                ){
+                                    $result[] = $i;
+                                }
+                                elseif($found >= $offset + $limit){
+                                    break;
+                                }
+                                $found++;
                             } else {
                                 break;
                             }
                         }
                         return $result;
-                    } elseif ($sorted_array[$mid] < $target) {
+                    }
+                    elseif ($sorted_array[$mid] < $target) {
                         $low = $mid + 1;
                     } else {
                         $high = $mid - 1;
@@ -308,24 +561,52 @@ trait Array_Binarysearch_List {
                                 $sorted_array[$mid] >= $begin &&
                                 $sorted_array[$mid] <= $end
                             ){
-                                $result[] = $i;
+                                if(
+                                    $found >= $offset &&
+                                    $found < $offset + $limit
+                                ){
+                                    $result[] = $i;
+                                }
+                                elseif($found >= $offset + $limit){
+                                    break;
+                                }
+                                $found++;
                             } else {
                                 break;
                             }
                         }
-                        $result[] = $mid;
+                        if(
+                            $found >= $offset &&
+                            $found < $offset + $limit
+                        ){
+                            $result[] = $i;
+                        }
+                        elseif($found >= $offset + $limit){
+                            return $result;
+                        }
+                        $found++;
                         for ($i = $mid + 1; $i < $high; $i++) {
                             if (
                                 $sorted_array[$mid] >= $begin &&
                                 $sorted_array[$mid] <= $end
                             ) {
-                                $result[] = $i;
+                                if(
+                                    $found >= $offset &&
+                                    $found < $offset + $limit
+                                ){
+                                    $result[] = $i;
+                                }
+                                elseif($found >= $offset + $limit){
+                                    break;
+                                }
+                                $found++;
                             } else {
                                 break;
                             }
                         }
                         return $result;
-                    } elseif ($sorted_array[$mid] < $target) {
+                    }
+                    elseif ($sorted_array[$mid] < $target) {
                         $low = $mid + 1;
                     } else {
                         $high = $mid - 1;
@@ -335,21 +616,46 @@ trait Array_Binarysearch_List {
                     if(mb_substr($sorted_array[$mid], 0, mb_strlen($target)) === $target){
                         for($i = $mid -1; $i > $low; $i--){
                             if(mb_substr($sorted_array[$i], 0, mb_strlen($target)) === $target){
-                                $result[] = $i;
+                                if(
+                                    $found >= $offset &&
+                                    $found < $offset + $limit
+                                ){
+                                    $result[] = $i;
+                                }
+                                $found++;
                             } else {
                                 break;
                             }
                         }
-                        $result[] = $mid;
+                        if(
+                            $found >= $offset &&
+                            $found < $offset + $limit
+                        ){
+                            $result[] = $i;
+                        }
+                        elseif($found >= $offset + $limit){
+                            return $result;
+                        }
+                        $found++;
                         for ($i = $mid + 1; $i < $high; $i++) {
                             if (mb_substr($sorted_array[$i], 0, mb_strlen($target)) === $target) {
-                                $result[] = $i;
+                                if(
+                                    $found >= $offset &&
+                                    $found < $offset + $limit
+                                ){
+                                    $result[] = $i;
+                                }
+                                elseif($found >= $offset + $limit){
+                                    break;
+                                }
+                                $found++;
                             } else {
                                 break;
                             }
                         }
                         return $result;
-                    } elseif (mb_substr($sorted_array[$mid], 0, mb_strlen($target)) < $target) {
+                    }
+                    elseif (mb_substr($sorted_array[$mid], 0, mb_strlen($target)) < $target) {
                         $low = $mid + 1;
                     } else {
                         $high = $mid - 1;
@@ -359,21 +665,49 @@ trait Array_Binarysearch_List {
                     if(mb_strtolower(mb_substr($sorted_array[$mid], 0, mb_strlen($target))) === mb_strtolower($target)){
                         for($i = $mid -1; $i > $low; $i--){
                             if(mb_strtolower(mb_substr($sorted_array[$i], 0, mb_strlen($target))) === mb_strtolower($target)){
-                                $result[] = $i;
+                                if(
+                                    $found >= $offset &&
+                                    $found < $offset + $limit
+                                ){
+                                    $result[] = $i;
+                                }
+                                elseif($found >= $offset + $limit){
+                                    break;
+                                }
+                                $found++;
                             } else {
                                 break;
                             }
                         }
-                        $result[] = $mid;
+                        if(
+                            $found >= $offset &&
+                            $found < $offset + $limit
+                        ){
+                            $result[] = $i;
+                        }
+                        elseif($found >= $offset + $limit){
+                            return $result;
+                        }
+                        $found++;
                         for ($i = $mid + 1; $i < $high; $i++) {
                             if (mb_strtolower(mb_substr($sorted_array[$i], 0, mb_strlen($target))) === mb_strtolower($target)) {
-                                $result[] = $i;
+                                if(
+                                    $found >= $offset &&
+                                    $found < $offset + $limit
+                                ){
+                                    $result[] = $i;
+                                }
+                                elseif($found >= $offset + $limit){
+                                    break;
+                                }
+                                $found++;
                             } else {
                                 break;
                             }
                         }
                         return $result;
-                    } elseif (mb_strtolower(mb_substr($sorted_array[$mid], 0, mb_strlen($target))) < mb_strtolower($target)) {
+                    }
+                    elseif (mb_strtolower(mb_substr($sorted_array[$mid], 0, mb_strlen($target))) < mb_strtolower($target)) {
                         $low = $mid + 1;
                     } else {
                         $high = $mid - 1;

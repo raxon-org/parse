@@ -2782,6 +2782,7 @@ class Build
                 foreach($before_value as $before_record){
                     $result[] = $before_record;
                 }
+                breakpoint($result);
                 switch($operator){
                     case '=' :
                         $result[] = '$data->set(' .

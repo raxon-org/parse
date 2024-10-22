@@ -12,6 +12,7 @@
 10
 ]}}
 {{$count = array.count($test)}}
+{{d(array.binarysearch.record($test, 1, $count, Raxon:Module:Filter::operator.smaller.equal('<='), $search))}}
 {{while((bool) array.binarysearch.record($test, 1, $count, Raxon:Module:Filter::operator.smaller.equal('<='), $search))}}{{/while}}
 {{d($search)}}
 

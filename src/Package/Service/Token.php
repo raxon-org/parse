@@ -1440,7 +1440,7 @@ class Token
 //            $input = Token::remove_comment($object, $flags, $options, $input);
 //            breakpoint($input);
             $input = Cast::define($object, $flags, $options, $input);
-            $input = Method::define($object, $flags, $options, $input);
+            $input = Method::define($object, $flags, $options, $input, $tag);
             $input = Variable::define($object, $flags, $options, $input);
             $input = Variable::modifier($object, $flags, $options, $input);
             $input = Variable::assign($object, $flags, $options, $input);

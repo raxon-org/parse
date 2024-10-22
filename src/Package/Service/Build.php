@@ -2508,12 +2508,15 @@ class Build
                 return implode(PHP_EOL, $data);
             break;
         }
-        trace();
-        d($method_value);
-        d($after);
-        breakpoint($before);
-
-        return $method_value;
+        $data = [];
+        foreach($before as $before_record){
+            $data[] = $before_record;
+        }
+        $data[] = $method_value;
+        foreach($after as $after_record){
+            $data[] = $after_record;
+        }
+        return implode(PHP_EOL, $data);
     }
 
     /**

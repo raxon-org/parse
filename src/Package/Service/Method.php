@@ -198,7 +198,8 @@ class Method
                                 $object,
                                 $flags,
                                 $options,
-                                $argument_value
+                                $argument_value,
+                                $tag
                             );
                             $argument_list[$argument_nr] = $argument_value;
                             $argument_array = [];
@@ -466,6 +467,7 @@ class Method
                                 $flags,
                                 $options,
                                 $argument_value,
+                                $tag
                             );
                             $argument_list[$argument_nr] = $argument_value;
                             $argument_array = [];

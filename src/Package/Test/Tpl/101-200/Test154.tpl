@@ -12,7 +12,7 @@
 10
 ]}}
 {{$count = array.count($test)}}
-{{$test2 = array.binarysearch.record($test, 10, $count)}}
+{{$test2 = array.binarysearch.record($test, 10, $count, Filter::OPERATOR_EQUAL)}}
 {{d($count)}}
 {{d($test)}}
 {{d($test2)}}

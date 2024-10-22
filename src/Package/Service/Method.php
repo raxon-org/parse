@@ -222,7 +222,7 @@ class Method
                             'argument' => $argument_list
                         ];
                         $input['array'][$is_method]['type'] = 'method';
-
+                        trace();
                         breakpoint($tag);
 
                         $input['array'][$is_method]['tag'] = $input['string'] ?? '';

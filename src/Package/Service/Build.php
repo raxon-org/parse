@@ -3152,6 +3152,7 @@ class Build
         $is_cast = false;
         $is_clone = false;
         $is_single_line = false;
+        $is_static_class_call = false;
 //        d($tag);
         d($input['array']);
 //        breakpoint($input);
@@ -3263,6 +3264,7 @@ class Build
                     } else {
                         $value .= $record['value'] . PHP_EOL;
                     }
+                    $is_static_class_call = false;
                 }
                 elseif(
                     $is_double_quote === false &&
@@ -3290,19 +3292,19 @@ class Build
                         true
                     )
                 ){
-                    /*
-                    $explode = explode('::', $method);
-                    $function = array_pop($explode);
-                    $method = implode('\\', $explode);
-                    if(array_key_exists(1, $explode) && $explode[0] !== ''){
-                        $method = '\\' . $method;
+                    $is_static_class_call = true;
+                    $explode = explode(':', $value);
+                    if(array_key_exists(1, $explode)){
+                        $value = $explode[0] . '\\' . implode('\\', $explode) . $record['value'];
+                    } else {
+                        $value .= $record['value'];
                     }
-                    $class_name = $method;
-                    $method .= '::' . $function;
-                    */
-                    d($record);
-                    d($input);
-                    breakpoint($value);
+                }
+                elseif(
+                    $is_static_class_call === true &&
+                    $record['value'] === '.'
+                ){
+                    $value .= '_';
                 }
                 elseif(
                     in_array(

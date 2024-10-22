@@ -15,7 +15,7 @@ use Raxon\Module\Filter;
 
 trait Array_Binarysearch_Record {
 
-    protected function array_binarysearch_record(array $sorted_array, mixed $target, ?int &$count=0, $operator=Filter::OPERATOR_STRICTLY_EQUAL, ?array &$search=[]): false | int
+    protected function array_binarysearch_record(array $sorted_array, mixed $target, ?int &$count=0, $operator=Filter::OPERATOR_STRICTLY_EQUAL, ?array &$search=[], ?int $limit=0, $return_as_bool=false): false | int
     {
         if(
             $count === 0 ||
@@ -25,6 +25,12 @@ trait Array_Binarysearch_Record {
         }
         if($search === null){
             $search = [];
+        }
+        if(
+            $limit > 0 &&
+            count($search) >= $limit
+        ){
+            return false;
         }
         $low = 0;
         $high = $count - 1;
@@ -69,7 +75,11 @@ trait Array_Binarysearch_Record {
                         !in_array($mid, $search, true)
                     ) {
                         $search[] = $mid;
-                        return $mid;
+                        if ($return_as_bool === true){
+                            return true;
+                        } else {
+                            return $mid;
+                        }
                     } elseif ($sorted_array[$mid] < $target) {
                         $low = $mid + 1;
                     } else {
@@ -84,7 +94,11 @@ trait Array_Binarysearch_Record {
                         !in_array($mid, $search, true)
                     ) {
                         $search[] = $mid;
-                        return $mid;
+                        if ($return_as_bool === true){
+                            return true;
+                        } else {
+                            return $mid;
+                        }
                     } elseif ($sorted_array[$mid] < $target) {
                         $low = $mid + 1;
                     } else {
@@ -98,7 +112,11 @@ trait Array_Binarysearch_Record {
                         !in_array($mid, $search, true)
                     ) {
                         $search[] = $mid;
-                        return $mid;
+                        if ($return_as_bool === true){
+                            return true;
+                        } else {
+                            return $mid;
+                        }
                     } elseif ($sorted_array[$mid] < $target) {
                         $low = $mid + 1;
                     } else {
@@ -112,7 +130,11 @@ trait Array_Binarysearch_Record {
                         !in_array($mid, $search, true)
                     ) {
                         $search[] = $mid;
-                        return $mid;
+                        if ($return_as_bool === true){
+                            return true;
+                        } else {
+                            return $mid;
+                        }
                     } elseif ($sorted_array[$mid] < $target) {
                         $low = $mid + 1;
                     } else {
@@ -126,7 +148,11 @@ trait Array_Binarysearch_Record {
                         !in_array($mid, $search, true)
                     ) {
                         $search[] = $mid;
-                        return $mid;
+                        if ($return_as_bool === true){
+                            return true;
+                        } else {
+                            return $mid;
+                        }
                     } elseif ($sorted_array[$mid] < $target) {
                         $low = $mid + 1;
                     } else {
@@ -140,7 +166,11 @@ trait Array_Binarysearch_Record {
                         !in_array($mid, $search, true)
                     ) {
                         $search[] = $mid;
-                        return $mid;
+                        if ($return_as_bool === true){
+                            return true;
+                        } else {
+                            return $mid;
+                        }
                     } elseif ($sorted_array[$mid] < $target) {
                         $low = $mid + 1;
                     } else {
@@ -155,7 +185,11 @@ trait Array_Binarysearch_Record {
                         !in_array($mid, $search, true)
                     ) {
                         $search[] = $mid;
-                        return $mid;
+                        if ($return_as_bool === true){
+                            return true;
+                        } else {
+                            return $mid;
+                        }
                     } elseif ($sorted_array[$mid] < $target) {
                         $low = $mid + 1;
                     } else {
@@ -170,7 +204,11 @@ trait Array_Binarysearch_Record {
                         !in_array($mid, $search, true)
                     ) {
                         $search[] = $mid;
-                        return $mid;
+                        if ($return_as_bool === true){
+                            return true;
+                        } else {
+                            return $mid;
+                        }
                     } elseif ($sorted_array[$mid] < $target) {
                         $low = $mid + 1;
                     } else {
@@ -185,7 +223,11 @@ trait Array_Binarysearch_Record {
                         !in_array($mid, $search, true)
                     ) {
                         $search[] = $mid;
-                        return $mid;
+                        if ($return_as_bool === true){
+                            return true;
+                        } else {
+                            return $mid;
+                        }
                     }
                     elseif ($sorted_array[$mid] <= $begin) {
                         $low = $mid + 1;
@@ -205,7 +247,11 @@ trait Array_Binarysearch_Record {
                         !in_array($mid, $search, true)
                     ) {
                         $search[] = $mid;
-                        return $mid;
+                        if ($return_as_bool === true){
+                            return true;
+                        } else {
+                            return $mid;
+                        }
                     }
                     elseif ($sorted_array[$mid] < $begin) {
                         $low = $mid + 1;
@@ -223,7 +269,11 @@ trait Array_Binarysearch_Record {
                         !in_array($mid, $search, true)
                     ){
                         $search[] = $mid;
-                        return $mid;
+                        if ($return_as_bool === true){
+                            return true;
+                        } else {
+                            return $mid;
+                        }
                     }
                     elseif (mb_substr($sorted_array[$mid], 0, mb_strlen($target)) < $target) {
                         $low = $mid + 1;
@@ -237,7 +287,11 @@ trait Array_Binarysearch_Record {
                         !in_array($mid, $search, true)
                     ){
                         $search[] = $mid;
-                        return $mid;
+                        if ($return_as_bool === true){
+                            return true;
+                        } else {
+                            return $mid;
+                        }
                     }
                     elseif (mb_strtolower(mb_substr($sorted_array[$mid], 0, mb_strlen($target))) < mb_strtolower($target)) {
                         $low = $mid + 1;

@@ -22,7 +22,7 @@
     $test,
     5,
     $count,
-    Raxon:Module:Filter::OPERATOR.SMALLER.EQUAL
+    Raxon:Module:Filter::OPERATOR.LOWER.THAN.EQUAL
 )}}
 {{d($search)}}
 

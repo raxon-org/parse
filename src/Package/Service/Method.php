@@ -228,12 +228,10 @@ class Method
                             'argument' => $argument_list
                         ];
                         $input['array'][$is_method]['type'] = 'method';
-                        breakpoint($tag);
-
-                        $input['array'][$is_method]['tag'] = $input['string'] ?? '';
-                        $input['array'][$is_method]['line'] = 'unknown';
-                        $input['array'][$is_method]['length'] = 'unknown';
-                        $input['array'][$is_method]['column'] = [
+                        $input['array'][$is_method]['tag'] = $tag['tag'] ?? '';
+                        $input['array'][$is_method]['line'] = $tag['line'] ?? 'unknown';
+                        $input['array'][$is_method]['length'] = $tag['length'] ?? 'unknown';
+                        $input['array'][$is_method]['column'] = $tag['column'] ?? [
                             'start' => 0,
                             'end' => 0
                         ];

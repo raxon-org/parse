@@ -1,6 +1,7 @@
 <?php
 
 require '/Application/vendor/raxon/framework/src/Module/Dir.php';
+require '/Application/vendor/raxon/framework/src/Module/File.php';
 
 
 $dir = new \Raxon\Module\Dir();

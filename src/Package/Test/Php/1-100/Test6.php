@@ -8,9 +8,5 @@ require '/Application/vendor/raxon/framework/src/Module/File.php';
 $dir = new \Raxon\Module\Dir();
 
 $read = $dir->read('/mnt/Vps3/Mount/Photo/Backup/Jan');
-foreach($read as $nr => $file){
+foreach($read as $nr => $file) {
     ddd($file);
-}
-d('die');
-
-dd($read);

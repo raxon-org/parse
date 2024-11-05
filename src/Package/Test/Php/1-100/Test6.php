@@ -11,5 +11,6 @@ $read = $dir->read('/mnt/Vps3/Mount/Photo/Backup/Jan');
 foreach($read as $nr => $file){
     breakpoint($file);
 }
+d('die');
 
 dd($read);

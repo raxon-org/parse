@@ -4,7 +4,7 @@ for file in *.rar; do
 done
 
 /*
-for file in *.rar; do
+ cd /mnt/Disk2/Vsti/ && for file in *.rar; do
   rar x -y -p- -ad "$file" "/mnt/Disk2/Media/Software/Extract/"
-done
+done > /mnt/Disk2/Media/Software/Extract/Unrar.log
 */

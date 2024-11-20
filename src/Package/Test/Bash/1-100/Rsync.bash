@@ -1,0 +1,1 @@
+ rsync -avzP --progress /mnt/Vps2/Mount/Data/OpenAi/Embedding/ remco@10.0.0.10:/mnt/Disk2/Media/Software/Ai/Similarity/

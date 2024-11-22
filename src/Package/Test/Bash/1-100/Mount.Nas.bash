@@ -1,0 +1,1 @@
+mount -t cifs //10.0.0.99/Public /mnt/Server/Mount/A -o guest,uid=www-data,gid=www-data,iocharset=utf8,file_mode=0640,dir_mode=0740,noperm

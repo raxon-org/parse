@@ -10,9 +10,9 @@ $dir = new \Raxon\Module\Dir();
 $read = $dir->read('/mnt/Disk2/Media/Photo/New York City/');
 foreach($read as $nr => $file) {
     $explode = explode('.', $file->name);
-    $extension = end($explode);
+    $extension = pop($explode);
     if(strtoupper($extension) === 'JPG'){
-        $file->new = strtolower($file->url);
+        $file->new = implode('.', $explode) . '.jpeg';
     }
     \Raxon\Module\File::move($file->url, $file->new);
 }

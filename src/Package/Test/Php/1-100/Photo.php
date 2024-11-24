@@ -7,7 +7,7 @@ require '/Application/vendor/raxon/framework/src/Module/File.php';
 
 $dir = new \Raxon\Module\Dir();
 
-$read = $dir->read('/mnt/Vps3/Mount/Photo/');
+$read = $dir->read('/mnt/Disk2/Media/Photo/New York City/');
 foreach($read as $nr => $file) {
     breakpoint($file);
     $file->new = $file->url . strtolower($file->name);

@@ -14,10 +14,10 @@ foreach($read as $nr => $file) {
     $extension = array_pop($explode);
     if(strtoupper($extension) === 'JPG'){
         $file->new = implode('.', $explode) . '.jpg';
-        \Raxon\Module\File::move($file->url, $file->new);
+        \Raxon\Module\File::move($file->url, $file->new, true);
     }
     if(strtoupper($extension) === 'JPEG'){
         $file->new = implode('.', $explode) . '.jpg';
-        \Raxon\Module\File::move($file->url, $file->new);
+        \Raxon\Module\File::move($file->url, $file->new, true);
     }
 }

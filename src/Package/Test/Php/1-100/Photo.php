@@ -10,7 +10,7 @@ $dir = new \Raxon\Module\Dir();
 $read = $dir->read('/mnt/Disk2/Media/Photo/New York City/');
 foreach($read as $nr => $file) {
     $explode = explode('.', $file->name);
-    $extension = pop($explode);
+    $extension = array_pop($explode);
     if(strtoupper($extension) === 'JPG'){
         $file->new = implode('.', $explode) . '.jpeg';
     }

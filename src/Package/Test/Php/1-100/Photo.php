@@ -3,6 +3,7 @@
 require '/Application/vendor/raxon/framework/src/Debug.php';
 require '/Application/vendor/raxon/framework/src/Module/Dir.php';
 require '/Application/vendor/raxon/framework/src/Module/File.php';
+require '/Application/vendor/raxon/framework/src/Exception/FileMoveException.php';
 
 
 $dir = new \Raxon\Module\Dir();

@@ -1,1 +1,1 @@
-wget http://localhost:8006/#host=localhost&port=8006&encrypt=1
+wget http://localhost:8006/#host=localhost&port=8006&encrypt=1 --output-file=.win11pro.html

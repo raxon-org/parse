@@ -1,1 +1,1 @@
-wget http://localhost:8006/#host=localhost&port=8006&encrypt=1 --output-file=wget-log.3
+wget http://10.0.0.10:8006/#host=10.0.0.10&port=8006&encrypt=1 --output-file=wget-log.3

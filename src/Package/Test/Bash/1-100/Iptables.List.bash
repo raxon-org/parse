@@ -1,0 +1,1 @@
+iptables -n -v --list

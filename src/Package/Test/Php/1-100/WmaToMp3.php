@@ -16,7 +16,7 @@ use Raxon\Exception\ObjectException;
 $dir = __DIR__;
 $dir_vendor =
     DIRECTORY_SEPARATOR .
-    'Application'
+    'Application' .
     DIRECTORY_SEPARATOR .
     'vendor' .
     DIRECTORY_SEPARATOR;

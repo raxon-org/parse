@@ -9,6 +9,8 @@
 
 use Raxon\App;
 use Raxon\Config;
+use Raxon\Module\Dir;
+use Raxon\Module\File;
 
 use Raxon\Exception\LocateException;
 use Raxon\Exception\ObjectException;
@@ -32,7 +34,7 @@ try {
     );
     $app = new App($autoload, $config);
 
-    $dir = new \Raxon\Module\Dir();
+    $dir = new Dir();
 
     $read = $dir->read('/mnt/Disk2/Media/Music/Cd/Shuffle/');
     foreach($read as $nr => $file) {
@@ -43,6 +45,9 @@ try {
         }
         if(strtoupper($extension) === 'WAV'){
             $file->new = implode('.', $explode) . '.mp3';
+        }
+        if(File::exist($file->new)){
+            continue;
         }
         $command = 'ffmpeg -i \'' . $file->url . '\' -vn -ar 44100 -ac 2 -ab 320k -f mp3 \'' . $file->new . '\'';
         exec($command);

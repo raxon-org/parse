@@ -36,7 +36,7 @@ try {
 
     $dir = new Dir();
 
-    $read = $dir->read('/mnt/Disk2/Media/Music/Cd/Shuffle/');
+    $read = $dir->read('/mnt/Disk2/Media/Music/Cd/Shuffle/', true);
     foreach($read as $nr => $file) {
         $explode = explode('.', $file->url);
         $extension = array_pop($explode);

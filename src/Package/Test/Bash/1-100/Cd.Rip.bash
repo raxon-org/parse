@@ -1,1 +1,1 @@
-cdda2wav -v -s -t 1 -B -w -p stereo -f 44100 track_01.wav
+cdda2wav -D /dev/cdrom

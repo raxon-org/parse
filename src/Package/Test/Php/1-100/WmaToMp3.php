@@ -45,7 +45,7 @@ try {
             $file->new = implode('.', $explode) . '.mp3';
         }
         breakpoint($file->new);
-        $command = 'ffmpeg -i ' . $file->url . ' -vn -ar 44100 -ac 2 -ab 320k -f mp3 ' . $file->new;
+        $command = 'ffmpeg -i \'' . $file->url . '\' -vn -ar 44100 -ac 2 -ab 320k -f mp3 \'' . $file->new . '\'';
         exec($command);
         breakpoint($command);
     }

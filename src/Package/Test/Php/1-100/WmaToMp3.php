@@ -40,17 +40,20 @@ try {
     foreach($read as $nr => $file) {
         $explode = explode('.', $file->url);
         $extension = array_pop($explode);
+        $file->new = false;
         if(strtoupper($extension) === 'WMA'){
             $file->new = implode('.', $explode) . '.mp3';
         }
-        if(strtoupper($extension) === 'WAV'){
+        elseif(strtoupper($extension) === 'WAV'){
             $file->new = implode('.', $explode) . '.mp3';
         }
-        if(File::exist($file->new)){
-            continue;
+        if($file->new !== false){
+            if(File::exist($file->new)){
+                continue;
+            }
+            $command = 'ffmpeg -i \'' . $file->url . '\' -vn -ar 44100 -ac 2 -ab 320k -f mp3 \'' . $file->new . '\'';
+            exec($command);
         }
-        $command = 'ffmpeg -i \'' . $file->url . '\' -vn -ar 44100 -ac 2 -ab 320k -f mp3 \'' . $file->new . '\'';
-        exec($command);
     }
     /*
     $result = App::run($app);

@@ -44,7 +44,10 @@ try {
         if(strtoupper($extension) === 'WAV'){
             $file->new = implode('.', $explode) . '.mp3';
         }
-        exec('ffmpeg -i ' . $file->url . ' -vn -ar 44100 -ac 2 -ab 320k -f mp3 ' . $file->new);
+        breakpoint($file->new);
+        $command = 'ffmpeg -i ' . $file->url . ' -vn -ar 44100 -ac 2 -ab 320k -f mp3 ' . $file->new;
+        exec($command);
+        breakpoint($command);
     }
     /*
     $result = App::run($app);

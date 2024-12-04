@@ -59,6 +59,9 @@ try {
     ]);
     foreach($read as $nr => $file){
         $file->size = File::size($file->url);
+        if(empty($file->size)){
+            continue;
+        }
         if($file->size > (2 * 1024 * 1024 * 1024)){
             continue;
         }

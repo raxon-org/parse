@@ -59,7 +59,7 @@ try {
         if($size_batch >= $size_per_directory){
             $command = 'genisoimage -R -J -o output.iso ' . $target_dir . $dir_number . '/';
             exec($command, $output);
-            echo $output . PHP_EOL;
+            echo implode(PHP_EOL, $output) . PHP_EOL;
             $dir_number++;
             Dir::create($target_dir . $dir_number . '/', Dir::CHMOD);
             $size_batch = 0;
@@ -79,6 +79,9 @@ try {
     $data->set('Summary.size_format', $size_format);
     $data->set('Summary.duration', microtime(true) - $data->get('Summary.time'));
     $data->write($target_tree);
+    $command = 'genisoimage -R -J -o output.iso ' . $target_dir . $dir_number . '/';
+    exec($command, $output);
+    echo $output . PHP_EOL;
     File::permission($app, [
         'dir' => $target_dir,
         'tree' => $target_tree,
@@ -89,38 +92,6 @@ try {
             $i => $target_dir . $i . '/',
         ]);
     }
-    breakpoint($data);
-    $target = $target_dir . $target_prefix . $nr . '.gzip';
-    // then iso split in 1 GB parts and go with the flow.
-
-    /*
-    foreach($read as $nr => $file) {
-        $explode = explode('.', $file->url);
-        $extension = array_pop($explode);
-        $file->new = false;
-        if(strtoupper($extension) === 'WMA'){
-            $file->new = implode('.', $explode) . '.mp3';
-        }
-        elseif(strtoupper($extension) === 'WAV'){
-            $file->new = implode('.', $explode) . '.mp3';
-        }
-        if($file->new !== false){
-            if(File::exist($file->new)){
-                continue;
-            }
-            $command = 'ffmpeg -i \'' . $file->url . '\' -vn -ar 44100 -ac 2 -ab 320k -f mp3 \'' . $file->new . '\'';
-            exec($command);
-        }
-    }
-    /*
-    $result = App::run($app);
-    if(is_scalar($result)){
-        echo $result;
-    }
-    elseif(is_array($result)) {
-        echo implode(PHP_EOL, $result);
-    }
-    */
 } catch (Exception | LocateException | ObjectException $exception) {
     echo $exception;
 }

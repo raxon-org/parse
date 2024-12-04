@@ -45,14 +45,22 @@ try {
     $data = new Data();
     $data->set('Summary.time', microtime(true));
     $size_total = 0;
+    $size_per_directory = 1 * 1024 * 1024 * 1024 ;
+    $dir_number = 1;
+    Dir::create($target_dir . $dir_number . '/', Dir::CHMOD);
     foreach($read as $nr => $file){
         $file->size = File::size($file->url);
         if($file->size > (2 * 1024 * 1024 * 1024)){
             continue;
         }
         $size_total += $file->size;
+        if($size_total >= $size_per_directory){
+            $dir_number++;
+            Dir::create($target_dir . $dir_number . '/', Dir::CHMOD);
+        }
         $file->size_format = File::size_format($file->size);
         $file->uuid = Core::uuid();
+        $file->dir_number = $dir_number;
         $data->set('Tree.' . $nr, $file);
     }
     $size_format = File::size_format($size_total);
@@ -65,8 +73,12 @@ try {
         'dir' => $target_dir,
         'tree' => $target_tree,
     ]);
-
-
+    $i=1;
+    for($i; $i <= $dir_number; $i++){
+        File::permission($app, [
+            $i => $target_dir . $i . '/',
+        ]);
+    }
     breakpoint($data);
     $target = $target_dir . $target_prefix . $nr . '.gzip';
     // then iso split in 1 GB parts and go with the flow.

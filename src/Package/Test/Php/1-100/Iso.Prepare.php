@@ -43,15 +43,21 @@ try {
     $tree = 'tree' . $app->config('extension.json');
     $target_tree = $target_dir . $tree;
     $data = new Data();
+    $data->set('Summary.time', microtime(true));
+    $size_total = 0;
     foreach($read as $nr => $file){
         $file->size = File::size($file->url);
-        $file->size_format = File::size_format($file->size);
         if($file->size > (2 * 1024 * 1024 * 1024)){
             continue;
         }
+        $size_total += $file->size;
+        $file->size_format = File::size_format($file->size);
         $file->uuid = Core::uuid();
         $data->set('Tree.' . $nr, $file);
     }
+    $data->set('Summary.size', $size_total);
+    $data->set('Summary.duration', microtime(true) - $data->get('Summary.time'));
+
     $data->write($target_tree);
     File::permission($app, [
         'dir' => $target_dir,

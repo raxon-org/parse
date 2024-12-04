@@ -64,6 +64,7 @@ try {
         $file->size_format = File::size_format($file->size);
         $file->uuid = Core::uuid();
         $file->dir_number = $dir_number;
+        $file->extension = File::extension($file->url);
         $data->set('Tree.' . $nr, $file);
         $read_gz= gzencode(File::read($file->url), 9);
         breakpoint($data);

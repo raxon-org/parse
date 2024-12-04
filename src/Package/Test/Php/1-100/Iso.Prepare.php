@@ -64,7 +64,7 @@ try {
             $command = 'genisoimage -R -J -o '  . $target_dir . $dir_number . '.iso ' . $target_dir . $dir_number . '/';
             exec($command, $output);
             echo implode(PHP_EOL, $output) . PHP_EOL;
-            $command = 'split -b 1024m ' . $target_dir . $dir_number . '_';
+            $command = 'split -b 1024m ' . $target_dir . $dir_number . '.iso ' . $target_dir . $dir_number . '_';
             exec($command, $output);
             echo implode(PHP_EOL, $output) . PHP_EOL;
             $dir_number++;
@@ -96,7 +96,7 @@ try {
     $command = 'genisoimage -R -J -split-output -o '  . $target_dir . $dir_number . '.iso ' . $target_dir . $dir_number . '/';
     exec($command, $output);
     echo implode(PHP_EOL, $output) . PHP_EOL;
-    $command = 'split -b 1024m ' . $target_dir . $dir_number . '_';
+    $command = 'split -b 1024m ' . $target_dir . $dir_number . '.iso ' . $target_dir . $dir_number . '_';
     exec($command, $output);
     echo implode(PHP_EOL, $output) . PHP_EOL;
     $dir_number++;

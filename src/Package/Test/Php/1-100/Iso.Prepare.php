@@ -59,8 +59,6 @@ try {
         if($file->size > (2 * 1024 * 1024 * 1024)){
             continue;
         }
-        $size_total += $file->size;
-        $size_batch += $file->size;
         if(($size_batch + $file->size) >= $size_per_directory){
             File::delete($target_dir . $dir_number . '.iso');
             $command = 'genisoimage -R -J -o '  . $target_dir . $dir_number . '.iso ' . $target_dir . $dir_number . '/';
@@ -70,6 +68,8 @@ try {
             Dir::create($target_dir . $dir_number . '/', Dir::CHMOD);
             $size_batch = 0;
         }
+        $size_total += $file->size;
+        $size_batch += $file->size;
         $file->size_format = File::size_format($file->size);
         $file->uuid = Core::uuid();
         $file->dir_number = $dir_number;

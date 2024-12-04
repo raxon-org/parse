@@ -65,17 +65,16 @@ try {
         $file->uuid = Core::uuid();
         $file->dir_number = $dir_number;
         $file->extension = File::extension($file->url);
-        $data->set('Tree.' . $nr, $file);
         $read_gz = gzencode(File::read($file->url), 9);
         $target_gz = $target_dir . $dir_number . '/' . $file->uuid . $app->config('extension.gzip');
         File::write($target_gz, $read_gz);
-        breakpoint($data);
+        $file->url = $target_gz;
+        $data->set('Tree.' . $nr, $file);
     }
     $size_format = File::size_format($size_total);
     $data->set('Summary.size', $size_total);
     $data->set('Summary.size_format', $size_format);
     $data->set('Summary.duration', microtime(true) - $data->get('Summary.time'));
-
     $data->write($target_tree);
     File::permission($app, [
         'dir' => $target_dir,

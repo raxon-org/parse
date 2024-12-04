@@ -45,6 +45,7 @@ try {
     $data = new Data();
     foreach($read as $nr => $file){
         $file->size = File::size($file->url);
+        $file->size_format = File::size_format($file->size);
         if($file->size > (2 * 1024 * 1024 * 1024)){
             continue;
         }

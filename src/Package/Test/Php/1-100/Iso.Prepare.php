@@ -56,6 +56,7 @@ try {
         }
         $size_total += $file->size;
         if(($size_batch + $size_per_directory) >= $size_per_directory){
+            File::delete($target_dir . $dir_number . '.iso');
             $command = 'genisoimage -R -J -o '  . $target_dir . $dir_number . '.iso ' . $target_dir . $dir_number . '/';
             exec($command, $output);
             echo implode(PHP_EOL, $output) . PHP_EOL;

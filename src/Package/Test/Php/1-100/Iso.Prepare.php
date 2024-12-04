@@ -65,6 +65,7 @@ try {
         }
         $size_batch += $file->size;
         if($size_batch >= $size_per_directory){
+            File::delete($target_dir . $dir_number . '.iso');
             $command = 'genisoimage -R -J -o '  . $target_dir . $dir_number . '.iso ' . $target_dir . $dir_number . '/';
             exec($command, $output);
             echo implode(PHP_EOL, $output) . PHP_EOL;
@@ -87,7 +88,7 @@ try {
     $data->set('Summary.size_format', $size_format);
     $data->set('Summary.duration', microtime(true) - $data->get('Summary.time'));
     $data->write($target_tree);
-    $command = 'genisoimage -R -J -o output.iso ' . $target_dir . $dir_number . '/';
+    $command = 'genisoimage -R -J -o '  . $target_dir . $dir_number . '.iso ' . $target_dir . $dir_number . '/';
     exec($command, $output);
     echo $output . PHP_EOL;
     File::permission($app, [
@@ -98,8 +99,10 @@ try {
     for($i; $i <= $dir_number; $i++){
         File::permission($app, [
             $i => $target_dir . $i . '/',
+            $i . '.iso' => $target_dir . $i . '.iso',
         ]);
     }
+
 } catch (Exception | LocateException | ObjectException $exception) {
     echo $exception;
 }

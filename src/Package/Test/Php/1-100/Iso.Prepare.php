@@ -9,6 +9,7 @@
 
 use Raxon\App;
 use Raxon\Config;
+use Raxon\Module\Core;
 use Raxon\Module\Data;
 use Raxon\Module\Dir;
 use Raxon\Module\File;
@@ -52,6 +53,7 @@ try {
         if($file->size > (2 * 1024 * 1024 * 1024)){
             continue;
         }
+        $file->uuid = Core::uuid();
         $data->set('Tree.' . $nr, $file);
     }
 

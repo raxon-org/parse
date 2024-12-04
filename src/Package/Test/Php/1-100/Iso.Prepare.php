@@ -55,6 +55,14 @@ try {
             continue;
         }
         $size_total += $file->size;
+        if(($size_batch + $size_per_directory) >= $size_per_directory){
+            $command = 'genisoimage -R -J -o '  . $target_dir . $dir_number . '.iso ' . $target_dir . $dir_number . '/';
+            exec($command, $output);
+            echo implode(PHP_EOL, $output) . PHP_EOL;
+            $dir_number++;
+            Dir::create($target_dir . $dir_number . '/', Dir::CHMOD);
+            $size_batch = 0;
+        }
         $size_batch += $file->size;
         if($size_batch >= $size_per_directory){
             $command = 'genisoimage -R -J -o '  . $target_dir . $dir_number . '.iso ' . $target_dir . $dir_number . '/';

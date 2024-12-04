@@ -67,6 +67,17 @@ try {
             $command = 'split -b 1024m ' . $target_dir . $dir_number . '.iso ' . $target_dir . $dir_number . '_';
             exec($command, $output);
             echo implode(PHP_EOL, $output) . PHP_EOL;
+            File::delete($target_dir . $dir_number . '.iso');
+            $read = $dir->read($target_dir);
+            foreach($read as $nr => $file){
+                if($file->type === File::TYPE) {
+                    $extension = File::extension($file->url);
+                    if($extension === ''){
+                        $extension = 'iso';
+                        File::move($file->url, $file->url . '.' . $extension);
+                    }
+                }
+            }
             $dir_number++;
             Dir::create($target_dir . $dir_number . '/', Dir::CHMOD);
             $size_batch = 0;
@@ -103,7 +114,16 @@ try {
     Dir::create($target_dir . $dir_number . '/', Dir::CHMOD);
     $size_batch = 0;
     echo implode(PHP_EOL, $output) . PHP_EOL;
-
+    $read = $dir->read($target_dir);
+    foreach($read as $nr => $file){
+        if($file->type === File::TYPE) {
+            $extension = File::extension($file->url);
+            if($extension === ''){
+                $extension = 'iso';
+                File::move($file->url, $file->url . '.' . $extension);
+            }
+        }
+    }
 } catch (Exception | LocateException | ObjectException $exception) {
     echo $exception;
 }

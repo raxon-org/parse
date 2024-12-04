@@ -34,7 +34,7 @@ try {
     $app = new App($autoload, $config);
 
     Cli::gotoxy(10,10);
-    echo 'Hello World!';
+    echo 'Hello Moon & Mars!';
 } catch (Exception | LocateException | ObjectException $exception) {
     echo $exception;
 }

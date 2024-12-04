@@ -44,19 +44,15 @@ try {
     $target_prefix = 'Vps3-data-';
     $tree = 'tree' . $app->config('extension.json');
     $tree = $target_dir . $tree;
-    $nr = 1;
-
     $data = new Data();
-
     foreach($read as $nr => $file){
         $file->size = File::size($file->url);
         if($file->size > (2 * 1024 * 1024 * 1024)){
             continue;
         }
         $file->uuid = Core::uuid();
-        $data->set('Tree.' . $nr, $file);
+        $data->set('Tree.' . $file->uuid, $file);
     }
-
     breakpoint($data);
     $target = $target_dir . $target_prefix . $nr . '.gzip';
     // then iso split in 1 GB parts and go with the flow.

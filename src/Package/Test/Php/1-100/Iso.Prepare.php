@@ -96,7 +96,7 @@ try {
     $dir_number++;
     Dir::create($target_dir . $dir_number . '/', Dir::CHMOD);
     $size_batch = 0;
-    echo $output . PHP_EOL;
+    echo implode(PHP_EOL, $output) . PHP_EOL;
 
 } catch (Exception | LocateException | ObjectException $exception) {
     echo $exception;

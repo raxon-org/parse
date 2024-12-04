@@ -88,21 +88,24 @@ try {
             Dir::create($target_dir . $dir_number . '/', Dir::CHMOD);
             $size_batch = 0;
         }
-        $size_total += $file->size;
-        $size_batch += $file->size;
-        $file->size_format = File::size_format($file->size);
-        $file->uuid = Core::uuid();
-        $file->dir_number = $dir_number;
-        $file->extension = File::extension($file->url);
-        $read_gz = gzencode(File::read($file->url), 9);
-        $target_gz = $target_dir . $dir_number . '/' . $file->uuid . $app->config('extension.gzip');
-        File::write($target_gz, $read_gz);
-        $file->url = $target_gz;
-        $data->set('Tree.' . $nr, $file);
-        File::permission($app, [
-            '1' => $target_dir . $dir_number . '/',
-            '.iso' => $target_dir . $dir_number . '.iso',
-        ]);
+        if(!empty($file->size)){
+            $size_total += $file->size;
+            $size_batch += $file->size;
+            $file->size_format = File::size_format($file->size);
+            $file->uuid = Core::uuid();
+            $file->dir_number = $dir_number;
+            $file->extension = File::extension($file->url);
+            $read_gz = gzencode(File::read($file->url), 9);
+            $target_gz = $target_dir . $dir_number . '/' . $file->uuid . $app->config('extension.gzip');
+            File::write($target_gz, $read_gz);
+            $file->url = $target_gz;
+            $data->set('Tree.' . $nr, $file);
+            File::permission($app, [
+                '1' => $target_dir . $dir_number . '/',
+                '.iso' => $target_dir . $dir_number . '.iso',
+            ]);
+        }
+
     }
     $size_format = File::size_format($size_total);
     $data->set('Summary.size', $size_total);

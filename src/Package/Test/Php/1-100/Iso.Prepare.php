@@ -45,6 +45,7 @@ try {
     $data = new Data();
     $data->set('Summary.time', microtime(true));
     $size_total = 0;
+    $size_batch = 0;
     $size_per_directory = 1 * 1024 * 1024 * 1024 ;
     $dir_number = 1;
     Dir::create($target_dir . $dir_number . '/', Dir::CHMOD);
@@ -54,9 +55,11 @@ try {
             continue;
         }
         $size_total += $file->size;
-        if($size_total >= $size_per_directory){
+        $size_batch += $file->size;
+        if($size_batch >= $size_per_directory){
             $dir_number++;
             Dir::create($target_dir . $dir_number . '/', Dir::CHMOD);
+            $size_batch = 0;
         }
         $file->size_format = File::size_format($file->size);
         $file->uuid = Core::uuid();

@@ -35,11 +35,8 @@ try {
         ]
     );
     $app = new App($autoload, $config);
-
     $dir = new Dir();
-
     $read = $dir->read('/mnt/Vps3/', true);
-
     $target_dir = '/mnt/Disk2/Media/Backup/Vps-2024-12-04/';
     $target_prefix = 'Vps3-data-';
     $tree = 'tree' . $app->config('extension.json');

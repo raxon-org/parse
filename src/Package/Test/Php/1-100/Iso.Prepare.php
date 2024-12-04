@@ -46,7 +46,7 @@ try {
     $data->set('Summary.time', microtime(true));
     $size_total = 0;
     $size_batch = 0;
-    $size_per_directory = 1 * 1024 * 1024 * 1024 ;
+    $size_per_directory = 4 * 1024 * 1024 * 1024 ;
     $dir_number = 1;
     Dir::create($target_dir . $dir_number . '/', Dir::CHMOD);
     foreach($read as $nr => $file){

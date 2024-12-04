@@ -49,23 +49,19 @@ try {
     $size_per_directory = 4 * 1024 * 1024 * 1024 ;
     $dir_number = 1;
     Dir::create($target_dir . $dir_number . '/', Dir::CHMOD);
+    File::permission($app, [
+        'dir' => $target_dir,
+        'tree' => $target_tree,
+        'number' => $target_dir . $dir_number . '/',
+    ]);
     foreach($read as $nr => $file){
         $file->size = File::size($file->url);
         if($file->size > (2 * 1024 * 1024 * 1024)){
             continue;
         }
         $size_total += $file->size;
-        if(($size_batch + $size_per_directory) >= $size_per_directory){
-            File::delete($target_dir . $dir_number . '.iso');
-            $command = 'genisoimage -R -J -o '  . $target_dir . $dir_number . '.iso ' . $target_dir . $dir_number . '/';
-            exec($command, $output);
-            echo implode(PHP_EOL, $output) . PHP_EOL;
-            $dir_number++;
-            Dir::create($target_dir . $dir_number . '/', Dir::CHMOD);
-            $size_batch = 0;
-        }
         $size_batch += $file->size;
-        if($size_batch >= $size_per_directory){
+        if(($size_batch + $file->size) >= $size_per_directory){
             File::delete($target_dir . $dir_number . '.iso');
             $command = 'genisoimage -R -J -o '  . $target_dir . $dir_number . '.iso ' . $target_dir . $dir_number . '/';
             exec($command, $output);
@@ -83,26 +79,24 @@ try {
         File::write($target_gz, $read_gz);
         $file->url = $target_gz;
         $data->set('Tree.' . $nr, $file);
+        File::permission($app, [
+            '1' => $target_dir . $dir_number . '/',
+            '.iso' => $target_dir . $dir_number . '.iso',
+        ]);
     }
     $size_format = File::size_format($size_total);
     $data->set('Summary.size', $size_total);
     $data->set('Summary.size_format', $size_format);
     $data->set('Summary.duration', microtime(true) - $data->get('Summary.time'));
     $data->write($target_tree);
+    File::delete($target_dir . $dir_number . '.iso');
     $command = 'genisoimage -R -J -o '  . $target_dir . $dir_number . '.iso ' . $target_dir . $dir_number . '/';
     exec($command, $output);
+    echo implode(PHP_EOL, $output) . PHP_EOL;
+    $dir_number++;
+    Dir::create($target_dir . $dir_number . '/', Dir::CHMOD);
+    $size_batch = 0;
     echo $output . PHP_EOL;
-    File::permission($app, [
-        'dir' => $target_dir,
-        'tree' => $target_tree,
-    ]);
-    $i=1;
-    for($i; $i <= $dir_number; $i++){
-        File::permission($app, [
-            $i => $target_dir . $i . '/',
-            $i . '.iso' => $target_dir . $i . '.iso',
-        ]);
-    }
 
 } catch (Exception | LocateException | ObjectException $exception) {
     echo $exception;

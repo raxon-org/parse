@@ -48,6 +48,9 @@ try {
     $size_batch = 0;
     $size_per_directory = 4 * 1024 * 1024 * 1024 ;
     $dir_number = 1;
+    $file = (object) [
+        'url' => false
+    ];
     Dir::create($target_dir . $dir_number . '/', Dir::CHMOD);
     File::permission($app, [
         'dir' => $target_dir,

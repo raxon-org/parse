@@ -55,7 +55,9 @@ try {
         $file->uuid = Core::uuid();
         $data->set('Tree.' . $nr, $file);
     }
+    $size_format = File::size_format($size_total);
     $data->set('Summary.size', $size_total);
+    $data->set('Summary.size_format', $size_format);
     $data->set('Summary.duration', microtime(true) - $data->get('Summary.time'));
 
     $data->write($target_tree);

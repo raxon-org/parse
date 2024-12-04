@@ -38,9 +38,10 @@ try {
     $dir = new Dir();
     $read = $dir->read('/mnt/Vps3/', true);
     $target_dir = '/mnt/Disk2/Media/Backup/Vps-2024-12-04/';
+    Dir::create($target_dir, Dir::CHMOD);
     $target_prefix = 'Vps3-data-';
     $tree = 'tree' . $app->config('extension.json');
-    $tree = $target_dir . $tree;
+    $target_tree = $target_dir . $tree;
     $data = new Data();
     foreach($read as $nr => $file){
         $file->size = File::size($file->url);
@@ -48,8 +49,15 @@ try {
             continue;
         }
         $file->uuid = Core::uuid();
-        $data->set('Tree.' . $file->uuid, $file);
+        $data->set('Tree.' . $nr, $file);
     }
+    $data->write($target_tree);
+    File::permission($app, [
+        'dir' => $target_dir,
+        'tree' => $target_tree,
+    ]);
+
+
     breakpoint($data);
     $target = $target_dir . $target_prefix . $nr . '.gzip';
     // then iso split in 1 GB parts and go with the flow.

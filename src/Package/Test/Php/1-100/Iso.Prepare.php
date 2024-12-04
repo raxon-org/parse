@@ -9,6 +9,7 @@
 
 use Raxon\App;
 use Raxon\Config;
+use Raxon\Module\Data;
 use Raxon\Module\Dir;
 use Raxon\Module\File;
 
@@ -38,8 +39,25 @@ try {
 
     $read = $dir->read('/mnt/Vps3/', true);
 
-    breakpoint($read);
+    $target_dir = '/mnt/Disk2/Media/Backup/Vps-2024-12-04/';
+    $target_prefix = 'Vps3-data-';
+    $tree = 'tree' . $app->config('extension.json');
+    $tree = $target_dir . $tree;
+    $nr = 1;
 
+    $data = new Data();
+
+    foreach($read as $nr => $file){
+        $file->size = File::size($file->url);
+        if($file->size > (2 * 1024 * 1024 * 1024)){
+            continue;
+        }
+        $data->set('Tree.' . $nr, $file);
+    }
+
+    breakpoint($data);
+    $target = $target_dir . $target_prefix . $nr . '.gzip';
+    // then iso split in 1 GB parts and go with the flow.
 
     /*
     foreach($read as $nr => $file) {

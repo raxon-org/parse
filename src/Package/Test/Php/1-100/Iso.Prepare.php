@@ -65,9 +65,9 @@ try {
         $file->uuid = Core::uuid();
         $file->dir_number = $dir_number;
         $data->set('Tree.' . $nr, $file);
-        $data = gzencode(File::read($file->url), 9);
+        $read_gz= gzencode(File::read($file->url), 9);
         breakpoint($data);
-        File::write($target_dir . $dir_number . '/' . $file->uuid . $app->config('extension.gzip'), $data);
+        File::write($target_dir . $dir_number . '/' . $file->uuid . $app->config('extension.gzip'), $read_gz);
     }
     $size_format = File::size_format($size_total);
     $data->set('Summary.size', $size_total);

@@ -57,6 +57,9 @@ try {
         $size_total += $file->size;
         $size_batch += $file->size;
         if($size_batch >= $size_per_directory){
+            $command = 'genisoimage -R -J -o output.iso ' . $target_dir . $dir_number . '/';
+            exec($command, $output);
+            echo $output . PHP_EOL;
             $dir_number++;
             Dir::create($target_dir . $dir_number . '/', Dir::CHMOD);
             $size_batch = 0;

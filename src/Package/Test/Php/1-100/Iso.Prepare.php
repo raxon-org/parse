@@ -66,7 +66,7 @@ try {
             continue;
         }
         if(($size_batch + $file->size) >= $size_per_directory){
-            File::delete($target_dir . $dir_number . '.iso');
+            //use rm dir te retry
             $command = 'genisoimage -R -J -o '  . $target_dir . $dir_number . '.iso ' . $target_dir . $dir_number . '/';
             exec($command, $output);
             echo implode(PHP_EOL, $output) . PHP_EOL;
@@ -112,14 +112,22 @@ try {
     $data->set('Summary.duration', microtime(true) - $data->get('Summary.time'));
     $data->write($target_tree);
     $data->write($target_dir . $dir_number . '/' . $tree);
-    if(File::exist($target_dir . $dir_number . '.iso')){
-        $command = 'genisoimage -R -J -split-output -o '  . $target_dir . $dir_number . '.iso ' . $target_dir . $dir_number . '/';
-        exec($command, $output);
-        echo implode(PHP_EOL, $output) . PHP_EOL;
-        $command = 'split -b 1024m ' . $target_dir . $dir_number . '.iso ' . $target_dir . $dir_number . '_';
-        exec($command, $output);
-        echo implode(PHP_EOL, $output) . PHP_EOL;
-        File::delete($target_dir . $dir_number . '.iso');
+    $command = 'genisoimage -R -J -o '  . $target_dir . $dir_number . '.iso ' . $target_dir . $dir_number . '/';
+    exec($command, $output);
+    echo implode(PHP_EOL, $output) . PHP_EOL;
+    $command = 'split -b 1024m ' . $target_dir . $dir_number . '.iso ' . $target_dir . $dir_number . '_';
+    exec($command, $output);
+    echo implode(PHP_EOL, $output) . PHP_EOL;
+    File::delete($target_dir . $dir_number . '.iso');
+    $read = $dir->read($target_dir);
+    foreach($read as $nr => $file){
+        if($file->type === File::TYPE) {
+            $extension = File::extension($file->url);
+            if($extension === ''){
+                $extension = 'iso';
+                File::move($file->url, $file->url . '.' . $extension);
+            }
+        }
     }
     /*
     $dir_number++;

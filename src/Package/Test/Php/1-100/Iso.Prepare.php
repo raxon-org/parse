@@ -112,13 +112,14 @@ try {
     $data->set('Summary.size_format', $size_format);
     $data->set('Summary.duration', microtime(true) - $data->get('Summary.time'));
     $data->write($target_tree);
-    File::delete($target_dir . $dir_number . '.iso');
+    $data->write($target_dir . $dir_number . '/' . $tree);
     $command = 'genisoimage -R -J -split-output -o '  . $target_dir . $dir_number . '.iso ' . $target_dir . $dir_number . '/';
     exec($command, $output);
     echo implode(PHP_EOL, $output) . PHP_EOL;
     $command = 'split -b 1024m ' . $target_dir . $dir_number . '.iso ' . $target_dir . $dir_number . '_';
     exec($command, $output);
     echo implode(PHP_EOL, $output) . PHP_EOL;
+    File::delete($target_dir . $dir_number . '.iso');
     $dir_number++;
     Dir::create($target_dir . $dir_number . '/', Dir::CHMOD);
     $size_batch = 0;

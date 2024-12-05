@@ -105,7 +105,6 @@ try {
                 '.iso' => $target_dir . $dir_number . '.iso',
             ]);
         }
-
     }
     $size_format = File::size_format($size_total);
     $data->set('Summary.size', $size_total);
@@ -113,13 +112,16 @@ try {
     $data->set('Summary.duration', microtime(true) - $data->get('Summary.time'));
     $data->write($target_tree);
     $data->write($target_dir . $dir_number . '/' . $tree);
-    $command = 'genisoimage -R -J -split-output -o '  . $target_dir . $dir_number . '.iso ' . $target_dir . $dir_number . '/';
-    exec($command, $output);
-    echo implode(PHP_EOL, $output) . PHP_EOL;
-    $command = 'split -b 1024m ' . $target_dir . $dir_number . '.iso ' . $target_dir . $dir_number . '_';
-    exec($command, $output);
-    echo implode(PHP_EOL, $output) . PHP_EOL;
-    File::delete($target_dir . $dir_number . '.iso');
+    if(File::exist($target_dir . $dir_number . '.iso')){
+        $command = 'genisoimage -R -J -split-output -o '  . $target_dir . $dir_number . '.iso ' . $target_dir . $dir_number . '/';
+        exec($command, $output);
+        echo implode(PHP_EOL, $output) . PHP_EOL;
+        $command = 'split -b 1024m ' . $target_dir . $dir_number . '.iso ' . $target_dir . $dir_number . '_';
+        exec($command, $output);
+        echo implode(PHP_EOL, $output) . PHP_EOL;
+        File::delete($target_dir . $dir_number . '.iso');
+    }
+    /*
     $dir_number++;
     Dir::create($target_dir . $dir_number . '/', Dir::CHMOD);
     $size_batch = 0;
@@ -134,6 +136,7 @@ try {
             }
         }
     }
+    */
 } catch (Exception | LocateException | ObjectException $exception) {
     echo $exception;
 }

@@ -41,6 +41,7 @@ try {
         $explode = explode('.', $file->url);
         $extension = array_pop($explode);
         $file->new = false;
+        $file->temp = false;
         if(strtoupper($extension) === 'WMA'){
             $file->new = implode('.', $explode) . '.mp3';
         }
@@ -51,8 +52,9 @@ try {
             if(File::exist($file->new)){
                 continue;
             }
+            File::move($file->url, escapeshellarg($file->new . '.temp'));
             $command = 'ffmpeg -i \'' .
-                escapeshellcmd($file->url) .
+                escapeshellcmd($file->new . '.temp') .
                 '\' -vn -ar 44100 -ac 2 -ab 320k -f mp3 \'' .
                 escapeshellcmd($file->new) .
                 '\'';

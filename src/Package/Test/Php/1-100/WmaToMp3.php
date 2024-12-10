@@ -61,6 +61,7 @@ try {
                 '\'';
             echo $command . PHP_EOL;
             exec($command);
+            File::move($file->new . '.temp', $file->new);
         }
     }
     /*

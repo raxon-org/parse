@@ -49,14 +49,15 @@ try {
             $file->new = implode('.', $explode) . '.mp3';
         }
         if($file->new !== false){
+            $file->new = str_replace(['\'', '"'], '', $file->new);
             if(File::exist($file->new)){
                 continue;
             }
-            File::move($file->url, escapeshellarg($file->new . '.temp'));
+            File::move($file->url, $file->new . '.temp');
             $command = 'ffmpeg -i \'' .
-                escapeshellcmd($file->new . '.temp') .
+                $file->new . '.temp' .
                 '\' -vn -ar 44100 -ac 2 -ab 320k -f mp3 \'' .
-                escapeshellcmd($file->new) .
+                $file->new .
                 '\'';
             echo $command . PHP_EOL;
             exec($command);

@@ -53,15 +53,15 @@ try {
             if(File::exist($file->new)){
                 continue;
             }
-            File::move($file->url, $file->new . '.temp');
+            File::move($file->url, $file->url . '.temp');
             $command = 'ffmpeg -i \'' .
-                $file->new . '.temp' .
+                $file->url . '.temp' .
                 '\' -vn -ar 44100 -ac 2 -ab 320k -f mp3 \'' .
                 $file->new .
                 '\'';
             echo $command . PHP_EOL;
             exec($command);
-            File::move($file->new . '.temp', $file->new);
+            File::move($file->url . '.temp', $file->url);
         }
     }
     /*

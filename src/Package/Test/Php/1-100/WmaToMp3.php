@@ -51,7 +51,31 @@ try {
             if(File::exist($file->new)){
                 continue;
             }
-            $command = 'ffmpeg -i \'' . str_replace('\'', '\\\'', $file->url) . '\' -vn -ar 44100 -ac 2 -ab 320k -f mp3 \'' . str_replace('\'', '\\\'', $file->new) . '\'';
+            $command = 'ffmpeg -i \'' . str_replace(
+                [
+                    '\'',
+                    '(',
+                    ')',
+                ],
+                [
+                    '\\\'',
+                    '\\(',
+                    '\\)',
+                ],
+                $file->url
+            ) . '\' -vn -ar 44100 -ac 2 -ab 320k -f mp3 \'' . str_replace(
+                [
+                    '\'',
+                    '(',
+                    ')',
+                ],
+                [
+                    '\\\'',
+                    '\\(',
+                    '\\)',
+                ],
+                $file->new
+            ) . '\'';
             echo $command . PHP_EOL;
             exec($command);
         }

@@ -35,9 +35,12 @@ try {
     $app = new App($autoload, $config);
 
     $dir = new Dir();
-    $read = $dir->read('/mnt/Disk2/Media/Movie/');
+    $read = $dir->read('/mnt/Disk2/Media/Movie/', true);
     if($read){
         foreach($read as $file){
+            if($file->type === Dir::TYPE){
+                continue;
+            }
             breakpoint($file);
         }
     }

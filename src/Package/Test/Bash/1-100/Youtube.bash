@@ -9,7 +9,7 @@
             $execute = '
             app admin task "
                 cd ' . $target_directory . ' &&
-                yt-dlp -x --restrict-filenames --audio-format mp3 --prefer-ffmpeg ' . $object->request('node.url') . '  2>&1 >> ' . $url . '
+                  yt-dlp -x --restrict-filenames --audio-format mp3 --prefer-ffmpeg ' . $object->request('node.url') . '  2>&1 >> ' . $url . '
             " ' . $token;
 
             /*

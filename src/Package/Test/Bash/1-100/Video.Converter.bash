@@ -1,0 +1,1 @@
+ffmpeg -i GOPR1260.MP4 -vf yadif -c:v libx264 -threads 4 -crf 18 -r 25 Ferrari.mp4 (#mp4 only no webm)

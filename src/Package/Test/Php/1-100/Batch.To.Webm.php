@@ -10,6 +10,7 @@
 use Raxon\App;
 use Raxon\Config;
 use Raxon\Module\Cli;
+use Raxon\Module\Dir;
 
 use Raxon\Exception\LocateException;
 use Raxon\Exception\ObjectException;
@@ -33,8 +34,14 @@ try {
     );
     $app = new App($autoload, $config);
 
-    Cli::gotoxy(10,10);
-    echo 'Hello Moon & Mars!';
+    $dir = new Dir();
+    $read = $dir->read('/mnt/Disk2/Media/Movie/');
+    if($read){
+        foreach($read as $file){
+            breakpoint($file);
+        }
+    }
+
 } catch (Exception | LocateException | ObjectException $exception) {
     echo $exception;
 }

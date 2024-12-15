@@ -49,7 +49,7 @@ try {
                 continue;
             }
             if(strtolower($file->extension) === 'vob'){
-                $command = 'ffmpeg -i ' . $file->url . ' -vf yadif -c:v libvpx-vp9 -crf 18 -b:v 0 -threads 4 -r 25 -c:a libvorbis ' . $file->target;
+                $command = 'ffmpeg -i \'' . $file->url . '\' -vf yadif -c:v libvpx-vp9 -crf 18 -b:v 0 -threads 4 -r 25 -c:a libvorbis \'' . $file->target . '\'';
                 breakpoint($command);
                 Core::execute($app, $command, $output, $notification);
                 if($output){

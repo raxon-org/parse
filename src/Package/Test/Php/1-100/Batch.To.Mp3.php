@@ -49,7 +49,7 @@ try {
             $file->new = implode('.', $explode) . '.mp3';
         }
         if($file->new !== false){
-            $file->new = str_replace(['"'], '\\"', $file->new);
+            $file->new = str_replace(['"'], ['\\"'], $file->new);
             if(File::exist($file->new)){
                 continue;
             }

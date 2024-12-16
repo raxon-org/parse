@@ -37,29 +37,50 @@ try {
     $app = new App($autoload, $config);
     Core::interactive();
     $dir = new Dir();
-    $read = $dir->read('/mnt/Disk2/Media/Movie/', true);
-    if($read){
-        foreach($read as $file){
-            if($file->type === Dir::TYPE){
-                continue;
-            }
-            $file->extension = File::extension($file->url);
-            $file->target = $file->url . '.webm';
-            if(File::exist($file->target)){
-                continue;
-            }
-            if(strtolower($file->extension) === 'vob'){
-                $command = 'nohup ffmpeg -i \'' . $file->url . '\' -vf yadif -c:v libvpx-vp9 -crf 18 -b:v 0 -threads 4 -r 25 -c:a libvorbis \'' . $file->target . '\'';
-                Core::execute($app, $command, $output, $notification);
-                if($output){
-                    echo $output;
+    while(true){
+        $read = $dir->read('/mnt/Disk2/Media/Movie/', true);
+        if($read){
+            foreach($read as $file){
+                if($file->type === Dir::TYPE){
+                    continue;
                 }
-                if($notification){
-                    echo $notification;
+                $file->extension = File::extension($file->url);
+                $file->target = $file->url . '.webm';
+                $file->log = $file->target . '.log';
+                if(File::exist($file->target)){
+                    continue;
                 }
-                echo str_repeat('-', Cli::tput('cols')) . PHP_EOL;
+                if(strtolower($file->extension) === 'vob'){
+                    $command = 'nohup ffmpeg -i \'' .
+                        str_replace(
+                            [
+                                '(',
+                                ')'
+                            ],
+                            [
+                                '\\(',
+                                '\\)',
+                            ],
+                            $file->url
+                        ) .
+                        '\' -vf yadif -c:v libvpx-vp9 -crf 18 -b:v 0 -threads 4 -r 25 -c:a libvorbis \'' .
+                        $file->target .
+                        '\' > \'' .
+                        $file->log .
+                        '\' 2>&1'
+                    ;
+                    Core::execute($app, $command, $output, $notification);
+                    if($output){
+                        echo $output;
+                    }
+                    if($notification){
+                        echo $notification;
+                    }
+                    echo str_repeat('-', Cli::tput('cols')) . PHP_EOL;
+                }
             }
         }
+        sleep(60);
     }
 } catch (Exception | LocateException | ObjectException $exception) {
     echo $exception;

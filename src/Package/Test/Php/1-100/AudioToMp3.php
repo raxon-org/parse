@@ -55,9 +55,9 @@ try {
             }
             File::move($file->url, $file->url . '.temp');
             $command = 'ffmpeg -i \'' .
-                $file->url . '.temp' .
+                str_replace(['(', ')'], ['\\(', '\\)'], $file->url) . '.temp' .
                 '\' -vn -ar 44100 -ac 2 -ab 320k -f mp3 \'' .
-                $file->new .
+                str_replace(['(', ')'], ['\\(', '\\)'], $file->new) .
                 '\'';
             echo $command . PHP_EOL;
             exec($command);

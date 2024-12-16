@@ -49,15 +49,15 @@ try {
             $file->new = implode('.', $explode) . '.mp3';
         }
         if($file->new !== false){
-            $file->new = str_replace(['"'], '\\"', $file->new);
+            $file->new = str_replace(['\'', '"'], '', $file->new);
             if(File::exist($file->new)){
                 continue;
             }
             File::move($file->url, $file->url . '.temp');
             $command = 'ffmpeg -i "' .
-                str_replace(['(', ')', '"'], ['(', ')', '\\"'], $file->url) . '.temp' .
+                str_replace(['(', ')', '"'], ['\\(', '\\)', '\\"'], $file->url) . '.temp' .
                 '" -vn -ar 44100 -ac 2 -ab 320k -f mp3 \'' .
-                str_replace(['(', ')', '"'], ['(', ')', '\\"'], $file->new) .
+                str_replace(['(', ')', '\''], ['\\(', '\\)', '\\\''], $file->new) .
                 '\'';
             echo $command . PHP_EOL;
             exec($command);

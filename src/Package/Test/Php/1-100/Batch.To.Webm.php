@@ -81,7 +81,7 @@ try {
                             ],
                             $file->url
                         ) .
-                        '\' -vf yadif -c:v libvpx-vp9 -crf 18 -b:v 0 -threads 4 -r 25 -c:a libvorbis \'' .
+                        '\' -vf yadif -c:v libvpx-vp9 -crf 18 -b:v 0 -threads 8 -r 25 -c:a libvorbis \'' .
                         $file->target .
                         '\' > \'' .
                         $file->log .

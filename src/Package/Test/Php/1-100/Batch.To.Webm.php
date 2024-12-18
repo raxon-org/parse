@@ -70,6 +70,7 @@ try {
                     )
                 ){
                     $lock_dir = '/mnt/Vps3/Mount/Lock/';
+                    Dir::create($lock_dir, Dir::CHMOD);
                     $lock_file = 'Batch.To.Webm.lock';
                     $lock = $lock_dir . $lock_file;
                     if(File::exist($lock)){

@@ -69,7 +69,7 @@ try {
                         ]
                     )
                 ){
-                    $command = 'nohup ffmpeg -i \'' .
+                    $command = 'nohup "ffmpeg -i \'' .
                         str_replace(
                             [
                                 '(',
@@ -85,7 +85,7 @@ try {
                         $file->target .
                         '\' > \'' .
                         $file->log .
-                        '\' 2>&1'
+                        '\' 2>&1 "'
                     ;
                     Core::execute($app, $command, $output, $notification);
                     if($output){

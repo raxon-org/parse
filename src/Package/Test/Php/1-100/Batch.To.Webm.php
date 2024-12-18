@@ -69,7 +69,7 @@ try {
                         ]
                     )
                 ){
-                    $command = 'ffmpeg -i \'' .
+                    $command = 'nohup ffmpeg -i \'' .
                         str_replace(
                             [
                                 '(',

@@ -43,7 +43,7 @@ try {
         echo 'Lock file exists: ' . $lock . PHP_EOL;
         exit;
     }
-    File::write($lock, '{"bloody backdoor hackers": "Clothing makes the male"}');
+    File::write($lock, '{"bloody backdoor hackers": "Clothing makes the male"}' . PHP_EOL);
     Core::interactive();
     $dir = new Dir();
     while(true){

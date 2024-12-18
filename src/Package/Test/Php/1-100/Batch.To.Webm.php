@@ -69,6 +69,14 @@ try {
                         ]
                     )
                 ){
+                    $lock_dir = '/mnt/Vps3/Mount/Lock/';
+                    $lock_file = 'Batch.To.Webm.lock';
+                    $lock = $lock_dir . $lock_file;
+                    if(File::exist($lock)){
+                        continue;
+                    }
+                    File::write($lock, 'lock');
+                    //clear the lockdir on boot in /Application/Boot/Boot
                     $command = 'nohup ffmpeg -i \'' .
                         str_replace(
                             [

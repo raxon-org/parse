@@ -50,7 +50,25 @@ try {
                 if(File::exist($file->target)){
                     continue;
                 }
-                if(strtolower($file->extension) === 'vob'){
+                if(
+                    in_array(
+                        strtolower($file->extension),
+                        [
+                            'vob',
+                            'mp4',
+                            'avi',
+                            'mkv',
+                            'flv',
+                            'mov',
+                            'wmv',
+                            'mpg',
+                            'mpeg',
+                            'm4v',
+                            '3gp',
+                            '3g'
+                        ]
+                    )
+                ){
                     $command = 'nohup ffmpeg -i \'' .
                         str_replace(
                             [

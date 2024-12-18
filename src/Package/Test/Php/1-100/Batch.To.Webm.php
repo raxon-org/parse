@@ -35,6 +35,15 @@ try {
         ]
     );
     $app = new App($autoload, $config);
+    $lock_dir = '/mnt/Vps3/Mount/Data/Lock/';
+    Dir::create($lock_dir, Dir::CHMOD);
+    $lock_file = 'Batch.To.Webm.lock';
+    $lock = $lock_dir . $lock_file;
+    if(File::exist($lock)){
+        echo 'Lock file exists: ' . $lock . PHP_EOL;
+        exit;
+    }
+    File::write($lock, '{"bloody backdoor hackers": "Clothing makes the male"}');
     Core::interactive();
     $dir = new Dir();
     while(true){
@@ -69,14 +78,6 @@ try {
                         ]
                     )
                 ){
-                    $lock_dir = '/mnt/Vps3/Mount/Lock/';
-                    Dir::create($lock_dir, Dir::CHMOD);
-                    $lock_file = 'Batch.To.Webm.lock';
-                    $lock = $lock_dir . $lock_file;
-                    if(File::exist($lock)){
-                        continue;
-                    }
-                    File::write($lock, '{"bloody backdoor hackers": "Clothing makes the male"}');
                     //clear the lock-dir on boot in /Application/Boot/Boot
                     $command = 'nohup ffmpeg -i \'' .
                         str_replace(

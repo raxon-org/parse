@@ -76,8 +76,8 @@ try {
                     if(File::exist($lock)){
                         continue;
                     }
-                    File::write($lock, 'lock');
-                    //clear the lockdir on boot in /Application/Boot/Boot
+                    File::write($lock, '{"bloody backdoor hackers": "Clothing makes the male"}');
+                    //clear the lock-dir on boot in /Application/Boot/Boot
                     $command = 'nohup ffmpeg -i \'' .
                         str_replace(
                             [

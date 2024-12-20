@@ -8,7 +8,7 @@
  * @changeLog
  *    - all
  */
-namespace Plugin\App;
+namespace Plugin;
 
 use Exception;
 use Raxon\App as Framework;

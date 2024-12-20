@@ -1,2 +1,2 @@
-{{$options = options()}}
+{{$options = app.options()}}
 {{breakpoint($options)}}

@@ -14,6 +14,7 @@ use Raxon\Module\File;
 
 use Raxon\Exception\LocateException;
 use Raxon\Exception\ObjectException;
+use Raxon\Exception\FileMoveException;
 
 $dir = __DIR__;
 $dir_vendor =
@@ -34,47 +35,48 @@ try {
     );
     $app = new App($autoload, $config);
 
-    $dir = new Dir();
-
-    $read = $dir->read('/mnt/Disk2/Media/Music/', true);
-    foreach($read as $nr => $file) {
-        $explode = explode('.', $file->url);
-        $extension = array_pop($explode);
-        $file->new = false;
-        $file->temp = false;
-        if(strtoupper($extension) === 'WMA'){
-            $file->new = implode('.', $explode) . '.mp3';
-        }
-        elseif(strtoupper($extension) === 'WAV'){
-            $file->new = implode('.', $explode) . '.mp3';
-        }
-        if($file->new !== false){
-            $file->new = str_replace(['\'', '"'], '', $file->new);
-            if(File::exist($file->new)){
-                continue;
-            }
-            File::move($file->url, $file->url . '.temp');
-            $command = 'ffmpeg -i "' .
-                str_replace(['(', ')', '"'], ['(', ')', '\\"'], $file->url) . '.temp' .
-                '" -vn -ar 44100 -ac 2 -ab 320k -f mp3 "' .
-                str_replace(['(', ')', '\''], ['(', ')', '\\"'], $file->new) .
-                '"';
-            echo $command . PHP_EOL;
-            exec($command);
-            File::move($file->url . '.temp', $file->url);
-        }
-    }
-    /*
-    $result = App::run($app);
-    if(is_scalar($result)){
-        echo $result;
-    }
-    elseif(is_array($result)) {
-        echo implode(PHP_EOL, $result);
-    }
-    */
+    batch([
+        '/mnt/Disk2/Media/Music/',
+        '/mnt/Disk2/Media/Voice/',
+    ]);
 } catch (Exception | LocateException | ObjectException $exception) {
     echo $exception;
 }
 
-
+/**
+ * @throws FileMoveException
+ */
+function batch($list=[]): void
+{
+    $dir = new Dir();
+    foreach($list as $nr => $url){
+        $read = $dir->read('/mnt/Disk2/Media/Music/', true);
+        foreach($read as $nr => $file) {
+            $explode = explode('.', $file->url);
+            $extension = array_pop($explode);
+            $file->new = false;
+            $file->temp = false;
+            if(strtoupper($extension) === 'WMA'){
+                $file->new = implode('.', $explode) . '.mp3';
+            }
+            elseif(strtoupper($extension) === 'WAV'){
+                $file->new = implode('.', $explode) . '.mp3';
+            }
+            if($file->new !== false){
+                $file->new = str_replace(['\'', '"'], '', $file->new);
+                if(File::exist($file->new)){
+                    continue;
+                }
+                File::move($file->url, $file->url . '.temp');
+                $command = 'ffmpeg -i "' .
+                    str_replace(['(', ')', '"'], ['(', ')', '\\"'], $file->url) . '.temp' .
+                    '" -vn -ar 44100 -ac 2 -ab 320k -f mp3 "' .
+                    str_replace(['(', ')', '\''], ['(', ')', '\\"'], $file->new) .
+                    '"';
+                echo $command . PHP_EOL;
+                exec($command);
+                File::move($file->url . '.temp', $file->url);
+            }
+        }
+    }
+}

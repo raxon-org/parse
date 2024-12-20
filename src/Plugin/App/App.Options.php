@@ -8,18 +8,17 @@
  * @changeLog
  *    - all
  */
-namespace Plugin;
-
-use Raxon\App as Framework;
+namespace Plugin\App;
 
 use Exception;
+use Raxon\App as Framework;
 
-trait Options {
+trait App_Options {
 
     /**
      * @throws Exception
      */
-    protected function options($type=''): array|object
+    protected function app_options($type=''): array|object
     {
         $this->object();
         return Framework::options($this->object(), $type);

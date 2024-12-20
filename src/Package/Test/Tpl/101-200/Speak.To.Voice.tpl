@@ -4,5 +4,5 @@
 Please provide the option -speak with a value.
 {{else}}
 {{$node = app.speak($speak)}}
-{{$node|json:PRETTY_PRINT}}
+{{$node|json:JSON_PRETTY_PRINT}}
 {{/if}}

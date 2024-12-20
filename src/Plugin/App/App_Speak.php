@@ -27,6 +27,7 @@ trait App_Speak {
     {
         $app = $this->object();
         $options = Core::object($options, Core::ARRAY);
+        $uuid = false;
         if(!array_key_exists('url', $options)){
             $options['url'] = false;
         }
@@ -45,5 +46,10 @@ trait App_Speak {
             'dir' => $dir,
             'url' => $url
         ]);
-    }
+        return (object) [
+            'url' => $url,
+            'dir' => $dir,
+            'uuid' => $uuid,
+        ];
+     }
 }

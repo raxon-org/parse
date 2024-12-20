@@ -19,6 +19,7 @@ class Method
         }
         if(empty($tag)){
             trace();
+            breakpoint($input);
             breakpoint($tag);
         }
 

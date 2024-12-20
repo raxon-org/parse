@@ -50,7 +50,7 @@ function batch($list=[]): void
 {
     $dir = new Dir();
     foreach($list as $nr => $url){
-        $read = $dir->read('/mnt/Disk2/Media/Music/', true);
+        $read = $dir->read($url, true);
         foreach($read as $nr => $file) {
             $explode = explode('.', $file->url);
             $extension = array_pop($explode);

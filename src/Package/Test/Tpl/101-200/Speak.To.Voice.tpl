@@ -1,8 +1,8 @@
 {{$options = app.options()}}
 {{$speak = $options.speak}}
-{{if($speak !== '')}}
+{{if($speak == '')}}
 /**
-$speak !== must bet !is.empty()
+$speak == '' must bet !is.empty()
 **/
 Please provide the option -speak with a value.
 {{else}}

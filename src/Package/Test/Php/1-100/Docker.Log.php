@@ -147,7 +147,7 @@ try {
             'url_docker_notification_live' => $url_docker_notification_live,
             'url_docker_notification_archive' => $url_docker_notification_archive,
         ]);
-        sleep(10);
+        sleep(1);
     }
 } catch (Exception | LocateException | ObjectException $exception) {
     echo $exception;

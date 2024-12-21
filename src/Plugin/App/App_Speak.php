@@ -41,6 +41,7 @@ trait App_Speak {
             $url = $dir . $uuid . '.wav';
         }
         $command = 'espeak-ng -v en+f3 -p 50 -s 120 -w ' . $url . ' "' . escapeshellarg($speak) . '"';
+        $command = 'espeak-ng -v nl -p 50 -s 120 -w ' . $url . ' "' . escapeshellarg($speak) . '"';
         exec($command);
         File::permission($app, [
             'dir' => $dir,

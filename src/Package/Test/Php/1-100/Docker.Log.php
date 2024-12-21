@@ -53,14 +53,20 @@ try {
     $dir_log = '/mnt/Disk2/Log/';
     Dir::create($dir_log, Dir::CHMOD);
     $url_docker = $dir_log . 'Docker.log';
-    File::move($url_docker, $url_docker . '.' . Core::uuid() . '.original');
-    File::delete($url_docker);
     $url_docker_output = $dir_log . 'Docker.output.log';
-    File::move($url_docker_output, $url_docker_output . '.' . Core::uuid() . '.original');
-    File::delete($url_docker_output);
     $url_docker_notification = $dir_log . 'Docker.notification.log';
-    File::move($url_docker_notification, $url_docker_notification . '.' . Core::uuid() . '.original');
-    File::delete($url_docker_notification);
+    if(File::exist($url_docker)){
+        File::move($url_docker, $url_docker . '.' . Core::uuid() . '.original');
+        File::delete($url_docker);
+    }
+    if(File::exist($url_docker_output)){
+        File::move($url_docker_output, $url_docker_output . '.' . Core::uuid() . '.original');
+        File::delete($url_docker_output);
+    }
+    if(File::exist($url_docker_notification)){
+        File::move($url_docker_notification, $url_docker_notification . '.' . Core::uuid() . '.original');
+        File::delete($url_docker_notification);
+    }
     $command = 'docker stats --no-stream --no-trunc > ' . $url_docker;
     while(true){
         Core::execute($app, $command, $output, $notification);

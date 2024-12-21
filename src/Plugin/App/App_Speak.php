@@ -47,7 +47,7 @@ trait App_Speak {
             $url = $dir . $uuid . '.wav';
         }
         $param = '';
-        if($options['language'] == 'nl'){
+        if($options['language'] === 'nl'){
             $param .= ' -v nl';
         } else {
             $param .= ' -v en';

@@ -6,6 +6,6 @@ $speak == '' must bet !is.empty()
 **/
 Please provide the option -speak with a value.
 {{else}}
-{{$node = app.speak($speak)}}
+{{$node = app.speak($speak, $options)}}
 {{$node|object:'json'}}
 {{/if}}

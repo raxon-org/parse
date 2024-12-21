@@ -124,6 +124,11 @@ try {
             File::delete($url_docker_notification_live);
         }
         $read = File::read($url_docker);
+        File::write($url_docker_live, $read);
+        $read = File::read($url_docker_output);
+        File::write($url_docker_output_live, $read);
+        $read = File::read($url_docker_notification);
+        File::write($url_docker_notification_live, $read);
         breakpoint($read);
 //        File::copy($url_docker, $url_docker_live);
 //        File::copy($url_docker_output, $url_docker_output_live);
@@ -135,10 +140,10 @@ try {
             'dir_archive' => $dir_archive,
             'dir_date' => $dir_date,
             'dir_live' => $dir_live,
-            'url_docker' => $url_docker_live,
-            'url_docker_output' => $url_docker_output_live,
+            'url_docker_live' => $url_docker_live,
+            'url_docker_output_live' => $url_docker_output_live,
             'url_docker_output_archive' => $url_docker_output_archive,
-            'url_docker_notification' => $url_docker_notification_live,
+            'url_docker_notification_live' => $url_docker_notification_live,
             'url_docker_notification_archive' => $url_docker_notification_archive,
         ]);
 

@@ -31,6 +31,12 @@ trait App_Speak {
         if(!array_key_exists('url', $options)){
             $options['url'] = false;
         }
+        if(!array_key_exists('language', $options)){
+            $options['language'] = 'en';
+        }
+        if(!array_key_exists('sex', $options)){
+            $options['sex'] = 'female';
+        }
         if($options['url'] !== false){
             $url = $options['url'];
             $dir = Dir::name($url);
@@ -40,8 +46,18 @@ trait App_Speak {
             $uuid = Core::uuid();
             $url = $dir . $uuid . '.wav';
         }
-        $command = 'espeak-ng -v en+f3 -p 50 -s 120 -w ' . $url . ' "' . escapeshellarg($speak) . '"';
-        $command = 'espeak-ng -v nl -p 50 -s 120 -w ' . $url . ' "' . escapeshellarg($speak) . '"';
+        $param = '';
+        if($options['language'] == 'nl'){
+            $param .= ' -v nl';
+        } else {
+            $param .= ' -v en';
+        }
+        if($options['sex'] === 'female'){
+            $param .= '+f3';
+        } else {
+            $param .= '';
+        }
+        $command = 'espeak-ng ' . $param . ' -p 50 -s 120 -w ' . $url . ' "' . escapeshellarg($speak) . '"';
         exec($command);
         File::permission($app, [
             'dir' => $dir,

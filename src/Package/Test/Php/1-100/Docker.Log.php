@@ -54,16 +54,20 @@ try {
     $dir_log = '/mnt/Disk2/Log/';
     $dir_log_docker = '/mnt/Disk2/Log/Docker/';
     $dir_archive = $dir_log_docker . 'Archive/';
+    $dir_live = $dir_log_docker . 'Live/';
     $dir_date = $dir_archive .  $date . '/';
     $time = microtime(true);
     Dir::create($dir_log_docker, Dir::CHMOD);
     Dir::create($dir_archive, Dir::CHMOD);
     Dir::create($dir_date, Dir::CHMOD);
     $url_docker = $dir_log . 'Docker.log';
+    $url_docker_live = $dir_live . 'Docker.log';
     $url_docker_archive = $dir_date . $time . '.' . 'Docker.log';
     $url_docker_output = $dir_log . 'Docker.output.log';
+    $url_docker_output_live = $dir_live . 'Docker.output.log';
     $url_docker_output_archive = $dir_date . $time . '.' . 'Docker.output.log';
     $url_docker_notification = $dir_log . 'Docker.notification.log';
+    $url_docker_notification_live = $dir_live . 'Docker.notification.log';
     $url_docker_notification_archive = $dir_date . $time . '.' . 'Docker.notification.log';
     if(File::exist($url_docker)){
         File::move($url_docker, $url_docker_archive);
@@ -101,23 +105,32 @@ try {
                 File::move($url_docker_notification, $url_docker_notification_archive);
                 File::delete($url_docker_notification);
             }
+            File::permission($app, [
+                'url_docker_archive' => $url_docker_archive,
+                'url_docker_output_archive' => $url_docker_output_archive,
+                'url_docker_notification_archive' => $url_docker_notification_archive,
+            ]);
         }
         Core::execute($app, $command, $output, $notification);
         $command_output = File::append($url_docker_output, $output);
         $command_notification = File::append($url_docker_notification, $notification);
+        File::copy($url_docker, $url_docker_live);
+        File::copy($url_docker_output, $url_docker_output_live);
+        File::copy($url_docker_notification, $url_docker_notification_live);
         File::permission($app, [
             'dir' => $dir,
             'dir_log' => $dir_log,
             'dir_log_docker' => $dir_log_docker,
             'dir_archive' => $dir_archive,
             'dir_date' => $dir_date,
-            'url_docker' => $url_docker,
-            'url_docker_archive' => $url_docker_archive,
-            'url_docker_output' => $url_docker_output,
+            'dir_live' => $dir_live,
+            'url_docker' => $url_docker_live,
+            'url_docker_output' => $url_docker_output_live,
             'url_docker_output_archive' => $url_docker_output_archive,
-            'url_docker_notification' => $url_docker_notification,
+            'url_docker_notification' => $url_docker_notification_live,
             'url_docker_notification_archive' => $url_docker_notification_archive,
         ]);
+
         sleep(10);
     }
 } catch (Exception | LocateException | ObjectException $exception) {

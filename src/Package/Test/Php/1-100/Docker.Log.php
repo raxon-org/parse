@@ -114,6 +114,15 @@ try {
         Core::execute($app, $command, $output, $notification);
         $command_output = File::append($url_docker_output, $output);
         $command_notification = File::append($url_docker_notification, $notification);
+        if(File::exist($url_docker_live)){
+            File::delete($url_docker_live);
+        }
+        if(File::exist($url_docker_output_live)){
+            File::delete($url_docker_output_live);
+        }
+        if(File::exist($url_docker_notification_live)){
+            File::delete($url_docker_notification_live);
+        }
         File::copy($url_docker, $url_docker_live);
         File::copy($url_docker_output, $url_docker_output_live);
         File::copy($url_docker_notification, $url_docker_notification_live);

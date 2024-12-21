@@ -25,10 +25,13 @@ trait App_Music_Files {
      */
     protected function app_music_files($options=[])
     {
+        $start = microtime(true);
         $app = $this->object();
         $options = Core::object($options, Core::ARRAY);
         $dir = new Dir();
         $read = $dir->read('/', true);
+        $duration = microtime(true) - $start;
+        breakpoint(round($duration, 3) . ' seconds');
         breakpoint($read);
         /*
         $uuid = false;

@@ -132,7 +132,9 @@ try {
             }
         }
         $top = implode(PHP_EOL, $top);
-        breakpoint($header . $top . $bottom);
+        breakpoint($header);
+        breakpoint($top);
+        breakpoint($bottom);
         File::write($url_docker_live, $header . $top . $bottom);
         $bottom = explode(PHP_EOL, File::read($url_docker_output));
         foreach($bottom as $nr => $line){

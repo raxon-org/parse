@@ -51,7 +51,7 @@ try {
     );
     $app = new App($autoload, $config);
     $dir_log = '/mnt/Disk2/Log/';
-    Dir::create($app, $dir_log, Dir::CHMOD);
+    Dir::create($dir_log, Dir::CHMOD);
     $url_docker = $dir_log . 'Docker.log';
     File::move($app, $url_docker, $url_docker . '.' . Core::uuid() . '.original');
     File::delete($app, $url_docker);

@@ -122,7 +122,13 @@ try {
             }
         }
         $bottom = implode(PHP_EOL, $bottom);
-        $top = File::read($url_docker_live);
+        $top = explode(PHP_EOL, File::read($url_docker_live));
+        foreach($top as $nr => $line){
+            if(substr($line, 0, 3) === 'CON'){
+                unset($top[$nr]);
+            }
+        }
+        $top = implode(PHP_EOL, $top);
         File::write($url_docker_live, $top . $bottom);
         $bottom = explode(PHP_EOL, File::read($url_docker_output));
         foreach($bottom as $nr => $line){
@@ -131,8 +137,21 @@ try {
             }
         }
         $bottom = implode(PHP_EOL, $bottom);
-        $top = explode(PHP_EOL, File::read($url_docker_notification_live));
+        $top = explode(PHP_EOL, File::read($url_docker_output_live));
+        foreach($top as $nr => $line){
+            if(substr($line, 0, 3) === 'CON'){
+                unset($top[$nr]);
+            }
+        }
+        $top = implode(PHP_EOL, $top);
         File::write($url_docker_live, $top . $bottom);
+        $top = explode(PHP_EOL, File::read($url_docker_notification_live));
+        foreach($top as $nr => $line){
+            if(substr($line, 0, 3) === 'CON'){
+                unset($top[$nr]);
+            }
+        }
+        $top = implode(PHP_EOL, $top);
         $bottom = explode(PHP_EOL, File::read($url_docker_notification));
         foreach($bottom as $nr => $line){
             if(substr($line, 0, 3) === 'CON'){
@@ -154,8 +173,7 @@ try {
             'url_docker_notification_live' => $url_docker_notification_live,
             'url_docker_notification_archive' => $url_docker_notification_archive,
         ]);
-
-        sleep(1);
+        sleep(5);
     }
 } catch (Exception | LocateException | ObjectException $exception) {
     echo $exception;

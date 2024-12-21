@@ -126,6 +126,7 @@ try {
         }
         $bottom = File::read($url_docker);
         $top = File::read($url_docker_live);
+        breakpoint($top . $bottom);
         File::write($url_docker_live, $top . $bottom );
         $bottom = File::read($url_docker_output);
         $top = File::read($url_docker_output_live);

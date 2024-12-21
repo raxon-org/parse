@@ -29,7 +29,7 @@ trait App_Music_Files {
         $app = $this->object();
         $options = Core::object($options, Core::ARRAY);
         $dir = new Dir();
-        $read = $dir->read('/', true);
+        $read = $dir->read('/mnt/Disk2/Music/', true);
         $duration = microtime(true) - $start;
         breakpoint(round($duration, 3) . ' seconds');
         breakpoint($read);

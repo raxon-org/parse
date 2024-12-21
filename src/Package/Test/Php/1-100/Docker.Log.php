@@ -124,12 +124,15 @@ try {
         if(File::exist($url_docker_notification_live)){
             File::delete($url_docker_notification_live);
         }
-        $read = File::read($url_docker);
-        File::append($url_docker_live, $read);
-        $read = File::read($url_docker_output);
-        File::append($url_docker_output_live, $read);
-        $read = File::read($url_docker_notification);
-        File::append($url_docker_notification_live, $read);
+        $bottom = File::read($url_docker);
+        $top = File::read($url_docker_live);
+        File::write($url_docker_live, $top . $bottom );
+        $bottom = File::read($url_docker_output);
+        $top = File::read($url_docker_output_live);
+        File::write($url_docker_output_live, $top . $bottom);
+        $bottom = File::read($url_docker_notification);
+        $top = File::read($url_docker_notification_live);
+        File::write($url_docker_notification_live, $top . $bottom);
         // copy does not work with this files
 //        File::copy($url_docker, $url_docker_live);
 //        File::copy($url_docker_output, $url_docker_output_live);

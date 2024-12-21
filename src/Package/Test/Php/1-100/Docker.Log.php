@@ -154,7 +154,7 @@ try {
             }
         }
         $top = implode(PHP_EOL, $top);
-        File::write($url_docker_live, $top . $bottom);
+        File::write($url_docker_output_live, $top . $bottom);
         $top = explode(PHP_EOL, File::read($url_docker_notification_live));
         foreach($top as $nr => $line){
             if(substr($line, 0, 3) === 'CON'){

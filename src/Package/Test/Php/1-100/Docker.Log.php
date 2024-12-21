@@ -24,6 +24,22 @@ $dir_vendor =
     'vendor' .
     DIRECTORY_SEPARATOR;
 
+if(!file_exists($dir_vendor)){
+    $dir_vendor =
+        DIRECTORY_SEPARATOR .
+        'home' .
+        DIRECTORY_SEPARATOR .
+        'remco' .
+        DIRECTORY_SEPARATOR .
+        'vps' .
+        DIRECTORY_SEPARATOR .
+        'vps3' .
+        DIRECTORY_SEPARATOR .
+        'vendor' .
+        DIRECTORY_SEPARATOR
+    ;
+}
+
 $autoload = $dir_vendor . 'autoload.php';
 $autoload = require $autoload;
 try {

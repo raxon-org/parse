@@ -129,7 +129,7 @@ try {
         File::write($url_docker_output_live, $read);
         $read = File::read($url_docker_notification);
         File::write($url_docker_notification_live, $read);
-        breakpoint($read);
+        // copy does not work with this files
 //        File::copy($url_docker, $url_docker_live);
 //        File::copy($url_docker_output, $url_docker_output_live);
 //        File::copy($url_docker_notification, $url_docker_notification_live);

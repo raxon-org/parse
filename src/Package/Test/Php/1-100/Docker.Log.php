@@ -115,27 +115,12 @@ try {
         Core::execute($app, $command, $output, $notification);
         $command_output = File::append($url_docker_output, $output);
         $command_notification = File::append($url_docker_notification, $notification);
-        /*
-        if(File::exist($url_docker_live)){
-            File::delete($url_docker_live);
-        }
-        if(File::exist($url_docker_output_live)){
-            File::delete($url_docker_output_live);
-        }
-        if(File::exist($url_docker_notification_live)){
-            File::delete($url_docker_notification_live);
-        }
-        */
-        $bottom = File::read($url_docker);
-        $top = File::read($url_docker_live);
-        breakpoint($top . $bottom);
-        File::write($url_docker_live, $top . $bottom );
-        $bottom = File::read($url_docker_output);
-        $top = File::read($url_docker_output_live);
-        File::write($url_docker_output_live, $top . $bottom);
-        $bottom = File::read($url_docker_notification);
-        $top = File::read($url_docker_notification_live);
-        File::write($url_docker_notification_live, $top . $bottom);
+        $read = File::read($url_docker);
+        File::append($url_docker_live, $read);
+        $read = File::read($url_docker_output);
+        File::append($url_docker_output_live, $read);
+        $read = File::read($url_docker_notification);
+        File::append($url_docker_notification_live, $read);
         // copy does not work with this files
 //        File::copy($url_docker, $url_docker_live);
 //        File::copy($url_docker_output, $url_docker_output_live);

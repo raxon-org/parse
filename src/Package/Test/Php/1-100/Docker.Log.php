@@ -51,18 +51,20 @@ try {
     );
     $app = new App($autoload, $config);
     $date = date('Y-m-d');
-    $dir_log = '/mnt/Disk2/Log/Docker/';
-    $dir_archive = '/mnt/Disk2/Log/Docker/Archive/';
-    $dir_date = '/mnt/Disk2/Log/Docker/Archive/' . $date . '/';
-    Dir::create($dir_log, Dir::CHMOD);
+    $dir_log = '/mnt/Disk2/Log/';
+    $dir_log_docker = '/mnt/Disk2/Log/Docker/';
+    $dir_archive = $dir_log_docker . 'Archive/';
+    $dir_date = $dir_archive .  $date . '/';
+    $time = microtime(true);
+    Dir::create($dir_log_docker, Dir::CHMOD);
     Dir::create($dir_archive, Dir::CHMOD);
     Dir::create($dir_date, Dir::CHMOD);
     $url_docker = $dir_log . 'Docker.log';
-    $url_docker_archive = $dir_date . date('His') . '.' . 'Docker.log';
+    $url_docker_archive = $dir_date . $time . '.' . 'Docker.log';
     $url_docker_output = $dir_log . 'Docker.output.log';
-    $url_docker_output_archive = $dir_date . date('His') . 'Docker.output.log';
+    $url_docker_output_archive = $dir_date . $time . '.' . 'Docker.output.log';
     $url_docker_notification = $dir_log . 'Docker.notification.log';
-    $url_docker_notification_archive = $dir_date . date('His') . 'Docker.notification.log';
+    $url_docker_notification_archive = $dir_date . $time . '.' . 'Docker.notification.log';
     if(File::exist($url_docker)){
         File::move($url_docker, $url_docker_archive);
         File::delete($url_docker);
@@ -81,8 +83,9 @@ try {
         if($date_new !== $date){
             $time = microtime(true);
             $date = $date_new;
+            $dir_date = $dir_archive .  $date . '/';
             $url_docker_archive = $dir_date . $time . '.' . 'Docker.log';
-            $url_docker_output = $dir_log . 'Docker.output.log';
+            $url_docker_output = $dir_log_docker . 'Docker.output.log';
             $url_docker_output_archive = $dir_date . $time . 'Docker.output.log';
             $url_docker_notification = $dir_log . 'Docker.notification.log';
             $url_docker_notification_archive = $dir_date . $time . 'Docker.notification.log';
@@ -103,13 +106,17 @@ try {
         $command_output = File::append($url_docker_output, $output);
         $command_notification = File::append($url_docker_notification, $notification);
         File::permission($app, [
-            'docker' => '/mnt/Disk2/Log/Docker.log',
-            'docker_archive' => '/mnt/Disk2/Log/Docker/Archive/',
-            'docker_output' => '/mnt/Disk2/Log/Docker.output.log',
-            'docker_output_archive' => '/mnt/Disk2/Log/Docker/Archive/',
-            'docker_notification' => '/mnt/Disk2/Log/Docker.notification.log',
-            'docker_notification_archive' => '/mnt/Disk2/Log/Docker/Archive/',
-            'dir' => '/mnt/Disk2/Log/',
+            'dir' => $dir,
+            'dir_log' => $dir_log,
+            'dir_log_docker' => $dir_log_docker,
+            'dir_archive' => $dir_archive,
+            'dir_date' => $dir_date,
+            'url_docker' => $url_docker,
+            'url_docker_archive' => $url_docker_archive,
+            'url_docker_output' => $url_docker_output,
+            'url_docker_output_archive' => $url_docker_output_archive,
+            'url_docker_notification' => $url_docker_notification,
+            'url_docker_notification_archive' => $url_docker_notification_archive,
         ]);
         sleep(10);
     }

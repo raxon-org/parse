@@ -102,7 +102,6 @@ try {
         Core::execute($app, $command, $output, $notification);
         $command_output = File::append($url_docker_output, $output);
         $command_notification = File::append($url_docker_notification, $notification);
-        sleep(10);
         File::permission($app, [
             'docker' => '/mnt/Disk2/Log/Docker.log',
             'docker_archive' => '/mnt/Disk2/Log/Docker/Archive/',
@@ -112,6 +111,7 @@ try {
             'docker_notification_archive' => '/mnt/Disk2/Log/Docker/Archive/',
             'dir' => '/mnt/Disk2/Log/',
         ]);
+        sleep(10);
     }
 } catch (Exception | LocateException | ObjectException $exception) {
     echo $exception;

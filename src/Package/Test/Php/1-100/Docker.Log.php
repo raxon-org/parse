@@ -58,6 +58,7 @@ try {
     $dir_date = $dir_archive .  $date . '/';
     $time = microtime(true);
     Dir::create($dir_log_docker, Dir::CHMOD);
+    Dir::create($dir_live, Dir::CHMOD);
     Dir::create($dir_archive, Dir::CHMOD);
     Dir::create($dir_date, Dir::CHMOD);
     $url_docker = $dir_log . 'Docker.log';

@@ -115,6 +115,7 @@ try {
         Core::execute($app, $command, $output, $notification);
         $command_output = File::append($url_docker_output, $output);
         $command_notification = File::append($url_docker_notification, $notification);
+        /*
         if(File::exist($url_docker_live)){
             File::delete($url_docker_live);
         }
@@ -124,6 +125,7 @@ try {
         if(File::exist($url_docker_notification_live)){
             File::delete($url_docker_notification_live);
         }
+        */
         $bottom = File::read($url_docker);
         $top = File::read($url_docker_live);
         breakpoint($top . $bottom);

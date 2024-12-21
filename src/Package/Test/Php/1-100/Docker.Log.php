@@ -45,7 +45,7 @@ try {
     $url_docker_notification = $dir_log . 'Docker.notification.log';
     File::move($app, $url_docker_notification, $url_docker_notification . '.' . Core::uuid() . '.original');
     File::delete($app, $url_docker_notification);
-    $command = 'docker stats > ' . $url_docker;
+    $command = 'docker stats --no-stream --no-trunc > ' . $url_docker;
     while(true){
         Core::execute($app, $command, $output, $notification);
         $command_output = File::append($url_docker_output, $output);

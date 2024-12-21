@@ -123,7 +123,6 @@ try {
         }
         $bottom = implode(PHP_EOL, $bottom);
         $top = explode(PHP_EOL, File::read($url_docker_live));
-        breakpoint($top . $bottom);
         foreach($top as $nr => $line){
             if(substr($line, 0, 3) === 'CON'){
                 unset($top[$nr]);

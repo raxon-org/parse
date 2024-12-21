@@ -115,16 +115,32 @@ try {
         Core::execute($app, $command, $output, $notification);
         $command_output = File::append($url_docker_output, $output);
         $command_notification = File::append($url_docker_notification, $notification);
-        $read = File::read($url_docker);
-        File::append($url_docker_live, $read);
-        $read = File::read($url_docker_output);
-        File::append($url_docker_output_live, $read);
-        $read = File::read($url_docker_notification);
-        File::append($url_docker_notification_live, $read);
-        // copy does not work with this files
-//        File::copy($url_docker, $url_docker_live);
-//        File::copy($url_docker_output, $url_docker_output_live);
-//        File::copy($url_docker_notification, $url_docker_notification_live);
+        $bottom = explode(PHP_EOL, File::read($url_docker));
+        foreach($bottom as $nr => $line){
+            if(substr($line, 0, 3) === 'CON'){
+                unset($bottom[$nr]);
+            }
+        }
+        $bottom = implode(PHP_EOL, $bottom);
+        $top = File::read($url_docker_live);
+        File::write($url_docker_live, $top . $bottom);
+        $bottom = explode(PHP_EOL, File::read($url_docker_output));
+        foreach($bottom as $nr => $line){
+            if(substr($line, 0, 3) === 'CON'){
+                unset($bottom[$nr]);
+            }
+        }
+        $bottom = implode(PHP_EOL, $bottom);
+        $top = explode(PHP_EOL, File::read($url_docker_notification_live));
+        File::write($url_docker_live, $top . $bottom);
+        $bottom = explode(PHP_EOL, File::read($url_docker_notification));
+        foreach($bottom as $nr => $line){
+            if(substr($line, 0, 3) === 'CON'){
+                unset($bottom[$nr]);
+            }
+        }
+        $bottom = implode(PHP_EOL, $bottom);
+        File::write($url_docker_notification_live, $top . $bottom);
         File::permission($app, [
             'dir' => $dir,
             'dir_log' => $dir_log,
@@ -138,6 +154,7 @@ try {
             'url_docker_notification_live' => $url_docker_notification_live,
             'url_docker_notification_archive' => $url_docker_notification_archive,
         ]);
+
         sleep(1);
     }
 } catch (Exception | LocateException | ObjectException $exception) {

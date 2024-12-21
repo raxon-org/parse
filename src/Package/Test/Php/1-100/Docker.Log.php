@@ -123,9 +123,11 @@ try {
         if(File::exist($url_docker_notification_live)){
             File::delete($url_docker_notification_live);
         }
-        File::copy($url_docker, $url_docker_live);
-        File::copy($url_docker_output, $url_docker_output_live);
-        File::copy($url_docker_notification, $url_docker_notification_live);
+        $read = File::read($url_docker);
+        breakpoint($read);
+//        File::copy($url_docker, $url_docker_live);
+//        File::copy($url_docker_output, $url_docker_output_live);
+//        File::copy($url_docker_notification, $url_docker_notification_live);
         File::permission($app, [
             'dir' => $dir,
             'dir_log' => $dir_log,

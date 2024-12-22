@@ -1387,7 +1387,10 @@ class Build
         }
         $plugin = str_replace('.', '_', $plugin);
         $plugin = str_replace('-', '_', $plugin);
-
+        $backslash_double = Core::uuid();
+        $plugin = str_replace('\\\\', $backslash_double , $plugin);
+        $plugin = str_replace('\\', '\\\\', $plugin);
+        $plugin = str_replace($backslash_double, '\\\\', $plugin);
         $use_plugin = explode('_', $plugin);
         foreach($use_plugin as $nr => $use){
             $use_plugin[$nr] = ucfirst($use);

@@ -125,7 +125,12 @@ try {
                 }
                 unset($bottom[$nr]);
             } else {
-                $bottom[$nr] = $microtime . ' ' . $line;
+                $explode = explode(' ', $line, 2);
+                $micro = array_shift($explode);
+                $explode_micro = explode('.', $micro);
+                if(count($explode_micro) !== 2){
+                    $bottom[$nr] = $microtime . ' ' . $line;
+                }
             }
         }
         $bottom = implode(PHP_EOL, $bottom);
@@ -137,7 +142,12 @@ try {
                 }
                 unset($top[$nr]);
             } else {
-                $top[$nr] = $microtime . ' ' . $line;
+                $explode = explode(' ', 2);
+                $micro = array_shift($explode);
+                $explode_micro = explode('.', $micro);
+                if(count($explode_micro) !== 2){
+                    $top[$nr] = $microtime . ' ' . $line;
+                }
             }
         }
         $top = implode(PHP_EOL, $top);
@@ -147,7 +157,12 @@ try {
             if(substr($line, 0, 3) === 'CON'){
                 unset($bottom[$nr]);
             } else {
-                $bottom[$nr] = $microtime . ' ' . $line;
+                $explode = explode(' ', 2);
+                $micro = array_shift($explode);
+                $explode_micro = explode('.', $micro);
+                if(count($explode_micro) !== 2){
+                    $bottom[$nr] = $microtime . ' ' . $line;
+                }
             }
         }
         $bottom = implode(PHP_EOL, $bottom);
@@ -155,6 +170,13 @@ try {
         foreach($top as $nr => $line){
             if(substr($line, 0, 3) === 'CON'){
                 unset($top[$nr]);
+            } else {
+                $explode = explode(' ', 2);
+                $micro = array_shift($explode);
+                $explode_micro = explode('.', $micro);
+                if(count($explode_micro) !== 2){
+                    $top[$nr] = $microtime . ' ' . $line;
+                }
             }
         }
         $top = implode(PHP_EOL, $top);
@@ -164,7 +186,12 @@ try {
             if(substr($line, 0, 3) === 'CON'){
                 unset($top[$nr]);
             } else {
-                $top[$nr] = $microtime . ' ' . $line;
+                $explode = explode(' ', 2);
+                $micro = array_shift($explode);
+                $explode_micro = explode('.', $micro);
+                if(count($explode_micro) !== 2){
+                    $top[$nr] = $microtime . ' ' . $line;
+                }
             }
         }
         $top = implode(PHP_EOL, $top);
@@ -172,8 +199,17 @@ try {
         foreach($bottom as $nr => $line){
             if(substr($line, 0, 3) === 'CON'){
                 unset($bottom[$nr]);
-            } else {
-                $bottom[$nr] = $microtime . ' ' . $line;
+            }
+            $explode = explode(' ', 2);
+            $micro = array_shift($explode);
+            $explode_micro = explode('.', $micro);
+            if(count($explode_micro) !== 2){
+                $explode = explode(' ', 2);
+                $micro = array_shift($explode);
+                $explode_micro = explode('.', $micro);
+                if(count($explode_micro) !== 2){
+                    $bottom[$nr] = $microtime . ' ' . $line;
+                }
             }
         }
         $bottom = implode(PHP_EOL, $bottom);

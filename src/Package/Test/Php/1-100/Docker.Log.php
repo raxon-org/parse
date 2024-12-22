@@ -117,12 +117,15 @@ try {
         $command_notification = File::append($url_docker_notification, $notification);
         $bottom = explode(PHP_EOL, File::read($url_docker));
         $header = false;
+        $microtime = microtime(true);
         foreach($bottom as $nr => $line){
             if(substr($line, 0, 3) === 'CON'){
                 if($header === false){
                     $header = $line;
                 }
                 unset($bottom[$nr]);
+            } else {
+                $bottom[$nr] = $microtime . ' ' . $line;
             }
         }
         $bottom = implode(PHP_EOL, $bottom);
@@ -133,6 +136,8 @@ try {
                     $header = $line;
                 }
                 unset($top[$nr]);
+            } else {
+                $top[$nr] = $microtime . ' ' . $line;
             }
         }
         $top = implode(PHP_EOL, $top);
@@ -141,6 +146,8 @@ try {
         foreach($bottom as $nr => $line){
             if(substr($line, 0, 3) === 'CON'){
                 unset($bottom[$nr]);
+            } else {
+                $bottom[$nr] = $microtime . ' ' . $line;
             }
         }
         $bottom = implode(PHP_EOL, $bottom);
@@ -156,6 +163,8 @@ try {
         foreach($top as $nr => $line){
             if(substr($line, 0, 3) === 'CON'){
                 unset($top[$nr]);
+            } else {
+                $top[$nr] = $microtime . ' ' . $line;
             }
         }
         $top = implode(PHP_EOL, $top);
@@ -163,6 +172,8 @@ try {
         foreach($bottom as $nr => $line){
             if(substr($line, 0, 3) === 'CON'){
                 unset($bottom[$nr]);
+            } else {
+                $bottom[$nr] = $microtime . ' ' . $line;
             }
         }
         $bottom = implode(PHP_EOL, $bottom);

@@ -655,6 +655,7 @@ class Build
                     $variable_assign_next_tag = true;
                 }
                 elseif(array_key_exists('marker', $record)){
+                    breakpoint($record);
                     $class_static = Build::class_static($object);
                     if(
                         array_key_exists('value', $record['marker']) &&

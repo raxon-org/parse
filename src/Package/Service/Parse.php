@@ -413,7 +413,7 @@ class Parse
             Dir::create($dir, Dir::CHMOD);
             $token = Token::tokenize($object, $flags, $options, $input);
             $url_json = $dir . $options->class . $object->config('extension.json');
-            d($token);
+            breakpoint($token);
             File::write($url_json, Core::object($token, Core::OBJECT_JSON));
             if($cache_url){
                 $url_php = $cache_url;

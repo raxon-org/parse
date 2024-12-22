@@ -143,7 +143,9 @@ class Method
                         $name = '';
                         $is_method = false;
                     } else {
+                        breakpoint($name);
                         $name = strrev($name);
+                        breakpoint($name);
                         if($is_class_method){
                             $explode = explode($call_type, $name, 2);
                             if(array_key_exists(1, $explode)){

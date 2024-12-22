@@ -655,7 +655,6 @@ class Build
                     $variable_assign_next_tag = true;
                 }
                 elseif(array_key_exists('marker', $record)){
-                    breakpoint($record);
                     $class_static = Build::class_static($object);
                     if(
                         array_key_exists('value', $record['marker']) &&
@@ -1730,6 +1729,7 @@ class Build
             }
             $key = array_search($method_match, $use_trait_function, true);
             $trait = $use_trait[$key] ?? null;
+            breakpoint($trait);
             $reflection = new ReflectionClass($trait);
             $trait_methods = $reflection->getMethods();
             foreach($trait_methods as $nr => $method){

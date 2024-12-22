@@ -1392,16 +1392,13 @@ class Build
         $plugin = str_replace('\\', '\\\\', $plugin);
         $plugin = str_replace($backslash_double, '\\\\', $plugin);
         $plugin = str_replace('\\\\', '_', $plugin);
-        /*
-         * $is_smiley = false;
-                    $ord = mb_ord($name);
-                    breakpoint($ord);
-                    if($ord >= 128076 && $ord <= 128591){
-//                        $name = 'smiley_' . $ord;
-                        $is_smiley = true;
-                    }
-         */
-        breakpoint($plugin);
+        $is_smiley = false;
+        $ord = mb_ord($name);
+        breakpoint($ord);
+        if($ord >= 128076 && $ord <= 128591){
+            $is_smiley = true;
+            $plugin = 'Smiley_' . $ord;
+        }
         $use_plugin = explode('_', $plugin);
         foreach($use_plugin as $nr => $use){
             $use_plugin[$nr] = ucfirst($use);

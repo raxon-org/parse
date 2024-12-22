@@ -126,8 +126,6 @@ try {
             }
         }
         $bottom = implode(PHP_EOL, $bottom);
-        breakpoint($url_docker_live);
-        breakpoint(File::exist($url_docker_live));
         $top = explode(PHP_EOL, File::read($url_docker_live));
         foreach($top as $nr => $line){
             if(substr($line, 0, 3) === 'CON'){
@@ -138,9 +136,6 @@ try {
             }
         }
         $top = implode(PHP_EOL, $top);
-        breakpoint($header);
-        breakpoint($top);
-        breakpoint($bottom);
         File::write($url_docker_live, $header . $top . $bottom);
         $bottom = explode(PHP_EOL, File::read($url_docker_output));
         foreach($bottom as $nr => $line){
@@ -160,7 +155,6 @@ try {
         $top = explode(PHP_EOL, File::read($url_docker_notification_live));
         foreach($top as $nr => $line){
             if(substr($line, 0, 3) === 'CON'){
-                $header = $line;
                 unset($top[$nr]);
             }
         }
@@ -168,7 +162,6 @@ try {
         $bottom = explode(PHP_EOL, File::read($url_docker_notification));
         foreach($bottom as $nr => $line){
             if(substr($line, 0, 3) === 'CON'){
-                $header = $line;
                 unset($bottom[$nr]);
             }
         }

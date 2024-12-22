@@ -1732,7 +1732,6 @@ class Build
             }
             $key = array_search($method_match, $use_trait_function, true);
             $trait = $use_trait[$key] ?? null;
-            breakpoint($trait);
             $reflection = new ReflectionClass($trait);
             $trait_methods = $reflection->getMethods();
             foreach($trait_methods as $nr => $method){

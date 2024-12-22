@@ -1391,6 +1391,7 @@ class Build
         $plugin = str_replace('\\\\', $backslash_double , $plugin);
         $plugin = str_replace('\\', '\\\\', $plugin);
         $plugin = str_replace($backslash_double, '\\\\', $plugin);
+        $plugin = str_replace('\\\\', '_', $plugin);
         $use_plugin = explode('_', $plugin);
         foreach($use_plugin as $nr => $use){
             $use_plugin[$nr] = ucfirst($use);

@@ -1397,7 +1397,7 @@ class Build
         breakpoint($ord);
         if($ord >= 128076 && $ord <= 128591){
             $is_smiley = true;
-            $plugin = 'Smiley_' . $ord;
+            $plugin = '_Smiley_' . $ord;
         }
         $use_plugin = explode('_', $plugin);
         foreach($use_plugin as $nr => $use){

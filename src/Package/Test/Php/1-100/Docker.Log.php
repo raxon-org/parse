@@ -126,11 +126,13 @@ try {
                 unset($bottom[$nr]);
             } else {
                 $explode = explode(' ', $line, 2);
-                $micro = array_shift($explode);
-                $explode_micro = explode('.', $micro);
-                $explode_count = count($explode_micro);
-                if($explode_count > 0 && $explode_count !== 2){
-                    $bottom[$nr] = $microtime . ' ' . $line;
+                if(count($explode) === 2){
+                    $micro = array_shift($explode);
+                    $explode_micro = explode('.', $micro);
+                    $explode_count = count($explode_micro);
+                    if($explode_count > 0 && $explode_count !== 2){
+                        $bottom[$nr] = $microtime . ' ' . $line;
+                    }
                 }
             }
         }
@@ -144,12 +146,15 @@ try {
                 unset($top[$nr]);
             } else {
                 $explode = explode(' ', 2);
-                $micro = array_shift($explode);
-                $explode_micro = explode('.', $micro);
-                $explode_count = count($explode_micro);
-                if($explode_count > 0 && $explode_count  !== 2){
-                    $top[$nr] = $microtime . ' ' . $line;
+                if(count($explode) === 2){
+                    $micro = array_shift($explode);
+                    $explode_micro = explode('.', $micro);
+                    $explode_count = count($explode_micro);
+                    if($explode_count > 0 && $explode_count  !== 2){
+                        $top[$nr] = $microtime . ' ' . $line;
+                    }
                 }
+
             }
         }
         $top = implode(PHP_EOL, $top);
@@ -160,11 +165,13 @@ try {
                 unset($bottom[$nr]);
             } else {
                 $explode = explode(' ', 2);
-                $micro = array_shift($explode);
-                $explode_micro = explode('.', $micro);
-                $explode_count = count($explode_micro);
-                if($explode_count > 0 && $explode_count !== 2){
-                    $bottom[$nr] = $microtime . ' ' . $line;
+                if(count($explode) === 2){
+                    $micro = array_shift($explode);
+                    $explode_micro = explode('.', $micro);
+                    $explode_count = count($explode_micro);
+                    if($explode_count > 0 && $explode_count !== 2){
+                        $bottom[$nr] = $microtime . ' ' . $line;
+                    }
                 }
             }
         }
@@ -175,11 +182,13 @@ try {
                 unset($top[$nr]);
             } else {
                 $explode = explode(' ', 2);
-                $micro = array_shift($explode);
-                $explode_micro = explode('.', $micro);
-                $explode_count = count($explode_micro);
-                if($explode_count > 0 && $explode_count !== 2){
-                    $top[$nr] = $microtime . ' ' . $line;
+                if(count($explode) === 2){
+                    $micro = array_shift($explode);
+                    $explode_micro = explode('.', $micro);
+                    $explode_count = count($explode_micro);
+                    if($explode_count > 0 && $explode_count !== 2){
+                        $top[$nr] = $microtime . ' ' . $line;
+                    }
                 }
             }
         }
@@ -191,11 +200,13 @@ try {
                 unset($top[$nr]);
             } else {
                 $explode = explode(' ', 2);
-                $micro = array_shift($explode);
-                $explode_micro = explode('.', $micro);
-                $explode_count = count($explode_micro);
-                if($explode_count > 0 && $explode_count !== 2){
-                    $top[$nr] = $microtime . ' ' . $line;
+                if(count($explode) === 2){
+                    $micro = array_shift($explode);
+                    $explode_micro = explode('.', $micro);
+                    $explode_count = count($explode_micro);
+                    if($explode_count > 0 && $explode_count !== 2){
+                        $top[$nr] = $microtime . ' ' . $line;
+                    }
                 }
             }
         }
@@ -211,11 +222,13 @@ try {
             $explode_count = count($explode_micro);
             if($explode_count > 0 && $explode_count !== 2){
                 $explode = explode(' ', 2);
-                $micro = array_shift($explode);
-                $explode_micro = explode('.', $micro);
-                $explode_count = count($explode_micro);
-                if($explode_count > 0 && $explode_micro !== 2){
-                    $bottom[$nr] = $microtime . ' ' . $line;
+                if(count($explode)){
+                    $micro = array_shift($explode);
+                    $explode_micro = explode('.', $micro);
+                    $explode_count = count($explode_micro);
+                    if($explode_count > 0 && $explode_micro !== 2){
+                        $bottom[$nr] = $microtime . ' ' . $line;
+                    }
                 }
             }
         }

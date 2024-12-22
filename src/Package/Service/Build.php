@@ -1455,7 +1455,6 @@ class Build
                         if(array_key_exists(1, $explode)){
                             $file = implode('Smiley/.Smiley.', $explode);
                         }
-                        breakpoint($file);
                         $locate_exception[] = $file;
                         $exist = File::exist($file);
                         if($exist){

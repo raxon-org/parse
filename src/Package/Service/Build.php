@@ -1397,7 +1397,7 @@ class Build
         breakpoint($ord);
         if($ord >= 128076 && $ord <= 128591){
             $is_smiley = true;
-            $plugin = '_Smiley_' . $ord;
+            $plugin = 'Smiley_' . $ord;
         }
         $use_plugin = explode('_', $plugin);
         foreach($use_plugin as $nr => $use){
@@ -1451,6 +1451,7 @@ class Build
                 $locate_exception = [];
                 foreach($location  as $nr => $fileList){
                     foreach($fileList as $file){
+                        breakpoint($file);
                         $locate_exception[] = $file;
                         $exist = File::exist($file);
                         if($exist){

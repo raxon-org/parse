@@ -222,7 +222,7 @@ try {
             $explode_count = count($explode_micro);
             if($explode_count > 0 && $explode_count !== 2){
                 $explode = explode(' ', 2);
-                if(count($explode)){
+                if(count($explode) === 2){
                     $micro = array_shift($explode);
                     $explode_micro = explode('.', $micro);
                     $explode_count = count($explode_micro);

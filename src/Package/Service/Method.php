@@ -143,15 +143,13 @@ class Method
                         $name = '';
                         $is_method = false;
                     } else {
-                        $string = mb_ord($name);
-                        breakpoint($string);
-
-                        if(mb_substr($name, 0, 1) === '\\'){
-                            breakpoint('yes');
+                        $ord = mb_ord($name);
+                        if($ord >= 128512 && $ord <= 128591){
+                            $name = 'smiley_' . $ord;
+                        } else {
+                            $name = strrev($name);
                         }
-                        breakpoint($name);
-                        $name = strrev($name);
-                        breakpoint($name);
+//                        $name = strrev($name);
                         if($is_class_method){
                             $explode = explode($call_type, $name, 2);
                             if(array_key_exists(1, $explode)){

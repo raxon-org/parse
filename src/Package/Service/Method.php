@@ -142,7 +142,7 @@ class Method
                     $ord = mb_ord($name);
                     breakpoint($ord);
                     if($ord >= 128076 && $ord <= 128591){
-                        $name = 'smiley_' . $ord;
+//                        $name = 'smiley_' . $ord;
                         $is_smiley = true;
                     }
                     if(mb_substr($name, 0, 1) === ':'){

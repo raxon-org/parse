@@ -143,7 +143,7 @@ class Method
                         $name = '';
                         $is_method = false;
                     } else {
-                        $string = str_split($name);
+                        $string = mb_ord($name);
                         breakpoint($string);
 
                         if(mb_substr($name, 0, 1) === '\\'){

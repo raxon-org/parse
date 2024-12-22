@@ -140,7 +140,6 @@ class Method
                 if($name && $has_name === false){
                     $is_smiley = false;
                     $ord = mb_ord($name);
-                    breakpoint($ord);
                     if($ord >= 128076 && $ord <= 128591){
 //                        $name = 'smiley_' . $ord;
                         $is_smiley = true;

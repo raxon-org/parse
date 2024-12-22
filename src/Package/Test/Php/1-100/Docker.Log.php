@@ -128,7 +128,8 @@ try {
                 $explode = explode(' ', $line, 2);
                 $micro = array_shift($explode);
                 $explode_micro = explode('.', $micro);
-                if(count($explode_micro) !== 2){
+                $explode_count = count($explode_micro);
+                if($explode_count > 0 && $explode_count !== 2){
                     $bottom[$nr] = $microtime . ' ' . $line;
                 }
             }
@@ -145,7 +146,8 @@ try {
                 $explode = explode(' ', 2);
                 $micro = array_shift($explode);
                 $explode_micro = explode('.', $micro);
-                if(count($explode_micro) !== 2){
+                $explode_count = count($explode_micro);
+                if($explode_count > 0 && $explode_count  !== 2){
                     $top[$nr] = $microtime . ' ' . $line;
                 }
             }
@@ -160,7 +162,8 @@ try {
                 $explode = explode(' ', 2);
                 $micro = array_shift($explode);
                 $explode_micro = explode('.', $micro);
-                if(count($explode_micro) !== 2){
+                $explode_count = count($explode_micro);
+                if($explode_count > 0 && $explode_count !== 2){
                     $bottom[$nr] = $microtime . ' ' . $line;
                 }
             }
@@ -174,7 +177,8 @@ try {
                 $explode = explode(' ', 2);
                 $micro = array_shift($explode);
                 $explode_micro = explode('.', $micro);
-                if(count($explode_micro) !== 2){
+                $explode_count = count($explode_micro);
+                if($explode_count > 0 && $explode_count !== 2){
                     $top[$nr] = $microtime . ' ' . $line;
                 }
             }
@@ -189,7 +193,8 @@ try {
                 $explode = explode(' ', 2);
                 $micro = array_shift($explode);
                 $explode_micro = explode('.', $micro);
-                if(count($explode_micro) !== 2){
+                $explode_count = count($explode_micro);
+                if($explode_count > 0 && $explode_count !== 2){
                     $top[$nr] = $microtime . ' ' . $line;
                 }
             }
@@ -203,11 +208,13 @@ try {
             $explode = explode(' ', 2);
             $micro = array_shift($explode);
             $explode_micro = explode('.', $micro);
-            if(count($explode_micro) !== 2){
+            $explode_count = count($explode_micro);
+            if($explode_count > 0 && $explode_count !== 2){
                 $explode = explode(' ', 2);
                 $micro = array_shift($explode);
                 $explode_micro = explode('.', $micro);
-                if(count($explode_micro) !== 2){
+                $explode_count = count($explode_micro);
+                if($explode_count > 0 && $explode_micro !== 2){
                     $bottom[$nr] = $microtime . ' ' . $line;
                 }
             }

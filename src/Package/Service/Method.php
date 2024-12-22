@@ -225,6 +225,7 @@ class Method
                             $argument = '';
                             $argument_nr = 0;
                         }
+                        breakpoint($name);
                         $input['array'][$is_method]['method'] = [
                             'name' => $name,
                             'argument' => $argument_list

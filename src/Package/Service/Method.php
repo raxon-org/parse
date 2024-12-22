@@ -143,7 +143,7 @@ class Method
                         $name = '';
                         $is_method = false;
                     } else {
-                        if(mb_substr($name) === '\\'){
+                        if(mb_substr($name, 0, 1) === '\\'){
                             breakpoint('yes');
                         }
                         breakpoint($name);

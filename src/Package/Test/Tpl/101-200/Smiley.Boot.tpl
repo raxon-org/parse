@@ -1,1 +1,1 @@
-{{\ud83d\udc4c('boot', app.flags(), app.options())}}
+{{👌('boot', app.flags(), app.options())}}

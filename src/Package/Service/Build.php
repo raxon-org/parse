@@ -1394,7 +1394,6 @@ class Build
         $plugin = str_replace('\\\\', '_', $plugin);
         $is_smiley = false;
         $ord = mb_ord($name);
-        breakpoint($ord);
         if($ord >= 128076 && $ord <= 128591){
             $is_smiley = true;
             $plugin = 'Smiley_' . $ord;

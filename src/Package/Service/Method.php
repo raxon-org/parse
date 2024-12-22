@@ -138,18 +138,21 @@ class Method
                     $is_method = false;
                 }
                 if($name && $has_name === false){
+                    $is_smiley = false;
+                    $ord = mb_ord($name);
+                    breakpoint($ord);
+                    if($ord >= 128512 && $ord <= 128591){
+                        $name = 'smiley_' . $ord;
+                        $is_smiley = true;
+                    }
                     if(mb_substr($name, 0, 1) === ':'){
                         //modifier with argument set
                         $name = '';
                         $is_method = false;
                     } else {
-                        $ord = mb_ord($name);
-                        if($ord >= 128512 && $ord <= 128591){
-                            $name = 'smiley_' . $ord;
-                        } else {
+                         if($is_smiley === false){
                             $name = strrev($name);
                         }
-//                        $name = strrev($name);
                         if($is_class_method){
                             $explode = explode($call_type, $name, 2);
                             if(array_key_exists(1, $explode)){

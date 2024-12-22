@@ -92,7 +92,6 @@ class Method
                                 }
 
                             } else {
-                                breakpoint($name);
                                 break;
                             }
                         } else {
@@ -112,7 +111,6 @@ class Method
                                 $is_double_quote === false &&
                                 $name !== ''
                             ){
-                                breakpoint($name);
                                 break;
                             }
                             elseif(
@@ -140,7 +138,6 @@ class Method
                     $is_method = false;
                 }
                 if($name && $has_name === false){
-                    breakpoint($name);
                     if(mb_substr($name, 0, 1) === ':'){
                         //modifier with argument set
                         $name = '';

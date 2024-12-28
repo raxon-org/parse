@@ -93,11 +93,11 @@ try {
                                 '\\(',
                                 '\\)',
                             ],
-                            $file->url
+                            $file->url_temp_input
                         ) .
                         '\' -vf yadif -c:v libvpx-vp9 -crf 18 -b:v 0 -threads 8 -r 25 -c:a libvorbis \'' .
                         '"' .
-                        $file->target .
+                        $file->url_temp_output .
                         '"'  .
                         '\' > \'' .
                         $file->log .

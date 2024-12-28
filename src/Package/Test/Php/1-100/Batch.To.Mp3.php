@@ -48,35 +48,39 @@ try {
  */
 function batch($list=[]): void
 {
-    $dir = new Dir();
-    foreach($list as $nr => $url){
-        $read = $dir->read($url, true);
-        foreach($read as $nr => $file) {
-            $explode = explode('.', $file->url);
-            $extension = array_pop($explode);
-            $file->new = false;
-            $file->temp = false;
-            if(strtoupper($extension) === 'WMA'){
-                $file->new = implode('.', $explode) . '.mp3';
-            }
-            elseif(strtoupper($extension) === 'WAV'){
-                $file->new = implode('.', $explode) . '.mp3';
-            }
-            if($file->new !== false){
-                $file->new = str_replace(['\'', '"'], '', $file->new);
-                if(File::exist($file->new)){
-                    continue;
+    while(true){
+        $dir = new Dir();
+        foreach($list as $nr => $url){
+            $read = $dir->read($url, true);
+            foreach($read as $nr => $file) {
+                $explode = explode('.', $file->url);
+                $extension = array_pop($explode);
+                $file->new = false;
+                $file->temp = false;
+                if(strtoupper($extension) === 'WMA'){
+                    $file->new = implode('.', $explode) . '.mp3';
                 }
-                File::move($file->url, $file->url . '.temp');
-                $command = 'ffmpeg -i "' .
-                    str_replace(['(', ')', '"'], ['(', ')', '\\"'], $file->url) . '.temp' .
-                    '" -vn -ar 44100 -ac 2 -ab 320k -f mp3 "' .
-                    str_replace(['(', ')', '\''], ['(', ')', '\\"'], $file->new) .
-                    '"';
-                echo $command . PHP_EOL;
-                exec($command);
-                File::move($file->url . '.temp', $file->url);
+                elseif(strtoupper($extension) === 'WAV'){
+                    $file->new = implode('.', $explode) . '.mp3';
+                }
+                if($file->new !== false){
+                    $file->new = str_replace(['\'', '"'], '', $file->new);
+                    if(File::exist($file->new)){
+                        continue;
+                    }
+                    File::move($file->url, $file->url . '.temp');
+                    $command = 'ffmpeg -i "' .
+                        str_replace(['(', ')', '"'], ['(', ')', '\\"'], $file->url) . '.temp' .
+                        '" -vn -ar 44100 -ac 2 -ab 320k -f mp3 "' .
+                        str_replace(['(', ')', '\''], ['(', ')', '\\"'], $file->new) .
+                        '"';
+                    echo $command . PHP_EOL;
+                    exec($command);
+                    File::move($file->url . '.temp', $file->url);
+                }
             }
         }
+        sleep(5);
     }
+
 }

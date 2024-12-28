@@ -59,6 +59,7 @@ try {
                 if(File::exist($file->target)){
                     continue;
                 }
+                echo 'Starting processing: ' . $file->target . PHP_EOL;
                 if(
                     in_array(
                         strtolower($file->extension),

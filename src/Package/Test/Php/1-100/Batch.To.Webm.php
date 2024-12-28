@@ -106,9 +106,7 @@ try {
                             $file->temp_input
                         ) .
                         '\' -vf yadif -c:v libvpx-vp9 -crf 18 -b:v 0 -threads 8 -r 25 -c:a libvorbis \'' .
-                        '"' .
                         $file->temp_output .
-                        '"'  .
                         '\' > \'' .
                         $file->log .
                         '\' 2>&1 '

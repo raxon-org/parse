@@ -59,7 +59,6 @@ try {
                 if(File::exist($file->target)){
                     continue;
                 }
-                echo 'Starting processing: ' . $file->target . PHP_EOL;
                 if(
                     in_array(
                         strtolower($file->extension),
@@ -79,6 +78,7 @@ try {
                         ]
                     )
                 ){
+                    echo 'Starting processing: ' . $file->target . PHP_EOL;
                     //clear the lock-dir on boot in /Application/Boot/Boot
                     $command = 'nohup ffmpeg -i \'' .
                         str_replace(

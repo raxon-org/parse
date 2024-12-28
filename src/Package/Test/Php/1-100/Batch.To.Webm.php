@@ -79,6 +79,12 @@ try {
                     )
                 ){
                     echo 'Starting processing: ' . $file->target . PHP_EOL;
+                    $dir_ramdisk_input = $app->config('ramdisk.url') . 'Batch/Input/';
+                    $dir_ramdisk_output = $app->config('ramdisk.url') . 'Batch/Output/';
+                    Dir::create($dir_ramdisk_input, Dir::CHMOD);
+                    Dir::create($dir_ramdisk_output, Dir::CHMOD);
+                    breakpoint($dir_ramdisk_input);
+                    breakpoint($dir_ramdisk_output);
                     $file->url_temp_input = Dir::name($file->url) . Core::uuid() . '.' . $file->extension;
                     $file->url_temp_output = Dir::name($file->url) . Core::uuid() . '.webm';
                     File::rename($file->url, $file->url_temp_input);

@@ -86,12 +86,12 @@ try {
                     Dir::create($dir_ramdisk_output, Dir::CHMOD);
                     breakpoint($dir_ramdisk_input);
                     breakpoint($dir_ramdisk_output);
-                    $file->url_temp_input = Dir::name($file->url) . Core::uuid() . '.' . $file->extension;
-                    $file->url_temp_output = Dir::name($file->url) . Core::uuid() . '.webm';
+                    $file->temp_input = $dir_ramdisk_input . Core::uuid() . '.' . $file->extension;
+                    $file->temp_output = $dir_ramdisk_output . Core::uuid() . '.webm';
                     breakpoint($file->url);
-                    breakpoint($file->url_temp_input);
-                    breakpoint($file->url_temp_output);
-                    File::rename($file->url, $file->url_temp_input);
+                    breakpoint($file->temp_input);
+                    breakpoint($file->temp_output);
+                    File::copy($file->url, $file->temp_input);
                     //clear the lock-dir on boot in /Application/Boot/Boot
                     $command = 'nohup ffmpeg -i \'' .
                         str_replace(
@@ -120,8 +120,7 @@ try {
                     if($notification){
                         echo $notification;
                     }
-                    File::rename($file->url_temp_input, $file->url);
-                    File::rename($file->url_temp_output, $file->target);
+                    File::move($file->url_temp_output, $file->target);
                     echo str_repeat('-', Cli::tput('cols')) . PHP_EOL;
                 }
             }

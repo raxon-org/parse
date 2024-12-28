@@ -87,6 +87,9 @@ try {
                     breakpoint($dir_ramdisk_output);
                     $file->url_temp_input = Dir::name($file->url) . Core::uuid() . '.' . $file->extension;
                     $file->url_temp_output = Dir::name($file->url) . Core::uuid() . '.webm';
+                    breakpoint($file->url);
+                    breakpoint($file->url_temp_input);
+                    breakpoint($file->url_temp_output);
                     File::rename($file->url, $file->url_temp_input);
                     //clear the lock-dir on boot in /Application/Boot/Boot
                     $command = 'nohup ffmpeg -i \'' .

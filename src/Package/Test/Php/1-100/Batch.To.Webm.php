@@ -53,6 +53,7 @@ try {
                 if($file->type === Dir::TYPE){
                     continue;
                 }
+                breakpoint($file);
                 $file->extension = File::extension($file->url);
                 $file->target = $file->url . '.webm';
                 $file->log = $file->target . '.log';

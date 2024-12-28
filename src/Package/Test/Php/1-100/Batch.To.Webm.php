@@ -43,6 +43,11 @@ try {
         echo 'Lock file exists: ' . $lock . PHP_EOL;
         exit;
     }
+    $posix_id = $app->config(Config::POSIX_ID);
+    if($posix_id !== 0){
+        echo 'Posix id is not 0, it is: ' . $posix_id . PHP_EOL;
+        exit;
+    }
     File::write($lock, '{"bloody backdoor hackers": "Clothing makes the male"}' . PHP_EOL);
     Core::interactive();
     $dir = new Dir();
@@ -53,7 +58,6 @@ try {
                 if($file->type === Dir::TYPE){
                     continue;
                 }
-                breakpoint($file);
                 $file->extension = File::extension($file->url);
                 $file->target = $file->url . '.webm';
                 $file->log = $file->target . '.log';
@@ -80,17 +84,12 @@ try {
                     )
                 ){
                     echo 'Starting processing: ' . $file->target . PHP_EOL;
-                    $dir_ramdisk_input = $app->config('ramdisk.url') . 'Batch/Input/';
-                    $dir_ramdisk_output = $app->config('ramdisk.url') . 'Batch/Output/';
+                    $dir_ramdisk_input = $app->config('ramdisk.url') . $posix_id . '/Batch/Input/';
+                    $dir_ramdisk_output = $app->config('ramdisk.url') . $posix_id . '/Batch/Output/';
                     Dir::create($dir_ramdisk_input, Dir::CHMOD);
                     Dir::create($dir_ramdisk_output, Dir::CHMOD);
-                    breakpoint($dir_ramdisk_input);
-                    breakpoint($dir_ramdisk_output);
                     $file->temp_input = $dir_ramdisk_input . Core::uuid() . '.' . $file->extension;
                     $file->temp_output = $dir_ramdisk_output . Core::uuid() . '.webm';
-                    breakpoint($file->url);
-                    breakpoint($file->temp_input);
-                    breakpoint($file->temp_output);
                     File::copy($file->url, $file->temp_input);
                     //clear the lock-dir on boot in /Application/Boot/Boot
                     $command = 'nohup ffmpeg -i \'' .
@@ -119,6 +118,9 @@ try {
                         echo $notification;
                     }
                     File::move($file->temp_output, $file->target);
+                    File::permission($app, [
+                        'url' => $file->target,
+                    ]);
                     echo str_repeat('-', Cli::tput('cols')) . PHP_EOL;
                 }
             }

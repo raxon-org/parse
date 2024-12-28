@@ -103,11 +103,11 @@ try {
                                 '\\(',
                                 '\\)',
                             ],
-                            $file->url_temp_input
+                            $file->temp_input
                         ) .
                         '\' -vf yadif -c:v libvpx-vp9 -crf 18 -b:v 0 -threads 8 -r 25 -c:a libvorbis \'' .
                         '"' .
-                        $file->url_temp_output .
+                        $file->temp_output .
                         '"'  .
                         '\' > \'' .
                         $file->log .
@@ -120,7 +120,7 @@ try {
                     if($notification){
                         echo $notification;
                     }
-                    File::move($file->url_temp_output, $file->target);
+                    File::move($file->temp_output, $file->target);
                     echo str_repeat('-', Cli::tput('cols')) . PHP_EOL;
                 }
             }

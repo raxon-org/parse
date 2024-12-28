@@ -79,6 +79,9 @@ try {
                     )
                 ){
                     echo 'Starting processing: ' . $file->target . PHP_EOL;
+                    $file->url_temp_input = Dir::name($file->url) . Core::uuid() . '.' . $file->extension;
+                    $file->url_temp_output = Dir::name($file->url) . Core::uuid() . '.webm';
+                    File::rename($file->url, $file->url_temp_input);
                     //clear the lock-dir on boot in /Application/Boot/Boot
                     $command = 'nohup ffmpeg -i \'' .
                         str_replace(
@@ -107,6 +110,8 @@ try {
                     if($notification){
                         echo $notification;
                     }
+                    File::rename($file->url_temp_input, $file->url);
+                    File::rename($file->url_temp_output, $file->target);
                     echo str_repeat('-', Cli::tput('cols')) . PHP_EOL;
                 }
             }

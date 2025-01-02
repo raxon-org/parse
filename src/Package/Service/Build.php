@@ -1392,7 +1392,7 @@ class Build
         $plugin = str_replace('\\', '\\\\', $plugin);
         $plugin = str_replace($backslash_double, '\\\\', $plugin);
         $plugin = str_replace('\\\\', '_', $plugin);
-        $is_smiley = false;
+        $is_code_point = false;
         $split = mb_str_split($name);
         $plugin_code_point = 'CodePoint_';
         foreach($split as $nr => $char){

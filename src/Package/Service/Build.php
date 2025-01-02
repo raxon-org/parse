@@ -1404,6 +1404,7 @@ class Build
         }
         if($is_smiley){
             $plugin = $plugin_smiley;
+            breakpoint($plugin);
         }
         $use_plugin = explode('_', $plugin);
         foreach($use_plugin as $nr => $use){

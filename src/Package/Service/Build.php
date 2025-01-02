@@ -1461,9 +1461,9 @@ class Build
                 foreach($location  as $nr => $fileList){
                     foreach($fileList as $file){
                         breakpoint($file);
-                        $explode = explode('Smiley/Smiley.', $file, 2);
+                        $explode = explode('CodePoint/CodePoint.', $file, 2);
                         if(array_key_exists(1, $explode)){
-                            $file = implode('Smiley/.Smiley.', $explode);
+                            $file = implode('CodePoint/.CodePoint.', $explode);
                         }
                         $locate_exception[] = $file;
                         $exist = File::exist($file);

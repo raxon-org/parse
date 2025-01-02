@@ -138,6 +138,8 @@ class Method
                     $is_method = false;
                 }
                 if($name && $has_name === false){
+                    $name = array_reverse(mb_str_split($name));
+                    breakpoint($name);
                     $is_smiley = false;
                     $ord = mb_ord($name);
                     if($ord >= 128076 && $ord <= 128591){

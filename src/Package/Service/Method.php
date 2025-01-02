@@ -161,9 +161,6 @@ class Method
                             }
                         }
                         $has_name = true;
-                        breakpoint($name);
-                        breakpoint($is_method);
-                        breakpoint($has_name);
                     }
                 }
             }
@@ -309,7 +306,6 @@ class Method
                                 $is_class_method === false &&
                                 $method_name_reverse !== ''
                             ){
-                                breakpoint($method_name_reverse);
                                 break;
                             }
                             elseif(
@@ -329,7 +325,6 @@ class Method
                                 $is_class_method === true &&
                                 $method_name_reverse !== ''
                             ){
-                                breakpoint($method_name_reverse);
                                 break;
                             }
                             elseif(is_array($input['array'][$i])){
@@ -538,7 +533,6 @@ class Method
                 }
             }
         }
-        breakpoint($input);
         return $input;
     }
 }

@@ -1395,6 +1395,7 @@ class Build
         $is_smiley = false;
         $split = mb_str_split($name);
         $plugin_smiley = 'Smiley_';
+        breakpoint($split);
         foreach($split as $nr => $char){
             $ord = mb_ord($char);
             if($ord >= 128076 && $ord <= 128591){

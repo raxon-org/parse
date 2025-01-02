@@ -1457,6 +1457,7 @@ class Build
                 $locate_exception = [];
                 foreach($location  as $nr => $fileList){
                     foreach($fileList as $file){
+                        breakpoint($file);
                         $explode = explode('Smiley/Smiley.', $file, 2);
                         if(array_key_exists(1, $explode)){
                             $file = implode('Smiley/.Smiley.', $explode);

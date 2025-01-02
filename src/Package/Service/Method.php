@@ -538,6 +538,7 @@ class Method
                 }
             }
         }
+        breakpoint($input);
         return $input;
     }
 }

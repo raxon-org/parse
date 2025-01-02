@@ -1394,18 +1394,18 @@ class Build
         $plugin = str_replace('\\\\', '_', $plugin);
         $is_smiley = false;
         $split = mb_str_split($name);
-        $plugin_smiley = 'Smiley_';
+        $plugin_code_point = 'CodePoint_';
         breakpoint($split);
         foreach($split as $nr => $char){
             $ord = mb_ord($char);
             breakpoint($ord);
-            if($ord >= 128076 && $ord <= 128591){
-                $is_smiley = true;
-                $plugin_smiley .= $ord;
+            if($ord >= 256){
+                $is_code_point = true;
+                $plugin_code_point .= $ord;
             }
         }
-        if($is_smiley){
-            $plugin = $plugin_smiley;
+        if($is_code_point){
+            $plugin = $plugin_code_point;
             breakpoint($plugin);
         }
         $use_plugin = explode('_', $plugin);

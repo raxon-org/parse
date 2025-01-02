@@ -161,6 +161,9 @@ class Method
                             }
                         }
                         $has_name = true;
+                        breakpoint($name);
+                        breakpoint($is_method);
+                        breakpoint($has_name);
                     }
                 }
             }

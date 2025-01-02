@@ -309,6 +309,7 @@ class Method
                                 $is_class_method === false &&
                                 $method_name_reverse !== ''
                             ){
+                                breakpoint($method_name_reverse);
                                 break;
                             }
                             elseif(
@@ -328,6 +329,7 @@ class Method
                                 $is_class_method === true &&
                                 $method_name_reverse !== ''
                             ){
+                                breakpoint($method_name_reverse);
                                 break;
                             }
                             elseif(is_array($input['array'][$i])){

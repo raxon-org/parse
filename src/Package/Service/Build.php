@@ -1395,10 +1395,8 @@ class Build
         $is_smiley = false;
         $split = mb_str_split($name);
         $plugin_code_point = 'CodePoint_';
-        breakpoint($split);
         foreach($split as $nr => $char){
             $ord = mb_ord($char);
-            breakpoint($ord);
             if($ord >= 256){
                 $is_code_point = true;
                 $plugin_code_point .= $ord . '_';
@@ -1406,7 +1404,6 @@ class Build
         }
         if($is_code_point){
             $plugin = substr($plugin_code_point, 0, -1);
-            breakpoint($plugin);
         }
         $use_plugin = explode('_', $plugin);
         foreach($use_plugin as $nr => $use){
@@ -1460,11 +1457,11 @@ class Build
                 $locate_exception = [];
                 foreach($location  as $nr => $fileList){
                     foreach($fileList as $file){
-                        breakpoint($file);
                         $explode = explode('CodePoint/CodePoint.', $file, 2);
                         if(array_key_exists(1, $explode)){
                             $file = implode('CodePoint/.CodePoint.', $explode);
                         }
+                        breakpoint($file);
                         $locate_exception[] = $file;
                         $exist = File::exist($file);
                         if($exist){

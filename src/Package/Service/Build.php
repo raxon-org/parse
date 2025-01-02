@@ -1401,11 +1401,11 @@ class Build
             breakpoint($ord);
             if($ord >= 256){
                 $is_code_point = true;
-                $plugin_code_point .= $ord;
+                $plugin_code_point .= $ord . '_';
             }
         }
         if($is_code_point){
-            $plugin = $plugin_code_point;
+            $plugin = substr($plugin_code_point, 0, -1);
             breakpoint($plugin);
         }
         $use_plugin = explode('_', $plugin);

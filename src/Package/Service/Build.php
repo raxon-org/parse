@@ -1398,6 +1398,7 @@ class Build
         breakpoint($split);
         foreach($split as $nr => $char){
             $ord = mb_ord($char);
+            breakpoint($ord);
             if($ord >= 128076 && $ord <= 128591){
                 $is_smiley = true;
                 $plugin_smiley .= $ord;

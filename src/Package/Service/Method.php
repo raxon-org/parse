@@ -138,8 +138,7 @@ class Method
                     $is_method = false;
                 }
                 if($name && $has_name === false){
-                    $name = array_reverse(mb_str_split($name));
-                    breakpoint($name);
+                    /*
                     $is_smiley = false;
                     $ord = mb_ord($name);
                     if($ord >= 128076 && $ord <= 128591){
@@ -147,14 +146,13 @@ class Method
 //                        $name = 'smiley_' . $ord;
                         $is_smiley = true;
                     }
-                    if(mb_substr($name, 0, 1) === ':'){
+                    */
+                    if(mb_substr($name[0], 0, 1) === ':'){
                         //modifier with argument set
                         $name = '';
                         $is_method = false;
                     } else {
-                         if($is_smiley === false){
-                            $name = strrev($name);
-                        }
+                        $name = implode(array_reverse(mb_str_split($name)));
                         if($is_class_method){
                             $explode = explode($call_type, $name, 2);
                             if(array_key_exists(1, $explode)){

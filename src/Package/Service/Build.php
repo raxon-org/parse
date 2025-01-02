@@ -1393,7 +1393,10 @@ class Build
         $plugin = str_replace($backslash_double, '\\\\', $plugin);
         $plugin = str_replace('\\\\', '_', $plugin);
         $is_smiley = false;
-        breakpoint($name);
+        $split = mb_str_split($name);
+        breakpoint($split);
+
+
         $ord = mb_ord($name);
         if($ord >= 128076 && $ord <= 128591){
             $is_smiley = true;

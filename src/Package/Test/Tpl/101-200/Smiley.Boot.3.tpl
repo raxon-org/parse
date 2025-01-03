@@ -1,1 +1,1 @@
-{{👌🤣('boot', app.flags('🏳️'), app.options('⛳'))}}
+{{👌🤣('⛳', app.flags(), app.options())}}

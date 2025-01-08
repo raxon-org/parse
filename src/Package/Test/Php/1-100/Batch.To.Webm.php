@@ -117,10 +117,12 @@ try {
                     if($notification){
                         echo $notification;
                     }
-                    File::move($file->temp_output, $file->target);
-                    File::permission($app, [
-                        'url' => $file->target,
-                    ]);
+                    if(File::exist($file->temp_output)){
+                        File::move($file->temp_output, $file->target);
+                        File::permission($app, [
+                            'url' => $file->target,
+                        ]);
+                    }
                     echo str_repeat('-', Cli::tput('cols')) . PHP_EOL;
                 }
             }

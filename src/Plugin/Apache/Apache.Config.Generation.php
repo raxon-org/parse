@@ -37,11 +37,11 @@ trait Apache_Config_Generation {
         } else {
             throw new Exception('No config option given');
         }
-        $read = $dir->read('/mnt/Disk2/', true);
+//        $read = $dir->read('/mnt/Disk2/', true);
         $duration = (microtime(true) - $start) * 1000;
         breakpoint(round($duration, 3) . ' msec');
         d($config);
-        breakpoint($read);
+//        breakpoint($read);
 
         /*
         $uuid = false;

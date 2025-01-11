@@ -51,6 +51,7 @@ trait Apache_Config_Generation {
         } else {
             $admin = $app->config('server.admin');
             if($admin){
+                $options->server = (object) [];
                 $options->server->admin = $admin;
             } else {
                 $exception = new Exception('Please configure a server admin, or provide the option (server.admin)...');

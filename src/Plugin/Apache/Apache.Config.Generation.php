@@ -16,7 +16,9 @@ use Raxon\App as Framework;
 
 use Raxon\Module\Core;
 use Raxon\Module\Dir;
+use Raxon\Module\Event;
 use Raxon\Module\File;
+use Raxon\Module\Parse;
 
 trait Apache_Config_Generation {
 
@@ -39,9 +41,67 @@ trait Apache_Config_Generation {
         }
 //        $read = $dir->read('/mnt/Disk2/', true);
         $duration = (microtime(true) - $start) * 1000;
-        breakpoint(round($duration, 3) . ' msec');
-        d($config);
 //        breakpoint($read);
+
+        if(
+            property_exists($options, 'server') &&
+            property_exists($options->server, 'admin')
+        ){
+            //nothing
+        } else {
+            $admin = $app->config('server.admin');
+            if($admin){
+                $options->server->admin = $admin;
+            } else {
+                $exception = new Exception('Please configure a server admin, or provide the option (server.admin)...');
+                throw $exception;
+            }
+        }
+        if(
+            property_exists($options, 'server') &&
+            property_exists($options->server, 'name')
+        ){
+            //nothing
+        } else {
+            $exception = new Exception('Please provide the option (server.name)...');
+            throw $exception;
+        }
+        if(
+            property_exists($options, 'server') &&
+            property_exists($options->server, 'root')
+        ){
+            //nothing
+        } else {
+            $options->server->root = $app->config('project.dir.public');
+        }
+        if(substr($options->server->root, -1, 1) === '/'){
+            $options->server->root = substr($options->server->root, 0, -1);
+        }
+        if(
+            property_exists($options, 'server') &&
+            property_exists($options->server, 'alias') &&
+            is_array($options->server->alias)
+        ){
+            $list = $options->server->alias;
+            foreach($list as $nr => $alias){
+                $explode = explode('.', $alias);
+                $count = count($explode);
+                if($count === 3){
+                    $list[$nr] = $explode[0] . '.' . $options->server->name;
+                } else {
+                    throw new Exception('server alias should exist of domain and extension, for example: raxon.org');
+                }
+            }
+            $options->server->alias = $list;
+        }
+        $environment = 'production';
+        $parse = new Parse($app);
+        $url = $app->config('controller.dir.data') . '001-site.' . $environment . '.conf';
+        $read = File::read($url);
+        $app->set('options', $options);
+        $read = $parse->compile($read, $app->data());
+
+        ddd($read);
 
         /*
         $uuid = false;

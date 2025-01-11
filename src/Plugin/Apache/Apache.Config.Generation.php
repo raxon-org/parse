@@ -29,10 +29,20 @@ trait Apache_Config_Generation {
         $app = $this->object();
         $options = Core::object($options, Core::ARRAY);
         $dir = new Dir();
+        $dir_mount_data = '/mnt/Vps3/Mount/Data/';
+        $dir_mount_data_apache = $dir_mount_data . 'Apache/';
+        $config = false;
+        if(array_key_exists('config', $options)){
+            $config = $options['config'];
+        } else {
+            throw new Exception('No config option given');
+        }
         $read = $dir->read('/mnt/Disk2/', true);
-        $duration = microtime(true) - $start;
-        breakpoint(round($duration, 3) . ' seconds');
+        $duration = (microtime(true) - $start) * 1000;
+        breakpoint(round($duration, 3) . ' msec');
+        d($config);
         breakpoint($read);
+
         /*
         $uuid = false;
         if(!array_key_exists('url', $options)){

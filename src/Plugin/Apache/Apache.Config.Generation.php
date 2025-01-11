@@ -29,13 +29,13 @@ trait Apache_Config_Generation {
     {
         $start = microtime(true);
         $app = $this->object();
-        $options = Core::object($options, Core::ARRAY);
+        $options = Core::object($options, Core::OBJECT);
         $dir = new Dir();
         $dir_mount_data = '/mnt/Vps3/Mount/Data/';
         $dir_mount_data_apache = $dir_mount_data . 'Apache/';
         $config = false;
-        if(array_key_exists('config', $options)){
-            $config = $options['config'];
+        if(property_exists($options, 'config')){
+            $config = $options->config;
         } else {
             throw new Exception('No config option given');
         }

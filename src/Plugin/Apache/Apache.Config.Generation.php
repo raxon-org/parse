@@ -107,7 +107,6 @@ trait Apache_Config_Generation {
                 if($file->type === File::TYPE){
                     breakpoint($file);
                 }
-
             }
         }
         $environment = 'production';

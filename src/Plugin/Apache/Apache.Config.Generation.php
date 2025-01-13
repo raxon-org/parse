@@ -106,7 +106,7 @@ trait Apache_Config_Generation {
             foreach($list_dictionary as $nr => $file){
                 if($file->type === File::TYPE){
                     $explode = explode('.', $file->name, 2);
-                    $alias = $explode[0] . $options->server->name;
+                    $alias = $explode[0] . '.' . $options->server->name;
                     breakpoint($alias);
                 }
             }

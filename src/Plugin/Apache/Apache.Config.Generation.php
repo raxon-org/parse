@@ -99,8 +99,6 @@ trait Apache_Config_Generation {
             }
             $options->server->alias = $list;
         } else {
-
-            breakpoint($app->config());
             $url_dictionary = '/mnt/Disk2/Media/Software/Oxford/Definition/Input/Definition/';
             $dir = new Dir();
             $list_dictionary = $dir->read($url_dictionary);

@@ -102,7 +102,13 @@ trait Apache_Config_Generation {
             $url_dictionary = '/mnt/Disk2/Media/Software/Oxford/Definition/Input/Definition/';
             $dir = new Dir();
             $list_dictionary = $dir->read($url_dictionary);
-            breakpoint($list_dictionary);
+            $list = [];
+            foreach($list_dictionary as $nr => $file){
+                if($file->type === File::TYPE){
+                    breakpoint($file);
+                }
+
+            }
         }
         $environment = 'production';
         $parse = new Parse($app);

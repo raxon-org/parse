@@ -80,12 +80,17 @@ trait Apache_Config_Generation {
         if(substr($options->server->root, -1, 1) === '/'){
             $options->server->root = substr($options->server->root, 0, -1);
         }
+
+
         if(
             property_exists($options, 'server') &&
             property_exists($options->server, 'alias') &&
             is_array($options->server->alias)
         ){
             $list = $options->server->alias;
+
+            breakpoint($list);
+
             foreach($list as $nr => $alias){
                 $explode = explode('.', $alias);
                 $count = count($explode);

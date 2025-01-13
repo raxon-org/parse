@@ -101,6 +101,7 @@ trait Apache_Config_Generation {
         $parse = new Parse($app);
         $url = $app->config('controller.dir.data') . '001-site.' . $environment . '.conf';
         $read = File::read($url);
+        breakpoint($read);
         $app->set('options', $options);
         $read = $parse->compile($read, $app->data());
 

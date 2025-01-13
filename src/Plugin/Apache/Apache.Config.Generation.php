@@ -101,9 +101,10 @@ trait Apache_Config_Generation {
         } else {
 
             breakpoint($app->config());
-            $url_dictionary = '';
+            $url_dictionary = '/mnt/Disk2/Media/Software/Oxford/Definition/Input/Definition/';
             $dir = new Dir();
             $list_dictionary = $dir->read($url_dictionary);
+            breakpoint($list_dictionary);
         }
         $environment = 'production';
         $parse = new Parse($app);

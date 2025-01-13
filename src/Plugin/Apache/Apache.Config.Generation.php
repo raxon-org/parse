@@ -100,6 +100,10 @@ trait Apache_Config_Generation {
         $environment = 'production';
         $parse = new Parse($app);
         $url = $app->config('controller.dir.data') . '001-site.' . $environment . '.conf';
+
+        ddd($url);
+
+
         $read = File::read($url);
         breakpoint($read);
         $app->set('options', $options);

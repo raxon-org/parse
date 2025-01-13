@@ -101,11 +101,6 @@ trait Apache_Config_Generation {
         $parse = new Parse($app);
         $url = $app->config('controller.dir.data') . '001-site.' . $environment . '.conf';
         $url  = str_replace('Raxon/Parse', 'Raxon/Basic', $url);
-
-
-        ddd($url);
-
-
         $read = File::read($url);
         breakpoint($read);
         $app->set('options', $options);

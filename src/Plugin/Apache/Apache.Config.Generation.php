@@ -101,7 +101,7 @@ trait Apache_Config_Generation {
         } else {
 
             breakpoint($app->config());
-
+            $url_dictionary = '';
             $dir = new Dir();
             $list_dictionary = $dir->read($url_dictionary);
         }

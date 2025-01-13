@@ -100,6 +100,8 @@ trait Apache_Config_Generation {
         $environment = 'production';
         $parse = new Parse($app);
         $url = $app->config('controller.dir.data') . '001-site.' . $environment . '.conf';
+        $url  = str_replace('Raxon/Parse', 'Raxon/Basic', $url);
+
 
         ddd($url);
 

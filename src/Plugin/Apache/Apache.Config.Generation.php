@@ -88,9 +88,6 @@ trait Apache_Config_Generation {
             is_array($options->server->alias)
         ){
             $list = $options->server->alias;
-
-            breakpoint($list);
-
             foreach($list as $nr => $alias){
                 $explode = explode('.', $alias);
                 $count = count($explode);
@@ -101,6 +98,12 @@ trait Apache_Config_Generation {
                 }
             }
             $options->server->alias = $list;
+        } else {
+
+            breakpoint($app->config());
+
+            $dir = new Dir();
+            $list_dictionary = $dir->read($url_dictionary);
         }
         $environment = 'production';
         $parse = new Parse($app);

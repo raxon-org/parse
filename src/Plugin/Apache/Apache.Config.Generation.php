@@ -42,7 +42,6 @@ trait Apache_Config_Generation {
 //        $read = $dir->read('/mnt/Disk2/', true);
         $duration = (microtime(true) - $start) * 1000;
 //        breakpoint($read);
-        breakpoint($options);
         if(
             property_exists($options, 'server') &&
             property_exists($options->server, 'admin')
@@ -50,14 +49,17 @@ trait Apache_Config_Generation {
             //nothing
         } else {
             $admin = $app->config('server.admin');
-            if($admin){
-                $options->server = (object) [];
+            if($admin) {
+                if (!property_exists($options, 'server')){
+                    $options->server = (object)[];
+                }
                 $options->server->admin = $admin;
             } else {
                 $exception = new Exception('Please configure a server admin, or provide the option (server.admin)...');
                 throw $exception;
             }
         }
+        breakpoint($options);
         if(
             property_exists($options, 'server') &&
             property_exists($options->server, 'name')

@@ -42,7 +42,7 @@ trait Apache_Config_Generation {
 //        $read = $dir->read('/mnt/Disk2/', true);
         $duration = (microtime(true) - $start) * 1000;
 //        breakpoint($read);
-
+        breakpoint($options);
         if(
             property_exists($options, 'server') &&
             property_exists($options->server, 'admin')

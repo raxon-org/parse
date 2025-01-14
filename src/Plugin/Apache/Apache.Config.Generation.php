@@ -33,6 +33,7 @@ trait Apache_Config_Generation {
         $dir = new Dir();
         $dir_mount_data = '/mnt/Vps3/Mount/Data/';
         $dir_mount_data_apache = $dir_mount_data . 'Apache/';
+        $dir_available = '/etc/apache2/sites-available/';
         $config = false;
         if(property_exists($options, 'config')){
             $config = $options->config;
@@ -120,8 +121,8 @@ trait Apache_Config_Generation {
         breakpoint($read);
         $app->set('options', $options);
         $read = $parse->compile($read, $app->data());
-
-        ddd($read);
+        $url = $dir_available . $options->config;
+        File::write($url, $read);
 
         /*
         $uuid = false;

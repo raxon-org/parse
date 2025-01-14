@@ -107,6 +107,7 @@ trait Apache_Config_Generation {
                 if($file->type === File::TYPE){
                     $explode = explode('.', $file->name, 2);
                     $alias = $explode[0] . '.' . $options->server->name;
+                    $list[] = $alias;
                 }
             }
         }

@@ -110,6 +110,7 @@ trait Apache_Config_Generation {
                     $list[] = $alias;
                 }
             }
+            $options->server->alias = $list;
         }
         $environment = 'production';
         $parse = new Parse($app);

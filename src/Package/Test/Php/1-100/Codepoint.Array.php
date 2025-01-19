@@ -9,6 +9,7 @@
 
 use Raxon\App;
 use Raxon\Config;
+use Raxon\Module\Core;
 
 use Raxon\Exception\LocateException;
 use Raxon\Exception\ObjectException;
@@ -31,10 +32,7 @@ try {
         ]
     );
     $app = new App($autoload, $config);
-    $list = [];
-    for($i=0; $i<=0x10FFFF; $i++){
-        $list[$i] = mb_chr($i);
-    }
+    $list = Core::array_codepoint();
     d($list);
 } catch (Exception|LocateException|ObjectException $exception) {
     echo $exception;

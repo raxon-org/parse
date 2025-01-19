@@ -1405,7 +1405,7 @@ class Build
         if($is_code_point){
             $plugin = substr($plugin_code_point, 0, -1);
             if(strlen($plugin) > 64){
-                $plugin = hash('sha256', $plugin);
+                $plugin = 'hash_' . hash('sha256', $plugin);
             }
         }
         $use_plugin = explode('_', $plugin);

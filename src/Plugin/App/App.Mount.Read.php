@@ -51,7 +51,7 @@ trait App_Mount_Read {
         $list = [];
         foreach($read as $nr => $file){
             $file->uuid = Core::uuid();
-            $list[] = clone File::info($app, $file);
+            $list[] = File::info($app, clone $file);
         }
         $data = new Data();
         $data->set('Mount.Read', $read);

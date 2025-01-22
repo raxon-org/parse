@@ -47,7 +47,7 @@ trait App_Mount_Read {
         $list = [];
         foreach($read as $nr => $file){
             $file->uuid = Core::uuid();
-            $list[$file->uuid] = clone File::info($app, $file);
+            $list[] = clone File::info($app, $file);
         }
         breakpoint($list);
         $data = new Data();

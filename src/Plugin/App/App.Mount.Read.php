@@ -65,7 +65,7 @@ trait App_Mount_Read {
             'extra' => $url_extra
         ]);
         if($copy){
-            $data->write($copy);
+            File::write($copy, Core::object($data->data(), Core::JSON_LINE), []);
         }
     }
 }

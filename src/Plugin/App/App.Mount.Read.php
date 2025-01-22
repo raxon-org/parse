@@ -57,7 +57,7 @@ trait App_Mount_Read {
         $data->set('Mount.Read', $read);
         $data->write($url);
         if(
-            $without_info === true &&
+            $without_info !== false &&
             $copy
         ){
             File::write($copy, Core::object($data->data(), Core::JSON_LINE), []);

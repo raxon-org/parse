@@ -15,6 +15,7 @@ use Exception;
 use Raxon\App as Framework;
 use Raxon\Config;
 
+use Raxon\Module\Core;
 use Raxon\Module\Dir;
 use Raxon\Module\File;
 
@@ -39,15 +40,28 @@ trait App_Mount_Read {
         $dir_ramdisk_user = $dir_ramdisk . '33' . $app->config('ds'); //need all users so webservice can read
         $dir_ramdisk_mount = $dir_ramdisk_user . 'Mount' . $app->config('ds');
         $file_name = hash('sha256', $mount) . $app->config('extension.json');
+        $file_extra_name = hash('sha256', $mount) . '.Extra.' . $app->config('extension.json');
         $url = $dir_ramdisk_mount . $file_name;
-        breakpoint($url);
+        $url_extra = $dir_ramdisk_mount . $file_extra_name;
         Dir::create($dir_ramdisk_mount, Dir::CHMOD);
+        $list = [];
+        foreach($read as $nr => $file){
+            $file->uuid = Core::uuid();
+            $list[$file->uuid] = clone File::info($app, $file);
+        }
+        breakpoint($list);
+        $data = new Data();
+        $data->set('Mount.Read', $read);
+        $data->write($url);
+        $data = new Data();
+        $data->set('Mount.Read.Extra', $list);
+        $data->write($url_extra);
         File::permission($app, [
             'ramdisk' => $dir_ramdisk,
             'user' => $dir_ramdisk_user,
             'mount' => $dir_ramdisk_mount,
+            'file' => $url,
+            'extra' => $url_extra
         ]);
-
-//        ddd($read);
     }
 }

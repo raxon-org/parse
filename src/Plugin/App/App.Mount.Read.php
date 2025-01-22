@@ -30,6 +30,10 @@ trait App_Mount_Read {
         }
         $dir = new Dir();
         $read = $dir->read($mount, true);
+        $app = $this->object();
+        $dir_temp = $app->config();
+        d($dir_temp);
+
         ddd($read);
     }
 }

@@ -35,6 +35,7 @@ trait App_Mount_Read {
             throw new Exception('Mount is not a directory');
         }
         $copy = $options->copy ?? false;
+        $without_info = $options->without->info ?? false;
         $dir = new Dir();
         $read = $dir->read($mount, true);
         $app = $this->object();
@@ -54,6 +55,12 @@ trait App_Mount_Read {
         $data = new Data();
         $data->set('Mount.Read', $read);
         $data->write($url);
+        if(
+            $without_info &&
+            $copy
+        ){
+            File::write($copy, Core::object($data->data(), Core::JSON_LINE), []);
+        }
         $data = new Data();
         $data->set('Mount.Read.Extra', $list);
         $data->write($url_extra);
@@ -64,7 +71,10 @@ trait App_Mount_Read {
             'file' => $url,
             'extra' => $url_extra
         ]);
-        if($copy){
+        if(
+            !$without_info &&
+            $copy
+        ){
             File::write($copy, Core::object($data->data(), Core::JSON_LINE), []);
         }
     }

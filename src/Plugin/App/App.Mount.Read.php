@@ -29,7 +29,7 @@ trait App_Mount_Read {
             throw new Exception('Mount is not a directory');
         }
         $dir = new Dir();
-        $read = $dir->read($mount);
+        $read = $dir->read($mount, true);
         ddd($read);
     }
 }

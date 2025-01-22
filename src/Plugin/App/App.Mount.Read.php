@@ -12,6 +12,7 @@ namespace Plugin;
 
 use Exception;
 use Raxon\App as Framework;
+use Raxon\Module\Dir;
 
 trait App_Mount_Read {
 
@@ -23,5 +24,12 @@ trait App_Mount_Read {
         $this->object();
         d($flags);
         d($options);
+        $mount = $options->mount ?? false;
+        if(!Dir::is($mount)){
+            throw new Exception('Mount is not a directory');
+        }
+        $dir = new Dir();
+        $read = $dir->read($mount);
+        ddd($read);
     }
 }

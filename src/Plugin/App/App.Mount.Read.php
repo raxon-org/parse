@@ -32,8 +32,8 @@ trait App_Mount_Read {
         $read = $dir->read($mount, true);
         $app = $this->object();
         $dir_temp = $app->config();
-        d($dir_temp);
+        breakpoint($dir_temp);
 
-        ddd($read);
+//        ddd($read);
     }
 }

@@ -36,6 +36,7 @@ trait App_Mount_Read {
         }
         $copy = $options->copy ?? false;
         $without_info = $options->without->info ?? false;
+        breakpoint($without_info);
         $dir = new Dir();
         $read = $dir->read($mount, true);
         $app = $this->object();

@@ -462,7 +462,7 @@ class Parse
                 ];
                 echo Core::object($output, Core::OBJECT_JSON) . PHP_EOL;
             }
-            ddd($result);
+            d($result);
             return Parse::result($result);
         }
         return null;

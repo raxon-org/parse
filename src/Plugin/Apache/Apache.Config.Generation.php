@@ -130,9 +130,9 @@ trait Apache_Config_Generation {
 //        $parse = $this->parse();
 //        $read = $parse->compile($read, $data, true);
 //        /*
-        d($parse_options);
         $parse = new Parse($app, $data, $flags, $parse_options);
         $read = $parse->compile($read, $data);
+        ddd($read);
 //        */
         $url = $dir_available . $options->config;
         File::write($url, $read);

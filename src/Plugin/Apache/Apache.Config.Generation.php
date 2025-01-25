@@ -126,6 +126,8 @@ trait Apache_Config_Generation {
         $parse_options->source = $url;
 //        unset($parse_options->source);
         $data->set('options', $parse_options);
+        $parse = $this->parse();
+        $read = $parse->compile($read, $data);
         /*
         $parse = new Parse($app, $data, $flags, $parse_options);
         $read = $parse->compile($read, $data);

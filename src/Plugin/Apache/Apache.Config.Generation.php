@@ -121,68 +121,19 @@ trait Apache_Config_Generation {
 
         $url = $app->config('controller.dir.data') . '002-site.' . $environment . '.conf';
         $url  = str_replace('Raxon/Parse', 'Raxon/Basic', $url);
-        $read = file_get_contents($url);
-        breakpoint($read);
-//        $read = File::read($url);
+        $read = File::read($url);
         $parse_options = clone $options;
         $parse_options->source = $url;
         unset($parse_options->class);
         $data->set('options', $parse_options);
-//        unset($parse_options->source);
-//        $data->set('options', $parse_options);
-//        $parse = $this->parse();
-//        $read = $parse->compile($read, $data, true);
-//        /*
         $parse = new Parse($app, $data, $flags, $parse_options);
-        breakpoint($read);
         $read = $parse->compile($read, $data);
-        breakpoint($read);
-//        */
         $url = $dir_available . $options->config;
         File::write($url, $read);
-
-        /*
-        $uuid = false;
-        if(!array_key_exists('url', $options)){
-            $options['url'] = false;
-        }
-        if(!array_key_exists('language', $options)){
-            $options['language'] = 'en';
-        }
-        if(!array_key_exists('sex', $options)){
-            $options['sex'] = 'female';
-        }
-        if($options['url'] !== false){
-            $url = $options['url'];
-            $dir = Dir::name($url);
-            Dir::Create($dir, Dir::CHMOD);
-        } else {
-            $dir = '/mnt/Disk2/Media/Voice/';
-            $uuid = Core::uuid();
-            $url = $dir . $uuid . '.wav';
-        }
-        $param = '';
-        if($options['language'] === 'nl'){
-            $param .= ' -v nl';
-        } else {
-            $param .= ' -v en';
-        }
-        if($options['sex'] === 'female'){
-            $param .= '+f3';
-        } else {
-            $param .= '';
-        }
-        $command = 'espeak-ng ' . $param . ' -p 50 -s 120 -w ' . $url . ' "' . escapeshellarg($speak) . '"';
-        exec($command);
-        File::permission($app, [
-            'dir' => $dir,
-            'url' => $url
-        ]);
         return (object) [
             'url' => $url,
             'dir' => $dir,
-            'uuid' => $uuid,
+            'result' => $read,
         ];
-        */
      }
 }

@@ -15,11 +15,23 @@ trait Config {
     protected function config(string $attribute, mixed $value=null): mixed
     {
         $object = $this->object();
+        breakpoint($object->config());
         if($value !== null){
-            $object->config($attribute, $value);
-
+            if(
+                in_array(
+                    $attribute,
+                    [
+                        'delete',
+                        'remove'
+                    ],
+                    true
+                )
+            ){
+                $object->config($attribute, $value);
+                return true;
+            }
+            return $object->config($attribute, $value);
         }
         return $object->config($attribute);
     }
-
 }

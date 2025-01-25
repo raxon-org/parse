@@ -124,7 +124,8 @@ trait Apache_Config_Generation {
         $url  = str_replace('Raxon/Parse', 'Raxon/Basic', $url);
         $read = File::read($url);
         $parse_options = clone $options;
-        unset($parse_options->source);
+        $parse_options->source = $url;
+//        unset($parse_options->source);
         $data->set('options', $parse_options);
         breakpoint($read);
         $parse = new Parse($app, $data, $flags, $parse_options);

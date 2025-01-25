@@ -133,7 +133,6 @@ trait Apache_Config_Generation {
         return (object) [
             'url' => $url,
             'dir' => $dir,
-            'result' => $read,
         ];
      }
 }

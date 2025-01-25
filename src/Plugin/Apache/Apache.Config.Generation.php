@@ -118,9 +118,8 @@ trait Apache_Config_Generation {
         $environment = 'production';
         $data = new Data();
 
-        $parse = $this->parse();
+//        $parse = $this->parse();
 
-//        $parse = new Parse($app, $data, $flags, $options);
         $url = $app->config('controller.dir.data') . '002-site.' . $environment . '.conf';
         $url  = str_replace('Raxon/Parse', 'Raxon/Basic', $url);
         $read = File::read($url);
@@ -128,6 +127,7 @@ trait Apache_Config_Generation {
         unset($parse_options->source);
         $data->set('options', $parse_options);
         breakpoint($read);
+        $parse = new Parse($app, $data, $flags, $parse_options);
         $read = $parse->compile($read, $data);
         breakpoint($read);
         $url = $dir_available . $options->config;

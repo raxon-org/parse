@@ -18,7 +18,8 @@ use Raxon\Module\Core;
 use Raxon\Module\Dir;
 use Raxon\Module\Event;
 use Raxon\Module\File;
-use Package\Raxon\Parse;
+
+use Package\Raxon\Parse\Service\Parse;
 
 trait Apache_Config_Generation {
 

@@ -118,9 +118,9 @@ trait Apache_Config_Generation {
         $url = $app->config('controller.dir.data') . '002-site.' . $environment . '.conf';
         $url  = str_replace('Raxon/Parse', 'Raxon/Basic', $url);
         $read = File::read($url);
-        breakpoint($read);
         $app->set('options', $options);
         $read = $parse->compile($read, $app->data());
+        breakpoint($read);
         $url = $dir_available . $options->config;
         File::write($url, $read);
 

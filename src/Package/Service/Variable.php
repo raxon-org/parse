@@ -388,7 +388,7 @@ class Variable
         return $input;
     }
 
-    public static function modifier(App $object, $flags, $options, $input=[]): array
+    public static function modifier(App $object, $flags, $options, $input=[], $tag=[]): array
     {
         if(!is_array($input)){
             return $input;
@@ -494,6 +494,7 @@ class Variable
                             $flags,
                             $options,
                             $argument_value,
+                            $tag
                         );
                         $argument_array[$argument_nr] = $argument_value;
                     }
@@ -639,6 +640,7 @@ class Variable
                             $flags,
                             $options,
                             $argument_value,
+                            $tag
                         );
                         $argument_array[$argument_nr] = $argument_value;
                     }
@@ -737,6 +739,7 @@ class Variable
                                 $flags,
                                 $options,
                                 $argument_value,
+                                $tag
                             );
                             $argument_array[$argument_nr] = $argument_value;
                         }
@@ -898,6 +901,7 @@ class Variable
                         $flags,
                         $options,
                         $argument_value,
+                        $tag
                     );
                     $argument_array[$argument_nr] = $argument_value;
                 }

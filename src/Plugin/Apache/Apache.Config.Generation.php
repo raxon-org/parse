@@ -62,7 +62,6 @@ trait Apache_Config_Generation {
                 throw $exception;
             }
         }
-        breakpoint($options);
         if(
             property_exists($options, 'server') &&
             property_exists($options->server, 'name')
@@ -127,7 +126,7 @@ trait Apache_Config_Generation {
         $parse_options->source = $url;
 //        unset($parse_options->source);
         $data->set('options', $parse_options);
-        breakpoint($read);
+        breakpoint($parse_options);
         $parse = new Parse($app, $data, $flags, $parse_options);
         $read = $parse->compile($read, $data);
         breakpoint($read);

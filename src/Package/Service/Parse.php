@@ -435,7 +435,6 @@ class Parse
             File::touch($url_json, $mtime);
             File::touch($url_php, $mtime);
         }
-        breakpoint($url_php);
         if($url_php){
             $pre_require = microtime(true);
             require_once $url_php;

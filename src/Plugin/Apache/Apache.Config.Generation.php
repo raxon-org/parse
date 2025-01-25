@@ -16,7 +16,7 @@ use Raxon\App as Framework;
 
 use Raxon\Module\Core;
 use Raxon\Module\Dir;
-use Raxon\Module\Event;
+use Raxon\Module\Data;
 use Raxon\Module\File;
 
 use Package\Raxon\Parse\Service\Parse;
@@ -116,12 +116,15 @@ trait Apache_Config_Generation {
             $options->server->alias = $list;
         }
         $environment = 'production';
-        $parse = new Parse($app, $app->data(), $flags, $options);
+        $app->set('options', $options);
+        $data = new Data();
+        $data->data($app->data());
+        $parse = new Parse($app, $data, $flags, $options);
         $url = $app->config('controller.dir.data') . '002-site.' . $environment . '.conf';
         $url  = str_replace('Raxon/Parse', 'Raxon/Basic', $url);
         $read = File::read($url);
-        $app->set('options', $options);
-        $read = $parse->compile($read, $app->data());
+
+        $read = $parse->compile($read, $data);
         breakpoint($read);
         $url = $dir_available . $options->config;
         File::write($url, $read);

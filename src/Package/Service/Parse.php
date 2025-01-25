@@ -442,8 +442,6 @@ class Parse
             require_once $url_php;
             $post_require = microtime(true);
             $run = $options->namespace . '\\' . $options->class;
-            d($options);
-            d($data);
             $main = new $run($object, $this, $data, $flags, $options);
             $result = $main->run();
             $microtime = microtime(true);
@@ -464,7 +462,6 @@ class Parse
                 ];
                 echo Core::object($output, Core::OBJECT_JSON) . PHP_EOL;
             }
-            d($result);
             return Parse::result($result);
         }
         return null;

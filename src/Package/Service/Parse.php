@@ -442,6 +442,8 @@ class Parse
             require_once $url_php;
             $post_require = microtime(true);
             $run = $options->namespace . '\\' . $options->class;
+            d($options);
+            d($data);
             $main = new $run($object, $this, $data, $flags, $options);
             $result = $main->run();
             $microtime = microtime(true);

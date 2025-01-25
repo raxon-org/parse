@@ -36,6 +36,7 @@ trait Apache_Config_Generation {
         $dir_mount_data_apache = $dir_mount_data . 'Apache/';
         $dir_available = '/etc/apache2/sites-available/';
         $config = false;
+        $flags = (object) [];
         if(property_exists($options, 'config')){
             $config = $options->config;
         } else {
@@ -115,7 +116,7 @@ trait Apache_Config_Generation {
             $options->server->alias = $list;
         }
         $environment = 'production';
-        $parse = new Parse($app);
+        $parse = new Parse($app, $app->data(), $flags, $options);
         $url = $app->config('controller.dir.data') . '002-site.' . $environment . '.conf';
         $url  = str_replace('Raxon/Parse', 'Raxon/Basic', $url);
         $read = File::read($url);

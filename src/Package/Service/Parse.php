@@ -196,7 +196,7 @@ class Parse
         $options = $this->options();
 
         if($is_debug){
-            $object->config('package.raxon/parse.build.state.input.debug', true);
+//            $object->config('package.raxon/parse.build.state.input.debug', true);
         }
         if($object->config('package.raxon/parse.build.state.input.debug') === true){
             d($input);

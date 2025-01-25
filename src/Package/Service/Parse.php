@@ -174,7 +174,7 @@ class Parse
      * @throws ObjectException
      * @throws TemplateException
      */
-    public function compile($input, $data=null): mixed
+    public function compile($input, $data=null, $is_debug=false): mixed
     {
         $start = microtime(true);
         if(is_array($data)){
@@ -195,6 +195,9 @@ class Parse
         $flags = $this->flags();
         $options = $this->options();
 
+        if($is_debug){
+            $object->config('package.raxon/parse.build.state.input.debug', true);
+        }
         if($object->config('package.raxon/parse.build.state.input.debug') === true){
             d($input);
             ddd($options);

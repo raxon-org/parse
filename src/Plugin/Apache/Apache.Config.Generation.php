@@ -125,6 +125,7 @@ trait Apache_Config_Generation {
         $parse_options = clone $options;
         $parse_options->source = $url;
         unset($parse_options->class);
+        $data->set('options', $parse_options);
 //        unset($parse_options->source);
 //        $data->set('options', $parse_options);
 //        $parse = $this->parse();

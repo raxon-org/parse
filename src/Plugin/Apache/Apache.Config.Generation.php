@@ -132,7 +132,6 @@ trait Apache_Config_Generation {
         File::write($url, $read);
         return (object) [
             'url' => $url,
-            'dir' => $dir,
         ];
      }
 }

@@ -132,6 +132,7 @@ trait Apache_Config_Generation {
 //        /*
         $parse = new Parse($app, $data, $flags, $parse_options);
         $read = $parse->compile($read, $data);
+        breakpoint($read);
 //        */
         $url = $dir_available . $options->config;
         File::write($url, $read);

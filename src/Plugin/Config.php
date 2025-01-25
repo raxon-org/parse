@@ -15,7 +15,7 @@ trait Config {
     protected function config(string $attribute, mixed $value=null): mixed
     {
         $object = $this->object();
-        breakpoint($object->config());
+//        breakpoint($object->config());
         if($value !== null){
             if(
                 in_array(

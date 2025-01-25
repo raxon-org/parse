@@ -121,7 +121,9 @@ trait Apache_Config_Generation {
 
         $url = $app->config('controller.dir.data') . '002-site.' . $environment . '.conf';
         $url  = str_replace('Raxon/Parse', 'Raxon/Basic', $url);
-        $read = File::read($url);
+        $read = file_get_contents($url);
+        breakpoint($read);
+//        $read = File::read($url);
         $parse_options = clone $options;
         $parse_options->source = $url;
         unset($parse_options->class);

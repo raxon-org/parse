@@ -344,7 +344,6 @@ class Parse
                 return $input;
             }
         }
-        d($options);
         $source = $options->source ?? 'source';
         $object->config('package.raxon/parse.build.state.source.url', $source);
         $mtime = false;
@@ -463,6 +462,7 @@ class Parse
                 ];
                 echo Core::object($output, Core::OBJECT_JSON) . PHP_EOL;
             }
+            ddd($result);
             return Parse::result($result);
         }
         return null;

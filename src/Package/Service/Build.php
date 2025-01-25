@@ -2131,10 +2131,6 @@ class Build
                 $is_argument = false;
                 foreach($record['method']['argument'] as $nr => $argument){
                     $value = Build::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
-                    //($options.server.alias
-                    breakpoint($before);
-                    breakpoint($value);
-                    breakpoint($after);
                     if(
                         !in_array(
                             $value,

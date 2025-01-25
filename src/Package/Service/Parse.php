@@ -194,12 +194,12 @@ class Parse
         $object = $this->object();
         $flags = $this->flags();
         $options = $this->options();
-        /*
+
         if($object->config('package.raxon/parse.build.state.input.debug') === true){
             d($input);
             ddd($options);
         }
-        */
+
         $depth = $options->depth ?? null;
         $type = strtolower(gettype($input));
         if(

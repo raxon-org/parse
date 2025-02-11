@@ -18,6 +18,8 @@ class Method
             return $input;
         }
         if(empty($tag)){
+
+            return $input;
             trace();
             breakpoint($input);
             breakpoint($tag);

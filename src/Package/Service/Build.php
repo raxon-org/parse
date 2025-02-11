@@ -1412,7 +1412,7 @@ class Build
             $explode = explode(':', $explode[1], 2);
             $trait_name = $explode[0];
             $trait_function = $explode[1];
-            $use_plugin = '\\' . $use_package  . 'Trait' . '\\' . $trait_name . '::' . $trait_function;
+            $use_plugin = '\\' . $use_package  . 'Trait' . '\\' . $trait_name . '->' . $trait_function;
             if(!in_array($use_plugin, $use, true)){
                 $use[] = '';
                 $use_trait_function[count($use) - 1] = $use_plugin;

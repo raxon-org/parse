@@ -32,9 +32,15 @@ class Parse
      * @throws ObjectException
      * @throws Exception
      */
-    public function __construct(App $object, Data $data, $flags, $options){
+    public function __construct(App $object, Data $data, $flags=null, $options=null){
         $this->object($object);
         $this->data($data);
+        if($flags === null){
+            $flags = (object) [];
+        }
+        if($options === null){
+            $options = (object) [];
+        }
         $this->flags($flags);
         $this->options($options);
         //move to install (config)

@@ -1459,10 +1459,11 @@ class Build
                 true
             )
         ){
-            ddd($use_plugin);
             if(!in_array($use_plugin, $use, true)){
                 $autoload = $object->data(App::AUTOLOAD_RAXON);
                 $location = $autoload->locate($use_plugin, false,  Autoload::MODE_LOCATION);
+                d($use_plugin);
+                ddd($location);
                 $exist = false;
                 $locate_exception = [];
                 foreach($location  as $nr => $fileList){

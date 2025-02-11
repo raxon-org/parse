@@ -1463,7 +1463,8 @@ class Build
                 $autoload = $object->data(App::AUTOLOAD_RAXON);
                 $location = $autoload->locate($use_plugin, false,  Autoload::MODE_LOCATION);
                 $controller_plugin = $object->config('controller.dir.root') . str_replace('\\', '/', $use_plugin) . $object->config('extension.php');
-                array_unshift($location, [ $controller_plugin => $controller_plugin ]);
+                $controller_plugin_dot = $object->config('controller.dir.root') . str_replace(['\\', '_'], ['/', '.'], $use_plugin) . $object->config('extension.php');
+                array_unshift($location, [ $controller_plugin_dot => $controller_plugin_dot, $controller_plugin => $controller_plugin ]);
                 d($use_plugin);
                 ddd($location);
                 $exist = false;

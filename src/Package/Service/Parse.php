@@ -36,6 +36,7 @@ class Parse
     public function __construct(App $object, Data $data, $flags=null, $options=null){
         $this->object($object);
         $this->data($data);
+        d($this->data());
         if($flags === null){
             $flags = (object) [];
         }

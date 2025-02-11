@@ -1550,8 +1550,6 @@ class Build
                 }
             }
         }
-        d($use);
-        d($use_trait_function);
         $object->config('package.raxon/parse.build.use.trait', $use);
         $object->config('package.raxon/parse.build.use.trait_function', $use_trait_function);
         return '$this->' . mb_strtolower($plugin);

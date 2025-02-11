@@ -1418,7 +1418,8 @@ class Build
         foreach($use_plugin as $nr => $use){
             $use_plugin[$nr] = ucfirst($use);
         }
-        $use_plugin = 'Plugin\\' . implode('_', $use_plugin);
+        $controller_plugin = implode('_', $use_plugin);
+        $use_plugin = 'Plugin\\' . $controller_plugin;
 
         $use = $object->config('package.raxon/parse.build.use.trait');
         $use_trait_function = $object->config('package.raxon/parse.build.use.trait_function');
@@ -1462,9 +1463,24 @@ class Build
             if(!in_array($use_plugin, $use, true)){
                 $autoload = $object->data(App::AUTOLOAD_RAXON);
                 $location = $autoload->locate($use_plugin, false,  Autoload::MODE_LOCATION);
-                $controller_plugin = $object->config('controller.dir.root') . str_replace('\\', '/', $use_plugin) . $object->config('extension.php');
-                $controller_plugin_dot = $object->config('controller.dir.root') . str_replace(['\\', '_'], ['/', '.'], $use_plugin) . $object->config('extension.php');
-                array_unshift($location, [ $controller_plugin_dot => $controller_plugin_dot, $controller_plugin => $controller_plugin ]);
+                $controller_plugin_1 = $object->config('controller.dir.plugin') . str_replace(['\\', '_'], ['/', '.'], $controller_plugin) . $object->config('ds') . str_replace(['\\', '_'], ['/', '.'], $controller_plugin) . $object->config('extension.php');
+                $controller_plugin_2 = $object->config('controller.dir.plugin') . str_replace('\\', '/', $controller_plugin) . $object->config('ds') . str_replace('\\', '/', $controller_plugin) . $object->config('extension.php');
+                $explode = explode('_', $controller_plugin, 2);
+                $controller_plugin_3= $object->config('controller.dir.plugin') . str_replace(['\\', '_'], ['/', '.'], $explode[0]) . $object->config('ds') . str_replace(['\\', '_'], ['/', '.'], $controller_plugin) . $object->config('extension.php');
+                $controller_plugin_4 = $object->config('controller.dir.plugin') . str_replace('\\', '/', $explode[0]) . $object->config('ds') . str_replace('\\', '/', $controller_plugin) . $object->config('extension.php');
+                $controller_plugin_5 = $object->config('controller.dir.plugin') . str_replace(['\\', '_'], ['/', '.'], $controller_plugin) . $object->config('extension.php');
+                $controller_plugin_6 = $object->config('controller.dir.plugin') . str_replace('\\', '/', $controller_plugin) . $object->config('extension.php');
+                array_unshift(
+                    $location,
+                    [
+                        $controller_plugin_1 => $controller_plugin_1,
+                        $controller_plugin_2 => $controller_plugin_2,
+                        $controller_plugin_3 => $controller_plugin_3,
+                        $controller_plugin_4 => $controller_plugin_4,
+                        $controller_plugin_5 => $controller_plugin_5,
+                        $controller_plugin_6 => $controller_plugin_6,
+                    ]
+                );
                 d($use_plugin);
                 ddd($location);
                 $exist = false;

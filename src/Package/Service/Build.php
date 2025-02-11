@@ -1412,13 +1412,13 @@ class Build
             $explode = explode(':', $explode[1], 2);
             $trait_name = $explode[0];
             $trait_function = $explode[1];
-            $use_plugin = '\\' . $use_package  . 'Trait' . '\\' . $trait_name . '->' . $trait_function;
+            $use_plugin = $trait_function;
             if(!in_array($use_plugin, $use, true)){
                 $use[] = '\\' . $use_package  . 'Trait' . '\\' . $trait_name ;
-                $use_trait_function[count($use) - 1] = '$this->' . $trait_function;
+                $use_trait_function[count($use) - 1] = $use_plugin;
                 $object->config('package.raxon/parse.build.use.trait', $use);
                 $object->config('package.raxon/parse.build.use.trait_function', $use_trait_function);
-                return $use_plugin;
+                return '$this->' . $use_plugin;
             }
         } else {
             $is_code_point = false;

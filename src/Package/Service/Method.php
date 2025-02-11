@@ -348,6 +348,7 @@ class Method
                                     $input['array'][$i] = null;
                                 }
                                 elseif(
+                                    array_key_exists('value', $input['array'][$i]) &&
                                     $input['array'][$i]['value'] === '|' &&
                                     $previous !== '|' &&
                                     $next !== '|' &&

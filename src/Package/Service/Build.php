@@ -1414,7 +1414,7 @@ class Build
             $trait_function = $explode[1];
             $use_plugin = '\\' . $use_package  . 'Trait' . '\\' . $trait_name . '::' . $trait_function;
             if(!in_array($use_plugin, $use, true)){
-                $use[] = $use_plugin;
+                $use[] = '';
                 $use_trait_function[count($use) - 1] = $use_plugin;
             }
         } else {

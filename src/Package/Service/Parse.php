@@ -479,19 +479,7 @@ class Parse
      */
     public static function readback($object, $parse, $type=null): mixed
     {
-        $data = $parse->storage()->data($type);
-        if(is_array($data)){
-            foreach($data as $key => $value){
-                $data[$key] = Literal::restore($parse->storage(), $value);
-            }
-        }
-        elseif(is_object($data)){
-            foreach($data as $key => $value){
-                $data->$key = Literal::restore($parse->storage(), $value);
-            }
-        } else {
-            $data = Literal::restore($parse->storage(), $data);
-        }
+        $data = $parse->data($type);
         $object->data($type, $data);
         return $data;
     }

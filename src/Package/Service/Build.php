@@ -1416,6 +1416,9 @@ class Build
             if(!in_array($use_plugin, $use, true)){
                 $use[] = '';
                 $use_trait_function[count($use) - 1] = $use_plugin;
+                $object->config('package.raxon/parse.build.use.trait', $use);
+                $object->config('package.raxon/parse.build.use.trait_function', $use_trait_function);
+                return $use_plugin;
             }
         } else {
             $is_code_point = false;

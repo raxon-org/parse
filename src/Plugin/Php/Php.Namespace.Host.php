@@ -15,7 +15,11 @@ trait Php_Namespace_Host {
 
     protected function php_namespace_host(string $host): string
     {
-        breakpoint($host);
+        $explode = explode('.', $host);
+        foreach($explode as $nr => $value){
+            $explode[$nr] = ucfirst($value);
+        }
+        $host = implode('_', $explode);
         return $host;
     }
 }

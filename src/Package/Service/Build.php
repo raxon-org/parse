@@ -1438,8 +1438,8 @@ class Build
                 }
             }
             $use_plugin = explode('_', $plugin);
-            foreach($use_plugin as $nr => $use){
-                $use_plugin[$nr] = ucfirst($use);
+            foreach($use_plugin as $nr => $use_part){
+                $use_plugin[$nr] = ucfirst($use_part);
             }
             $controller_plugin = implode('_', $use_plugin);
             $use_plugin = 'Plugin\\' . $controller_plugin;

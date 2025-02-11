@@ -1392,9 +1392,34 @@ class Build
         $plugin = str_replace('\\', '\\\\', $plugin);
         $plugin = str_replace($backslash_double, '\\\\', $plugin);
         $plugin = str_replace('\\\\', '_', $plugin);
-        if(str_contains($plugin, ':')){
-            return $plugin;
+        $use = $object->config('package.raxon/parse.build.use.trait');
+        $use_trait_function = $object->config('package.raxon/parse.build.use.trait_function');
+        if(!$use){
+            $use = [];
+            $use_trait_function = [];
         }
+        if(str_contains($plugin, ':')){
+            $explode = explode(':', $name, 2);
+            $use_package = str_replace(
+                [
+                    '_'
+                ],
+                [
+                    '\\'
+                ], $explode[0]) .
+                '\\'
+            ;
+            $explode = explode(':', $explode[1], 2);
+            $trait_name = $explode[0];
+            $use_plugin = $use_package  . 'Trait' . '\\' . $trait_name;
+            d($use_plugin);
+
+
+            //absolute traited function call
+            ddd($plugin);
+        }
+
+
         $is_code_point = false;
         $split = mb_str_split($name);
         $plugin_code_point = 'CodePoint_';
@@ -1417,13 +1442,6 @@ class Build
         }
         $controller_plugin = implode('_', $use_plugin);
         $use_plugin = 'Plugin\\' . $controller_plugin;
-
-        $use = $object->config('package.raxon/parse.build.use.trait');
-        $use_trait_function = $object->config('package.raxon/parse.build.use.trait_function');
-        if(!$use){
-            $use = [];
-            $use_trait_function = [];
-        }
         if(
             !in_array(
                 $use_plugin,

@@ -1554,7 +1554,7 @@ class Build
         d($use_trait_function);
         $object->config('package.raxon/parse.build.use.trait', $use);
         $object->config('package.raxon/parse.build.use.trait_function', $use_trait_function);
-        return mb_strtolower($plugin);
+        return '$this->' . mb_strtolower($plugin);
     }
 
     /**
@@ -1607,7 +1607,7 @@ class Build
             $modifier_value = $previous_modifier;
             foreach($record['variable']['modifier'] as $nr => $modifier){
                 $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $modifier['name']));
-                $modifier_value = '$this->' . $plugin . '(' . PHP_EOL;
+                $modifier_value = $plugin . '(' . PHP_EOL;
                 $modifier_value .= $previous_modifier . ',' . PHP_EOL;
                 $is_argument = false;
                 if(array_key_exists('argument', $modifier)){
@@ -2440,7 +2440,7 @@ class Build
                     $method_value .= ');';
                 } else {
                     $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
-                    $method_value = '$this->' . $plugin . '(';
+                    $method_value = $plugin . '(';
                     $method_value .= Build::argument($object, $flags, $options, $record, $before, $after);
                     $method_value .= ');';
                 }
@@ -2830,7 +2830,7 @@ class Build
             $previous_modifier = '$data->get(\'' . $record['variable']['name'] . '\')';
             foreach($record['variable']['modifier'] as $nr => $modifier){
                 $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $modifier['name']));
-                $modifier_value = '$this->' . $plugin . '(';
+                $modifier_value = $plugin . '(';
                 $modifier_value .= $previous_modifier .', ';
                 if(array_key_exists('argument', $modifier)){
                     $is_argument = false;
@@ -3744,7 +3744,7 @@ class Build
                     $method_value .= ')';
                 } else {
                     $plugin = Build::plugin($object, $flags, $options, $tag, str_replace('.', '_', $record['method']['name']));
-                    $method_value = '$this->' . $plugin . '(' . PHP_EOL;
+                    $method_value = $plugin . '(' . PHP_EOL;
                     $method_value .= Build::argument($object, $flags, $options, $record, $before, $after);
                     $method_value .= ')';
                 }
@@ -3762,10 +3762,10 @@ class Build
                     foreach($record['modifier'] as $modifier_nr => $modifier){
                         $plugin = Build::plugin($object, $flags, $options, $tag, str_replace('.', '_', $modifier['name']));
                         if($is_single_line){
-                            $modifier_value = '$this->' . $plugin . '( ' ;
+                            $modifier_value = $plugin . '( ' ;
                             $modifier_value .= $previous_modifier . ', ';
                         } else {
-                            $modifier_value = '$this->' . $plugin . '(';
+                            $modifier_value = $plugin . '(';
                             $modifier_value .= $previous_modifier . ', ';
                         }
                         $is_argument = false;
@@ -3884,10 +3884,10 @@ class Build
                         foreach($record['modifier'] as $modifier_nr => $modifier){
                             $plugin = Build::plugin($object, $flags, $options, $tag, str_replace('.', '_', $modifier['name']));
                             if($is_single_line){
-                                $modifier_value = '$this->' . $plugin . '(';
+                                $modifier_value = $plugin . '(';
                                 $modifier_value .= $previous_modifier . ', ';
                             } else {
-                                $modifier_value = '$this->' . $plugin . '(';
+                                $modifier_value = $plugin . '(';
                                 $modifier_value .= $previous_modifier . ', ';
                             }
                             $is_argument = false;

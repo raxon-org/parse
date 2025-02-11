@@ -1188,7 +1188,7 @@ class Build
                             true
                         )
                     ){
-                        $result[] = 'echo \'' . $line . '\';' . PHP_EOL;
+                        $result[] = 'echo \'' . str_replace('\'', '\\\'', $line) . '\';' . PHP_EOL;
                     }
                     $line = '';
                 }
@@ -1220,7 +1220,7 @@ class Build
                             true
                         )
                     ){
-                        $result[] = 'echo \'' . $line . '\';' . PHP_EOL;
+                        $result[] = 'echo \'' . str_replace('\'', '\\\'', $line) . '\';' . PHP_EOL;
                     }
                     $line = '';
                 }
@@ -1279,7 +1279,7 @@ class Build
                         true
                     )
                 ){
-                    $result[] = 'echo \'' . $line . '\';' . PHP_EOL;
+                    $result[] = 'echo \'' . str_replace('\'', '\\\'', $line) . '\';' . PHP_EOL;
                 }
             }
             if(array_key_exists(1, $result)){

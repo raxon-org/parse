@@ -1462,8 +1462,8 @@ class Build
             if(!in_array($use_plugin, $use, true)){
                 $autoload = $object->data(App::AUTOLOAD_RAXON);
                 $location = $autoload->locate($use_plugin, false,  Autoload::MODE_LOCATION);
-                $controller_plugin = $object->config('controller.dir.plugin') . $use_plugin . $object->config('extension.php');
-                array_unshift($location, $controller_plugin);
+                $controller_plugin = $object->config('controller.dir.root') . str_replace('\\', '\/', $use_plugin) . $object->config('extension.php');
+                array_unshift($location, [ $controller_plugin ]);
                 d($use_plugin);
                 ddd($location);
                 $exist = false;

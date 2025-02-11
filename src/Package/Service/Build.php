@@ -1414,8 +1414,8 @@ class Build
             $trait_function = $explode[1];
             $use_plugin = '\\' . $use_package  . 'Trait' . '\\' . $trait_name . '->' . $trait_function;
             if(!in_array($use_plugin, $use, true)){
-                $use[] = '';
-                $use_trait_function[count($use) - 1] = $use_plugin;
+                $use[] = '\\' . $use_package  . 'Trait' . '\\' . $trait_name ;
+                $use_trait_function[count($use) - 1] = '$this->' . $trait_function;
                 $object->config('package.raxon/parse.build.use.trait', $use);
                 $object->config('package.raxon/parse.build.use.trait_function', $use_trait_function);
                 return $use_plugin;

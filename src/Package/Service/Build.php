@@ -1393,6 +1393,10 @@ class Build
         $plugin = str_replace($backslash_double, '\\\\', $plugin);
         $plugin = str_replace('\\\\', '_', $plugin);
         if(str_contains($plugin, ':')){
+            $package_plugin_dir = $object->config('project.dir.package');
+            d($package_plugin_dir);
+
+
             //absolute traited function call
             ddd($plugin);
         }

@@ -13,6 +13,7 @@ use Raxon\Module\Core;
 use Raxon\Module\Dir;
 use Raxon\Module\File;
 
+use Raxon\Module\Parse\Literal;
 use Raxon\Node\Model\Node;
 
 use Exception;
@@ -471,5 +472,27 @@ class Parse
             return Parse::result($result);
         }
         return null;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public static function readback($object, $parse, $type=null): mixed
+    {
+        $data = $parse->storage()->data($type);
+        if(is_array($data)){
+            foreach($data as $key => $value){
+                $data[$key] = Literal::restore($parse->storage(), $value);
+            }
+        }
+        elseif(is_object($data)){
+            foreach($data as $key => $value){
+                $data->$key = Literal::restore($parse->storage(), $value);
+            }
+        } else {
+            $data = Literal::restore($parse->storage(), $data);
+        }
+        $object->data($type, $data);
+        return $data;
     }
 }

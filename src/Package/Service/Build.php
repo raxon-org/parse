@@ -158,19 +158,19 @@ class Build
                     } else {
                         if($is_block){
                             if(array_key_exists('tag', $record)){
-                                $block[] = 'echo \'' . str_replace(['\'', '\\'], ['\\\'', '\\\\'], $record['tag']) . '\';';
+                                $block[] = 'echo \'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . '\';';
                             }
                             elseif(array_key_exists('text', $record)){
-                                $block[] = 'echo \'' . str_replace(['\'', '\\'], ['\\\'', '\\\\'], $record['text']) . '\';';
+                                $block[] = 'echo \'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['text']) . '\';';
                             } else {
                                 ddd($record);
                             }
                         } else {
                             if(array_key_exists('tag', $record)){
-                                $data[] = 'echo \'' . str_replace(['\'', '\\'], ['\\\'', '\\\\'], $record['tag']) . '\';';
+                                $data[] = 'echo \'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . '\';';
                             }
                             elseif(array_key_exists('text', $record)){
-                                $data[] = 'echo \'' . str_replace(['\'', '\\'], ['\\\'', '\\\\'], $record['text']) . '\';';
+                                $data[] = 'echo \'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['text']) . '\';';
                             } else {
                                 ddd($record);
                             }
@@ -345,7 +345,7 @@ class Build
                                     $record['is_multiline'] === true
                                 ) {
                                     throw new TemplateException(
-                                        str_replace('\'', '\\\'', $record['tag']) . PHP_EOL .
+                                        str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL .
                                         'Unused foreach close tag "{{/foreach}}" on line: ' .
                                         $record['line']['start'] .
                                         ', column: ' .
@@ -356,7 +356,7 @@ class Build
 
                                 } else {
                                     throw new TemplateException(
-                                        str_replace('\'', '\\\'', $record['tag']) . PHP_EOL .
+                                        str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL .
                                         'Unused foreach close tag "{{/foreach}}" on line: ' .
                                         $record['line'] .
                                         ', column: ' .
@@ -409,7 +409,7 @@ class Build
                                     $record['is_multiline'] === true
                                 ) {
                                     throw new TemplateException(
-                                        str_replace('\'', '\\\'', $record['tag']) . PHP_EOL .
+                                        str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL .
                                         'Unused while close tag "{{/while}}" on line: ' .
                                         $record['line']['start'] .
                                         ', column: ' .
@@ -419,7 +419,7 @@ class Build
                                     );
                                 } else {
                                     throw new TemplateException(
-                                        str_replace('\'', '\\\'', $record['tag']) . PHP_EOL .
+                                        str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL .
                                         'Unused while close tag "{{/while}}" on line: ' .
                                         $record['line'] .
                                         ', column: ' .
@@ -472,7 +472,7 @@ class Build
                                     $record['is_multiline'] === true
                                 ) {
                                     throw new TemplateException(
-                                        str_replace('\'', '\\\'', $record['tag']) . PHP_EOL .
+                                        str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL .
                                         'Unused for close tag "{{/for}}" on line: ' .
                                         $record['line']['start'] .
                                         ', column: ' .
@@ -482,7 +482,7 @@ class Build
                                     );
                                 } else {
                                     throw new TemplateException(
-                                        str_replace('\'', '\\\'', $record['tag']) . PHP_EOL .
+                                        str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL .
                                         'Unused for close tag "{{/for}}" on line: ' .
                                         $record['line'] .
                                         ', column: ' .
@@ -533,7 +533,7 @@ class Build
                                     $record['is_multiline'] === true
                                 ) {
                                     throw new TemplateException(
-                                        str_replace('\'', '\\\'', $record['tag']) . PHP_EOL .
+                                        str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL .
                                         'Unused if close tag "{{/if}}" on line: ' .
                                         $record['line']['start'] .
                                         ', column: ' .
@@ -544,7 +544,7 @@ class Build
 
                                 } else {
                                     throw new TemplateException(
-                                        str_replace('\'', '\\\'', $record['tag']) . PHP_EOL .
+                                        str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL .
                                         'Unused if close tag "{{/if}}" on line: ' .
                                         $record['line'] .
                                         ', column: ' .
@@ -1147,7 +1147,7 @@ class Build
                             true
                         )
                     ){
-                        $result[] = 'echo \'' . str_replace(['\'', '\\'], ['\\\'', '\\\\'], $line) . '\';' . PHP_EOL;
+                        $result[] = 'echo \'' . str_replace('\'', '\\\'', $line) . '\';' . PHP_EOL;
                     }
                     $line = '';
                     $skip_space = $ltrim * 4;
@@ -1188,7 +1188,7 @@ class Build
                             true
                         )
                     ){
-                        $result[] = 'echo \'' . str_replace(['\'', '\\'], ['\\\'', '\\\\'], $line) . '\';' . PHP_EOL;
+                        $result[] = 'echo \'' . str_replace('\'', '\\\'', $line) . '\';' . PHP_EOL;
                     }
                     $line = '';
                 }
@@ -1220,7 +1220,7 @@ class Build
                             true
                         )
                     ){
-                        $result[] = 'echo \'' . str_replace(['\'', '\\'], ['\\\'', '\\\\'], $line) . '\';' . PHP_EOL;
+                        $result[] = 'echo \'' . str_replace('\'', '\\\'', $line) . '\';' . PHP_EOL;
                     }
                     $line = '';
                 }
@@ -1279,7 +1279,7 @@ class Build
                         true
                     )
                 ){
-                    $result[] = 'echo \'' . str_replace(['\'', '\\'], ['\\\'', '\\\\'], $line) . '\';' . PHP_EOL;
+                    $result[] = 'echo \'' . str_replace('\'', '\\\'', $line) . '\';' . PHP_EOL;
                 }
             }
             if(array_key_exists(1, $result)){

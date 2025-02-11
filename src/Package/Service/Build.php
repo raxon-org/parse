@@ -1412,139 +1412,138 @@ class Build
             $explode = explode(':', $explode[1], 2);
             $trait_name = $explode[0];
             $use_plugin = $use_package  . 'Trait' . '\\' . $trait_name;
-            d($use_plugin);
-
-
-            //absolute traited function call
-            ddd($plugin);
-        }
-
-
-        $is_code_point = false;
-        $split = mb_str_split($name);
-        $plugin_code_point = 'CodePoint_';
-        foreach($split as $nr => $char){
-            $ord = mb_ord($char);
-            if($ord >= 256){
-                $is_code_point = true;
-                $plugin_code_point .= $ord . '_';
-            }
-        }
-        if($is_code_point){
-            $plugin = substr($plugin_code_point, 0, -1);
-            if(strlen($plugin) > 64){
-                $plugin = 'hash_' . hash('sha256', $plugin);
-            }
-        }
-        $use_plugin = explode('_', $plugin);
-        foreach($use_plugin as $nr => $use){
-            $use_plugin[$nr] = ucfirst($use);
-        }
-        $controller_plugin = implode('_', $use_plugin);
-        $use_plugin = 'Plugin\\' . $controller_plugin;
-        if(
-            !in_array(
-                $use_plugin,
-                [
-                    'Plugin\\Value_Concatenate',
-                    'Plugin\\Value_Plus_Plus',
-                    'Plugin\\Value_Minus_Minus',
-                    'Plugin\\Value_Multiply_Multiply',
-                    'Plugin\\Value_Plus',
-                    'Plugin\\Value_Minus',
-                    'Plugin\\Value_Multiply',
-                    'Plugin\\Value_Modulo',
-                    'Plugin\\Value_Divide',
-                    'Plugin\\Value_Smaller',
-                    'Plugin\\Value_Smaller_Equal',
-                    'Plugin\\Value_Smaller_Smaller',
-                    'Plugin\\Value_Greater',
-                    'Plugin\\Value_Greater_Equal',
-                    'Plugin\\Value_Greater_Greater',
-                    'Plugin\\Value_Equal',
-                    'Plugin\\Value_Identical',
-                    'Plugin\\Value_Not_Equal',
-                    'Plugin\\Value_Not_Identical',
-                    'Plugin\\Value_And',
-                    'Plugin\\Value_Or',
-                    'Plugin\\Value_Xor',
-                    'Plugin\\Value_Null_Coalescing',
-                    'Plugin\\Value_Set',
-                    'Plugin\\Framework',
-                ],
-                true
-            )
-        ){
             if(!in_array($use_plugin, $use, true)){
-                $autoload = $object->data(App::AUTOLOAD_RAXON);
-                $location = $autoload->locate($use_plugin, false,  Autoload::MODE_LOCATION);
-                $controller_plugin_1 = $object->config('controller.dir.plugin') . str_replace(['\\', '_'], ['/', '.'], $controller_plugin) . $object->config('ds') . str_replace(['\\', '_'], ['/', '.'], $controller_plugin) . $object->config('extension.php');
-                $controller_plugin_2 = $object->config('controller.dir.plugin') . str_replace('\\', '/', $controller_plugin) . $object->config('ds') . str_replace('\\', '/', $controller_plugin) . $object->config('extension.php');
-                $explode = explode('_', $controller_plugin, 2);
-                $controller_plugin_3= $object->config('controller.dir.plugin') . str_replace(['\\', '_'], ['/', '.'], $explode[0]) . $object->config('ds') . str_replace(['\\', '_'], ['/', '.'], $controller_plugin) . $object->config('extension.php');
-                $controller_plugin_4 = $object->config('controller.dir.plugin') . str_replace('\\', '/', $explode[0]) . $object->config('ds') . str_replace('\\', '/', $controller_plugin) . $object->config('extension.php');
-                $controller_plugin_5 = $object->config('controller.dir.plugin') . str_replace(['\\', '_'], ['/', '.'], $controller_plugin) . $object->config('extension.php');
-                $controller_plugin_6 = $object->config('controller.dir.plugin') . str_replace('\\', '/', $controller_plugin) . $object->config('extension.php');
-                array_unshift(
-                    $location,
-                    [
-                        $controller_plugin_1 => $controller_plugin_1,
-                        $controller_plugin_2 => $controller_plugin_2,
-                        $controller_plugin_3 => $controller_plugin_3,
-                        $controller_plugin_4 => $controller_plugin_4,
-                        $controller_plugin_5 => $controller_plugin_5,
-                        $controller_plugin_6 => $controller_plugin_6,
-                    ]
-                );
-                $exist = false;
-                $locate_exception = [];
-                foreach($location  as $nr => $fileList){
-                    foreach($fileList as $file){
-                        $locate_exception[] = $file;
-                        $exist = File::exist($file);
-                        if($exist){
-                            break;
-                        }
-                    }
-                }
-                if($exist === false){
-                    if(
-                        array_key_exists('is_multiline', $record) &&
-                        $record['is_multiline'] === true
-                    ){
-                        breakpoint($record);
-                        throw new LocateException(
-                            'Plugin not found (' .
-                            str_replace('_', '.', $name) .
-                            ') exception: "' .
-                            str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) .
-                            '" on line: ' .
-                            $record['line']['start']  .
-                            ', column: ' .
-                            $record['column'][$record['line']['start']]['start'] .
-                            ' in source: '.
-                            $source,
-                            $locate_exception
-                        );
-                    } else {
-                        breakpoint($record);
-                        throw new LocateException(
-                            'Plugin not found (' .
-                            str_replace('_', '.', $name) .
-                            ') exception: "' .
-                            str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) .
-                            '" on line: ' .
-                            $record['line']  .
-                            ', column: ' .
-                            $record['column']['start'] .
-                            ' in source: '.
-                            $source,
-                            $locate_exception
-                        );
-                    }
-                }
                 $use[] = $use_plugin;
                 $use_trait_function[count($use) - 1] = $plugin;
+            }
+        } else {
+            $is_code_point = false;
+            $split = mb_str_split($name);
+            $plugin_code_point = 'CodePoint_';
+            foreach($split as $nr => $char){
+                $ord = mb_ord($char);
+                if($ord >= 256){
+                    $is_code_point = true;
+                    $plugin_code_point .= $ord . '_';
+                }
+            }
+            if($is_code_point){
+                $plugin = substr($plugin_code_point, 0, -1);
+                if(strlen($plugin) > 64){
+                    $plugin = 'hash_' . hash('sha256', $plugin);
+                }
+            }
+            $use_plugin = explode('_', $plugin);
+            foreach($use_plugin as $nr => $use){
+                $use_plugin[$nr] = ucfirst($use);
+            }
+            $controller_plugin = implode('_', $use_plugin);
+            $use_plugin = 'Plugin\\' . $controller_plugin;
+            if(
+                !in_array(
+                    $use_plugin,
+                    [
+                        'Plugin\\Value_Concatenate',
+                        'Plugin\\Value_Plus_Plus',
+                        'Plugin\\Value_Minus_Minus',
+                        'Plugin\\Value_Multiply_Multiply',
+                        'Plugin\\Value_Plus',
+                        'Plugin\\Value_Minus',
+                        'Plugin\\Value_Multiply',
+                        'Plugin\\Value_Modulo',
+                        'Plugin\\Value_Divide',
+                        'Plugin\\Value_Smaller',
+                        'Plugin\\Value_Smaller_Equal',
+                        'Plugin\\Value_Smaller_Smaller',
+                        'Plugin\\Value_Greater',
+                        'Plugin\\Value_Greater_Equal',
+                        'Plugin\\Value_Greater_Greater',
+                        'Plugin\\Value_Equal',
+                        'Plugin\\Value_Identical',
+                        'Plugin\\Value_Not_Equal',
+                        'Plugin\\Value_Not_Identical',
+                        'Plugin\\Value_And',
+                        'Plugin\\Value_Or',
+                        'Plugin\\Value_Xor',
+                        'Plugin\\Value_Null_Coalescing',
+                        'Plugin\\Value_Set',
+                        'Plugin\\Framework',
+                    ],
+                    true
+                )
+            ){
+                if(!in_array($use_plugin, $use, true)){
+                    //pre scanning for the right exception
+                    $autoload = $object->data(App::AUTOLOAD_RAXON);
+                    $location = $autoload->locate($use_plugin, false,  Autoload::MODE_LOCATION);
+                    $controller_plugin_1 = $object->config('controller.dir.plugin') . str_replace(['\\', '_'], ['/', '.'], $controller_plugin) . $object->config('ds') . str_replace(['\\', '_'], ['/', '.'], $controller_plugin) . $object->config('extension.php');
+                    $controller_plugin_2 = $object->config('controller.dir.plugin') . str_replace('\\', '/', $controller_plugin) . $object->config('ds') . str_replace('\\', '/', $controller_plugin) . $object->config('extension.php');
+                    $explode = explode('_', $controller_plugin, 2);
+                    $controller_plugin_3= $object->config('controller.dir.plugin') . str_replace(['\\', '_'], ['/', '.'], $explode[0]) . $object->config('ds') . str_replace(['\\', '_'], ['/', '.'], $controller_plugin) . $object->config('extension.php');
+                    $controller_plugin_4 = $object->config('controller.dir.plugin') . str_replace('\\', '/', $explode[0]) . $object->config('ds') . str_replace('\\', '/', $controller_plugin) . $object->config('extension.php');
+                    $controller_plugin_5 = $object->config('controller.dir.plugin') . str_replace(['\\', '_'], ['/', '.'], $controller_plugin) . $object->config('extension.php');
+                    $controller_plugin_6 = $object->config('controller.dir.plugin') . str_replace('\\', '/', $controller_plugin) . $object->config('extension.php');
+                    array_unshift(
+                        $location,
+                        [
+                            $controller_plugin_1 => $controller_plugin_1,
+                            $controller_plugin_2 => $controller_plugin_2,
+                            $controller_plugin_3 => $controller_plugin_3,
+                            $controller_plugin_4 => $controller_plugin_4,
+                            $controller_plugin_5 => $controller_plugin_5,
+                            $controller_plugin_6 => $controller_plugin_6,
+                        ]
+                    );
+                    $exist = false;
+                    $locate_exception = [];
+                    foreach($location  as $nr => $fileList){
+                        foreach($fileList as $file){
+                            $locate_exception[] = $file;
+                            $exist = File::exist($file);
+                            if($exist){
+                                break;
+                            }
+                        }
+                    }
+                    if($exist === false){
+                        if(
+                            array_key_exists('is_multiline', $record) &&
+                            $record['is_multiline'] === true
+                        ){
+                            breakpoint($record);
+                            throw new LocateException(
+                                'Plugin not found (' .
+                                str_replace('_', '.', $name) .
+                                ') exception: "' .
+                                str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) .
+                                '" on line: ' .
+                                $record['line']['start']  .
+                                ', column: ' .
+                                $record['column'][$record['line']['start']]['start'] .
+                                ' in source: '.
+                                $source,
+                                $locate_exception
+                            );
+                        } else {
+                            breakpoint($record);
+                            throw new LocateException(
+                                'Plugin not found (' .
+                                str_replace('_', '.', $name) .
+                                ') exception: "' .
+                                str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) .
+                                '" on line: ' .
+                                $record['line']  .
+                                ', column: ' .
+                                $record['column']['start'] .
+                                ' in source: '.
+                                $source,
+                                $locate_exception
+                            );
+                        }
+                    }
+                    $use[] = $use_plugin;
+                    $use_trait_function[count($use) - 1] = $plugin;
+                }
             }
         }
         d($use);

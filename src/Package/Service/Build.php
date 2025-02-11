@@ -1403,7 +1403,10 @@ class Build
                     '',
                     $object->config('ds')
                 ], $explode[0]);
-            $package_plugin_dir = $object->config('project.dir.package') . $dir_package;
+            $explode = explode(':', $explode[1], 2);
+            $trait_name = $explode[0];
+            $trait_function = $explode[1];
+            $package_plugin_dir = $object->config('project.dir.package') . $dir_package . $object->config('ds') . 'Trait';
             d($package_plugin_dir);
 
 
@@ -1546,6 +1549,8 @@ class Build
                 $use_trait_function[count($use) - 1] = $plugin;
             }
         }
+        d($use);
+        d($use_trait_function);
         $object->config('package.raxon/parse.build.use.trait', $use);
         $object->config('package.raxon/parse.build.use.trait_function', $use_trait_function);
         return mb_strtolower($plugin);

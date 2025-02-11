@@ -158,19 +158,19 @@ class Build
                     } else {
                         if($is_block){
                             if(array_key_exists('tag', $record)){
-                                $block[] = 'echo \'' . str_replace('\'', '\\\'', $record['tag']) . '\';';
+                                $block[] = 'echo \'' . str_replace(['\'', '\\'], ['\\\'', '\\\\'], $record['tag']) . '\';';
                             }
                             elseif(array_key_exists('text', $record)){
-                                $block[] = 'echo \'' . str_replace('\'', '\\\'', $record['text']) . '\';';
+                                $block[] = 'echo \'' . str_replace(['\'', '\\'], ['\\\'', '\\\\'], $record['text']) . '\';';
                             } else {
                                 ddd($record);
                             }
                         } else {
                             if(array_key_exists('tag', $record)){
-                                $data[] = 'echo \'' . str_replace('\'', '\\\'', $record['tag']) . '\';';
+                                $data[] = 'echo \'' . str_replace(['\'', '\\'], ['\\\'', '\\\\'], $record['tag']) . '\';';
                             }
                             elseif(array_key_exists('text', $record)){
-                                $data[] = 'echo \'' . str_replace('\'', '\\\'', $record['text']) . '\';';
+                                $data[] = 'echo \'' . str_replace(['\'', '\\'], ['\\\'', '\\\\'], $record['text']) . '\';';
                             } else {
                                 ddd($record);
                             }
@@ -1147,7 +1147,7 @@ class Build
                             true
                         )
                     ){
-                        $result[] = 'echo \'' . str_replace('\'', '\\\'', $line) . '\';' . PHP_EOL;
+                        $result[] = 'echo \'' . str_replace(['\'', '\\'], ['\\\'', '\\\\'], $line) . '\';' . PHP_EOL;
                     }
                     $line = '';
                     $skip_space = $ltrim * 4;
@@ -1188,7 +1188,7 @@ class Build
                             true
                         )
                     ){
-                        $result[] = 'echo \'' . str_replace('\'', '\\\'', $line) . '\';' . PHP_EOL;
+                        $result[] = 'echo \'' . str_replace(['\'', '\\'], ['\\\'', '\\\\'], $line) . '\';' . PHP_EOL;
                     }
                     $line = '';
                 }
@@ -1220,7 +1220,7 @@ class Build
                             true
                         )
                     ){
-                        $result[] = 'echo \'' . str_replace('\'', '\\\'', $line) . '\';' . PHP_EOL;
+                        $result[] = 'echo \'' . str_replace(['\'', '\\'], ['\\\'', '\\\\'], $line) . '\';' . PHP_EOL;
                     }
                     $line = '';
                 }
@@ -1279,7 +1279,7 @@ class Build
                         true
                     )
                 ){
-                    $result[] = 'echo \'' . str_replace('\'', '\\\'', $line) . '\';' . PHP_EOL;
+                    $result[] = 'echo \'' . str_replace(['\'', '\\'], ['\\\'', '\\\\'], $line) . '\';' . PHP_EOL;
                 }
             }
             if(array_key_exists(1, $result)){

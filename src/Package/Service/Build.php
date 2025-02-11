@@ -1481,8 +1481,6 @@ class Build
                         $controller_plugin_6 => $controller_plugin_6,
                     ]
                 );
-                d($use_plugin);
-                ddd($location);
                 $exist = false;
                 $locate_exception = [];
                 foreach($location  as $nr => $fileList){

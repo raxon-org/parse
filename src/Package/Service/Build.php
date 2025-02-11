@@ -1411,10 +1411,11 @@ class Build
             ;
             $explode = explode(':', $explode[1], 2);
             $trait_name = $explode[0];
-            $use_plugin = $use_package  . 'Trait' . '\\' . $trait_name;
+            $trait_function = $explode[1];
+            $use_plugin = '\\' . $use_package  . 'Trait' . '\\' . $trait_name . '::' . $trait_function;
             if(!in_array($use_plugin, $use, true)){
                 $use[] = $use_plugin;
-                $use_trait_function[count($use) - 1] = $plugin;
+                $use_trait_function[count($use) - 1] = $use_plugin;
             }
         } else {
             $is_code_point = false;

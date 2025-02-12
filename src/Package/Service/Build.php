@@ -1515,6 +1515,7 @@ class Build
                             }
                         }
                     }
+                    d($exist);
                     if($exist === false){
                         if(
                             array_key_exists('is_multiline', $record) &&

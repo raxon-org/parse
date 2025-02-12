@@ -16,7 +16,7 @@ use Raxon\Exception\TemplateException;
 
 class Build
 {
-    use Plugin\Format_code;
+    use Plugin\Format_Code;
     use Plugin\Basic;
 
     public function __construct(App $object, $flags, $options){

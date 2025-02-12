@@ -1509,6 +1509,7 @@ class Build
                         foreach($fileList as $file){
                             $locate_exception[] = $file;
                             $exist = File::exist($file);
+                            d($file . '->' . $exist);
                             if($exist){
                                 break;
                             }

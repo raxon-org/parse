@@ -1515,6 +1515,7 @@ class Build
                             $record['is_multiline'] === true
                         ){
                             breakpoint($record);
+                            breakpoint($locate_exception);
                             throw new LocateException(
                                 'Plugin not found (' .
                                 str_replace('_', '.', $name) .
@@ -1530,6 +1531,7 @@ class Build
                             );
                         } else {
                             breakpoint($record);
+                            breakpoint($locate_exception);
                             throw new LocateException(
                                 'Plugin not found (' .
                                 str_replace('_', '.', $name) .

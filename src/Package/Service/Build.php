@@ -1485,6 +1485,7 @@ class Build
                     $autoload->addPrefix('Plugin', $object->config('controller.dir.plugin'));
                     d($autoload->getPrefixList());
                     $location = $autoload->locate($use_plugin, false,  Autoload::MODE_LOCATION);
+                    /*
                     $controller_plugin_1 = $object->config('controller.dir.plugin') . str_replace(['\\', '_'], ['/', '.'], $controller_plugin) . $object->config('ds') . str_replace(['\\', '_'], ['/', '.'], $controller_plugin) . $object->config('extension.php');
                     $controller_plugin_2 = $object->config('controller.dir.plugin') . str_replace('\\', '/', $controller_plugin) . $object->config('ds') . str_replace('\\', '/', $controller_plugin) . $object->config('extension.php');
                     $explode = explode('_', $controller_plugin, 2);
@@ -1504,6 +1505,7 @@ class Build
                             $controller_plugin_6 => $controller_plugin_6,
                         ]
                     );
+                    */
                     breakpoint($location);
                     $exist = false;
                     $locate_exception = [];

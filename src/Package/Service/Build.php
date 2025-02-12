@@ -1503,6 +1503,7 @@ class Build
                         ]
                     );
                     */
+                    breakpoint($location);
                     $exist = false;
                     $locate_exception = [];
                     foreach($location  as $nr => $fileList){

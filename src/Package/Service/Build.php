@@ -1506,14 +1506,12 @@ class Build
                         ]
                     );
                     */
-                    breakpoint($location);
                     $exist = false;
                     $locate_exception = [];
                     foreach($location  as $nr => $fileList){
                         foreach($fileList as $file){
                             $locate_exception[] = $file;
                             $exist = File::exist($file);
-                            d($file . '->' . $exist);
                             if($exist){
                                 break 2;
                             }

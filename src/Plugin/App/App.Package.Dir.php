@@ -15,6 +15,8 @@ use Exception;
 use Raxon\App as Framework;
 use Raxon\Config;
 
+use Raxon\Module\Dir;
+
 trait App_Package_Dir {
 
     /**

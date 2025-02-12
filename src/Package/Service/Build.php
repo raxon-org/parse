@@ -1490,6 +1490,7 @@ class Build
                     $controller_plugin_4 = $object->config('controller.dir.plugin') . str_replace('\\', '/', $explode[0]) . $object->config('ds') . str_replace('\\', '/', $controller_plugin) . $object->config('extension.php');
                     $controller_plugin_5 = $object->config('controller.dir.plugin') . str_replace(['\\', '_'], ['/', '.'], $controller_plugin) . $object->config('extension.php');
                     $controller_plugin_6 = $object->config('controller.dir.plugin') . str_replace('\\', '/', $controller_plugin) . $object->config('extension.php');
+                    /*
                     array_unshift(
                         $location,
                         [
@@ -1501,6 +1502,7 @@ class Build
                             $controller_plugin_6 => $controller_plugin_6,
                         ]
                     );
+                    */
                     $exist = false;
                     $locate_exception = [];
                     foreach($location  as $nr => $fileList){

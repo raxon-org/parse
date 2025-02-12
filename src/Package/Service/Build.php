@@ -1479,8 +1479,6 @@ class Build
                 if(!in_array($use_plugin, $use, true)){
                     //pre scanning for the right exception
                     //this one breakpoint is wrong, it should not contain controller
-                    breakpoint($object->config('controller'));
-                    breakpoint($object->config('controller.dir.plugin'));
                     $autoload = $object->data(App::AUTOLOAD_RAXON);
                     $autoload->addPrefix('Plugin', $object->config('controller.dir.plugin'));
                     d($autoload->getPrefixList());

@@ -1478,6 +1478,7 @@ class Build
             ){
                 if(!in_array($use_plugin, $use, true)){
                     //pre scanning for the right exception
+                    breakpoint($object->config('controller.dir.plugin'));
                     $autoload = $object->data(App::AUTOLOAD_RAXON);
                     $location = $autoload->locate($use_plugin, false,  Autoload::MODE_LOCATION);
                     $controller_plugin_1 = $object->config('controller.dir.plugin') . str_replace(['\\', '_'], ['/', '.'], $controller_plugin) . $object->config('ds') . str_replace(['\\', '_'], ['/', '.'], $controller_plugin) . $object->config('extension.php');

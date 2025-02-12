@@ -328,7 +328,7 @@ class Parse
                         continue;
                     }
                     $old_source = $options->source ?? 'source';
-                    $old_class = $options->class;
+                    $old_class = $options->class ?? 'Source';
                     $source = $options->source;
                     for($i = 0; $i <= $depth; $i++){
                         if($i === 0){

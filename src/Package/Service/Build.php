@@ -1479,6 +1479,7 @@ class Build
                 if(!in_array($use_plugin, $use, true)){
                     //pre scanning for the right exception
                     //this one breakpoint is wrong, it should not contain controller
+                    breakpoint($object->config('controller'));
                     breakpoint($object->config('controller.dir.plugin'));
                     $autoload = $object->data(App::AUTOLOAD_RAXON);
                     $location = $autoload->locate($use_plugin, false,  Autoload::MODE_LOCATION);
@@ -1532,7 +1533,6 @@ class Build
                                 $locate_exception
                             );
                         } else {
-                            breakpoint($object->config('controller'));
                             breakpoint($record);
                             breakpoint($locate_exception);
                             throw new LocateException(

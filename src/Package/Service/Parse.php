@@ -328,7 +328,7 @@ class Parse
                         continue;
                     }
                     $old_source = $options->source ?? 'source';
-                    $old_class = $options->class ?? 'Source';
+                    $old_class = $options->class ?? null;
                     $source = $options->source;
                     for($i = 0; $i <= $depth; $i++){
                         if($i === 0){
@@ -343,7 +343,9 @@ class Parse
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
                     $input->{$key} = $this->compile($value, $data);
                     $options->source = $old_source;
-                    $options->class = $old_class;
+                    if($old_class){
+                        $options->class = $old_class;
+                    }
                 }
                 $options->depth--;
 //                $object->config('package.raxon/parse.build.state.this.attribute', $attribute);

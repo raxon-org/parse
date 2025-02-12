@@ -1511,7 +1511,7 @@ class Build
                             $exist = File::exist($file);
                             d($file . '->' . $exist);
                             if($exist){
-                                break;
+                                break 2;
                             }
                         }
                     }

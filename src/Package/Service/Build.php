@@ -1532,6 +1532,7 @@ class Build
                                 $locate_exception
                             );
                         } else {
+                            breakpoint($object->config('controller'));
                             breakpoint($record);
                             breakpoint($locate_exception);
                             throw new LocateException(

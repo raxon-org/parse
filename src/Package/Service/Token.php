@@ -1173,7 +1173,7 @@ class Token
                 ){
                     $input['array'] = [[
                         'value' => $value,
-                        'execute' => $value,
+                        'execute' => substr($value, 1, -1),
                         'type' => 'string',
                         'is_single_quoted' => true
                     ]];

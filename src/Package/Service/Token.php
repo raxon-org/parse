@@ -27,6 +27,7 @@ class Token
             foreach($input as $nr => $record){
                 $input[$nr] = Token::tokenize($object, $flags, $options, $record);
             }
+            ddd($input);
             return $input;
         }
         $hash = hash('sha256', 'token.' . $input);

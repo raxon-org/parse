@@ -383,6 +383,12 @@ class Token
 //                                    $is_modifier = true;
                                     continue;
                                 }
+                                elseif(
+                                    $variable_name !== '' &&
+                                    $char === '#'
+                                ){
+                                    ddd('found');
+                                }
                                 /*
                                 elseif(
                                     !in_array(

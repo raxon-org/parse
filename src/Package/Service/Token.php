@@ -24,8 +24,10 @@ class Token
         $cache_dir = false;
         $tags = false;
         if(is_array($input)){
-            trace();
-            ddd($input);
+            foreach($input as $nr => $record){
+                $input[$nr] = Token::tokenize($object, $flags, $options, $record);
+            }
+            return $input;
         }
         $hash = hash('sha256', 'token.' . $input);
         $cache_dir = $object->config('ramdisk.url') .

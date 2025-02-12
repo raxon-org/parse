@@ -1482,6 +1482,9 @@ class Build
                     breakpoint($object->config('controller'));
                     breakpoint($object->config('controller.dir.plugin'));
                     $autoload = $object->data(App::AUTOLOAD_RAXON);
+                    $prefix_list = $autoload->prefix();
+
+
                     $location = $autoload->locate($use_plugin, false,  Autoload::MODE_LOCATION);
                     $controller_plugin_1 = $object->config('controller.dir.plugin') . str_replace(['\\', '_'], ['/', '.'], $controller_plugin) . $object->config('ds') . str_replace(['\\', '_'], ['/', '.'], $controller_plugin) . $object->config('extension.php');
                     $controller_plugin_2 = $object->config('controller.dir.plugin') . str_replace('\\', '/', $controller_plugin) . $object->config('ds') . str_replace('\\', '/', $controller_plugin) . $object->config('extension.php');
@@ -1515,7 +1518,6 @@ class Build
                             }
                         }
                     }
-                    d($exist);
                     if($exist === false){
                         if(
                             array_key_exists('is_multiline', $record) &&
@@ -1801,7 +1803,6 @@ class Build
             }
             $key = array_search($method_match, $use_trait_function, true);
             $trait = $use_trait[$key] ?? null;
-            d($trait);
             $reflection = new ReflectionClass($trait);
             $trait_methods = $reflection->getMethods();
             foreach($trait_methods as $nr => $method){

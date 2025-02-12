@@ -3137,7 +3137,7 @@ class Build
                     $input['array'][$i] = null;
                 }
                 $input['array'][$is_single_quote]['type'] = 'string';
-                $input['array'][$is_single_quote]['execute'] = $input['array'][$is_single_quote]['value'];
+                $input['array'][$is_single_quote]['execute'] = substr($input['array'][$is_single_quote]['value'], 1, -1);
                 $input['array'][$is_single_quote]['is_single_quoted'] = true;
                 $is_single_quote = false;
             }

@@ -483,6 +483,6 @@ class Parse
     {
         $data = $parse->data();
         $object->data($type, $data->get($type));
-        return $data;
+        return $data->get($type);
     }
 }

@@ -1807,6 +1807,7 @@ class Build
                 ){
                     $attributes = $method->getAttributes();
                     foreach($attributes as $attribute_nr => $attribute){
+                        breakpoint($attribute);
                         $instance = $attribute->newInstance();
                         $instance->class = get_class($instance);
                         if($instance->class === 'Raxon\Attribute\Argument'){
@@ -2447,7 +2448,6 @@ class Build
                 } else {
                     $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
                     $method_value = $plugin . '(';
-                    d($record);
                     $method_value .= Build::argument($object, $flags, $options, $record, $before, $after);
                     $method_value .= ');';
                 }

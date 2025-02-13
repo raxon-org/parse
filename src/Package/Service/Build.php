@@ -1814,6 +1814,7 @@ class Build
                         }
                         $attributes[$attribute_nr] = $instance;
                     }
+                    ddd($attributes);
                     $parameters = $method->getParameters();
                     foreach($parameters as $parameter_nr => $parameter){
                         if($parameter->isPassedByReference()){

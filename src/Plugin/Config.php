@@ -10,8 +10,17 @@
  */
 namespace Plugin;
 
+use Raxon\Attribute\Validator;
+
 trait Config {
 
+    #[Validate(
+        argument: [
+            "string | length:1,255 || contains:['delete','remove'] || is.email || is.uuid",
+            "mixed",
+        ],
+        result: "mixed"
+    )]
     protected function config(string $attribute, mixed $value=null): mixed
     {
         $object = $this->object();

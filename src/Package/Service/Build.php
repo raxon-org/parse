@@ -1855,10 +1855,13 @@ class Build
                 ) {
                     $name .= $argument['array'][2]['method']['name'];
                     $argument = $argument['array'][2]['method']['argument'];
-                    $attributes_transfer =  Core::object($attributes, Core::TRANSFER);
                     $use_trait = $object->config('package.raxon/parse.build.use.trait');
                     $trait = 'Plugin\Validate';
-                    if(!in_array($trait, $use_trait, true)){
+                    if(
+                        $attributes !== false &&
+                        !in_array($trait, $use_trait, true)
+                    ){
+                        $attributes_transfer =  Core::object($attributes, Core::TRANSFER);
                         $use_trait[] = 'Plugin\Validate';
                         $object->config('package.raxon/parse.build.use.trait', $use_trait);
                     }

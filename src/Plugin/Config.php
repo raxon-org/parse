@@ -10,7 +10,7 @@
  */
 namespace Plugin;
 
-use Raxon\Attribute\Validator;
+use Raxon\Attribute\Validate;
 
 trait Config {
 

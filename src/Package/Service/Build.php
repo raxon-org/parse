@@ -1931,6 +1931,10 @@ class Build
                     $argument = Build::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
                     $uuid_variable = Core::uuid_variable();
                     $before[] = $uuid_variable . ' = ' . $argument . ';';
+                    if($attributes !== false){
+                        //need use_trait (config)
+                        $before[] = '$this->validate(' . $uuid_variable . ', ' . $argument_nr . ', ' . $attributes_transfer . ');';
+                    }
                     $argument = $uuid_variable;
                     if(
                         array_key_exists($nr, $argument_is_reference) &&

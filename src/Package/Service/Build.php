@@ -1773,6 +1773,7 @@ class Build
         $argument_is_reference = [];
         $argument_attribute = (object) [];
         $attributes = false;
+        $attributes_transfer = false;
         if(
             array_key_exists('method', $record) &&
             array_key_exists('name', $record['method']) &&
@@ -1871,7 +1872,7 @@ class Build
                         $before[] = $uuid_variable . ' = ' . $value . ';';
                         if($attributes){
                             //need use_trait (config)
-                            $before[] = '$this->validate(' . $uuid_variable . ', ' . $argument_nr . ', ' . $attributes_transfer . ');';
+                            $before[] = '$this->validate(' . $uuid_variable . ', ' . $argument_nr . ', "' . $attributes_transfer . '");';
                         }
                         $value = $uuid_variable;
                         $argument[$argument_nr] = $value;
@@ -1934,7 +1935,7 @@ class Build
                     if($attributes !== false){
                         //need use_trait (config)
                         $attributes_transfer =  Core::object($attributes, Core::TRANSFER);
-                        $before[] = '$this->validate(' . $uuid_variable . ', ' . $nr . ', ' . $attributes_transfer . ');';
+                        $before[] = '$this->validate(' . $uuid_variable . ', ' . $nr . ', "' . $attributes_transfer . '");';
                     }
                     $argument = $uuid_variable;
                     if(

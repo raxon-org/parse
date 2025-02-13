@@ -1933,7 +1933,8 @@ class Build
                     $before[] = $uuid_variable . ' = ' . $argument . ';';
                     if($attributes !== false){
                         //need use_trait (config)
-                        $before[] = '$this->validate(' . $uuid_variable . ', ' . $argument_nr . ', ' . $attributes_transfer . ');';
+                        $attributes_transfer =  Core::object($attributes, Core::TRANSFER);
+                        $before[] = '$this->validate(' . $uuid_variable . ', ' . $nr . ', ' . $attributes_transfer . ');';
                     }
                     $argument = $uuid_variable;
                     if(

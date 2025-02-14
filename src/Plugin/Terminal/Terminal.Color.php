@@ -11,10 +11,6 @@ namespace Plugin;
  */
 
 
-use Raxon\App;
-use Raxon\App as Framework;
-use Raxon\Module\Autoload;
-
 trait Terminal_Color {
 
     protected function terminal_color($color, $background=null): string

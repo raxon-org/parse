@@ -1868,6 +1868,7 @@ class Build
                         $use_trait[] = 'Plugin\Validate';
                         $object->config('package.raxon/parse.build.use.trait', $use_trait);
                     }
+
                     foreach ($argument as $argument_nr => $argument_record) {
                         $value = Build::value($object, $flags, $options, $record, $argument_record, $is_set, $before,$after);
                         $uuid_variable = Core::uuid_variable();
@@ -1935,7 +1936,13 @@ class Build
                     $uuid_variable = Core::uuid_variable();
                     $before[] = $uuid_variable . ' = ' . $argument . ';';
                     if($attributes !== false){
-                        //need use_trait (config)
+                        $use_trait = $object->config('package.raxon/parse.build.use.trait');
+                        $trait = 'Plugin\Validate';
+                        if($attributes !== false && !in_array($trait, $use_trait, true)){
+                            $use_trait[] = 'Plugin\Validate';
+                            $object->config('package.raxon/parse.build.use.trait', $use_trait);
+                            $attributes_transfer =  Core::object($attributes, Core::TRANSFER);
+                        }
                         $attributes_transfer =  Core::object($attributes, Core::TRANSFER);
                         $before[] = '$this->validate(' . $uuid_variable . ', ' . $nr . ', \'' . $attributes_transfer . '\');';
                     }

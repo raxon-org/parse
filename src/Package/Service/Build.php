@@ -1875,7 +1875,7 @@ class Build
                         $before[] = $uuid_variable . ' = ' . $value . ';';
                         if($attributes){
                             //need use_trait (config)
-                            $before[] = '$this->validate(' . $uuid_variable . ', \'argument\', ' . $argument_nr . ', Core::object(\'' . $attributes_transfer . '\', Core::FINALIZE));';
+                            $before[] = '$this->validate(' . $uuid_variable . ', \'argument\', Core::object(\'' . $attributes_transfer . '\', Core::FINALIZE), ' . $argument_nr . ');';
                         }
                         $value = $uuid_variable;
                         $argument[$argument_nr] = $value;
@@ -1944,7 +1944,7 @@ class Build
                             $attributes_transfer =  Core::object($attributes, Core::TRANSFER);
                         }
                         $attributes_transfer =  Core::object($attributes, Core::TRANSFER);
-                        $before[] = '$this->validate(' . $uuid_variable . ', \'argument\', ' . $nr . ', Core::object(\'' . $attributes_transfer . '\', Core::FINALIZE));';
+                        $before[] = '$this->validate(' . $uuid_variable . ', \'argument\', Core::object(\'' . $attributes_transfer . '\', Core::FINALIZE), ' . $nr . ');';
                     }
                     $argument = $uuid_variable;
                     if(

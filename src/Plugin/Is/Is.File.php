@@ -10,10 +10,12 @@
  */
 namespace Plugin;
 
-trait Is_Array {
+use Raxon\Module\File;
 
-    protected function is_array(mixed $array=null): bool
+trait Is_File {
+
+    protected function is_file(string $url=null): bool
     {
-        return is_array($array);
+        return File::is($url);
     }
 }

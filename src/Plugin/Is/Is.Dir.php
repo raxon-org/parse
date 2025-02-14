@@ -10,10 +10,12 @@
  */
 namespace Plugin;
 
-trait Is_Array {
+use Raxon\Module\Dir;
 
-    protected function is_array(mixed $array=null): bool
+trait Is_Dir {
+
+    protected function is_dir(string $url=null): bool
     {
-        return is_array($array);
+        return Dir::is($url);
     }
 }

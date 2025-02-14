@@ -10,14 +10,8 @@
  */
 namespace Plugin;
 
-use Exception;
-use Raxon\App as Framework;
-
 trait Is_Empty {
 
-    /**
-     * @throws Exception
-     */
     protected function is_empty(): bool
     {
         $attribute = func_get_args();

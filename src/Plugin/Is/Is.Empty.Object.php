@@ -10,10 +10,13 @@
  */
 namespace Plugin;
 
-trait Is_Array {
+use Raxon\MOdule\Core;
 
-    protected function is_array(mixed $array=null): bool
+trait Is_Empty_Object {
+
+    protected function is_empty(mixed $object=null): bool
     {
-        return is_array($array);
+        $result = Core::object_is_empty($object);
+        return $result;
     }
 }

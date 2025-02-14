@@ -10,10 +10,10 @@
  */
 namespace Plugin;
 
-trait Is_Array {
+trait Is_Executable {
 
-    protected function is_array(mixed $array=null): bool
+    protected function is_executable(string $url=null): bool
     {
-        return is_array($array);
+        return is_executable($url);
     }
 }

@@ -10,10 +10,12 @@
  */
 namespace Plugin;
 
-trait Is_Array {
+use Raxon\Module\Core;
 
-    protected function is_array(mixed $array=null): bool
+trait Is_Array_Nested {
+
+    protected function is_array_nested(mixed $array=null): bool
     {
-        return is_array($array);
+        return Core::is_array_nested($array);
     }
 }

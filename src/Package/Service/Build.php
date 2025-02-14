@@ -1814,7 +1814,7 @@ class Build
                         breakpoint($attribute);
                         $instance = $attribute->newInstance();
                         $instance->class = get_class($instance);
-                        if($instance->class === 'Raxon\Attribute\Argument'){
+                        if($instance->class === 'Raxon\\Attribute\\Argument'){
                             $argument_attribute = $instance;
                         }
                         $attributes[$attribute_nr] = $instance;
@@ -1859,13 +1859,13 @@ class Build
                     $name .= $argument['array'][2]['method']['name'];
                     $argument = $argument['array'][2]['method']['argument'];
                     $use_trait = $object->config('package.raxon/parse.build.use.trait');
-                    $trait = 'Plugin\Validate';
+                    $trait = 'Plugin\\Validate';
                     if(
                         $attributes !== false &&
                         !in_array($trait, $use_trait, true)
                     ){
                         $attributes_transfer =  Core::object($attributes, Core::TRANSFER);
-                        $use_trait[] = 'Plugin\Validate';
+                        $use_trait[] = $trait;
                         $object->config('package.raxon/parse.build.use.trait', $use_trait);
                     }
 
@@ -1937,9 +1937,9 @@ class Build
                     $before[] = $uuid_variable . ' = ' . $argument . ';';
                     if($attributes !== false){
                         $use_trait = $object->config('package.raxon/parse.build.use.trait');
-                        $trait = 'Plugin\Validate';
+                        $trait = 'Plugin\\Validate';
                         if($attributes !== false && !in_array($trait, $use_trait, true)){
-                            $use_trait[] = 'Plugin\Validate';
+                            $use_trait[] = $trait;
                             $object->config('package.raxon/parse.build.use.trait', $use_trait);
                             $attributes_transfer =  Core::object($attributes, Core::TRANSFER);
                         }

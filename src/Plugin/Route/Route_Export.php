@@ -9,6 +9,8 @@
  *    - all
  */
 
+namespace Plugin;
+
 use Raxon\App;
 
 use Raxon\Module\Route;

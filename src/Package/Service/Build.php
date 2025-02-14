@@ -1770,6 +1770,8 @@ class Build
         $previous_count = 0;
         $use_trait = $object->config('package.raxon/parse.build.use.trait');
         $use_trait_function = $object->config('package.raxon/parse.build.use.trait_function');
+        d($use_trait);
+        d($use_trait_function);
         $argument_is_reference = [];
         $argument_attribute = (object) [];
         $attributes = false;

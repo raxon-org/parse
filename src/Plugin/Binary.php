@@ -8,21 +8,19 @@
  * @changeLog
  *    - all
  */
+
 namespace Plugin;
 
 use Exception;
-
-use Raxon\App as Framework;
-use Raxon\Config;
-
 use Raxon\Module\Core;
 
-trait Binary {
+trait Binary
+{
 
     /**
      * @throws Exception
      */
-    protected function binary($fallback=null): ?string
+    protected function binary($fallback = null): ?string
     {
         $object = $this->object();
         return Core::binary($object) ?? $fallback;

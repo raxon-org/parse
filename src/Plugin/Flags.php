@@ -13,12 +13,12 @@ namespace Plugin;
 use Exception;
 use Raxon\App as Framework;
 
-trait App_Flags {
+trait Flags {
 
     /**
      * @throws Exception
      */
-    protected function app_flags($type=''): array|object
+    protected function flags($type=''): array|object
     {
         $this->object();
         return Framework::flags($this->object());

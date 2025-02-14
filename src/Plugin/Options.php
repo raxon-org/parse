@@ -13,12 +13,12 @@ namespace Plugin;
 use Exception;
 use Raxon\App as Framework;
 
-trait App_Options {
+trait Options {
 
     /**
      * @throws Exception
      */
-    protected function app_options($type=''): array|object
+    protected function options($type=''): array|object
     {
         $this->object();
         return Framework::options($this->object(), $type);

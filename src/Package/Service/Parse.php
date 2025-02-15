@@ -284,6 +284,7 @@ class Parse
                     $temp_source = $options->source ?? 'source';
                     $temp_class = $options->class;
                     $options->source = 'internal_' . Core::uuid();
+                    $options->source_root = $temp_source;
                     $options->class = Parse::class_name($object, $options->source);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
                     $input[$key] = $this->compile($value, $data, $is_debug);
@@ -338,6 +339,7 @@ class Parse
                         }
                     }
                     $options->source = 'internal_' . ($depth + 1) . 'x_' . $source . '_' . $key;
+                    $options->source_root = $old_source;
                     $options->class = Parse::class_name($object, $options->source);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);

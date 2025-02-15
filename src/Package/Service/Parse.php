@@ -276,6 +276,7 @@ class Parse
                         $data->set($key . '.' . $object->config('package.raxon/parse.object.this.property'), $parentProperty);
                     }
                 }
+                ddd($data->data('this'));
             }
         } else {
             $options->hash = hash('sha256', Core::object($input, Core::OBJECT_JSON_LINE));

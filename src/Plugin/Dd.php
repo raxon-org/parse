@@ -43,7 +43,7 @@ trait Dd {
                 true
             )
         ){
-            $value = $value->data();
+            $value = $this->data();
         }
         dd($value, $options);
     }

@@ -2515,7 +2515,8 @@ class Build
                                 'else.if',
                                 'else_if'
                             ]
-                        ){
+                        )
+                    ){
                         $method_validate = 'if(true){' . PHP_EOL . $method_value;
                     } else {
                         $method_validate = $method_value;

@@ -293,6 +293,7 @@ class Parse
                 return $input;
             }
             elseif(is_object($input)){
+                trace();
                 d($input);
                 if($depth === null){
                     $depth = 0;

@@ -268,7 +268,7 @@ class Parse
                 $data->set($key, $rootNode);
                 $key = 'this';
                 $data->set($key, Core::object_merge($data->get($key), $this->local($depth)));
-                for($index = $depth - 1; $index >= 0; $index--){
+                for($index = $depth; $index >= 0; $index--){
                     $key .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
                     $data->set($key, $this->local($index));
                     if($index === 0){
@@ -276,7 +276,6 @@ class Parse
                         $data->set($key . '.' . $object->config('package.raxon/parse.object.this.property'), $parentProperty);
                     }
                 }
-                ddd($data->data('this'));
             }
         } else {
             $options->hash = hash('sha256', Core::object($input, Core::OBJECT_JSON_LINE));

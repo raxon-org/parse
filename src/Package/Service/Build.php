@@ -1871,6 +1871,7 @@ class Build
 
                     foreach ($argument as $argument_nr => $argument_record) {
                         $value = Build::value($object, $flags, $options, $record, $argument_record, $is_set, $before,$after);
+                        d($value);
                         $uuid_variable = Core::uuid_variable();
                         $before[] = $uuid_variable . ' = ' . $value . ';';
                         if($attributes){
@@ -3287,7 +3288,7 @@ class Build
                 array_key_exists('execute', $record) &&
                 $record['is_single_quoted'] === true
             ){
-                $value .= $record['execute'];
+                $value .= $record['value'];
             }
             elseif(
                 array_key_exists('type', $record) &&
@@ -3719,6 +3720,7 @@ class Build
                 $record['type'] === 'array'
             ){
                 $array_value = Build::value($object, $flags, $options, $tag, $record, $is_set);
+                d($array_value);
                 $data = Build::string_array($array_value);
                 foreach($data as $nr => $line){
                     $char = trim($line);

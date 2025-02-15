@@ -15,8 +15,8 @@ trait Plugin_default {
     function plugin_default($value, $default=null){
         if(
             empty($value) &&
-            $default !== 0 &&
-            $default !== '0'
+            $value !== 0 &&
+            $value !== '0'
         ){
             return $default;
         }

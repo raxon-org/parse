@@ -288,6 +288,7 @@ class Parse
                     $options->source_root = $temp_source;
                     $options->class = Parse::class_name($object, $options->source);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);;
+                    $data->set('this.#index', $key);;
                     d('this.' . $object->config('package.raxon/parse.object.this.key'));
                     $input[$key] = $this->compile($value, $data, $is_debug);
                     $options->source = $temp_source;
@@ -297,8 +298,6 @@ class Parse
                 return $input;
             }
             elseif(is_object($input)){
-                trace();
-                d($input);
                 if($depth === null){
                     $depth = 0;
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.url'), $options->source ?? 'source');

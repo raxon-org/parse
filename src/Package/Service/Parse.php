@@ -270,6 +270,7 @@ class Parse
                 $data->set($key, Core::object_merge($data->get($key), $this->local($depth)));
                 d($depth);
                 for($index = $depth; $index >= 0; $index--){
+                    d($data->get($key));
                     $parentKey = $data->get($key . '.#key');
                     $key .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
                     $data->set($key, $this->local($index));

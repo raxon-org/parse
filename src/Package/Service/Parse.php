@@ -295,6 +295,7 @@ class Parse
                 return $input;
             }
             elseif(is_object($input)){
+                d($input);
                 if($depth === null){
                     $depth = 0;
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.url'), $options->source ?? 'source');

@@ -268,13 +268,10 @@ class Parse
                 $data->set($key, $rootNode);
                 $key = 'this';
                 $data->set($key, Core::object_merge($data->get($key), $this->local($depth)));
-                d($depth);
                 for($index = $depth; $index >= 0; $index--){
-                    d($data->get($key));
-                    $parentKey = $data->get($key . '.#key');
                     $key .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
                     $data->set($key, $this->local($index));
-                    $data->set($key . '.' . $object->config('package.raxon/parse.object.this.key'), $parentKey);
+                    $data->set($key . '.' . $object->config('package.raxon/parse.object.this.key'), $key);
                     $data->set($key . '.' . $object->config('package.raxon/parse.object.this.property'), $parentProperty);
                 }
             }
@@ -343,8 +340,6 @@ class Parse
                     $options->source = 'internal_' . ($depth + 1) . 'x_' . $source . '_' . $key;
                     $options->source_root = $old_source;
                     $options->class = Parse::class_name($object, $options->source);
-                    d($data->get('this'));
-                    d($key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
                     $input->{$key} = $this->compile($value, $data, $is_debug);

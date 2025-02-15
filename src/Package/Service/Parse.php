@@ -256,11 +256,21 @@ class Parse
             $property = $data->get('this.' . $object->config('package.raxon/parse.object.this.property'));
             $parentProperty = $data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty'));
             $data->set('this', $this->local($depth));
-            $data->set('this.' . $object->config('package.raxon/parse.object.this.url'), $url);
-            $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $attribute);
-            $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $property);
-            $data->set('this.' . $object->config('package.raxon/parse.object.this.parentProperty'), $parentProperty);
-            $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
+            if($url !== null){
+                $data->set('this.' . $object->config('package.raxon/parse.object.this.url'), $url);
+            }
+            if($attribute !== null){
+                $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $attribute);
+            }
+            if($property !== null){
+                $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $property);
+            }
+            if($parentProperty !== null){
+                $data->set('this.' . $object->config('package.raxon/parse.object.this.parentProperty'), $parentProperty);
+            }
+            if($key !== null){
+                $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
+            }
             $rootNode = $this->local(0);
             if(
                 $rootNode &&

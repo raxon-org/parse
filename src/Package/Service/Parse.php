@@ -286,6 +286,7 @@ class Parse
                     $options->source = 'internal_' . Core::uuid();
                     $options->source_root = $temp_source;
                     $options->class = Parse::class_name($object, $options->source);
+                    d($key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);;
                     $data->set('this.#index', $key);
                     d($data->get('this.#index'));

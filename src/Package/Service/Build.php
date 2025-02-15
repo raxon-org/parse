@@ -2512,7 +2512,7 @@ class Build
                             $method_name,
                             [
                                 'elseif',
-                                'else.if'
+                                'else.if',
                                 'else_if'
                             ]
                         ){

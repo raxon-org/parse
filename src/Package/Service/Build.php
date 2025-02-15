@@ -2206,7 +2206,17 @@ class Build
             break;
             case 'if':
             case 'elseif':
-                if($method_name === 'elseif'){
+            case 'else.if':
+                if(
+                    in_array(
+                        $method_name,
+                        [
+                            'elseif',
+                            'else.if'
+                        ],
+                        true
+                    )
+                ){
                     $method_value[] = '} ' . PHP_EOL . 'elseif(';
                 } else {
                     $method_value[] = 'if(';
@@ -2492,8 +2502,16 @@ class Build
             case 'while':
             case 'if':
             case 'elseif':
+            case 'else.if':
                 try {
-                    if($method_name === 'elseif'){
+                    if(
+                        in_array(
+                            $method_name,
+                            [
+                                'elseif',
+                                'else.if'
+                            ]
+                        ){
                         $method_validate = 'if(true){' . PHP_EOL . $method_value;
                     } else {
                         $method_validate = $method_value;

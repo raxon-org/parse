@@ -267,7 +267,6 @@ class Parse
                 is_object($rootNode)
             ){
                 $key = 'this.' . $object->config('package.raxon/parse.object.this.rootNode');
-                breakpoint($rootNode);
                 $data->set($key, $rootNode);
                 $key = 'this';
                 $data->set($key, Core::object_merge($data->get($key), $this->local($depth)));
@@ -288,7 +287,7 @@ class Parse
                     $options->source_root = $temp_source;
                     $options->class = Parse::class_name($object, $options->source);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);;
-                    $data->set('this.#index', $key);;
+                    $data->set('this.#index', $key);
                     d('this.' . $object->config('package.raxon/parse.object.this.key'));
                     $input[$key] = $this->compile($value, $data, $is_debug);
                     $options->source = $temp_source;

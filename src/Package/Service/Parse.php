@@ -352,7 +352,6 @@ class Parse
                         $options->class = $old_class;
                     }
                 }
-                breakpoint($input);
                 $options->depth--;
 //                $object->config('package.raxon/parse.build.state.this.attribute', $attribute);
 //                $object->config('package.raxon/parse.build.state.this.property', $property);

@@ -33,6 +33,18 @@ trait Dd {
                 }
             }
         }
+        if(
+            in_array(
+                $value,
+                [
+                    '$this',
+                    '{{$this}}'
+                ],
+                true
+            )
+        ){
+            $value = $value->data();
+        }
         dd($value, $options);
     }
 

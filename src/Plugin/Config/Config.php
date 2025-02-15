@@ -16,7 +16,8 @@ trait Config {
 
     #[Validate(
         argument: [
-            "string | (length:1,255 || contains:['delete','remove'] || is.email || is.uuid)",
+            "is.string && (length:1,255 || contains:['delete','remove'] || is.email || is.uuid)",
+            "is.string and (length:1,255 or contains:['delete','remove'] or is.email or is.uuid)",
             "mixed",
         ],
         result: "mixed"

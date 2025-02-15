@@ -1809,7 +1809,6 @@ class Build
                 ){
                     $attributes = $method->getAttributes();
                     foreach($attributes as $attribute_nr => $attribute){
-                        breakpoint($attribute);
                         $instance = $attribute->newInstance();
                         $instance->class = get_class($instance);
                         if($instance->class === 'Raxon\\Attribute\\Argument'){
@@ -1817,7 +1816,6 @@ class Build
                         }
                         $attributes[$attribute_nr] = $instance;
                     }
-                    d($attributes);
                     $parameters = $method->getParameters();
                     foreach($parameters as $parameter_nr => $parameter){
                         if($parameter->isPassedByReference()){

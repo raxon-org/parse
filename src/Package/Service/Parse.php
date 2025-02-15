@@ -288,8 +288,9 @@ class Parse
                     $options->class = Parse::class_name($object, $options->source);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);;
                     $data->set('this.#index', $key);
-                    d('this.' . $object->config('package.raxon/parse.object.this.key'));
+                    d($data->get('this.#index'));
                     $input[$key] = $this->compile($value, $data, $is_debug);
+                    d($data->get('this.#index'));
                     $options->source = $temp_source;
                     $options->class = $temp_class;
                 }

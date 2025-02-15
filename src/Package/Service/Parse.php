@@ -205,10 +205,12 @@ class Parse
         if($is_debug){
             $object->config('package.raxon/parse.build.state.input.debug', true);
         }
+        /*
         if($object->config('package.raxon/parse.build.state.input.debug') === true){
             d($input);
             ddd($options);
         }
+        */
 
         $depth = $options->depth ?? null;
         $type = strtolower(gettype($input));
@@ -350,6 +352,7 @@ class Parse
                         $options->class = $old_class;
                     }
                 }
+                breakpoint($input);
                 $options->depth--;
 //                $object->config('package.raxon/parse.build.state.this.attribute', $attribute);
 //                $object->config('package.raxon/parse.build.state.this.property', $property);

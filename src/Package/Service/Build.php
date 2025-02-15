@@ -2207,12 +2207,14 @@ class Build
             case 'if':
             case 'elseif':
             case 'else.if':
+            case 'else_if':
                 if(
                     in_array(
                         $method_name,
                         [
                             'elseif',
-                            'else.if'
+                            'else.if',
+                            'else_if'
                         ],
                         true
                     )
@@ -2503,6 +2505,7 @@ class Build
             case 'if':
             case 'elseif':
             case 'else.if':
+            case 'else_if':
                 try {
                     if(
                         in_array(
@@ -2510,6 +2513,7 @@ class Build
                             [
                                 'elseif',
                                 'else.if'
+                                'else_if'
                             ]
                         ){
                         $method_validate = 'if(true){' . PHP_EOL . $method_value;

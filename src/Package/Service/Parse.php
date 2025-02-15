@@ -286,7 +286,7 @@ class Parse
                     $options->source = 'internal_' . Core::uuid();
                     $options->class = Parse::class_name($object, $options->source);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
-                    $input[$key] = $this->compile($value, $data);
+                    $input[$key] = $this->compile($value, $data, $is_debug);
                     $options->source = $temp_source;
                     $options->class = $temp_class;
                 }
@@ -341,7 +341,7 @@ class Parse
                     $options->class = Parse::class_name($object, $options->source);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
-                    $input->{$key} = $this->compile($value, $data);
+                    $input->{$key} = $this->compile($value, $data, $is_debug);
                     $options->source = $old_source;
                     if($old_class){
                         $options->class = $old_class;
@@ -423,7 +423,9 @@ class Parse
             ;
             Dir::create($dir, Dir::CHMOD);
             $token = Token::tokenize($object, $flags, $options, $input);
-            d($token);
+            if($is_debug){
+                d($token);
+            }
             $url_json = $dir . $options->class . $object->config('extension.json');
             File::write($url_json, Core::object($token, Core::OBJECT_JSON));
             if($cache_url){

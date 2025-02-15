@@ -271,10 +271,8 @@ class Parse
                 for($index = $depth; $index >= 0; $index--){
                     $key .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
                     $data->set($key, $this->local($index));
-                    if($index === 0){
-                        $data->set($key . '.' . $object->config('package.raxon/parse.object.this.key'), $key);
-                        $data->set($key . '.' . $object->config('package.raxon/parse.object.this.property'), $parentProperty);
-                    }
+                    $data->set($key . '.' . $object->config('package.raxon/parse.object.this.key'), $key);
+                    $data->set($key . '.' . $object->config('package.raxon/parse.object.this.property'), $parentProperty);
                 }
             }
         } else {

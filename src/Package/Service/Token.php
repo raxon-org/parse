@@ -1476,6 +1476,7 @@ class Token
         ) {
             if (array_key_exists('execute', $input['array'][$index])) {
                 $item = $input['array'][$index]['execute'] ?? null;
+                d($item);
             }
             elseif (array_key_exists('tag', $input['array'][$index])) {
                 $item = $input['array'][$index]['tag'] ?? null;

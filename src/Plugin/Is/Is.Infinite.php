@@ -10,12 +10,10 @@
  */
 namespace Plugin;
 
-use Raxon\Module\Core;
+trait Is_Infinite {
 
-trait Is_Uuid {
-
-    protected function is_uuid(mixed $uuid=null): bool
+    protected function is_infinite(float $float=null): bool
     {
-        return Core::is_uuid($uuid);
+        return is_infinite($float);
     }
 }

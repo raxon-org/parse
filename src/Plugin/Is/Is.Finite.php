@@ -12,7 +12,7 @@ namespace Plugin;
 
 trait Is_Finite {
 
-    protected function is_finite(int | float $float=null): bool
+    protected function is_finite(float $float=null): bool
     {
         return is_finite($float);
     }

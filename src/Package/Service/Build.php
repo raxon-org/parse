@@ -1608,7 +1608,7 @@ class Build
             }
         }
         if(array_key_exists('modifier', $record['variable'])){
-            $previous_modifier = '$data->get(\'' . $variable_name . '\')' . $method_value;
+            $previous_modifier = '$data->data(\'' . $variable_name . '\')' . $method_value;
             $modifier_value = $previous_modifier;
             foreach($record['variable']['modifier'] as $nr => $modifier){
                 $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $modifier['name']));
@@ -1726,7 +1726,7 @@ class Build
                 }
             }
             $data = [
-                $variable_uuid . ' = ' . $is_not . $cast . '$data->get(\'' . $variable_name . '\');' ,
+                $variable_uuid . ' = ' . $is_not . $cast . '$data->data(\'' . $variable_name . '\');' ,
             ];
             if(
                 array_key_exists('is_multiline', $record) &&
@@ -2789,7 +2789,7 @@ class Build
                 $argument[$argument_nr] = $value;
             }
             $before[] = 'try {';
-            $before[] = $uuid . ' = $data->get(\'' . $class_name . '\');';
+            $before[] = $uuid . ' = $data->data(\'' . $class_name . '\');';
             $before[] = $uuid_methods . ' = get_class_methods(' . $uuid . ');';
             $before[] = 'if(!in_array(\'' . $class_method . '\', ' . $uuid_methods. ', true)){';
             $before[] = 'sort(' . $uuid_methods .', SORT_NATURAL);';
@@ -2888,7 +2888,7 @@ class Build
         if(array_key_exists('modifier', $record['variable'])){
             d($value);
             ddd('what happens with value');
-            $previous_modifier = '$data->get(\'' . $record['variable']['name'] . '\')';
+            $previous_modifier = '$data->data(\'' . $record['variable']['name'] . '\')';
             foreach($record['variable']['modifier'] as $nr => $modifier){
                 $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $modifier['name']));
                 $modifier_value = $plugin . '(';
@@ -2956,7 +2956,7 @@ class Build
                             $variable_name .
                             '\', ' .
                             '$this->value_concatenate(' .
-                            '$data->get(' .
+                            '$data->data(' .
                             '\'' .
                             $variable_name .
                             '\'), ' .
@@ -2988,7 +2988,7 @@ class Build
                             $variable_name .
                             '\', ' .
                             '$this->value_plus('.
-                            '$data->get('.
+                            '$data->data('.
                             '\'' .
                             $variable_name .
                             '\'), ' .
@@ -3020,7 +3020,7 @@ class Build
                             $variable_name .
                             '\', ' .
                             '$this->value_minus('.
-                            '$data->get('.
+                            '$data->data('.
                             '\'' .
                             $variable_name .
                             '\'), ' .
@@ -3052,7 +3052,7 @@ class Build
                             $variable_name .
                             '\', ' .
                             '$this->value_multiply('.
-                            '$data->get('.
+                            '$data->data('.
                             '\'' .
                             $variable_name .
                             '\'), ' .
@@ -3083,13 +3083,13 @@ class Build
             } else {
                 switch($operator){
                     case '++' :
-                        $result = '$data->set(\'' . $variable_name . '\', ' .  '$this->value_plus_plus($data->get(\'' . $variable_name . '\')));';
+                        $result = '$data->set(\'' . $variable_name . '\', ' .  '$this->value_plus_plus($data->data(\'' . $variable_name . '\')));';
                     break;
                     case '--' :
-                        $result = '$data->set(\'' . $variable_name . '\', ' .  '$this->value_minus_minus($data->get(\'' . $variable_name . '\')));';
+                        $result = '$data->set(\'' . $variable_name . '\', ' .  '$this->value_minus_minus($data->data(\'' . $variable_name . '\')));';
                     break;
                     case '**' :
-                        $result = '$data->set(\'' . $variable_name . '\', ' .  '$this->value_multiply_multiply($data->get(\'' . $variable_name . '\')));';
+                        $result = '$data->set(\'' . $variable_name . '\', ' .  '$this->value_multiply_multiply($data->data(\'' . $variable_name . '\')));';
                     break;
                 }
             }
@@ -3526,7 +3526,7 @@ class Build
                                     $skip
                                 );
                                 $assign = Build::value($object, $flags, $options, $tag, $assign, $is_set);
-                                $value .= '$data->set(\'' . $previous['name'] . '\', value_concatenate($data->get(\'' . $previous['name'] .'\', ' .  $assign . ')';
+                                $value .= '$data->set(\'' . $previous['name'] . '\', value_concatenate($data->data(\'' . $previous['name'] .'\', ' .  $assign . ')';
                                 break;
                             case '+=':
                                 $assign = Build::value_right(
@@ -3539,7 +3539,7 @@ class Build
                                     $skip
                                 );
                                 $assign = Build::value($object, $flags, $options, $tag, $assign, $is_set);
-                                $value .= '$data->set(\'' . $previous['name'] . '\', value_plus($data->get(\'' . $previous['name'] .'\', ' .  $assign . ')';
+                                $value .= '$data->set(\'' . $previous['name'] . '\', value_plus($data->data(\'' . $previous['name'] .'\', ' .  $assign . ')';
                             break;
                             case '-=':
                                 $assign = Build::value_right(
@@ -3552,7 +3552,7 @@ class Build
                                     $skip
                                 );
                                 $assign = Build::value($object, $flags, $options, $tag, $assign, $is_set);
-                                $value .= '$data->set(\'' . $previous['name'] . '\', value_minus($data->get(\'' . $previous['name'] .'\', ' .  $assign . ')';
+                                $value .= '$data->set(\'' . $previous['name'] . '\', value_minus($data->data(\'' . $previous['name'] .'\', ' .  $assign . ')';
                             break;
                             case '*=':
                                 $assign = Build::value_right(
@@ -3565,7 +3565,7 @@ class Build
                                     $skip
                                 );
                                 $assign = Build::value($object, $flags, $options, $tag, $assign, $is_set);
-                                $value .= '$data->set(\'' . $previous['name'] . '\', value_multiply($data->get(\'' . $previous['name'] .'\', ' .  $assign . ')';
+                                $value .= '$data->set(\'' . $previous['name'] . '\', value_multiply($data->data(\'' . $previous['name'] .'\', ' .  $assign . ')';
                             break;
                             case '=':
                                 $assign = Build::value_right(
@@ -3581,13 +3581,13 @@ class Build
                                 $value .= '$data->set(\'' . $previous['name'] . '\', ' .  $assign . ')';
                             break;
                             case '++' :
-                                $value = '$data->set(\'' . $previous['name'] . '\', ' .  '$this->value_plus_plus($data->get(\'' . $previous['name'] . '\')))';
+                                $value = '$data->set(\'' . $previous['name'] . '\', ' .  '$this->value_plus_plus($data->data(\'' . $previous['name'] . '\')))';
                             break;
                             case '--' :
-                                $value = '$data->set(\'' . $previous['name'] . '\', ' .  '$this->value_minus_minus($data->get(\'' . $previous['name'] . '\')))';
+                                $value = '$data->set(\'' . $previous['name'] . '\', ' .  '$this->value_minus_minus($data->data(\'' . $previous['name'] . '\')))';
                             break;
                             case '**' :
-                                $value = '$data->set(\'' . $previous['name'] . '\', ' .  '$this->value_multiply_multiply($data->get(\'' . $previous['name'] . '\')))';
+                                $value = '$data->set(\'' . $previous['name'] . '\', ' .  '$this->value_multiply_multiply($data->data(\'' . $previous['name'] . '\')))';
                             break;
                         }
                     } else {
@@ -3819,7 +3819,7 @@ class Build
             ){
                 $modifier_value = '';
                 if(array_key_exists('modifier', $record)){
-                    $previous_modifier = '$data->get(\'' . $record['name'] . '\')';
+                    $previous_modifier = '$data->data(\'' . $record['name'] . '\')';
                     //add method and arguments
 
                     foreach($record['modifier'] as $modifier_nr => $modifier){
@@ -3890,7 +3890,7 @@ class Build
                             $method_value .= ')';
                         }
                     }
-                    $value .= '$data->get(\'' . $record['variable']['name'] . '\')' . $method_value;
+                    $value .= '$data->data(\'' . $record['variable']['name'] . '\')' . $method_value;
                 }
             }
             elseif(
@@ -3910,28 +3910,28 @@ class Build
                         break;
                         case '.=':
                             $variable_value = Build::value($object, $flags, $options, $tag, $record['variable']['value'], $is_set);
-                            $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' .  '$this->value_concatenate($data->get(\'' . $record['variable']['name'] . '\'), ' .  $variable_value . '))';
+                            $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' .  '$this->value_concatenate($data->data(\'' . $record['variable']['name'] . '\'), ' .  $variable_value . '))';
                         break;
                         case '+=':
                             $variable_value = Build::value($object, $flags, $options, $tag, $record['variable']['value'], $is_set);
-                            $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' .  '$this->value_plus($data->get(\'' . $record['variable']['name'] . '\'), ' .  $variable_value . '))';
+                            $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' .  '$this->value_plus($data->data(\'' . $record['variable']['name'] . '\'), ' .  $variable_value . '))';
                         break;
                         case '-=':
                             $variable_value = Build::value($object, $flags, $options, $tag, $record['variable']['value'], $is_set);
-                            $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' .  '$this->value_minus($data->get(\'' . $record['variable']['name'] . '\'), ' .  $variable_value . '))';
+                            $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' .  '$this->value_minus($data->data(\'' . $record['variable']['name'] . '\'), ' .  $variable_value . '))';
                         break;
                         case '*=':
                             $variable_value = Build::value($object, $flags, $options, $tag, $record['variable']['value'], $is_set);
-                            $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' .  '$this->value_multiply($data->get(\'' . $record['variable']['name'] . '\'), ' .  $variable_value . '))';
+                            $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' .  '$this->value_multiply($data->data(\'' . $record['variable']['name'] . '\'), ' .  $variable_value . '))';
                             break;
                         case '++':
-                            $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' .  '$this->value_plus_plus($data->get(\'' . $record['variable']['name'] . '\')))';
+                            $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' .  '$this->value_plus_plus($data->data(\'' . $record['variable']['name'] . '\')))';
                         break;
                         case '--':
-                            $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' .  '$this->value_minus_minus($data->get(\'' . $record['variable']['name'] . '\')))';
+                            $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' .  '$this->value_minus_minus($data->data(\'' . $record['variable']['name'] . '\')))';
                         break;
                         case '**':
-                            $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' .  '$this->value_multiply_multiply($data->get(\'' . $record['variable']['name'] . '\')))';
+                            $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' .  '$this->value_multiply_multiply($data->data(\'' . $record['variable']['name'] . '\')))';
                         break;
                         default:
                             breakpoint($record);
@@ -3940,7 +3940,7 @@ class Build
                 } else {
                     $modifier_value = '';
                     if(array_key_exists('modifier', $record)){
-                        $previous_modifier = '$data->get(\'' . $record['name'] . '\')';
+                        $previous_modifier = '$data->data(\'' . $record['name'] . '\')';
                         $after[] = [
                             'attribute' => $record['name']
                         ];
@@ -3986,7 +3986,7 @@ class Build
                         $value .= $modifier_value;
                         $is_single_line = false;
                     } else {
-                        $value .= '$data->get(\'' . $record['name'] . '\')';
+                        $value .= '$data->data(\'' . $record['name'] . '\')';
                         $after[] = [
                             'attribute' => $record['name']
                         ];

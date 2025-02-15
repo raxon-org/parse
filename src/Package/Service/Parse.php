@@ -248,31 +248,32 @@ class Parse
             */
             $options->hash = hash('sha256', $input);
             //url, key & attribute might be already set.
-            $url = $data->get('this.' . $object->config('package.raxon/parse.object.this.url'));
-            $key = $data->get('this.' . $object->config('package.raxon/parse.object.this.key'));
-            $attribute = $data->get('this.' . $object->config('package.raxon/parse.object.this.attribute'));
-            $property = $data->get('this.' . $object->config('package.raxon/parse.object.this.property'));
-            $parentProperty = $data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty'));
+//            $url = $data->get('this.' . $object->config('package.raxon/parse.object.this.url'));
+//            $key = $data->get('this.' . $object->config('package.raxon/parse.object.this.key'));
+//            $attribute = $data->get('this.' . $object->config('package.raxon/parse.object.this.attribute'));
+//            $property = $data->get('this.' . $object->config('package.raxon/parse.object.this.property'));
+//            $parentProperty = $data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty'));
             $data->set('this', $this->local($depth));
-            $data->set('this.' . $object->config('package.raxon/parse.object.this.url'), $url);
-            $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $attribute);
-            $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $property);
-            $data->set('this.' . $object->config('package.raxon/parse.object.this.parentProperty'), $parentProperty);
-            $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
+//            $data->set('this.' . $object->config('package.raxon/parse.object.this.url'), $url);
+//            $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $attribute);
+//            $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $property);
+//            $data->set('this.' . $object->config('package.raxon/parse.object.this.parentProperty'), $parentProperty);
+//            $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
             $rootNode = $this->local(0);
             if(
                 $rootNode &&
                 is_object($rootNode)
             ){
                 $key = 'this.' . $object->config('package.raxon/parse.object.this.rootNode');
+                breakpoint($rootNode);
                 $data->set($key, $rootNode);
                 $key = 'this';
                 $data->set($key, Core::object_merge($data->get($key), $this->local($depth)));
                 for($index = $depth; $index >= 0; $index--){
                     $key .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
                     $data->set($key, $this->local($index));
-                    $data->set($key . '.' . $object->config('package.raxon/parse.object.this.key'), $key);
-                    $data->set($key . '.' . $object->config('package.raxon/parse.object.this.property'), $parentProperty);
+//                    $data->set($key . '.' . $object->config('package.raxon/parse.object.this.key'), $key);
+//                    $data->set($key . '.' . $object->config('package.raxon/parse.object.this.property'), $parentProperty);
                 }
             }
         } else {

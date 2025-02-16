@@ -34,9 +34,7 @@ trait App_Package_Dir {
         }
         $package = implode('/', $explode);
         $package = Dir::ucfirst($package);
-
-        $explode = explode('/', $package);
-        if(substr($prefix, 0, -1) !== '/'){
+        if(substr($prefix, -1, -1) !== '/'){
             $prefix .= '/';
         }
         $result = $prefix . $package;
@@ -55,6 +53,7 @@ trait App_Package_Dir {
             $command = 'chmod 777 ' . $dir;
             exec($command);
         }
+        $explode = explode('/', $package);
         foreach($explode as $nr => $value){
             $dir .= $value . '/';
             Dir::create($dir, Dir::CHMOD);

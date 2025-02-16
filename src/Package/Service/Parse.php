@@ -280,14 +280,16 @@ class Parse
                 $data->set($key, $rootNode);
                 $key = 'this';
                 $data->set($key, Core::object_merge($data->get($key), $this->local($depth)));
-                for($index = $depth; $index >= 0; $index--){
+                if($depth === 0){
                     $key .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
-                    $local = $index;
-                    $parentNode = $this->local($local);
+                    $parentNode = $this->local($depth);
                     $data->set($key, $parentNode);
-//                    $data->set($key . '.' . $object->config('package.raxon/parse.object.this.property'), $property);
-//                    $data->set($key . '.' . $object->config('package.raxon/parse.object.this.attribute'), $attribute);
-//                    $data->set($key . '.' . $object->config('package.raxon/parse.object.this.property'), $parentProperty);
+                } else {
+                    for($index = $depth - 1; $index >= 0; $index--){
+                        $key .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
+                        $parentNode = $this->local($index);
+                        $data->set($key, $parentNode);
+                    }
                 }
             }
         } else {

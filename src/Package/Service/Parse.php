@@ -280,19 +280,23 @@ class Parse
                 $data->set($key, $rootNode);
                 $key = 'this';
                 $data->set($key, Core::object_merge($data->get($key), $this->local($depth)));
+                $previous_local = false;
                 for($index = $depth; $index >= 0; $index--){
                     $key .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
-                    $parentNode = $this->local($index);
-                    d($property);
-                    d($attribute);
-                    d($parentProperty);
-                    d($parentNode);
+                    $local = $index - 1;
+                    if($local < 0){
+                        if($previous_local !== false){
+                            break;
+                        }
+                        $local = 0;
+                    }
+                    $parentNode = $this->local($local);
                     $data->set($key, $parentNode);
+                    $previous_local = $local;
 //                    $data->set($key . '.' . $object->config('package.raxon/parse.object.this.property'), $property);
 //                    $data->set($key . '.' . $object->config('package.raxon/parse.object.this.attribute'), $attribute);
 //                    $data->set($key . '.' . $object->config('package.raxon/parse.object.this.property'), $parentProperty);
                 }
-                d($data->get($key));
             }
         } else {
             $options->hash = hash('sha256', Core::object($input, Core::OBJECT_JSON_LINE));

@@ -232,8 +232,24 @@ class Parse
             /**
              * always parse the document (can have comment)
              */
+            /*
+            if(
+                (
+                    !str_contains($input, '{{') &&
+                    !str_contains($input, '}}')
+                ) ||
+                (
+                    !str_contains($input, '/*')
+                ) ||
+                (
+                    !str_contains($input, '//')
+                )
+            ){
+                return $input;
+            }
+            */
             $options->hash = hash('sha256', $input);
-            //url, key & attribute, property & parentProperty might be already set.
+            //url, key & attribute might be already set.
             $url = $data->get('this.' . $object->config('package.raxon/parse.object.this.url'));
             $key = $data->get('this.' . $object->config('package.raxon/parse.object.this.key'));
             $attribute = $data->get('this.' . $object->config('package.raxon/parse.object.this.attribute'));
@@ -266,8 +282,17 @@ class Parse
                 $data->set($key, Core::object_merge($data->get($key), $this->local($depth)));
                 for($index = $depth; $index >= 0; $index--){
                     $key .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
-                    $data->set($key, $this->local($index));
+                    $parentNode = $this->local($index);
+                    d($property);
+                    d($attribute);
+                    d($parentProperty);
+                    d($parentNode);
+                    $data->set($key, $parentNode);
+//                    $data->set($key . '.' . $object->config('package.raxon/parse.object.this.property'), $property);
+//                    $data->set($key . '.' . $object->config('package.raxon/parse.object.this.attribute'), $attribute);
+//                    $data->set($key . '.' . $object->config('package.raxon/parse.object.this.property'), $parentProperty);
                 }
+                d($data->get($key));
             }
         } else {
             $options->hash = hash('sha256', Core::object($input, Core::OBJECT_JSON_LINE));
@@ -278,8 +303,12 @@ class Parse
                     $options->source = 'internal_' . Core::uuid();
                     $options->source_root = $temp_source;
                     $options->class = Parse::class_name($object, $options->source);
+                    d($key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
+                    $data->set('this.#index', $key);
+                    d($data->get('this.#index'));
                     $input[$key] = $this->compile($value, $data, $is_debug);
+                    d($data->get('this.#index'));
                     $options->source = $temp_source;
                     $options->class = $temp_class;
                 }

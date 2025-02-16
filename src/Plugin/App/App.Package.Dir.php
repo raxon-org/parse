@@ -34,7 +34,7 @@ trait App_Package_Dir {
         }
         $package = implode('/', $explode);
         $package = Dir::ucfirst($package);
-        if(substr($prefix, -1, -1) !== '/'){
+        if(substr($prefix, -1, 1) !== '/'){
             $prefix .= '/';
         }
         $result = $prefix . $package;

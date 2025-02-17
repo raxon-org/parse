@@ -978,14 +978,42 @@ class Token
                                             'cast' => $cast
                                         ];
                                     } else {
-                                        $variable = [
-                                            'is_assign' => true,
-                                            'is_not' => $is_not,
-                                            'operator' => $operator,
-                                            'name' => mb_substr($variable_target, 1),
-                                            'value' => $list,
-                                            'cast' => $cast
-                                        ];
+                                        d($list);
+                                        d($operator);
+
+                                        if(
+                                            in_array(
+                                                $operator,
+                                                [
+                                                    '=',
+                                                    '.=',
+                                                    '+=',
+                                                    '-=',
+                                                    '*='
+                                                ], true
+                                            )
+                                        ){
+                                            $variable = [
+                                                'is_assign' => true,
+                                                'is_not' => $is_not,
+                                                'operator' => $operator,
+                                                'name' => mb_substr($variable_target, 1),
+                                                'value' => $list,
+                                                'cast' => $cast
+                                            ];
+                                        } else {
+                                            $variable = [
+                                                'is_define' => true,
+                                                'is_not' => $is_not,
+                                                'operator' => $operator,
+                                                'name' => mb_substr($variable_target, 1),
+                                                'method' => $method_value['array'][0]['method'],
+                                                'modifier' => $modifier_array,
+                                                'cast' => $cast
+                                            ];
+                                        }
+
+
                                     }
 //                                    $cache->set($after_hash, $list);
                                 } else {

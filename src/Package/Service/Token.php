@@ -666,9 +666,7 @@ class Token
                                         $char !== ' ' &&
                                         $char !== "\t" &&
                                         $char !== "\r" &&
-                                        $char !== "\n" &&
-                                        $char !== '\'' &&
-                                        $char !== '"'
+                                        $char !== "\n"
                                     ) &&
                                     $is_single_quoted === false &&
                                     $is_double_quoted === false

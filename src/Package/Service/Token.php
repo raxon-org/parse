@@ -27,7 +27,6 @@ class Token
             foreach($input as $nr => $record){
                 $input[$nr] = Token::tokenize($object, $flags, $options, $record);
             }
-            ddd($input);
             return $input;
         }
         $hash = hash('sha256', 'token.' . $input);
@@ -306,14 +305,16 @@ class Token
                                 if(
                                     $char === '\'' &&
                                     $is_single_quoted === false &&
-                                    $previous !== '\\'
+                                    $previous !== '\\' &&
+                                    $variable_name === ''
                                 ){
                                     $is_single_quoted = true;
                                 }
                                 elseif(
                                     $char === '\'' &&
                                     $is_single_quoted === true &&
-                                    $previous !== '\\'
+                                    $previous !== '\\' &&
+                                    $variable_name !== ''
 
                                 ){
                                     $is_single_quoted = false;
@@ -321,14 +322,16 @@ class Token
                                 elseif(
                                     $char === '"' &&
                                     $is_double_quoted === false &&
-                                    $previous !== '\\'
+                                    $previous !== '\\' &&
+                                    $variable_name !== ''
                                 ){
                                     $is_double_quoted = true;
                                 }
                                 elseif(
                                     $char === '"' &&
                                     $is_double_quoted === true &&
-                                    $previous !== '\\'
+                                    $previous !== '\\' &&
+                                    $variable_name !== ''
                                 ){
                                     $is_double_quoted = false;
                                 }
@@ -385,12 +388,6 @@ class Token
                                     $after_array[] = $char;
 //                                    $is_modifier = true;
                                     continue;
-                                }
-                                elseif(
-                                    $variable_name !== '' &&
-                                    $char === '#'
-                                ){
-                                    ddd('found');
                                 }
                                 /*
                                 elseif(
@@ -536,7 +533,7 @@ class Token
                                                 '+',
                                                 '-',
                                                 '*',
-    //                                        '/', //++ -- ** // (// is always =1)
+                                                //                                        '/', //++ -- ** // (// is always =1)
                                             ],
                                             true
                                         ) ||
@@ -545,7 +542,7 @@ class Token
                                             $next === ':'
                                         )
                                     )
-                                     &&
+                                    &&
                                     $is_single_quoted === false &&
                                     $is_double_quoted === false
                                 ){
@@ -825,6 +822,7 @@ class Token
                                             'cast' => $cast
                                         ];
                                     } else {
+                                        d($variable_target);
                                         $variable = [
                                             'is_define' => true,
                                             'is_not' => $is_not,
@@ -877,10 +875,10 @@ class Token
                                     if(
                                         in_array(
                                             $operator,
-                                             [
-                                                 '->',
-                                                 '::'
-                                             ],
+                                            [
+                                                '->',
+                                                '::'
+                                            ],
                                             true
                                         )
                                     ){
@@ -1476,7 +1474,6 @@ class Token
         ) {
             if (array_key_exists('execute', $input['array'][$index])) {
                 $item = $input['array'][$index]['execute'] ?? null;
-                d($item);
             }
             elseif (array_key_exists('tag', $input['array'][$index])) {
                 $item = $input['array'][$index]['tag'] ?? null;

@@ -317,6 +317,7 @@ class Variable
                                 'is_reference' => $is_reference,
                                 'is_not' => $is_not
                             ];
+                            d($input['array'][$is_variable]);
                             $name = '';
                             $has_name = false;
                             for($j = $is_variable + 1; $j < $i; $j++){
@@ -379,6 +380,7 @@ class Variable
                         'is_reference' => $is_reference,
                         'is_not' => $is_not
                     ];
+                    d($input['array'][$is_variable]);
                     for($j = $is_variable + 1; $j < $i; $j++){
                         $input['array'][$j] = null;
                     }

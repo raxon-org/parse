@@ -258,14 +258,19 @@ class Token
                             $argument_list = [];
                             $method = '';
                             $method_array = [];
+                            $is_array_notation = false;
+                            $array_notation = '';
+                            $array_notation_array = [];
                             $is_after = false;
                             $is_modifier = false;
                             $is_method = false;
                             $is_single_quoted = false;
                             $is_double_quoted = false;
+                            $has_variable_name = false;
                             $after_array = [];
                             $set_depth = 0;
                             $array_depth = 0;
+                            $array_depth_variable = false;
                             $curly_depth = 0;
                             $curly_depth_variable = false;
                             for($i=0; $i < $length; $i++){
@@ -524,6 +529,7 @@ class Token
                                 */
                                 elseif(
                                     !$operator &&
+                                    $array_depth_variable === $array_depth &&
                                     (
                                         in_array(
                                             $char,
@@ -570,7 +576,12 @@ class Token
                                         $is_double_quoted === false &&
                                         $after === ''
                                     ) {
-                                        continue;
+                                        if($array_depth_variable === $array_depth){
+                                            continue;
+                                        } else {
+                                            ddd($variable_name);
+                                        }
+
                                     }
                                     elseif(
                                         (
@@ -668,12 +679,47 @@ class Token
                                         $char !== "\r" &&
                                         $char !== "\n"
                                     ) &&
-                                    $is_single_quoted === false &&
-                                    $is_double_quoted === false
+                                    (
+                                        $is_single_quoted === false &&
+                                        $is_double_quoted === false
+                                    ) ||
+                                    (
+                                        $array_depth_variable !== $array_depth
+                                    )
                                 ){
-                                    $variable_name .= $char;
+                                    if($array_depth_variable !== false) {
+                                        if ($array_depth_variable !== $array_depth) {
+                                            $is_array_notation = true;
+                                        }
+                                    }
+                                    if($is_array_notation === false){
+                                        $variable_name .= $char;
+                                    }
+                                    else {
+                                        if($has_variable_name === false){
+//                                            $array_notation .= $variable_name;
+//                                            $explode = mb_str_split($variable_name, 1);
+//                                            foreach($explode as $explode_nr => $explode_value){
+//                                                $array_notation_array[] = $explode_value;
+//                                            }
+                                            $has_variable_name = true;
+                                        }
+                                        $array_notation .= $char;
+                                        $array_notation_array[] = $char;
+                                    }
                                     if($curly_depth_variable === false){
                                         $curly_depth_variable = $curly_depth;
+                                    }
+                                    if($array_depth_variable === false){
+                                        $array_depth_variable = $array_depth;
+                                    }
+                                    elseif($array_depth_variable !== false){
+                                        if($array_depth_variable !== $array_depth){
+                                            $is_array_notation = true;
+                                        }
+                                        elseif($is_array_notation === true){
+                                            $is_array_notation = false;
+                                        }
                                     }
                                 }
                             }
@@ -820,13 +866,34 @@ class Token
                                             'cast' => $cast
                                         ];
                                     } else {
-                                        d($variable_target);
-                                        $variable = [
-                                            'is_define' => true,
-                                            'is_not' => $is_not,
-                                            'name' => mb_substr($variable_target, 1),
-                                            'cast' => $cast
-                                        ];
+                                        if($array_notation !== ''){
+                                            $list = Token::value(
+                                                $object,
+                                                $flags,
+                                                $options,
+                                                [
+                                                    'string' => $array_notation,
+                                                    'array' => $array_notation_array,
+                                                ],
+                                            );
+                                            $variable = [
+                                                'is_define' => true,
+                                                'is_not' => $is_not,
+                                                'name' => mb_substr($variable_target, 1),
+                                                'cast' => $cast,
+                                                'array_notation' => $list
+                                            ];
+                                            $array_notation = '';
+                                            $array_notation_array = [];
+                                            $has_variable_name = false;
+                                        } else {
+                                            $variable = [
+                                                'is_define' => true,
+                                                'is_not' => $is_not,
+                                                'name' => mb_substr($variable_target, 1),
+                                                'cast' => $cast
+                                            ];
+                                        }
                                     }
                                 }
                             } else {
@@ -978,9 +1045,6 @@ class Token
                                             'cast' => $cast
                                         ];
                                     } else {
-                                        d($list);
-                                        d($operator);
-
                                         if(
                                             in_array(
                                                 $operator,
@@ -1002,17 +1066,37 @@ class Token
                                                 'cast' => $cast
                                             ];
                                         } else {
-                                            $variable = [
-                                                'is_define' => true,
-                                                'is_not' => $is_not,
-                                                'operator' => $operator,
-                                                'name' => mb_substr($variable_target, 1),
-                                                'modifier' => $modifier_array,
-                                                'cast' => $cast
-                                            ];
+                                            if($array_notation !== ''){
+                                                $list = Token::value(
+                                                    $object,
+                                                    $flags,
+                                                    $options,
+                                                    [
+                                                        'string' => $array_notation,
+                                                        'array' => $array_notation_array,
+                                                    ],
+                                                );
+                                                $variable = [
+                                                    'is_define' => true,
+                                                    'is_not' => $is_not,
+                                                    'name' => mb_substr($variable_target, 1),
+                                                    'cast' => $cast,
+                                                    'array_notation' => $list
+                                                ];
+                                                $array_notation = '';
+                                                $array_notation_array = [];
+                                                $has_variable_name = false;
+                                            } else {
+                                                $variable = [
+                                                    'is_define' => true,
+                                                    'is_not' => $is_not,
+                                                    'operator' => $operator,
+                                                    'name' => mb_substr($variable_target, 1),
+                                                    'modifier' => $modifier_array,
+                                                    'cast' => $cast
+                                                ];
+                                            }
                                         }
-
-
                                     }
 //                                    $cache->set($after_hash, $list);
                                 } else {

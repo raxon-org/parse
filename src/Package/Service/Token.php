@@ -1007,7 +1007,6 @@ class Token
                                                 'is_not' => $is_not,
                                                 'operator' => $operator,
                                                 'name' => mb_substr($variable_target, 1),
-                                                'method' => $method_value['array'][0]['method'],
                                                 'modifier' => $modifier_array,
                                                 'cast' => $cast
                                             ];

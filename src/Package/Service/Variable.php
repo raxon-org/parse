@@ -246,9 +246,16 @@ class Variable
             $current = Token::item($input, $nr);
             if($current === '$'){
                 $is_variable = $nr;
+                $is_array_notation = false;
                 $name = '$';
+                $array_notation = '';
+                $array_notation_array = [];
+                $list = [];
                 for($i = $is_variable + 1; $i < $count; $i++){
                     $current = Token::item($input, $i);
+                    if($current === '['){
+                        $is_array_notation = true;
+                    }
                     if(
                         in_array(
                             $current,
@@ -259,76 +266,108 @@ class Variable
                                 "\r"
                             ],
                             true
-                        ) ||
-                        (
-                            is_array($input['array'][$i]) &&
-                            array_key_exists('type', $input['array'][$i]) &&
-                            $input['array'][$i]['type'] === 'symbol' &&
-                            !in_array(
-                                $current,
-                                [
-                                    '.',
-                                    ':',
-                                    '_',
-                                    '#'
-                                ],
-                                true
-                            )
                         )
                     ){
-                        if($name !== '$'){
-                            $has_name = true;
-                            $is_reference = false;
-                            $is_not = null; //neutral
-                            if(
-                                in_array(
-                                    $previous,
-                                    [
-                                        '!',
-                                        '!!!',
-                                    ],
-                                    true
-                                )
-                            ){
-                                $is_not = false;
-                                $input['array'][$is_variable - 1] = null;
-                            }
-                            elseif(
-                                in_array(
-                                    $previous,
-                                    [
-                                        '!!',
-                                        '!!!!'
-                                    ],
-                                    true
-                                )
-                            ){
-                                $is_not = true;
-                                $input['array'][$is_variable - 1] = null;
-                            }
-                            elseif ($previous === '&') {
-                                $is_reference = true;
-                                $input['array'][$is_variable - 1] = null;
-                            }
-                            $input['array'][$is_variable] = [
-                                'type' => 'variable',
-                                'tag' => $name,
-                                'name' => mb_substr($name, 1),
-                                'is_reference' => $is_reference,
-                                'is_not' => $is_not
-                            ];
-                            d($input['array'][$is_variable]);
-                            $name = '';
-                            $has_name = false;
-                            for($j = $is_variable + 1; $j < $i; $j++){
-                                $input['array'][$j] = null;
-                            }
-                            $is_variable = false;
-                            break;
-                        }
+                        $is_array_notation = false;
                     }
-                    elseif($has_name === false){
-                        $name .= $current;
+                    if($is_array_notation === true){
+                        $array_notation .= $current;
+                        $array_notation_array[] = $current;
+                    } else {
+                        if(
+                            in_array(
+                                $current,
+                                [
+                                    ' ',
+                                    "\t",
+                                    "\n",
+                                    "\r"
+                                ],
+                                true
+                            ) ||
+                            (
+                                is_array($input['array'][$i]) &&
+                                array_key_exists('type', $input['array'][$i]) &&
+                                $input['array'][$i]['type'] === 'symbol' &&
+                                !in_array(
+                                    $current,
+                                    [
+                                        '.',
+                                        ':',
+                                        '_',
+                                        '#',
+                                    ],
+                                    true
+                                )
+                            )
+                        ){
+                            d($current);
+                            d($name);
+                            if($name !== '$'){
+                                $has_name = true;
+                                $is_reference = false;
+                                $is_not = null; //neutral
+                                if(
+                                    in_array(
+                                        $previous,
+                                        [
+                                            '!',
+                                            '!!!',
+                                        ],
+                                        true
+                                    )
+                                ){
+                                    $is_not = false;
+                                    $input['array'][$is_variable - 1] = null;
+                                }
+                                elseif(
+                                    in_array(
+                                        $previous,
+                                        [
+                                            '!!',
+                                            '!!!!'
+                                        ],
+                                        true
+                                    )
+                                ){
+                                    $is_not = true;
+                                    $input['array'][$is_variable - 1] = null;
+                                }
+                                elseif ($previous === '&') {
+                                    $is_reference = true;
+                                    $input['array'][$is_variable - 1] = null;
+                                }
+                                if($array_notation !== ''){
+                                    $list = Token::value(
+                                        $object,
+                                        $flags,
+                                        $options,
+                                        [
+                                            'string' => $array_notation,
+                                            'array' => $array_notation_array,
+                                        ],
+                                    );
+                                }
+                                $input['array'][$is_variable] = [
+                                    'type' => 'variable',
+                                    'tag' => $name,
+                                    'name' => mb_substr($name, 1),
+                                    'is_reference' => $is_reference,
+                                    'is_not' => $is_not,
+                                    'array_notation' => $list
+                                ];
+                                $name = '';
+                                $has_name = false;
+                                for($j = $is_variable + 1; $j < $i; $j++){
+                                    $input['array'][$j] = null;
+                                }
+                                $is_variable = false;
+                                break;
+                            }
+                        }
+                        elseif($has_name === false){
+                            $name .= $current;
+                        }
                     }
                 }
                 if(
@@ -338,7 +377,7 @@ class Variable
                             '',
                             '$'
                         ],
-                    true
+                        true
                     )
                 ){
                     $is_reference = false;
@@ -373,14 +412,25 @@ class Variable
                         $is_reference = true;
                         $input['array'][$is_variable - 1] = null;
                     }
+                    if($array_notation !== ''){
+                        $list = Token::value(
+                            $object,
+                            $flags,
+                            $options,
+                            [
+                                'string' => $array_notation,
+                                'array' => $array_notation_array,
+                            ],
+                        );
+                    }
                     $input['array'][$is_variable] = [
                         'type' => 'variable',
                         'tag' => $name,
                         'name' => mb_substr($name, 1),
                         'is_reference' => $is_reference,
-                        'is_not' => $is_not
+                        'is_not' => $is_not,
+                        'array_notation' => $list
                     ];
-                    d($input['array'][$is_variable]);
                     for($j = $is_variable + 1; $j < $i; $j++){
                         $input['array'][$j] = null;
                     }

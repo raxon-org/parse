@@ -704,8 +704,15 @@ class Token
 //                                            }
                                             $has_variable_name = true;
                                         }
-                                        $array_notation .= $char;
-                                        $array_notation_array[] = $char;
+                                        if($array_depth_variable === $array_depth){
+                                            if($next !== '['){
+                                                $is_array_notation = false;
+                                            }
+                                        }
+                                        if($is_array_notation){
+                                            $array_notation .= $char;
+                                            $array_notation_array[] = $char;
+                                        }
                                     }
                                     if($curly_depth_variable === false){
                                         $curly_depth_variable = $curly_depth;
@@ -1561,7 +1568,9 @@ class Token
 //            breakpoint($input);
             $input = Cast::define($object, $flags, $options, $input);
             $input = Method::define($object, $flags, $options, $input, $tag);
+            d($input);
             $input = Variable::define($object, $flags, $options, $input);
+
             $input = Variable::modifier($object, $flags, $options, $input, $tag);
             $input = Variable::assign($object, $flags, $options, $input);
             $input = Value::define($object, $flags, $options, $input);

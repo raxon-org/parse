@@ -1401,12 +1401,12 @@ class Build
         if(str_contains($plugin, ':')){
             $explode = explode(':', $name, 2);
             $use_package = str_replace(
-                [
-                    '_'
-                ],
-                [
-                    '\\'
-                ], $explode[0]) .
+                    [
+                        '_'
+                    ],
+                    [
+                        '\\'
+                    ], $explode[0]) .
                 '\\'
             ;
             $explode = explode(':', $explode[1], 2);
@@ -1560,6 +1560,15 @@ class Build
         $object->config('package.raxon/parse.build.use.trait', $use);
         $object->config('package.raxon/parse.build.use.trait_function', $use_trait_function);
         return '$this->' . mb_strtolower($plugin);
+    }
+
+    public static function array_notation_data(App $object, $flags, $options, $data=[], $list = [], $attribute = '', $previous_variable=''): array
+    {
+        d($data);
+        d($attribute);
+        d($previous_variable);
+        d($list);
+        return $data;
     }
 
     /**
@@ -1725,9 +1734,25 @@ class Build
                     $cast = '(' . $record['variable']['cast'] . ') ';
                 }
             }
-            $data = [
-                $variable_uuid . ' = ' . $is_not . $cast . '$data->data(\'' . $variable_name . '\');' ,
-            ];
+            if(array_key_exists('array_notation', $record['variable'])){
+                $data = [];
+                $variable_uuid = Core::uuid_variable();
+                $data[] = '$test_' . substr($variable_uuid, 1) . '_record = $data->data();';
+                $data = Build::array_notation_data($object, $flags, $options, $data, $record['variable']['array_notation']['array'], $variable_name, $variable_uuid);
+
+                /*
+                $data = [
+                    '$test1_' . substr($variable_uuid, 1) . '=' . '$data->data(\'' . $variable_name . '\');' ,
+                ];
+                */
+                ddd($data);
+            } else {
+                $data = [
+                    $variable_uuid . ' = ' . $is_not . $cast . '$data->data(\'' . $variable_name . '\');' ,
+                ];
+            }
+
+
             if(
                 array_key_exists('is_multiline', $record) &&
                 $record['is_multiline'] === true
@@ -2084,7 +2109,7 @@ class Build
 
                 $method_value[] = $foreach_value . PHP_EOL;
                 $method_value = implode(PHP_EOL, $method_value);
-            break;
+                break;
             case 'while':
                 $method_value[] = 'while(';
                 $is_argument = false;
@@ -2097,7 +2122,7 @@ class Build
                                 null,
                                 ''
                             ],
-                        true
+                            true
                         )
                     ){
                         $is_argument = true;
@@ -2147,7 +2172,7 @@ class Build
                     implode(PHP_EOL, $after)
                 ;
                 */
-            break;
+                break;
             case 'for':
                 $method_value[] = 'for(';
                 $is_argument = false;
@@ -2199,7 +2224,7 @@ class Build
                 }
                 $method_value[] = '){';
                 $method_value = implode(PHP_EOL, $method_value);
-            break;
+                break;
             case 'if':
             case 'elseif':
             case 'else.if':
@@ -2443,7 +2468,7 @@ class Build
                         );
                     }
                 }
-            break;
+                break;
             case 'block.data':
             case 'block.html':
             case 'block.xml':
@@ -2490,7 +2515,7 @@ class Build
                     $method_value .= Build::argument($object, $flags, $options, $record, $before, $after);
                     $method_value .= ');';
                 }
-            break;
+                break;
         }
         switch($method_name){
             case 'for.each':
@@ -2565,7 +2590,7 @@ class Build
                     $ltrim++;
                 }
                 $object->config('package.raxon/parse.build.state.ltrim', $ltrim);
-            break;
+                break;
             case 'break' :
             case 'continue':
             case 'block.data':
@@ -2576,7 +2601,7 @@ class Build
             case 'block.link':
             case 'block.function':
                 //nothing, checks have been done already
-            break;
+                break;
             default:
                 try {
                     Validator::validate($object, $flags, $options, $method_value);
@@ -2628,7 +2653,7 @@ class Build
                 }
                 $data[] = '}';
                 return implode(PHP_EOL, $data);
-            break;
+                break;
         }
         $data = [];
         foreach($before as $before_record){
@@ -3080,13 +3105,13 @@ class Build
                 switch($operator){
                     case '++' :
                         $result = '$data->set(\'' . $variable_name . '\', ' .  '$this->value_plus_plus($data->data(\'' . $variable_name . '\')));';
-                    break;
+                        break;
                     case '--' :
                         $result = '$data->set(\'' . $variable_name . '\', ' .  '$this->value_minus_minus($data->data(\'' . $variable_name . '\')));';
-                    break;
+                        break;
                     case '**' :
                         $result = '$data->set(\'' . $variable_name . '\', ' .  '$this->value_multiply_multiply($data->data(\'' . $variable_name . '\')));';
-                    break;
+                        break;
                 }
             }
             try {
@@ -3379,7 +3404,7 @@ class Build
                     ){
                         if($is_cast){
                             if($is_clone){
-                               $is_clone = false;
+                                $is_clone = false;
                             } else {
                                 $value .= ' ' . $record['value'] . PHP_EOL;
                             }
@@ -3536,7 +3561,7 @@ class Build
                                 );
                                 $assign = Build::value($object, $flags, $options, $tag, $assign, $is_set);
                                 $value .= '$data->set(\'' . $previous['name'] . '\', value_plus($data->data(\'' . $previous['name'] .'\', ' .  $assign . ')';
-                            break;
+                                break;
                             case '-=':
                                 $assign = Build::value_right(
                                     $object,
@@ -3549,7 +3574,7 @@ class Build
                                 );
                                 $assign = Build::value($object, $flags, $options, $tag, $assign, $is_set);
                                 $value .= '$data->set(\'' . $previous['name'] . '\', value_minus($data->data(\'' . $previous['name'] .'\', ' .  $assign . ')';
-                            break;
+                                break;
                             case '*=':
                                 $assign = Build::value_right(
                                     $object,
@@ -3562,7 +3587,7 @@ class Build
                                 );
                                 $assign = Build::value($object, $flags, $options, $tag, $assign, $is_set);
                                 $value .= '$data->set(\'' . $previous['name'] . '\', value_multiply($data->data(\'' . $previous['name'] .'\', ' .  $assign . ')';
-                            break;
+                                break;
                             case '=':
                                 $assign = Build::value_right(
                                     $object,
@@ -3575,16 +3600,16 @@ class Build
                                 );
                                 $assign = Build::value($object, $flags, $options, $tag, $assign, $is_set);
                                 $value .= '$data->set(\'' . $previous['name'] . '\', ' .  $assign . ')';
-                            break;
+                                break;
                             case '++' :
                                 $value = '$data->set(\'' . $previous['name'] . '\', ' .  '$this->value_plus_plus($data->data(\'' . $previous['name'] . '\')))';
-                            break;
+                                break;
                             case '--' :
                                 $value = '$data->set(\'' . $previous['name'] . '\', ' .  '$this->value_minus_minus($data->data(\'' . $previous['name'] . '\')))';
-                            break;
+                                break;
                             case '**' :
                                 $value = '$data->set(\'' . $previous['name'] . '\', ' .  '$this->value_multiply_multiply($data->data(\'' . $previous['name'] . '\')))';
-                            break;
+                                break;
                         }
                     } else {
                         if(
@@ -3669,7 +3694,6 @@ class Build
                     $right = Build::value($object, $flags, $options, $tag, $right, $is_set);
                     if(array_key_exists('value', $record)){
                         $value = Build::value_calculate($object, $flags, $options, $record['value'], $value, $right);
-                        d($value);
                     }
                 }
                 else {
@@ -3903,32 +3927,32 @@ class Build
                         case '=':
                             $variable_value = Build::value($object, $flags, $options, $tag, $record['variable']['value'], $is_set);
                             $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' . $variable_value . ')';
-                        break;
+                            break;
                         case '.=':
                             $variable_value = Build::value($object, $flags, $options, $tag, $record['variable']['value'], $is_set);
                             $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' .  '$this->value_concatenate($data->data(\'' . $record['variable']['name'] . '\'), ' .  $variable_value . '))';
-                        break;
+                            break;
                         case '+=':
                             $variable_value = Build::value($object, $flags, $options, $tag, $record['variable']['value'], $is_set);
                             $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' .  '$this->value_plus($data->data(\'' . $record['variable']['name'] . '\'), ' .  $variable_value . '))';
-                        break;
+                            break;
                         case '-=':
                             $variable_value = Build::value($object, $flags, $options, $tag, $record['variable']['value'], $is_set);
                             $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' .  '$this->value_minus($data->data(\'' . $record['variable']['name'] . '\'), ' .  $variable_value . '))';
-                        break;
+                            break;
                         case '*=':
                             $variable_value = Build::value($object, $flags, $options, $tag, $record['variable']['value'], $is_set);
                             $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' .  '$this->value_multiply($data->data(\'' . $record['variable']['name'] . '\'), ' .  $variable_value . '))';
                             break;
                         case '++':
                             $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' .  '$this->value_plus_plus($data->data(\'' . $record['variable']['name'] . '\')))';
-                        break;
+                            break;
                         case '--':
                             $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' .  '$this->value_minus_minus($data->data(\'' . $record['variable']['name'] . '\')))';
-                        break;
+                            break;
                         case '**':
                             $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' .  '$this->value_multiply_multiply($data->data(\'' . $record['variable']['name'] . '\')))';
-                        break;
+                            break;
                         default:
                             breakpoint($record);
                             throw new Exception('Not implemented...');
@@ -4030,71 +4054,71 @@ class Build
             case 'false':
             case 'null':
                 $value = $current;
-            break;
+                break;
             case '.=':
             case '.':
                 $value = '$this->value_concatenate(' .$left . ', ' .$right . ')';
-            break;
+                break;
             case '+':
                 $value = '$this->value_plus(' .$left . ', ' .$right . ')';
-            break;
+                break;
             case '-':
                 $value = '$this->value_minus(' .$left . ', ' .$right . ')';
-            break;
+                break;
             case '*':
                 $value = '$this->value_multiply(' .$left . ', ' .$right . ')';
-            break;
+                break;
             case '%':
                 $value = '$this->value_modulo(' .$left . ', ' .$right . ')';
-            break;
+                break;
             case '/':
                 $value = '$this->value_divide(' .$left . ', ' .$right . ')';
-            break;
+                break;
             case '<':
                 $value = '$this->value_smaller(' . $left . ', ' .$right . ')';
-            break;
+                break;
             case '<=':
                 $value = '$this->value_smaller_equal(' .$left . ', ' .$right . ')';
-            break;
+                break;
             case '<<':
                 $value = '$this->value_smaller_smaller(' .$left . ', ' .$right . ')';
-            break;
+                break;
             case '>':
                 $value = '$this->value_greater(' .$left . ', ' .$right . ')';
-            break;
+                break;
             case '>=':
                 $value = '$this->value_greater_equal(' .$left . ', ' .$right . ')';
-            break;
+                break;
             case '>>':
                 $value = '$this->value_greater_greater(' .$left . ', ' .$right . ')';
-            break;
+                break;
             case '==':
                 $value = '$this->value_equal(' .$left . ', ' .$right . ')';
-            break;
+                break;
             case '===':
                 $value = '$this->value_identical(' .$left . ', ' .$right . ')';
-            break;
+                break;
             case '!=':
             case '<>':
                 $value = '$this->value_not_equal(' .$left . ', ' .$right . ')';
-            break;
+                break;
             case '!==':
                 $value = '$this->value_not_identical(' .$left . ', ' .$right . ')';
-            break;
+                break;
             case '??':
                 $value = $left . ' ?? ' . $right;
-            break;
+                break;
             case '&&':
             case 'and' :
                 $value = $left . ' && ' . $right;
-            break;
+                break;
             case '||':
             case 'or':
                 $value = $left . ' || ' . $right;
-            break;
+                break;
             case 'xor':
                 $value = $left . ' xor ' . $right;
-            break;
+                break;
         }
         return $value;
     }
@@ -4183,17 +4207,17 @@ class Build
                     $skip++;
                 }
                 break;
-                /*
-            case NULL:
-                $right = 'NULL';
-                $right_array[] = [
-                    'value' => $right,
-                    'execute' => NULL,
-                    'is_null' => true
-                ];
-                $skip++;
-            break;
-                */
+            /*
+        case NULL:
+            $right = 'NULL';
+            $right_array[] = [
+                'value' => $right,
+                'execute' => NULL,
+                'is_null' => true
+            ];
+            $skip++;
+        break;
+            */
             case '=':
                 $skip++;
                 for($i = $nr + 2; $i < $count; $i++){

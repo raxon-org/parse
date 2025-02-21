@@ -1568,7 +1568,6 @@ class Token
 //            breakpoint($input);
             $input = Cast::define($object, $flags, $options, $input);
             $input = Method::define($object, $flags, $options, $input, $tag);
-            d($input);
             $input = Variable::define($object, $flags, $options, $input);
 
             $input = Variable::modifier($object, $flags, $options, $input, $tag);

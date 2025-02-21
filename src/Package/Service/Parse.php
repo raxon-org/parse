@@ -454,7 +454,7 @@ class Parse
                 ;
             }
             $document = Build::create($object, $flags, $options, $token);
-            d($url_php);
+//            d($url_php);
             File::write($url_php, implode(PHP_EOL, $document));
             File::permission(
                 $object,

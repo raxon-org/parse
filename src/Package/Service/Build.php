@@ -3763,7 +3763,7 @@ class Build
                 $record['type'] === 'array'
             ){
                 $array_value = Build::value($object, $flags, $options, $tag, $record, $is_set);
-                d($array_value);
+//                d($array_value);
                 $data = Build::string_array($array_value);
                 foreach($data as $nr => $line){
                     $char = trim($line);

@@ -301,8 +301,8 @@ class Variable
                                 )
                             )
                         ){
-                            d($current);
-                            d($name);
+//                            d($current);
+//                            d($name);
                             if($name !== '$'){
                                 $has_name = true;
                                 $is_reference = false;

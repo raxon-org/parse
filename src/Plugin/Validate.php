@@ -15,9 +15,9 @@ trait Validate {
     public function validate(mixed $value, string $type, array $validation, int $argument_nr=null): void
     {
         $object = $this->object();
-        d($value);
-        d($argument_nr);
-        ddd($validation);
+//        d($value);
+//        d($argument_nr);
+//        d($validation);
     }
 
 }

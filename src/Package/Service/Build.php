@@ -1480,10 +1480,10 @@ class Build
                     //pre scanning for the right exception
                     //this one breakpoint is wrong, it should not contain controller
                     $autoload = $object->data(App::AUTOLOAD_RAXON);
-                    $prefix = $autoload->getPrefixList();
-                    ddd($prefix);
                     $autoload->addPrefix('Plugin', $object->config('controller.dir.plugin'));
                     $location = $autoload->locate($use_plugin, false,  Autoload::MODE_LOCATION);
+                    $prefix = $autoload->getPrefixList();
+                    d($prefix);
                     /*
                     $controller_plugin_1 = $object->config('controller.dir.plugin') . str_replace(['\\', '_'], ['/', '.'], $controller_plugin) . $object->config('ds') . str_replace(['\\', '_'], ['/', '.'], $controller_plugin) . $object->config('extension.php');
                     $controller_plugin_2 = $object->config('controller.dir.plugin') . str_replace('\\', '/', $controller_plugin) . $object->config('ds') . str_replace('\\', '/', $controller_plugin) . $object->config('extension.php');

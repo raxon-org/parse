@@ -63,7 +63,7 @@ class Parse
                 'ramdisk' => true
             ]
         );
-        $options = $this->options();
+        $options = $this->parse_options();
         $force = false;
         if(property_exists($options,'force')){
             $parse = false;

@@ -21,8 +21,8 @@ class Build
 
     public function __construct(App $object, $flags, $options){
         $this->object($object);
-        $this->flags($flags);
-        $this->options($options);
+        $this->parse_flags($flags);
+        $this->parse_options($options);
     }
 
     /**
@@ -912,8 +912,8 @@ class Build
         $document[] = str_repeat(' ', $indent * 4) . '$this->object($object);';
         $document[] = str_repeat(' ', $indent * 4) . '$this->parse($parse);';
         $document[] = str_repeat(' ', $indent * 4) . '$this->data($data);';
-        $document[] = str_repeat(' ', $indent * 4) . '$this->flags($flags);';
-        $document[] = str_repeat(' ', $indent * 4) . '$this->options($options);';
+        $document[] = str_repeat(' ', $indent * 4) . '$this->parse_flags($flags);';
+        $document[] = str_repeat(' ', $indent * 4) . '$this->parse_options($options);';
         $object->config(
             'package.raxon/parse.build.state.indent',
             $object->config('package.raxon/parse.build.state.indent') - 1
@@ -949,8 +949,8 @@ class Build
         $document[] = str_repeat(' ', $indent * 4) . '$object = $this->object();';
         $document[] = str_repeat(' ', $indent * 4) . '$parse = $this->parse();';
         $document[] = str_repeat(' ', $indent * 4) . '$data = $this->data();';
-        $document[] = str_repeat(' ', $indent * 4) . '$flags = $this->flags();';
-        $document[] = str_repeat(' ', $indent * 4) . '$options = $this->options();';
+        $document[] = str_repeat(' ', $indent * 4) . '$flags = $this->parse_flags();';
+        $document[] = str_repeat(' ', $indent * 4) . '$options = $this->parse_options();';
         $document[] = str_repeat(' ', $indent * 4) . '$options->debug = true;';
         $document[] = str_repeat(' ', $indent * 4) . 'if (!($object instanceof App)) {';
         $indent++;

@@ -42,8 +42,8 @@ class Parse
         if($options === null){
             $options = (object) [];
         }
-        $this->flags($flags);
-        $this->options($options);
+        $this->parse_flags($flags);
+        $this->parse_options($options);
         //move to install (config)
         $this->config();
     }
@@ -199,8 +199,8 @@ class Parse
             $data = $this->data();
         }
         $object = $this->object();
-        $flags = $this->flags();
-        $options = $this->options();
+        $flags = $this->parse_flags();
+        $options = $this->parse_options();
 
         if($is_debug){
             $object->config('package.raxon/parse.build.state.input.debug', true);

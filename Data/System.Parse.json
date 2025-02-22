@@ -194,7 +194,7 @@
               "Raxon\\App",
               "Raxon\\Module\\Data",
               "Raxon\\Module\\Core",
-              "Package\\Raxon\\Parse\\Service\\Parse",
+              "Raxon\\Parse\\Module\\Parse",
               "Plugin",
               "Exception",
               "Error",

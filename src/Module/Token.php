@@ -74,7 +74,6 @@ class Token
                 File::delete($cache_url);
             }
         }
-        d($tags);
         if($tags === false){
             $tags = Tag::define($object, $flags, $options, $input);
             $tags = Tag::remove($object, $flags, $options, $tags);

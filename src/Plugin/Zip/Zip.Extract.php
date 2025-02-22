@@ -13,6 +13,8 @@ namespace PLugin;
 use Raxon\Module\File;
 use Raxon\Module\Dir;
 
+use stdClass;
+
 use Exception;
 
 use Raxon\Exception\DirectoryCreateException;

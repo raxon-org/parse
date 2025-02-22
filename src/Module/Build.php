@@ -1484,7 +1484,6 @@ class Build
                     $autoload->addPrefix('Plugin', $object->config('project.dir.plugin'));
                     $location = $autoload->locate($use_plugin, false,  Autoload::MODE_LOCATION);
                     $prefix = $autoload->getPrefixList();
-                    d($prefix);
                     /*
                     $controller_plugin_1 = $object->config('controller.dir.plugin') . str_replace(['\\', '_'], ['/', '.'], $controller_plugin) . $object->config('ds') . str_replace(['\\', '_'], ['/', '.'], $controller_plugin) . $object->config('extension.php');
                     $controller_plugin_2 = $object->config('controller.dir.plugin') . str_replace('\\', '/', $controller_plugin) . $object->config('ds') . str_replace('\\', '/', $controller_plugin) . $object->config('extension.php');

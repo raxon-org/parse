@@ -13,5 +13,10 @@
     "authors" : [{
         "name" : "Remco van der Velde",
         "email" : "development@universeorange.com"
-    }]
+    }],
+    "autoload" : {
+        "psr-4" : {
+            "Raxon\\Parse\\" : "src/"
+        }
+    }
 }

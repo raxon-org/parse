@@ -105,7 +105,6 @@ class Parse
         }
         $object->config(Parse::CONFIG, $parse['node']);
         $object->config(Parse::CONFIG . '.time.start', microtime(true));
-        $object->data(App::AUTOLOAD_RAXON)->addPrefix('Plugin', $object->config('project.dir.vendor') .'raxon/parse/src/Plugin/');
     }
 
     public static function result($result=''){

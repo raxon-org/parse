@@ -4030,6 +4030,8 @@ class Build
                         $after[] = [
                             'attribute' => $record['name']
                         ];
+                        d($after);
+                        ddd($record);
                     }
                 }
             }

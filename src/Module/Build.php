@@ -2664,6 +2664,10 @@ class Build
         foreach($after as $after_record){
             $data[] = $after_record;
         }
+        if(!is_array($data)){
+            trace();
+            ddd($data);
+        }
         return implode(PHP_EOL, $data);
     }
 

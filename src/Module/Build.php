@@ -4094,12 +4094,15 @@ class Build
                         $is_single_line = false;
                     } else {
                         if(array_key_exists('array_notation', $record) && !empty($record['array_notation'])){
+                            d($before);
+                            d($value);
                             ddd($record);
+                        } else {
+                            $value .= '$data->data(\'' . $record['name'] . '\')';
+                            $after[] = [
+                                'attribute' => $record['name']
+                            ];
                         }
-                        $value .= '$data->data(\'' . $record['name'] . '\')';
-                        $after[] = [
-                            'attribute' => $record['name']
-                        ];
                     }
                 }
             }

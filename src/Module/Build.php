@@ -4099,6 +4099,7 @@ class Build
                             $before[] = 'if(is_array(' . $uuid_variable . ')){';
                             $bracket = 0;
                             $collect = [];
+                            d($record);
                             foreach($record['array_notation']['array'] as $array_notation_nr => $array_notation){
                                 if(
                                     array_key_exists('value', $array_notation) &&

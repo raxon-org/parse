@@ -19,6 +19,14 @@ trait Value {
 
     protected function value_concatenate($variable1=null, $variable2=null) : string
     {
+        if(is_array($variable1)){
+            trace();
+            die('end');
+        }
+        if(is_array($variable2)){
+            trace();
+            die('end');
+        }
         return (string) $variable1 . (string) $variable2;
     }
 

@@ -46,7 +46,7 @@ class Build
         $document[] = '';
         $document = Build::document_construct($object, $flags, $options, $document);
         $document[] = '';
-//        $document = Build::document_run($object, $flags, $options, $document, $data);
+        $document = Build::document_run($object, $flags, $options, $document, $data);
         $document[] = '}';
         ddd($document);
         return $document;
@@ -214,6 +214,7 @@ class Build
                     }
                 }
                 $method = Build::method($object, $flags, $options, $record);
+                ddd($method);
                 if($method){
                     d($method);
                     if(

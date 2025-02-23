@@ -2256,7 +2256,6 @@ class Build
             case 'else.if':
             case 'else_if':
                 d($before);
-                $method_value[] = 'ddd(\'here\');';
                 if(
                     in_array(
                         $method_name,

@@ -1920,7 +1920,6 @@ class Build
                         $before[] = $uuid_variable . ' = ' . $value . ';';
                         if($attributes){
                             //need use_trait (config)
-                            $before[] = 'dd(\'test\');';
                             $before[] = '$this->validate(' . $uuid_variable . ', \'argument\', Core::object(\'' . $attributes_transfer . '\', Core::FINALIZE), ' . $argument_nr . ');';
                         }
                         $value = $uuid_variable;
@@ -1938,6 +1937,7 @@ class Build
 
                         $after[$argument_nr] = null;
                     }
+                    ddd($before);
                 }
                 if (array_key_exists(0, $argument)) {
                     $argument = $name . '(' . implode(', ', $argument) . ')';
@@ -1990,7 +1990,6 @@ class Build
                             $attributes_transfer =  Core::object($attributes, Core::TRANSFER);
                         }
                         $attributes_transfer =  Core::object($attributes, Core::TRANSFER);
-                        $before[] = 'dd(\'test\');';
                         $before[] = '$this->validate(' . $uuid_variable . ', \'argument\', Core::object(\'' . $attributes_transfer . '\', Core::FINALIZE), ' . $nr . ');';
                     }
                     $argument = $uuid_variable;
@@ -2010,6 +2009,8 @@ class Build
                 $is_argument = true;
             }
         }
+        d($before);
+        d($argument_value);
         if($is_argument){
             $argument_value = mb_substr($argument_value, 0, -2);
         }

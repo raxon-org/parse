@@ -12,7 +12,7 @@ namespace Plugin;
 
 trait Explode {
 
-    protected function explode(string $separator, mixed $string=null, int $limit=null): false | array
+    protected function explode(string $separator, string $string=null, int $limit=null): false | array
     {
         if($limit !== null){
             return explode($separator, $string, $limit);

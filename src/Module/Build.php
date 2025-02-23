@@ -3982,6 +3982,8 @@ class Build
                         $after[] = [
                             'attribute' => $record['name']
                         ];
+                        d($after);
+                        ddd($record);
                         foreach($record['modifier'] as $modifier_nr => $modifier){
                             $plugin = Build::plugin($object, $flags, $options, $tag, str_replace('.', '_', $modifier['name']));
                             if($is_single_line){

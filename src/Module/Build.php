@@ -25,6 +25,14 @@ class Build
         $this->parse_options($options);
     }
 
+    public static function document_tag_prepare(App $object, $flags, $options, $tags=[]): array
+    {
+        foreach($tags as $nr => $tag){
+            d($tag);
+        }
+        return $tags;
+    }
+
     /**
      * @throws Exception
      * @throws LocateException
@@ -34,6 +42,7 @@ class Build
     {
         $options->class = $options->class ?? 'Main';
         Build::document_default($object, $flags, $options);
+        $tags = Build::document_tag_prepare($object, $flags, $options, $tags);
         $data = Build::document_tag($object, $flags, $options, $tags);
         $document = Build::document_header($object, $flags, $options);
         $document = Build::document_use($object, $flags, $options, $document, 'package.raxon/parse.build.use.class');

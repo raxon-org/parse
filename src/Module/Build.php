@@ -2007,8 +2007,6 @@ class Build
                 $is_argument = true;
             }
         }
-        d($before);
-        d($argument_value);
         if($is_argument){
             $argument_value = mb_substr($argument_value, 0, -2);
         }
@@ -2700,7 +2698,6 @@ class Build
             }
             $data[] = $after_record;
         }
-        d($data);
         return implode(PHP_EOL, $data);
     }
 

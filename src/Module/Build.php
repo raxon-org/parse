@@ -4093,14 +4093,17 @@ class Build
                         $value .= $modifier_value;
                         $is_single_line = false;
                     } else {
-                        if(array_key_exists('array_notation', $record) && !empty($record['array_notation'])){
+                        if(
+                            array_key_exists('array_notation', $record) && !empty($record['array_notation']) &&
+                            array_key_exists('array', $record['array_notation']) && !empty($record['array_notation']['array']) &&
+                            array_key_exists('array', $record['array_notation']['array'][0]) && !empty($record['array_notation']['array'][0]['array'])
+                        ){
                             $uuid_variable = Core::uuid_variable();
                             $before[] =  $uuid_variable . ' = $data->data(\'' . $record['name'] . '\')';
                             $before[] = 'if(is_array(' . $uuid_variable . ')){';
                             $bracket = 0;
                             $collect = [];
-                            d($record);
-                            foreach($record['array_notation']['array'] as $array_notation_nr => $array_notation){
+                            foreach($record['array_notation']['array'][0]['array'] as $array_notation_nr => $array_notation){
                                 if(
                                     array_key_exists('value', $array_notation) &&
                                     $array_notation['value'] == '['

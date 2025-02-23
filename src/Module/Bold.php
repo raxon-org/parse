@@ -1897,6 +1897,7 @@ class Bold
                         $before[] = $uuid_variable . ' = ' . $value . ';';
                         if($attributes){
                             //need use_trait (config)
+                            $before[] = 'dd(\'bold\');';
                             $before[] = '$this->validate(' . $uuid_variable . ', \'argument\', Core::object(\'' . $attributes_transfer . '\', Core::FINALIZE), ' . $argument_nr . ');';
                         }
                         $value = $uuid_variable;
@@ -1966,6 +1967,7 @@ class Bold
                             $attributes_transfer =  Core::object($attributes, Core::TRANSFER);
                         }
                         $attributes_transfer =  Core::object($attributes, Core::TRANSFER);
+                        $before[] = 'dd(\'bold\');';
                         $before[] = '$this->validate(' . $uuid_variable . ', \'argument\', Core::object(\'' . $attributes_transfer . '\', Core::FINALIZE), ' . $nr . ');';
                     }
                     $argument = $uuid_variable;

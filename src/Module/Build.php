@@ -2270,6 +2270,8 @@ class Build
                 $is_argument = false;
                 foreach($record['method']['argument'] as $nr => $argument){
                     $value = Build::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
+                    d($before);
+                    d($after);
                     if(
                         !in_array(
                             $value,

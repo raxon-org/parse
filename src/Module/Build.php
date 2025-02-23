@@ -2878,12 +2878,9 @@ class Build
                 $name .= $record['variable']['value']['array'][2]['method']['name'];
                 $argument = $record['variable']['value']['array'][2]['method']['argument'];
                 foreach($argument as $argument_nr => $argument_record){
-                    $value = Build::value($object, $flags, $options, $record, $argument_record, $is_set, $value_before, $value_after);
+                    $value = Build::value($object, $flags, $options, $record, $argument_record, $is_set, $before_value, $after_value);
                     $argument[$argument_nr] = $value;
                 }
-                d($value_before);
-                d($value_after);
-                ddd($argument);
                 if(array_key_exists(0, $argument)){
                     $value = $name . '(' . implode(', ', $argument) . ')';
                 } else {
@@ -2918,6 +2915,9 @@ class Build
             }
         } else {
             $value = Build::value($object, $flags, $options, $record, $record['variable']['value'],$is_set, $before_value, $after_value);
+            d($before_value);
+            d($after_value);
+            ddd($value);
         }
         if(array_key_exists('modifier', $record['variable'])){
             d($value);

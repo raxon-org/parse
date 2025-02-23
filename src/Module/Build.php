@@ -2696,6 +2696,7 @@ class Build
             }
             $data[] = $after_record;
         }
+        d($data);
         return implode(PHP_EOL, $data);
     }
 

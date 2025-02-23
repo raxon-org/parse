@@ -998,7 +998,7 @@ class Build
         $indent--;
         $document[] = str_repeat(' ', $indent * 4) . '}';
         $document = Build::format($build, $document, $data, $indent);
-        $document[] = 'if(ob_get_levels() >= 1){';
+        $document[] = str_repeat(' ', $indent * 4) . 'if(ob_get_levels() >= 1){';
         $indent++;
         $document[] = str_repeat(' ', $indent * 4) . 'return ob_get_clean();';
         $indent--;
@@ -2666,14 +2666,14 @@ class Build
                     array_key_exists('is_multiline', $record) &&
                     $record['is_multiline'] === true
                 ){
-                    $data[] = 'if(ob_get_levels() >= 1){'
+                    $data[] = 'if(ob_get_levels() >= 1){';
                     $data[] = 'ob_get_clean();';
                     $data[] = '}';
 //                    $data[] = 'breakpoint($exception);';
                     $data[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.' . '\' . PHP_EOL . (string) $exception);';
 //                    $data[] = 'throw new TemplateException(\'' . str_replace('\'', '\\\'', $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.' . '\');';
                 } else {
-                    $data[] = 'if(ob_get_levels() >= 1){'
+                    $data[] = 'if(ob_get_levels() >= 1){';
                     $data[] = 'ob_get_clean();';
                     $data[] = '}';
 //                    $data[] = 'breakpoint($exception);';

@@ -214,9 +214,8 @@ class Build
                     }
                 }
                 $method = Build::method($object, $flags, $options, $record);
-                ddd($method);
                 if($method){
-                    d($method);
+                    ddd($method);
                     if(
                         array_key_exists('method', $record) &&
                         array_key_exists('name', $record['method'])

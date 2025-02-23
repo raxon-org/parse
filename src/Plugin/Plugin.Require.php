@@ -68,7 +68,7 @@ trait Plugin_require {
         elseif(is_object($data)) {
             $data = new Data($data);
         } else {
-            return null;
+            $data = new Data();
         }
         return $data;
     }

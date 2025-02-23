@@ -1990,6 +1990,7 @@ class Build
                             $attributes_transfer =  Core::object($attributes, Core::TRANSFER);
                         }
                         $attributes_transfer =  Core::object($attributes, Core::TRANSFER);
+                        $before[] = 'dd(\'test\');';
                         $before[] = '$this->validate(' . $uuid_variable . ', \'argument\', Core::object(\'' . $attributes_transfer . '\', Core::FINALIZE), ' . $nr . ');';
                     }
                     $argument = $uuid_variable;

@@ -484,7 +484,6 @@ class Parse
             }
             catch (Exception $exception){
                 $result = null;
-                d($document);
                 d($exception);
             }
 

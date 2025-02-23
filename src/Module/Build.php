@@ -2219,7 +2219,7 @@ class Build
                 $argument_count = count($record['method']['argument']);
                 if($argument_count === 3){
                     foreach($record['method']['argument'] as $nr => $argument){
-                        $value = Build::value($object, $flags, $options, $record, $argument, $is_set);
+                        $value = Build::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
                         if(mb_strtolower($value) === 'null'){
                             $value = '';
                         }

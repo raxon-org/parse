@@ -2666,20 +2666,11 @@ class Build
         }
         $data[] = $method_value;
         foreach($after as $after_record){
+            //temporary bugfix ?
             if(is_array($after_record)){
-                trace();
-                ddd($after);
+                continue;
             }
             $data[] = $after_record;
-        }
-        if(!is_array($data)){
-            trace();
-            ddd($data);
-        }
-        foreach($data as $nr => $test){
-            if(is_array($test)){
-                ddd($data);
-            }
         }
         return implode(PHP_EOL, $data);
     }

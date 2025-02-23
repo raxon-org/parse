@@ -2668,6 +2668,11 @@ class Build
             trace();
             ddd($data);
         }
+        foreach($data as $nr => $test){
+            if(is_array($test)){
+                ddd($data);
+            }
+        }
         return implode(PHP_EOL, $data);
     }
 

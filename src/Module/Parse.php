@@ -453,6 +453,7 @@ class Parse
                     $object->config('extension.php')
                 ;
             }
+            ddd($object->config());
             $document = Build::create($object, $flags, $options, $token);
 //            d($url_php);
             File::write($url_php, implode(PHP_EOL, $document));

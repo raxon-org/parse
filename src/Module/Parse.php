@@ -484,8 +484,7 @@ class Parse
             }
             catch (Exception $exception){
                 $result = null;
-                d($exception);
-                d($document ?? null);
+                Throw new TemplateException('Compile error, aborting...',500,$exception);
             }
 
             if(property_exists($options, 'duration')){

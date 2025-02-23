@@ -459,7 +459,6 @@ class Parse
 //                $document = Bold::create($object, $flags, $options, $token);
             } else {
                 $document = Build::create($object, $flags, $options, $token);
-                d($document);
             }
 //            d($url_php);
             File::write($url_php, implode(PHP_EOL, $document));

@@ -1915,7 +1915,6 @@ class Build
 
                     foreach ($argument as $argument_nr => $argument_record) {
                         $value = Build::value($object, $flags, $options, $record, $argument_record, $is_set, $before,$after);
-                        d($value);
                         $uuid_variable = Core::uuid_variable();
                         $before[] = $uuid_variable . ' = ' . $value . ';';
                         if($attributes){
@@ -1934,9 +1933,11 @@ class Build
                             $after[$nr] = null;
                         }
                         */
-                        breakpoint('test reference, need class in reflection');
+
                         $after[$argument_nr] = null;
                     }
+                    d($after);
+                    ddd($before);
                 }
                 if (array_key_exists(0, $argument)) {
                     $argument = $name . '(' . implode(', ', $argument) . ')';

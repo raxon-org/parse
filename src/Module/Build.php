@@ -2250,7 +2250,6 @@ class Build
             case 'elseif':
             case 'else.if':
             case 'else_if':
-                d($before);
                 if(
                     in_array(
                         $method_name,

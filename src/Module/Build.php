@@ -2534,11 +2534,15 @@ class Build
                         str_replace('.', '_', $record['method']['name']) .
                         '(';
                     $method_value .= Build::argument($object, $flags, $options, $record, $before, $after);
+                    d($before);
+                    d($after);
                     $method_value .= ');';
                 } else {
                     $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
                     $method_value = $plugin . '(';
                     $method_value .= Build::argument($object, $flags, $options, $record, $before, $after);
+                    d($before);
+                    d($after);
                     $method_value .= ');';
                 }
                 break;

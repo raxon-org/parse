@@ -4094,6 +4094,34 @@ class Build
                         $is_single_line = false;
                     } else {
                         if(array_key_exists('array_notation', $record) && !empty($record['array_notation'])){
+                            $uuid_variable = Core::uuid_variable();
+                            $before[] =  $uuid_variable . ' = $data->data(\'' . $record['name'] . '\')';
+                            $before[] = 'if(is_array(' . $uuid_variable . ')){';
+                            $bracket = 0;
+                            $collect = [];
+                            foreach($record['array_notation']['array'] as $array_notation_nr => $array_notation){
+                                if(
+                                    array_key_exists('value', $array_notation) &&
+                                    $array_notation['value'] == '['
+                                ){
+                                    $bracket++;
+                                    //need $data[12] for array and $data->data('name') for object
+                                }
+                                if(
+                                    array_key_exists('value', $array_notation) &&
+                                    $array_notation['value'] == ']'
+                                ){
+                                    $bracket--;
+                                    if($bracket === 0){
+                                        ddd($collect);
+                                    }
+                                }
+                                if($bracket >= 1){
+                                    $collect[] = $array_notation;
+                                }
+                            }
+                            $before[] = '}';
+
                             d($before);
                             d($value);
                             ddd($record);

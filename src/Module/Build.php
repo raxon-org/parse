@@ -3739,10 +3739,13 @@ class Build
                         $next,
                         $skip
                     );
-                    $right = Build::value($object, $flags, $options, $tag, $right, $is_set);
+                    $right = Build::value($object, $flags, $options, $tag, $right, $is_set, $before, $after);
                     if(array_key_exists('value', $record)){
                         $value = Build::value_calculate($object, $flags, $options, $record['value'], $value, $right);
                     }
+                    d($before);
+                    d($after);
+                    ddd($right);
                 }
                 else {
                     $value .= $record['value'];

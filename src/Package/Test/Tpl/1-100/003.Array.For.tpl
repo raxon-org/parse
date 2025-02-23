@@ -10,6 +10,6 @@
     8,
     9
 ]}}
-{{for($i=0; $i < count($list); $i++)}}
+{{for($i=0; $i < array.count($list); $i++)}}
     {{echo($list[$i] . PHP_EOL)}}
 {{/for}}

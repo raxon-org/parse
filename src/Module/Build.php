@@ -2658,10 +2658,18 @@ class Build
         }
         $data = [];
         foreach($before as $before_record){
+            if(is_array($before_record)){
+                trace();
+                ddd($before);
+            }
             $data[] = $before_record;
         }
         $data[] = $method_value;
         foreach($after as $after_record){
+            if(is_array($after_record)){
+                trace();
+                ddd($after);
+            }
             $data[] = $after_record;
         }
         if(!is_array($data)){

@@ -214,7 +214,6 @@ class Bold
                 }
                 $method = Bold::method($object, $flags, $options, $record);
                 if($method){
-                    d($method);
                     if(
                         array_key_exists('method', $record) &&
                         array_key_exists('name', $record['method'])
@@ -1894,7 +1893,6 @@ class Bold
 
                     foreach ($argument as $argument_nr => $argument_record) {
                         $value = Bold::value($object, $flags, $options, $record, $argument_record, $is_set, $before,$after);
-                        d($value);
                         $uuid_variable = Core::uuid_variable();
                         $before[] = $uuid_variable . ' = ' . $value . ';';
                         if($attributes){

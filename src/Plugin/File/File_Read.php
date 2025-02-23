@@ -17,7 +17,6 @@ trait File_Read {
     public function file_read(string $url, array $options=[]): array | string
     {
         $object = $this->object();
-        ddd($object->config('require.url'));
         if(File::exist($url)){
             $mtime = File::mtime($url);
             $require_disabled = $object->config('require.disabled');

@@ -53,6 +53,7 @@ class Build
         Build::document_default($object, $flags, $options);
         $tags = Build::document_tag_prepare($object, $flags, $options, $tags);
         $data = Build::document_tag($object, $flags, $options, $tags);
+        d($data);
         $document = Build::document_header($object, $flags, $options);
         $document = Build::document_use($object, $flags, $options, $document, 'package.raxon/parse.build.use.class');
         $document[] = '';

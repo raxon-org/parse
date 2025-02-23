@@ -2256,7 +2256,6 @@ class Build
             case 'else.if':
             case 'else_if':
                 d($before);
-                ddd('here');
                 $method_value[] = 'ddd(\'here\');';
                 if(
                     in_array(
@@ -2277,7 +2276,7 @@ class Build
                 foreach($record['method']['argument'] as $nr => $argument){
                     $value = Build::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
                     d($before);
-                    ddd($after);
+                    d($after);
                     if(
                         !in_array(
                             $value,

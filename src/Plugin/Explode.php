@@ -14,7 +14,11 @@ trait Explode {
 
     protected function explode(string $separator, mixed $string=null, int $limit=null): false | array
     {
-        return explode($separator, $string, $limit);
+        if($limit !== null){
+            return explode($separator, $string, $limit);
+
+        }
+        return explode($separator, $string);
     }
 
 }

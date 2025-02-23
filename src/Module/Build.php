@@ -1920,6 +1920,7 @@ class Build
                         $before[] = $uuid_variable . ' = ' . $value . ';';
                         if($attributes){
                             //need use_trait (config)
+                            $before[] = 'dd(\'test\');';
                             $before[] = '$this->validate(' . $uuid_variable . ', \'argument\', Core::object(\'' . $attributes_transfer . '\', Core::FINALIZE), ' . $argument_nr . ');';
                         }
                         $value = $uuid_variable;
@@ -1937,8 +1938,6 @@ class Build
 
                         $after[$argument_nr] = null;
                     }
-                    d($after);
-                    ddd($before);
                 }
                 if (array_key_exists(0, $argument)) {
                     $argument = $name . '(' . implode(', ', $argument) . ')';

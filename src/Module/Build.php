@@ -27,8 +27,13 @@ class Build
 
     public static function document_tag_prepare(App $object, $flags, $options, $tags=[]): array
     {
-        foreach($tags as $nr => $tag){
-            d($tag);
+        foreach($tags as $tag_nr => $list){
+            foreach($list as $nr => $tag){
+                if(array_key_exist('method', $tag)){
+                    d($tag);
+                }
+
+            }
         }
         return $tags;
     }

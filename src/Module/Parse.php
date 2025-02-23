@@ -485,6 +485,7 @@ class Parse
             catch (Exception $exception){
                 $result = null;
                 d($exception);
+                d($document ?? null);
             }
 
             if(property_exists($options, 'duration')){

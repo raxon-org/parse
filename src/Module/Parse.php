@@ -475,17 +475,25 @@ class Parse
         }
         if($url_php){
             $pre_require = microtime(true);
-            require_once $url_php;
-            $post_require = microtime(true);
-            $run = $options->namespace . '\\' . $options->class;
-            $main = new $run($object, $this, $data, $flags, $options);
-            $result = $main->run();
-            $microtime = microtime(true);
-            $duration_require = round(($post_require - $pre_require) * 1000, 2) . ' ms';
-            $duration_parse = round(($microtime - $post_require) * 1000, 2) . ' ms';
-            $duration_script = round(($microtime - $object->config('time.start')) * 1000, 2) . ' ms';
-            $microtime_explode = explode('.', $microtime);
+            try {
+                require_once $url_php;
+                $post_require = microtime(true);
+                $run = $options->namespace . '\\' . $options->class;
+                $main = new $run($object, $this, $data, $flags, $options);
+                $result = $main->run();
+            }
+            catch (Exception $exception){
+                $result = null;
+                d($document);
+                d($exception);
+            }
+
             if(property_exists($options, 'duration')){
+                $microtime = microtime(true);
+                $duration_require = round(($post_require - $pre_require) * 1000, 2) . ' ms';
+                $duration_parse = round(($microtime - $post_require) * 1000, 2) . ' ms';
+                $duration_script = round(($microtime - $object->config('time.start')) * 1000, 2) . ' ms';
+                $microtime_explode = explode('.', $microtime);
                 $output = [
                     'class' => $class,
                     'namespace' => $options->namespace,

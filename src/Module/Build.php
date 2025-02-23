@@ -2663,6 +2663,8 @@ class Build
                 foreach($before as $before_record){
                     $data[] = $before_record;
                 }
+                d($method_value);
+                d($record);
                 $data[] = $uuid_variable . ' = ' . $method_value;
                 foreach($after as $after_record){
                     $data[] = $after_record;

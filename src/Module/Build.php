@@ -29,8 +29,12 @@ class Build
     {
         foreach($tags as $tag_nr => $list){
             foreach($list as $nr => $tag){
-                if(array_key_exists('method', $tag)){
-                    d($tag);
+                if(
+                    array_key_exists('method', $tag) &&
+                    array_key_exists('name', $tag['method']) &&
+                    $tag['method']['name'] === 'if'
+                ){
+//                    d($tag);
                 }
 
             }

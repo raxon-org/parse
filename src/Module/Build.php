@@ -576,7 +576,7 @@ class Build
                             }
                             $if = array_reverse($if_reverse);
                             d($block);
-                            ddd($data);
+                            d($data);
                         }
                         elseif (
                             array_key_exists('marker', $record) &&
@@ -690,6 +690,7 @@ class Build
                         //add method
                     ){
                         // !!!! $this.boolean
+                        ddd($record);
                         $value = Build::value($object, $flags, $options, $record, $record['marker']['value'], $is_set);
                         $uuid_variable = Core::uuid_variable();
                         if($is_block){

@@ -5,5 +5,5 @@ is.object($response)
 )}}
 {{$response|json.encode}}
 {{else}}
-{{$response}}
+{{$response|default:''}}
 {{/if}}

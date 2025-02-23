@@ -575,6 +575,8 @@ class Build
                                 }
                             }
                             $if = array_reverse($if_reverse);
+                            d($block);
+                            ddd($data);
                         }
                         elseif (
                             array_key_exists('marker', $record) &&

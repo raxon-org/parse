@@ -1003,6 +1003,7 @@ class Build
         $document[] = str_repeat(' ', $indent * 4) . 'return ob_get_clean();';
         $indent--;
         $document[] = str_repeat(' ', $indent * 4) . '}';
+        $document[] = str_repeat(' ', $indent * 4) . 'return null;';
         $indent--;
         $document[] = str_repeat(' ', $indent * 4) . '}';
         return $document;

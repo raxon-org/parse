@@ -308,6 +308,22 @@ class Build
                             in_array(
                                 $record['method']['name'],
                                 [
+                                    'else.if',
+                                    'else_if',
+                                    'elseif',
+                                ],
+                                true
+                            )
+                        ){
+                            d($if_line);
+                            d($before_if);
+                            ddd($after_if);
+
+                        }
+                        elseif(
+                            in_array(
+                                $record['method']['name'],
+                                [
                                     'block.data',
                                 ],
                                 true

@@ -288,6 +288,7 @@ class Build
                             )
                         ){
                             $if[] = $record;
+                            d($method);
                         }
                         elseif(
                             in_array(

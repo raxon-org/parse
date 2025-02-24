@@ -521,7 +521,7 @@ class Build
                                 ],
                                 true
                             )
-                        )
+                        ) {
                             d($method);
                             d($record);
 

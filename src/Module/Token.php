@@ -311,16 +311,14 @@ class Token
                                 if(
                                     $char === '\'' &&
                                     $is_single_quoted === false &&
-                                    $previous !== '\\' &&
-                                    $variable_name === ''
+                                    $previous !== '\\'
                                 ){
                                     $is_single_quoted = true;
                                 }
                                 elseif(
                                     $char === '\'' &&
                                     $is_single_quoted === true &&
-                                    $previous !== '\\' &&
-                                    $variable_name !== ''
+                                    $previous !== '\\'
 
                                 ){
                                     $is_single_quoted = false;
@@ -328,16 +326,14 @@ class Token
                                 elseif(
                                     $char === '"' &&
                                     $is_double_quoted === false &&
-                                    $previous !== '\\' &&
-                                    $variable_name !== ''
+                                    $previous !== '\\'
                                 ){
                                     $is_double_quoted = true;
                                 }
                                 elseif(
                                     $char === '"' &&
                                     $is_double_quoted === true &&
-                                    $previous !== '\\' &&
-                                    $variable_name !== ''
+                                    $previous !== '\\'
                                 ){
                                     $is_double_quoted = false;
                                 }

@@ -4109,6 +4109,7 @@ class Build
                                     $array_notation['value'] == '['
                                 ){
                                     $bracket++;
+                                    continue;
                                     //need $data[12] for array and $data->data('name') for object
                                 }
                                 if(
@@ -4117,7 +4118,11 @@ class Build
                                 ){
                                     $bracket--;
                                     if($bracket === 0){
+                                        $collect = Build::value($object, $flags, $options, $tag, $collect, $is_set, $before, $after);
+                                        $before[] = $uuid_variable . ' = ' . $uuid_variable . '[' . $collect .  ']';
+                                        d($before);
                                         ddd($collect);
+                                        $collect = [];
                                     }
                                 }
                                 if($bracket >= 1){

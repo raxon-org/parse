@@ -2711,6 +2711,7 @@ class Build
             }
             $data[] = $before_record;
         }
+        d($method_value);
         $data[] = $method_value;
         foreach($after as $after_record){
             //temporary bugfix ?
@@ -2936,7 +2937,7 @@ class Build
                 $name .= $record['variable']['value']['array'][2]['method']['name'];
                 $argument = $record['variable']['value']['array'][2]['method']['argument'];
                 foreach($argument as $argument_nr => $argument_record){
-                    $value = Build::value($object, $flags, $options, $record, $argument_record, $is_set, $before_value, $after_value);
+                    $value = Build::value($object, $flags, $options, $record, $argument_record, $is_set, $before, $after);
                     $argument[$argument_nr] = $value;
                 }
                 if(array_key_exists(0, $argument)){
@@ -2972,7 +2973,7 @@ class Build
                 }
             }
         } else {
-            $value = Build::value($object, $flags, $options, $record, $record['variable']['value'],$is_set, $before_value, $after_value);
+            $value = Build::value($object, $flags, $options, $record, $record['variable']['value'],$is_set, $before, $after);
         }
         if(array_key_exists('modifier', $record['variable'])){
             d($value);

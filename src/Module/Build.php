@@ -317,8 +317,8 @@ class Build
                         ){
                             //do we need a false elseif statement for every if, to fix child if bug ? (the elseif might not belong to the last if in line)
                             $pop = array_pop($if_line);
-                            $pop['before'] = $before_if;
-                            $pop['after'] = $after_if;
+                            $pop['before'] = array_merge($pop['before'], $before_if);
+                            $pop['after'] = array_merge($pop['after'], $after_if);
                             $if_line[] = $pop;
                             $before_if = [];
                             $after_if = [];

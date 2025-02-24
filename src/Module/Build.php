@@ -231,7 +231,7 @@ class Build
                         }
                     }
                 }
-                $method = Build::method($object, $flags, $options, $record);
+                $method = Build::method($object, $flags, $options, $record, $before_if, $after_if);
                 if($method){
                     if(
                         array_key_exists('method', $record) &&
@@ -546,6 +546,9 @@ class Build
                                     } else {
                                         $data[] = '}';
                                     }
+                                    d($before_if);
+                                    d($after_if);
+                                    d($data);
                                     $variable_assign_next_tag = true;
                                     break; //only 1 at a time
                                 }
@@ -2040,7 +2043,7 @@ class Build
      * @throws LocateException
      * @throws TemplateException
      */
-    public static function method(App $object, $flags, $options, $record=[]): bool | string
+    public static function method(App $object, $flags, $options, $record=[], &$before_if=[], &$after_if=[]): bool | string
     {
         if(!array_key_exists('method', $record)){
             return false;
@@ -2049,8 +2052,6 @@ class Build
         $method_name = mb_strtolower($record['method']['name']);
         $before = [];
         $after = [];
-        $before_if = [];
-        $after_if = [];
         switch($method_name){
             case 'for.each':
             case 'for_each':
@@ -2726,8 +2727,6 @@ class Build
             }
             $data[] = $after_record;
         }
-        d($before_if);
-        d($data);
         return implode(PHP_EOL, $data);
     }
 

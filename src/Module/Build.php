@@ -140,7 +140,12 @@ class Build
                     'line' => $record['line'] ?? null,
                     'column' => $record['column'] ?? null,
                 ];
-                if($tag['tag'] !== null){
+                if(
+                    $tag['tag'] !== null &&
+                    str_contains($tag['tag'],
+                        '\'bugfix\' === \' . $object->config(\'package.raxon.parse.bugfix.uuid\') .\''
+                    )
+                ){
                     $data[] = '$object->config(\'package.raxon/parse.build.state.tag\', Core::object(\'' . Core::object($tag, Core::TRANSFER) .'\', Core::FINALIZE));';
                 }
                 if(

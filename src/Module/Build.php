@@ -4120,7 +4120,7 @@ class Build
                                     $bracket--;
                                     if($bracket === 0){
                                         $collect = Build::value($object, $flags, $options, $tag, $collect, $is_set, $before, $after);
-                                        $before[] = $uuid_variable . ' = ' . $uuid_variable . '[' . $collect .  ']';
+                                        $before[] = $uuid_variable . ' = ' . $uuid_variable . '[' . $collect .  '] ?? null';
                                         $collect = [];
                                     }
                                     continue;
@@ -4130,10 +4130,6 @@ class Build
                                 }
                             }
                             $before[] = '}';
-
-                            d($before);
-                            d($value);
-                            ddd($record);
                         } else {
                             $value .= '$data->data(\'' . $record['name'] . '\')';
                             $after[] = [

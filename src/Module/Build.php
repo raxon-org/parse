@@ -289,6 +289,11 @@ class Build
                             )
                         ){
                             $if[] = $record;
+                            if($is_block){
+                                $line_nr = count($block) - 1;
+                            } else {
+                                $line_nr = count($data) - 1;
+                            }
 //                            d($method);
                         }
                         elseif(
@@ -307,10 +312,8 @@ class Build
                     }
                     if($is_block){
                         $block[] = $method;
-                        $line_nr = count($block) - 1;
                     } else {
                         $data[] = $method;
-                        $line_nr = count($data) - 1;
                     }
                     $variable_assign_next_tag = true;
                 }

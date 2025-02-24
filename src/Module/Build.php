@@ -566,6 +566,8 @@ class Build
                                             $after[] = $after_record;
                                         }
                                         $if_line_reverse[$if_nr] = false;
+                                        $before_if = [];
+                                        $after_if = [];
                                     }
                                     $variable_assign_next_tag = true;
                                     break; //only 1 at a time

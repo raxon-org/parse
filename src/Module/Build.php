@@ -896,7 +896,7 @@ class Build
                 ){
                     throw new TemplateException(
                         $if_record['tag'] . PHP_EOL .
-                        'Unclosed while open tag "{{if()}}" on line: ' .
+                        'Unclosed if open tag "{{if()}}" on line: ' .
                         $if_record['line']['start']  .
                         ', column: ' .
                         $if_record['column'][$if_record['line']['start']]['start'] .
@@ -907,7 +907,7 @@ class Build
                 } else {
                     throw new TemplateException(
                         $if_record['tag'] . PHP_EOL .
-                        'Unclosed while open tag "{{if()}}" on line: ' .
+                        'Unclosed if open tag "{{if()}}" on line: ' .
                         $if_record['line'] .
                         ', column: ' .
                         $if_record['column']['start'] .

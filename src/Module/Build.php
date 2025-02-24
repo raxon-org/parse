@@ -4121,10 +4121,9 @@ class Build
                                     if($bracket === 0){
                                         $collect = Build::value($object, $flags, $options, $tag, $collect, $is_set, $before, $after);
                                         $before[] = $uuid_variable . ' = ' . $uuid_variable . '[' . $collect .  ']';
-                                        d($before);
-                                        ddd($collect);
                                         $collect = [];
                                     }
+                                    continue;
                                 }
                                 if($bracket >= 1){
                                     $collect['array'][] = $array_notation;

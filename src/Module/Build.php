@@ -2661,13 +2661,17 @@ class Build
                 $data = [];
                 $data[] = 'try {';
                 foreach($before as $before_record){
-                    $data[] = $before_record;
+                    if(!is_array($before_record)){
+                        $data[] = $before_record;
+                    }
                 }
                 d($method_value);
                 d($record);
                 $data[] = $uuid_variable . ' = ' . $method_value;
                 foreach($after as $after_record){
-                    $data[] = $after_record;
+                    if(!is_array($after_record)){
+                        $data[] = $after_record;
+                    }
                 }
                 $data[] = 'if(!is_scalar('. $uuid_variable. ')){';
                 $data[] = '//array or object';

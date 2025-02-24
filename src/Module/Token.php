@@ -275,7 +275,6 @@ class Token
                             $curly_depth_variable = false;
                             for($i=0; $i < $length; $i++){
                                 $char = $data[$i];
-                                d($char);
                                 if(array_key_exists($i - 1, $data)){
                                     $previous = $data[$i - 1];
                                     if(
@@ -549,13 +548,6 @@ class Token
                                     $is_double_quoted === false
                                 ){
                                     $operator = $char;
-                                    if($variable_name === '$html.head.content.type'){
-                                        d($previous);
-                                        d($next);
-                                        d($is_single_quoted);
-                                        ddd($is_double_quoted);
-                                    }
-//                                    d($variable_name .' => ' . $operator);
                                     continue;
                                 }
                                 if($operator && $is_after === false){

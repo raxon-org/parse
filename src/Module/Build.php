@@ -133,6 +133,7 @@ class Build
         $block = [];
         $break_level = 0;
         $line_nr = false;
+        $if_line = [];
         $object->config('package.raxon/parse.build.state.break.level', $break_level);
         $data[] = '$object->config(\'package.raxon/parse.build.state.source.url\', \''. str_replace(['\\','\''], ['\\\\', '\\\''], $source) .'\');';
         foreach($tags as $row_nr => $list){
@@ -294,6 +295,7 @@ class Build
                             } else {
                                 $line_nr = count($data); //no -1
                             }
+                            $if_line[] = $line_nr;
                         }
                         elseif(
                             in_array(
@@ -529,6 +531,7 @@ class Build
                             )
                         ) {
                             $if_reverse = array_reverse($if);
+                            $if_line_reverse = array_reverse($if_line);
                             $has_close = false;
                             foreach ($if_reverse as $if_nr => $if_record) {
                                 if (
@@ -548,8 +551,8 @@ class Build
                                     } else {
                                         $data[] = '}';
                                     }
-                                    if($line_nr !== false){
-                                        $split = array_chunk($data, $line_nr, true);
+                                    if($if_line_reverse[$if_nr] !== false){
+                                        $split = array_chunk($data, $if_line_reverse[$if_nr], true);
                                         $data = array_shift($split);
                                         foreach($before_if as $before_if_record){
                                             $data[] = $before_if_record;
@@ -562,7 +565,7 @@ class Build
                                         foreach($after_if as $after_record){
                                             $after[] = $after_record;
                                         }
-                                        $line_nr = false;
+                                        $if_line_reverse[$if_nr] = false;
                                     }
                                     $variable_assign_next_tag = true;
                                     break; //only 1 at a time
@@ -596,6 +599,7 @@ class Build
                                 }
                             }
                             $if = array_reverse($if_reverse);
+                            $if_line = array_reverse($if_line_reverse);
                         }
                         elseif (
                             array_key_exists('marker', $record) &&

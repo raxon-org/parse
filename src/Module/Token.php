@@ -552,7 +552,13 @@ class Token
                                     $is_double_quoted === false
                                 ){
                                     $operator = $char;
-                                    d($variable_name .' => ' . $operator);
+                                    if($variable_name === '$html.head.content.type'){
+                                        d($previous);
+                                        d($next);
+                                        d($is_single_quoted);
+                                        ddd($is_double_quoted);
+                                    }
+//                                    d($variable_name .' => ' . $operator);
                                     continue;
                                 }
                                 if($operator && $is_after === false){

@@ -4099,7 +4099,7 @@ class Build
                             array_key_exists('array', $record['array_notation']['array'][0]) && !empty($record['array_notation']['array'][0]['array'])
                         ){
                             $uuid_variable = Core::uuid_variable();
-                            $before[] =  $uuid_variable . ' = $data->data(\'' . $record['name'] . '\')';
+                            $before[] =  $uuid_variable . ' = $data->data(\'' . $record['name'] . '\');';
                             $before[] = 'if(is_array(' . $uuid_variable . ')){';
                             $bracket = 0;
                             $collect = [];

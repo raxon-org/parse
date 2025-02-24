@@ -23,6 +23,7 @@ trait D {
             $tag = $object->config('package.raxon/parse.build.state.tag');
             if($source){
                 if(
+                    is_object($tag) &&
                     property_exists($tag, 'line') &&
                     is_object($tag->line) &&
                     property_exists($tag->line, 'start')

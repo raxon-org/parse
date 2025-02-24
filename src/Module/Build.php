@@ -550,9 +550,16 @@ class Build
                                     }
                                     if($line_nr !== false){
                                         $split = array_chunk($data, $line_nr, true);
-                                        $split_before = array_shift($split);
-                                        //after_if might be too late
-                                        $data = array_merge($split_before, $before_if, $split, $after_if);
+                                        $data = array_shift($split);
+                                        foreach($before_if as $before_if_record){
+                                            $data[] = $before_if_record;
+                                        }
+                                        foreach($split as $split_record){
+                                            $data[] = $split_record;
+                                        }
+                                        foreach($after_if as $after_record){
+                                            $data[] = $after_record;
+                                        }
                                         $line_nr = false;
                                     }
                                     $variable_assign_next_tag = true;

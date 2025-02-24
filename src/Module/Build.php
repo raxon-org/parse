@@ -549,7 +549,7 @@ class Build
                                     d($before_if);
                                     d($after_if);
                                     d($data);
-                                    ddd($line);
+                                    ddd($line_nr);
                                     $variable_assign_next_tag = true;
                                     break; //only 1 at a time
                                 }

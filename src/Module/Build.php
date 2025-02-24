@@ -316,7 +316,7 @@ class Build
                                     '\'bugfix\' === \''. $object->config('package.raxon.parse.bugfix.uuid') . '\''
                                 )
                             ){
-                                ddd($record);
+                                continue;
                             }
                         }
                         elseif(

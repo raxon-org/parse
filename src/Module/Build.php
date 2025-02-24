@@ -34,7 +34,16 @@ class Build
                     array_key_exists('name', $tag['method']) &&
                     $tag['method']['name'] === 'if'
                 ){
-                    d($tags);
+//                    d($tags);
+                }
+                elseif(
+                    array_key_exists('marker', $tag) &&
+                    array_key_exists('name', $tag['marker']) &&
+                    array_key_exists('is_close', $tag['marker']) &&
+                    $tag['marker']['name'] === 'if'
+                ){
+                    //prepend an elseif (false === true){} before
+                    ddd($tags);
                 }
 
             }

@@ -310,7 +310,9 @@ class Build
                             $if_line[] = $pop;
                             $before_if = [];
                             $after_if = [];
-                            d($record);
+                            if(str_contains($record['tag'], '\'bugfix\' === \''. $object->config('package.raxon.parse.bugfix.uuid') . '\''){
+                                ddd($record);
+                            }
                         }
                         elseif(
                             in_array(

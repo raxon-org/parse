@@ -554,8 +554,10 @@ class Build
                                         foreach($before_if as $before_if_record){
                                             $data[] = $before_if_record;
                                         }
-                                        foreach($split as $split_record){
-                                            $data[] = $split_record;
+                                        foreach($split as $chunk_nr => $chunks){
+                                            foreach($chunks as $split_record){
+                                                $data[] = $split_record;
+                                            }
                                         }
                                         foreach($after_if as $after_record){
                                             $data[] = $after_record;

@@ -132,6 +132,7 @@ class Build
         $is_literal_block = false;
         $block = [];
         $break_level = 0;
+        $line = false;
         $object->config('package.raxon/parse.build.state.break.level', $break_level);
         $data[] = '$object->config(\'package.raxon/parse.build.state.source.url\', \''. str_replace(['\\','\''], ['\\\\', '\\\''], $source) .'\');';
         foreach($tags as $row_nr => $list){
@@ -288,6 +289,7 @@ class Build
                             )
                         ){
                             $if[] = $record;
+                            $line = count($data) - 1;
                             d($method);
                         }
                         elseif(
@@ -523,9 +525,6 @@ class Build
                                 true
                             )
                         ) {
-                            d($method);
-                            d($record);
-
                             $if_reverse = array_reverse($if);
                             $has_close = false;
                             foreach ($if_reverse as $if_nr => $if_record) {
@@ -549,6 +548,7 @@ class Build
                                     d($before_if);
                                     d($after_if);
                                     d($data);
+                                    ddd($line);
                                     $variable_assign_next_tag = true;
                                     break; //only 1 at a time
                                 }

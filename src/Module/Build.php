@@ -315,6 +315,7 @@ class Build
                                 true
                             )
                         ){
+                            //do we need a false elseif statement for every if, to fix child if bug ?
                             $pop = array_pop($if_line);
                             $pop['before'] = $before_if;
                             $pop['after'] = $after_if;

@@ -2049,6 +2049,8 @@ class Build
         $method_name = mb_strtolower($record['method']['name']);
         $before = [];
         $after = [];
+        $before_if = [];
+        $after_if = [];
         switch($method_name){
             case 'for.each':
             case 'for_each':
@@ -2291,7 +2293,7 @@ class Build
                 }
                 $is_argument = false;
                 foreach($record['method']['argument'] as $nr => $argument){
-                    $value = Build::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
+                    $value = Build::value($object, $flags, $options, $record, $argument, $is_set, $before_if, $after_if);
                     if(
                         !in_array(
                             $value,
@@ -2724,6 +2726,8 @@ class Build
             }
             $data[] = $after_record;
         }
+        d($before_if);
+        d($data);
         return implode(PHP_EOL, $data);
     }
 

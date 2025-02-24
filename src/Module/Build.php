@@ -4130,6 +4130,10 @@ class Build
                                 }
                             }
                             $before[] = '}';
+                            $value = $uuid_variable;
+                            $after[] = [
+                                'attribute' => $uuid_variable
+                            ];
                         } else {
                             $value .= '$data->data(\'' . $record['name'] . '\')';
                             $after[] = [

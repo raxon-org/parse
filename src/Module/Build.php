@@ -27,27 +27,6 @@ class Build
 
     public static function document_tag_prepare(App $object, $flags, $options, $tags=[]): array
     {
-        foreach($tags as $tag_nr => $list){
-            foreach($list as $nr => $tag){
-                if(
-                    array_key_exists('method', $tag) &&
-                    array_key_exists('name', $tag['method']) &&
-                    $tag['method']['name'] === 'if'
-                ){
-//                    d($tags);
-                }
-                elseif(
-                    array_key_exists('marker', $tag) &&
-                    array_key_exists('name', $tag['marker']) &&
-                    array_key_exists('is_close', $tag['marker']) &&
-                    $tag['marker']['name'] === 'if'
-                ){
-                    //prepend an elseif (false === true){} before
-                    ddd($tags);
-                }
-
-            }
-        }
         return $tags;
     }
 

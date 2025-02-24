@@ -2552,7 +2552,6 @@ class Build
                 } else {
                     $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
                     $method_value = $plugin . '(';
-                    d($record);
                     $method_value .= Build::argument($object, $flags, $options, $record, $before, $after);
                     $method_value .= ');';
                 }
@@ -2665,8 +2664,6 @@ class Build
                         $data[] = $before_record;
                     }
                 }
-                d($method_value);
-                d($record);
                 $data[] = $uuid_variable . ' = ' . $method_value;
                 foreach($after as $after_record){
                     if(!is_array($after_record)){

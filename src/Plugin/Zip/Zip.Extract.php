@@ -26,14 +26,9 @@ trait Zip_Extract {
      * @throws FileWriteException
      * @throws Exception
      */
-    public function zip_extract(object $flags, object $options): ?string
+    public function zip_extract(string $source, $target=null, $options): ?string
     {
         $object = $this->object();
-        $source = $options->source ?? null;
-        if(!$source){
-            throw new Exception('options->source is not set...');
-        }
-        $target = $options->target ?? null;
         if(empty($target)){
             $target = getcwd();
         }

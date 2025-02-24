@@ -24,14 +24,9 @@ trait Zip_Archive {
      * @throws FileWriteException
      * @throws Exception
      */
-    public function zip_archive(object $flags, object $options): ?string
+    public function zip_archive(string $source, string $target=null): ?string
     {
         $object = $this->object();
-        $source = $options->source ?? null;
-        if(!$source){
-            throw new Exception('options->source is not set...');
-        }
-        $target = $options->target ?? null;
         $parse = $this->parse();
         /*
         $limit = $parse->limit();

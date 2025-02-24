@@ -560,7 +560,7 @@ class Build
                                             }
                                         }
                                         foreach($after_if as $after_record){
-                                            $data[] = $after_record;
+                                            $after[] = $after_record;
                                         }
                                         $line_nr = false;
                                     }

@@ -290,11 +290,10 @@ class Build
                         ){
                             $if[] = $record;
                             if($is_block){
-                                $line_nr = count($block) - 1;
+                                $line_nr = count($block); //no -1
                             } else {
-                                $line_nr = count($data) - 1;
+                                $line_nr = count($data); //no -1
                             }
-//                            d($method);
                         }
                         elseif(
                             in_array(
@@ -549,10 +548,13 @@ class Build
                                     } else {
                                         $data[] = '}';
                                     }
-                                    d($before_if);
-                                    d($after_if);
-                                    d($data);
-                                    ddd($line_nr);
+                                    if($line_nr !== false){
+                                        $split = array_chunk($data, $line_nr, true);
+                                        $split_before = array_shift($split);
+                                        //after_if might be too late
+                                        $data = array_merge($split_before, $before_if, $split, $after_if);
+                                        $line_nr = false;
+                                    }
                                     $variable_assign_next_tag = true;
                                     break; //only 1 at a time
                                 }

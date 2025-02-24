@@ -295,7 +295,14 @@ class Build
                             } else {
                                 $line_nr = count($data); //no -1
                             }
-                            $if_line[] = $line_nr;
+                            $if_line[] = [
+                                'line' =>  $line_nr,
+                                'before' => $before_if,
+                                'after' => $after_if,
+                            ];
+                            $before_if = [];
+                            $after_if = [];
+
                         }
                         elseif(
                             in_array(
@@ -551,10 +558,10 @@ class Build
                                     } else {
                                         $data[] = '}';
                                     }
-                                    if($if_line_reverse[$if_nr] !== false){
-                                        $split = array_chunk($data, $if_line_reverse[$if_nr], true);
+                                    if($if_line_reverse[$if_nr]['line'] !== false){
+                                        $split = array_chunk($data, $if_line_reverse[$if_nr]['line'], true);
                                         $data = array_shift($split);
-                                        foreach($before_if as $before_if_record){
+                                        foreach($if_line_reverse[$if_nr]['before'] as $before_if_record){
                                             $data[] = $before_if_record;
                                         }
                                         foreach($split as $chunk_nr => $chunks){
@@ -562,12 +569,10 @@ class Build
                                                 $data[] = $split_record;
                                             }
                                         }
-                                        foreach($after_if as $after_record){
+                                        foreach($if_line_reverse[$if_nr]['after'] as $after_record){
                                             $after[] = $after_record;
                                         }
-                                        $if_line_reverse[$if_nr] = false;
-                                        $before_if = [];
-                                        $after_if = [];
+                                        $if_line_reverse[$if_nr]['line'] = false;
                                     }
                                     $variable_assign_next_tag = true;
                                     break; //only 1 at a time
@@ -762,8 +767,7 @@ class Build
                                 $data[] = $record['marker']['name'] . $name . '();';
                             }
                         }
-                    }
-                    else {
+                    } else {
                         if(
                             array_key_exists('is_multiline', $record) &&
                             $record['is_multiline'] === true

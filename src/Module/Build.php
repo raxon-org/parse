@@ -522,6 +522,9 @@ class Build
                                 true
                             )
                         ) {
+                            d($after);
+                            ddd($before);
+
                             $if_reverse = array_reverse($if);
                             $has_close = false;
                             foreach ($if_reverse as $if_nr => $if_record) {
@@ -2283,6 +2286,7 @@ class Build
                     $method_value[] = '} ' . PHP_EOL . 'elseif(';
                 } else {
                     $method_value[] = 'if(';
+                    //need current document line nr so we can inject the before
                 }
                 $is_argument = false;
                 foreach($record['method']['argument'] as $nr => $argument){
@@ -2711,7 +2715,6 @@ class Build
             }
             $data[] = $before_record;
         }
-        d($method_value);
         $data[] = $method_value;
         foreach($after as $after_record){
             //temporary bugfix ?

@@ -550,8 +550,7 @@ class Build
                                     }
                                     if($line_nr !== false){
                                         $split = array_chunk($data, $line_nr, true);
-                                        $data = array_shift($split);
-                                        ddd($data);
+                                        $data = array_shift($split[0]);
                                         foreach($before_if as $before_if_record){
                                             $data[] = $before_if_record;
                                         }

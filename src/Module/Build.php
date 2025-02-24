@@ -521,9 +521,9 @@ class Build
                                 ],
                                 true
                             )
-                        ) {
-                            d($after);
-                            ddd($before);
+                        )
+                            d($method);
+                            d($record);
 
                             $if_reverse = array_reverse($if);
                             $has_close = false;

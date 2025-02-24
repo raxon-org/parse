@@ -117,6 +117,7 @@ class Build
         $if = [];
         $is_block = false;
         $is_literal = false;
+        $is_header = false;
         $is_literal_block = false;
         $block = [];
         $break_level = 0;
@@ -724,6 +725,19 @@ class Build
                     )
                 ) {
                     $is_literal = true;
+                    $variable_assign_next_tag = true;
+                }
+                elseif (
+                    array_key_exists('marker', $record) &&
+                    in_array(
+                        strtoupper($record['marker']['name']),
+                        [
+                            'RAX',
+                        ],
+                        true
+                    )
+                ) {
+                    $is_header = true;
                     $variable_assign_next_tag = true;
                 }
                 elseif(array_key_exists('marker', $record)){

@@ -315,10 +315,12 @@ class Build
                                 true
                             )
                         ){
-                            d($if_line);
-                            d($before_if);
-                            ddd($after_if);
-
+                            $pop = array_pop($if_line);
+                            $pop['before'] = $before_if;
+                            $pop['after'] = $after_if;
+                            $if_line[] = $pop;
+                            $before_if = [];
+                            $after_if = [];
                         }
                         elseif(
                             in_array(

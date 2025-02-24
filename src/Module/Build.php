@@ -34,7 +34,7 @@ class Build
                     array_key_exists('name', $tag['method']) &&
                     $tag['method']['name'] === 'if'
                 ){
-//                    d($tag);
+                    d($tags);
                 }
 
             }

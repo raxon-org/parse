@@ -1062,7 +1062,9 @@ class Token
                                                     '-=',
                                                     '*='
                                                 ], true
-                                            )
+                                            ) &&
+                                            $is_single_quoted === false &&
+                                            $is_double_quoted === false
                                         ){
                                             $variable = [
                                                 'is_assign' => true,

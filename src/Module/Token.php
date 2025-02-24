@@ -553,6 +553,7 @@ class Token
                                     $is_double_quoted === false
                                 ){
                                     $operator = $char;
+                                    d($operator);
                                     continue;
                                 }
                                 if($operator && $is_after === false){

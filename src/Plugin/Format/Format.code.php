@@ -18,6 +18,9 @@ trait Format_code {
         $options->parentheses = $options->parentheses ?? true;
         $document = [];
         foreach($data as $line_nr => $line){
+            if(is_array($line)){
+                ddd($line);
+            }
             $line_array = mb_str_split($line);
             $is_single_quote = false;
             $is_double_quote = false;

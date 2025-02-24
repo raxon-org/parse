@@ -4120,7 +4120,7 @@ class Build
                                     $bracket--;
                                     if($bracket === 0){
                                         $collect = Build::value($object, $flags, $options, $tag, $collect, $is_set, $before, $after);
-                                        $before[] = $uuid_variable . ' = ' . $uuid_variable . '[' . $collect .  '] ?? null';
+                                        $before[] = $uuid_variable . ' = ' . $uuid_variable . '[' . $collect .  '] ?? null;';
                                         $collect = [];
                                     }
                                     continue;

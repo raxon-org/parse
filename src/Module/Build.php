@@ -310,7 +310,7 @@ class Build
                             $if_line[] = $pop;
                             $before_if = [];
                             $after_if = [];
-                            ddd($record);
+                            d($record);
                         }
                         elseif(
                             in_array(

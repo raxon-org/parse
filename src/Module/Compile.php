@@ -97,6 +97,9 @@ class Compile
                     }
                     $method .= ')';
                     $line = $method;
+                }
+                elseif(array_key_exists('text', $record)){
+                    $line = Compile::text($object, $flags, $options, $record);
                 } else {
                     ddd($record);
                 }
@@ -106,6 +109,242 @@ class Compile
             }
         }
         return $data;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public static function text(App $object, $flags, $options, $record = [], $variable_assign_next_tag = false): bool | string
+    {
+        $is_echo = $object->config('package.raxon/parse.build.state.echo');
+        $ltrim = $object->config('package.raxon/parse.build.state.ltrim');
+        $skip_space = $ltrim * 4;
+        $skip = 0;
+        if($is_echo !== true){
+            return false;
+        }
+        if(
+            array_key_exists('text', $record) &&
+            $record['text'] !== ''
+        ){
+            $is_single_quote = false;
+            $is_double_quote = false;
+            $data = mb_str_split($record['text']);
+            $line = '';
+            $result = [];
+            $is_comment = false;
+            $is_comment_multiline = false;
+            $is_doc_comment = false;
+            foreach($data as $nr => $char){
+                if($skip > 0){
+                    $skip--;
+                    continue;
+                }
+                $previous = $data[$nr - 1] ?? null;
+                $next = $data[$nr + 1] ?? null;
+                $next_next = $data[$nr + 2] ?? null;
+                if(
+                    $is_single_quote === false &&
+                    $is_double_quote === false &&
+                    $char === '\'' &&
+                    $previous !== '\\'
+                ){
+                    $is_single_quote = true;
+                }
+                elseif(
+                    $is_single_quote === true &&
+                    $is_double_quote === false &&
+                    $char === '\'' &&
+                    $previous !== '\\'
+                ){
+                    $is_single_quote = false;
+                }
+                elseif(
+                    $is_single_quote === false &&
+                    $is_double_quote === false &&
+                    $char === '"' &&
+                    $previous !== '\\'
+                ){
+                    $is_double_quote = true;
+                }
+                elseif(
+                    $is_single_quote === false &&
+                    $is_double_quote === true &&
+                    $char === '"' &&
+                    $previous !== '\\'
+                ){
+                    $is_double_quote = false;
+                }
+                elseif(
+                    $is_single_quote === false &&
+                    $is_double_quote === false &&
+                    $char === "\n"
+                ){
+                    if(
+                        $is_comment === true &&
+                        $is_comment_multiline === false
+                    ){
+                        $is_comment = false;
+                        continue;
+                    }
+                    elseif(
+                        $is_comment === true &&
+                        $is_comment_multiline === true
+                    ){
+                        //nothing
+                    }
+                    elseif(
+                        !in_array(
+                            $line,
+                            [
+                                '',
+                                "\r",
+                            ],
+                            true
+                        )
+                    ){
+                        $result[] = 'echo \'' . str_replace(['\\','\''], ['\\\\', '\\\''], $line) . '\';' . PHP_EOL;
+                    }
+                    $line = '';
+                    $skip_space = $ltrim * 4;
+                }
+                elseif(
+                    $is_single_quote === false &&
+                    $is_double_quote === false &&
+                    $char === ' ' && $skip_space > 0
+                ){
+                    $skip_space--;
+                    continue;
+                }
+                elseif(
+                    $is_single_quote === false &&
+                    $is_double_quote === false &&
+                    $char !== ' '
+                ){
+                    if($skip_space > 0){
+                        $line .= str_repeat(' ', (($ltrim * 4) - $skip_space));
+                    }
+                    $skip_space = 0;
+                }
+                if(
+                    $is_single_quote === false &&
+                    $is_double_quote === false &&
+                    $char === '/' &&
+                    $next === '*'
+                ){
+                    $is_comment = true;
+                    $is_comment_multiline = true;
+                    if(
+                        !in_array(
+                            $line,
+                            [
+                                '',
+                                "\r",
+                            ],
+                            true
+                        )
+                    ){
+                        $result[] = 'echo \'' . str_replace(['\\','\''], ['\\\\', '\\\''], $line) . '\';' . PHP_EOL;
+                    }
+                    $line = '';
+                }
+                elseif(
+                    $is_single_quote === false &&
+                    $is_double_quote === false &&
+                    $char === '/' &&
+                    $next === '/' &&
+                    in_array(
+                        $previous,
+                        [
+                            null,
+                            ' ',
+                            "\t",
+                            "\n",
+                            '}',
+                        ],
+                        true
+                    )
+                ){
+                    $is_comment = true;
+                    if(
+                        !in_array(
+                            $line,
+                            [
+                                '',
+                                "\r",
+                            ],
+                            true
+                        )
+                    ){
+                        $result[] = 'echo \'' . str_replace(['\\','\''], ['\\\\', '\\\''], $line) . '\';' . PHP_EOL;
+                    }
+                    $line = '';
+                }
+                elseif(
+                    $is_single_quote === false &&
+                    $is_double_quote === false &&
+                    $char === '*' &&
+                    $next === '/' &&
+                    $is_comment_multiline = true
+                ){
+                    $is_comment = false;
+                    $is_comment_multiline = false;
+                    $skip++;
+                    if($next_next === "\n"){
+                        $skip++;
+                    }
+                }
+                if(
+                    $is_comment === false &&
+                    $skip === 0
+                ){
+                    if($variable_assign_next_tag === false){
+                        $line .= $char;
+                    }
+                    elseif(
+                        $variable_assign_next_tag === true &&
+                        $char === "\n"
+                    ){
+                        $variable_assign_next_tag = false;
+                    }
+                    elseif($variable_assign_next_tag === true){
+                        $line .= $char;
+                        if(
+                            !in_array(
+                                $char,
+                                [
+                                    ' ',
+                                    "\t"
+                                ],
+                                true
+                            )
+                        ){
+                            $variable_assign_next_tag = false;
+                        }
+                    }
+                }
+            }
+            if($line !== ''){
+                if(
+                    !in_array(
+                        $line,
+                        [
+                            '',
+                            "\r",
+                        ],
+                        true
+                    )
+                ){
+                    $result[] = 'echo \'' . str_replace(['\\','\''], ['\\\\', '\\\''], $line) . '\';' . PHP_EOL;
+                }
+            }
+            if(array_key_exists(1, $result)){
+//                return implode('echo "\n";' . PHP_EOL, $result);
+                return implode(PHP_EOL, $result);
+            }
+            return $result[0] ?? false;
+        }
+        return false;
     }
 
     /**

@@ -60,7 +60,7 @@ trait View {
         elseif(is_object($data)) {
             $data = new Data($data);
         } else {
-            $data = new Data();
+            $data = $this->data();
         }
         return $data;
     }

@@ -16,6 +16,7 @@ trait Script {
     {
         $object = $this->object();
         $args = func_get_args();
+        trace();
         ddd($args);
     }
 

@@ -2582,6 +2582,7 @@ class Build
                     }
                 }
                 break;
+            case 'script':
             case 'block.data':
             case 'block.html':
             case 'block.xml':
@@ -2706,6 +2707,7 @@ class Build
                 break;
             case 'break' :
             case 'continue':
+            case 'script':
             case 'block.data':
             case 'block.html':
             case 'block.xml':

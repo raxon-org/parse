@@ -1041,7 +1041,7 @@ class Compile
 
     public static function document_run(App $object, $flags, $options, $document = [], $data = []): array
     {
-        $build = new Build($object, $flags, $options);
+        $build = new Compile($object, $flags, $options);
         $indent = $object->config('package.raxon/parse.build.state.indent');
         $document = Compile::document_run_throw($object, $flags, $options, $document);
         $document[] = str_repeat(' ', $indent * 4) . 'public function run(): mixed';
@@ -1091,7 +1091,7 @@ class Compile
         return $document;
     }
 
-    public static function format(Build $build, $document=[], $data=[], $indent=2): array
+    public static function format(Compile $build, $document=[], $data=[], $indent=2): array
     {
         $format_options = (object) [
             'indent' => $indent,

@@ -367,6 +367,7 @@ class Compile
                     array_key_exists('is_close', $record['marker']) &&
                     $record['marker']['is_close'] === true
                 ){
+                    d($record);
                     $ltrim = $object->config('package.raxon/parse.build.state.ltrim');
                     if($ltrim > 0){
                         $ltrim--;

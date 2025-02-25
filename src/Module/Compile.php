@@ -881,7 +881,7 @@ class Compile
         $document[] = str_repeat(' ', $indent * 4) . 'public function run(): mixed';
         $document[] = str_repeat(' ', $indent * 4) . '{';
         $indent++;
-        $document[] = str_repeat(' ', $indent * 4) . 'ob_start();';
+        $document[] = str_repeat(' ', $indent * 4) . 'ob_start(null, 0, PHP_OUTPUT_HANDLER_STDFLAGS ^ PHP_OUTPUT_HANDLER_REMOVABLE);';
         $document[] = str_repeat(' ', $indent * 4) . '$object = $this->object();';
         $document[] = str_repeat(' ', $indent * 4) . '$parse = $this->parse();';
         $document[] = str_repeat(' ', $indent * 4) . '$data = $this->data();';

@@ -131,7 +131,6 @@ class Compile
         $data[] = '$object->config(\'package.raxon/parse.build.state.source.url\', \''. str_replace(['\\','\''], ['\\\\', '\\\''], $source) .'\');';
         foreach($tags as $row_nr => $list){
             foreach($list as $nr => &$record){
-                d($record);
                 if(
                     array_key_exists('marker', $record) &&
                     array_key_exists('value', $record['marker']) &&

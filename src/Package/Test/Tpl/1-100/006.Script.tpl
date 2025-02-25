@@ -4,5 +4,6 @@
 ...content
 
 
-{{/script}
+{{/script}}
+test
 {{dd('$this')}}

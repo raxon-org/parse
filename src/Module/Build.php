@@ -640,6 +640,7 @@ class Build
                                 true
                             )
                         ) {
+                            ddd($block);
                             $data[] = 'ob_start();';
                             foreach($block as $block_nr => $block_record){
                                 $data[] = $block_record;

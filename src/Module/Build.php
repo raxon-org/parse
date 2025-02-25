@@ -339,7 +339,6 @@ class Build
                         ){
                             $is_block = true;
                             $is_literal_block = true;
-                            continue;
                         }
                     }
                     if($is_block){

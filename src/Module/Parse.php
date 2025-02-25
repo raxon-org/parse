@@ -105,7 +105,7 @@ class Parse
         }
         $object->config(Parse::CONFIG, $parse['node']);
         $object->config(Parse::CONFIG . '.time.start', microtime(true));
-        $object->config(Parse::CONFIG . '.build.builder', 'Bold');
+        $object->config(Parse::CONFIG . '.build.builder', 'Build');
     }
 
     public static function result($result=''){
@@ -457,10 +457,14 @@ class Parse
                     $object->config('extension.php')
                 ;
             }
-            if($object->config(Parse::CONFIG . '.build.builder') === 'Bold'){
+            if($object->config(Parse::CONFIG . '.build.builder') === 'Build'){
 //                $document = Build::create($object, $flags, $options, $token);
-                $document = Bold::create($object, $flags, $options, $token);
-            } else {
+                $document = Build::create($object, $flags, $options, $token);
+            }
+            elseif($object->config(Parse::CONFIG . '.build.builder') === 'Compile'){
+                $document = Compile::create($object, $flags, $options, $token);
+            }
+            else {
                 $document = Build::create($object, $flags, $options, $token);
             }
 //            d($url_php);

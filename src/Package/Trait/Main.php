@@ -24,7 +24,7 @@ trait Main {
         $object = $this->object();
         $input = File::read($options->source);
         $parse = new Parse($object, new Data(), $flags, $options);
-        $object->config(Parse::CONFIG . '.build.builder', 'Build'); //can be removed if bold is replaced.
+        $object->config(Parse::CONFIG . '.build.builder', 'Compile'); //can be removed if bold is replaced.
         return $parse->compile($input);
     }
 }

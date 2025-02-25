@@ -58,12 +58,227 @@ class Compile
         $data = [];
         foreach($tags as $row_nr => $list){
             foreach($list as $nr => $record){
+                if(array_key_exists('method', $record) && array_key_exists('name', $record['method'])){
+                    $method = $record['method']['name'] . '(';
+                    foreach($record['method']['argument'] as $argument_nr => $argument){
+                        $method_value .= Compile::argument($object, $flags, $options, $record);
+                    }
+                    $method .= ')';
+                    ddd($method);
+                }
                 d($record);
             }
         }
         return $data;
     }
 
+    /**
+     * @throws Exception
+     * @throws LocateException
+     */
+    public static function argument(App $object, $flags, $options, $record=[], &$before=[], &$after=[]): string
+    {
+        $is_argument = false;
+        $argument_value = '';
+        $previous_count = 0;
+        $use_trait = $object->config('package.raxon/parse.build.use.trait');
+        $use_trait_function = $object->config('package.raxon/parse.build.use.trait_function');
+        $argument_is_reference = [];
+        $argument_attribute = (object) [];
+        $attributes = false;
+        $attributes_transfer = false;
+        if(
+            array_key_exists('method', $record) &&
+            array_key_exists('name', $record['method']) &&
+            is_array($use_trait_function)
+        ){
+            $method_match = str_replace('.', '_', strtolower($record['method']['name']));
+            if(
+                in_array(
+                    $method_match,
+                    [
+                        'default',
+                        'object',
+                        'echo',
+                        'parse',
+                        'break',
+                        'continue',
+                        'constant',
+                        'require',
+                        'unset'
+                    ],
+                    true
+                )
+            ){
+                $method_match = 'plugin_' . $method_match;
+            }
+            $key = array_search($method_match, $use_trait_function, true);
+            $trait = $use_trait[$key] ?? null;
+            $reflection = new ReflectionClass($trait);
+            $trait_methods = $reflection->getMethods();
+            foreach($trait_methods as $nr => $method){
+                if(
+                    strtolower($method->name) === $method_match
+                ){
+                    $attributes = $method->getAttributes();
+                    foreach($attributes as $attribute_nr => $attribute){
+                        $instance = $attribute->newInstance();
+                        $instance->class = get_class($instance);
+                        if($instance->class === 'Raxon\\Attribute\\Argument'){
+                            $argument_attribute = $instance;
+                        }
+                        $attributes[$attribute_nr] = $instance;
+                    }
+                    $parameters = $method->getParameters();
+                    foreach($parameters as $parameter_nr => $parameter){
+                        if($parameter->isPassedByReference()){
+                            $argument_is_reference[$parameter_nr] = true;
+                        } else {
+                            $argument_is_reference[$parameter_nr] = false;
+                        }
+                    }
+                }
+            }
+        }
+        foreach($record['method']['argument'] as $nr => $argument) {
+            if(
+                array_key_exists('array', $argument) &&
+                is_array($argument['array']) &&
+                array_key_exists(0, $argument['array']) &&
+                is_array($argument['array'][0]) &&
+                array_key_exists('value', $argument['array'][0]) &&
+                array_key_exists(1, $argument['array']) &&
+                is_array($argument['array'][1]) &&
+                array_key_exists('value', $argument['array'][1]) &&
+                array_key_exists(2, $argument['array']) &&
+                is_array($argument['array'][2]) &&
+                array_key_exists('type', $argument['array'][2]) &&
+                $argument['array'][2]['type'] === 'method'
+            ) {
+                $name = $argument['array'][0]['value'];
+                $name .= $argument['array'][1]['value'];
+                $class_static = Compile::class_static($object);
+                if(
+                    in_array(
+                        $name,
+                        $class_static,
+                        true
+                    )
+                ) {
+                    $name .= $argument['array'][2]['method']['name'];
+                    $argument = $argument['array'][2]['method']['argument'];
+                    $use_trait = $object->config('package.raxon/parse.build.use.trait');
+                    $trait = 'Plugin\\Validate';
+                    if(
+                        $attributes !== false &&
+                        !in_array($trait, $use_trait, true)
+                    ){
+                        $attributes_transfer =  Core::object($attributes, Core::TRANSFER);
+                        $use_trait[] = $trait;
+                        $object->config('package.raxon/parse.build.use.trait', $use_trait);
+                    }
+
+                    foreach ($argument as $argument_nr => $argument_record) {
+                        $value = Compile::value($object, $flags, $options, $record, $argument_record, $is_set, $before,$after);
+                        $uuid_variable = Core::uuid_variable();
+                        $before[] = $uuid_variable . ' = ' . $value . ';';
+                        if($attributes){
+                            //need use_trait (config)
+                            $before[] = '$this->validate(' . $uuid_variable . ', \'argument\', Core::object(\'' . $attributes_transfer . '\', Core::FINALIZE), ' . $argument_nr . ');';
+                        }
+                        $value = $uuid_variable;
+                        $argument[$argument_nr] = $value;
+                        /*
+                        if(
+                            array_key_exists($argument_nr, $argument_is_reference) &&
+                            $argument_is_reference[$nr] === true
+                        ){
+                            $after[$nr] = '$data->set(\'' .  $after[$nr] . '\', ' . $uuid_variable . ');';
+                        } else {
+                            $after[$nr] = null;
+                        }
+                        */
+
+                        $after[$argument_nr] = null;
+                    }
+                    ddd($before);
+                }
+                if (array_key_exists(0, $argument)) {
+                    $argument = $name . '(' . implode(', ', $argument) . ')';
+                } else {
+                    $argument = $name . '()';
+                }
+            } else {
+                if(
+                    property_exists($argument_attribute, 'apply') &&
+                    $argument_attribute->apply === 'literal' &&
+                    property_exists($argument_attribute, 'count') &&
+                    $argument_attribute->count === '*'
+                ){
+                    //all arguments are literal
+                    $argument = '\'' . str_replace(['\\','\''], ['\\\\', '\\\''], trim($argument['string'])) . '\'';
+                }
+                elseif(
+                    property_exists($argument_attribute, 'apply') &&
+                    $argument_attribute->apply === 'literal' &&
+                    property_exists($argument_attribute, 'index') &&
+                    is_array($argument_attribute->index) &&
+                    in_array(
+                        $nr,
+                        $argument_attribute->index,
+                        true
+                    )
+                ){
+                    //we have multiple indexes
+                    $argument = '\'' . str_replace(['\\','\''], ['\\\\', '\\\''], trim($argument['string'])) . '\'';
+                }
+                elseif (
+                    property_exists($argument_attribute, 'apply') &&
+                    $argument_attribute->apply === 'literal' &&
+                    property_exists($argument_attribute, 'index') &&
+                    is_int($argument_attribute->index) &&
+                    $argument_attribute->index === $nr
+                ){
+                    //we have a single index
+                    $argument = '\'' . str_replace(['\\','\''], ['\\\\', '\\\''], trim($argument['string'])) . '\'';
+                } else {
+                    $argument = Compile::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
+                    $uuid_variable = Core::uuid_variable();
+                    $before[] = $uuid_variable . ' = ' . $argument . ';';
+                    if($attributes !== false){
+                        $use_trait = $object->config('package.raxon/parse.build.use.trait');
+                        $trait = 'Plugin\\Validate';
+                        if($attributes !== false && !in_array($trait, $use_trait, true)){
+                            $use_trait[] = $trait;
+                            $object->config('package.raxon/parse.build.use.trait', $use_trait);
+                            $attributes_transfer =  Core::object($attributes, Core::TRANSFER);
+                        }
+                        $attributes_transfer =  Core::object($attributes, Core::TRANSFER);
+                        $before[] = '$this->validate(' . $uuid_variable . ', \'argument\', Core::object(\'' . $attributes_transfer . '\', Core::FINALIZE), ' . $nr . ');';
+                    }
+                    $argument = $uuid_variable;
+                    if(
+                        array_key_exists($nr, $argument_is_reference) &&
+                        $argument_is_reference[$nr] === true &&
+                        array_key_exists('attribute', $after[$nr])
+                    ){
+                        $after[$nr] = '$data->set(\'' .  $after[$nr]['attribute'] . '\', ' . $uuid_variable . ');';
+                    } else {
+                        $after[$nr] = null;
+                    }
+                }
+            }
+            if($argument !== ''){
+                $argument_value .= $argument  . ', ';
+                $is_argument = true;
+            }
+        }
+        if($is_argument){
+            $argument_value = mb_substr($argument_value, 0, -2);
+        }
+        return $argument_value;
+    }
+    
     /**
      * @throws Exception
      */

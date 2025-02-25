@@ -99,11 +99,8 @@ class Compile
                             $object->config('ds')
                         ;
                         $url_php = $dir . $options->class . $object->config('extension.php');
-                        ddd($url_php);
                         File::write($url_php, implode(PHP_EOL, $document));
-
-                        d($script_method);
-                        ddd($collection);
+                        d($url_php);
                         $script_method = false;
                     }
                 }

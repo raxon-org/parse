@@ -3,6 +3,7 @@ namespace Raxon\Parse\Module;
 
 use Raxon\App;
 
+use Raxon\Config;
 use Raxon\Module\Autoload;
 use Raxon\Module\Core;
 use Raxon\Module\File;
@@ -74,7 +75,9 @@ class Compile
                 ) {
                     $is_script--;
                     if ($is_script === 0) {
-                        $options->class = $options->class ?? 'Main';
+                        $options->class_root = $options->class ?? 'Main';
+                        $uuid = substr(Core::uuid_variable(), 1);
+                        $options->class = 'internal_' . $uuid;
                         $document = Compile::document_header($object, $flags, $options);
                         $document = Compile::document_use($object, $flags, $options, $document, 'package.raxon/parse.build.use.class');
                         $document[] = '';
@@ -88,8 +91,17 @@ class Compile
                         $document[] = '';
 //        d($data);
                         $document = Compile::document_run($object, $flags, $options, $document, $collection);
-                        ddd($document);
                         $document[] = '}';
+                        $dir = $object->config('ramdisk.url') .
+                            $object->config(Config::POSIX_ID) .
+                            $object->config('ds') .
+                            $object->config('dictionary.view') .
+                            $object->config('ds')
+                        ;
+                        $url_php = $dir . $options->class . $object->config('extension.php');
+                        ddd($url_php);
+                        File::write($url_php, implode(PHP_EOL, $document));
+
                         d($script_method);
                         ddd($collection);
                         $script_method = false;

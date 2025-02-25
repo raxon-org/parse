@@ -853,6 +853,7 @@ class Compile
                 }
             }
         }
+        d($tags);
         foreach($foreach as $foreach_nr => $foreach_record){
             if(
                 array_key_exists('method', $foreach_record) &&

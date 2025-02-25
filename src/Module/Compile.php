@@ -171,7 +171,7 @@ class Compile
         return $document;
     }
 
-    public static function format(Build $build, $document=[], $data=[], $indent=2): array
+    public static function format(Compile $build, $document=[], $data=[], $indent=2): array
     {
         $format_options = (object) [
             'indent' => $indent,

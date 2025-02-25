@@ -2606,6 +2606,13 @@ class Compile
                 $object->config('package.raxon/parse.build.state.block.plugin', $plugin);
                 //we do the rest in the marker /block
                 return $method_name;
+            case 'script':
+                $plugin = Compile::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
+//                $method_value = '$this->' . $plugin . '(';
+                $object->config('package.raxon/parse.build.state.script.record', $record);
+                $object->config('package.raxon/parse.build.state.script.plugin', $plugin);
+                //we do the rest in the marker /block
+                return $method_name;
             default:
                 if(
                     array_key_exists('is_class_method', $record['method']) &&

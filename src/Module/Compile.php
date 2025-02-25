@@ -934,6 +934,7 @@ class Compile
         $document[] = str_repeat(' ', $indent * 4) . '{';
         $indent++;
         $document[] = str_repeat(' ', $indent * 4) . 'ob_start();';
+        $document[] = str_repeat(' ', $indent * 4) . 'ob_start();';
         $document[] = str_repeat(' ', $indent * 4) . '$object = $this->object();';
         $document[] = str_repeat(' ', $indent * 4) . '$parse = $this->parse();';
         $document[] = str_repeat(' ', $indent * 4) . '$data = $this->data();';

@@ -59,17 +59,28 @@ class Compile
     public static function data_tag(App $object, $flags, $options , $tags=[]): array
     {
         $data = [];
-        $is_script = false;
-        foreach($tags as $row_nr => $list){
-            foreach($list as $nr => $record){
-                if($is_script){
-                    d($record);
+        $collection = [];
+        $is_script = 0;
+        $line = '';
+        foreach($tags as $row_nr => $list) {
+            foreach ($list as $nr => $record) {
+                if (
+                    array_key_exists('marker', $record) &&
+                    array_key_exists('is_close', $record['marker']) &&
+                    array_key_exists('name', $record['marker']) &&
+                    $record['marker']['is_close'] === true &&
+                    $record['marker']['name'] === 'script'
+                ) {
+                    $is_script--;
+                    if ($is_script === 0) {
+                        ddd($collection);
+                    }
                 }
-                if(
+                elseif (
                     array_key_exists('method', $record) &&
                     array_key_exists('name', $record['method'])
-                ){
-                    if(
+                ) {
+                    if (
                         in_array(
                             $record['method']['name'],
                             [
@@ -77,15 +88,20 @@ class Compile
                             ],
                             true
                         )
-                    ){
-                        $is_script = true;
-                    } else {
-                        $method = '$this->' . $record['method']['name'] . '(';
-                        foreach($record['method']['argument'] as $argument_nr => $argument){
-                            $method .= Compile::argument($object, $flags, $options, $record);
-                        }
-                        $method .= ')';
+                    ) {
+                        $is_script++;
                     }
+                    $method = '$this->' . $record['method']['name'] . '(';
+                    foreach ($record['method']['argument'] as $argument_nr => $argument) {
+                        $method .= Compile::argument($object, $flags, $options, $record);
+                    }
+                    $method .= ')';
+                    $line = $method;
+                } else {
+                    ddd($record);
+                }
+                if ($is_script > 0) {
+                    $collection[] = $line;
                 }
             }
         }

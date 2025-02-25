@@ -100,9 +100,7 @@ class Compile
 
                     }
                     $method = '$this->' . $record['method']['name'] . '(';
-                    foreach ($record['method']['argument'] as $argument_nr => $argument) {
-                        $method .= Compile::argument($object, $flags, $options, $argument, $before, $after);
-                    }
+                    $method .= Compile::argument($object, $flags, $options, $record, $before, $after);
                     $method .= ')';
                     $line = $method;
                 }

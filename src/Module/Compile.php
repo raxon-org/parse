@@ -101,7 +101,6 @@ class Compile
                         ;
                         $url_php = $dir . $options->class . $object->config('extension.php');
                         File::write($url_php, implode(PHP_EOL, $document));
-                        d($url_php);
                         require_once $url_php;
                         $data_class = new Data($object->data());
                         $parse = new Parse($object, $data_class, $flags, $options);

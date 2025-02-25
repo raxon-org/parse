@@ -33,7 +33,7 @@ class Compile
     {
         $options->class = $options->class ?? 'Main';
         Compile::document_default($object, $flags, $options);
-//        $data = Compile::document_tag($object, $flags, $options, $tags);
+        $data = Compile::data_tag($object, $flags, $options, $tags);
         $data = [];
         $document = Compile::document_header($object, $flags, $options);
         $document = Compile::document_use($object, $flags, $options, $document, 'package.raxon/parse.build.use.class');
@@ -50,6 +50,18 @@ class Compile
         $document = Compile::document_run($object, $flags, $options, $document, $data);
         $document[] = '}';
         return $document;
+    }
+
+
+    public static function data_tag(App $object, $flags, $options ,$tags=[]): array
+    {
+        $data = [];
+        foreach($tags as $row_nr => $list){
+            foreach($list as $nr => $record){
+                d($record);
+            }
+        }
+        return $data;
     }
 
     /**

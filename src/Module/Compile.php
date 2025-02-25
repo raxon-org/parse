@@ -38,22 +38,26 @@ class Compile
     public static function create(App $object, $flags, $options, $tags=[]): array
     {
         $options->class = $options->class ?? 'Main';
-        Build::document_default($object, $flags, $options);
-        $tags = Build::document_tag_prepare($object, $flags, $options, $tags);
-        $data = Build::document_tag($object, $flags, $options, $tags);
-        $document = Build::document_header($object, $flags, $options);
-        $document = Build::document_use($object, $flags, $options, $document, 'package.raxon/parse.build.use.class');
+        Compile::document_default($object, $flags, $options);
+        $tags = Compile::document_tag_prepare($object, $flags, $options, $tags);
+        d($tags);
+
+
+        $data = Compile::document_tag($object, $flags, $options, $tags);
+        d($data);
+        $document = Compile::document_header($object, $flags, $options);
+        $document = Compile::document_use($object, $flags, $options, $document, 'package.raxon/parse.build.use.class');
         $document[] = '';
         $document[] = 'class '. $options->class .' {';
         $document[] = '';
         $object->config('package.raxon/parse.build.state.indent', 1);
         //indent++
-        $document = Build::document_use($object, $flags, $options, $document, 'package.raxon/parse.build.use.trait');
+        $document = Compile::document_use($object, $flags, $options, $document, 'package.raxon/parse.build.use.trait');
         $document[] = '';
-        $document = Build::document_construct($object, $flags, $options, $document);
+        $document = Compile::document_construct($object, $flags, $options, $document);
         $document[] = '';
 //        d($data);
-        $document = Build::document_run($object, $flags, $options, $document, $data);
+        $document = Compile::document_run($object, $flags, $options, $document, $data);
         $document[] = '}';
         return $document;
     }
@@ -193,7 +197,7 @@ class Compile
                         continue;
                     }
                 }
-                $text = Build::text($object, $flags, $options, $record, $variable_assign_next_tag);
+                $text = Compile::text($object, $flags, $options, $record, $variable_assign_next_tag);
                 if($text){
                     if($is_block){
                         $block[] = $text;
@@ -201,8 +205,8 @@ class Compile
                         $data[] = $text;
                     }
                 }
-                $variable_assign_next_tag = false; //Build::text is taking care of this
-                $variable_assign = Build::variable_assign($object, $flags, $options, $record);
+                $variable_assign_next_tag = false; //Compile::text is taking care of this
+                $variable_assign = Compile::variable_assign($object, $flags, $options, $record);
                 if($variable_assign){
                     if($is_block){
                         $block[] = $variable_assign;
@@ -211,13 +215,13 @@ class Compile
                     }
                     $next = $list[$nr + 1] ?? false;
                     if($next !== false){
-                        $tags[$row_nr][$nr + 1] = Build::variable_assign_next($object, $flags, $options, $record, $next);
+                        $tags[$row_nr][$nr + 1] = Compile::variable_assign_next($object, $flags, $options, $record, $next);
                         $list[$nr + 1] = $tags[$row_nr][$nr + 1];
                     } else {
                         $variable_assign_next_tag = true;
                     }
                 }
-                $variable_define = Build::variable_define($object, $flags, $options, $record);
+                $variable_define = Compile::variable_define($object, $flags, $options, $record);
                 if($variable_define){
                     foreach($variable_define as $variable_define_nr => $line){
                         if($is_block){
@@ -227,7 +231,7 @@ class Compile
                         }
                     }
                 }
-                $method = Build::method($object, $flags, $options, $record, $before_if, $after_if);
+                $method = Compile::method($object, $flags, $options, $record, $before_if, $after_if);
                 if($method){
                     if(
                         array_key_exists('method', $record) &&
@@ -672,7 +676,7 @@ class Compile
                                 array_key_exists('argument', $method['method'])
                             ){
                                 foreach($method['method']['argument'] as $argument_nr => $argument_record){
-                                    $value = Build::value($object, $flags, $options, $record, $argument_record, $is_set, $before, $after);
+                                    $value = Compile::value($object, $flags, $options, $record, $argument_record, $is_set, $before, $after);
                                     $argument[] = $value;
                                 }
                             }
@@ -753,7 +757,7 @@ class Compile
                     $variable_assign_next_tag = true;
                 }
                 elseif(array_key_exists('marker', $record)){
-                    $class_static = Build::class_static($object);
+                    $class_static = Compile::class_static($object);
                     if(
                         array_key_exists('value', $record['marker']) &&
                         array_key_exists('array', $record['marker']['value']) &&
@@ -767,7 +771,7 @@ class Compile
                     ){
                         ddd('add before & after check');
                         // !!!! $this.boolean
-                        $value = Build::value($object, $flags, $options, $record, $record['marker']['value'], $is_set);
+                        $value = Compile::value($object, $flags, $options, $record, $record['marker']['value'], $is_set);
                         $uuid_variable = Core::uuid_variable();
                         if($is_block){
                             $block[] = $uuid_variable . ' =  ' . $value . ';';
@@ -797,7 +801,7 @@ class Compile
                         $name = $record['marker']['value']['array'][2]['method']['name'];
                         $argument = $record['marker']['value']['array'][2]['method']['argument'];
                         foreach($argument as $argument_nr => $argument_record){
-                            $value = Build::value($object, $flags, $options, $record, $argument_record, $is_set);
+                            $value = Compile::value($object, $flags, $options, $record, $argument_record, $is_set);
                             $argument[$argument_nr] = $value;
                         }
                         if($is_block){
@@ -1039,7 +1043,7 @@ class Compile
     {
         $build = new Build($object, $flags, $options);
         $indent = $object->config('package.raxon/parse.build.state.indent');
-        $document = Build::document_run_throw($object, $flags, $options, $document);
+        $document = Compile::document_run_throw($object, $flags, $options, $document);
         $document[] = str_repeat(' ', $indent * 4) . 'public function run(): mixed';
         $document[] = str_repeat(' ', $indent * 4) . '{';
         $indent++;
@@ -1075,7 +1079,7 @@ class Compile
         $document[] = str_repeat(' ', $indent * 4) . 'throw new TemplateException(\'$options is not an object\');';
         $indent--;
         $document[] = str_repeat(' ', $indent * 4) . '}';
-        $document = Build::format($build, $document, $data, $indent);
+        $document = Compile::format($build, $document, $data, $indent);
         $document[] = str_repeat(' ', $indent * 4) . 'if(ob_get_level() >= 1){';
         $indent++;
         $document[] = str_repeat(' ', $indent * 4) . 'return ob_get_clean();';
@@ -1707,7 +1711,7 @@ class Compile
             $is_argument = false;
             if(array_key_exists('argument', $record['variable']['method'])){
                 foreach($record['variable']['method']['argument'] as $argument_nr => $argument){
-                    $argument = Build::value($object, $flags, $options, $record, $argument, $is_set);
+                    $argument = Compile::value($object, $flags, $options, $record, $argument, $is_set);
                     if($argument !== ''){
                         $method_value .= $argument . ',' . PHP_EOL;
                         $is_argument = true;
@@ -1724,13 +1728,13 @@ class Compile
             $previous_modifier = '$data->data(\'' . $variable_name . '\')' . $method_value;
             $modifier_value = $previous_modifier;
             foreach($record['variable']['modifier'] as $nr => $modifier){
-                $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $modifier['name']));
+                $plugin = Compile::plugin($object, $flags, $options, $record, str_replace('.', '_', $modifier['name']));
                 $modifier_value = $plugin . '(' . PHP_EOL;
                 $modifier_value .= $previous_modifier . ',' . PHP_EOL;
                 $is_argument = false;
                 if(array_key_exists('argument', $modifier)){
                     foreach($modifier['argument'] as $argument_nr => $argument){
-                        $argument = Build::value($object, $flags, $options, $record, $argument, $is_set);
+                        $argument = Compile::value($object, $flags, $options, $record, $argument, $is_set);
                         if($argument !== ''){
                             $modifier_value .= $argument . ',' . PHP_EOL;
                             $is_argument = true;
@@ -1850,7 +1854,7 @@ class Compile
                 $data = [];
                 $variable_uuid = Core::uuid_variable();
                 $data[] = '$test_' . substr($variable_uuid, 1) . '_record = $data->data();';
-                $data = Build::array_notation_data($object, $flags, $options, $data, $record['variable']['array_notation']['array'], $variable_name, $variable_uuid);
+                $data = Compile::array_notation_data($object, $flags, $options, $data, $record['variable']['array_notation']['array'], $variable_name, $variable_uuid);
 
                 /*
                 $data = [
@@ -1987,7 +1991,7 @@ class Compile
             ) {
                 $name = $argument['array'][0]['value'];
                 $name .= $argument['array'][1]['value'];
-                $class_static = Build::class_static($object);
+                $class_static = Compile::class_static($object);
                 if(
                     in_array(
                         $name,
@@ -2009,7 +2013,7 @@ class Compile
                     }
 
                     foreach ($argument as $argument_nr => $argument_record) {
-                        $value = Build::value($object, $flags, $options, $record, $argument_record, $is_set, $before,$after);
+                        $value = Compile::value($object, $flags, $options, $record, $argument_record, $is_set, $before,$after);
                         $uuid_variable = Core::uuid_variable();
                         $before[] = $uuid_variable . ' = ' . $value . ';';
                         if($attributes){
@@ -2072,7 +2076,7 @@ class Compile
                     //we have a single index
                     $argument = '\'' . str_replace(['\\','\''], ['\\\\', '\\\''], trim($argument['string'])) . '\'';
                 } else {
-                    $argument = Build::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
+                    $argument = Compile::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
                     $uuid_variable = Core::uuid_variable();
                     $before[] = $uuid_variable . ' = ' . $argument . ';';
                     if($attributes !== false){
@@ -2198,7 +2202,7 @@ class Compile
                     //invalid value
                     throw new TemplateException(str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.');
                 }
-                $foreach_from = Build::value($object, $flags, $options, $record, $value, $is_set);
+                $foreach_from = Compile::value($object, $flags, $options, $record, $value, $is_set);
                 $from = Core::uuid_variable();
                 $value = Core::uuid_variable();
                 $method_value = [];
@@ -2232,7 +2236,7 @@ class Compile
                 $method_value[] = 'while(';
                 $is_argument = false;
                 foreach($record['method']['argument'] as $nr => $argument){
-                    $value = Build::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
+                    $value = Compile::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
                     if(
                         !in_array(
                             $value,
@@ -2297,7 +2301,7 @@ class Compile
                 $argument_count = count($record['method']['argument']);
                 if($argument_count === 3){
                     foreach($record['method']['argument'] as $nr => $argument){
-                        $value = Build::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
+                        $value = Compile::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
                         if(mb_strtolower($value) === 'null'){
                             $value = '';
                         }
@@ -2365,7 +2369,7 @@ class Compile
                 }
                 $is_argument = false;
                 foreach($record['method']['argument'] as $nr => $argument){
-                    $value = Build::value($object, $flags, $options, $record, $argument, $is_set, $before_if, $after_if);
+                    $value = Compile::value($object, $flags, $options, $record, $argument, $is_set, $before_if, $after_if);
                     if(
                         !in_array(
                             $value,
@@ -2468,7 +2472,7 @@ class Compile
                             );
                         }
                     } else {
-                        $value = Build::value($object, $flags, $options, $record, $record['method']['argument'][0], $is_set);
+                        $value = Compile::value($object, $flags, $options, $record, $record['method']['argument'][0], $is_set);
                         $is_argument = true;
                     }
                 }
@@ -2595,7 +2599,7 @@ class Compile
             case 'block.link':
             case 'block.function':
             case 'block.code':
-                $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
+                $plugin = Compile::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
 //                $method_value = '$this->' . $plugin . '(';
                 $object->config('package.raxon/parse.build.state.block.record', $record);
                 $object->config('package.raxon/parse.build.state.block.plugin', $plugin);
@@ -2610,7 +2614,7 @@ class Compile
                     if(array_key_exists(1, $explode)){
                         $class = '\\' . implode('\\', $explode);
                     } else {
-                        $class_static = Build::class_static($object);
+                        $class_static = Compile::class_static($object);
                         $class = $record['method']['class'];
                         if(
                             !in_array(
@@ -2626,12 +2630,12 @@ class Compile
                         $record['method']['call_type'] .
                         str_replace('.', '_', $record['method']['name']) .
                         '(';
-                    $method_value .= Build::argument($object, $flags, $options, $record, $before, $after);
+                    $method_value .= Compile::argument($object, $flags, $options, $record, $before, $after);
                     $method_value .= ');';
                 } else {
-                    $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
+                    $plugin = Compile::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
                     $method_value = $plugin . '(';
-                    $method_value .= Build::argument($object, $flags, $options, $record, $before, $after);
+                    $method_value .= Compile::argument($object, $flags, $options, $record, $before, $after);
                     $method_value .= ');';
                 }
                 break;
@@ -2863,7 +2867,7 @@ class Compile
             $uuid_methods = Core::uuid_variable();
             $argument = $record['variable']['value']['array'][0]['method']['argument'] ?? [];
             foreach($argument as $argument_nr => $argument_record){
-                $value = Build::value($object, $flags, $options, $record, $argument_record, $is_set);
+                $value = Compile::value($object, $flags, $options, $record, $argument_record, $is_set);
                 $argument[$argument_nr] = $value;
             }
             $use_class = $object->config('package.raxon/parse.build.use.class');
@@ -2948,7 +2952,7 @@ class Compile
             $uuid_methods = Core::uuid_variable();
             $argument = $record['variable']['value']['array'][1]['method']['argument'];
             foreach($argument as $argument_nr => $argument_record){
-                $value = Build::value($object, $flags, $options, $record, $argument_record, $is_set);
+                $value = Compile::value($object, $flags, $options, $record, $argument_record, $is_set);
                 $argument[$argument_nr] = $value;
             }
             $before[] = 'try {';
@@ -3005,7 +3009,7 @@ class Compile
             //static method call
             $name = $record['variable']['value']['array'][0]['value'];
             $name .= $record['variable']['value']['array'][1]['value'];
-            $class_static = Build::class_static($object);
+            $class_static = Compile::class_static($object);
             if(
                 in_array(
                     $name,
@@ -3016,7 +3020,7 @@ class Compile
                 $name .= $record['variable']['value']['array'][2]['method']['name'];
                 $argument = $record['variable']['value']['array'][2]['method']['argument'];
                 foreach($argument as $argument_nr => $argument_record){
-                    $value = Build::value($object, $flags, $options, $record, $argument_record, $is_set, $before, $after);
+                    $value = Compile::value($object, $flags, $options, $record, $argument_record, $is_set, $before, $after);
                     $argument[$argument_nr] = $value;
                 }
                 if(array_key_exists(0, $argument)){
@@ -3052,20 +3056,20 @@ class Compile
                 }
             }
         } else {
-            $value = Build::value($object, $flags, $options, $record, $record['variable']['value'],$is_set, $before, $after);
+            $value = Compile::value($object, $flags, $options, $record, $record['variable']['value'],$is_set, $before, $after);
         }
         if(array_key_exists('modifier', $record['variable'])){
             d($value);
             ddd('what happens with value');
             $previous_modifier = '$data->data(\'' . $record['variable']['name'] . '\')';
             foreach($record['variable']['modifier'] as $nr => $modifier){
-                $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $modifier['name']));
+                $plugin = Compile::plugin($object, $flags, $options, $record, str_replace('.', '_', $modifier['name']));
                 $modifier_value = $plugin . '(';
                 $modifier_value .= $previous_modifier .', ';
                 if(array_key_exists('argument', $modifier)){
                     $is_argument = false;
                     foreach($modifier['argument'] as $argument_nr => $argument){
-                        $argument = Build::value($object, $flags, $options, $record, $argument, $is_set);
+                        $argument = Compile::value($object, $flags, $options, $record, $argument, $is_set);
                         if($argument !== ''){
                             $modifier_value .= $argument . ', ';
                             $is_argument = true;
@@ -3347,7 +3351,7 @@ class Compile
 
     public static function align_content(App $object, $flags, $options, $input, $indent): string
     {
-        $list = Build::string_array($input);
+        $list = Compile::string_array($input);
         foreach($list as $nr => $line){
             $list[$nr] = str_repeat(' ', $indent * 4) . $line;
         }
@@ -3473,8 +3477,8 @@ class Compile
         $source = $options->source ?? '';
         $value = '';
         $skip = 0;
-        $input = Build::value_single_quote($object, $flags, $options, $input);
-        $input = Build::value_set($object, $flags, $options, $input, $is_set);
+        $input = Compile::value_single_quote($object, $flags, $options, $input);
+        $input = Compile::value_set($object, $flags, $options, $input, $is_set);
         $is_double_quote = false;
         $double_quote_previous = false;
         $is_cast = false;
@@ -3705,7 +3709,7 @@ class Compile
                     ){
                         switch($record['value']){
                             case '.=':
-                                $assign = Build::value_right(
+                                $assign = Compile::value_right(
                                     $object,
                                     $flags,
                                     $options,
@@ -3714,11 +3718,11 @@ class Compile
                                     $next,
                                     $skip
                                 );
-                                $assign = Build::value($object, $flags, $options, $tag, $assign, $is_set);
+                                $assign = Compile::value($object, $flags, $options, $tag, $assign, $is_set);
                                 $value .= '$data->set(\'' . $previous['name'] . '\', value_concatenate($data->data(\'' . $previous['name'] .'\', ' .  $assign . ')';
                                 break;
                             case '+=':
-                                $assign = Build::value_right(
+                                $assign = Compile::value_right(
                                     $object,
                                     $flags,
                                     $options,
@@ -3727,11 +3731,11 @@ class Compile
                                     $next,
                                     $skip
                                 );
-                                $assign = Build::value($object, $flags, $options, $tag, $assign, $is_set);
+                                $assign = Compile::value($object, $flags, $options, $tag, $assign, $is_set);
                                 $value .= '$data->set(\'' . $previous['name'] . '\', value_plus($data->data(\'' . $previous['name'] .'\', ' .  $assign . ')';
                                 break;
                             case '-=':
-                                $assign = Build::value_right(
+                                $assign = Compile::value_right(
                                     $object,
                                     $flags,
                                     $options,
@@ -3740,11 +3744,11 @@ class Compile
                                     $next,
                                     $skip
                                 );
-                                $assign = Build::value($object, $flags, $options, $tag, $assign, $is_set);
+                                $assign = Compile::value($object, $flags, $options, $tag, $assign, $is_set);
                                 $value .= '$data->set(\'' . $previous['name'] . '\', value_minus($data->data(\'' . $previous['name'] .'\', ' .  $assign . ')';
                                 break;
                             case '*=':
-                                $assign = Build::value_right(
+                                $assign = Compile::value_right(
                                     $object,
                                     $flags,
                                     $options,
@@ -3753,11 +3757,11 @@ class Compile
                                     $next,
                                     $skip
                                 );
-                                $assign = Build::value($object, $flags, $options, $tag, $assign, $is_set);
+                                $assign = Compile::value($object, $flags, $options, $tag, $assign, $is_set);
                                 $value .= '$data->set(\'' . $previous['name'] . '\', value_multiply($data->data(\'' . $previous['name'] .'\', ' .  $assign . ')';
                                 break;
                             case '=':
-                                $assign = Build::value_right(
+                                $assign = Compile::value_right(
                                     $object,
                                     $flags,
                                     $options,
@@ -3766,7 +3770,7 @@ class Compile
                                     $next,
                                     $skip
                                 );
-                                $assign = Build::value($object, $flags, $options, $tag, $assign, $is_set);
+                                $assign = Compile::value($object, $flags, $options, $tag, $assign, $is_set);
                                 $value .= '$data->set(\'' . $previous['name'] . '\', ' .  $assign . ')';
                                 break;
                             case '++' :
@@ -3850,7 +3854,7 @@ class Compile
                         true
                     )
                 ){
-                    $right = Build::value_right(
+                    $right = Compile::value_right(
                         $object,
                         $flags,
                         $options,
@@ -3859,9 +3863,9 @@ class Compile
                         $next,
                         $skip
                     );
-                    $right = Build::value($object, $flags, $options, $tag, $right, $is_set, $before, $after);
+                    $right = Compile::value($object, $flags, $options, $tag, $right, $is_set, $before, $after);
                     if(array_key_exists('value', $record)){
-                        $value = Build::value_calculate($object, $flags, $options, $record['value'], $value, $right);
+                        $value = Compile::value_calculate($object, $flags, $options, $record['value'], $value, $right);
                     }
                 }
                 else {
@@ -3930,9 +3934,9 @@ class Compile
                 array_key_exists('type', $record) &&
                 $record['type'] === 'array'
             ){
-                $array_value = Build::value($object, $flags, $options, $tag, $record, $is_set);
+                $array_value = Compile::value($object, $flags, $options, $tag, $record, $is_set);
 //                d($array_value);
-                $data = Build::string_array($array_value);
+                $data = Compile::string_array($array_value);
                 foreach($data as $nr => $line){
                     $char = trim($line);
                     if($char === '['){
@@ -3959,7 +3963,7 @@ class Compile
                 $record['type'] === 'set'
             ){
                 $set_value = '$this->value_set(' . PHP_EOL;
-                $set_value .= Build::value($object, $flags, $options, $tag, $record, $is_set) . PHP_EOL;
+                $set_value .= Compile::value($object, $flags, $options, $tag, $record, $is_set) . PHP_EOL;
                 $set_value .= ')';
                 $value .= $set_value;
             }
@@ -3975,7 +3979,7 @@ class Compile
                     if(array_key_exists(1, $explode)){
                         $class = '\\' . implode('\\', $explode);
                     } else {
-                        $class_static = Build::class_static($object);
+                        $class_static = Compile::class_static($object);
                         $class = $record['method']['class'];
                         if(
                             !in_array(
@@ -3991,12 +3995,12 @@ class Compile
                         $record['method']['call_type'] .
                         str_replace('.', '_', $record['method']['name']) .
                         '(';
-                    $method_value .= Build::argument($object, $flags, $options, $record, $before, $after);
+                    $method_value .= Compile::argument($object, $flags, $options, $record, $before, $after);
                     $method_value .= ')';
                 } else {
-                    $plugin = Build::plugin($object, $flags, $options, $tag, str_replace('.', '_', $record['method']['name']));
+                    $plugin = Compile::plugin($object, $flags, $options, $tag, str_replace('.', '_', $record['method']['name']));
                     $method_value = $plugin . '(' . PHP_EOL;
-                    $method_value .= Build::argument($object, $flags, $options, $record, $before, $after);
+                    $method_value .= Compile::argument($object, $flags, $options, $record, $before, $after);
                     $method_value .= ')';
                 }
                 $value .= $method_value;
@@ -4011,7 +4015,7 @@ class Compile
                     //add method and arguments
 
                     foreach($record['modifier'] as $modifier_nr => $modifier){
-                        $plugin = Build::plugin($object, $flags, $options, $tag, str_replace('.', '_', $modifier['name']));
+                        $plugin = Compile::plugin($object, $flags, $options, $tag, str_replace('.', '_', $modifier['name']));
                         if($is_single_line){
                             $modifier_value = $plugin . '( ' ;
                             $modifier_value .= $previous_modifier . ', ';
@@ -4023,13 +4027,13 @@ class Compile
                         if(array_key_exists('argument', $modifier)){
                             foreach($modifier['argument'] as $argument_nr => $argument){
                                 if($is_single_line){
-                                    $argument = Build::value($object, $flags, $options, $tag, $argument, $is_set, $before, $after);
+                                    $argument = Compile::value($object, $flags, $options, $tag, $argument, $is_set, $before, $after);
                                     if($argument !== ''){
                                         $modifier_value .= $argument . ', ';
                                         $is_argument = true;
                                     }
                                 } else {
-                                    $argument = Build::value($object, $flags, $options, $tag, $argument, $is_set, $before, $after);
+                                    $argument = Compile::value($object, $flags, $options, $tag, $argument, $is_set, $before, $after);
                                     if($argument !== '') {
                                         $modifier_value .= $argument . ', ';
                                         $is_argument = true;
@@ -4065,7 +4069,7 @@ class Compile
                     ){
                         $is_argument = false;
                         foreach($record['method']['argument'] as $argument_nr => $argument){
-                            $argument = Build::value($object, $flags, $options, $tag, $argument, $is_set, $before, $after);
+                            $argument = Compile::value($object, $flags, $options, $tag, $argument, $is_set, $before, $after);
                             if($argument !== ''){
                                 $method_value .= $argument . ', ';
                                 $is_argument = true;
@@ -4093,23 +4097,23 @@ class Compile
                     //assign
                     switch($record['variable']['operator']){
                         case '=':
-                            $variable_value = Build::value($object, $flags, $options, $tag, $record['variable']['value'], $is_set);
+                            $variable_value = Compile::value($object, $flags, $options, $tag, $record['variable']['value'], $is_set);
                             $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' . $variable_value . ')';
                             break;
                         case '.=':
-                            $variable_value = Build::value($object, $flags, $options, $tag, $record['variable']['value'], $is_set);
+                            $variable_value = Compile::value($object, $flags, $options, $tag, $record['variable']['value'], $is_set);
                             $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' .  '$this->value_concatenate($data->data(\'' . $record['variable']['name'] . '\'), ' .  $variable_value . '))';
                             break;
                         case '+=':
-                            $variable_value = Build::value($object, $flags, $options, $tag, $record['variable']['value'], $is_set);
+                            $variable_value = Compile::value($object, $flags, $options, $tag, $record['variable']['value'], $is_set);
                             $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' .  '$this->value_plus($data->data(\'' . $record['variable']['name'] . '\'), ' .  $variable_value . '))';
                             break;
                         case '-=':
-                            $variable_value = Build::value($object, $flags, $options, $tag, $record['variable']['value'], $is_set);
+                            $variable_value = Compile::value($object, $flags, $options, $tag, $record['variable']['value'], $is_set);
                             $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' .  '$this->value_minus($data->data(\'' . $record['variable']['name'] . '\'), ' .  $variable_value . '))';
                             break;
                         case '*=':
-                            $variable_value = Build::value($object, $flags, $options, $tag, $record['variable']['value'], $is_set);
+                            $variable_value = Compile::value($object, $flags, $options, $tag, $record['variable']['value'], $is_set);
                             $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' .  '$this->value_multiply($data->data(\'' . $record['variable']['name'] . '\'), ' .  $variable_value . '))';
                             break;
                         case '++':
@@ -4133,7 +4137,7 @@ class Compile
                             'attribute' => $record['name']
                         ];
                         foreach($record['modifier'] as $modifier_nr => $modifier){
-                            $plugin = Build::plugin($object, $flags, $options, $tag, str_replace('.', '_', $modifier['name']));
+                            $plugin = Compile::plugin($object, $flags, $options, $tag, str_replace('.', '_', $modifier['name']));
                             if($is_single_line){
                                 $modifier_value = $plugin . '(';
                                 $modifier_value .= $previous_modifier . ', ';
@@ -4145,13 +4149,13 @@ class Compile
                             if(array_key_exists('argument', $modifier)){
                                 foreach($modifier['argument'] as $argument_nr => $argument){
                                     if($is_single_line){
-                                        $argument = Build::value($object, $flags, $options, $tag, $argument, $is_set, $before, $after);
+                                        $argument = Compile::value($object, $flags, $options, $tag, $argument, $is_set, $before, $after);
                                         if($argument !== ''){
                                             $modifier_value .= $argument . ', ';
                                             $is_argument = true;
                                         }
                                     } else {
-                                        $argument = Build::value($object, $flags, $options, $tag, $argument, $is_set, $before, $after);
+                                        $argument = Compile::value($object, $flags, $options, $tag, $argument, $is_set, $before, $after);
                                         if($argument !== '') {
                                             $modifier_value .= $argument . ', ';
                                             $is_argument = true;
@@ -4200,7 +4204,7 @@ class Compile
                                 ){
                                     $bracket--;
                                     if($bracket === 0){
-                                        $collect = Build::value($object, $flags, $options, $tag, $collect, $is_set, $before, $after);
+                                        $collect = Compile::value($object, $flags, $options, $tag, $collect, $is_set, $before, $after);
                                         $before[] = $uuid_variable . ' = ' . $uuid_variable . '[' . $collect .  '] ?? null;';
                                         $collect = [];
                                     }
@@ -4238,7 +4242,7 @@ class Compile
             ){
                 //nothing
             } else {
-                $right = Build::value_right(
+                $right = Compile::value_right(
                     $object,
                     $flags,
                     $options,
@@ -4247,9 +4251,9 @@ class Compile
                     $next,
                     $skip
                 );
-                $right = Build::value($object, $flags, $options, $tag, $right, $is_set, $before, $after);
+                $right = Compile::value($object, $flags, $options, $tag, $right, $is_set, $before, $after);
                 if(array_key_exists('value', $record)){
-                    $value = Build::value_calculate($object, $flags, $options, $record['value'], $value, $right);
+                    $value = Compile::value_calculate($object, $flags, $options, $record['value'], $value, $right);
                 }
             }
         }

@@ -106,9 +106,11 @@ class Compile
                         $data_class = new Data($object->data());
                         $parse = new Parse($object, $data_class, $flags, $options);
                         $class = 'Package\\Raxon\\Parse\\' . $options->class;
+                        ob_start();
                         $instance = new $class($object, $parse, $data_class, $flags, $options);
                         d(ob_get_level());
-                        $content = $instance->run();
+                        $instance->run();
+                        $content = ob_get_clean();
                         ddd($content);
                         $script_method = false;
                     }

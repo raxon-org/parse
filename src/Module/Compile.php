@@ -381,6 +381,17 @@ class Compile
                             in_array(
                                 $record['marker']['name'],
                                 [
+                                    'script',
+                                ],
+                                true
+                            )
+                        ) {
+                            ddd('fpimd');
+                        }
+                        elseif (
+                            in_array(
+                                $record['marker']['name'],
+                                [
                                     'for.each',
                                     'for_each',
                                     'foreach',

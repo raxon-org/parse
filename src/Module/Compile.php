@@ -916,7 +916,7 @@ class Compile
         $document = Compile::format($build, $document, $data, $indent);
         $document[] = str_repeat(' ', $indent * 4) . 'if(ob_get_level() >= 1){';
         $indent++;
-        $document[] = str_repeat(' ', $indent * 4) . 'return ob_get_clean();';
+        $document[] = str_repeat(' ', $indent * 4) . 'return ob_get_content();';
         $indent--;
         $document[] = str_repeat(' ', $indent * 4) . '}';
         $document[] = str_repeat(' ', $indent * 4) . 'return null;';
@@ -933,7 +933,6 @@ class Compile
         $document[] = str_repeat(' ', $indent * 4) . 'public function run(): mixed';
         $document[] = str_repeat(' ', $indent * 4) . '{';
         $indent++;
-        $document[] = str_repeat(' ', $indent * 4) . 'ob_start();';
         $document[] = str_repeat(' ', $indent * 4) . 'ob_start();';
         $document[] = str_repeat(' ', $indent * 4) . '$object = $this->object();';
         $document[] = str_repeat(' ', $indent * 4) . '$parse = $this->parse();';
@@ -970,7 +969,7 @@ class Compile
         $document[] = 'dd(ob_get_level());';
         $document[] = str_repeat(' ', $indent * 4) . 'if(ob_get_level() >= 1){';
         $indent++;
-        $document[] = str_repeat(' ', $indent * 4) . 'return ob_get_clean();';
+        $document[] = str_repeat(' ', $indent * 4) . 'return ob_get_content();';
         $indent--;
         $document[] = str_repeat(' ', $indent * 4) . '}';
         $document[] = str_repeat(' ', $indent * 4) . 'return null;';

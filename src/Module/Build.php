@@ -329,6 +329,7 @@ class Build
                                 $record['method']['name'],
                                 [
                                     'block.data',
+                                    'script'
                                 ],
                                 true
                             )

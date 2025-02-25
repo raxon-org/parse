@@ -30,20 +30,7 @@ trait View {
         $object = $this->object();
         $url = Controller::locate($object, $template);
         ddd($url);
-
-
-        $dir = Dir::name($object->config('package.raxon/parse.build.state.source.url'));
-        if(substr($url, 0, 2) === './'){
-            $url = $dir . substr($url, 2);
-        }
-        elseif(str_contains($url, '/') === false){
-            $url = $dir . $url;
-        }
-        if(!File::exist($url)) {
-            $text = 'Require: file not found: ' . $url . ' in template: ' . $object->config('package.raxon/parse.build.state.source.url');
-            throw new Exception($text);
-        }
-        $data = $this->plugin_require_data($data);
+        $data = $this->view_data($data);
         $flags = App::flags($object);
         $options = App::options($object);
         $options_require = clone $options;
@@ -59,7 +46,7 @@ trait View {
     /**
      * @throws Exception
      */
-    protected function plugin_require_data(mixed $data=null): ?Data
+    protected function view_data(mixed $data=null): ?Data
     {
         if(is_array($data)){
             $data = new Data($data);

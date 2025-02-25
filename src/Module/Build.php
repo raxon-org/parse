@@ -230,7 +230,6 @@ class Build
                 }
                 $method = Build::method($object, $flags, $options, $record, $before_if, $after_if);
                 if($method){
-                    d($record);
                     d($method);
                     if(
                         array_key_exists('method', $record) &&
@@ -331,7 +330,19 @@ class Build
                             in_array(
                                 $record['method']['name'],
                                 [
-                                    'block.data',
+                                    'block.data'
+                                ],
+                                true
+                            )
+                        ){
+                            $is_block = true;
+                            $is_literal_block = true;
+                            continue;
+                        }
+                        elseif(
+                            in_array(
+                                $record['method']['name'],
+                                [
                                     'script'
                                 ],
                                 true
@@ -2581,7 +2592,6 @@ class Build
                     }
                 }
                 break;
-            case 'script':
             case 'block.data':
             case 'block.html':
             case 'block.xml':
@@ -2706,7 +2716,6 @@ class Build
                 break;
             case 'break' :
             case 'continue':
-            case 'script':
             case 'block.data':
             case 'block.html':
             case 'block.xml':

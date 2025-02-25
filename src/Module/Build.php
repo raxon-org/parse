@@ -2723,6 +2723,7 @@ class Build
             case 'block.script':
             case 'block.link':
             case 'block.function':
+            case 'script' :
                 //nothing, checks have been done already
                 break;
             default:

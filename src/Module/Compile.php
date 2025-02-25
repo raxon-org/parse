@@ -6,6 +6,7 @@ use Raxon\App;
 use Raxon\Config;
 use Raxon\Module\Autoload;
 use Raxon\Module\Core;
+use Raxon\Module\Data;
 use Raxon\Module\File;
 
 use Plugin;

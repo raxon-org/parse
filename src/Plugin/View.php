@@ -29,7 +29,6 @@ trait View {
     {
         $object = $this->object();
         $url = Controller::locate($object, $template);
-        ddd($url);
         $data = $this->view_data($data);
         $flags = App::flags($object);
         $options = App::options($object);

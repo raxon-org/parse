@@ -125,7 +125,6 @@ class Build
         $if_line = [];
         $object->config('package.raxon/parse.build.state.break.level', $break_level);
         $data[] = '$object->config(\'package.raxon/parse.build.state.source.url\', \''. str_replace(['\\','\''], ['\\\\', '\\\''], $source) .'\');';
-        d($tags);
         foreach($tags as $row_nr => $list){
             foreach($list as $nr => &$record){
                 if(
@@ -230,7 +229,6 @@ class Build
                 }
                 $method = Build::method($object, $flags, $options, $record, $before_if, $after_if);
                 if($method){
-                    d($method);
                     if(
                         array_key_exists('method', $record) &&
                         array_key_exists('name', $record['method'])

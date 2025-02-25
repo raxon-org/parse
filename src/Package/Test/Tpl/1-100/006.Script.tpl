@@ -1,0 +1,7 @@
+{{script('module')}}
+
+
+...content
+
+
+{{/script}

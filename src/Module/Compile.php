@@ -62,7 +62,7 @@ class Compile
         $collection = [];
         $is_script = 0;
         $script_method = false;
-        $line = '';
+        $lines = [];
         foreach($tags as $row_nr => $list) {
             foreach ($list as $nr => $record) {
                 if (
@@ -101,17 +101,23 @@ class Compile
                         $method = Compile::plugin($object, $flags, $options, $record, $record['method']['name']) . '(';
                         $method .= Compile::argument($object, $flags, $options, $record, $before, $after);
                         $method .= ')';
-                        $line = $method;
+                        foreach($before as $line){
+                            $lines[] = $line;
+                        }
+                        $lines[] = $method;
                     }
                 }
                 elseif(array_key_exists('text', $record)){
-                    $line = Compile::text($object, $flags, $options, $record);
+                    $lines[] = Compile::text($object, $flags, $options, $record);
                 } else {
                     ddd($record);
                 }
                 if ($is_script > 0) {
-                    $collection[] = $line;
+                    foreach($lines as $line){
+                        $collection[] = $line;
+                    }
                 }
+                $lines = [];
             }
         }
         return $data;

@@ -53,20 +53,39 @@ class Compile
     }
 
 
-    public static function data_tag(App $object, $flags, $options ,$tags=[]): array
+    /**
+     * @throws LocateException
+     */
+    public static function data_tag(App $object, $flags, $options , $tags=[]): array
     {
         $data = [];
         foreach($tags as $row_nr => $list){
             foreach($list as $nr => $record){
-                if(array_key_exists('method', $record) && array_key_exists('name', $record['method'])){
-                    $method = $record['method']['name'] . '(';
-                    foreach($record['method']['argument'] as $argument_nr => $argument){
-                        $method .= Compile::argument($object, $flags, $options, $record);
-                    }
-                    $method .= ')';
-                    d($method);
+                if($is_script){
+                    d($record);
                 }
-                d($record);
+                if(
+                    array_key_exists('method', $record) &&
+                    array_key_exists('name', $record['method'])
+                ){
+                    if(
+                        in_array(
+                            $record['method']['name'],
+                            [
+                                'script'
+                            ],
+                            true
+                        )
+                    ){
+                        $is_script = true;
+                    } else {
+                        $method = '$this->' . $record['method']['name'] . '(';
+                        foreach($record['method']['argument'] as $argument_nr => $argument){
+                            $method .= Compile::argument($object, $flags, $options, $record);
+                        }
+                        $method .= ')';
+                    }
+                }
             }
         }
         return $data;

@@ -230,6 +230,9 @@ class Build
                     }
                 }
                 $method = Build::method($object, $flags, $options, $record, $before_if, $after_if);
+
+                /*
+
                 if($method){
                     if(
                         array_key_exists('method', $record) &&
@@ -359,8 +362,9 @@ class Build
                     }
                     $variable_assign_next_tag = true;
                 }
+                */
                 d($record);
-                d($tags);
+//                d($tags);
                 if(
                     array_key_exists('marker', $record) &&
                     array_key_exists('is_close', $record['marker']) &&

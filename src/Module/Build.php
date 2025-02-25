@@ -125,6 +125,7 @@ class Build
         $if_line = [];
         $object->config('package.raxon/parse.build.state.break.level', $break_level);
         $data[] = '$object->config(\'package.raxon/parse.build.state.source.url\', \''. str_replace(['\\','\''], ['\\\\', '\\\''], $source) .'\');';
+        d($tags);
         foreach($tags as $row_nr => $list){
             foreach($list as $nr => &$record){
                 if(

@@ -24,7 +24,7 @@ trait Plugin_require {
     /**
      * @throws Exception
      */
-    protected function plugin_require(string $url, mixed $data=null): mixed
+    protected function plugin_require(string $url, mixed $data=null): void
     {
         $object = $this->object();
         $dir = Dir::name($object->config('package.raxon/parse.build.state.source.url'));
@@ -48,7 +48,7 @@ trait Plugin_require {
         unset($options_require->namespace);
         $parse = new Parse($object, $data, $flags, $options_require);
         $read = File::read($url);
-        return $parse->compile($read);
+        echo $parse->compile($read);
     }
 
     /**

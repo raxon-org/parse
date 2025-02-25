@@ -353,6 +353,7 @@ class Compile
                         ){
                             $is_block = true;
                             $is_literal_block = true;
+                            breakpoint('yes');
                         }
                     }
                     if($is_block){

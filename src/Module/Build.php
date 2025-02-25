@@ -358,6 +358,7 @@ class Build
                     $variable_assign_next_tag = true;
                 }
                 d($record);
+                d($tags);
                 if(
                     array_key_exists('marker', $record) &&
                     array_key_exists('is_close', $record['marker']) &&

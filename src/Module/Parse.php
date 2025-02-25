@@ -458,8 +458,8 @@ class Parse
                 ;
             }
             if($object->config(Parse::CONFIG . '.build.builder') === 'Bold'){
-                $document = Build::create($object, $flags, $options, $token);
-//                $document = Bold::create($object, $flags, $options, $token);
+//                $document = Build::create($object, $flags, $options, $token);
+                $document = Bold::create($object, $flags, $options, $token);
             } else {
                 $document = Build::create($object, $flags, $options, $token);
             }

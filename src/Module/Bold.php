@@ -14,7 +14,7 @@ use ReflectionClass;
 use Raxon\Exception\LocateException;
 use Raxon\Exception\TemplateException;
 
-class Bold
+class Build
 {
     use Plugin\Format_code;
     use Plugin\Basic;
@@ -25,6 +25,11 @@ class Bold
         $this->parse_options($options);
     }
 
+    public static function document_tag_prepare(App $object, $flags, $options, $tags=[]): array
+    {
+        return $tags;
+    }
+
     /**
      * @throws Exception
      * @throws LocateException
@@ -33,20 +38,22 @@ class Bold
     public static function create(App $object, $flags, $options, $tags=[]): array
     {
         $options->class = $options->class ?? 'Main';
-        Bold::document_default($object, $flags, $options);
-        $data = Bold::document_tag($object, $flags, $options, $tags);
-        $document = Bold::document_header($object, $flags, $options);
-        $document = Bold::document_use($object, $flags, $options, $document, 'package.raxon/parse.build.use.class');
+        Build::document_default($object, $flags, $options);
+        $tags = Build::document_tag_prepare($object, $flags, $options, $tags);
+        $data = Build::document_tag($object, $flags, $options, $tags);
+        $document = Build::document_header($object, $flags, $options);
+        $document = Build::document_use($object, $flags, $options, $document, 'package.raxon/parse.build.use.class');
         $document[] = '';
         $document[] = 'class '. $options->class .' {';
         $document[] = '';
         $object->config('package.raxon/parse.build.state.indent', 1);
         //indent++
-        $document = Bold::document_use($object, $flags, $options, $document, 'package.raxon/parse.build.use.trait');
+        $document = Build::document_use($object, $flags, $options, $document, 'package.raxon/parse.build.use.trait');
         $document[] = '';
-        $document = Bold::document_construct($object, $flags, $options, $document);
+        $document = Build::document_construct($object, $flags, $options, $document);
         $document[] = '';
-        $document = Bold::document_run($object, $flags, $options, $document, $data);
+//        d($data);
+        $document = Build::document_run($object, $flags, $options, $document, $data);
         $document[] = '}';
         return $document;
     }
@@ -110,9 +117,12 @@ class Bold
         $if = [];
         $is_block = false;
         $is_literal = false;
+        $is_header = false;
         $is_literal_block = false;
         $block = [];
         $break_level = 0;
+        $line_nr = false;
+        $if_line = [];
         $object->config('package.raxon/parse.build.state.break.level', $break_level);
         $data[] = '$object->config(\'package.raxon/parse.build.state.source.url\', \''. str_replace(['\\','\''], ['\\\\', '\\\''], $source) .'\');';
         foreach($tags as $row_nr => $list){
@@ -131,7 +141,12 @@ class Bold
                     'line' => $record['line'] ?? null,
                     'column' => $record['column'] ?? null,
                 ];
-                if($tag['tag'] !== null){
+                if(
+                    $tag['tag'] !== null &&
+                    str_contains($tag['tag'],
+                        '\'bugfix\' === \' . $object->config(\'package.raxon.parse.bugfix.uuid\') .\''
+                    )
+                ){
                     $data[] = '$object->config(\'package.raxon/parse.build.state.tag\', Core::object(\'' . Core::object($tag, Core::TRANSFER) .'\', Core::FINALIZE));';
                 }
                 if(
@@ -178,7 +193,7 @@ class Bold
                         continue;
                     }
                 }
-                $text = Bold::text($object, $flags, $options, $record, $variable_assign_next_tag);
+                $text = Build::text($object, $flags, $options, $record, $variable_assign_next_tag);
                 if($text){
                     if($is_block){
                         $block[] = $text;
@@ -186,8 +201,8 @@ class Bold
                         $data[] = $text;
                     }
                 }
-                $variable_assign_next_tag = false; //Bold::text is taking care of this
-                $variable_assign = Bold::variable_assign($object, $flags, $options, $record);
+                $variable_assign_next_tag = false; //Build::text is taking care of this
+                $variable_assign = Build::variable_assign($object, $flags, $options, $record);
                 if($variable_assign){
                     if($is_block){
                         $block[] = $variable_assign;
@@ -196,13 +211,13 @@ class Bold
                     }
                     $next = $list[$nr + 1] ?? false;
                     if($next !== false){
-                        $tags[$row_nr][$nr + 1] = Bold::variable_assign_next($object, $flags, $options, $record, $next);
+                        $tags[$row_nr][$nr + 1] = Build::variable_assign_next($object, $flags, $options, $record, $next);
                         $list[$nr + 1] = $tags[$row_nr][$nr + 1];
                     } else {
                         $variable_assign_next_tag = true;
                     }
                 }
-                $variable_define = Bold::variable_define($object, $flags, $options, $record);
+                $variable_define = Build::variable_define($object, $flags, $options, $record);
                 if($variable_define){
                     foreach($variable_define as $variable_define_nr => $line){
                         if($is_block){
@@ -212,7 +227,7 @@ class Bold
                         }
                     }
                 }
-                $method = Bold::method($object, $flags, $options, $record);
+                $method = Build::method($object, $flags, $options, $record, $before_if, $after_if);
                 if($method){
                     if(
                         array_key_exists('method', $record) &&
@@ -269,12 +284,51 @@ class Bold
                             )
                         ){
                             $if[] = $record;
+                            if($is_block){
+                                $line_nr = count($block); //no -1
+                            } else {
+                                $line_nr = count($data); //no -1
+                            }
+                            $if_line[] = [
+                                'line' =>  $line_nr,
+                                'before' => $before_if,
+                                'after' => $after_if,
+                            ];
+                            $before_if = [];
+                            $after_if = [];
                         }
                         elseif(
                             in_array(
                                 $record['method']['name'],
                                 [
-                                    'block.data',
+                                    'else.if',
+                                    'else_if',
+                                    'elseif',
+                                ],
+                                true
+                            )
+                        ){
+                            //do we need a false elseif statement for every if, to fix child if bug ? (the elseif might not belong to the last if in line)
+                            $pop = array_pop($if_line);
+                            $pop['before'] = array_merge($pop['before'], $before_if);
+                            $pop['after'] = array_merge($pop['after'], $after_if);
+                            $if_line[] = $pop;
+                            $before_if = [];
+                            $after_if = [];
+                            if(
+                                str_contains(
+                                    $record['tag'],
+                                    '\'bugfix\' === \''. $object->config('package.raxon.parse.bugfix.uuid') . '\''
+                                )
+                            ){
+                                continue;
+                            }
+                        }
+                        elseif(
+                            in_array(
+                                $record['method']['name'],
+                                [
+                                    'block.data'
                                 ],
                                 true
                             )
@@ -282,6 +336,18 @@ class Bold
                             $is_block = true;
                             $is_literal_block = true;
                             continue;
+                        }
+                        elseif(
+                            in_array(
+                                $record['method']['name'],
+                                [
+                                    'script'
+                                ],
+                                true
+                            )
+                        ){
+                            $is_block = true;
+                            $is_literal_block = true;
                         }
                     }
                     if($is_block){
@@ -291,6 +357,8 @@ class Bold
                     }
                     $variable_assign_next_tag = true;
                 }
+                d($record);
+                d($tags);
                 if(
                     array_key_exists('marker', $record) &&
                     array_key_exists('is_close', $record['marker']) &&
@@ -301,6 +369,7 @@ class Bold
                         $ltrim--;
                         $object->config('package.raxon/parse.build.state.ltrim', $ltrim);
                     }
+                    d($record['marker']['name']);
                     //need to count them by name
                     if(array_key_exists('name', $record['marker'])) {
                         if (
@@ -504,6 +573,7 @@ class Bold
                             )
                         ) {
                             $if_reverse = array_reverse($if);
+                            $if_line_reverse = array_reverse($if_line);
                             $has_close = false;
                             foreach ($if_reverse as $if_nr => $if_record) {
                                 if (
@@ -522,6 +592,22 @@ class Bold
                                         $block[] = '}';
                                     } else {
                                         $data[] = '}';
+                                    }
+                                    if($if_line_reverse[$if_nr]['line'] !== false){
+                                        $split = array_chunk($data, $if_line_reverse[$if_nr]['line'], true);
+                                        $data = array_shift($split);
+                                        foreach($if_line_reverse[$if_nr]['before'] as $before_if_record){
+                                            $data[] = $before_if_record;
+                                        }
+                                        foreach($split as $chunk_nr => $chunks){
+                                            foreach($chunks as $split_record){
+                                                $data[] = $split_record;
+                                            }
+                                        }
+                                        foreach($if_line_reverse[$if_nr]['after'] as $after_record){
+                                            $after[] = $after_record;
+                                        }
+                                        $if_line_reverse[$if_nr]['line'] = false;
                                     }
                                     $variable_assign_next_tag = true;
                                     break; //only 1 at a time
@@ -555,6 +641,7 @@ class Bold
                                 }
                             }
                             $if = array_reverse($if_reverse);
+                            $if_line = array_reverse($if_line_reverse);
                         }
                         elseif (
                             array_key_exists('marker', $record) &&
@@ -562,10 +649,12 @@ class Bold
                                 $record['marker']['name'],
                                 [
                                     'block',
+                                    'script'
                                 ],
                                 true
                             )
                         ) {
+                            ddd($block);
                             $data[] = 'ob_start();';
                             foreach($block as $block_nr => $block_record){
                                 $data[] = $block_record;
@@ -587,7 +676,7 @@ class Bold
                                 array_key_exists('argument', $method['method'])
                             ){
                                 foreach($method['method']['argument'] as $argument_nr => $argument_record){
-                                    $value = Bold::value($object, $flags, $options, $record, $argument_record. $is_set);
+                                    $value = Build::value($object, $flags, $options, $record, $argument_record, $is_set, $before, $after);
                                     $argument[] = $value;
                                 }
                             }
@@ -654,8 +743,21 @@ class Bold
                     $is_literal = true;
                     $variable_assign_next_tag = true;
                 }
+                elseif (
+                    array_key_exists('marker', $record) &&
+                    in_array(
+                        strtoupper($record['marker']['name']),
+                        [
+                            'RAX',
+                        ],
+                        true
+                    )
+                ) {
+                    $is_header = true;
+                    $variable_assign_next_tag = true;
+                }
                 elseif(array_key_exists('marker', $record)){
-                    $class_static = Bold::class_static($object);
+                    $class_static = Build::class_static($object);
                     if(
                         array_key_exists('value', $record['marker']) &&
                         array_key_exists('array', $record['marker']['value']) &&
@@ -667,8 +769,9 @@ class Bold
                         $record['marker']['value']['array'][1]['type'] === 'variable'
                         //add method
                     ){
+                        ddd('add before & after check');
                         // !!!! $this.boolean
-                        $value = Bold::value($object, $flags, $options, $record, $record['marker']['value'], $is_set);
+                        $value = Build::value($object, $flags, $options, $record, $record['marker']['value'], $is_set);
                         $uuid_variable = Core::uuid_variable();
                         if($is_block){
                             $block[] = $uuid_variable . ' =  ' . $value . ';';
@@ -698,7 +801,7 @@ class Bold
                         $name = $record['marker']['value']['array'][2]['method']['name'];
                         $argument = $record['marker']['value']['array'][2]['method']['argument'];
                         foreach($argument as $argument_nr => $argument_record){
-                            $value = Bold::value($object, $flags, $options, $record, $argument_record, $is_set);
+                            $value = Build::value($object, $flags, $options, $record, $argument_record, $is_set);
                             $argument[$argument_nr] = $value;
                         }
                         if($is_block){
@@ -714,8 +817,7 @@ class Bold
                                 $data[] = $record['marker']['name'] . $name . '();';
                             }
                         }
-                    }
-                    else {
+                    } else {
                         if(
                             array_key_exists('is_multiline', $record) &&
                             $record['is_multiline'] === true
@@ -873,7 +975,7 @@ class Bold
                 ){
                     throw new TemplateException(
                         $if_record['tag'] . PHP_EOL .
-                        'Unclosed while open tag "{{while()}}" on line: ' .
+                        'Unclosed if open tag "{{if()}}" on line: ' .
                         $if_record['line']['start']  .
                         ', column: ' .
                         $if_record['column'][$if_record['line']['start']]['start'] .
@@ -884,7 +986,7 @@ class Bold
                 } else {
                     throw new TemplateException(
                         $if_record['tag'] . PHP_EOL .
-                        'Unclosed while open tag "{{while()}}" on line: ' .
+                        'Unclosed if open tag "{{if()}}" on line: ' .
                         $if_record['line'] .
                         ', column: ' .
                         $if_record['column']['start'] .
@@ -894,6 +996,7 @@ class Bold
                 }
             }
         }
+        d($data);
         return $data;
     }
 
@@ -939,9 +1042,9 @@ class Bold
 
     public static function document_run(App $object, $flags, $options, $document = [], $data = []): array
     {
-        $build = new Bold($object, $flags, $options);
+        $build = new Build($object, $flags, $options);
         $indent = $object->config('package.raxon/parse.build.state.indent');
-        $document = Bold::document_run_throw($object, $flags, $options, $document);
+        $document = Build::document_run_throw($object, $flags, $options, $document);
         $document[] = str_repeat(' ', $indent * 4) . 'public function run(): mixed';
         $document[] = str_repeat(' ', $indent * 4) . '{';
         $indent++;
@@ -977,14 +1080,19 @@ class Bold
         $document[] = str_repeat(' ', $indent * 4) . 'throw new TemplateException(\'$options is not an object\');';
         $indent--;
         $document[] = str_repeat(' ', $indent * 4) . '}';
-        $document = Bold::format($build, $document, $data, $indent);
+        $document = Build::format($build, $document, $data, $indent);
+        $document[] = str_repeat(' ', $indent * 4) . 'if(ob_get_level() >= 1){';
+        $indent++;
         $document[] = str_repeat(' ', $indent * 4) . 'return ob_get_clean();';
+        $indent--;
+        $document[] = str_repeat(' ', $indent * 4) . '}';
+        $document[] = str_repeat(' ', $indent * 4) . 'return null;';
         $indent--;
         $document[] = str_repeat(' ', $indent * 4) . '}';
         return $document;
     }
 
-    public static function format(Bold $build, $document=[], $data=[], $indent=2): array
+    public static function format(Build $build, $document=[], $data=[], $indent=2): array
     {
         $format_options = (object) [
             'indent' => $indent,
@@ -1604,7 +1712,7 @@ class Bold
             $is_argument = false;
             if(array_key_exists('argument', $record['variable']['method'])){
                 foreach($record['variable']['method']['argument'] as $argument_nr => $argument){
-                    $argument = Bold::value($object, $flags, $options, $record, $argument, $is_set);
+                    $argument = Build::value($object, $flags, $options, $record, $argument, $is_set);
                     if($argument !== ''){
                         $method_value .= $argument . ',' . PHP_EOL;
                         $is_argument = true;
@@ -1621,13 +1729,13 @@ class Bold
             $previous_modifier = '$data->data(\'' . $variable_name . '\')' . $method_value;
             $modifier_value = $previous_modifier;
             foreach($record['variable']['modifier'] as $nr => $modifier){
-                $plugin = Bold::plugin($object, $flags, $options, $record, str_replace('.', '_', $modifier['name']));
+                $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $modifier['name']));
                 $modifier_value = $plugin . '(' . PHP_EOL;
                 $modifier_value .= $previous_modifier . ',' . PHP_EOL;
                 $is_argument = false;
                 if(array_key_exists('argument', $modifier)){
                     foreach($modifier['argument'] as $argument_nr => $argument){
-                        $argument = Bold::value($object, $flags, $options, $record, $argument, $is_set);
+                        $argument = Build::value($object, $flags, $options, $record, $argument, $is_set);
                         if($argument !== ''){
                             $modifier_value .= $argument . ',' . PHP_EOL;
                             $is_argument = true;
@@ -1671,13 +1779,17 @@ class Bold
                 $record['is_multiline'] === true
             ){
                 $data[] = 'if(' . $variable_uuid .' === null){';
+                $data[] = 'if(ob_get_level() >= 1){';
                 $data[] = 'ob_end_clean();';
+                $data[] = '}';
 //                $data[] = 'ddd($data);';
                 $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) . '" on line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '. You can use modifier "default" to surpress it \');';
                 $data[] = '}';
             } else {
                 $data[] = 'if(' . $variable_uuid .' === null){';
+                $data[] = 'if(ob_get_level() >= 1){';
                 $data[] = 'ob_end_clean();';
+                $data[] = '}';
 //                $data[] = 'ddd($data);';
                 $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) . '" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: '. $source . '. You can use modifier "default" to surpress it \');';
                 $data[] = '}';
@@ -1699,13 +1811,17 @@ class Bold
                 $record['is_multiline'] === true
             ){
                 $data[] = 'if(' . $variable_uuid .' === null){';
+                $data[] = 'if(ob_get_level() >= 1){';
                 $data[] = 'ob_end_clean();';
+                $data[] =' }';
 //                $data[] = 'ddd($data);';
                 $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) . '" on line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '. You can use modifier "default" to surpress it \');';
                 $data[] = '}';
             } else {
                 $data[] = 'if(' . $variable_uuid .' === null){';
+                $data[] = 'if(ob_get_level() >= 1){';
                 $data[] = 'ob_end_clean();';
+                $data[] =' }';
 //                $data[] = 'ddd($data);';
                 $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) . '" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: '. $source . '. You can use modifier "default" to surpress it \');';
                 $data[] = '}';
@@ -1739,7 +1855,7 @@ class Bold
                 $data = [];
                 $variable_uuid = Core::uuid_variable();
                 $data[] = '$test_' . substr($variable_uuid, 1) . '_record = $data->data();';
-                $data = Bold::array_notation_data($object, $flags, $options, $data, $record['variable']['array_notation']['array'], $variable_name, $variable_uuid);
+                $data = Build::array_notation_data($object, $flags, $options, $data, $record['variable']['array_notation']['array'], $variable_name, $variable_uuid);
 
                 /*
                 $data = [
@@ -1759,20 +1875,26 @@ class Bold
                 $record['is_multiline'] === true
             ){
                 $data[] = 'if(' . $variable_uuid .' === null){';
+                $data[] = 'if(ob_get_level() >= 1){';
                 $data[] = 'ob_end_clean();';
+                $data[] =  '}';
 //                $data[] = 'ddd($data);';
                 $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) .'" on line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '. You can use modifier "default" to surpress it \');';
                 $data[] = '}';
             } else {
                 $data[] = 'if(' . $variable_uuid .' === null){';
+                $data[] = 'if(ob_get_level() >= 1){';
                 $data[] = 'ob_end_clean();';
+                $data[] =  '}';
 //                $data[] = 'ddd($data);';
                 $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) .'" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '. You can use modifier "default" to surpress it \');';
                 $data[] = '}';
             }
             $data[] = 'if(!is_scalar('. $variable_uuid. ')){';
             $data[] = '//array or object';
-            $data[] = 'ob_get_clean();';
+            $data[] = 'if(ob_get_level() >= 1){';
+            $data[] = 'ob_end_clean();';
+            $data[] =  '}';
             $data[] = 'return ' . $variable_uuid .';';
             $data[] = '}';
             $data[] = 'elseif(is_bool('. $variable_uuid. ')){';
@@ -1870,7 +1992,7 @@ class Bold
             ) {
                 $name = $argument['array'][0]['value'];
                 $name .= $argument['array'][1]['value'];
-                $class_static = Bold::class_static($object);
+                $class_static = Build::class_static($object);
                 if(
                     in_array(
                         $name,
@@ -1892,12 +2014,11 @@ class Bold
                     }
 
                     foreach ($argument as $argument_nr => $argument_record) {
-                        $value = Bold::value($object, $flags, $options, $record, $argument_record, $is_set, $before,$after);
+                        $value = Build::value($object, $flags, $options, $record, $argument_record, $is_set, $before,$after);
                         $uuid_variable = Core::uuid_variable();
                         $before[] = $uuid_variable . ' = ' . $value . ';';
                         if($attributes){
                             //need use_trait (config)
-                            $before[] = 'dd(\'bold\');';
                             $before[] = '$this->validate(' . $uuid_variable . ', \'argument\', Core::object(\'' . $attributes_transfer . '\', Core::FINALIZE), ' . $argument_nr . ');';
                         }
                         $value = $uuid_variable;
@@ -1912,9 +2033,10 @@ class Bold
                             $after[$nr] = null;
                         }
                         */
-                        breakpoint('test reference, need class in reflection');
+
                         $after[$argument_nr] = null;
                     }
+                    ddd($before);
                 }
                 if (array_key_exists(0, $argument)) {
                     $argument = $name . '(' . implode(', ', $argument) . ')';
@@ -1955,7 +2077,7 @@ class Bold
                     //we have a single index
                     $argument = '\'' . str_replace(['\\','\''], ['\\\\', '\\\''], trim($argument['string'])) . '\'';
                 } else {
-                    $argument = Bold::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
+                    $argument = Build::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
                     $uuid_variable = Core::uuid_variable();
                     $before[] = $uuid_variable . ' = ' . $argument . ';';
                     if($attributes !== false){
@@ -1967,7 +2089,6 @@ class Bold
                             $attributes_transfer =  Core::object($attributes, Core::TRANSFER);
                         }
                         $attributes_transfer =  Core::object($attributes, Core::TRANSFER);
-                        $before[] = 'dd(\'bold\');';
                         $before[] = '$this->validate(' . $uuid_variable . ', \'argument\', Core::object(\'' . $attributes_transfer . '\', Core::FINALIZE), ' . $nr . ');';
                     }
                     $argument = $uuid_variable;
@@ -1998,7 +2119,7 @@ class Bold
      * @throws LocateException
      * @throws TemplateException
      */
-    public static function method(App $object, $flags, $options, $record=[]): bool | string
+    public static function method(App $object, $flags, $options, $record=[], &$before_if=[], &$after_if=[]): bool | string
     {
         if(!array_key_exists('method', $record)){
             return false;
@@ -2082,7 +2203,7 @@ class Bold
                     //invalid value
                     throw new TemplateException(str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.');
                 }
-                $foreach_from = Bold::value($object, $flags, $options, $record, $value, $is_set);
+                $foreach_from = Build::value($object, $flags, $options, $record, $value, $is_set);
                 $from = Core::uuid_variable();
                 $value = Core::uuid_variable();
                 $method_value = [];
@@ -2116,7 +2237,7 @@ class Bold
                 $method_value[] = 'while(';
                 $is_argument = false;
                 foreach($record['method']['argument'] as $nr => $argument){
-                    $value = Bold::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
+                    $value = Build::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
                     if(
                         !in_array(
                             $value,
@@ -2181,7 +2302,7 @@ class Bold
                 $argument_count = count($record['method']['argument']);
                 if($argument_count === 3){
                     foreach($record['method']['argument'] as $nr => $argument){
-                        $value = Bold::value($object, $flags, $options, $record, $argument, $is_set);
+                        $value = Build::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
                         if(mb_strtolower($value) === 'null'){
                             $value = '';
                         }
@@ -2245,10 +2366,11 @@ class Bold
                     $method_value[] = '} ' . PHP_EOL . 'elseif(';
                 } else {
                     $method_value[] = 'if(';
+                    //need current document line nr so we can inject the before
                 }
                 $is_argument = false;
                 foreach($record['method']['argument'] as $nr => $argument){
-                    $value = Bold::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
+                    $value = Build::value($object, $flags, $options, $record, $argument, $is_set, $before_if, $after_if);
                     if(
                         !in_array(
                             $value,
@@ -2351,7 +2473,7 @@ class Bold
                             );
                         }
                     } else {
-                        $value = Bold::value($object, $flags, $options, $record, $record['method']['argument'][0], $is_set);
+                        $value = Build::value($object, $flags, $options, $record, $record['method']['argument'][0], $is_set);
                         $is_argument = true;
                     }
                 }
@@ -2478,7 +2600,7 @@ class Bold
             case 'block.link':
             case 'block.function':
             case 'block.code':
-                $plugin = Bold::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
+                $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
 //                $method_value = '$this->' . $plugin . '(';
                 $object->config('package.raxon/parse.build.state.block.record', $record);
                 $object->config('package.raxon/parse.build.state.block.plugin', $plugin);
@@ -2493,7 +2615,7 @@ class Bold
                     if(array_key_exists(1, $explode)){
                         $class = '\\' . implode('\\', $explode);
                     } else {
-                        $class_static = Bold::class_static($object);
+                        $class_static = Build::class_static($object);
                         $class = $record['method']['class'];
                         if(
                             !in_array(
@@ -2509,12 +2631,12 @@ class Bold
                         $record['method']['call_type'] .
                         str_replace('.', '_', $record['method']['name']) .
                         '(';
-                    $method_value .= Bold::argument($object, $flags, $options, $record, $before, $after);
+                    $method_value .= Build::argument($object, $flags, $options, $record, $before, $after);
                     $method_value .= ');';
                 } else {
-                    $plugin = Bold::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
+                    $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
                     $method_value = $plugin . '(';
-                    $method_value .= Bold::argument($object, $flags, $options, $record, $before, $after);
+                    $method_value .= Build::argument($object, $flags, $options, $record, $before, $after);
                     $method_value .= ');';
                 }
                 break;
@@ -2602,6 +2724,7 @@ class Bold
             case 'block.script':
             case 'block.link':
             case 'block.function':
+            case 'script' :
                 //nothing, checks have been done already
                 break;
             default:
@@ -2622,11 +2745,15 @@ class Bold
                 $data = [];
                 $data[] = 'try {';
                 foreach($before as $before_record){
-                    $data[] = $before_record;
+                    if(!is_array($before_record)){
+                        $data[] = $before_record;
+                    }
                 }
                 $data[] = $uuid_variable . ' = ' . $method_value;
                 foreach($after as $after_record){
-                    $data[] = $after_record;
+                    if(!is_array($after_record)){
+                        $data[] = $after_record;
+                    }
                 }
                 $data[] = 'if(!is_scalar('. $uuid_variable. ')){';
                 $data[] = '//array or object';
@@ -2643,12 +2770,16 @@ class Bold
                     array_key_exists('is_multiline', $record) &&
                     $record['is_multiline'] === true
                 ){
+                    $data[] = 'if(ob_get_level() >= 1){';
                     $data[] = 'ob_get_clean();';
+                    $data[] = '}';
 //                    $data[] = 'breakpoint($exception);';
                     $data[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.' . '\' . PHP_EOL . (string) $exception);';
 //                    $data[] = 'throw new TemplateException(\'' . str_replace('\'', '\\\'', $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.' . '\');';
                 } else {
+                    $data[] = 'if(ob_get_level() >= 1){';
                     $data[] = 'ob_get_clean();';
+                    $data[] = '}';
 //                    $data[] = 'breakpoint($exception);';
                     $data[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.' . '\' . PHP_EOL . (string) $exception);';
 //                    $data[] = 'throw new TemplateException(\'' . str_replace('\'', '\\\'', $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.' . '\');';
@@ -2737,7 +2868,7 @@ class Bold
             $uuid_methods = Core::uuid_variable();
             $argument = $record['variable']['value']['array'][0]['method']['argument'] ?? [];
             foreach($argument as $argument_nr => $argument_record){
-                $value = Bold::value($object, $flags, $options, $record, $argument_record, $is_set);
+                $value = Build::value($object, $flags, $options, $record, $argument_record, $is_set);
                 $argument[$argument_nr] = $value;
             }
             $use_class = $object->config('package.raxon/parse.build.use.class');
@@ -2767,7 +2898,9 @@ class Bold
 //            $before[] = 'd( ' . $uuid_methods . ');';
             $before[] = 'if(!in_array(\'' . $function . '\', ' . $uuid_methods. ', true)){';
             $before[] = 'sort(' . $uuid_methods .', SORT_NATURAL);';
+            $before[] = 'if(ob_get_level() >= 1){';
             $before[] = 'ob_get_clean();';
+            $before[] = '}';
             $before[] = 'throw new TemplateException(\'Static method "' . $function . '" not found in class: ' . $class_name . '\' . PHP_EOL . \'Available static methods:\' . PHP_EOL . implode(PHP_EOL, ' . $uuid_methods . ') . PHP_EOL);';
             $before[] = '}';
             $before[] = '}';
@@ -2776,10 +2909,14 @@ class Bold
                 array_key_exists('is_multiline', $record) &&
                 $record['is_multiline'] === true
             ){
+                $before[] = 'if(ob_get_level() >= 1){';
                 $before[] = 'ob_get_clean();';
+                $before[] = '}';
                 $before[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: ' . $source . '.\', 0, $exception);';
             } else {
+                $before[] = 'if(ob_get_level() >= 1){';
                 $before[] = 'ob_get_clean();';
+                $before[] = '}';
                 $before[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.\', 0, $exception);';
             }
             $before[] = '}';
@@ -2816,7 +2953,7 @@ class Bold
             $uuid_methods = Core::uuid_variable();
             $argument = $record['variable']['value']['array'][1]['method']['argument'];
             foreach($argument as $argument_nr => $argument_record){
-                $value = Bold::value($object, $flags, $options, $record, $argument_record, $is_set);
+                $value = Build::value($object, $flags, $options, $record, $argument_record, $is_set);
                 $argument[$argument_nr] = $value;
             }
             $before[] = 'try {';
@@ -2824,7 +2961,9 @@ class Bold
             $before[] = $uuid_methods . ' = get_class_methods(' . $uuid . ');';
             $before[] = 'if(!in_array(\'' . $class_method . '\', ' . $uuid_methods. ', true)){';
             $before[] = 'sort(' . $uuid_methods .', SORT_NATURAL);';
+            $before[] = 'if(ob_get_level() >= 1){';
             $before[] = 'ob_get_clean();';
+            $before[] = '}';
             $before[] = 'throw new TemplateException(\'Method "' . $class_method . '" not found in class: ' . $class_raw . '\' . PHP_EOL . \'Available methods:\' . PHP_EOL . implode(PHP_EOL, ' . $uuid_methods . ') . PHP_EOL);';
             $before[] = '}';
             $before[] = '}';
@@ -2833,10 +2972,14 @@ class Bold
                 array_key_exists('is_multiline', $record) &&
                 $record['is_multiline'] === true
             ){
+                $before[] = 'if(ob_get_level() >= 1){';
                 $before[] = 'ob_get_clean();';
+                $before[] = '}';
                 $before[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: ' . $source . '.\', 0, $exception);';
             } else {
+                $before[] = 'if(ob_get_level() >= 1){';
                 $before[] = 'ob_get_clean();';
+                $before[] = '}';
                 $before[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag'])  . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.\', 0, $exception);';
             }
             $before[] = '}';
@@ -2867,7 +3010,7 @@ class Bold
             //static method call
             $name = $record['variable']['value']['array'][0]['value'];
             $name .= $record['variable']['value']['array'][1]['value'];
-            $class_static = Bold::class_static($object);
+            $class_static = Build::class_static($object);
             if(
                 in_array(
                     $name,
@@ -2878,7 +3021,7 @@ class Bold
                 $name .= $record['variable']['value']['array'][2]['method']['name'];
                 $argument = $record['variable']['value']['array'][2]['method']['argument'];
                 foreach($argument as $argument_nr => $argument_record){
-                    $value = Bold::value($object, $flags, $options, $record, $argument_record, $is_set);
+                    $value = Build::value($object, $flags, $options, $record, $argument_record, $is_set, $before, $after);
                     $argument[$argument_nr] = $value;
                 }
                 if(array_key_exists(0, $argument)){
@@ -2914,20 +3057,20 @@ class Bold
                 }
             }
         } else {
-            $value = Bold::value($object, $flags, $options, $record, $record['variable']['value'],$is_set, $before_value, $after_value);
+            $value = Build::value($object, $flags, $options, $record, $record['variable']['value'],$is_set, $before, $after);
         }
         if(array_key_exists('modifier', $record['variable'])){
             d($value);
             ddd('what happens with value');
             $previous_modifier = '$data->data(\'' . $record['variable']['name'] . '\')';
             foreach($record['variable']['modifier'] as $nr => $modifier){
-                $plugin = Bold::plugin($object, $flags, $options, $record, str_replace('.', '_', $modifier['name']));
+                $plugin = Build::plugin($object, $flags, $options, $record, str_replace('.', '_', $modifier['name']));
                 $modifier_value = $plugin . '(';
                 $modifier_value .= $previous_modifier .', ';
                 if(array_key_exists('argument', $modifier)){
                     $is_argument = false;
                     foreach($modifier['argument'] as $argument_nr => $argument){
-                        $argument = Bold::value($object, $flags, $options, $record, $argument, $is_set);
+                        $argument = Build::value($object, $flags, $options, $record, $argument, $is_set);
                         if($argument !== ''){
                             $modifier_value .= $argument . ', ';
                             $is_argument = true;
@@ -2973,10 +3116,14 @@ class Bold
                             array_key_exists('is_multiline', $record) &&
                             $record['is_multiline'] === true
                         ){
+                            $result[] = 'if(ob_get_level() >= 1){';
                             $result[] = 'ob_get_clean();';
+                            $result[] = '}';
                             $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '\', 0, $exception);';
                         } else {
+                            $result[] = 'if(ob_get_level() >= 1){';
                             $result[] = 'ob_get_clean();';
+                            $result[] = '}';
                             $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\', 0, $exception);';
                         }
                         $result[] = '}';
@@ -3005,10 +3152,14 @@ class Bold
                             array_key_exists('is_multiline', $record) &&
                             $record['is_multiline'] === true
                         ){
+                            $result[] = 'if(ob_get_level() >= 1){';
                             $result[] = 'ob_get_clean();';
+                            $result[] = '}';
                             $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '\', 0, $exception);';
                         } else {
+                            $result[] = 'if(ob_get_level() >= 1){';
                             $result[] = 'ob_get_clean();';
+                            $result[] = '}';
                             $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\', 0, $exception);';
                         }
                         $result[] = '}';
@@ -3037,10 +3188,14 @@ class Bold
                             array_key_exists('is_multiline', $record) &&
                             $record['is_multiline'] === true
                         ){
+                            $result[] = 'if(ob_get_level() >= 1){';
                             $result[] = 'ob_get_clean();';
+                            $result[] = '}';
                             $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '\', 0, $exception);';
                         } else {
+                            $result[] = 'if(ob_get_level() >= 1){';
                             $result[] = 'ob_get_clean();';
+                            $result[] = '}';
                             $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\', 0, $exception);';
                         }
                         $result[] = '}';
@@ -3069,10 +3224,14 @@ class Bold
                             array_key_exists('is_multiline', $record) &&
                             $record['is_multiline'] === true
                         ){
+                            $result[] = 'if(ob_get_level() >= 1){';
                             $result[] = 'ob_get_clean();';
+                            $result[] = '}';
                             $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '\', 0, $exception);';
                         } else {
+                            $result[] = 'if(ob_get_level() >= 1){';
                             $result[] = 'ob_get_clean();';
+                            $result[] = '}';
                             $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\', 0, $exception);';
                         }
                         $result[] = '}';
@@ -3101,10 +3260,14 @@ class Bold
                             array_key_exists('is_multiline', $record) &&
                             $record['is_multiline'] === true
                         ){
+                            $result[] = 'if(ob_get_level() >= 1){';
                             $result[] = 'ob_get_clean();';
+                            $result[] = '}';
                             $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '\', 0, $exception);';
                         } else {
+                            $result[] = 'if(ob_get_level() >= 1){';
                             $result[] = 'ob_get_clean();';
+                            $result[] = '}';
                             $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\', 0, $exception);';
                         }
                         $result[] = '}';
@@ -3189,7 +3352,7 @@ class Bold
 
     public static function align_content(App $object, $flags, $options, $input, $indent): string
     {
-        $list = Bold::string_array($input);
+        $list = Build::string_array($input);
         foreach($list as $nr => $line){
             $list[$nr] = str_repeat(' ', $indent * 4) . $line;
         }
@@ -3315,8 +3478,8 @@ class Bold
         $source = $options->source ?? '';
         $value = '';
         $skip = 0;
-        $input = Bold::value_single_quote($object, $flags, $options, $input);
-        $input = Bold::value_set($object, $flags, $options, $input, $is_set);
+        $input = Build::value_single_quote($object, $flags, $options, $input);
+        $input = Build::value_set($object, $flags, $options, $input, $is_set);
         $is_double_quote = false;
         $double_quote_previous = false;
         $is_cast = false;
@@ -3547,7 +3710,7 @@ class Bold
                     ){
                         switch($record['value']){
                             case '.=':
-                                $assign = Bold::value_right(
+                                $assign = Build::value_right(
                                     $object,
                                     $flags,
                                     $options,
@@ -3556,11 +3719,11 @@ class Bold
                                     $next,
                                     $skip
                                 );
-                                $assign = Bold::value($object, $flags, $options, $tag, $assign, $is_set);
+                                $assign = Build::value($object, $flags, $options, $tag, $assign, $is_set);
                                 $value .= '$data->set(\'' . $previous['name'] . '\', value_concatenate($data->data(\'' . $previous['name'] .'\', ' .  $assign . ')';
                                 break;
                             case '+=':
-                                $assign = Bold::value_right(
+                                $assign = Build::value_right(
                                     $object,
                                     $flags,
                                     $options,
@@ -3569,11 +3732,11 @@ class Bold
                                     $next,
                                     $skip
                                 );
-                                $assign = Bold::value($object, $flags, $options, $tag, $assign, $is_set);
+                                $assign = Build::value($object, $flags, $options, $tag, $assign, $is_set);
                                 $value .= '$data->set(\'' . $previous['name'] . '\', value_plus($data->data(\'' . $previous['name'] .'\', ' .  $assign . ')';
                                 break;
                             case '-=':
-                                $assign = Bold::value_right(
+                                $assign = Build::value_right(
                                     $object,
                                     $flags,
                                     $options,
@@ -3582,11 +3745,11 @@ class Bold
                                     $next,
                                     $skip
                                 );
-                                $assign = Bold::value($object, $flags, $options, $tag, $assign, $is_set);
+                                $assign = Build::value($object, $flags, $options, $tag, $assign, $is_set);
                                 $value .= '$data->set(\'' . $previous['name'] . '\', value_minus($data->data(\'' . $previous['name'] .'\', ' .  $assign . ')';
                                 break;
                             case '*=':
-                                $assign = Bold::value_right(
+                                $assign = Build::value_right(
                                     $object,
                                     $flags,
                                     $options,
@@ -3595,11 +3758,11 @@ class Bold
                                     $next,
                                     $skip
                                 );
-                                $assign = Bold::value($object, $flags, $options, $tag, $assign, $is_set);
+                                $assign = Build::value($object, $flags, $options, $tag, $assign, $is_set);
                                 $value .= '$data->set(\'' . $previous['name'] . '\', value_multiply($data->data(\'' . $previous['name'] .'\', ' .  $assign . ')';
                                 break;
                             case '=':
-                                $assign = Bold::value_right(
+                                $assign = Build::value_right(
                                     $object,
                                     $flags,
                                     $options,
@@ -3608,7 +3771,7 @@ class Bold
                                     $next,
                                     $skip
                                 );
-                                $assign = Bold::value($object, $flags, $options, $tag, $assign, $is_set);
+                                $assign = Build::value($object, $flags, $options, $tag, $assign, $is_set);
                                 $value .= '$data->set(\'' . $previous['name'] . '\', ' .  $assign . ')';
                                 break;
                             case '++' :
@@ -3692,7 +3855,7 @@ class Bold
                         true
                     )
                 ){
-                    $right = Bold::value_right(
+                    $right = Build::value_right(
                         $object,
                         $flags,
                         $options,
@@ -3701,9 +3864,9 @@ class Bold
                         $next,
                         $skip
                     );
-                    $right = Bold::value($object, $flags, $options, $tag, $right, $is_set);
+                    $right = Build::value($object, $flags, $options, $tag, $right, $is_set, $before, $after);
                     if(array_key_exists('value', $record)){
-                        $value = Bold::value_calculate($object, $flags, $options, $record['value'], $value, $right);
+                        $value = Build::value_calculate($object, $flags, $options, $record['value'], $value, $right);
                     }
                 }
                 else {
@@ -3772,9 +3935,9 @@ class Bold
                 array_key_exists('type', $record) &&
                 $record['type'] === 'array'
             ){
-                $array_value = Bold::value($object, $flags, $options, $tag, $record, $is_set);
+                $array_value = Build::value($object, $flags, $options, $tag, $record, $is_set);
 //                d($array_value);
-                $data = Bold::string_array($array_value);
+                $data = Build::string_array($array_value);
                 foreach($data as $nr => $line){
                     $char = trim($line);
                     if($char === '['){
@@ -3801,7 +3964,7 @@ class Bold
                 $record['type'] === 'set'
             ){
                 $set_value = '$this->value_set(' . PHP_EOL;
-                $set_value .= Bold::value($object, $flags, $options, $tag, $record, $is_set) . PHP_EOL;
+                $set_value .= Build::value($object, $flags, $options, $tag, $record, $is_set) . PHP_EOL;
                 $set_value .= ')';
                 $value .= $set_value;
             }
@@ -3817,7 +3980,7 @@ class Bold
                     if(array_key_exists(1, $explode)){
                         $class = '\\' . implode('\\', $explode);
                     } else {
-                        $class_static = Bold::class_static($object);
+                        $class_static = Build::class_static($object);
                         $class = $record['method']['class'];
                         if(
                             !in_array(
@@ -3833,12 +3996,12 @@ class Bold
                         $record['method']['call_type'] .
                         str_replace('.', '_', $record['method']['name']) .
                         '(';
-                    $method_value .= Bold::argument($object, $flags, $options, $record, $before, $after);
+                    $method_value .= Build::argument($object, $flags, $options, $record, $before, $after);
                     $method_value .= ')';
                 } else {
-                    $plugin = Bold::plugin($object, $flags, $options, $tag, str_replace('.', '_', $record['method']['name']));
+                    $plugin = Build::plugin($object, $flags, $options, $tag, str_replace('.', '_', $record['method']['name']));
                     $method_value = $plugin . '(' . PHP_EOL;
-                    $method_value .= Bold::argument($object, $flags, $options, $record, $before, $after);
+                    $method_value .= Build::argument($object, $flags, $options, $record, $before, $after);
                     $method_value .= ')';
                 }
                 $value .= $method_value;
@@ -3853,7 +4016,7 @@ class Bold
                     //add method and arguments
 
                     foreach($record['modifier'] as $modifier_nr => $modifier){
-                        $plugin = Bold::plugin($object, $flags, $options, $tag, str_replace('.', '_', $modifier['name']));
+                        $plugin = Build::plugin($object, $flags, $options, $tag, str_replace('.', '_', $modifier['name']));
                         if($is_single_line){
                             $modifier_value = $plugin . '( ' ;
                             $modifier_value .= $previous_modifier . ', ';
@@ -3865,13 +4028,13 @@ class Bold
                         if(array_key_exists('argument', $modifier)){
                             foreach($modifier['argument'] as $argument_nr => $argument){
                                 if($is_single_line){
-                                    $argument = Bold::value($object, $flags, $options, $tag, $argument, $is_set);
+                                    $argument = Build::value($object, $flags, $options, $tag, $argument, $is_set, $before, $after);
                                     if($argument !== ''){
                                         $modifier_value .= $argument . ', ';
                                         $is_argument = true;
                                     }
                                 } else {
-                                    $argument = Bold::value($object, $flags, $options, $tag, $argument, $is_set);
+                                    $argument = Build::value($object, $flags, $options, $tag, $argument, $is_set, $before, $after);
                                     if($argument !== '') {
                                         $modifier_value .= $argument . ', ';
                                         $is_argument = true;
@@ -3907,7 +4070,7 @@ class Bold
                     ){
                         $is_argument = false;
                         foreach($record['method']['argument'] as $argument_nr => $argument){
-                            $argument = Bold::value($object, $flags, $options, $tag, $argument, $is_set);
+                            $argument = Build::value($object, $flags, $options, $tag, $argument, $is_set, $before, $after);
                             if($argument !== ''){
                                 $method_value .= $argument . ', ';
                                 $is_argument = true;
@@ -3935,23 +4098,23 @@ class Bold
                     //assign
                     switch($record['variable']['operator']){
                         case '=':
-                            $variable_value = Bold::value($object, $flags, $options, $tag, $record['variable']['value'], $is_set);
+                            $variable_value = Build::value($object, $flags, $options, $tag, $record['variable']['value'], $is_set);
                             $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' . $variable_value . ')';
                             break;
                         case '.=':
-                            $variable_value = Bold::value($object, $flags, $options, $tag, $record['variable']['value'], $is_set);
+                            $variable_value = Build::value($object, $flags, $options, $tag, $record['variable']['value'], $is_set);
                             $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' .  '$this->value_concatenate($data->data(\'' . $record['variable']['name'] . '\'), ' .  $variable_value . '))';
                             break;
                         case '+=':
-                            $variable_value = Bold::value($object, $flags, $options, $tag, $record['variable']['value'], $is_set);
+                            $variable_value = Build::value($object, $flags, $options, $tag, $record['variable']['value'], $is_set);
                             $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' .  '$this->value_plus($data->data(\'' . $record['variable']['name'] . '\'), ' .  $variable_value . '))';
                             break;
                         case '-=':
-                            $variable_value = Bold::value($object, $flags, $options, $tag, $record['variable']['value'], $is_set);
+                            $variable_value = Build::value($object, $flags, $options, $tag, $record['variable']['value'], $is_set);
                             $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' .  '$this->value_minus($data->data(\'' . $record['variable']['name'] . '\'), ' .  $variable_value . '))';
                             break;
                         case '*=':
-                            $variable_value = Bold::value($object, $flags, $options, $tag, $record['variable']['value'], $is_set);
+                            $variable_value = Build::value($object, $flags, $options, $tag, $record['variable']['value'], $is_set);
                             $value .= '$data->set(\'' . $record['variable']['name'] . '\', ' .  '$this->value_multiply($data->data(\'' . $record['variable']['name'] . '\'), ' .  $variable_value . '))';
                             break;
                         case '++':
@@ -3975,7 +4138,7 @@ class Bold
                             'attribute' => $record['name']
                         ];
                         foreach($record['modifier'] as $modifier_nr => $modifier){
-                            $plugin = Bold::plugin($object, $flags, $options, $tag, str_replace('.', '_', $modifier['name']));
+                            $plugin = Build::plugin($object, $flags, $options, $tag, str_replace('.', '_', $modifier['name']));
                             if($is_single_line){
                                 $modifier_value = $plugin . '(';
                                 $modifier_value .= $previous_modifier . ', ';
@@ -3987,13 +4150,13 @@ class Bold
                             if(array_key_exists('argument', $modifier)){
                                 foreach($modifier['argument'] as $argument_nr => $argument){
                                     if($is_single_line){
-                                        $argument = Bold::value($object, $flags, $options, $tag, $argument, $is_set);
+                                        $argument = Build::value($object, $flags, $options, $tag, $argument, $is_set, $before, $after);
                                         if($argument !== ''){
                                             $modifier_value .= $argument . ', ';
                                             $is_argument = true;
                                         }
                                     } else {
-                                        $argument = Bold::value($object, $flags, $options, $tag, $argument, $is_set);
+                                        $argument = Build::value($object, $flags, $options, $tag, $argument, $is_set, $before, $after);
                                         if($argument !== '') {
                                             $modifier_value .= $argument . ', ';
                                             $is_argument = true;
@@ -4016,10 +4179,53 @@ class Bold
                         $value .= $modifier_value;
                         $is_single_line = false;
                     } else {
-                        $value .= '$data->data(\'' . $record['name'] . '\')';
-                        $after[] = [
-                            'attribute' => $record['name']
-                        ];
+                        if(
+                            array_key_exists('array_notation', $record) && !empty($record['array_notation']) &&
+                            array_key_exists('array', $record['array_notation']) && !empty($record['array_notation']['array']) &&
+                            array_key_exists('array', $record['array_notation']['array'][0]) && !empty($record['array_notation']['array'][0]['array'])
+                        ){
+                            $uuid_variable = Core::uuid_variable();
+                            $before[] =  $uuid_variable . ' = $data->data(\'' . $record['name'] . '\');';
+                            $before[] = 'if(is_array(' . $uuid_variable . ')){';
+                            $bracket = 0;
+                            $collect = [];
+                            $collect['array'] = [];
+                            foreach($record['array_notation']['array'][0]['array'] as $array_notation_nr => $array_notation){
+                                if(
+                                    array_key_exists('value', $array_notation) &&
+                                    $array_notation['value'] == '['
+                                ){
+                                    $bracket++;
+                                    continue;
+                                    //need $data[12] for array and $data->data('name') for object
+                                }
+                                if(
+                                    array_key_exists('value', $array_notation) &&
+                                    $array_notation['value'] == ']'
+                                ){
+                                    $bracket--;
+                                    if($bracket === 0){
+                                        $collect = Build::value($object, $flags, $options, $tag, $collect, $is_set, $before, $after);
+                                        $before[] = $uuid_variable . ' = ' . $uuid_variable . '[' . $collect .  '] ?? null;';
+                                        $collect = [];
+                                    }
+                                    continue;
+                                }
+                                if($bracket >= 1){
+                                    $collect['array'][] = $array_notation;
+                                }
+                            }
+                            $before[] = '}';
+                            $value = $uuid_variable;
+                            $after[] = [
+                                'attribute' => $uuid_variable
+                            ];
+                        } else {
+                            $value .= '$data->data(\'' . $record['name'] . '\')';
+                            $after[] = [
+                                'attribute' => $record['name']
+                            ];
+                        }
                     }
                 }
             }
@@ -4037,7 +4243,7 @@ class Bold
             ){
                 //nothing
             } else {
-                $right = Bold::value_right(
+                $right = Build::value_right(
                     $object,
                     $flags,
                     $options,
@@ -4046,9 +4252,9 @@ class Bold
                     $next,
                     $skip
                 );
-                $right = Bold::value($object, $flags, $options, $tag, $right, $is_set);
+                $right = Build::value($object, $flags, $options, $tag, $right, $is_set, $before, $after);
                 if(array_key_exists('value', $record)){
-                    $value = Bold::value_calculate($object, $flags, $options, $record['value'], $value, $right);
+                    $value = Build::value_calculate($object, $flags, $options, $record['value'], $value, $right);
                 }
             }
         }

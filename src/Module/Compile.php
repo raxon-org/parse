@@ -87,7 +87,7 @@ class Compile
                         $document = Compile::document_construct($object, $flags, $options, $document);
                         $document[] = '';
 //        d($data);
-//                        $document = Compile::document_run($object, $flags, $options, $document, $data);
+                        $document = Compile::document_run($object, $flags, $options, $document, $collection);
                         ddd($document);
                         $document[] = '}';
                         d($script_method);

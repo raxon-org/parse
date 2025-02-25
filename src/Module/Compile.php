@@ -109,8 +109,7 @@ class Compile
                         ob_start();
                         $instance = new $class($object, $parse, $data_class, $flags, $options);
                         d(ob_get_level());
-                        $instance->run();
-                        $content = ob_get_clean();
+                        $content = $instance->run();
                         ddd($content);
                         $script_method = false;
                     }

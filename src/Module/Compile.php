@@ -61,7 +61,7 @@ class Compile
                 if(array_key_exists('method', $record) && array_key_exists('name', $record['method'])){
                     $method = $record['method']['name'] . '(';
                     foreach($record['method']['argument'] as $argument_nr => $argument){
-                        $method_value .= Compile::argument($object, $flags, $options, $record);
+                        $method .= Compile::argument($object, $flags, $options, $record);
                     }
                     $method .= ')';
                     ddd($method);

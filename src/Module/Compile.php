@@ -916,7 +916,7 @@ class Compile
         $document = Compile::format($build, $document, $data, $indent);
         $document[] = str_repeat(' ', $indent * 4) . 'if(ob_get_level() >= 1){';
         $indent++;
-        $document[] = str_repeat(' ', $indent * 4) . 'return ob_get_content();';
+        $document[] = str_repeat(' ', $indent * 4) . 'return ob_get_contents();';
         $indent--;
         $document[] = str_repeat(' ', $indent * 4) . '}';
         $document[] = str_repeat(' ', $indent * 4) . 'return null;';
@@ -968,7 +968,7 @@ class Compile
         $document = Compile::format($build, $document, $data, $indent);
         $document[] = str_repeat(' ', $indent * 4) . 'if(ob_get_level() >= 1){';
         $indent++;
-        $document[] = str_repeat(' ', $indent * 4) . 'return ob_get_content();';
+        $document[] = str_repeat(' ', $indent * 4) . 'return ob_get_contents();';
         $indent--;
         $document[] = str_repeat(' ', $indent * 4) . '}';
         $document[] = str_repeat(' ', $indent * 4) . 'return null;';

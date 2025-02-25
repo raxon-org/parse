@@ -25,7 +25,7 @@ trait View {
     /**
      * @throws Exception
      */
-    protected function view(string $template, mixed $data=null): mixed
+    protected function view(mixed $template, mixed $data=null): mixed
     {
         $object = $this->object();
         $url = Controller::locate($object, $template);

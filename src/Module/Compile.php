@@ -59,6 +59,7 @@ class Compile
     public static function data_tag(App $object, $flags, $options , $tags=[]): array
     {
         $data = [];
+        $is_script = false;
         foreach($tags as $row_nr => $list){
             foreach($list as $nr => $record){
                 if($is_script){

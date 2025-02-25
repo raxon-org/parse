@@ -105,7 +105,8 @@ class Compile
                         require_once $url_php;
                         $data_class = new Data($object->data());
                         $parse = new Parse($object, $data_class, $flags, $options);
-                        $instance = new $options->class($object, $parse, $data_class, $flags, $options);
+                        $class = 'Package\\Raxon\\Parse\\' . $options->class;
+                        $instance = new $class($object, $parse, $data_class, $flags, $options);
                         $content = $instance->run();
                         ddd($content);
                         $script_method = false;

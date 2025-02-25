@@ -34,6 +34,7 @@ class Compile
         $options->class = $options->class ?? 'Main';
         Compile::document_default($object, $flags, $options);
 //        $data = Compile::document_tag($object, $flags, $options, $tags);
+        $data = [];
         $document = Compile::document_header($object, $flags, $options);
         $document = Compile::document_use($object, $flags, $options, $document, 'package.raxon/parse.build.use.class');
         $document[] = '';

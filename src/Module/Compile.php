@@ -132,7 +132,7 @@ class Compile
                     } else {
                         $method = Compile::plugin($object, $flags, $options, $record, $record['method']['name']) . '(';
                         $method .= Compile::argument($object, $flags, $options, $record, $before, $after);
-                        $method .= ')';
+                        $method .= ');';
                         foreach($before as $line){
                             $lines[] = $line;
                         }

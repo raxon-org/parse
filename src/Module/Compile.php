@@ -966,7 +966,6 @@ class Compile
         $indent--;
         $document[] = str_repeat(' ', $indent * 4) . '}';
         $document = Compile::format($build, $document, $data, $indent);
-        $document[] = 'dd(ob_get_level());';
         $document[] = str_repeat(' ', $indent * 4) . 'if(ob_get_level() >= 1){';
         $indent++;
         $document[] = str_repeat(' ', $indent * 4) . 'return ob_get_content();';

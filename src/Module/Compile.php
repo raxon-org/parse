@@ -232,6 +232,7 @@ class Compile
                     }
                 }
                 $method = Compile::method($object, $flags, $options, $record, $before_if, $after_if);
+                d($method);
                 if($method){
                     if(
                         array_key_exists('method', $record) &&

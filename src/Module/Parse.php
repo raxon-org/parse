@@ -477,7 +477,9 @@ class Parse
             File::touch($url_php, $mtime);
         }
         if($url_php){
-//            d($url_php);
+            if(property_exists($options, 'info')){
+                echo $url_php . PHP_EOL;
+            }
             $pre_require = microtime(true);
             require_once $url_php;
             $post_require = microtime(true);

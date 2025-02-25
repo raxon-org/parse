@@ -98,7 +98,7 @@ class Compile
                         }
                         continue;
                     } else {
-                        $method = Compile::plugin($object, $flags, $options, $record, $record['method']['name']);
+                        $method = Compile::plugin($object, $flags, $options, $record, $record['method']['name']) . '(';
                         $method .= Compile::argument($object, $flags, $options, $record, $before, $after);
                         $method .= ')';
                         $line = $method;

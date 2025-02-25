@@ -91,7 +91,7 @@ class Compile
                         $document = Compile::document_construct($object, $flags, $options, $document);
                         $document[] = '';
 //        d($data);
-                        $document = Compile::document_run($object, $flags, $options, $document, $collection);
+                        $document = Compile::document_run_block($object, $flags, $options, $document, $collection);
                         $document[] = '}';
                         $dir = $object->config('ramdisk.url') .
                             $object->config(Config::POSIX_ID) .
@@ -107,6 +107,7 @@ class Compile
                         $parse = new Parse($object, $data_class, $flags, $options);
                         $class = 'Package\\Raxon\\Parse\\' . $options->class;
                         $instance = new $class($object, $parse, $data_class, $flags, $options);
+                        d(ob_get_level());
                         $content = $instance->run();
                         ddd($content);
                         $script_method = false;
@@ -874,6 +875,58 @@ class Compile
     }
 
     public static function document_run(App $object, $flags, $options, $document = [], $data = []): array
+    {
+        $build = new Compile($object, $flags, $options);
+        $indent = $object->config('package.raxon/parse.build.state.indent');
+        $document = Compile::document_run_throw($object, $flags, $options, $document);
+        $document[] = str_repeat(' ', $indent * 4) . 'public function run(): mixed';
+        $document[] = str_repeat(' ', $indent * 4) . '{';
+        $indent++;
+        $document[] = str_repeat(' ', $indent * 4) . 'ob_start();';
+        $document[] = str_repeat(' ', $indent * 4) . '$object = $this->object();';
+        $document[] = str_repeat(' ', $indent * 4) . '$parse = $this->parse();';
+        $document[] = str_repeat(' ', $indent * 4) . '$data = $this->data();';
+        $document[] = str_repeat(' ', $indent * 4) . '$flags = $this->parse_flags();';
+        $document[] = str_repeat(' ', $indent * 4) . '$options = $this->parse_options();';
+        $document[] = str_repeat(' ', $indent * 4) . '$options->debug = true;';
+        $document[] = str_repeat(' ', $indent * 4) . 'if (!($object instanceof App)) {';
+        $indent++;
+        $document[] = str_repeat(' ', $indent * 4) . 'throw new TemplateException(\'$object is not an instance of Raxon\App\');';
+        $indent--;
+        $document[] = str_repeat(' ', $indent * 4) . '}';
+        $document[] = str_repeat(' ', $indent * 4) . 'if (!($parse instanceof Parse)) {';
+        $indent++;
+        $document[] = str_repeat(' ', $indent * 4) . 'throw new TemplateException(\'$parse is not an instance of Package\Raxon\Parse\Service\Parse\');';
+        $indent--;
+        $document[] = str_repeat(' ', $indent * 4) . '}';
+        $document[] = str_repeat(' ', $indent * 4) . 'if (!($data instanceof Data)) {';
+        $indent++;
+        $document[] = str_repeat(' ', $indent * 4) . 'throw new TemplateException(\'$data is not an instance of Raxon\Module\Data\');';
+        $indent--;
+        $document[] = str_repeat(' ', $indent * 4) . '}';
+        $document[] = str_repeat(' ', $indent * 4) . 'if (!is_object($flags)) {';
+        $indent++;
+        $document[] = str_repeat(' ', $indent * 4) . 'throw new TemplateException(\'$flags is not an object\');';
+        $indent--;
+        $document[] = str_repeat(' ', $indent * 4) . '}';
+        $document[] = str_repeat(' ', $indent * 4) . 'if (!is_object($options)) {';
+        $indent++;
+        $document[] = str_repeat(' ', $indent * 4) . 'throw new TemplateException(\'$options is not an object\');';
+        $indent--;
+        $document[] = str_repeat(' ', $indent * 4) . '}';
+        $document = Compile::format($build, $document, $data, $indent);
+        $document[] = str_repeat(' ', $indent * 4) . 'if(ob_get_level() >= 1){';
+        $indent++;
+        $document[] = str_repeat(' ', $indent * 4) . 'return ob_get_clean();';
+        $indent--;
+        $document[] = str_repeat(' ', $indent * 4) . '}';
+        $document[] = str_repeat(' ', $indent * 4) . 'return null;';
+        $indent--;
+        $document[] = str_repeat(' ', $indent * 4) . '}';
+        return $document;
+    }
+
+    public static function document_run_block(App $object, $flags, $options, $document = [], $data = []): array
     {
         $build = new Compile($object, $flags, $options);
         $indent = $object->config('package.raxon/parse.build.state.indent');

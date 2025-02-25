@@ -230,9 +230,6 @@ class Build
                     }
                 }
                 $method = Build::method($object, $flags, $options, $record, $before_if, $after_if);
-
-                /*
-
                 if($method){
                     if(
                         array_key_exists('method', $record) &&
@@ -362,9 +359,6 @@ class Build
                     }
                     $variable_assign_next_tag = true;
                 }
-                */
-                d($record);
-//                d($tags);
                 if(
                     array_key_exists('marker', $record) &&
                     array_key_exists('is_close', $record['marker']) &&
@@ -375,7 +369,6 @@ class Build
                         $ltrim--;
                         $object->config('package.raxon/parse.build.state.ltrim', $ltrim);
                     }
-                    d($record['marker']['name']);
                     //need to count them by name
                     if(array_key_exists('name', $record['marker'])) {
                         if (
@@ -660,7 +653,6 @@ class Build
                                 true
                             )
                         ) {
-                            ddd($block);
                             $data[] = 'ob_start();';
                             foreach($block as $block_nr => $block_record){
                                 $data[] = $block_record;
@@ -1002,7 +994,6 @@ class Build
                 }
             }
         }
-        d($data);
         return $data;
     }
 

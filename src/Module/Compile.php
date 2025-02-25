@@ -64,7 +64,7 @@ class Compile
                         $method .= Compile::argument($object, $flags, $options, $record);
                     }
                     $method .= ')';
-                    ddd($method);
+                    d($method);
                 }
                 d($record);
             }

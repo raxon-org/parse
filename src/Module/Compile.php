@@ -61,6 +61,7 @@ class Compile
         $data = [];
         $collection = [];
         $is_script = 0;
+        $sdript_method = false;
         $line = '';
         foreach($tags as $row_nr => $list) {
             foreach ($list as $nr => $record) {
@@ -73,7 +74,9 @@ class Compile
                 ) {
                     $is_script--;
                     if ($is_script === 0) {
+                        d($script_method);
                         ddd($collection);
+                        $script_method = false;
                     }
                 }
                 elseif (
@@ -90,10 +93,15 @@ class Compile
                         )
                     ) {
                         $is_script++;
+                        if($script_method === false){
+                            $script_method = $record;
+                        }
+                    } else {
+
                     }
                     $method = '$this->' . $record['method']['name'] . '(';
                     foreach ($record['method']['argument'] as $argument_nr => $argument) {
-                        $method .= Compile::argument($object, $flags, $options, $record);
+                        $method .= Compile::argument($object, $flags, $options, $argument, $before, $after);
                     }
                     $method .= ')';
                     $line = $method;

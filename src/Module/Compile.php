@@ -78,7 +78,7 @@ class Compile
                     if ($is_script === 0) {
                         $options->class_root = $options->class ?? 'Main';
                         $uuid = substr(Core::uuid_variable(), 1);
-                        $options->class = 'internal_' . $uuid;
+                        $options->class = 'Internal_' . $uuid;
                         $document = Compile::document_header($object, $flags, $options);
                         $document = Compile::document_use($object, $flags, $options, $document, 'package.raxon/parse.build.use.class');
                         $document[] = '';

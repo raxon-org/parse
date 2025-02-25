@@ -296,7 +296,6 @@ class Build
                             ];
                             $before_if = [];
                             $after_if = [];
-
                         }
                         elseif(
                             in_array(

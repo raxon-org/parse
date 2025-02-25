@@ -61,7 +61,7 @@ class Compile
         $data = [];
         $collection = [];
         $is_script = 0;
-        $sdript_method = false;
+        $script_method = false;
         $line = '';
         foreach($tags as $row_nr => $list) {
             foreach ($list as $nr => $record) {

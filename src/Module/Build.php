@@ -335,6 +335,7 @@ class Build
                                 true
                             )
                         ){
+                            d($record);
                             $is_block = true;
                             $is_literal_block = true;
                             continue;

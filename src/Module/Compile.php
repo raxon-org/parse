@@ -74,6 +74,22 @@ class Compile
                 ) {
                     $is_script--;
                     if ($is_script === 0) {
+                        $options->class = $options->class ?? 'Main';
+                        $document = Compile::document_header($object, $flags, $options);
+                        $document = Compile::document_use($object, $flags, $options, $document, 'package.raxon/parse.build.use.class');
+                        $document[] = '';
+                        $document[] = 'class '. $options->class .' {';
+                        $document[] = '';
+                        $object->config('package.raxon/parse.build.state.indent', 1);
+                        //indent++
+                        $document = Compile::document_use($object, $flags, $options, $document, 'package.raxon/parse.build.use.trait');
+                        $document[] = '';
+                        $document = Compile::document_construct($object, $flags, $options, $document);
+                        $document[] = '';
+//        d($data);
+//                        $document = Compile::document_run($object, $flags, $options, $document, $data);
+                        ddd($document);
+                        $document[] = '}';
                         d($script_method);
                         ddd($collection);
                         $script_method = false;

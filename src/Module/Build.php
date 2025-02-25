@@ -357,6 +357,7 @@ class Build
                         $ltrim--;
                         $object->config('package.raxon/parse.build.state.ltrim', $ltrim);
                     }
+                    d($record['marker']['name']);
                     //need to count them by name
                     if(array_key_exists('name', $record['marker'])) {
                         if (

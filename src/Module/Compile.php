@@ -96,13 +96,13 @@ class Compile
                         if($script_method === false){
                             $script_method = $record;
                         }
+                        continue;
                     } else {
-
+                        $method = '$this->' . $record['method']['name'] . '(';
+                        $method .= Compile::argument($object, $flags, $options, $record, $before, $after);
+                        $method .= ')';
+                        $line = $method;
                     }
-                    $method = '$this->' . $record['method']['name'] . '(';
-                    $method .= Compile::argument($object, $flags, $options, $record, $before, $after);
-                    $method .= ')';
-                    $line = $method;
                 }
                 elseif(array_key_exists('text', $record)){
                     $line = Compile::text($object, $flags, $options, $record);

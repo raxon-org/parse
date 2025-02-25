@@ -128,6 +128,7 @@ class Build
         d($tags);
         foreach($tags as $row_nr => $list){
             foreach($list as $nr => &$record){
+                d($record);
                 if(
                     array_key_exists('marker', $record) &&
                     array_key_exists('value', $record['marker']) &&
@@ -335,7 +336,6 @@ class Build
                                 true
                             )
                         ){
-                            d($record);
                             $is_block = true;
                             $is_literal_block = true;
                             continue;

@@ -635,6 +635,7 @@ class Build
                                 $record['marker']['name'],
                                 [
                                     'block',
+                                    'script'
                                 ],
                                 true
                             )

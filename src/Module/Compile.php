@@ -101,6 +101,12 @@ class Compile
                         $url_php = $dir . $options->class . $object->config('extension.php');
                         File::write($url_php, implode(PHP_EOL, $document));
                         d($url_php);
+                        require_once $url_php;
+                        $parse = new Parse($object, $flags, $options);
+                        $data_class = new Data($object->data());
+                        $instance = new $options->class($object, $parse, $data_class, $flags, $options);
+                        $content = $instance->run();
+                        ddd($content);
                         $script_method = false;
                     }
                 }

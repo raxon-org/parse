@@ -81,7 +81,7 @@ function d($data=null, $options=[]): void
     if(defined('IS_CLI')){
         ob_start();
         var_dump($data);
-        $export = ob_get_clean();
+        $export = ob_get_contents();
         try {
             if(
                 array_key_exists('trace', $options) &&

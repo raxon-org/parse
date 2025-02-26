@@ -32,6 +32,8 @@ class Parse {
     const TEMPLATE = 'Template';
     const COMPILE = 'Compile';
 
+    const CONFIG = 'package.raxon/parse';
+
     const THIS_RESERVED_WORDS = [
         '#parentNode',
         '#rootNode',

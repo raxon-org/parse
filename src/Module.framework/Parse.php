@@ -1082,10 +1082,10 @@ class Parse {
         if($is_disabled){
             return $string;
         }
-        $string = str_replace('/*{{RAX}}*/', '{R3M}', $string); //rcss files
-        $string = str_replace('{{ R3M }}', '{R3M}', $string);
-        $string = str_replace('{{RAX}}', '{R3M}', $string);
-        $explode = explode('{R3M}', $string, 2);
+        $string = str_replace('/*{{RAX}}*/', '{RAX}', $string); //rcss files
+        $string = str_replace('{{ RAX }}', '{RAX}', $string);
+        $string = str_replace('{{RAX}}', '{RAX}', $string);
+        $explode = explode('{RAX}', $string, 2);
         if(array_key_exists(1, $explode)){
             if(substr($explode[1], 0, 1) === PHP_EOL){
                 $string = substr($explode[1], 1);

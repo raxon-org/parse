@@ -1,1054 +1,509 @@
 <?php
-/**
- * @author          Remco van der Velde
- * @since           04-01-2019
- * @copyright       (c) Remco van der Velde
- * @license         MIT
- * @version         1.0
- * @changeLog
- *  -    all
- */
 namespace Raxon\Parse\Module;
 
+use Exception;
+use Plugin;
 use Raxon\App;
 use Raxon\Config;
-
+use Raxon\Exception\ObjectException;
+use Raxon\Exception\TemplateException;
+use Raxon\Module\Autoload;
 use Raxon\Module\Core;
 use Raxon\Module\Data;
 use Raxon\Module\Dir;
-use Raxon\Module\Event;
 use Raxon\Module\File;
-use Raxon\Module\Parallel;
+use Raxon\Node\Model\Node;
 
-use Exception;
-use ParseError;
-
-use Raxon\Exception\FileWriteException;
-use Raxon\Exception\ObjectException;
-use stdClass;
-
-class Parse {
-    const PLUGIN = 'Plugin';
-    const TEMPLATE = 'Template';
-    const COMPILE = 'Compile';
-
+class Parse
+{
+    const NODE = 'System.Parse';
     const CONFIG = 'package.raxon/parse';
 
-    const THIS_RESERVED_WORDS = [
-        '#parentNode',
-        '#rootNode',
-        '#key',
-        '#attribute'
-    ];
-    private $object;
-    private $storage;
-    private $build;
-    private $limit;
-    private $cache_dir;
-    private $local;
-    private $is_assign;
-    private $halt_literal;
-    private $use_this;
 
-    private $key;
-
-    private $counter = 0;
+    use Plugin\Basic;
 
     /**
      * @throws ObjectException
+     * @throws Exception
      */
-    public function __construct($object, $storage=null){
+    public function __construct(App $object, Data $data, $flags=null, $options=null){
         $this->object($object);
-        $this->configure();
-        if($storage === null){
-            $this->storage(new Data());
-        } else {
-            $this->storage($storage);
+        $this->data($data);
+        if($flags === null){
+            $flags = (object) [];
         }
-        $priority = 10;
-        Event::off($object, 'parse.build.plugin.require', ['priority' => $priority]);
+        if($options === null){
+            $options = (object) [];
+        }
+        $this->parse_flags($flags);
+        $this->parse_options($options);
+        //move to install (config)
+        $this->config();
     }
 
     /**
      * @throws ObjectException
      * @throws Exception
      */
-    private function configure(): void
+    protected function config(): void
     {
-        $id = posix_geteuid();
-        $config = $this->object()->data(App::NAMESPACE . '.' . Config::NAME);
-        $dir_plugin = $config->data('project.dir.plugin');
-        if(empty($dir_plugin)){
-            $config->data('project.dir.plugin', $config->data('project.dir.source') . Parse::PLUGIN . $config->data('ds'));
+        $object = $this->object();
+        $node = new Node($object);
+        $parse = $node->record(
+            Parse::NODE,
+            $node->role_system(),
+            [
+                'ramdisk' => true
+            ]
+        );
+        $options = $this->parse_options();
+        $force = false;
+        if(property_exists($options,'force')){
+            $parse = false;
+            $force = true;
         }
-        $dir_plugin = $config->data('host.dir.plugin');
-        if(empty($dir_plugin)){
-            $config->data('host.dir.plugin', $config->data('host.dir.root') . Parse::PLUGIN . $config->data('ds'));
+        if(property_exists($options, 'patch')){
+            $parse = false;
         }
-        $dir_plugin = $config->data('framework.dir.plugin');
-        if(empty($dir_plugin)){
-            $config->data('framework.dir.plugin', $config->data('framework.dir.source') . Parse::PLUGIN . $config->data('ds'));
-        }
-        $dir_plugin = $config->data('controller.dir.plugin');
-        if(empty($dir_plugin)){
-            if(empty($config->data('controller.dir.root'))){
-                throw new Exception('Controller dir root is not set');
-            }
-            $config->data('controller.dir.plugin', $config->data('controller.dir.root') . Parse::PLUGIN . $config->data('ds'));
-        }
-        $compile = $config->data('dictionary.compile');
-        if(empty($compile)){
-            $config->data('dictionary.compile', Parse::COMPILE);
-        }
-        $template = $config->data('dictionary.template');
-        if(empty($template)){
-            $config->data('dictionary.template', Parse::TEMPLATE);
-        }
-        if(
-            $config->data('ramdisk.url') &&
-            empty($config->data('ramdisk.is.disabled'))
-        ){
-            $cache_dir =
-                $config->data('ramdisk.url') .
-                $config->data(Config::POSIX_ID) .
-                $config->data('ds') .
-                $config->data('dictionary.compile') .
-                $config->data('ds')
+        if(!$parse){
+            $url = $object->config('project.dir.vendor') .
+                'raxon' .
+                $object->config('ds') .
+                'parse' .
+                $object->config('ds') .
+                'Data' .
+                $object->config('ds') .
+                Parse::NODE .
+                $object->config('extension.json')
             ;
-            Dir::create($cache_dir);
-        } else {
-            if($config->data(Config::POSIX_ID) === 1000){
-                $cache_dir =
-                    '/tmp/' .
-                    $config->data(Config::POSIX_ID) .
-                    $config->data('ds') .
-                    $config->data('dictionary.compile') .
-                    $config->data('ds');
+            if($force){
+                $options = (object) [
+                    'url' => $url,
+                    'force' => true
+                ];
             } else {
-                $cache_dir =
-                    $config->data('framework.dir.temp') .
-                    $config->data(Config::POSIX_ID) .
-                    $config->data('ds') .
-                    $config->data('dictionary.compile') .
-                    $config->data('ds');
+                $options = (object) [
+                    'url' => $url,
+                    'patch' => true
+                ];
             }
-
-            Dir::create($cache_dir);
+            $response = $node->import(Parse::NODE, $node->role_system(), $options);
+            $parse = $node->record(
+                Parse::NODE,
+                $node->role_system(),
+                [
+                    'ramdisk' => true
+                ]
+            );
         }
-        $this->cache_dir($cache_dir);
-        $use_this = $config->data('parse.read.object.use_this');
-        if(is_bool($use_this)){
-            $this->useThis($use_this);
-        } else {
-            $this->useThis(false);
-        }
+        $object->config(Parse::CONFIG, $parse['node']);
+        $object->config(Parse::CONFIG . '.time.start', microtime(true));
+        $object->config(Parse::CONFIG . '.build.builder', 'Build');
     }
 
-    public function useThis($useThis=null): mixed
-    {
-        if($useThis !== null){
-            $this->use_this = $useThis;
-        }
-        return $this->use_this;
-    }
-
-    public function object(App $object=null): ?App
-    {
-        if($object !== null){
-            $this->setObject($object);
-        }
-        return $this->getObject();
-    }
-
-    private function setObject(App $object=null): void
-    {
-        $this->object= $object;
-    }
-
-    private function getObject(): ?App
-    {
-        return $this->object;
-    }
-
-    public function limit($limit=null): ?array
-    {
-        if($limit !== null){
-            $this->setLimit($limit);
-        }
-        return $this->getLimit();
-    }
-
-    public function setLimit($limit=null): void
-    {
-        $this->limit= $limit;
-    }
-
-    private function getLimit(): ?array
-    {
-        return $this->limit;
-    }
-
-    public function storage(object $storage=null): ?object
-    {
-        if($storage !== null){
-            $this->setStorage($storage);
-        }
-        return $this->getStorage();
-    }
-
-    private function setStorage(object $storage=null): void
-    {
-        $this->storage = $storage;
-    }
-
-    private function getStorage(): ?object
-    {
-        return $this->storage;
-    }
-
-    public function build(Build $build=null): ?Build
-    {
-        if($build !== null){
-            $this->setBuild($build);
-        }
-        return $this->getBuild();
-    }
-
-    private function setBuild(Build $build=null): void
-    {
-        $this->build= $build;
-    }
-
-    private function getBuild(): ?Build
-    {
-        return $this->build;
-    }
-
-    public function cache_dir($cache_dir=null): ?string
-    {
-        if($cache_dir !== null){
-            $this->cache_dir = $cache_dir;
-        }
-        return $this->cache_dir;
-    }
-
-    public function local($depth=0, $local=null): ?object
-    {
-        if($this->local === null){
-            $this->local = [];
-        }
-        if($local !== null){
-            $this->local[$depth] = $local;
-        }
-        if(
-            $depth !== null &&
-            array_key_exists($depth, $this->local)
-        ){
-            return clone $this->local[$depth];
-        }
-        return null;
-    }
-
-    public function is_assign($is_assign=null): ?bool
-    {
-        if($is_assign !== null){
-            $this->is_assign = $is_assign;
-        }
-        return $this->is_assign;
-    }
-
-    public function halt_literal($halt_literal=null): ?bool
-    {
-        if($halt_literal !== null){
-            $this->halt_literal = $halt_literal;
-        }
-        return $this->halt_literal;
-    }
-
-    private static function replace_raw($string=''): string
-    {
-        $explode = explode('"{{raw|', $string, 2);
-        if(array_key_exists(1, $explode)){
-            $temp = explode('}}"', $explode[1], 2);
-            if(array_key_exists(1, $temp)){
-                $explode[1] = implode('}}', $temp);
-                $string = implode('{{', $explode);
-                return Parse::replace_raw($string);
+    public static function result($result=''){
+//        d($result);
+        if(is_string($result)){
+            if($result === 'null'){
+                return null;
+            }
+            elseif($result === 'true'){
+                return true;
+            }
+            elseif($result === 'false'){
+                return false;
+            }
+            elseif(is_numeric($result)){
+                if(
+                    trim($result, " \t\n\r\0\x0B") === $result &&
+                    ltrim($result, '0') === $result
+                ){
+                    return $result + 0;
+                }
             }
         }
-        $explode = explode('"{{ raw |', $string, 2);
-        if(array_key_exists(1, $explode)){
-            $temp = explode('}}"', $explode[1], 2);
-            if(array_key_exists(1, $temp)){
-                $explode[1] = implode('}}', $temp);
-                $string = implode('{{', $explode);
-                return Parse::replace_raw($string);
-            }
-        }
-        return $string;
+        return $result;
     }
 
-    public static function unset(object $object, object $unset): object
-    {
-        foreach($object as $key => $value){
-            if(
-                is_object($value) &&
-                get_class($value) === stdClass::class
-            ){
-                Parse::unset($value, $unset);
-            }
-        }
-        foreach($unset as $unset_key => $unset_value){
-            unset($object->{$unset_value});
-        }
-        return $object;
+    public static function class_name(App $object, $class=''){
+        return ltrim(
+            str_replace(
+                [
+                    '!',
+                    '@',
+                    '#',
+                    '$',
+                    '%',
+                    '^',
+                    '&',
+                    '*',
+                    '(',
+                    ')',
+                    '-',
+                    '+',
+                    '=',
+                    '{',
+                    '}',
+                    '|',
+                    ':',
+                    '\'',
+                    '"',
+                    '<',
+                    '>',
+                    ',',
+                    '?',
+                    '/',
+                    ';',
+                    '.',
+                    ' ',
+                    '~',
+                    '`',
+                    '[',
+                    ']',
+                    '\\',
+                ],
+                '_',
+                $class
+            ),
+            '_'
+        );
     }
+
 
     /**
-     * @throws ObjectException
-     * @throws FileWriteException
      * @throws Exception
+     * @throws ObjectException
+     * @throws TemplateException
      */
-    public function compile($string='', $data=[], $storage=null, $depth=null, $is_debug=false): mixed
+    public function compile($input, $data=null, $is_debug=false): mixed
     {
-        d($string);
-        $type = gettype($string);
+        $start = microtime(true);
+        if(is_array($data)){
+            $data = new Data($data);
+            $this->data($data);
+        }
+        elseif(is_object($data)){
+            if($data instanceof Data){
+                $this->data($data);
+            } else {
+                $data = new Data($data);
+                $this->data($data);
+            }
+        } else {
+            $data = $this->data();
+        }
+        $object = $this->object();
+        $flags = $this->parse_flags();
+        $options = $this->parse_options();
+
+        if($is_debug){
+            $object->config('package.raxon/parse.build.state.input.debug', true);
+        }
+        /*
+        if($object->config('package.raxon/parse.build.state.input.debug') === true){
+            d($input);
+            ddd($options);
+        }
+        */
+
+        $depth = $options->depth ?? null;
+        $type = strtolower(gettype($input));
         if(
-            $string === null ||
-            $string === '' ||
-            $type === 'boolean' ||
-            $type === 'integer' ||
-            $type === 'double' ||
-            $type === 'resource' ||
-            $type === 'unknown type' ||
-            (
-                $type === 'array' &&
-                empty($string)
-            ) ||
-            (
-                $type === 'object' &&
-                empty((array) $string)
+            in_array(
+                $type,
+                [
+                    'null',
+                    'integer',
+                    'double',
+                    'boolean'
+                ],
+                true
             )
         ){
-            return $string;
+            return $input;
         }
-        ob_start();
-        $original = $string;
-        $object = $this->object();
-        if($storage === null){            
-            $storage = $this->storage(new Data());
-        }
-        if(is_object($data)){
-            $storage->data(Core::object_merge($storage->data(), $data));
-        } else {
-            $storage->data($data);
-        }
-        if($type === 'array'){
-            foreach($string as $key => $value){
-                $value_type = gettype($value);
-                if(
-                    $value === null ||
-                    $value === '' ||
-                    $value_type === 'boolean' ||
-                    $value_type === 'integer' ||
-                    $value_type === 'double' ||
-                    $value_type === 'resource' ||
-                    $value_type === 'unknown type' ||
-                    (
-                        $value_type === 'array' &&
-                        empty($value)
-                    ) ||
-                    (
-                        $value_type === 'object' &&
-                        empty((array) $value)
-                    )
-                ){
-                    $string[$key] = $value;
+        elseif($type === 'string'){
+            /**
+             * always parse the document (can have comment)
+             */
+            /*
+            if(
+                (
+                    !str_contains($input, '{{') &&
+                    !str_contains($input, '}}')
+                ) ||
+                (
+                    !str_contains($input, '/*')
+                ) ||
+                (
+                    !str_contains($input, '//')
+                )
+            ){
+                return $input;
+            }
+            */
+            $uuid = Core::uuid();
+            $object->config('package.raxon.parse.bugfix.uuid', $uuid);
+            $input = str_replace('{{/if}}', '{{elseif(true === false && \'bugfix\' === \'' . $uuid .'\')}}{{/if}}', $input); //hack, if statements always needs at least one elseif statement (position in if_queue and $methods and $before)
+            $options->hash = hash('sha256', $input);
+            //url, key & attribute might be already set.
+            $url = $data->get('this.' . $object->config('package.raxon/parse.object.this.url'));
+            $key = $data->get('this.' . $object->config('package.raxon/parse.object.this.key'));
+            $attribute = $data->get('this.' . $object->config('package.raxon/parse.object.this.attribute'));
+            $property = $data->get('this.' . $object->config('package.raxon/parse.object.this.property'));
+            $parentProperty = $data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty'));
+            $data->set('this', $this->local($depth));
+            if($url !== null){
+                $data->set('this.' . $object->config('package.raxon/parse.object.this.url'), $url);
+            }
+            if($attribute !== null){
+                $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $attribute);
+            }
+            if($property !== null){
+                $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $property);
+            }
+            if($parentProperty !== null){
+                $data->set('this.' . $object->config('package.raxon/parse.object.this.parentProperty'), $parentProperty);
+            }
+            if($key !== null){
+                $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
+            }
+            $rootNode = $this->local(0);
+            if(
+                $rootNode &&
+                is_object($rootNode)
+            ){
+                $key = 'this.' . $object->config('package.raxon/parse.object.this.rootNode');
+                $data->set($key, $rootNode);
+                $key = 'this';
+                $data->set($key, Core::object_merge($data->get($key), $this->local($depth)));
+                if($depth === 0){
+                    $key .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
+                    $parentNode = $this->local($depth);
+                    $data->set($key, $parentNode);
                 } else {
-                    if(
-                        is_string($value) &&
-                        stristr($value, '{') !== false
-                    ){
-                        $value = Literal::uniform($object, $value);
-                        $disable_function = $this->object()->config('parse.compile.disable.function.Value::contains_replace');
-                        $this->object()->config('parse.compile.disable.function.Value::contains_replace', true);
-                        if(str_contains($value, 'try')){
-                            $is_debug = true;
-                        }
-                        $disable_function_prepare = $this->object()->config('parse.compile.disable.function.Parse::prepare_code');
-//                        $this->object()->config('parse.compile.disable.function.Parse::prepare_code', true);
-                        $string[$key] = $this->compile($value, $storage->data(), $storage, $depth, $is_debug);
-                        if($disable_function){
-                            $this->object()->config('parse.compile.disable.function.Value::contains_replace', $disable_function);
-                        } else {
-                            $this->object()->config('delete', 'parse.compile.disable.function.Value::contains_replace');
-                        }
-                        if($disable_function_prepare){
-                            $this->object()->config('parse.compile.disable.function.Parse::prepare_code', $disable_function_prepare);
-                        } else {
-                            $this->object()->config('delete', 'parse.compile.disable.function.Parse::prepare_code');
-                        }
-                    }
-                    elseif(!is_scalar($value)){
-                        $disable_function_prepare = $this->object()->config('parse.compile.disable.function.Parse::prepare_code');
-//                        $this->object()->config('parse.compile.disable.function.Parse::prepare_code', false);
-                        $string[$key] = $this->compile($value, $storage->data(), $storage, $depth, $is_debug);
-                        if($disable_function_prepare){
-                            $this->object()->config('parse.compile.disable.function.Parse::prepare_code', $disable_function_prepare);
-                        } else {
-                            $this->object()->config('delete', 'parse.compile.disable.function.Parse::prepare_code');
-                        }
-                    } else {
-                        $string[$key] = $value;
+                    for($index = $depth - 1; $index >= 0; $index--){
+                        $key .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
+                        $parentNode = $this->local($index);
+                        $data->set($key, $parentNode);
                     }
                 }
             }
-            return $string;
-        }
-        elseif($type === 'object'){
-            $reserved_keys = [];
-            if($this->useThis() === true){
-                $source = $storage->data('raxon.org.parse.view.source');
-                if(empty($source)){
-                    $file = $storage->data('raxon.org.parse.view.url');
-                } else {
-                    $file = $storage->data('raxon.org.parse.view.source.url');
+        } else {
+            $options->hash = hash('sha256', Core::object($input, Core::OBJECT_JSON_LINE));
+            if(is_array($input)){
+                foreach($input as $key => $value){
+                    $temp_source = $options->source ?? 'source';
+                    $temp_class = $options->class;
+                    $options->source = 'internal_' . Core::uuid();
+                    $options->source_root = $temp_source;
+                    $options->class = Parse::class_name($object, $options->source);
+                    $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
+                    $input[$key] = $this->compile($value, $data, $is_debug);
+                    $options->source = $temp_source;
+                    $options->class = $temp_class;
                 }
-                if($this->key){
-                    $key = $this->object()->config('parse.read.object.this.key');
-                    $string->{$key} = $this->key;
-//                    $storage->data($key, $this->key);
-                }
+                $data->set('this.' . $object->config('package.raxon/parse.object.this.key', null));
+                return $input;
+            }
+            elseif(is_object($input)){
                 if($depth === null){
                     $depth = 0;
-                    $key = $this->object()->config('parse.read.object.this.url');
-                    $string->{$key} = $file;
-                    $this->local($depth, $string);
+                    $data->set('this.' . $object->config('package.raxon/parse.object.this.url'), $options->source ?? 'source');
+                    $this->local($depth, $input);
                 } else {
                     $depth++;
-                    $this->local($depth, $string);
+                    $this->local($depth, $input);
                 }
-                foreach($this->object()->config('parse.read.object.this') as $key => $value){
+                $options->depth = $depth;
+                $reserved_keys = [];
+                foreach($object->config('package.raxon/parse.object.this') as $key => $value){
                     $reserved_keys[] = $value;
                 }
-            }
-            $string_object = Core::deep_clone($string);
-            $parentKey = $this->key;
-            foreach($string_object as $key => $value){
-                if(
-                    $this->useThis() === true &&
-                    in_array(
-                        $key,
-                        $reserved_keys,
-                        true
+//                $attribute = $object->config('package.raxon/parse.build.state.this.attribute');
+//                $property = $object->config('package.raxon/parse.build.state.this.property');
+                $data->set(
+                    'this.' .
+                    $object->config('package.raxon/parse.object.this.parentProperty'),
+                    $data->get(
+                        'this.' .
+                        $object->config('package.raxon/parse.object.this.property')
                     )
-                ){
-                    continue;
-                }
-                try {
-                    $this->key = $key;
-                    $attribute = $this->object()->config('parse.read.object.this.attribute');
-                    $string->{$attribute} = $key;
-                    $property = $this->object()->config('parse.read.object.this.property');
-                    $string->{$property} = $key;
-                    $value_type = gettype($value);
+                );
+                foreach($input as $key => $value){
                     if(
-                        $value === null ||
-                        $value === '' ||
-                        $value_type === 'boolean' ||
-                        $value_type === 'integer' ||
-                        $value_type === 'double' ||
-                        $value_type === 'resource' ||
-                        $value_type === 'unknown type' ||
-                        (
-                            $value_type === 'array' &&
-                            empty($value)
-                        ) ||
-                        (
-                            $value_type === 'object' &&
-                            empty((array) $value)
+                        in_array(
+                            $key,
+                            $reserved_keys,
+                            true
                         )
                     ){
-                        $string->{$key} = $value;
-                    } else {
-                        if(
-                            is_string($value) &&
-                            stristr($value, '{') !== false
-                        ){
-                            $value = Literal::uniform($object, $value);
-                            $disable_function = $this->object()->config('parse.compile.disable.function.Value::contains_replace');
-                            $disable_function_prepare = $this->object()->config('parse.compile.disable.function.Parse::prepare_code');
-//                            $this->object()->config('parse.compile.disable.function.Parse::prepare_code', true);
-                            ob_start();
-                            $value = $this->compile($value, $storage->data(), $storage, $depth, $is_debug);
-                            $ob = ob_get_contents();
-                            ob_end_clean();
-                            if($ob){
-                                $value = $ob . $value;
-                            }
-                            if($disable_function){
-                                $this->object()->config('parse.compile.disable.function.Value::contains_replace', $disable_function);
-                            } else {
-                                $this->object()->config('delete', 'parse.compile.disable.function.Value::contains_replace');
-                            }
-                            if($disable_function_prepare){
-                                $this->object()->config('parse.compile.disable.function.Parse::prepare_code', $disable_function_prepare);
-                            } else {
-                                $this->object()->config('delete', 'parse.compile.disable.function.Parse::prepare_code');
-                            }
-                        }
-                        elseif(!is_scalar($value)){
-                            $disable_function_prepare = $this->object()->config('parse.compile.disable.function.Parse::prepare_code');
-//                            $this->object()->config('parse.compile.disable.function.Parse::prepare_code', false);
-                            ob_start();
-                            $value = $this->compile($value, $storage->data(), $storage, $depth, $is_debug);
-                            $ob = ob_get_clean();
-                            if($disable_function_prepare){
-                                $this->object()->config('parse.compile.disable.function.Parse::prepare_code', $disable_function_prepare);
-                            } else {
-                                $this->object()->config('delete', 'parse.compile.disable.function.Parse::prepare_code');
-                            }
-                        }
-                        $string->{$key} = $value;
+                        continue;
                     }
-                } catch (Exception | ParseError $exception){
-                    Event::trigger($object, 'parse.compile.exception', [
-                        'string' => $string,
-                        'data' => $data,
-                        'storage' => $storage,
-                        'depth' => $depth,
-                        'exception' => $exception
-                    ]);
-                }
-            }
-            $this->key = $parentKey;
-            /*
-             * we have #parallel for parallel processing and output filter to give them the right properties.
-             */
-
-            if(property_exists($string, '#parallel')) {
-                if (is_array($string->{'#parallel'})) {
-                    if(Core::is_cli()){
-                        //if cli else we can't do parallel
-                        $threads = $object->config('parse.plugin.parallel.thread');
-                        $chunks = array_chunk($string->{'#parallel'}, $threads);
-                        $chunk_count = count($chunks);
-                        $count = 0;
-                        $done = 0;
-                        $result = [];
-                        $parse = clone($this);
-                        foreach($chunks as $chunk_nr => $chunk) {
-                            $closures = [];
-                            $forks = count($chunk);
-                            for ($i = 0; $i < $forks; $i++) {
-                                $closures[] = function () use (
-                                    $object,
-                                    $parse,
-                                    $chunk,
-                                    $chunk_nr,
-                                    $chunk_count,
-                                    $i,
-                                    $depth,
-                                    $is_debug
-                                ) {
-                                    if (array_key_exists($i, $chunk)) {
-                                        return $parse->compile($chunk[$i], $object->data(), $parse->storage(), $depth, $is_debug);
-                                    }
-                                    return null;
-                                };
-                            }
-                            $list = Parallel::new()->execute($closures);
-                            foreach($list as $key => $item){
-                                if(
-                                    $item !== null &&
-                                    $item !== 'progress'
-                                ){
-                                    $result[] = $item;
-                                    $count++;
-                                    $done++;
-                                }
-                            }
-                        }
-                        $string->{'#parallel'} = $result;
-                    } else {
-                        foreach($string->{'#parallel'} as $key => $value){
-                            $string->{'#parallel'}[$key] = $this->compile($value, $object->data(), $storage, $depth, $is_debug);
-                        }
-                    }
-                }
-            }
-            if(property_exists($string, '#output')) {
-                if (
-                    is_object($string->{'#output'}) &&
-                    property_exists($string->{'#output'}, 'filter')
-                ) {
-                    $filter = $string->{'#output'}->filter;
-                    if(is_array($filter)){
-                        foreach($filter as $output_filter_data){
-                            $route = (object) [
-                                'controller' => $output_filter_data
-                            ];
-                            $route = Route::controller($route);
-                            if(
-                                property_exists($route, 'controller') &&
-                                property_exists($route, 'function')
-                            ){
-                                //don't check on empty $list, an output filter can have defaults...
-                                try {
-                                    $string = $route->controller::{$route->function}($object, $string);
-                                }
-                                catch(Exception $exception){
-                                    d($exception);
-                                }
-                            }
-                        }
-                    }
-//                    $string->result = $string->{'#parallel'};
-                    //parallel must be filtered because we delete #parallel from the object
-                }
-            }
-            //must read into it, copy should be configurable
-            $copy = $this->object()->config('parse.read.object.copy');
-            if($copy && is_object($copy)){
-                foreach($copy as $key => $value){
-                    if(property_exists($string, $key)){
-                        $string->$value = $string->$key;
-                    }
-                }
-            }
-            if($depth === 0){
-                $unset = $this->object()->config('parse.read.object.this');
-                if($unset && is_object($unset)) {
-                    $string = Parse::unset($string, $unset);
-                }
-            }
-            return $string;
-        }
-        elseif($type === 'string' && stristr($string, '{') === false){
-            return $string;
-        } else {
-            //this section takes at least 5 msec per document: file:put 2msec, opcache::put 2msec, rest 1msec
-            $build = $this->build(new Build($this->object(), $this, $is_debug));
-            $build->cache_dir($this->cache_dir());
-            $build->limit($this->limit());
-            $source = $storage->data('raxon.org.parse.view.source');
-            $options = [];
-            if(empty($source)){
-                $options = [
-                    'source' => $storage->data('raxon.org.parse.view.url')
-                ];
-                $url = $build->url($string, $options);
-            } else {
-                $options = [
-                    'source' => $storage->data('raxon.org.parse.view.source.url'),
-                    'parent' => $storage->data('raxon.org.parse.view.url')
-                ];
-                $url = $build->url($string, $options);
-            }
-            $string = Literal::uniform($object, $string);
-            $storage->data('raxon.org.parse.compile.url', $url);
-            if($this->useThis() === true){
-                $storage->data('this', $this->local($depth));
-                $rootNode = $this->local(0);
-                if($rootNode && is_object($rootNode)){
-                    $attribute = 'this.' . $this->object()->config('parse.read.object.this.rootNode');
-                    $storage->data($attribute, $rootNode);
-                    $key = 'this';
-                    for($index = $depth - 1; $index >= 0; $index--){
-                        $key .= '.' . $this->object()->config('parse.read.object.this.parentNode');
-                        $storage->data($key, $this->local($index));
-                    }
-                }
-            }
-            $mtime = $storage->data('raxon.org.parse.view.mtime');
-            $file_exist = File::exist($url);
-            $file_mtime = false;
-            if($file_exist){
-                $file_mtime = File::mtime($url);
-            }
-            $file_mtime = false; //bug solved  pre output in the cache?
-            if($file_exist && $file_mtime === $mtime){
-                //cache file
-                $class = $build->storage()->data('namespace') . '\\' . $build->storage()->data('class');
-                try {
-                    $template = new $class(new Parse($this->object()), $storage);
-                    $string = $template->run();
-//                    d($url);
-//                    d($string);
-
-                    $is_disabled = $this->object()->config('parse.compile.disable.function.Value::contains_replace');
-//                    $is_disabled = true;
-//                    $string = Parse::comment($string, 'is_disabled: ' . $is_disabled);
-                    $is_disabled = true;
-                    if(!$is_disabled){
-                        $string = Value::contains_replace(
-                            [
-                                [
-                                    'class',
-                                    '{'
-                                ],
-                                [
-                                    'trait',
-                                    '{'
-                                ],
-                                [
-                                    Token::TYPE_WHITESPACE,
-                                    '{'
-                                ],
-                                /*
-                                [
-                                    Token::TYPE_WHITESPACE,
-                                    '}'
-                                ],
-                                */
-                            ],
-                            [
-                                [
-                                    '{',
-                                    '{' . PHP_EOL
-                                ],
-                                [
-                                    '{',
-                                    '{' . PHP_EOL
-                                ],
-                                [
-                                    '{',
-                                    '{' . PHP_EOL
-                                ],
-                                /*
-                                [
-                                    '}',
-                                    '}' . PHP_EOL
-                                ]
-                                */
-                            ],
-                            $string
-                        );
-                        /*
-                        $string = Value::contains_replace(
-                            [
-                                [
-                                    'class',
-                                    '{'
-                                ],
-                                [
-                                    'try',
-                                    '{'
-                                ],
-                                [
-                                    '(',
-                                    '{'
-                                ],
-                                [
-                                    'else',
-                                    '{'
-                                ],
-                                [
-                                    Token::TYPE_WHITESPACE,
-                                    '{'
-                                ],
-                                [
-                                    Token::TYPE_WHITESPACE,
-                                    '}'
-                                ],
-                            ],
-                            [
-                                [
-                                    '{',
-                                    '{' . PHP_EOL
-                                ],
-                                [
-                                    '{',
-                                    '{' . PHP_EOL
-                                ],
-                                [
-                                    '{',
-                                    '{' . PHP_EOL
-                                ],
-                                [
-                                    '{',
-                                    '{' . PHP_EOL
-                                ],
-                                [
-                                    '{',
-                                    '{' . PHP_EOL
-                                ],
-                                [
-                                    '}',
-                                    '}' . PHP_EOL
-                                ]
-                            ],
-                            $string
-                        );
-                        */
-                    }
-                    if(empty($this->halt_literal())){
-                        $string = Literal::restore($storage, $string);
-                    }
-                    $storage->data('delete', 'this');
-                    if(
-                        $this->object()->config('framework.environment') === Config::MODE_DEVELOPMENT &&
-                        $this->object()->config('project.log.debug')
-                    ){
-                        $this->object->logger($this->object()->config('project.log.debug'))
-                            ->info('cache file: ' . $url . ' mtime: ' . $mtime)
-                        ;
-                    }
-                    if($string === 'null'){
-                        return null;
-                    }
-                    elseif($string === 'true'){
-                        return true;
-                    }
-                    elseif($string === 'false'){
-                        return false;
-                    }
-                    elseif(is_numeric($string)){
-                        if(trim($string, "\n\t ") === $string){
-                            return $string + 0;
+                    $old_source = $options->source ?? 'source';
+                    $old_class = $options->class ?? null;
+                    $source = $options->source;
+                    for($i = 0; $i <= $depth; $i++){
+                        if($i === 0){
+                            $source = str_replace('internal_', '', $source);
                         } else {
-                            return $string;
-                        }
-
-                    }
-                    d($string);
-                    return $string;
-                }
-                catch (Exception $exception){
-                    return $exception;
-                }
-
-            }
-            elseif(File::exist($url) && File::mtime($url) !== $mtime){
-                Event::trigger($object, 'parse.compile.opcache.invalidate', [
-                    'string' => $string,
-                    'data' => $data,
-                    'storage' => $storage,
-                    'depth' => $depth,
-                    'url' => $url,
-                    'url_mtime' => $file_mtime,
-                    'mtime' => $mtime
-                ]);
-                opcache_invalidate($url, true);
-            }
-            if(empty($this->halt_literal())){
-                $string = literal::apply($storage, $string);
-            }
-            $string = Parse::replace_raw($string);
-            $string = Parse::prepare_code($object, $storage, $string);
-//            $string = ltrim($string, " \t\n\r\0\x0B"); //@disabled @ 2024-07-12
-//            d($string);
-            $tree = Token::tree($string, [
-                'object' => $object,
-                'url' => $url,
-            ]);
-            if(str_contains($string, '/*')){
-//                ddd($tree);
-            }
-            try {
-                $tree = $build->require('function', $tree);
-                $tree = $build->require('modifier', $tree);
-                $build_storage = $build->storage();
-                $document = $build_storage->data('document');
-                if(empty($document)){
-                    $document = [];
-                }
-                $document = $build->create('header', $tree, $document);
-                $document = $build->create('class', $tree, $document);
-                $build->indent(2);
-                $document = $build->document($storage, $tree, $document);
-                $document = $build->create('run', $tree, $document);
-                $document = $build->create('require', $tree, $document);
-                $document = $build->create('use', $tree, $document);
-                $document = $build->create('trait', $tree, $document);
-//                d($mtime);
-                $write = $build->write($url, $document, $string);
-                if($mtime !== null){
-                    $touch = File::touch($url, $mtime);
-//                    d(File::mtime($url));
-                    opcache_invalidate($url, true);
-                    if(opcache_is_script_cached($url) === false){
-                        $status = opcache_get_status(true);
-                        if($status !== false){
-                            opcache_compile_file($url);
-                            Event::trigger($object, 'parse.compile.opcache.file', [
-                                'string' => $string,
-                                'data' => $data,
-                                'storage' => $storage,
-                                'depth' => $depth,
-                                'url' => $url,
-                                'url_mtime' => $file_mtime,
-                                'mtime' => $mtime
-                            ]);
+                            $source = str_replace($i . 'x_', '', $source);
                         }
                     }
+                    $options->source = 'internal_' . ($depth + 1) . 'x_' . $source . '_' . $key;
+                    $options->source_root = $old_source;
+                    $options->class = Parse::class_name($object, $options->source);
+                    $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
+                    $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
+                    $input->{$key} = $this->compile($value, $data, $is_debug);
+                    $options->source = $old_source;
+                    if($old_class){
+                        $options->class = $old_class;
+                    }
                 }
-            }
-            catch (Exception $exception){
-                return $exception;
-            }
-            $class = $build->storage()->data('namespace') . '\\' . $build->storage()->data('class');
-            try {
-                $exists = class_exists($class);
-                if ($exists) {
-                    ob_start();
-                    $template = new $class(new Parse($this->object()), $storage);
-                    $string = $template->run();
-                    $ob = ob_get_clean();
-                    if($ob){
-                        $string = $ob . $string;
-                    }
-                    $is_disabled = $this->object()->config('parse.compile.disable.function.Value::contains_replace');
-//                    $string = Parse::comment($string, 'is_disabled: ' . $is_disabled);
-                    $is_disabled = true;
-                    if(!$is_disabled){
-                        $string = Value::contains_replace(
-                            [
-                                [
-                                    'class',
-                                    '{'
-                                ],
-                                [
-                                    'trait',
-                                    '{'
-                                ],
-                                [
-                                    Token::TYPE_WHITESPACE,
-                                    '{'
-                                ],
-                                /*
-                                [
-                                    Token::TYPE_WHITESPACE,
-                                    '}'
-                                ],
-                                */
-                            ],
-                            [
-                                [
-                                    '{',
-                                    '{' . PHP_EOL
-                                ],
-                                [
-                                    '{',
-                                    '{' . PHP_EOL
-                                ],
-                                [
-                                    '{',
-                                    '{' . PHP_EOL
-                                ],
-                                /*
-                                [
-                                    '}',
-                                    '}' . PHP_EOL
-                                ]
-                                */
-                            ],
-                            $string
-                        );
-                        /*
-                        $string = Value::contains_replace(
-                            [
-                                [
-                                    'class',
-                                    '{'
-                                ],
-                                [
-                                    'try',
-                                    '{'
-                                ],
-                                [
-                                    '(',
-                                    '{'
-                                ],
-                                [
-                                    'else',
-                                    '{'
-                                ],
-                                [
-                                    Token::TYPE_WHITESPACE,
-                                    '{'
-                                ],
-                                [
-                                    Token::TYPE_WHITESPACE,
-                                    '}'
-                                ],
-                            ],
-                            [
-                                [
-                                    '{',
-                                    '{' . PHP_EOL
-                                ],
-                                [
-                                    '{',
-                                    '{' . PHP_EOL
-                                ],
-                                [
-                                    '{',
-                                    '{' . PHP_EOL
-                                ],
-                                [
-                                    '{',
-                                    '{' . PHP_EOL
-                                ],
-                                [
-                                    '{',
-                                    '{' . PHP_EOL
-                                ],
-                                [
-                                    '}',
-                                    '}' . PHP_EOL
-                                ]
-                            ],
-                            $string
-                        );
-                        */
-                    }
-                    if (empty($this->halt_literal())) {
-                        $string = Literal::restore($storage, $string);
-                    }
-                    if ($this->useThis() === true) {
-                        $storage->data('delete', 'this');
-                    }
-                } else {
-                    $exception = new Exception('Class (' . $class . ') doesn\'t exist');
-                    Event::trigger($object, 'parse.compile.exception', [
-                        'string' => $string,
-                        'data' => $data,
-                        'storage' => $storage,
-                        'depth' => $depth,
-                        'url' => $url,
-                        'url_mtime' => $file_mtime,
-                        'mtime' => $mtime,
-                        'exception' => $exception
-                    ]);
-                    throw $exception;
-                }
-            }
-            catch (Exception $exception){
-                return $exception;
+                $options->depth--;
+//                $object->config('package.raxon/parse.build.state.this.attribute', $attribute);
+//                $object->config('package.raxon/parse.build.state.this.property', $property);
+                return $input;
             }
         }
-        if($string === 'null'){
-            return null;
+        $source = $options->source ?? 'source';
+        $object->config('package.raxon/parse.build.state.source.url', $source);
+        $mtime = false;
+        if(
+            property_exists($options, 'source') &&
+            File::exist($options->source)
+        ){
+            $mtime = File::mtime($options->source);
+            $object->config('package.raxon/parse.build.state.source.mtime', $mtime);
         }
-        elseif($string === 'true'){
-            return true;
+        elseif(str_starts_with($source, 'internal_')){
+            $mtime = $object->config('package.raxon/parse.build.state.source.mtime');
         }
-        elseif($string === 'false'){
-            return false;
+//        d($options->source);
+        $object->config('package.raxon/parse.build.state.source.mtime', $mtime);
+        $class = Parse::class_name($object, $object->config('package.raxon/parse.build.state.source.url'));
+        $cache_url = false;
+        $is_plugin = false;
+        $is_cache_url = false;
+        $url_php = false;
+        $plugin_list = $object->config('cache.parse.plugin.list');
+        foreach($plugin_list as $plugin){
+            if(
+                property_exists($plugin, 'name') &&
+                $plugin->name === 'require'
+            ){
+                $is_plugin = $plugin;
+                break;
+            }
         }
-        elseif(is_numeric($string)){
-            if(trim($string, "\n\t ") === $string){
-                return $string + 0;
+        if(
+            $is_plugin &&
+            property_exists($is_plugin, 'name_length') &&
+            property_exists($is_plugin, 'name_separator') &&
+            property_exists($is_plugin, 'name_pop_or_shift')
+        ){
+            $options->class = Autoload::name_reducer(
+                $object,
+                $options->class ?? $class . '_' . $options->hash,
+                $is_plugin->name_length,
+                $is_plugin->name_separator,
+                $is_plugin->name_pop_or_shift
+            );
+            $cache_url = $object->config('ramdisk.url') .
+                $object->config(Config::POSIX_ID) .
+                $object->config('ds') .
+                $object->config('dictionary.view') .
+                $object->config('ds') .
+                $options->class .
+                $object->config('extension.php')
+            ;
+            $cache_dir = Dir::name($cache_url);
+            if(
+                File::exist($cache_url) &&
+                File::mtime($cache_url) === $mtime
+            ){
+                $url_php = $cache_url;
+                $is_cache_url = true;
+            }
+        }
+        $options->namespace = $options->namespace ?? 'Package\Raxon\Parse';
+        if($is_cache_url === false){
+            $dir = $object->config('ramdisk.url') .
+                $object->config(Config::POSIX_ID) .
+                $object->config('ds') .
+                $object->config('dictionary.view') .
+                $object->config('ds')
+            ;
+            Dir::create($dir, Dir::CHMOD);
+            $token = Token::tokenize($object, $flags, $options, $input);
+            if($is_debug){
+//                d($token);
+            }
+            $url_json = $dir . $options->class . $object->config('extension.json');
+            File::write($url_json, Core::object($token, Core::OBJECT_JSON));
+            if($cache_url){
+                $url_php = $cache_url;
             } else {
-                return $string;
+                $url_php = $dir .
+                    $options->class .
+                    $object->config('extension.php')
+                ;
             }
+            if($object->config(Parse::CONFIG . '.build.builder') === 'Build'){
+//                $document = Build::create($object, $flags, $options, $token);
+                $document = Build::create($object, $flags, $options, $token);
+            }
+            elseif($object->config(Parse::CONFIG . '.build.builder') === 'Compile'){
+                $document = Compile::create($object, $flags, $options, $token);
+            }
+            else {
+                $document = Build::create($object, $flags, $options, $token);
+            }
+//            d($url_php);
+            File::write($url_php, implode(PHP_EOL, $document));
+            File::permission(
+                $object,
+                [
+                    'dir' => $dir,
+                    'url_php' => $url_php,
+                    'url_json' => $url_json
+                ]
+            );
+            File::touch($url_json, $mtime);
+            File::touch($url_php, $mtime);
         }
-        $ob = ob_get_clean();
-        if($ob){
-            $string = $ob . $string;
+        if($url_php){
+            if(property_exists($options, 'info')){
+                echo $url_php . PHP_EOL;
+            }
+            $pre_require = microtime(true);
+            require_once $url_php;
+            $post_require = microtime(true);
+            $run = $options->namespace . '\\' . $options->class;
+            $main = new $run($object, $this, $data, $flags, $options);
+            $result = $main->run();
+            if(property_exists($options, 'duration')){
+                $microtime = microtime(true);
+                $duration_require = round(($post_require - $pre_require) * 1000, 2) . ' ms';
+                $duration_parse = round(($microtime - $post_require) * 1000, 2) . ' ms';
+                $duration_script = round(($microtime - $object->config('time.start')) * 1000, 2) . ' ms';
+                $microtime_explode = explode('.', $microtime);
+                $output = [
+                    'class' => $class,
+                    'namespace' => $options->namespace,
+                    'duration' => [
+                        'require' => $duration_require,
+                        'parse' => $duration_parse,
+                        'total' => $duration_script,
+                        'finish' => date('Y-m-d H:i:s', time()) . '.' . $microtime_explode[1]
+                    ]
+                ];
+                echo Core::object($output, Core::OBJECT_JSON) . PHP_EOL;
+            }
+            return Parse::result($result);
         }
-        return $string;
+        return null;
     }
 
     /**
@@ -1056,125 +511,8 @@ class Parse {
      */
     public static function readback($object, $parse, $type=null): mixed
     {
-        $data = $parse->storage()->data($type);
-        if(is_array($data)){
-            foreach($data as $key => $value){
-                $data[$key] = Literal::restore($parse->storage(), $value);
-            }
-        }
-        elseif(is_object($data)){
-            foreach($data as $key => $value){                
-                $data->$key = Literal::restore($parse->storage(), $value);
-            }
-        } else {
-            $data = Literal::restore($parse->storage(), $data);
-        }
-        $object->data($type, $data);
-        return $data;
-    }
-
-    /**
-     * @throws Exception
-     */
-    public static function prepare_code(App $object, $storage, $string): string
-    {
-        $is_disabled = $object->config('parse.compile.disable.function.Parse::prepare_code');
-        if($is_disabled){
-            return $string;
-        }
-        $string = str_replace('/*{{RAX}}*/', '{R3M}', $string); //rcss files
-        $string = str_replace('{{ R3M }}', '{R3M}', $string);
-        $string = str_replace('{{RAX}}', '{R3M}', $string);
-        $explode = explode('{R3M}', $string, 2);
-        if(array_key_exists(1, $explode)){
-            if(substr($explode[1], 0, 1) === PHP_EOL){
-                $string = substr($explode[1], 1);
-            } else {
-                $string = $explode[1];
-            }
-        }
-        if($storage->get('ldelim') === null){
-            $storage->set('ldelim','{');
-        }
-        if($storage->get('rdelim') === null){
-            $storage->set('rdelim','}');
-        }
-        $uuid = Core::uuid();
-        $storage->data('raxon.org.parse.compile.remove_newline', true);
-        $string = str_replace(
-            [
-                '{',
-                '}',
-            ],
-            [
-                '[$ldelim-' . $uuid . ']',
-                '[$rdelim-' . $uuid . ']',
-            ],
-            $string
-        );
-        $string = str_replace(
-            [
-                '[$ldelim-' . $uuid . ']',
-                '[$rdelim-' . $uuid . ']',
-            ],
-            [
-                '{$ldelim}',
-                '{$rdelim}',
-            ],
-            $string
-        );
-        $string = str_replace(
-            [
-                '{$ldelim}{$ldelim}',
-                '{$rdelim}{$rdelim}',
-            ],
-            [
-                '{',
-                '}',
-            ],
-            $string
-        );
-        return $string;
-    }
-
-    public static function finalize_code($object, $storage, $string): mixed
-    {
-        if(is_string($string)){
-            $string = str_replace('{', '{{', $string);
-            $string = str_replace('}', '}}', $string);
-            $string = str_replace('{$ldelim}', '{', $string);
-            $string = str_replace('{$rdelim}', '}', $string);
-            $string = str_replace('{{}', '{', $string);
-            $string = str_replace('{}}', '}', $string);
-        }
-        elseif(is_array($string)){
-            foreach($string as $nr => $str){
-                $string[$nr] = Parse::finalize_code($object, $storage, $str);
-            }
-        }
-        elseif(is_object($string)){
-            foreach($string as $key => $str){
-                $string->{$key} = Parse::finalize_code($object, $storage, $str);
-            }
-        }
-        return $string;
-    }
-
-    public static function comment($string=null, $comment=null): mixed
-    {
-        if(
-            is_string($string) &&
-            is_string($comment)
-        ){
-            $string .=
-                PHP_EOL .
-                '/*' .
-                PHP_EOL .
-                $comment .
-                PHP_EOL .
-                '*/';
-        }
-
-        return $string;
+        $data = $parse->data();
+        $object->data($type, $data->get($type));
+        return $data->get($type);
     }
 }

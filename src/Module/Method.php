@@ -1,642 +1,541 @@
 <?php
-/**
- * @author          Remco van der Velde
- * @since           04-01-2019
- * @copyright       (c) Remco van der Velde
- * @license         MIT
- * @version         1.0
- * @changeLog
- *  -    all
- */
 namespace Raxon\Parse\Module;
 
+use Raxon\App;
+
 use Raxon\Module\Core;
-use Raxon\Module\Data;
+use Raxon\Module\File;
 
 use Exception;
-
-class Method {
-    const WHERE_BEFORE = 'before';
-    const WHERE_AFTER = 'after';
-
-    /**
-     * @throws Exception
-     */
-    public static function get(Build $build, Data $storage, $record=[], $is_debug=false): array
+class Method
+{
+    public static function define(App $object, $flags, $options, $input=[], $tag=[]): array
     {
-        if($record['type'] != Token::TYPE_METHOD){
-            return $record;
+        if(!is_array($input)){
+            return $input;
         }
-        $attribute = '';
-        if(
-            !array_key_exists('attribute', $record['method'])
-        ){
-            $record['method']['attribute'] = [];
+        if(array_key_exists('array', $input) === false){
+            return $input;
         }
-        if(array_key_exists('attribute', $record['method'])){
-            if(!array_key_exists('php_name', $record['method'])){
-                trace();
-                ddd($record);
-            }
-            if($record['method']['php_name'] == Token::TYPE_FOR){
-                $record['method']['assign_before'] = Method::getAssign($record['method']['attribute'], Method::WHERE_BEFORE);
-                $record['method']['assign_after'] = Method::getAssign($record['method']['attribute'], Method::WHERE_AFTER);
-                $record['method']['attribute'] = Method::getAttribute($record['method']['attribute']);
-            }
-            elseif($record['method']['php_name'] == Token::TYPE_FOREACH){
-                $as_is = false;
-                $is_key_value = false;
-                $has_key = false;
-                foreach($record['method']['attribute'][0] as $nr => $item){
-                    if(
-                        in_array(
-                            $item['value'],
-                            [
-                                '=>'
-                            ],
-                            true
-                        )
-                    ){
-                        $is_key_value = true;
-                    }
-                    $record['method']['attribute'][0][$nr]['is_foreach'] = true;
-                }
-                foreach($record['method']['attribute'][0] as $nr => $item){
-                    if(
-                        in_array(
-                            $item['value'],
-                            [
-                                'as',
-                                '=>'
-                            ],
-                            true
-                        )
-                    ){
-                        $as_is = true;
-                    }
-                    if($as_is === true){
-                        $record['method']['attribute'][0][$nr]['value_old'] = $item['value'];
-                        $record['method']['attribute'][0][$nr]['type_old'] = $item['type'];
-                        if(
-                            $is_key_value === true &&
-                            $has_key === false &&
-                            $item['type'] == Token::TYPE_VARIABLE
-                        ){
-                            $record['method']['attribute'][0][$nr]['value'] = ' ' . Core::uuid_variable() . ' ';
-                            $has_key = true;
-                        }
-                        elseif(
-                            $is_key_value === false &&
-                            $has_key === false &&
-                            $item['type'] == Token::TYPE_VARIABLE
-                        ){
-                            $record['method']['attribute'][0][$nr]['value'] = ' ' . Core::uuid_variable() . ' ';
-                            $has_key = true;
-                        }
-                        elseif(
-                            $is_key_value === true &&
-                            $has_key === true &&
-                            $item['type'] == Token::TYPE_VARIABLE
-                        ){
-                            $record['method']['attribute'][0][$nr]['value'] = ' ' . Core::uuid_variable() . ' ';
-                        } else {
-                            $record['method']['attribute'][0][$nr]['value'] = ' ' . $item['value'] . ' ';
-                        }
-                        $record['method']['attribute'][0][$nr]['type'] = Token::TYPE_CODE;
-                        $record['method']['attribute'][0][$nr]['is_operator'] = false;
-                        $record['method']['attribute'][0][$nr]['is_key_value'] = $is_key_value;
-                    }
-                }
-            }   
-            $multi_line = Build::getPluginMultiline($build->object());                     
-            if(
-                in_array(
-                    $record['method']['name'],
-                    $multi_line,
-                    true
-                )
-            ){                
-                $list = [];
-                foreach($record['method']['attribute'] as $nr => $token){
-                    if(!array_key_exists($nr, $list)){
-                        $list[$nr] = '';
-                    }
-                    foreach($token as $token_key => $token_value){
-                        if(array_key_exists('parse', $token_value)){
-                            $list[$nr] .= $token_value['parse'];
-                        } else {
-                            $list[$nr] .= $token_value['value'];
-                        }                        
-                    }
-                    $list[$nr] = str_replace(
-                        [
-                            '{',
-                            '}',
-                            '{{$ldelim}}',
-                            '{{$rdelim}}',
-                            '\\\'',
-                            '\'',
-                        ],
-                        [
-                            '{{',
-                            '}}',
-                            '{',
-                            '}',
-                            '\\\\\'',
-                            '\\\''
-                        ],
-                        $list[$nr]
-                    );
-                }
-                foreach($list as $nr => $value){
-                    if(substr($value, 0, 2) === '\\\'' && substr($value, -2, 2) === '\\\''){
-                        $value = substr($value, 2, -2);
-                    }
-                    if(is_string($value)){
-                        $value = '$this->parse()->compile(\'' . $value .'\', [], $this->storage())';
-                    }
+        if(empty($tag)){
 
-                    $attribute .= $value . ', ';
-                }
-            } else {
-                foreach($record['method']['attribute'] as $nr => $token){
-                    $token = $build->require('modifier', $token);
-                    $token = $build->require('function', $token);
-                    $value = Variable::getValue($build, $storage, $token);
-                    $attribute .= $value . ', ';
-                }
-            }
-            if($record['method']['php_name'] == Token::TYPE_FOR){
-                $assign = [];
-                $assign_nr = 0;
-                foreach($record['method']['assign_before'] as $nr => $selection){
-                    foreach($selection as $selection_nr => $select){
-                        if($select['type'] == Token::TYPE_COMMA){
-                            $assign_nr++;
-                            continue;
-                        }
-                        $assign[$assign_nr][$selection_nr] = $select;
-                    }
-                }
-                $assign_before = '';
-                foreach($assign as $nr => $selection){
-                    $assign_before .= Variable::Assign($build, $storage, $selection) . ', ';
-                }
-                $assign = [];
-                $assign_nr = 0;
-                foreach($record['method']['assign_after'] as $nr => $selection){
-                    foreach($selection as $selection_nr => $select){
-                        if($select['type'] == Token::TYPE_COMMA){
-                            $assign_nr++;
-                            continue;
-                        }
-                        $assign[$assign_nr][$selection_nr] = $select;
-                    }
-                }
-                $assign_after = '';
-                foreach($assign as $nr => $selection){
-                    $assign_after .= Variable::Assign($build, $storage, $selection) . ', ';
-                }
-                $attribute =
-                    substr($assign_before, 0, -2) .
-                    ';' .
-                    substr($attribute, 0, -2) .
-                    ';' .
-                    substr($assign_after, 0, -2);
-                $assign = '';
-            }
-            elseif($record['method']['php_name'] == Token::TYPE_FOREACH){
-                $attribute = substr($attribute, 0, -2);
-                $assign = '';
-                $is_assign = false;
-                $token = [];
-                $build->indent += 1;
-                foreach($record['method']['attribute'][0] as $nr => $item){
-                    if(
-                        array_key_exists('type_old', $item) &&
-                        $item['type_old'] == Token::TYPE_VARIABLE
-                    ){
-                       $assign .= $build->indent() . '$this->storage()->data(\'' . $item['variable']['attribute'] . '\', ' . $item['value'] . ');' . "\n";
-                    }
-                }
-                $build->indent -= 1;
-            } else {
-                $attribute = substr($attribute, 0, -2);
-            }
+            return $input;
+            trace();
+            breakpoint($input);
+            breakpoint($tag);
         }
-        if(array_key_exists('php_name', $record['method'])){
+
+        $has_name = false;
+        $name = false;
+        $is_method = false;
+        $set_depth = 0;
+        $array_depth = 0;
+        $is_single_quote = false;
+        $is_double_quote = false;
+        $is_class_method = false;
+        $argument = '';
+        $argument_array = [];
+        $argument_list = [];
+        $argument_nr = 0;
+        $separator = ',';
+        $call_type = '';
+        $is_for = false;
+        $is_variable_method = false;
+        foreach($input['array'] as $nr => $char){
+            if(!is_numeric($nr)){
+                // ',' in modifier causes this
+                continue;
+            }
+            $previous = Token::item($input, $nr - 1);
+            $next = Token::item($input, $nr + 1);
             if(
-                in_array(
-                    $record['method']['php_name'],
-                    [
-                        'if',
-                        'elseif',
-                        'else.if',
-                        'for',
-                        'foreach',
-                        'while',
-                        'switch',
-                        'break',
-                        'continue'
-                    ],
-                    true
-                )
+                is_array($char) &&
+                array_key_exists('value', $char) &&
+                $char['value'] === '(' &&
+                $is_method === false
             ){
-                $name = $record['method']['name'];
-                $indent = $build->indent;
-                if($name == 'for.each'){
-                    $name = 'foreach';
-                }
-                elseif($name === 'elseif'){
-                    $indent -= 1; //$build->indent($build->indent-1);
-                    $build->indent($indent);
-                    $name = '}' . "\n" . $build->indent() . $name;
-                }
-                elseif($name === 'else.if'){
-                    $indent -= 1; //$build->indent($build->indent-1);
-                    $build->indent($indent);
-                    $name = '}' . "\n" . $build->indent() . 'elseif';
-                }
-                if(
-                    in_array(
-                        $name,
-                        [
-                            'break',
-                            'continue'
-                        ],
-                        true
-                    )
-                ){
-                    if(empty($attribute)){
-                        $result = $name;
-                    } else {
-                        $result = $name . ' ' . $attribute;
-                    }
-                } else {
-                    $result = $name . '(' . $attribute . ')';
-                    if(!empty($assign)){
-                        $result .= '{' . "\n" . $assign;
-                    }
-                }
-            } else {
-                if(empty($record['method']['trait'])){
-                    if(empty($attribute)){
-                        if(
-                            $attribute === 0 ||
-                            $attribute === '0'
-                        ){
-                            $result = '$this->' . $record['method']['php_name'] . '($this->parse(), $this->storage(), 0)';
-                        } else {
-                            $result = '$this->' . $record['method']['php_name'] . '($this->parse(), $this->storage())';
-                        }
+                $name = '';
+                $is_method = $nr;
+                for($i = $nr - 1; $i >= 0; $i--){
+                    if($input['array'][$i] !== null){
+                        if(is_array($input['array'][$i])){
+                            if(
+                                array_key_exists('value', $input['array'][$i]) &&
+                                in_array(
+                                    $input['array'][$i]['value'],
+                                    [
+                                        '.',
+                                        '_',
+                                        '\\',
+                                        ':',
+                                        '::',
+                                        '->',
+                                        '$'
+                                    ],
+                                    true
+                                ) &&
+                                $name !== ''
+                            ){
+                                if($input['array'][$i]['value'] === '::'){
+                                    $is_class_method = true;
+                                    $call_type = '::';
+                                    $name .= $input['array'][$i]['value'];
+                                }
+                                elseif($input['array'][$i]['value'] === '->'){
+                                    $is_class_method = true;
+                                    $call_type = '->';
+                                    $name .= '>-'; //we are going to reverse this
+                                }
+                                elseif($input['array'][$i]['value'] === '$'){
+                                    $is_variable_method = true;
+                                    $name .= $input['array'][$i]['value'];
+                                } else {
+                                    $name .= $input['array'][$i]['value'];
+                                }
 
-                    } else {
-                        $result = '$this->' . $record['method']['php_name'] . '($this->parse(), $this->storage(), ' . $attribute . ')';
-                    }
-                } else {
-                    $trait_name = explode('function_', $record['method']['php_name'], 2);
-                    if(array_key_exists(1, $trait_name)){
-                        $trait_name = $trait_name[1];
-                    } else {
-                        $trait_name = $trait_name[0];
-                    }
-                    if(empty($attribute)){
-                        if(
-                            $attribute === 0 ||
-                            $attribute === '0'
-                        ){
-                            $result = '$this->' . $trait_name . '(0)';
+                            } else {
+                                break;
+                            }
                         } else {
-                            $result = '$this->' . $trait_name . '()';
-                        }
-                    } else {
-                        $result = '$this->' . $trait_name . '(' . $attribute . ')';
-                    }
-                    $parse = $build->parse();
-                    $list = $parse->storage()->get('import.trait');
-                    if(empty($list)){
-                        $list = [];
-                    }
-                    $in_list = false;
-                    foreach($list as $nr => $item){
-                        if(
-                            $item['name'] === $record['method']['trait'] &&
-                            $item['namespace'] === $record['method']['namespace']
-                        ){
-                            $in_list = true;
-                            break;
-                        }
-                        if(
-                            array_key_exists('method', $record) &&
-                            array_key_exists('name', $record['method']) &&
-                            array_key_exists('namespace', $record['method'])
-                        ){
-                            $name = str_replace('.', '_', $record['method']['name']);
-                            $namespace = str_replace('.', '\\', $record['method']['namespace']);
-                            if(substr($namespace, -1 ,1) !== '\\'){
-                                $namespace .= '\\';
+                            if(
+                                in_array(
+                                    $input['array'][$i],
+                                    [
+                                        null,
+                                        ' ',
+                                        "\n",
+                                        "\r",
+                                        "\t"
+                                    ],
+                                    true
+                                ) &&
+                                $is_single_quote === false &&
+                                $is_double_quote === false &&
+                                $name !== ''
+                            ){
+                                break;
+                            }
+                            elseif(
+                                in_array(
+                                    $input['array'][$i],
+                                    [
+                                        null,
+                                        ' ',
+                                        "\n",
+                                        "\r",
+                                        "\t"
+                                    ],
+                                    true
+                                )
+                            ){
+                                continue;
+                            }
+                            else {
+                                $name .= $input['array'][$i];
                             }
                         }
                     }
-                    if(!$in_list){
-                        $item = [];
-                        $item['name'] = $record['method']['trait'];
-                        $item['namespace'] = $record['method']['namespace'];
-                        $list[] = $item;
-                    }
-                    $parse->storage()->set('import.trait', $list);
                 }
-            }
-            $record['value'] = $result;
-            $record['type'] = Token::TYPE_CODE;
-        }
-        return $record;
-    }
-
-    /**
-     * @throws Exception
-     */
-    public static function get_trait(Build $build, Data $storage, $record=[], $is_debug=false): array
-    {
-        if($record['type'] !== Token::TYPE_METHOD){
-            return $record;
-        }
-        $attribute = [];
-        if(
-            !array_key_exists('attribute', $record['method'])
-        ){
-            $record['method']['attribute'] = [];
-        }
-        if(array_key_exists('attribute', $record['method'])){
-            $multi_line = Build::getPluginMultiline($build->object());
-            if(
-                in_array(
-                    $record['method']['name'],
-                    $multi_line,
-                    true
-                )
-            ){
-                $list = [];
-                foreach($record['method']['attribute'] as $nr => $token){
-                    if(!array_key_exists($nr, $list)){
-                        $list[$nr] = '';
-                    }
-                    foreach($token as $token_key => $token_value){
-                        if(array_key_exists('parse', $token_value)){
-                            $list[$nr] .= $token_value['parse'];
-                        } else {
-                            $list[$nr] .= $token_value['value'];
-                        }
-                    }
-                    $list[$nr] = str_replace(
-                        [
-                            '{{',
-                            '}}',
-                            '\\\'',
-                            '\'',
-                        ],
-                        [
-                            '{',
-                            '}',
-                            '\\\\\'',
-                            '\\\''
-                        ],
-                        $list[$nr]
-                    );
+                if($name === ''){
+                    $is_method = false;
                 }
-                foreach($list as $nr => $value){
-                    if(substr($value, 0, 2) == '\\\'' && substr($value, -2, 2) == '\\\''){
-                        $value = substr($value, 2, -2);
-                    }
+                if($name && $has_name === false){
                     /*
-                    if(is_string($value)){
-                        $value = '$this->parse()->compile(\'' . $value .'\', [], $this->storage())';
+                    $is_smiley = false;
+                    $ord = mb_ord($name);
+                    if($ord >= 128076 && $ord <= 128591){
+                        breakpoint($name);
+//                        $name = 'smiley_' . $ord;
+                        $is_smiley = true;
                     }
                     */
-                    $attribute[]  = $value;
-                }
-            } else {
-                foreach($record['method']['attribute'] as $nr => $token){
-                    $token = $build->require('function', $token);
-                    $value = Variable::getValue($build, $storage, $token);
-                    $attribute[] = $value;
+                    if(mb_substr($name[0], 0, 1) === ':'){
+                        //modifier with argument set
+                        $name = '';
+                        $is_method = false;
+                    } else {
+                        $name = implode(array_reverse(mb_str_split($name)));
+                        if($is_class_method){
+                            $explode = explode($call_type, $name, 2);
+                            if(array_key_exists(1, $explode)){
+                                $class = $explode[0];
+                                $name = $explode[1];
+                            }
+                        }
+                        $has_name = true;
+                    }
                 }
             }
-        }
-        $result = end($attribute); //'$this->' . $record['method']['php_name'] . '($this->parse(), $this->storage(), ' . $attribute . ')';
-        $record['value'] = $result;
-        $record['type'] = Token::TYPE_CODE;
-        if(str_contains($record['method']['php_name'], 'php_define')){
-            ddd($record);
-        }
-        return $record;
-    }
-
-    /**
-     * @throws Exception
-     */
-    private static function getAssign($token=[], $where=''): array
-    {
-        if(empty($where)){
-            $where = Method::WHERE_BEFORE;
-        }
-        $data = [];
-        switch($where){
-            case Method::WHERE_BEFORE :
-                if(isset($token[0])){
-                    $data[0] = $token[0];
-                } else {
-                    $data[0] = [];
-                }
-                return $data;
-            case Method::WHERE_AFTER :
-                if(isset($token[2])){
-                    $data[0] = $token[2];
-                } else {
-                    $data[0] = [];
-                }
-                return $data;
-            default:
-                throw new Exception('Unknown method in getAssign (' . $where . ')');
-        }
-    }
-
-    private static function getAttribute($token=[]): array
-    {
-        $data = [];
-        if(isset($token[1])){
-            $data[0] = $token[1];
-        } else {
-            $data[0] = [];
-        }
-        return $data;
-    }
-
-    /**
-     * @throws Exception
-     */
-    public static function create_control(Build $build, Data $storage, $token=[]): string
-    {
-        $method = array_shift($token);
-        $record = Method::get($build, $storage, $method);
-        if($record['type'] === Token::TYPE_CODE){
-            return $record['value'];
-        }
-        throw new Exception('Method type (' . $record['type'] . ') undefined');
-    }
-
-    /**
-     * @throws Exception
-     */
-    public static function create(Build $build, Data $storage, $token=[]): string
-    {
-        $method = array_shift($token);
-        $record = Method::get($build, $storage, $method);
-        if($record['type'] === Token::TYPE_CODE){
-            return $record['value'];
-        }
-        throw new Exception('Method type (' . $record['type'] . ') undefined');
-    }
-
-    /**
-     * @throws Exception
-     */
-    public static function create_trait(Build $build, Data $storage, $token=[], $is_debug=false): array
-    {
-        $method = array_shift($token);
-        $method['method']['attribute'][] = $token;
-        $record = Method::get_trait($build, $storage, $method, $is_debug);
-        if($record['type'] === Token::TYPE_CODE){
             if(
-                in_array(
-                    $record['method']['name'],
-                    [
-                        'trait'
-                    ],
-                    true
-                )
+                $is_method !== false &&
+                $name &&
+                $has_name === true
             ){
-                $attribute = current($record['method']['attribute'][0]);
+                if($name === 'for'){
+                    $old_separator = $separator;
+                    $separator = ';';
+                    $is_for = true;
+                }
                 if(
-                    array_key_exists('value', $attribute) &&
-                    array_key_exists('type', $attribute) &&
-                    $attribute['type'] === Token::TYPE_QUOTE_DOUBLE_STRING
-                ){
-                    $attribute['execute'] = trim($attribute['value'], '"');
-                }
-                $explode = explode(':', $attribute['execute']);
-                $namespace = false;
-                if(array_key_exists(1, $explode)){
-                    $namespace = $explode[0];
-                    $name = $explode[1];
-                } else {
-                    $name = $explode[0];
-                }
-                $trait = [];
-                $trait['name'] = $name;
-                $trait['namespace'] = $namespace;
-                $trait['value'] = $record['value'];
-                $trait['value'] = str_replace(
-                    [
-                        '\\\'',
-                        '{$ldelim}',
-                        '{$rdelim}',
-                    ],
-                    [
-                        '\'',
-                        '{',
-                        '}'
-                    ],
-                    $trait['value']
-                );
-                return $trait;
-            }
-        }
-        throw new Exception('Method type (' . $record['type'] . ') undefined');
-    }
-
-    /**
-     * @throws Exception
-     */
-    public static function create_capture(Build $build, Data $storage, $token=[], $is_debug=false): string
-    {
-        $method = array_shift($token);
-        $method['method']['attribute'][] = $token;
-        $record = Method::get($build, $storage, $method, $is_debug);
-        if($record['type'] === Token::TYPE_CODE){
-            if(
-                in_array(
-                    $record['method']['name'],
-                    [
-                        'capture.append',
-                        'capture.prepend'
-                    ],
-                    true
-                )
-            ){
-                $attribute = current($record['method']['attribute'][0]);
-                if(array_key_exists('execute', $attribute)){
-                    $record['value'] = '$this->storage()->data(\''. $record['method']['name'] .'\', \'' . $attribute['execute'] . '\');' .
-                        "\n" .
-                        $build->indent() . $record['value'] .
-                        ';' . "\n" . $build->indent() . '$this->storage()->data(\'delete\',\'' . $record['method']['name'] . '\')';
-                }
-            }
-            return $record['value'];
-        }
-        throw new Exception('Method type (' . $record['type'] . ') undefined');
-    }
-
-    public static function capture_selection(Build $build, Data $storage, $tree=[], $selection=[]): array
-    {
-        $key = key($selection);
-        $is_collect = false;
-        $break = '';
-        $tag = '';
-        $depth = 0;
-        $is_curly_close = null;
-        foreach($tree as $nr => $record){
-            if($nr == $key){
-                $is_collect = true;
-                $tag = $record['value'];
-                $break = '/' . $tag;
-                $is_curly_close = false;
-                $depth = 1;
-            }
-            if($is_collect === true){
-                if(
-                    $record['type'] == Token::TYPE_METHOD &&
-                    $record['value'] == $tag &&
-                    $nr <> $key
-                ){
-                    $depth++;
+                    is_array($char) &&
+                    array_key_exists('value', $char) &&
+                    $char['value'] === '('
+                ) {
+                    $set_depth++;
+                    if($set_depth !== 1){
+                        $argument_array[] = $char;
+                        $argument .= $char['value'];
+                    }
                 }
                 elseif(
-                    $record['type'] == Token::TYPE_CURLY_CLOSE &&
-                    $is_curly_close === false
+                    is_array($char) &&
+                    array_key_exists('value', $char) &&
+                    $char['value'] === ')'
                 ){
-                    $is_curly_close = true;
-                    continue;
+                    $set_depth--;
+                    if($set_depth !== 0){
+                        $argument_array[] = $char;
+                        $argument .= $char['value'];
+                    } else{
+                        if(array_key_exists(0, $argument_array)){
+                            $argument_value = Cast::define(
+                                $object,
+                                $flags,
+                                $options,
+                                [
+                                    'string' => $argument,
+                                    'array' => $argument_array
+                                ]
+                            );
+                            $argument_value = Token::value(
+                                $object,
+                                $flags,
+                                $options,
+                                $argument_value,
+                                $tag
+                            );
+                            $argument_list[$argument_nr] = $argument_value;
+                            $argument_array = [];
+                            $argument = '';
+                            $argument_nr = 0;
+                        } else {
+                            if($name === 'for'){
+                                $argument_array[] = [
+                                    'type' => 'null',
+                                    'value' => 'null',
+                                    'execute' => null,
+                                    'is_null' => true
+                                ];
+                                $argument = 'null';
+                                $argument_list[$argument_nr] = [
+                                    'string' => $argument,
+                                    'array' => $argument_array
+                                ];
+                            }
+                            $argument_array = [];
+                            $argument = '';
+                            $argument_nr = 0;
+                        }
+                        $input['array'][$is_method]['method'] = [
+                            'name' => $name,
+                            'argument' => $argument_list
+                        ];
+                        $input['array'][$is_method]['type'] = 'method';
+                        $input['array'][$is_method]['tag'] = $tag['tag'] ?? '';
+                        $input['array'][$is_method]['line'] = $tag['line'] ?? 'unknown';
+                        $input['array'][$is_method]['length'] = $tag['length'] ?? 'unknown';
+                        $input['array'][$is_method]['column'] = $tag['column'] ?? [
+                            'start' => 0,
+                            'end' => 0
+                        ];
+                        if($is_variable_method === true){
+                            $call_type = '::';
+                            $explode = explode($call_type, $name, 2);
+                            if(array_key_exists(1, $explode)){
+                                $input['array'][$is_method]['method']['name'] = $explode[1];
+                            } else {
+                                $call_type = '->';
+                                $explode = explode($call_type, $name, 2);
+                                if(array_key_exists(1, $explode)){
+                                    $input['array'][$is_method]['method']['name'] = $explode[1];
+                                }
+                            }
+                            $input['array'][$is_method]['type'] = 'variable_method';
+                            $input['array'][$is_method]['method']['call_type'] = $call_type;
+                            $input['array'][$is_method]['variable'] = [
+                                'type' => 'variable',
+                                'tag' => $explode[0],
+                                'name' => mb_substr($explode[0], 1),
+                                'is_reference' => false
+                            ];
+                            $input['array'][$is_method]['tag'] = $name .'(';
+                            $argument_count = count($argument_list);
+                            foreach($argument_list as $argument_nr => $argument){
+                                $input['array'][$is_method]['tag'] .= $argument['string'];
+                                if($argument_nr < $argument_count - 1){
+                                    $input['array'][$is_method]['tag'] .= ', ';
+                                }
+                            }
+                            $input['array'][$is_method]['tag'] .= ')';
+                        }
+                        elseif($is_class_method === true){
+                            $input['array'][$is_method]['method']['is_class_method'] = true;
+                            $input['array'][$is_method]['method']['class'] = $class ?? null;
+                            $input['array'][$is_method]['method']['call_type'] = $call_type;
+                        }
+                        unset($input['array'][$is_method]['value']);
+                        $argument_list = [];
+                        $argument_array = [];
+                        $argument = '';
+                        $argument_nr = 0;
+                        $method_name_reverse = '';
+                        for($i = $is_method - 1; $i >= 0; $i--){
+                            if(
+                                !is_array($input['array'][$i]) &&
+                                in_array(
+                                    $input['array'][$i],
+                                    [
+                                        null,
+                                        ' ',
+                                        "\n",
+                                        "\r",
+                                        "\t",
+                                    ],
+                                    true
+                                ) &&
+                                $is_single_quote === false &&
+                                $is_double_quote === false &&
+                                $is_class_method === false &&
+                                $method_name_reverse !== ''
+                            ){
+                                break;
+                            }
+                            elseif(
+                                !is_array($input['array'][$i]) &&
+                                in_array(
+                                    $input['array'][$i],
+                                    [
+                                        ' ',
+                                        "\n",
+                                        "\r",
+                                        "\t",
+                                    ],
+                                    true
+                                ) &&
+                                $is_single_quote === false &&
+                                $is_double_quote === false &&
+                                $is_class_method === true &&
+                                $method_name_reverse !== ''
+                            ){
+                                break;
+                            }
+                            elseif(is_array($input['array'][$i])){
+                                if(
+                                    array_key_exists('value', $input['array'][$i]) &&
+                                    in_array(
+                                        $input['array'][$i]['value'],
+                                        [
+                                            '.',
+                                            '_',
+                                            ':',
+                                            '\\',
+                                            '::',
+                                            '->',
+                                            '$'
+                                        ],
+                                        true
+                                    )
+                                ){
+                                    $method_name_reverse .= $input['array'][$i]['value'];
+                                    $input['array'][$i] = null;
+                                }
+                                elseif(
+                                    array_key_exists('value', $input['array'][$i]) &&
+                                    $input['array'][$i]['value'] === '|' &&
+                                    $previous !== '|' &&
+                                    $next !== '|' &&
+                                    $is_single_quote === false &&
+                                    $is_double_quote === false
+                                ){
+                                    break;
+                                }
+                            } else {
+                                if(
+                                    !in_array(
+                                        $input['array'][$i],
+                                        [
+                                            ' ',
+                                            "\n",
+                                            "\r",
+                                            "\t"
+                                        ], true
+                                    )
+                                ){
+                                    $method_name_reverse .= $input['array'][$i];
+                                }
+                                $input['array'][$i] = null;
+                            }
+                        }
+                        for($i = $is_method + 1; $i <= $nr; $i++){
+                            $input['array'][$i] = null;
+                        }
+                        // add modifier for methods
+                        $is_method = false;
+                        $is_variable_method = false;
+                        $has_name = false;
+                    }
                 }
-                elseif(
-                    $record['type'] == Token::TYPE_TAG_CLOSE &&
-                    $record['tag']['name'] == $break &&
-                    $depth == 1
-                ){
-                    $is_collect = false;
-                    array_pop($selection);
-                    break;
+                elseif($set_depth > 0){
+                    if(
+                        is_array($char) &&
+                        array_key_exists('value', $char) &&
+                        $char['value'] === '\'' &&
+                        $previous !== '\\' &&
+                        $is_single_quote === false &&
+                        $is_double_quote === false
+                    ){
+                        $is_single_quote = true;
+                        $argument_array[] = $char;
+                        $argument .= $char['value'];
+                    }
+                    elseif(
+                        is_array($char) &&
+                        array_key_exists('value', $char) &&
+                        $char['value'] === '\'' &&
+                        $previous !== '\\' &&
+                        $is_single_quote === true &&
+                        $is_double_quote === false
+                    ){
+                        $is_single_quote = false;
+                        $argument_array[] = $char;
+                        $argument .= $char['value'];
+                    }
+                    elseif(
+                        is_array($char) &&
+                        array_key_exists('value', $char) &&
+                        $char['value'] === '"' &&
+                        $previous !== '\\' &&
+                        $is_single_quote === false &&
+                        $is_double_quote === false
+                    ){
+                        $is_double_quote = true;
+                        $argument_array[] = $char;
+                        $argument .= $char['value'];
+                    }
+                    elseif(
+                        is_array($char) &&
+                        array_key_exists('value', $char) &&
+                        $char['value'] === '"' &&
+                        $previous !== '\\' &&
+                        $is_single_quote === false &&
+                        $is_double_quote === true
+                    ){
+                        $is_double_quote = false;
+                        $argument_array[] = $char;
+                        $argument .= $char['value'];
+                    }
+                    elseif(
+                        is_array($char) &&
+                        array_key_exists('value', $char) &&
+                        $char['value'] === '[' &&
+                        $is_single_quote === false &&
+                        $is_double_quote === false
+                    ){
+                        $array_depth++;
+                        $argument_array[] = $char;
+                        $argument .= $char['value'];
+                    }
+                    elseif(
+                        is_array($char) &&
+                        array_key_exists('value', $char) &&
+                        $char['value'] === ']' &&
+                        $is_single_quote === false &&
+                        $is_double_quote === false
+                    ){
+                        $array_depth--;
+                        $argument_array[] = $char;
+                        $argument .= $char['value'];
+                    }
+                    elseif(
+                        is_array($char) &&
+                        array_key_exists('value', $char) &&
+                        $char['value'] === $separator &&
+                        $set_depth === 1 &&
+                        $array_depth === 0 &&
+                        $is_single_quote === false &&
+                        $is_double_quote === false
+                    ){
+                        if(array_key_exists(0, $argument_array)){
+                            $argument_value = Cast::define(
+                                $object,
+                                $flags,
+                                $options,
+                                [
+                                    'string' => $argument,
+                                    'array' => $argument_array
+                                ]
+                            );
+                            $argument_value = Token::value(
+                                $object,
+                                $flags,
+                                $options,
+                                $argument_value,
+                                $tag
+                            );
+                            $argument_list[$argument_nr] = $argument_value;
+                            $argument_array = [];
+                            $argument = '';
+                        } else {
+                            if($name === 'for'){
+                                $argument_array[] = [
+                                    'type' => 'null',
+                                    'value' => 'null',
+                                    'execute' => null,
+                                    'is_null' => true
+                                ];
+                                $argument = 'null';
+                                $argument_list[$argument_nr] = [
+                                    'string' => $argument,
+                                    'array' => $argument_array
+                                ];
+                            }
+                            $argument_array = [];
+                            $argument = '';
+                        }
+                        $argument_nr++;
+                    } else {
+                        if(
+                            is_string($char) &&
+                            in_array(
+                                $char,
+                                [
+                                    ' ',
+                                    "\n",
+                                    "\r",
+                                    "\t"
+                                ],
+                                true
+                            ) &&
+                            $is_single_quote === false &&
+                            $is_double_quote === false
+                        ){
+                            $argument .= $char;
+                            $argument_array[] = $char;
+                        } else {
+                            $argument_array[] = $char;
+                            if(is_array($char) && array_key_exists('value', $char)){
+                                $argument .= $char['value'];
+                            } else {
+                                $argument .= $char;
+                            }
+                        }
+                    }
                 }
-                elseif(
-                    $record['type'] == Token::TYPE_TAG_CLOSE &&
-                    $record['tag']['name'] == $break &&
-                    $depth > 1
-                ){
-                    $depth--;
+                if($name === 'for'){
+                    $separator = $old_separator;
                 }
-                $selection[$nr] = $record;
             }
         }
-        return $selection;
+        return $input;
     }
 }

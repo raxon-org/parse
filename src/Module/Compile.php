@@ -3,10 +3,8 @@ namespace Raxon\Parse\Module;
 
 use Raxon\App;
 
-use Raxon\Config;
 use Raxon\Module\Autoload;
 use Raxon\Module\Core;
-use Raxon\Module\Data;
 use Raxon\Module\File;
 
 use Plugin;
@@ -64,7 +62,7 @@ class Compile
         $collection = [];
         $is_script = 0;
         $script_method = false;
-        $lines = [];
+        $line = '';
         foreach($tags as $row_nr => $list) {
             foreach ($list as $nr => $record) {
                 if (
@@ -76,38 +74,8 @@ class Compile
                 ) {
                     $is_script--;
                     if ($is_script === 0) {
-                        $options->class_root = $options->class ?? 'Main';
-                        $uuid = substr(Core::uuid_variable(), 1);
-                        $options->class = 'Internal_' . $uuid;
-                        $document = Compile::document_header($object, $flags, $options);
-                        $document = Compile::document_use($object, $flags, $options, $document, 'package.raxon/parse.build.use.class');
-                        $document[] = '';
-                        $document[] = 'class '. $options->class .' {';
-                        $document[] = '';
-                        $object->config('package.raxon/parse.build.state.indent', 1);
-                        //indent++
-                        $document = Compile::document_use($object, $flags, $options, $document, 'package.raxon/parse.build.use.trait');
-                        $document[] = '';
-                        $document = Compile::document_construct($object, $flags, $options, $document);
-                        $document[] = '';
-//        d($data);
-                        $document = Compile::document_run_block($object, $flags, $options, $document, $collection);
-                        $document[] = '}';
-                        $dir = $object->config('ramdisk.url') .
-                            $object->config(Config::POSIX_ID) .
-                            $object->config('ds') .
-                            $object->config('dictionary.view') .
-                            $object->config('ds')
-                        ;
-                        $url_php = $dir . $options->class . $object->config('extension.php');
-                        File::write($url_php, implode(PHP_EOL, $document));
-                        require_once $url_php;
-                        $data_class = new Data($object->data());
-                        $parse = new Parse($object, $data_class, $flags, $options);
-                        $class = 'Package\\Raxon\\Parse\\' . $options->class;
-                        $instance = new $class($object, $parse, $data_class, $flags, $options);
-                        $content = $instance->run();
-                        ddd($content);
+                        d($script_method);
+                        ddd($collection);
                         $script_method = false;
                     }
                 }
@@ -130,236 +98,23 @@ class Compile
                         }
                         continue;
                     } else {
-                        $method = Compile::plugin($object, $flags, $options, $record, $record['method']['name']) . '(';
+                        $method = '$this->' . $record['method']['name'] . '(';
                         $method .= Compile::argument($object, $flags, $options, $record, $before, $after);
-                        $method .= ');';
-                        foreach($before as $line){
-                            $lines[] = $line;
-                        }
-                        $lines[] = $method;
+                        $method .= ')';
+                        $line = $method;
                     }
                 }
                 elseif(array_key_exists('text', $record)){
-                    $lines[] = Compile::text($object, $flags, $options, $record);
+                    $line = Compile::text($object, $flags, $options, $record);
                 } else {
                     ddd($record);
                 }
                 if ($is_script > 0) {
-                    foreach($lines as $line){
-                        $collection[] = $line;
-                    }
+                    $collection[] = $line;
                 }
-                $lines = [];
             }
         }
         return $data;
-    }
-
-    /**
-     * @throws Exception
-     * @throws LocateException
-     */
-    public static function plugin(App $object, $flags, $options, $record, $name): string
-    {
-        $source = $options->source ?? '';
-        $name_lowercase = mb_strtolower($name);
-        if(
-            in_array(
-                $name_lowercase,
-                [
-                    'default',
-                    'object',
-                    'echo',
-                    'parse',
-                    'break',
-                    'continue',
-                    'constant',
-                    'require',
-                    'unset'
-                ],
-                true
-            )
-        ){
-            $plugin = 'plugin_' . $name_lowercase;
-        } else {
-            $plugin = $name_lowercase;
-        }
-        $plugin = str_replace('.', '_', $plugin);
-        $plugin = str_replace('-', '_', $plugin);
-        $backslash_double = Core::uuid();
-        $plugin = str_replace('\\\\', $backslash_double , $plugin);
-        $plugin = str_replace('\\', '\\\\', $plugin);
-        $plugin = str_replace($backslash_double, '\\\\', $plugin);
-        $plugin = str_replace('\\\\', '_', $plugin);
-        $use = $object->config('package.raxon/parse.build.use.trait');
-        $use_trait_function = $object->config('package.raxon/parse.build.use.trait_function');
-        if(!$use){
-            $use = [];
-            $use_trait_function = [];
-        }
-        if(str_contains($plugin, ':')){
-            $explode = explode(':', $name, 2);
-            $use_package = str_replace(
-                    [
-                        '_'
-                    ],
-                    [
-                        '\\'
-                    ], $explode[0]) .
-                '\\'
-            ;
-            $explode = explode(':', $explode[1], 2);
-            $trait_name = $explode[0];
-            $trait_function = $explode[1];
-            $use_plugin = $trait_function;
-            if(!in_array($use_plugin, $use, true)){
-                $use[] = '\\' . $use_package  . 'Trait' . '\\' . $trait_name ;
-                $use_trait_function[count($use) - 1] = $use_plugin;
-                $object->config('package.raxon/parse.build.use.trait', $use);
-                $object->config('package.raxon/parse.build.use.trait_function', $use_trait_function);
-                return '$this->' . $use_plugin;
-            }
-        } else {
-            $is_code_point = false;
-            $split = mb_str_split($name);
-            $plugin_code_point = 'CodePoint_';
-            foreach($split as $nr => $char){
-                $ord = mb_ord($char);
-                if($ord >= 256){
-                    $is_code_point = true;
-                    $plugin_code_point .= $ord . '_';
-                }
-            }
-            if($is_code_point){
-                $plugin = substr($plugin_code_point, 0, -1);
-                if(strlen($plugin) > 64){
-                    $plugin = 'hash_' . hash('sha256', $plugin);
-                }
-            }
-            $use_plugin = explode('_', $plugin);
-            foreach($use_plugin as $nr => $use_part){
-                $use_plugin[$nr] = ucfirst($use_part);
-            }
-            $controller_plugin = implode('_', $use_plugin);
-            $use_plugin = 'Plugin\\' . $controller_plugin;
-            if(
-                !in_array(
-                    $use_plugin,
-                    [
-                        'Plugin\\Value_Concatenate',
-                        'Plugin\\Value_Plus_Plus',
-                        'Plugin\\Value_Minus_Minus',
-                        'Plugin\\Value_Multiply_Multiply',
-                        'Plugin\\Value_Plus',
-                        'Plugin\\Value_Minus',
-                        'Plugin\\Value_Multiply',
-                        'Plugin\\Value_Modulo',
-                        'Plugin\\Value_Divide',
-                        'Plugin\\Value_Smaller',
-                        'Plugin\\Value_Smaller_Equal',
-                        'Plugin\\Value_Smaller_Smaller',
-                        'Plugin\\Value_Greater',
-                        'Plugin\\Value_Greater_Equal',
-                        'Plugin\\Value_Greater_Greater',
-                        'Plugin\\Value_Equal',
-                        'Plugin\\Value_Identical',
-                        'Plugin\\Value_Not_Equal',
-                        'Plugin\\Value_Not_Identical',
-                        'Plugin\\Value_And',
-                        'Plugin\\Value_Or',
-                        'Plugin\\Value_Xor',
-                        'Plugin\\Value_Null_Coalescing',
-                        'Plugin\\Value_Set',
-                        'Plugin\\Framework',
-                    ],
-                    true
-                )
-            ){
-                if(!in_array($use_plugin, $use, true)){
-                    //pre scanning for the right exception
-                    //this one breakpoint is wrong, it should not contain controller
-                    $autoload = $object->data(App::AUTOLOAD_RAXON);
-                    $autoload->addPrefix('Plugin', $object->config('controller.dir.plugin'));
-                    $autoload->addPrefix('Plugin', $object->config('project.dir.plugin'));
-                    $location = $autoload->locate($use_plugin, false,  Autoload::MODE_LOCATION);
-                    /*
-                    $controller_plugin_1 = $object->config('controller.dir.plugin') . str_replace(['\\', '_'], ['/', '.'], $controller_plugin) . $object->config('ds') . str_replace(['\\', '_'], ['/', '.'], $controller_plugin) . $object->config('extension.php');
-                    $controller_plugin_2 = $object->config('controller.dir.plugin') . str_replace('\\', '/', $controller_plugin) . $object->config('ds') . str_replace('\\', '/', $controller_plugin) . $object->config('extension.php');
-                    $explode = explode('_', $controller_plugin, 2);
-                    $controller_plugin_3= $object->config('controller.dir.plugin') . str_replace(['\\', '_'], ['/', '.'], $explode[0]) . $object->config('ds') . str_replace(['\\', '_'], ['/', '.'], $controller_plugin) . $object->config('extension.php');
-                    $controller_plugin_4 = $object->config('controller.dir.plugin') . str_replace('\\', '/', $explode[0]) . $object->config('ds') . str_replace('\\', '/', $controller_plugin) . $object->config('extension.php');
-                    $controller_plugin_5 = $object->config('controller.dir.plugin') . str_replace(['\\', '_'], ['/', '.'], $controller_plugin) . $object->config('extension.php');
-                    $controller_plugin_6 = $object->config('controller.dir.plugin') . str_replace('\\', '/', $controller_plugin) . $object->config('extension.php');
-
-                    array_unshift(
-                        $location,
-                        [
-                            $controller_plugin_1 => $controller_plugin_1,
-                            $controller_plugin_2 => $controller_plugin_2,
-                            $controller_plugin_3 => $controller_plugin_3,
-                            $controller_plugin_4 => $controller_plugin_4,
-                            $controller_plugin_5 => $controller_plugin_5,
-                            $controller_plugin_6 => $controller_plugin_6,
-                        ]
-                    );
-                    */
-                    $exist = false;
-                    $locate_exception = [];
-                    foreach($location  as $nr => $fileList){
-                        foreach($fileList as $file){
-                            $locate_exception[] = $file;
-                            $exist = File::exist($file);
-                            if($exist){
-                                break 2;
-                            }
-                        }
-                    }
-                    if($exist === false){
-                        if(
-                            array_key_exists('is_multiline', $record) &&
-                            $record['is_multiline'] === true
-                        ){
-                            breakpoint($record);
-                            breakpoint($locate_exception);
-                            throw new LocateException(
-                                'Plugin not found (' .
-                                str_replace('_', '.', $name) .
-                                ') exception: "' .
-                                str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) .
-                                '" on line: ' .
-                                $record['line']['start']  .
-                                ', column: ' .
-                                $record['column'][$record['line']['start']]['start'] .
-                                ' in source: '.
-                                $source,
-                                $locate_exception
-                            );
-                        } else {
-                            breakpoint($record);
-                            breakpoint($locate_exception);
-                            throw new LocateException(
-                                'Plugin not found (' .
-                                str_replace('_', '.', $name) .
-                                ') exception: "' .
-                                str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) .
-                                '" on line: ' .
-                                $record['line']  .
-                                ', column: ' .
-                                $record['column']['start'] .
-                                ' in source: '.
-                                $source,
-                                $locate_exception
-                            );
-                        }
-                    }
-                    $use[] = $use_plugin;
-                    $use_trait_function[count($use) - 1] = $plugin;
-                }
-            }
-        }
-        $object->config('package.raxon/parse.build.use.trait', $use);
-        $object->config('package.raxon/parse.build.use.trait_function', $use_trait_function);
-        return '$this->' . mb_strtolower($plugin);
     }
 
     /**
@@ -804,7 +559,7 @@ class Compile
         }
         return $argument_value;
     }
-    
+
     /**
      * @throws Exception
      */
@@ -880,7 +635,7 @@ class Compile
         $document[] = str_repeat(' ', $indent * 4) . 'public function run(): mixed';
         $document[] = str_repeat(' ', $indent * 4) . '{';
         $indent++;
-        $document[] = str_repeat(' ', $indent * 4) . 'ob_start(null, 0, PHP_OUTPUT_HANDLER_STDFLAGS ^ PHP_OUTPUT_HANDLER_REMOVABLE);';
+        $document[] = str_repeat(' ', $indent * 4) . 'ob_start();';
         $document[] = str_repeat(' ', $indent * 4) . '$object = $this->object();';
         $document[] = str_repeat(' ', $indent * 4) . '$parse = $this->parse();';
         $document[] = str_repeat(' ', $indent * 4) . '$data = $this->data();';
@@ -915,59 +670,7 @@ class Compile
         $document = Compile::format($build, $document, $data, $indent);
         $document[] = str_repeat(' ', $indent * 4) . 'if(ob_get_level() >= 1){';
         $indent++;
-        $document[] = str_repeat(' ', $indent * 4) . 'return ob_get_contents();';
-        $indent--;
-        $document[] = str_repeat(' ', $indent * 4) . '}';
-        $document[] = str_repeat(' ', $indent * 4) . 'return null;';
-        $indent--;
-        $document[] = str_repeat(' ', $indent * 4) . '}';
-        return $document;
-    }
-
-    public static function document_run_block(App $object, $flags, $options, $document = [], $data = []): array
-    {
-        $build = new Compile($object, $flags, $options);
-        $indent = $object->config('package.raxon/parse.build.state.indent');
-        $document = Compile::document_run_throw($object, $flags, $options, $document);
-        $document[] = str_repeat(' ', $indent * 4) . 'public function run(): mixed';
-        $document[] = str_repeat(' ', $indent * 4) . '{';
-        $indent++;
-        $document[] = str_repeat(' ', $indent * 4) . 'ob_start(null, 0, PHP_OUTPUT_HANDLER_STDFLAGS ^ PHP_OUTPUT_HANDLER_REMOVABLE);';
-        $document[] = str_repeat(' ', $indent * 4) . '$object = $this->object();';
-        $document[] = str_repeat(' ', $indent * 4) . '$parse = $this->parse();';
-        $document[] = str_repeat(' ', $indent * 4) . '$data = $this->data();';
-        $document[] = str_repeat(' ', $indent * 4) . '$flags = $this->parse_flags();';
-        $document[] = str_repeat(' ', $indent * 4) . '$options = $this->parse_options();';
-        $document[] = str_repeat(' ', $indent * 4) . '$options->debug = true;';
-        $document[] = str_repeat(' ', $indent * 4) . 'if (!($object instanceof App)) {';
-        $indent++;
-        $document[] = str_repeat(' ', $indent * 4) . 'throw new TemplateException(\'$object is not an instance of Raxon\App\');';
-        $indent--;
-        $document[] = str_repeat(' ', $indent * 4) . '}';
-        $document[] = str_repeat(' ', $indent * 4) . 'if (!($parse instanceof Parse)) {';
-        $indent++;
-        $document[] = str_repeat(' ', $indent * 4) . 'throw new TemplateException(\'$parse is not an instance of Package\Raxon\Parse\Service\Parse\');';
-        $indent--;
-        $document[] = str_repeat(' ', $indent * 4) . '}';
-        $document[] = str_repeat(' ', $indent * 4) . 'if (!($data instanceof Data)) {';
-        $indent++;
-        $document[] = str_repeat(' ', $indent * 4) . 'throw new TemplateException(\'$data is not an instance of Raxon\Module\Data\');';
-        $indent--;
-        $document[] = str_repeat(' ', $indent * 4) . '}';
-        $document[] = str_repeat(' ', $indent * 4) . 'if (!is_object($flags)) {';
-        $indent++;
-        $document[] = str_repeat(' ', $indent * 4) . 'throw new TemplateException(\'$flags is not an object\');';
-        $indent--;
-        $document[] = str_repeat(' ', $indent * 4) . '}';
-        $document[] = str_repeat(' ', $indent * 4) . 'if (!is_object($options)) {';
-        $indent++;
-        $document[] = str_repeat(' ', $indent * 4) . 'throw new TemplateException(\'$options is not an object\');';
-        $indent--;
-        $document[] = str_repeat(' ', $indent * 4) . '}';
-        $document = Compile::format($build, $document, $data, $indent);
-        $document[] = str_repeat(' ', $indent * 4) . 'if(ob_get_level() >= 1){';
-        $indent++;
-        $document[] = str_repeat(' ', $indent * 4) . 'return ob_get_contents();';
+        $document[] = str_repeat(' ', $indent * 4) . 'return ob_get_clean();';
         $indent--;
         $document[] = str_repeat(' ', $indent * 4) . '}';
         $document[] = str_repeat(' ', $indent * 4) . 'return null;';

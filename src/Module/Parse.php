@@ -478,7 +478,6 @@ class Parse
                 echo $url_php . PHP_EOL;
             }
             $pre_require = microtime(true);
-            d($url_php);
             require_once $url_php;
             $post_require = microtime(true);
             $run = $options->namespace . '\\' . $options->class;

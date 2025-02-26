@@ -1,25 +1,18 @@
 <?php
 namespace Package\Raxon\Parse\Service;
 
+use Exception;
+use Plugin;
 use Raxon\App;
 use Raxon\Config;
-
-use Raxon\Module\Autoload;
-use Raxon\Module\Data;
-
-use Plugin;
-
-use Raxon\Module\Core;
-use Raxon\Module\Dir;
-use Raxon\Module\File;
-
-use Raxon\Module\Parse\Literal;
-use Raxon\Node\Model\Node;
-
-use Exception;
-
 use Raxon\Exception\ObjectException;
 use Raxon\Exception\TemplateException;
+use Raxon\Module\Autoload;
+use Raxon\Module\Core;
+use Raxon\Module\Data;
+use Raxon\Module\Dir;
+use Raxon\Module\File;
+use Raxon\Node\Model\Node;
 
 class Parse
 {

@@ -1,992 +1,683 @@
 <?php
+/**
+ * @author          Remco van der Velde
+ * @since           04-01-2019
+ * @copyright       (c) Remco van der Velde
+ * @license         MIT
+ * @version         1.0
+ * @changeLog
+ *  -    all
+ */
 namespace Raxon\Parse\Module;
 
-use Raxon\App;
-
-use Raxon\Exception\ObjectException;
-use Raxon\Module\Core;
-use Raxon\Module\File;
+use Raxon\Module\Data;
 
 use Exception;
-class Variable
-{
 
-    public static function assign(App $object, $flags, $options, $input=[]): array
+class Variable {
+
+    /**
+     * @throws Exception
+     */
+    public static function count_assign(Build $build, Data $storage, $token=[], $is_result=false): string
     {
-        if(!is_array($input)){
-            return $input;
-        }
-        if(array_key_exists('array', $input) === false){
-            return $input;
-        }
-        $variable_nr = false;
-        $count = count($input['array']);
-        $array_depth = 0;
-        $set_depth = 0;
-        foreach($input['array'] as $nr => $char) {
-            if (!is_numeric($nr)) {
-                // ',' in modifier causes this
-                continue;
-            }
-            if(is_array($char)){
-                if(
-                    array_key_exists('type', $char) &&
-                    $char['type'] === 'variable'
-                ){
-                    $variable_nr = $nr;
-//                    d($variable_nr);
-//                    d($char);
-                }
-                elseif(
-                    array_key_exists('value', $char) &&
-                    $char['value'] === '['
-                ){
-                    $array_depth++;
-                }
-                elseif(
-                    array_key_exists('value', $char) &&
-                    $char['value'] === ']'
-                ){
-                    $array_depth--;
-                }
-                elseif(
-                    array_key_exists('value', $char) &&
-                    $char['value'] === '('
-                ){
-                    $set_depth++;
-                }
-                elseif(
-                    array_key_exists('value', $char) &&
-                    $char['value'] === ')'
-                ){
-                    $set_depth--;
-                }
-                elseif(
-                    array_key_exists('value', $char) &&
-                    in_array(
-                        $char['value'],
-                        [
-                            '=',
-                            '.=',
-                            '+=',
-                            '-=',
-                            '*=',
-                            '%=',
-                            '++',
-                            '--',
-                            '**'
-                        ],
-                        true
-                    ) &&
-                    $variable_nr !== false
-                ){
-                    $after = '';
-                    $after_array = [];
-                    $input['array'][$nr] = null;
-                    for($i = $nr + 1; $i < $count; $i++){
-                        if(
-                            is_array($input['array'][$i]) &&
-                            array_key_exists('value', $input['array'][$i]) &&
-                            $input['array'][$i]['value'] === '['
-                        ){
-                            $array_depth++;
-                        }
-                        elseif(
-                            is_array($input['array'][$i]) &&
-                            array_key_exists('value', $input['array'][$i]) &&
-                            $input['array'][$i]['value'] === ']'
-                        ){
-                            $array_depth--;
-                        }
-                        elseif(
-                            is_array($input['array'][$i]) &&
-                            array_key_exists('value', $input['array'][$i]) &&
-                            $input['array'][$i]['value'] === '('
-                        ){
-                            $set_depth++;
-                        }
-                        elseif(
-                            is_array($input['array'][$i]) &&
-                            array_key_exists('value', $input['array'][$i]) &&
-                            $input['array'][$i]['value'] === ')'
-                        ){
-                            $set_depth--;
-                        }
-                        elseif(
-                            is_array($input['array'][$i]) &&
-                            array_key_exists('value', $input['array'][$i]) &&
-                            $input['array'][$i]['value'] === ',' &&
-                            $array_depth === 0 &&
-                            $set_depth === 0
-                        ){
-                            if($variable_nr !== false){
-                                if($after === ''){
-                                    if(
-                                        in_array(
-                                            $char['value'],
-                                            [
-                                                '++',
-                                                '--',
-                                                '**'
-                                            ],
-                                            true
-                                        )
-                                    ){
-                                        $variable = [
-                                            'is_assign' => true,
-                                            'operator' => $char['value'],
-                                            'name' => $input['array'][$variable_nr]['name']
-                                        ];
-                                        $input['array'][$variable_nr]['variable'] = $variable;
-                                    }
-                                } else {
-                                    $list = Token::value(
-                                        $object,
-                                        $flags,
-                                        $options,
-                                        [
-                                            'string' => $after,
-                                            'array' => $after_array,
-                                        ]
-                                    );
-                                    $variable = [
-                                        'is_assign' => true,
-                                        'operator' => $char['value'],
-                                        'name' => $input['array'][$variable_nr]['name'],
-                                        'value' => $list,
-                                    ];
-                                    $input['array'][$variable_nr]['variable'] = $variable;
-                                }
-                            }
-                            $variable_nr = false;
-                            break;
-                        }
-                        $current = Token::item($input, $i);
-                        $after .= $current;
-                        $after_array[] = $input['array'][$i];
-                        $input['array'][$i] = null;
-                    }
-                    if($variable_nr !== false){
-                        if($after === ''){
-                            if(
-                                in_array(
-                                    $char['value'],
-                                    [
-                                        '++',
-                                        '--',
-                                        '**'
-                                    ],
-                                    true
-                                )
-                            ){
-                                $variable = [
-                                    'is_assign' => true,
-                                    'operator' => $char['value'],
-                                    'name' => $input['array'][$variable_nr]['name']
-                                ];
-                                $input['array'][$variable_nr]['variable'] = $variable;
-                            }
-                        } else {
-                            $list = Token::value(
-                                $object,
-                                $flags,
-                                $options,
-                                [
-                                    'string' => $after,
-                                    'array' => $after_array,
-                                ]
-                            );
-                            $variable = [
-                                'is_assign' => true,
-                                'operator' => $char['value'],
-                                'name' => $input['array'][$variable_nr]['name'],
-                                'value' => $list,
-                            ];
-                            $input['array'][$variable_nr]['variable'] = $variable;
-                            $variable_nr = false;
-                        }
-                    }
-                }
-                /* not this
-                elseif($variable_nr !== false){
-                    $input['array'][$nr] = null;
-                }
-                 else {
-                    $input['array'][$nr] = null;
-                }
-                */
-            }
-        }
-//        breakpoint($input);
-        return $input;
+        $count = array_shift($token);
+        $variable = array_shift($token);
+        switch($count['type']){
+            case Token::TYPE_IS_MINUS_MINUS :
+                $assign = '$this->storage()->set(\'';
+                $assign .= $variable['variable']['attribute'] . '\', ';
+                $assign .= '$this->min_min_assign(' ;
+                $assign .= '$this->storage()->data(\'';
+                $assign .= $variable['variable']['attribute'] . '\')';
+                $assign .= '))';
+                return $assign;
+            case Token::TYPE_IS_PLUS_PLUS :
+                $assign = '$this->storage()->set(\'';
+                $assign .= $variable['variable']['attribute'] . '\', ';
+                $assign .= '$this->plus_plus_assign(' ;
+                $assign .= '$this->storage()->data(\'';
+                $assign .= $variable['variable']['attribute'] . '\')';
+                $assign .= '))';
+                return $assign;
+            default:
+                throw new Exception('unknown counter in assign (' . $count['type'] . ')');
+        }        
     }
 
-    public static function define(App $object, $flags, $options, $input=[]): array
+    /**
+     * @throws Exception
+     */
+    private static function getArrayAttribute(Build $build, Data $storage, $variable=[]): string
     {
-        if(!is_array($input)){
-            return $input;
-        }
-        if(array_key_exists('array', $input) === false){
-            return $input;
-        }
-//        trace();
-//        d($input['array']);
-        $count = count($input['array']);
-        $is_variable = false;
-        $has_name = false;
-        $name = '';
-//        breakpoint($input);
-        foreach($input['array'] as $nr => $char){
-            if(!is_numeric($nr)){
-                // ',' in modifier causes this
-                continue;
-            }
-            $previous = Token::item($input, $nr - 1);
-            $next = Token::item($input, $nr + 1);
-            $current = Token::item($input, $nr);
-            if($current === '$'){
-                $is_variable = $nr;
-                $is_array_notation = false;
-                $name = '$';
-                $array_notation = '';
-                $array_notation_array = [];
-                $list = [];
-                for($i = $is_variable + 1; $i < $count; $i++){
-                    $current = Token::item($input, $i);
-                    if($current === '['){
-                        $is_array_notation = true;
-                    }
-                    if(
-                        in_array(
-                            $current,
-                            [
-                                ' ',
-                                "\t",
-                                "\n",
-                                "\r"
-                            ],
-                            true
-                        )
-                    ){
-                        $is_array_notation = false;
-                    }
-                    if($is_array_notation === true){
-                        $array_notation .= $current;
-                        $array_notation_array[] = $current;
-                    } else {
-                        if(
-                            in_array(
-                                $current,
-                                [
-                                    ' ',
-                                    "\t",
-                                    "\n",
-                                    "\r"
-                                ],
-                                true
-                            ) ||
-                            (
-                                is_array($input['array'][$i]) &&
-                                array_key_exists('type', $input['array'][$i]) &&
-                                $input['array'][$i]['type'] === 'symbol' &&
-                                !in_array(
-                                    $current,
-                                    [
-                                        '.',
-                                        ':',
-                                        '_',
-                                        '#',
-                                    ],
-                                    true
-                                )
-                            )
-                        ){
-//                            d($current);
-//                            d($name);
-                            if($name !== '$'){
-                                $has_name = true;
-                                $is_reference = false;
-                                $is_not = null; //neutral
-                                if(
-                                    in_array(
-                                        $previous,
-                                        [
-                                            '!',
-                                            '!!!',
-                                        ],
-                                        true
-                                    )
-                                ){
-                                    $is_not = false;
-                                    $input['array'][$is_variable - 1] = null;
-                                }
-                                elseif(
-                                    in_array(
-                                        $previous,
-                                        [
-                                            '!!',
-                                            '!!!!'
-                                        ],
-                                        true
-                                    )
-                                ){
-                                    $is_not = true;
-                                    $input['array'][$is_variable - 1] = null;
-                                }
-                                elseif ($previous === '&') {
-                                    $is_reference = true;
-                                    $input['array'][$is_variable - 1] = null;
-                                }
-                                if($array_notation !== ''){
-                                    $list = Token::value(
-                                        $object,
-                                        $flags,
-                                        $options,
-                                        [
-                                            'string' => $array_notation,
-                                            'array' => $array_notation_array,
-                                        ],
-                                    );
-                                }
-                                $input['array'][$is_variable] = [
-                                    'type' => 'variable',
-                                    'tag' => $name,
-                                    'name' => mb_substr($name, 1),
-                                    'is_reference' => $is_reference,
-                                    'is_not' => $is_not,
-                                    'array_notation' => $list
-                                ];
-                                $name = '';
-                                $has_name = false;
-                                for($j = $is_variable + 1; $j < $i; $j++){
-                                    $input['array'][$j] = null;
-                                }
-                                $is_variable = false;
-                                break;
-                            }
-                        }
-                        elseif($has_name === false){
-                            $name .= $current;
-                        }
-                    }
-                }
+        $execute = [];
+        if(array_key_exists('array', $variable['variable'])){
+            foreach($variable['variable']['array'] as $nr => $list){
                 if(
-                    !in_array(
-                        $name,
-                        [
-                            '',
-                            '$'
-                        ],
-                        true
-                    )
-                ){
-                    $is_reference = false;
-                    $is_not = null; //neutral
-                    if(
-                        in_array(
-                            $previous,
-                            [
-                                '!',
-                                '!!!',
-                            ],
-                            true
-                        )
-                    ){
-                        $is_not = false;
-                        $input['array'][$is_variable - 1] = null;
-                    }
-                    elseif(
-                        in_array(
-                            $previous,
-                            [
-                                '!!',
-                                '!!!!'
-                            ],
-                            true
-                        )
-                    ){
-                        $is_not = true;
-                        $input['array'][$is_variable - 1] = null;
-                    }
-                    elseif ($previous === '&') {
-                        $is_reference = true;
-                        $input['array'][$is_variable - 1] = null;
-                    }
-                    if($array_notation !== ''){
-                        $list = Token::value(
-                            $object,
-                            $flags,
-                            $options,
-                            [
-                                'string' => $array_notation,
-                                'array' => $array_notation_array,
-                            ],
-                        );
-                    }
-                    $input['array'][$is_variable] = [
-                        'type' => 'variable',
-                        'tag' => $name,
-                        'name' => mb_substr($name, 1),
-                        'is_reference' => $is_reference,
-                        'is_not' => $is_not,
-                        'array_notation' => $list
-                    ];
-                    for($j = $is_variable + 1; $j < $i; $j++){
-                        $input['array'][$j] = null;
-                    }
-                    break;
-                }
-            }
-        }
-        return $input;
-    }
-
-    public static function modifier(App $object, $flags, $options, $input=[], $tag=[]): array
-    {
-        if(!is_array($input)){
-            return $input;
-        }
-        if(array_key_exists('array', $input) === false){
-            return $input;
-        }
-        $count = count($input['array']);
-        $set_depth = 0;
-        $set_depth_modifier = false;
-        $set_depth_argument = 0;
-        $set_skip = 0;
-        $outer_curly_depth = 0;
-        $curly_depth = 0;
-        $outer_set_depth = 0;
-        $modifier_string = '';
-        $modifier_name = '';
-        $is_variable = false;
-        $is_modifier = false;
-        $is_argument = false;
-        $is_single_quote = false;
-        $is_double_quote = false;
-        $is_double_quote_backslash = false;
-        $is_array = false;
-        $array_depth = 0;
-        $argument_nr = -1;
-        $argument = [];
-        $argument_array = [];
-        $nr = $count - 1;
-        foreach($input['array'] as $nr => $char) {
-            if(!is_numeric($nr)){
-                // ',' in modifier causes this
-                continue;
-            }
-            $previous = Token::item($input, $nr - 1);
-            $next = Token::item($input, $nr + 1);
-            $current = Token::item($input, $nr);
-            if($current === '('){
-                $set_depth++;
-                if(array_key_exists($argument_nr, $argument)){
-                    $set_depth_argument++;
-                }
-            }
-            elseif($current === ')'){
-                $set_depth--;
-                if(array_key_exists($argument_nr, $argument)){
-                    $set_depth_argument--;
-                }
-                if($set_depth < 0){
-//                    $input['array'][$nr] = null; //disabled @2024-09-29 (maybe return here)
-                }
-                if(
-                    $is_modifier &&
-                    (
-                        $set_depth === $set_depth_modifier - 1 ||
-                        $set_depth_modifier === false
-                    )
-                ){
-                    if(
-                        $argument_nr >= 0 &&
-                        $set_depth >= 0 &&
-                        $set_depth_argument >= 0
-                    ){
-                        if(!array_key_exists($argument_nr, $argument)){
-                            $argument_array[$argument_nr] = [];
-                            $argument[$argument_nr] = '';
-                        }
-                        $argument[$argument_nr] .= $current;
-                        $argument_array[$argument_nr][] = $char;
-                        $modifier_string .= $current;
-                    }
-                    elseif($set_depth_argument < 0){
-                        for($i = $nr - 1; $i >= 0; $i--){
-                            $current = Token::item($input, $i);
-                            if($current === '('){
-                                $set_depth_argument++;
-                            }
-                            if($current === ')'){
-                                $set_depth_argument--;
-                            }
-                            if($set_depth_argument === 0){
-                                break;
-                            }
-                        }
-                        if($set_depth_argument !== 0){
-                            d($nr);
-                            d($input);
-                            ddd($set_depth_argument);
-                        }
-                    }
-                    foreach($argument_array as $argument_nr => $array){
-                        $argument_value = Cast::define(
-                            $object,
-                            $flags,
-                            $options,
-                            [
-                                'string' => $argument[$argument_nr],
-                                'array' => $array
-                            ]
-                        );
-                        $argument_value = Token::value(
-                            $object,
-                            $flags,
-                            $options,
-                            $argument_value,
-                            $tag
-                        );
-                        $argument_array[$argument_nr] = $argument_value;
-                    }
-                    $input['array'][$is_variable]['modifier'][] = [
-                        'string' => $modifier_string,
-                        'name' => $modifier_name,
-                        'argument' => $argument_array
-                    ];
-                    $index_set_depth = 0;
-                    //check this
-                    for($index = $is_variable + 1; $index < $nr; $index++){
-                        $input['array'][$index] = null;
-                    }
-                    for($index = 0; $index < $nr; $index++){
-                        $current = Token::item($input, $index);
-                        if($current === '('){
-                            $index_set_depth++;
-                        }
-                        elseif($current === ')'){
-                            $index_set_depth--;
-                        }
-                    }
-                    $current = Token::item($input, $nr);
-                    if($current === '('){
-                        $index_set_depth++;
-                    }
-                    elseif($current === ')'){
-                        $index_set_depth--;
-                    }
-                    if($index_set_depth < 0){
-                        $input['array'][$nr] = null;
-                    }
-                    $modifier_name = '';
-                    $modifier_string = '';
-                    $is_argument = false;
-                    $is_variable = false;
-                    $is_modifier = false;
-                    $argument_array = [];
-                    $argument = [];
-                    $argument_nr = -1;
-                    $set_depth_modifier = false;
-                }
-            }
-            elseif($current === '{{'){
-                $outer_curly_depth++;
-            }
-            elseif($current === '}}'){
-                $outer_curly_depth--;
-            }
-            elseif(
-                $current === '\'' &&
-                $previous !== '\\' &&
-                $is_single_quote === false &&
-                $is_double_quote === false
-            ){
-                $is_single_quote = true;
-            }
-            elseif(
-                $current === '\'' &&
-                $previous !== '\\' &&
-                $is_single_quote === true &&
-                $is_double_quote === false
-            ){
-                $is_single_quote = false;
-            }
-            elseif(
-                $current === '"' &&
-                $previous !== '\\' &&
-                $is_single_quote === false &&
-                $is_double_quote === false
-            ){
-                $is_double_quote = true;
-            }
-            elseif(
-                $current === '"' &&
-                $previous !== '\\' &&
-                $is_single_quote === false &&
-                $is_double_quote === true
-            ){
-                $is_double_quote = false;
-            }
-            elseif(
-                $current === '"' &&
-                $previous === '\\' &&
-                $is_single_quote === false &&
-                $is_double_quote_backslash === false
-            ){
-                $is_double_quote_backslash = true;
-            }
-            elseif(
-                $current === '"' &&
-                $previous === '\\' &&
-                $is_single_quote === false &&
-                $is_double_quote_backslash === true
-            ){
-                $is_double_quote_backslash = false;
-            }
-            elseif(
-                $current === '[' &&
-                $is_single_quote === false &&
-                $is_double_quote === false &&
-                $is_double_quote_backslash === false
-            ){
-                $is_array = true;
-                $array_depth++;
-            }
-            elseif(
-                $current === ']' &&
-                $is_single_quote === false &&
-                $is_double_quote === false &&
-                $is_double_quote_backslash === false
-            ){
-                $array_depth++;
-                if($array_depth === 0){
-                    $is_array = false;
-                }
-            }
-            elseif(
-                $current === '|' &&
-                $previous !== '|' &&
-                $next !== '|' &&
-                $is_single_quote === false &&
-                $is_double_quote === false &&
-                $is_double_quote_backslash === false &&
-                (
-                    $set_depth === $set_depth_modifier ||
-                    $set_depth_modifier === false
-                )
-            ){
-                if($is_argument !== false){
-                    foreach($argument_array as $argument_nr => $array){
-                        $argument_value = Cast::define(
-                            $object,
-                            $flags,
-                            $options,
-                            [
-                                'string' => $argument[$argument_nr],
-                                'array' => $array
-                            ]
-                        );
-                        $argument_value = Token::value(
-                            $object,
-                            $flags,
-                            $options,
-                            $argument_value,
-                            $tag
-                        );
-                        $argument_array[$argument_nr] = $argument_value;
-                    }
-                    $input['array'][$is_variable]['modifier'][] = [
-                        'string' => $modifier_string,
-                        'name' => $modifier_name,
-                        'argument' => $argument_array
-                    ];
-                    if(array_key_exists('modifier', $input)){
-                        foreach($input['modifier'] as $index => $modifier){
-                            $input['array'][$is_variable]['modifier'][] = $modifier;
-                        }
-                        unset($input['modifier']);
-                    }
-                    //check this
-                    for($index = $is_variable + 1; $index < $nr; $index++){
-                        $input['array'][$index] = null;
-                    }
-                    $modifier_name = '';
-                    $modifier_string = '';
-                    $is_argument = false;
-                    $argument_array = [];
-                    $argument = [];
-                    $argument_nr = -1;
-                }
-                elseif($is_modifier !== false){
-                    $input['array'][$is_variable]['modifier'][] = [
-                        'string' => $modifier_string,
-                        'name' => $modifier_name,
-                        'argument' => []
-                    ];
-                    for($index = $is_variable + 1; $index <= $nr; $index++){
-                        $input['array'][$index] = null;
-                    }
-                    $modifier_name = '';
-                    $modifier_string = '';
-                    $is_argument = false;
-                    $argument_array = [];
-                    $argument = [];
-                    $argument_nr = -1;
-                }
-                elseif($is_variable !== false){
-                    $is_modifier = true;
-                }
-            }
-            elseif(
-                $current === ':' &&
-                $previous !== ':' &&
-                $next !== ':' &&
-                $is_single_quote === false &&
-                $is_double_quote === false &&
-                $is_double_quote_backslash === false &&
-                (
-                    $set_depth === $set_depth_modifier ||
-                    $set_depth_modifier === false
-                )
-            ){
-                if($is_modifier !== false){
-                    $is_argument = false; //route
-                }
-                $argument_nr++;
-            }
-            elseif(
-                $current === ',' &&
-                $is_single_quote === false &&
-                $is_double_quote === false &&
-                $is_double_quote_backslash === false &&
-                (
-                    $set_depth === $set_depth_modifier ||
-                    $set_depth_modifier === false
-                )
-            ){
-                if(
-                    $is_variable !== false &&
-                    $is_modifier !== false
-                ){
-                    if($is_argument !== false){
-                        foreach($argument_array as $argument_nr => $array){
-                            if(array_key_exists('string', $array)){
-                                continue;
-                            }
-                            if(array_key_exists('type', $array)){
-                                continue;
-                            }
-                            $argument_value = Cast::define(
-                                $object,
-                                $flags,
-                                $options,
-                                [
-                                    'string' => $argument[$argument_nr],
-                                    'array' => $array
-                                ]
-                            );
-                            $argument_value = Token::value(
-                                $object,
-                                $flags,
-                                $options,
-                                $argument_value,
-                                $tag
-                            );
-                            $argument_array[$argument_nr] = $argument_value;
-                        }
-                        $input['array'][$is_variable]['modifier'][] = [
-                            'string' => $modifier_string,
-                            'name' => $modifier_name,
-                            'argument' => $argument_array
-                        ];
-                        if(
-                            $is_array === true &&
-                            $set_depth === $set_depth_modifier
-                        ){
-                            //keep the comma
-                            for($index = $is_variable + 1; $index < $nr; $index++){
-                                $input['array'][$index] = null;
-                            }
-                            //end of modifier
-                            $modifier_name = '';
-                            $modifier_string = '';
-                            $is_argument = false;
-                            $is_variable = false;
-                            $is_modifier = false;
-                            $argument_array = [];
-                            $argument = [];
-                            $argument_nr = -1;
-                            $set_depth_modifier = false;
-                        } else {
-                            //remove the comma
-                            for($index = $is_variable + 1; $index <= $nr; $index++){
-                                $input['array'][$index] = null;
-                            }
-                        }
-                    }
-                    elseif($is_modifier !== false){
-                        $input['array'][$is_variable]['modifier'][] = [
-                            'string' => $modifier_string,
-                            'name' => $modifier_name,
-                            'argument' => []
-                        ];
-                        //check this
-                        for($index = $is_variable + 1; $index <= $nr; $index++){
-                            $input['array'][$index] = null;
-                        }
-                    }
-                }
-            }
-            elseif(
-                $current !== null &&
-                is_array($char) &&
-                $char['type'] === 'variable' &&
-                $is_single_quote === false &&
-                $is_double_quote === false &&
-                $is_variable === false
-            ){
-                $is_variable = $nr;
-            }
-            if($is_modifier === true){
-                $modifier_string .= $current;
-            }
-            if(
-                $is_modifier === true &&
-                $is_argument === false
-            ){
-                if(
-                    !in_array(
-                        $current,
-                        [
-                            ' ',
-                            "\t",
-                            "\n",
-                            "\r",
-                            ':',
-                            '|',
-                        ],
-                        true
-                    )
-                ){
-                    $modifier_name .= $current;
-                    if($set_depth_modifier === false){
-                        if($set_depth === 0){
-                            $set_depth_modifier = 0;
-                        } else {
-                            $set_depth_modifier = $set_depth;
-                        }
-                    }
-                }
-                elseif(
-                    in_array(
-                        $current,
-                        [
-                            ':'
-                        ],
-                        true
-                    ) &&
-                    $is_single_quote === false &&
-                    $is_double_quote === false &&
-                    $is_double_quote_backslash === false
-                ){
-                    $is_argument = true;
-                    if($set_depth_modifier === false){
-                        if($set_depth === 0){
-                            $set_depth_modifier = 0;
-                        } else {
-                            $set_depth_modifier = $set_depth;
-                        }
-                    }
-//                    $argument_nr++; //already happened
-                }
-            }
-            elseif(
-                $is_argument
-            ){
-                if(
-                    $current === ':' &&
-                    $is_single_quote === false &&
-                    $is_double_quote === false &&
-                    $is_double_quote_backslash === false
-                ){
-                    if(
-                        $set_depth === $set_depth_modifier ||
-                        $set_depth_modifier === false
-                    ){
-                        $argument_nr++;
-                    } else {
-                        if(!array_key_exists($argument_nr, $argument_array)){
-                            $argument_array[$argument_nr] = [];
-                            $argument[$argument_nr] = '';
-                        }
-                        $argument[$argument_nr] .= $current;
-                        $argument_array[$argument_nr][] = $char;
-                    }
+                    is_null($list) &&
+                    array_key_exists('attribute', $variable['variable'])
+                ) {
+                    $execute[] = '[]';
                 } else {
-                    if(!array_key_exists($argument_nr, $argument_array)){
-                        $argument_array[$argument_nr] = [];
-                        $argument[$argument_nr] = '';
+                    $list = $build->require('modifier', $list);
+                    $list = $build->require('function', $list);
+                    $value = Variable::getValue($build, $storage, $list);
+                    if($value === 'null'){
+                        if(!empty($execute)){
+                            $add_quote = false;
+                            $quote_add = false;
+                            $attribute = '\'' . $variable['variable']['attribute'];
+                            foreach($execute as $part_nr => $part_record){
+                                if(substr($part_record, 0, 1) === '$'){
+                                    if($part_nr === 0){
+                                        $attribute .= '\' . \'.\' . ' . $part_record . ' . ';
+                                    } else {
+                                        if($add_quote === true){
+                                            $attribute .= '.\' . ' . $part_record . ' . ';
+                                            $add_quote = false;
+                                        } else {
+                                            $attribute .= ' \'.\' . ' . $part_record . ' . ';
+                                        }
+                                    }
+                                    $quote_add = true;
+                                } else {
+                                    $add_quote = true;
+                                    if($quote_add === true){
+                                        $attribute .= '\'.' . $part_record;
+                                        $quote_add = false;
+                                    } else {
+                                        $attribute .= '.' . $part_record;
+                                    }
+                                }
+                            }
+                            if(
+                                !empty($part_record) &&
+                                substr($part_record, 0, 1) === '$'
+                            ){
+                                $attribute = substr($attribute, 0, -3);
+                            } else {
+                                $attribute .= '\'';
+                            }
+                            $exec = '$this->storage()->index(' . $attribute  . ')';
+                        } else {
+                            $exec = '$this->storage()->index(\'' . $variable['variable']['attribute']  . '\')';
+                        }
+                        $execute[] = $exec;
+                    } else {
+                        if(
+                            substr($value, 0, 1) === '\'' &&
+                            substr($value, -1, 1) === '\''
+                        ){
+                            $value = substr($value, 1, -1);
+                        }
+                        //add compile on "
+                        $execute[] = $value;
                     }
-                    $argument[$argument_nr] .= $current;
-                    $argument_array[$argument_nr][] = $char;
+                }
+            }
+        }
+        $result = '\'' . $variable['variable']['attribute'];
+        $quote_add = false;
+        $add_quote = false;
+        foreach($execute as $nr => $record){
+            if(substr($record, 0, 2) === '[]'){
+                $result .= substr($record, 0, 2);
+            }
+            elseif(substr($record, 0, 1) === '$'){
+                if($nr === 0){
+                    $result .= '\' . \'.\' . ' . $record . ' . ';
+                } else {
+                    if($add_quote === true){
+                        $result .= '.\' . ' . $record . ' . ';
+                        $add_quote = false;
+                    } else {
+                        $result .= '\'.\' . ' . $record . ' . ';
+                    }
+                }
+                $quote_add = true;
+            } else {
+                $add_quote = true;
+                if($quote_add === true){
+                    $result .= '\'.' . $record;
+                    $quote_add = false;
+                } else {
+                    $result .= '.' . $record;
                 }
             }
         }
         if(
-            $is_variable !== false &&
-            $is_modifier !== false
+            !empty($record) &&
+            substr($record, 0, 1) === '$'
         ){
-            if($is_argument !== false){
-                foreach($argument_array as $argument_nr => $array){
-                    $argument_value = Cast::define(
-                        $object,
-                        $flags,
-                        $options,
-                        [
-                            'string' => $argument[$argument_nr],
-                            'array' => $array
-                        ]
-                    );
-                    $argument_value = Token::value(
-                        $object,
-                        $flags,
-                        $options,
-                        $argument_value,
-                        $tag
-                    );
-                    $argument_array[$argument_nr] = $argument_value;
+            $result = substr($result, 0, -3);
+        } else {
+            $result .= '\'';
+        }
+        return $result;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public static function assign(Build $build, Data $storage, $token=[], $is_result=false): string
+    {
+        $variable = array_shift($token);
+        if(!array_key_exists('variable', $variable)){
+            return '';
+        }        
+        $token = Variable::addAssign($token);
+        if(
+            array_key_exists('is_array', $variable['variable']) &&
+            $variable['variable']['is_array'] === true &&
+            $variable['variable']['operator'] === '=' &&
+            array_key_exists('array', $variable['variable'])
+        ){
+            $attribute = Variable::getArrayAttribute($build, $storage, $variable);
+            $assign = '$this->storage()->set(';
+            $assign .= $attribute . ', ';
+            $value = Variable::getValue($build, $storage, $token, $is_result);
+            $assign .= $value . ')';
+            return $assign;
+        } else {
+            switch($variable['variable']['operator']){
+                case '=' :
+                    $assign = '$this->storage()->set(\'';
+                    $assign .= $variable['variable']['attribute'] . '\', ';
+                    $value = Variable::getValue($build, $storage, $token, $is_result);
+                    $assign .= $value . ')';
+                    return $assign;
+                case '+=' :
+                    $assign = '$this->storage()->set(\'';
+                    $assign .= $variable['variable']['attribute'] . '\', ';
+                    $assign .= '$this->assign_plus_equal(' ;
+                    $assign .= '$this->storage()->data(\'';
+                    $assign .= $variable['variable']['attribute'] . '\'), ';
+                    $value = Variable::getValue($build, $storage, $token, $is_result);
+                    $assign .= $value . '))';
+                    return $assign;
+                case '-=' :
+                    $assign = '$this->storage()->set(\'';
+                    $assign .= $variable['variable']['attribute'] . '\', ';
+                    $assign .= '$this->assign_min_equal(' ;
+                    $assign .= '$this->storage()->data(\'';
+                    $assign .= $variable['variable']['attribute'] . '\'), ';
+                    $value = Variable::getValue($build, $storage, $token, $is_result);
+                    $assign .= $value . '))';
+                    return $assign;
+                case '.=' :
+                    $assign = '$this->storage()->set(\'';
+                    $assign .= $variable['variable']['attribute'] . '\', ';
+                    $assign .= '$this->assign_dot_equal(' ;
+                    $assign .= '$this->storage()->data(\'';
+                    $assign .= $variable['variable']['attribute'] . '\'), ';
+                    $value = Variable::getValue($build, $storage, $token, $is_result);
+                    $assign .= $value . '))';
+                    return $assign;
+                case '++' :
+                    $assign = '$this->storage()->set(\'';
+                    $assign .= $variable['variable']['attribute'] . '\', ';
+                    $assign .= '$this->assign_plus_plus(' ;
+                    $assign .= '$this->storage()->data(\'';
+                    $assign .= $variable['variable']['attribute'] . '\')';
+                    $assign .= '))';
+                    return $assign;
+                case '--' :
+                    $assign = '$this->storage()->set(\'';
+                    $assign .= $variable['variable']['attribute'] . '\', ';
+                    $assign .= '$this->assign_min_min(' ;
+                    $assign .= '$this->storage()->data(\'';
+                    $assign .= $variable['variable']['attribute'] . '\')';
+                    $assign .= '))';
+                    return $assign;
+                default:
+                    throw new Exception('Variable operator not defined');
+
+            }
+        }
+    }
+
+    private static function addAssign($token=[]): array
+    {
+        foreach ($token as $nr => $record){
+            $record['is_assign'] = true;
+            $token[$nr] = $record;
+        }
+        return $token;
+    }
+
+    public static function is_count(Build $build, Data $storage, $token=[]): array
+    {
+        $count = null;
+        foreach($token as $nr => $record){
+            if($count === null){
+                $count = $record;
+            } else {
+                if(array_key_exists('variable', $record)){
+                   $token[$nr]['variable'] ['is_assign'] = true;
+                   unset($token[$nr]['parse']);
+                }                
+            }
+        }
+        return $token;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public static function define(Build $build, Data $storage, $token=[]): string
+    {
+        $variable = array_shift($token);
+        $object = $build->object();
+        $is_variable = false;
+        if(!array_key_exists('variable', $variable)){
+            return '';
+        }
+        if(
+            array_key_exists('is_array', $variable['variable']) &&
+            $variable['variable']['is_array'] === true
+        ){
+            $variable['variable']['attribute'] .= '.\'';
+            foreach($variable['variable']['array'] as $nr => $list) {
+                $is_variable = false;
+                $list = $build->require('modifier', $list);
+                $list = $build->require('function', $list);
+                $value = Variable::getValue($build, $storage, $list);
+                if(
+                    is_string($value) &&
+                    substr($value, 0,1) === '\'' &&
+                    substr($value, -1,1) === '\''
+                ){
+                    $variable['variable']['attribute'] .= ' . ' . substr($value, 0, -1) . '.\'';
                 }
-                $input['array'][$is_variable]['modifier'][] = [
-                    'string' => $modifier_string,
-                    'name' => $modifier_name,
-                    'argument' => $argument_array
-                ];
-                //check this
-                for($index = $is_variable + 1; $index <= $nr; $index++){
-                    $input['array'][$index] = null;
+                elseif(is_string($value)){
+                    if(substr($value, 0, 1) === '$'){
+                        $variable['variable']['attribute'] .= ' . ' . $value . ' . \'.\'';
+                        $is_variable = true;
+                    } else {
+                        $variable['variable']['attribute'] .= ' . ' . '\'' . $value . '.\'';
+                    }
+
+                } else {
+                    $logger = $object->config('project.log.debug') ?? $object->config('project.log.app');
+                    if($logger){
+                        $object->logger($logger)->debug('Variable define error', [
+                            'value' => $value,
+                            'token' => $token,
+                            'variable' => $variable,
+                            'list' => $list,
+                        ]);
+                    }
                 }
             }
-            elseif($is_modifier !== false){
-                $input['array'][$is_variable]['modifier'][] = [
-                    'string' => $modifier_string,
-                    'name' => $modifier_name,
-                    'argument' => []
-                ];
-                //check this
-                for($index = $is_variable + 1; $index <= $nr; $index++){
-                    $input['array'][$index] = null;
+            if($is_variable){
+                $variable['variable']['attribute'] = substr($variable['variable']['attribute'], 0, -6);
+            } else {
+                $variable['variable']['attribute'] = substr($variable['variable']['attribute'], 0, -2) . '\'';
+            }
+            if(
+                array_key_exists('is_literal', $variable) &&
+                $variable['is_literal'] === true
+            ){
+                $define = '\'' . $variable['variable']['name'] . '\'';
+            } else {
+                $define = '$this->storage()->data(\'' . $variable['variable']['attribute'] . ')';
+            }
+
+        } else {
+            if(
+                array_key_exists('is_literal', $variable) &&
+                $variable['is_literal'] === true
+            ){
+                $define = '\'' . $variable['variable']['name'] . '\'';
+            } else {
+                $define = '$this->storage()->data(\'' . $variable['variable']['attribute'] . '\')';
+            }
+        }
+        $define_modifier = '';
+        if(
+            array_key_exists('has_modifier', $variable['variable']) &&
+            $variable['variable']['has_modifier'] === true
+        ){
+            foreach($variable['variable']['modifier'] as $nr => $modifier_list){
+                foreach($modifier_list as $modifier_nr => $modifier){
+                    if(!array_key_exists('php_name', $modifier)){
+                        continue;
+                    }
+                    $define_modifier .= '$this->' . $modifier['php_name'] . '($this->parse(), $this->storage(), ' . $define . ', ';
+                    if(!empty($modifier['has_attribute'])){
+                        foreach($modifier['attribute'] as $attribute_nr => $attribute_list){
+                            $use_comma = true;
+                            $set_max = 1024;
+                            $set_counter = 0;
+                            while(Set::has($attribute_list)) {
+                                $set = Set::get($attribute_list);
+                                $set = Operator::solve($build, $storage, $set);
+                                $target = Set::target($attribute_list);
+                                $attribute_list = Set::pre_remove($attribute_list);
+                                $attribute_list = Set::replace($attribute_list, $set, $target);
+                                $attribute_list = Set::remove($attribute_list);
+                                $set_counter++;
+                                if($set_counter > $set_max){
+                                    break;
+                                }
+                            }
+                            $attribute_list = Operator::solve($build, $storage, $attribute_list);
+                            if(array_key_exists('type', $attribute_list)){
+                                $attribute_list = [
+                                    $attribute_list
+                                ];
+                            }
+                            foreach($attribute_list as $token_nr => $attribute){
+                                if(!is_array($attribute)){
+                                    ddd($attribute_list);
+                                }
+                                elseif(!array_key_exists('type', $attribute)){
+                                    ddd($attribute_list);
+                                }
+                                switch($attribute['type']){
+                                    case Token::TYPE_CAST:
+                                    case Token::TYPE_EXCLAMATION:
+                                    case Token::TYPE_OPERATOR:
+                                        $temp = [];
+                                        $temp[] = $attribute;
+                                        $define_modifier .= Value::get($build, $storage, $attribute);
+                                        $use_comma = false;
+                                        break;
+                                    case Token::TYPE_METHOD :
+                                        $tree = [];
+                                        $tree[]= $attribute;
+                                        $tree = $build->require('modifier', $tree);
+                                        $tree = $build->require('function', $tree);
+                                        $define_modifier .= Value::get($build, $storage, reset($tree));
+                                        $use_comma = true;
+                                        break;
+                                    case Token::TYPE_VARIABLE:
+                                        $temp = [];
+                                        $temp[] = $attribute;
+                                        $define_modifier .= Variable::define($build, $storage, $temp);
+                                        $use_comma = true;
+                                        break;
+                                    default :
+                                        $define_modifier .= Value::get($build, $storage, $attribute);
+                                        $use_comma = true;
+                                }
+                            }
+                            if($use_comma === true){
+                                $define_modifier .= ', ';
+                            } else {
+                                $define_modifier .= ' ';
+                            }
+                        }
+                    }
+                    $define_modifier = substr($define_modifier, 0, -2) . ')';
+                    $define = $define_modifier;
+                    $define_modifier = '';
                 }
             }
         }
-        /* wrong
-        if($is_variable !== false){
-            for($index = $is_variable + 1; $index <= $nr; $index++){
-                $input['array'][$index] = null;
+        return $define;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public static function getValue(Build $build, Data $storage, $token=[], $is_result=false): mixed
+    {
+        $set_max = 1024;
+        $set_counter = 0;
+        while(Set::has($token)){
+            $set = Set::get($token);
+            $set = Operator::solve($build, $storage, $set);
+            $target = Set::target($token);
+            $token = Set::pre_remove($token);
+            $token = Set::replace($token, $set, $target);
+            $token = Set::remove($token);
+            $set_counter++;
+            if($set_counter > $set_max){
+                break;
             }
         }
-        */
-        return $input;
+        $operator = Operator::solve($build, $storage, $token);
+        $result = '';
+        $in_array = false;
+        $is_collect = false;
+        $type = null;
+        $selection = [];
+        $operator_max = 1024;
+        $operator_counter = 0;
+        while(count($operator) >= 1){
+            $record = array_shift($operator);
+            if(is_bool($record) && $record === false){
+                if(substr($result, -3) == ' . '){
+                    $result = substr($result,0, -3);
+                }
+                return $result;
+            }
+            if(
+                $is_collect === true &&
+                $record['type'] !== Token::TYPE_CURLY_CLOSE
+            ){
+                if($type === null){
+                    $type = Build::getType($build->object(), $record);
+                }
+                $selection[] = $record;
+            }
+            if(is_string($record)){
+                trace();
+                ddd($record);
+            }
+            if(!array_key_exists('type', $record)){
+                if(is_array($record)){
+                    $list = [];
+                    $counter = 0;
+                    $is_set = false;
+                    foreach($record as $count => $set){
+                        foreach($set as $nr => $item){
+                            if(array_key_exists('type', $item)){
+                                $is_set = true;
+                                break;
+                            }
+                        }
+                        if($is_set){
+                            $set = Token::define($set);
+                            foreach($set as $nr => $item){
+                                $set[$nr] = Method::get($build, $storage, $item);
+                            }
+                        }
+                        $list[] = Variable::getValue($build, $storage, $set);
+                        $counter++;
+                    }
+                    if($counter === 1){
+                        $result .= $list[0];
+                    } else {
+                        throw new Exception('Not implemented...');
+                    }
+                }
+                elseif($is_collect === false){
+                    $record = Method::get($build, $storage, $record);
+                    $result .= Value::get($build, $storage, $record);
+                    if(
+                        !in_array(
+                            $record['type'],
+                            [
+                                Token::TYPE_EXCLAMATION,
+                                Token::TYPE_CAST
+                            ],
+                            true
+                        )
+                    ){
+                        if(
+                            $in_array === false &&
+                            empty($record['is_foreach'])
+                        ){
+                            if(
+                                in_array(
+                                    $record['type'],
+                                    [
+                                        Token::TYPE_CODE
+                                    ],
+                                    true
+                                ) &&
+                                substr($record['value'], -1, 1) == '!'
+                            ){
+                                //nothing
+                            }
+                            elseif($in_array === true){
+                                //nothing
+                            }
+                            elseif($record['type'] === Token::TYPE_PARENTHESE_OPEN) {
+                                $result .= ' ';
+                            }
+                            elseif($record['type'] === Token::TYPE_PARENTHESE_CLOSE) {
+                                $result = substr($result, 0, -3) . ')';
+                            } else {
+                                $add_dot = true;
+                                if($record['type'] === 'code'){
+                                    $rev = strrev($record['value']);
+                                    if(substr($rev, 0, 6) === ' enolc'){
+                                        //check for clone at the end
+                                        $add_dot = false;
+                                    } else {
+                                        $explode = explode('(', $rev, 2);
+                                        if (array_key_exists(1, $explode)) {
+                                            $cast = strrev($explode[0]);
+                                            $cast = explode(')', $cast, 2);
+                                            if (array_key_exists(1, $cast)) {
+                                                $cast = trim($cast[0]);
+                                                if (
+                                                    in_array(
+                                                        $cast,
+                                                        Value::TYPE_CAST,
+                                                        true
+                                                    )
+                                                ) {
+                                                    $add_dot = false;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                //maybe need next...
+                                if($add_dot){
+                                    $result .= ' . ';
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                if($record['type'] === Token::TYPE_CURLY_OPEN){
+                    $selection = [];
+                    $is_collect = true;
+                    continue;
+                }
+                elseif($record['type'] === Token::TYPE_CURLY_CLOSE){
+                    $result .= Code::result($build, $storage, $type, $selection);
+                    $result .= ' . ';
+                    $is_collect = false;
+                    $type = null;
+                    $selection = [];
+                }
+                elseif($record['type'] === Token::TYPE_BRACKET_SQUARE_OPEN){
+                    $in_array = true;
+                    if(substr($result, -3, 3) === ' . '){
+                        $result = substr($result, 0, -3);
+                    }
+                    $result .= '[';
+                }
+                elseif(
+                    $record['type'] === Token::TYPE_BRACKET_SQUARE_CLOSE &&
+                    $in_array === true
+                ){
+                    $result .= ']';
+                    if(
+                        array_key_exists('array_depth', $record) &&
+                        $record['array_depth'] === 0
+                    ){
+                        $in_array = false;
+                    }
+                }
+                elseif($is_collect === false){
+                    $record = Method::get($build, $storage, $record);
+                    $result .= Value::get($build, $storage, $record);
+                    if(
+                        !in_array(
+                            $record['type'],
+                            [
+                                Token::TYPE_EXCLAMATION,
+                                Token::TYPE_CAST
+                            ],
+                            true
+                        )
+                    ){
+                        if(
+                            $in_array === false &&
+                            empty($record['is_foreach'])
+                        ){
+                            if(
+                                in_array(
+                                    $record['type'],
+                                    [
+                                        Token::TYPE_CODE
+                                    ],
+                                    true
+                                ) &&
+                                substr($record['value'], -1, 1) == '!'
+                            ){
+                                //nothing
+                            }
+                            elseif($in_array === true){
+                                //nothing
+                            }
+                            elseif($record['type'] === Token::TYPE_PARENTHESE_OPEN) {
+                                $result .= ' ';
+                            }
+                            elseif($record['type'] === Token::TYPE_PARENTHESE_CLOSE) {
+                                $result = substr($result, 0, -3) . ')';
+                            } else {
+                                $add_dot = true;
+                                if($record['type'] === 'code'){
+                                    $rev = strrev($record['value']);
+                                    if(substr($rev, 0, 6) === ' enolc'){
+                                        //check for clone at the end
+                                        $add_dot = false;
+                                    } else {
+                                        $explode = explode('(', $rev, 2);
+                                        if(array_key_exists(1, $explode)){
+                                            $cast = strrev($explode[0]);
+                                            $cast = explode(')', $cast, 2);
+                                            if(array_key_exists(1, $cast)){
+                                                $cast = trim($cast[0]);
+                                                if(
+                                                    in_array(
+                                                        $cast,
+                                                        Value::TYPE_CAST,
+                                                        true
+                                                    )
+                                                ){
+                                                    $add_dot = false;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                //maybe need next...
+                                if($add_dot){
+                                    $result .= ' . ';
+                                }
+                            }
+                        }
+                    }
+                    $operator_counter++;
+                    if($operator_counter > $operator_max){
+                        break;
+                    }
+                }
+            }
+        }
+        if(substr($result, -3) === ' . '){
+            $result = substr($result,0, -3);
+        }
+        return $result;
     }
 }

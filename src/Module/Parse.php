@@ -447,10 +447,9 @@ class Parse {
                 try {
                     $this->key = $key;
                     $attribute = $this->object()->config('parse.read.object.this.attribute');
-                    $property = $this->object()->config('parse.read.object.this.property');
-                    d($property);
-                    ddd($attribute);
                     $string->{$attribute} = $key;
+                    $property = $this->object()->config('parse.read.object.this.property');
+                    $string->{$property} = $key;
                     $value_type = gettype($value);
                     if(
                         $value === null ||

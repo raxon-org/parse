@@ -311,6 +311,7 @@ class Parse {
      */
     public function compile($string='', $data=[], $storage=null, $depth=null, $is_debug=false): mixed
     {
+        d($string);
         $type = gettype($string);
         if(
             $string === null ||

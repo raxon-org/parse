@@ -219,6 +219,11 @@ class Token {
     public static function split($string='', $length=1, $encoding='UTF-8'): array
     {
         $array = [];
+        if(is_array($string)){
+            d($string);
+            trace();
+            ddd('end');
+        }
         $strlen = mb_strlen($string);
         for($i=0; $i<$strlen; $i=$i+$length){
             $array[] = mb_substr($string, $i, $length, $encoding);

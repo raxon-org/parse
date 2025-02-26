@@ -477,6 +477,7 @@ class Parse
             if(property_exists($options, 'info')){
                 echo $url_php . PHP_EOL;
             }
+            d($url_php);
             $pre_require = microtime(true);
             require_once $url_php;
             $post_require = microtime(true);

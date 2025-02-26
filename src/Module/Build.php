@@ -645,8 +645,19 @@ class Build
                             in_array(
                                 $record['marker']['name'],
                                 [
+                                    'script',
+                                ],
+                                true
+                            )
+                        ) {
+                            ddd($block);
+                        }
+                        elseif (
+                            array_key_exists('marker', $record) &&
+                            in_array(
+                                $record['marker']['name'],
+                                [
                                     'block',
-                                    'script'
                                 ],
                                 true
                             )

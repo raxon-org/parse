@@ -338,6 +338,7 @@ class Parse {
             $storage = $this->storage(new Data());
         }
         if(is_object($data)){
+            trace();
             ddd($storage);
             $storage->data(Core::object_merge($storage->data(), $data));
         } else {

@@ -810,6 +810,7 @@ class Parse {
                         }
 
                     }
+                    d($string);
                     return $string;
                 }
                 catch (Exception $exception){

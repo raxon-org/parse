@@ -13,8 +13,9 @@ namespace Plugin;
 
 trait Php_Namespace_Host {
 
-    protected function php_namespace_host(string $host): string
+    protected function php_namespace_host(mixed $host): string
     {
+        ddd($host);
         $explode = explode('.', $host);
         foreach($explode as $nr => $value){
             $explode[$nr] = ucfirst($value);

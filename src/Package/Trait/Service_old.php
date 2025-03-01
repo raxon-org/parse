@@ -16,7 +16,7 @@ use Raxon\Module\Handler;
 use Raxon\Module\OutputFilter;
 use Raxon\Module\Response;
 use Raxon\Module\Route;
-use Raxon\Node\Model\Node;
+use Raxon\Node\Module\Node;
 
 use Package\Raxon\Task\Service\Task;
 

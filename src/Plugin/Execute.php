@@ -3,6 +3,7 @@
 namespace Plugin;
 
 use Exception;
+
 use Raxon\Module\Core;
 
 trait Execute

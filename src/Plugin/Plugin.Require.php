@@ -27,6 +27,9 @@ trait Plugin_require {
     protected function plugin_require(string $url, mixed $data=null): void
     {
         $object = $this->object();
+        d($url);
+        ddd($data);
+
         $dir = Dir::name($object->config('package.raxon/parse.build.state.source.url'));
         if(substr($url, 0, 2) === './'){
             $url = $dir . substr($url, 2);

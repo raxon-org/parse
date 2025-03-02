@@ -7,6 +7,7 @@ use Raxon\Module\Core;
 use Raxon\Module\File;
 
 use Exception;
+
 class Method
 {
     public static function define(App $object, $flags, $options, $input=[], $tag=[]): array

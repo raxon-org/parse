@@ -34,6 +34,7 @@ class Method {
             $record['method']['attribute'] = [];
         }
         if(array_key_exists('attribute', $record['method'])){
+            d($record['method']);
             if(!array_key_exists('php_name', $record['method'])){
                 trace();
                 ddd($record);

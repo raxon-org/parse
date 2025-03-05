@@ -1,5 +1,4 @@
 <?php
-namespace Plugin;
 
 
 trait Json_Encode {

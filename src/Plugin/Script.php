@@ -5,7 +5,7 @@ use Raxon\Module\Core;
 
 trait Script {
 
-    public function script($name='script', $script=null): void
+    public function script($name='script', $script=null): mixed
     {
         $object = $this->object();
         $data = $this->data();
@@ -45,7 +45,7 @@ trait Script {
         $value = implode("\n", $value);
         $list[] = $value;
         $data->data($name, $list);
-
+        return null;
     }
 
 }

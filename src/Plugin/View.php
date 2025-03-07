@@ -10,13 +10,9 @@
  */
 namespace Plugin;
 
-use Raxon\App;
 use Raxon\Module\Controller;
 use Raxon\Module\Data;
-use Raxon\Module\Dir;
 use Raxon\Module\File;
-
-use RaXon\Parse\Module\Parse;
 
 use Exception;
 
@@ -27,41 +23,56 @@ trait View {
      */
     protected function view(mixed $template, mixed $data=null): mixed
     {
-        $object = $this->object();
-        $url = Controller::locate($object, $template);
-        $data = $this->view_data($data);
-        $flags = App::flags($object);
-        $options = App::options($object);
-        $options_require = clone $options;
-        $options_require->source = $url;
-        unset($options_require->hash);
-        unset($options_require->class);
-        unset($options_require->namespace);
-        $parse = new Parse($object, $data, $flags, $options_require);
+        $url = Controller::locate($this->object(), $template);
         $read = File::read($url);
-        return $parse->compile($read);
-    }
-
-    /**
-     * @throws Exception
-     */
-    protected function view_data(mixed $data=null): ?Data
-    {
-        if(is_array($data)){
-            $data = new Data($data);
-        }
-        elseif(
-            is_object($data) &&
-            $data instanceof Data
-        ){
-            //nothing
-        }
-        elseif(is_object($data)) {
-            $data = new Data($data);
+        $mtime = File::mtime($url);
+        $parse = $this->parse();
+        $storage = $this->data();
+        if(empty($data)){
+            $storage->data('raxon.org.parse.view.source.url', $url);
+            $storage->data('raxon.org.parse.view.source.mtime', $mtime);
+            $read = $parse->compile($read, [], $data);
         } else {
-            $data = $this->data();
+            $storage->data('raxon.org.parse.view.source.url', $url);
+            $storage->data('raxon.org.parse.view.source.mtime', $mtime);
+
+            if(
+                is_object($data) &&
+                get_class($data) === 'Data'
+            ){
+                $data_data = $data;
+            } else {
+                $data_data = new Data($data);
+            }
+            $read = $parse->compile($read, $data_data, $storage);
+            $data_script = $data_data->data('script');
+            $script = $data->data('script');
+            if(!empty($data_script) && empty($script)){
+                $data->data('script', $data_script);
+            }
+            elseif(!empty($data_script && !empty($script))){
+                foreach($script as $nr => $value){
+                    if(in_array($value, $data_script, true)){
+                        unset($script[$nr]);
+                    }
+                }
+                $data->data('script', array_merge($script, $data_script));
+            }
+            $data_link = $data_data->data('link');
+            $link = $data->data('link');
+            if(!empty($data_link) && empty($link)){
+                $data->data('link', $data_link);
+            }
+            elseif(!empty($data_link && !empty($link))){
+                foreach($link as $nr => $value){
+                    if(in_array($value, $data_link, true)){
+                        unset($link[$nr]);
+                    }
+                }
+                $data->data('link', array_merge($link, $data_link));
+            }
         }
-        return $data;
+        return $read;
     }
 
 }

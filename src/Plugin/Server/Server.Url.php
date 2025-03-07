@@ -23,6 +23,8 @@ trait Server_Url {
         ){
             $url .= '/';
         }
+        d($name);
+        d($url);
         return $url;
     }
 

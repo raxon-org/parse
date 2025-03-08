@@ -160,6 +160,7 @@ trait Plugin_require {
             $parser = new Parse($object);
             $compile = $parser->compile($read, $data_data->data(), $data_data);
             $data_script = $data_data->data('script');
+            d($url);
             ddd($data_script);
             $script = $storage->data('script');
             if(!empty($data_script) && empty($script)){

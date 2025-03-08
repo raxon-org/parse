@@ -9,7 +9,6 @@ trait Script {
     {
         $object = $this->object();
         $data = $this->storage();
-        ddd($data->data());
         if(is_array($script) || is_object($script)){
             return Core::object($script, Core::JSON);
         } else {

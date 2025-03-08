@@ -31,7 +31,7 @@ trait View {
         if(empty($data)){
             $storage->data('raxon.org.parse.view.source.url', $url);
             $storage->data('raxon.org.parse.view.source.mtime', $mtime);
-            $read = $parse->compile($read, [], $data);
+            $read = $parse->compile($read, [], $storage);
         } else {
             $storage->data('raxon.org.parse.view.source.url', $url);
             $storage->data('raxon.org.parse.view.source.mtime', $mtime);

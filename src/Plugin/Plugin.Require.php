@@ -159,8 +159,6 @@ trait Plugin_require {
             $parser = new Parse($object);
             $compile = $parser->compile($read, [], $data);
             $data->data('raxon.org.parse.view.source.url', $source);
-            d($data);
-            d($data->data('raxon.org.parse.view.source.url'));
             return $compile;
         }
     }

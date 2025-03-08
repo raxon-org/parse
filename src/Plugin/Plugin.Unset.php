@@ -17,7 +17,7 @@ trait Plugin_Unset {
     #[Argument(apply: "literal", count: "*")]
     public function plugin_unset(...$attributes): void
     {
-        $data = $this->data();
+        $data = $this->storage();
         foreach($attributes as $unset){
             if(substr($unset, 0, 1) == '$'){
                 $attribute = substr($unset, 1);

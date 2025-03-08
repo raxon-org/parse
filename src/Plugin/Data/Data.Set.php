@@ -15,7 +15,7 @@ trait Data_Set {
     protected function data_set(string $attribute, mixed $value=null): void
     {
         $object = $this->object();
-        $data = $this->data();
+        $data = $this->storage();
         if(
             is_string($attribute) &&
             substr($attribute, 0, 1) === '$'

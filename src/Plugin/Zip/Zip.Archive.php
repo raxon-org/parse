@@ -36,7 +36,7 @@ trait Zip_Archive {
             ]
         ]);
         */
-        $data = $this->data();
+        $data = $this->storage();
         try {
             $target = $parse->compile($target, $data);
             //$parse->setLimit($limit);

@@ -28,7 +28,7 @@ trait Plugin_require {
     protected function plugin_require(string $url, mixed $storage=null): string
     {
         $object = $this->object();
-        $data = $this->data();
+        $data = $this->storage();
         $cache_url = false;
         $cache_dir = false;
         $is_cache_url = false;

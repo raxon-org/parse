@@ -8,7 +8,7 @@ trait Script {
     public function script($name='script', $script=null): mixed
     {
         $object = $this->object();
-        $data = $this->data();
+        $data = $this->storage();
         ddd($data->data());
         if(is_array($script) || is_object($script)){
             return Core::object($script, Core::JSON);

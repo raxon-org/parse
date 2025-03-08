@@ -33,7 +33,7 @@ trait Parse_Read {
             }
             if($read){
                 try {
-                    $data = $this->data();
+                    $data = $this->storage();
                     $data->data(Core::object_merge($data->data(), $read->data()));
                 } catch (ObjectException $e) {
                 }

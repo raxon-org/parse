@@ -27,7 +27,7 @@ trait Parse_Select {
      */
     protected function parse_select(string $url='', string $select='', string $scope='scope:object'): mixed
     {
-        $data = $this->data();
+        $data = $this->storage();
         $parse = $this->parse();
         return Core::object_select($parse, $data, $url, $select, true, $scope);
     }

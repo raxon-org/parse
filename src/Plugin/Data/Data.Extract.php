@@ -25,7 +25,7 @@ trait Data_Extract {
         ){
             $attribute = substr($attribute, 1);
         }
-        $data = $this->data();
+        $data = $this->storage();
         return $data->extract($attribute);
     }
 }

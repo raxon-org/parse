@@ -15,7 +15,7 @@ trait Execute
     protected function execute(string $command='', $notification=''): ?string
     {
         $object = $this->object();
-        $data = $this->data();
+        $data = $this->storage();
         $command = escapeshellcmd($command);
         $output = false;
         Core::execute($object, $command, $output, $notify);

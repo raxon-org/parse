@@ -28,6 +28,7 @@ trait View {
         $mtime = File::mtime($url);
         $parse = $this->parse();
         $storage = $this->storage();
+        d($storage);
         if(empty($data)){
             $storage->data('raxon.org.parse.view.source.url', $url);
             $storage->data('raxon.org.parse.view.source.mtime', $mtime);
@@ -45,6 +46,8 @@ trait View {
                 $data_data = new Data($data);
             }
             $read = $parse->compile($read, $data_data, $storage);
+            d($read);
+            ddd($storage);
             $data_script = $data_data->data('script');
             $script = $data->data('script');
             if(!empty($data_script) && empty($script)){

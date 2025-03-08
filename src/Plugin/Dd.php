@@ -38,6 +38,7 @@ trait Dd {
                 $value,
                 [
                     '$this',
+                    '{$this}',
                     '{{$this}}'
                 ],
                 true

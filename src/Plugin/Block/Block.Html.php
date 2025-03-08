@@ -35,7 +35,6 @@ trait Block_Html {
             $content = $data->data('#content');
             $content[] = $value;
             $data->data('#content', $content);
-            d($value);
             return $value;
         } else {
             $data->data($name, $value);

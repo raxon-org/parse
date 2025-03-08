@@ -158,8 +158,9 @@ trait Plugin_require {
             $data_data->data('raxon.org.parse.view.source.url', $url);
             $data_data->data('raxon.org.parse.view.source.mtime', $mtime);
             $parser = new Parse($object);
-            $compile = $parser->compile($read, [], $data_data);
+            $compile = $parser->compile($read, $data_data->data(), $data_data);
             $data_script = $data_data->data('script');
+            ddd($data_script);
             $script = $storage->data('script');
             if(!empty($data_script) && empty($script)){
                 $storage->data('script', $data_script);

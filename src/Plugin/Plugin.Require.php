@@ -187,6 +187,7 @@ trait Plugin_require {
             }
             $storage->data('raxon.org.parse.view.source.url', $source);
             d($storage->data('script'));
+            d($parser);
             return $compile;
         }
     }

@@ -19,7 +19,8 @@ trait Dd {
             $options['trace'] = true;
         }
         if($options['trace'] === true){
-            $source = $object->config('package.raxon/parse.build.state.source.url');
+            $storage = $this->storage();
+            $source = $storage->get('source');
             $tag = $object->config('package.raxon/parse.build.state.tag');
             if($source && $tag){
                 if(
@@ -31,6 +32,9 @@ trait Dd {
                 } else {
                     $options['trace'] =  $source . ':' . $tag->line . PHP_EOL;
                 }
+            }
+            elseif($source){
+                $options['trace'] =  $source . PHP_EOL;
             }
         }
         if(

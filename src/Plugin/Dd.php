@@ -20,8 +20,7 @@ trait Dd {
         }
         if($options['trace'] === true){
             $storage = $this->storage();
-            ddd($storage);
-            $source = $storage->get('source');
+            $source = $storage->get('raxon.org.parse.view.url');
             $tag = $object->config('package.raxon/parse.build.state.tag');
             if($source && $tag){
                 if(

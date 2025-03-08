@@ -46,8 +46,6 @@ trait View {
                 $data_data = new Data($data);
             }
             $read = $parse->compile($read, $data_data, $storage);
-            d($read);
-            ddd($storage);
             $data_script = $data_data->data('script');
             $script = $data->data('script');
             if(!empty($data_script) && empty($script)){
@@ -75,6 +73,7 @@ trait View {
                 $data->data('link', array_merge($link, $data_link));
             }
         }
+        ddd($storage);
         return $read;
     }
 

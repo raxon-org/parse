@@ -12,7 +12,7 @@ trait __ {
         }
         $test = $object->data('translation');
         if(empty($test)){
-            return '{{import.translation()}} missing or corrupted translation file...' . PHP_EOL;
+            return '{{translation.import()}} missing or corrupted translation file...' . PHP_EOL;
         }
         $translation = $object->data('translation.' . $language);
         if(

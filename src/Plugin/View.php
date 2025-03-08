@@ -28,7 +28,6 @@ trait View {
         $mtime = File::mtime($url);
         $parse = $this->parse();
         $storage = $this->storage();
-        d($storage);
         if(empty($data)){
             $storage->data('raxon.org.parse.view.source.url', $url);
             $storage->data('raxon.org.parse.view.source.mtime', $mtime);

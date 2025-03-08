@@ -25,15 +25,15 @@ trait Plugin_require {
     /**
      * @throws Exception
      */
-    protected function plugin_require(string $url, mixed $data=null): string
+    protected function plugin_require(string $url, mixed $storage=null): string
     {
         $object = $this->object();
-        $storage = $this->data();
+        $data = $this->data();
         $cache_url = false;
         $cache_dir = false;
         $is_cache_url = false;
         if(!File::exist($url)) {
-            $text = 'Require: file not found: ' . $url . ' in template: ' . $storage->data('raxon.org.parse.view.source.url');
+            $text = 'Require: file not found: ' . $url . ' in template: ' . $data->data('raxon.org.parse.view.source.url');
             throw new Exception($text);
         }
         $mtime = File::mtime($url);
@@ -114,21 +114,21 @@ trait Plugin_require {
             File::touch($cache_url, File::mtime($url));
             exec('chmod 640 ' . $cache_url);
         }
-        if(!empty($data)){
+        if(!empty($storage)){
             $data_data = new Data();
-            $data_data->data($data);
+            $data_data->data($storage);
             $data_data->data('raxon.org.parse.view.source.url', $url);
-            $data_data->data('raxon.org.parse.view.source.mtime', $mtime);
             $data_data->data('ldelim', '{');
             $data_data->data('rdelim', '}');
+            $data->data('raxon.org.parse.view.source.mtime', $mtime);
 //        ob_start();
             $parser = new Parse($object);
             $compile =  $parser->compile($read, [], $data_data);
 //        d($compile);
             $data_script = $data_data->data('script');
-            $script = $storage->data('script');
+            $script = $data->data('script');
             if(!empty($data_script) && empty($script)){
-                $storage->data('script', $data_script);
+                $data->data('script', $data_script);
             }
             elseif(!empty($data_script && !empty($script))){
                 foreach($script as $nr => $value){
@@ -136,12 +136,12 @@ trait Plugin_require {
                         unset($script[$nr]);
                     }
                 }
-                $storage->data('script', array_merge($script, $data_script));
+                $data->data('script', array_merge($script, $data_script));
             }
             $data_link = $data_data->data('link');
-            $link = $storage->data('link');
+            $link = $data->data('link');
             if(!empty($data_link) && empty($link)){
-                $storage->data('link', $data_link);
+                $data->data('link', $data_link);
             }
             elseif(!empty($data_link && !empty($link))){
                 foreach($link as $nr => $value){
@@ -149,48 +149,16 @@ trait Plugin_require {
                         unset($link[$nr]);
                     }
                 }
-                $storage->data('link', array_merge($link, $data_link));
+                $data->data('link', array_merge($link, $data_link));
             }
             return $compile;
         } else {
-            $data_data = clone $storage;
-            $source = $storage->data('raxon.org.parse.view.source.url');
-            $data_data->data('raxon.org.parse.view.source.url', $url);
-            $data_data->data('raxon.org.parse.view.source.mtime', $mtime);
+            $source = $data->data('raxon.org.parse.view.source.url');
+            $data->data('raxon.org.parse.view.source.url', $url);
+            $data->data('raxon.org.parse.view.source.mtime', $mtime);
             $parser = new Parse($object);
-            $compile = $parser->compile($read, $data_data->data(), $data_data);
-            $data_script = $data_data->data('script');
-            d($url);
-            if(!empty($data_script)){
-                dd($data_script);
-            }
-
-            $script = $storage->data('script');
-            if(!empty($data_script) && empty($script)){
-                $storage->data('script', $data_script);
-            }
-            elseif(!empty($data_script && !empty($script))){
-                foreach($script as $nr => $value){
-                    if(in_array($value, $data_script, true)){
-                        unset($script[$nr]);
-                    }
-                }
-                $storage->data('script', array_merge($script, $data_script));
-            }
-            $data_link = $data_data->data('link');
-            $link = $storage->data('link');
-            if(!empty($data_link) && empty($link)){
-                $storage->data('link', $data_link);
-            }
-            elseif(!empty($data_link && !empty($link))){
-                foreach($link as $nr => $value){
-                    if(in_array($value, $data_link, true)){
-                        unset($link[$nr]);
-                    }
-                }
-                $storage->data('link', array_merge($link, $data_link));
-            }
-            $storage->data('raxon.org.parse.view.source.url', $source);
+            $compile = $parser->compile($read, [], $data);
+            $data->data('raxon.org.parse.view.source.url', $source);
             return $compile;
         }
     }

@@ -1,6 +1,5 @@
 <?php
-
-use Exception;
+namespace Plugin;
 
 trait Block_Html {
 

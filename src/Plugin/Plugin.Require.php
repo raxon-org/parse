@@ -153,7 +153,6 @@ trait Plugin_require {
             }
             return $compile;
         } else {
-            trace();
             $source = $data->data('raxon.org.parse.view.source.url');
             $data->data('raxon.org.parse.view.source.url', $url);
             $data->data('raxon.org.parse.view.source.mtime', $mtime);

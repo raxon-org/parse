@@ -72,7 +72,6 @@ trait View {
                 $data->data('link', array_merge($link, $data_link));
             }
         }
-        ddd($storage);
         return $read;
     }
 

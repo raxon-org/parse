@@ -45,6 +45,8 @@ trait Script {
         $value = implode("\n", $value);
         $list[] = $value;
         $data->data($name, $list);
+        d($name);
+        d($list);
         return null;
     }
 

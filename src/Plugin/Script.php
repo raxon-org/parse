@@ -18,6 +18,7 @@ trait Script {
             if(is_object($script)){
                 $parents = class_parents($script);
                 if(in_array('Exception', $parents)){
+                    //this happened rebuilding the parser with trait plugins instead of functions
                     throw $script;
                 }
             }

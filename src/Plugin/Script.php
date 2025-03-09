@@ -1,18 +1,26 @@
 <?php
 namespace Plugin;
 
+use Raxon\Exception\ObjectException;
+
 use Raxon\Module\Core;
 
 trait Script {
 
+    /**
+     * @throws ObjectException
+     */
     public function script($name='script', mixed $script=null): mixed
     {
-        d($name);
-        d(get_class($script));
-        d(class_parents($script));
         $object = $this->object();
         $data = $this->storage();
         if(is_array($script) || is_object($script)){
+            if(is_object($script)){
+                $parents = class_parents($script);
+                if(in_array('Exception', $parents)){
+                    throw $script;
+                }
+            }
             return Core::object($script, Core::JSON);
         } else {
             $script = trim($script);

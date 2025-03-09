@@ -5,10 +5,11 @@ use Raxon\Module\Core;
 
 trait Script {
 
-    public function script($name='script', $script=null): mixed
+    public function script($name='script', mixed $script=null): mixed
     {
         d($name);
-        ddd($script);
+        d(get_class($script));
+        d(class_parents($script));
         $object = $this->object();
         $data = $this->storage();
         if(is_array($script) || is_object($script)){

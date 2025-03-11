@@ -6,7 +6,13 @@ trait String_Uppercase_First {
 
     protected function string_uppercase_first(string $string): string
     {
-        return ucfirst($string);
+        //php 8.4
+        if(function_exists('mb_ucfirst')){
+            return mb_ucfirst($string);
+        } else {
+            return ucfirst($string);
+        }
+
     }
 
 }

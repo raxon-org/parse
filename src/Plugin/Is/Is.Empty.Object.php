@@ -14,7 +14,7 @@ use Raxon\MOdule\Core;
 
 trait Is_Empty_Object {
 
-    protected function is_empty(mixed $object=null): bool
+    protected function is_empty_object(mixed $object=null): bool
     {
         $result = Core::object_is_empty($object);
         return $result;

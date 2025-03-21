@@ -14,7 +14,7 @@ use Raxon\Module\File;
 
 trait File_Read {
 
-    public function file_read(string $url, array $options=[]): array | string
+    public function file_read(string $url=null, array $options=[]): array | string
     {
         $object = $this->object();
         if(File::exist($url)){

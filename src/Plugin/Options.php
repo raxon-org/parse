@@ -27,7 +27,7 @@ trait Options {
                 return Framework::options($this->object());
             default:
                 d($type);
-                $result Framework::options($this->object(), $type);
+                $result = Framework::options($this->object(), $type);
                 d($result);
                 return $result;
         }

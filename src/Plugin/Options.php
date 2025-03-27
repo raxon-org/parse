@@ -24,7 +24,7 @@ trait Options {
     protected function options($type=''): mixed
     {
         $this->object();
-        d($this->data());
+        d($this->storage());
         switch($type){
             case '':
             case 'default':

@@ -9,6 +9,7 @@ namespace Plugin;
  * @changeLog
  *    - all
  */
+use Raxon\App;
 
 
 trait Php_Namespace_Host {
@@ -16,6 +17,8 @@ trait Php_Namespace_Host {
     protected function php_namespace_host(mixed $host): string
     {
         trace();
+        $object = $this->object();
+        dd(App::options($object));
         ddd($host);
         $explode = explode('.', $host);
         foreach($explode as $nr => $value){

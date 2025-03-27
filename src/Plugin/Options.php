@@ -31,9 +31,8 @@ trait Options {
             case 'command':
                 return Framework::options($this->object(), $type);
             default:
-                $data = Framework::options($this->object());
-                d($data);
-                d($type);
+                $options = Framework::options($this->object());
+                $data = new Data($options);
                 $result = $data->get($type);
                 d($result);
                 return $result;

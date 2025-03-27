@@ -33,7 +33,10 @@ trait Options {
             default:
                 $data = new Data(Framework::options($this->object()));
                 d($data);
-                return $data->get($type);
+                d($type);
+                $result = $data->get($type);
+                d($result);
+                return $result;
         }
     }
 }

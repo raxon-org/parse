@@ -21,6 +21,16 @@ trait Options {
     protected function options($type=''): array|object
     {
         $this->object();
+        if($type === ''){
+            return Framework::options($this->object());
+        }
+        switch($type){
+            case '':
+            case 'default':
+                return Framework::options($this->object());
+            default:
+                return Framework::options($this->object(), $type);
+        }
         return Framework::options($this->object(), $type);
     }
 }

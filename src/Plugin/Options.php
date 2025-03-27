@@ -18,7 +18,7 @@ trait Options {
     /**
      * @throws Exception
      */
-    protected function options($type=''): array|object
+    protected function options($type=''): mixed
     {
         $this->object();
         switch($type){

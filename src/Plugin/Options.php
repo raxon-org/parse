@@ -11,7 +11,10 @@
 namespace Plugin;
 
 use Exception;
+
 use Raxon\App as Framework;
+
+use Raxon\Module\Data;
 
 trait Options {
 
@@ -25,11 +28,12 @@ trait Options {
             case '':
             case 'default':
                 return Framework::options($this->object());
+            case 'command':
+                return Framework::options($this->object(), $type);
             default:
-                d($type);
-                $result = Framework::options($this->object(), $type);
-                d($result);
-                return $result;
+                $data = new Data(Framework::options($this->object()));
+                d($data);
+                return $data->get($type);
         }
     }
 }

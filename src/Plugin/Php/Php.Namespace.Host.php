@@ -15,6 +15,7 @@ trait Php_Namespace_Host {
 
     protected function php_namespace_host(mixed $host): string
     {
+        trace();
         ddd($host);
         $explode = explode('.', $host);
         foreach($explode as $nr => $value){

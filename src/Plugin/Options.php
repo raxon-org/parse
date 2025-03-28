@@ -24,7 +24,6 @@ trait Options {
     protected function options($type=''): mixed
     {
         $this->object();
-        d($this->storage());
         switch($type){
             case '':
             case 'default':
@@ -35,7 +34,6 @@ trait Options {
                 $options = Framework::options($this->object());
                 $data = new Data($options);
                 $result = $data->get($type);
-                d($result);
                 return $result;
         }
     }

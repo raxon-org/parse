@@ -21,6 +21,7 @@ trait App_Controller_Host {
     protected function app_controller_host(mixed $host): string
     {
         foreach($host as $property => $value){
+            trace();
             echo 'Property: ' . $property . PHP_EOL;
 
         }

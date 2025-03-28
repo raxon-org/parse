@@ -18,14 +18,8 @@ trait App_Controller_Host {
     /**
      * @throws Exception
      */
-    protected function app_controller_host(mixed $host): string
+    protected function app_controller_host(string $host): string
     {
-        $string = '';
-        foreach($host as $property => $value){
-            $string .= ' | Property: ' . $property . PHP_EOL;
-
-        }
-        return $string;
         $explode = explode('.', $host);
         foreach($explode as $nr => $value){
             $explode[$nr] = ucfirst($value);

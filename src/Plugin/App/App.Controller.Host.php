@@ -18,8 +18,9 @@ trait App_Controller_Host {
     /**
      * @throws Exception
      */
-    protected function app_controller_host(string $host): string
+    protected function app_controller_host(mixed $host): string
     {
+        ddd($host);
         $explode = explode('.', $host);
         foreach($explode as $nr => $value){
             $explode[$nr] = ucfirst($value);

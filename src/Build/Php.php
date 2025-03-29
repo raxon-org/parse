@@ -1,16 +1,24 @@
 <?php
 namespace Raxon\Parse\Build;
 
+use Error;
+
 use Exception;
+
+use ParseError;
 
 use Plugin\Format_code;
 
 use Raxon\App;
+
 use Raxon\Exception\LocateException;
+
 use Raxon\Module\Autoload;
 use Raxon\Module\Core;
 use Raxon\Module\File;
+
 use Raxon\Parse\Module\Token;
+
 use ReflectionClass;
 
 class Php {
@@ -390,7 +398,7 @@ class Php {
                 $reflection = new ReflectionClass($trait);
                 $trait_methods = $reflection->getMethods();
             }
-            catch (Exception $exception) {
+            catch (Exception | Error | ParseErrore$exception) {
                 //continue
             }
             foreach($trait_methods as $nr => $method){

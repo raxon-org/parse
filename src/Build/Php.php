@@ -287,6 +287,7 @@ class Php {
                 ) {
                     //close if tag
                     $if_depth--;
+                    d($if_depth);
                     $if[] = $record;
                     if($if_depth === 0){
                         ddd($if);

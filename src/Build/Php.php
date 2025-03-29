@@ -225,9 +225,11 @@ class Php {
         foreach($tags as $row_nr => $list) {
             foreach ($list as $nr => &$record) {
                 if(array_key_exists('text', $record)){
-                    $text = Php::text($object, $flags, $options, $record);
-                    if($text){
+                    if($if_depth === 0){
+                        $text = Php::text($object, $flags, $options, $record);
                         $data[] = '$content[] =  \'' . str_replace(['\\','\''], ['\\\\', '\\\''], $text) . '\';';
+                    } else {
+                        $if[] = $record;
                     }
                 }
                 elseif(
@@ -294,6 +296,8 @@ class Php {
                     if($if_depth === 0){
                         ddd($if);
                     }
+                } else {
+                    d($record);
                 }
             }
         }

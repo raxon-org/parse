@@ -87,6 +87,8 @@ class Value
             return $input;
         }
         $value = '';
+        $is_single_quoted = false;
+        $is_single_quoted_backslash = false;
         $is_double_quoted = false;
         $is_double_quoted_backslash = false;
         $value_nr = false;
@@ -246,6 +248,21 @@ class Value
                             $previous = false;
                         }
                     }
+                }
+                elseif(
+                    $char['value'] === '\'' &&
+                    $previous !== '\\' &&
+                    $is_single_quoted === false
+                ){
+                    $is_single_quoted = true;
+                }
+                elseif(
+                    $char['value'] === '\'' &&
+                    $previous !== '\\' &&
+                    $is_single_quoted === true
+                ){
+                    $is_single_quoted = false;
+                    ddd($value);
                 }
                 elseif(
                     $value === 0 ||

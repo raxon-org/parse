@@ -219,6 +219,7 @@ class Php {
         $data = [];
         foreach($tags as $row_nr => $list) {
             foreach ($list as $nr => &$record) {
+                d($record);
                 if(array_key_exists('text', $record)){
                     $text = Php::text($object, $flags, $options, $record);
                     if($text){

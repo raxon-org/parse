@@ -228,7 +228,8 @@ class Php {
                     if($if_depth === 0){
                         $text = Php::text($object, $flags, $options, $record);
                         $data[] = '$content[] =  \'' . str_replace(['\\','\''], ['\\\\', '\\\''], $text) . '\';';
-                    } else {
+                    }
+                    elseif(!array_key_exists('if_depth', $record)) {
                         $record['if_depth'] = $if_depth;
                         if(!array_key_exists($row_nr, $if)){
                             $if[$row_nr] = [];
@@ -250,7 +251,8 @@ class Php {
                                 'if'
                             ],
                             true
-                        )
+                        ) &&
+                        !array_key_exists('if_depth', $record)
                     ){
                         if($record['method']['name'] === 'if'){
                             $if_depth++;
@@ -293,7 +295,8 @@ class Php {
                 elseif(
                     array_key_exists('marker', $record) &&
                     array_key_exists('name', $record['marker']) &&
-                    $record['marker']['name'] === 'else'
+                    $record['marker']['name'] === 'else' &&
+                    !array_key_exists('if_depth', $record)
                 ) {
                     $record['if_depth'] = $if_depth;
                     if(!array_key_exists($row_nr, $if)){
@@ -306,7 +309,8 @@ class Php {
                     array_key_exists('name', $record['marker']) &&
                     array_key_exists('is_close', $record['marker']) &&
                     $record['marker']['is_close'] === true &&
-                    $record['marker']['name'] === 'if'
+                    $record['marker']['name'] === 'if' &&
+                    !array_key_exists('if_depth', $record)
                 ) {
                     //close if tag
                     $record['if_depth'] = $if_depth;

@@ -262,10 +262,8 @@ class Value
                     $is_single_quoted !== false
                 ){
                     $value = Value::basic($object, $flags, $options, $value);
-                    ddd($value);
-                    $input['array'][$is_single_quoted]['type'] = 'string';
-                    $input['array'][$is_single_quoted]['value'] = '\'' . $value . '\'';
-                    $input['array'][$is_single_quoted]['execute'] = $input['array'][$is_double_quoted]['value'];
+                    $input['array'][$is_single_quoted] = $value;
+                    $input['array'][$is_single_quoted]['value'] = '\'' . $value['execute'] . '\'';
                     $input['array'][$is_single_quoted]['is_single_quoted'] = true;
                     for ($i = $is_single_quoted + 1; $i <= $nr; $i++) {
                         $input['array'][$i] = null;

@@ -229,6 +229,7 @@ class Php {
                         $text = Php::text($object, $flags, $options, $record);
                         $data[] = '$content[] =  \'' . str_replace(['\\','\''], ['\\\\', '\\\''], $text) . '\';';
                     } else {
+                        $record['if_depth'] = $if_depth;
                         $if[] = $record;
                     }
                 }

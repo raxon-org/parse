@@ -227,8 +227,7 @@ class Php {
                     }
                 }
                 elseif(
-                    array_key_exists('type', $record) &&
-                    $record['type'] === 'method'
+                    array_key_exists('method', $record)
                 ){
                     $method = Php::method($object, $flags, $options, $record);
                     if($method){

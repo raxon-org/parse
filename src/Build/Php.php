@@ -231,6 +231,12 @@ class Php {
                 elseif(
                     array_key_exists('method', $record)
                 ){
+                    if(array_key_exists('name', $record['method']) && $record['method']['name'] === 'if'){
+                        $if_depth++;
+                        ddd($tags);
+                    }
+
+
                     $method = Php::method($object, $flags, $options, $record, $before, $after);
                     if($method) {
                         if (!empty($before)) {
@@ -323,11 +329,18 @@ class Php {
             $method_value .= ')';
             return $method_value;
         } else {
-            $plugin = Php::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
-            $method_value = $plugin . '(';
-            $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
-            $method_value .= ')';
-            return $method_value;
+            if($record['method']['name'] === 'if'){
+                $method_value = $record['method']['name']  . '(';
+                $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
+                $method_value .= ')';
+                return $method_value;
+            } else {
+                $plugin = Php::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
+                $method_value = $plugin . '(';
+                $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
+                $method_value .= ')';
+                return $method_value;
+            }
         }
         return false;
     }

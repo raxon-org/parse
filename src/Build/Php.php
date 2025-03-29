@@ -231,7 +231,10 @@ class Php {
                 elseif(
                     array_key_exists('method', $record)
                 ){
-                    if(array_key_exists('name', $record['method']) && $record['method']['name'] === 'if'){
+                    if(
+                        array_key_exists('name', $record['method']) &&
+                        $record['method']['name'] === 'if'
+                    ){
                         $if_depth++;
                         ddd($tags);
                     }

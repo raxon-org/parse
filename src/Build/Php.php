@@ -230,7 +230,10 @@ class Php {
                         $data[] = '$content[] =  \'' . str_replace(['\\','\''], ['\\\\', '\\\''], $text) . '\';';
                     } else {
                         $record['if_depth'] = $if_depth;
-                        $if[] = $record;
+                        if(!is_array($if[$row_nr])){
+                            $if[$row_nr] = [];
+                        }
+                        $if[$row_nr][] = $record;
                     }
                 }
                 elseif(
@@ -253,7 +256,10 @@ class Php {
                             $if_depth++;
                         }
                         $record['if_depth'] = $if_depth;
-                        $if[] = $record;
+                        if(!is_array($if[$row_nr])){
+                            $if[$row_nr] = [];
+                        }
+                        $if[$row_nr][] = $record;
                     } else {
                         $method = Php::method($object, $flags, $options, $record, $before, $after);
                         if($method) {
@@ -290,7 +296,10 @@ class Php {
                     $record['marker']['name'] === 'else'
                 ) {
                     $record['if_depth'] = $if_depth;
-                    $if[] = $record;
+                    if(!is_array($if[$row_nr])){
+                        $if[$row_nr] = [];
+                    }
+                    $if[$row_nr][] = $record;
                 }
                 elseif(
                     array_key_exists('marker', $record) &&
@@ -302,7 +311,10 @@ class Php {
                     //close if tag
                     $record['if_depth'] = $if_depth;
                     $if_depth--;
-                    $if[] = $record;
+                    if(!is_array($if[$row_nr])){
+                        $if[$row_nr] = [];
+                    }
+                    $if[$row_nr][] = $record;
                     if($if_depth === 0){
                         ddd($if);
                     }

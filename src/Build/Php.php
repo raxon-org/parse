@@ -232,7 +232,7 @@ class Php {
                             $before = [];
                         }
                         $uuid_variable = Core::uuid_variable();
-                        $data[] = $uuid_variable . ' =  ' . $method . ';';
+                        $data[] = $uuid_variable . ' = ' . $method . ';';
                         $data[] = 'if(is_scalar(' . $uuid_variable . ')){';
                         $data[] = '$content[] = '. $uuid_variable . ';';
                         $data[] = '}';

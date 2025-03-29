@@ -246,7 +246,9 @@ class Php {
                             true
                         )
                     ){
-                        $if_depth++;
+                        if($record['method']['name'] === 'if'){
+                            $if_depth++;
+                        }
                         $if[] = $record;
                     } else {
                         $method = Php::method($object, $flags, $options, $record, $before, $after);

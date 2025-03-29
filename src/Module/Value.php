@@ -261,11 +261,15 @@ class Value
                     $previous !== '\\' &&
                     $is_single_quoted !== false
                 ){
-                    d($is_single_quoted);
-                    d($nr);
-
+                    $value = Value::basic($object, $flags, $options, $value);
+                    $input['array'][$is_single_quoted]['type'] = 'string';
+                    $input['array'][$is_single_quoted]['value'] = '\'' . $value . '\'';
+                    $input['array'][$is_single_quoted]['execute'] = $input['array'][$is_double_quoted]['value'];
+                    $input['array'][$is_single_quoted]['is_single_quoted'] = true;
+                    for ($i = $is_single_quoted + 1; $i <= $nr; $i++) {
+                        $input['array'][$i] = null;
+                    }
                     $is_single_quoted = false;
-                    ddd($value);
                 }
                 elseif(
                     $value === 0 ||

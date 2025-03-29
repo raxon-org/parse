@@ -220,6 +220,7 @@ class Php {
     public static function document_tag(App $object, $flags, $options, $tags = []): array
     {
         $data = [];
+        $if_depth = 0;
         foreach($tags as $row_nr => $list) {
             foreach ($list as $nr => &$record) {
                 if(array_key_exists('text', $record)){

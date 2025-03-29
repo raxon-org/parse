@@ -261,6 +261,15 @@ class Value
                     $previous !== '\\' &&
                     $is_single_quoted !== false
                 ){
+                    $value = '';
+                    for($i = $is_single_quoted + 1; $i < $nr; $i++){
+                        $item = $input['array'][$i];
+                        if(is_array($item)){
+                            $value .= $item['value'];
+                        } else {
+                            $value .= $item;
+                        }
+                    }
                     $value = Value::basic($object, $flags, $options, $value);
                     $input['array'][$is_single_quoted] = $value;
                     $input['array'][$is_single_quoted]['value'] = '\'' . $value['execute'] . '\'';

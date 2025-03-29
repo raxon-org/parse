@@ -531,6 +531,9 @@ class Php {
         if($is_argument){
             $argument_value = mb_substr($argument_value, 0, -2);
         }
+        d($before);
+        d($after);
+        d($argument_value);
         return $argument_value;
     }
 

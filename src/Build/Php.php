@@ -398,7 +398,7 @@ class Php {
                 $reflection = new ReflectionClass($trait);
                 $trait_methods = $reflection->getMethods();
             }
-            catch (Exception | Error | ParseErrore$exception) {
+            catch (Exception | Error | ParseError $exception) {
                 throw $exception;
                 //continue
             }

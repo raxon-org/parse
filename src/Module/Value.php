@@ -166,88 +166,61 @@ class Value
                     $previous !== '\\' &&
                     $is_double_quoted === false
                 ){
-                    $is_double_quoted = true;
+                    $is_double_quoted = $nr;
                 }
                 elseif(
                     $char['value'] === '"' &&
                     $previous !== '\\' &&
-                    $is_double_quoted === true
+                    $is_double_quoted !== false
                 ){
-                    $is_double_quoted = false;
-                    if(
-                        $value === 0 ||
-                        $value === '0' ||
-                        $value
-                    ){
-                        $length = mb_strlen($value);
-                        $value = Value::basic($object, $flags, $options, $value);
-                        $input['array'][$value_nr] = $value;
-                        for($i = $value_nr; $i < $value_nr + $length; $i++){
-                            if($i === $value_nr){
-                                continue;
-                            }
-                            $input['array'][$i] = null;
-                        }
-                        if(
-                            $previous === '-' &&
-                            in_array(
-                                $input['array'][$value_nr]['type'],
-                                [
-                                    'integer',
-                                    'float'
-                                ]
-                            )
-                        ){
-                            $input['array'][$value_nr]['execute'] = $input['array'][$value_nr]['execute'] * -1;
-                            $input['array'][$value_nr]['value'] = '-' . $input['array'][$value_nr]['value'];
-                            $input['array'][$value_nr -1] = null;
-                            $previous = false;
+                    $value = '';
+                    for($i = $is_double_quoted + 1; $i < $nr; $i++){
+                        $item = $input['array'][$i];
+                        if(is_array($item)){
+                            $value .= $item['value'];
+                        } else {
+                            $value .= $item;
                         }
                     }
+                    $value = Value::basic($object, $flags, $options, $value);
+                    $input['array'][$is_double_quoted] = $value;
+                    $input['array'][$is_double_quoted]['value'] = '"' . $value['execute'] . '"';
+                    $input['array'][$is_double_quoted]['is_double_quoted'] = true;
+                    for ($i = $is_single_quoted + 1; $i <= $nr; $i++) {
+                        $input['array'][$i] = null;
+                    }
+                    $is_double_quoted = false;
                 }
                 elseif(
                     $char['value'] === '"' &&
                     $previous === '\\' &&
                     $is_double_quoted_backslash === false
                 ){
-                    $is_double_quoted_backslash = true;
+                    $is_double_quoted_backslash = $nr;
                 }
                 elseif(
                     $char['value'] === '"' &&
                     $previous === '\\' &&
-                    $is_double_quoted_backslash === true
+                    $is_double_quoted_backslash !== false
                 ){
-                    $is_double_quoted_backslash = false;
-                    if(
-                        $value === 0 ||
-                        $value === '0' ||
-                        $value
-                    ){
-                        $length = mb_strlen($value);
-                        $value = Value::basic($object, $flags, $options, $value);
-                        $input['array'][$value_nr] = $value;
-                        for($i = $value_nr; $i < $value_nr + $length; $i++){
-                            if($i === $value_nr){
-                                continue;
-                            }
-                            $input['array'][$i] = null;
-                        }
-                        if(
-                            $previous === '-' &&
-                            in_array(
-                                $input['array'][$value_nr]['type'],
-                                [
-                                    'integer',
-                                    'float'
-                                ]
-                            )
-                        ){
-                            $input['array'][$value_nr]['execute'] = $input['array'][$value_nr]['execute'] * -1;
-                            $input['array'][$value_nr]['value'] = '-' . $input['array'][$value_nr]['value'];
-                            $input['array'][$value_nr -1] = null;
-                            $previous = false;
+                    $value = '';
+                    for($i = $is_double_quoted + 1; $i < $nr; $i++){
+                        $item = $input['array'][$i];
+                        if(is_array($item)){
+                            $value .= $item['value'];
+                        } else {
+                            $value .= $item;
                         }
                     }
+                    $value = Value::basic($object, $flags, $options, $value);
+                    $input['array'][$is_double_quoted] = $value;
+                    $input['array'][$is_double_quoted]['value'] = '\"' . $value['execute'] . '\"';
+                    $input['array'][$is_double_quoted]['is_double_quoted'] = true;
+                    $input['array'][$is_double_quoted]['is_backslash'] = true;
+                    for ($i = $is_single_quoted + 1; $i <= $nr; $i++) {
+                        $input['array'][$i] = null;
+                    }
+                    $is_double_quoted_backslash = false;
                 }
                 elseif(
                     $char['value'] === '\'' &&

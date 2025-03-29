@@ -20,8 +20,6 @@ class Build {
         Php::document_default($object, $flags, $options);
         $tags = Php::document_tag_prepare($object, $flags, $options, $tags);
         $data = Php::document_tag($object, $flags, $options, $tags);
-        ddd($data);
-
         $document = Php::document_header($object, $flags, $options);
         $document = Php::document_use($object, $flags, $options, $document, 'package.raxon/parse.build.use.class');
         $document[] = '';

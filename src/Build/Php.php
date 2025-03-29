@@ -217,7 +217,7 @@ class Php {
                 if(array_key_exists('text', $record)){
                     $text = Php::text($object, $flags, $options, $record);
                     if($text){
-                        $data[] = 'echo \'' . str_replace(['\\','\''], ['\\\\', '\\\''], $text) . '\';';
+                        $data[] = '$content[] =  \'' . str_replace(['\\','\''], ['\\\\', '\\\''], $text) . '\';';
                     }
                 }
                 elseif(
@@ -231,7 +231,7 @@ class Php {
                             }
                             $before = [];
                         }
-                        $data[] = 'echo '. $method . ';';
+                        $data[] = '$content[] =  '. $method . ';';
                         if(!empty($after)){
                             foreach($after as $line){
                                 $data[] = $line;

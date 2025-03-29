@@ -240,7 +240,7 @@ class Php {
                         $data[] = 'elseif(is_array(' . $uuid_variable . ') || is_object(' . $uuid_variable . ')){';
                         $data[] = 'return $uuid_variable;';
                         $data[] = '}';
-                        $data[] = '} catch (Exception $exception) {';
+                        $data[] = '} catch (TemplateException | Exception $exception) {';
                         $data[] = 'throw $exception;';
                         $data[] = '}';
                         if(!empty($after)){

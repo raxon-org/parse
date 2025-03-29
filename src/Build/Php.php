@@ -221,6 +221,7 @@ class Php {
     {
         $data = [];
         $if_depth = 0;
+        $if = [];
         foreach($tags as $row_nr => $list) {
             foreach ($list as $nr => &$record) {
                 if(array_key_exists('text', $record)){
@@ -237,37 +238,39 @@ class Php {
                         $record['method']['name'] === 'if'
                     ){
                         $if_depth++;
-                        ddd($tags);
-                    }
-
-
-                    $method = Php::method($object, $flags, $options, $record, $before, $after);
-                    if($method) {
-                        if (!empty($before)) {
-                            foreach ($before as $line) {
-                                $data[] = $line;
+                        $if[] = $record;
+                    } else {
+                        $method = Php::method($object, $flags, $options, $record, $before, $after);
+                        if($method) {
+                            if (!empty($before)) {
+                                foreach ($before as $line) {
+                                    $data[] = $line;
+                                }
+                                $before = [];
                             }
-                            $before = [];
-                        }
-                        $uuid_variable = Core::uuid_variable();
-                        $data[] = 'try {';
-                        $data[] = $uuid_variable . ' = ' . $method . ';';
-                        $data[] = 'if(is_scalar(' . $uuid_variable . ')){';
-                        $data[] = '$content[] = '. $uuid_variable . ';';
-                        $data[] = '}';
-                        $data[] = 'elseif(is_array(' . $uuid_variable . ') || is_object(' . $uuid_variable . ')){';
-                        $data[] = 'return $uuid_variable;';
-                        $data[] = '}';
-                        $data[] = '} catch (TemplateException | Exception $exception) {';
-                        $data[] = 'throw $exception;';
-                        $data[] = '}';
-                        if(!empty($after)){
-                            foreach($after as $line){
-                                $data[] = $line;
+                            $uuid_variable = Core::uuid_variable();
+                            $data[] = 'try {';
+                            $data[] = $uuid_variable . ' = ' . $method . ';';
+                            $data[] = 'if(is_scalar(' . $uuid_variable . ')){';
+                            $data[] = '$content[] = '. $uuid_variable . ';';
+                            $data[] = '}';
+                            $data[] = 'elseif(is_array(' . $uuid_variable . ') || is_object(' . $uuid_variable . ')){';
+                            $data[] = 'return $uuid_variable;';
+                            $data[] = '}';
+                            $data[] = '} catch (TemplateException | Exception $exception) {';
+                            $data[] = 'throw $exception;';
+                            $data[] = '}';
+                            if(!empty($after)){
+                                foreach($after as $line){
+                                    $data[] = $line;
+                                }
+                                $after = [];
                             }
-                            $after = [];
                         }
                     }
+                }
+                else {
+                    d($record);
                 }
             }
         }

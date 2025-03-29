@@ -728,7 +728,6 @@ class Php {
         $source = $options->source ?? '';
         $value = '';
         $skip = 0;
-        $input = Build::value_single_quote($object, $flags, $options, $input);
         $input = Php::value_set($object, $flags, $options, $input, $is_set);
 
         ddd($input);

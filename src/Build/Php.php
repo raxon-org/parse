@@ -144,7 +144,7 @@ class Php {
         $document[] = str_repeat(' ', $indent * 4) . 'public function run(): mixed';
         $document[] = str_repeat(' ', $indent * 4) . '{';
         $indent++;
-        $document[] = str_repeat(' ', $indent * 4) . 'ob_start();';
+        $document[] = str_repeat(' ', $indent * 4) . '$content = [];';
         $document[] = str_repeat(' ', $indent * 4) . '$object = $this->object();';
         $document[] = str_repeat(' ', $indent * 4) . '$parse = $this->parse();';
         $document[] = str_repeat(' ', $indent * 4) . '$data = $this->data();';
@@ -177,12 +177,7 @@ class Php {
         $indent--;
         $document[] = str_repeat(' ', $indent * 4) . '}';
         $document = Php::format($document, $data, $indent);
-        $document[] = str_repeat(' ', $indent * 4) . 'if(ob_get_level() >= 1){';
-        $indent++;
-        $document[] = str_repeat(' ', $indent * 4) . 'return ob_get_clean();';
-        $indent--;
-        $document[] = str_repeat(' ', $indent * 4) . '}';
-        $document[] = str_repeat(' ', $indent * 4) . 'return null;';
+        $document[] = str_repeat(' ', $indent * 4) . 'return implode(PHP_EOL, $content);';
         $indent--;
         $document[] = str_repeat(' ', $indent * 4) . '}';
         return $document;

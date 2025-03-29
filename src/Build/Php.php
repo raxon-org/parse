@@ -730,18 +730,14 @@ class Php {
         $value = '';
         $skip = 0;
         $input = Php::value_set($object, $flags, $options, $input, $is_set);
-
-        ddd($input);
-
         foreach ($input['array'] as $nr => $record) {
-            if ($skip > 0) {
-                $skip--;
-                continue;
+            if(array_key_exists('is_single_quoted')){
+                $value .= $record['execute'];
+            } else {
+                ddd($record);
             }
-            $previous = Token::item($input, $nr - 1);
-            $current = Token::item($input, $nr);
-            $next = Token::item($input, $nr + 1);
         }
+        return $value;
     }
 
     public static function value_set(App $object, $flags, $options, $input, &$is_set=false): array

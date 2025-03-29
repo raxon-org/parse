@@ -235,7 +235,16 @@ class Php {
                 ){
                     if(
                         array_key_exists('name', $record['method']) &&
-                        $record['method']['name'] === 'if'
+                        in_array(
+                            $record['method']['name'],
+                            [
+                                'elseif',
+                                'else.if',
+                                'else_if',
+                                'if'
+                            ],
+                            true
+                        )
                     ){
                         $if_depth++;
                         $if[] = $record;

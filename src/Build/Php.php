@@ -744,7 +744,7 @@ class Php {
         $input = Php::value_set($object, $flags, $options, $input, $is_set);
         foreach ($input['array'] as $nr => $record) {
             if(array_key_exists('is_single_quoted', $record)){
-                $value .= $record['execute'];
+                $value .= $record['value'];
             } else {
                 ddd($record);
             }

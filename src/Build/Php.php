@@ -199,11 +199,17 @@ class Php {
             ],
             'parentheses' => true
         ];
-        $code = self::format_code($data, $format_options);
+        $code = (new Php)->format_code($data, $format_options);
         foreach($code as $nr => $line){
             $document[] = $line;
         }
         return $document;
+    }
+
+    public static function document_tag(App $object, $flags, $options, $tags = []): array
+    {
+        $data = [];
+        return $data;
     }
 
 }

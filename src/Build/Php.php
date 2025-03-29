@@ -177,7 +177,7 @@ class Php {
         $indent--;
         $document[] = str_repeat(' ', $indent * 4) . '}';
         $document = Php::format($document, $data, $indent);
-        $document[] = str_repeat(' ', $indent * 4) . 'return implode(PHP_EOL, $content);';
+        $document[] = str_repeat(' ', $indent * 4) . 'return implode(\'\', $content);';
         $indent--;
         $document[] = str_repeat(' ', $indent * 4) . '}';
         return $document;

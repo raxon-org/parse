@@ -254,13 +254,16 @@ class Value
                     $previous !== '\\' &&
                     $is_single_quoted === false
                 ){
-                    $is_single_quoted = true;
+                    $is_single_quoted = $nr;
                 }
                 elseif(
                     $char['value'] === '\'' &&
                     $previous !== '\\' &&
-                    $is_single_quoted === true
+                    $is_single_quoted !== false
                 ){
+                    d($is_double_quoted);
+                    d($nr);
+
                     $is_single_quoted = false;
                     ddd($value);
                 }

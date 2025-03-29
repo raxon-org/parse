@@ -12,7 +12,6 @@ trait Script {
      */
     public function script($name='script', mixed $script=null): mixed
     {
-        ddd($script);
         $object = $this->object();
         $data = $this->storage();
         if(is_array($script) || is_object($script)){

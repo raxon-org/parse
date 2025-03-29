@@ -6,6 +6,7 @@ use Exception;
 use Plugin\Format_code;
 
 use Raxon\App;
+use Raxon\Parse\Module\Build;
 
 
 class Php {
@@ -209,6 +210,18 @@ class Php {
     public static function document_tag(App $object, $flags, $options, $tags = []): array
     {
         $data = [];
+        foreach($tags as $row_nr => $list) {
+            foreach ($list as $nr => &$record) {
+                $text = Php::text($object, $flags, $options, $record, $variable_assign_next_tag);
+                if($text){
+                    if($is_block){
+                        $block[] = $text;
+                    } else {
+                        $data[] = $text;
+                    }
+                }
+            }
+        }
         return $data;
     }
 

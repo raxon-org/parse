@@ -285,6 +285,13 @@ class Php {
                 elseif(
                     array_key_exists('marker', $record) &&
                     array_key_exists('name', $record['marker']) &&
+                    $record['marker']['name'] === 'else'
+                ) {
+                    $if[] = $record;
+                }
+                elseif(
+                    array_key_exists('marker', $record) &&
+                    array_key_exists('name', $record['marker']) &&
                     array_key_exists('is_close', $record['marker']) &&
                     $record['marker']['is_close'] === true &&
                     $record['marker']['name'] === 'if'

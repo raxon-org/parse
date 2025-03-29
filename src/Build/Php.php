@@ -251,6 +251,7 @@ class Php {
                         if($record['method']['name'] === 'if'){
                             $if_depth++;
                         }
+                        $record['if_depth'] = $if_depth;
                         $if[] = $record;
                     } else {
                         $method = Php::method($object, $flags, $options, $record, $before, $after);
@@ -287,6 +288,7 @@ class Php {
                     array_key_exists('name', $record['marker']) &&
                     $record['marker']['name'] === 'else'
                 ) {
+                    $record['if_depth'] = $if_depth;
                     $if[] = $record;
                 }
                 elseif(
@@ -297,8 +299,8 @@ class Php {
                     $record['marker']['name'] === 'if'
                 ) {
                     //close if tag
+                    $record['if_depth'] = $if_depth;
                     $if_depth--;
-                    d($if_depth);
                     $if[] = $record;
                     if($if_depth === 0){
                         ddd($if);

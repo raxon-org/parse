@@ -31,7 +31,7 @@ class Build {
         $document[] = '';
         $document = Php::document_construct($object, $flags, $options, $document);
         $document[] = '';
-//        d($data);
+        d($data);
         $document = Php::document_run($object, $flags, $options, $document, $data);
         $document[] = '}';
         return $document;

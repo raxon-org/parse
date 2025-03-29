@@ -278,8 +278,19 @@ class Php {
                         }
                     }
                 }
-                else {
-                    d($record);
+                elseif(
+                    array_key_exists('marker', $record) &&
+                    array_key_exists('value', $record['marker']) &&
+                    array_key_exists('array', $record['marker']['value']) &&
+                    $record['marker']['value']['array'][0]['value'] === '/' &&
+                    $record['marker']['value']['array'][1]['value'] === 'if'
+                ) {
+                    //close if tag
+                    $if_depth--;
+                    $if[] = $record;
+                    if($if_depth === 0){
+                        ddd($if);
+                    }
                 }
             }
         }

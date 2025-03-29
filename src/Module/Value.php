@@ -261,7 +261,7 @@ class Value
                     $previous !== '\\' &&
                     $is_single_quoted !== false
                 ){
-                    d($is_double_quoted);
+                    d($is_single_quoted);
                     d($nr);
 
                     $is_single_quoted = false;

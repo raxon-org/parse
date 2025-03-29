@@ -399,6 +399,7 @@ class Php {
                 $trait_methods = $reflection->getMethods();
             }
             catch (Exception | Error | ParseErrore$exception) {
+                throw $exception;
                 //continue
             }
             foreach($trait_methods as $nr => $method){

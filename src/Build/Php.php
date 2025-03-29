@@ -212,17 +212,35 @@ class Php {
         $data = [];
         foreach($tags as $row_nr => $list) {
             foreach ($list as $nr => &$record) {
-                $text = Php::text($object, $flags, $options, $record, $variable_assign_next_tag);
+                $text = Php::text($object, $flags, $options, $record);
                 if($text){
-                    if($is_block){
-                        $block[] = $text;
-                    } else {
-                        $data[] = $text;
-                    }
+                    $data[] = $text;
                 }
             }
         }
         return $data;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public static function text(App $object, $flags, $options, $record = []): bool | string
+    {
+        $is_echo = $object->config('package.raxon/parse.build.state.echo');
+        $ltrim = $object->config('package.raxon/parse.build.state.ltrim');
+        $skip_space = $ltrim * 4;
+        $skip = 0;
+        if ($is_echo !== true) {
+            return false;
+        }
+        if (
+            array_key_exists('text', $record) &&
+            $record['text'] !== ''
+        ) {
+            //might need to remove // /* /**    **/  */
+            return 'echo \'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['text']) . '\';' . PHP_EOL;
+        }
+        return false;
     }
 
 }

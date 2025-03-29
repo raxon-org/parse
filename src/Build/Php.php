@@ -10,6 +10,7 @@ use Raxon\Exception\LocateException;
 use Raxon\Module\Autoload;
 use Raxon\Module\Core;
 use Raxon\Module\File;
+use Raxon\Parse\Module\Token;
 use ReflectionClass;
 
 class Php {
@@ -728,16 +729,11 @@ class Php {
         $value = '';
         $skip = 0;
         $input = Build::value_single_quote($object, $flags, $options, $input);
-        $input = Build::value_set($object, $flags, $options, $input, $is_set);
-        $is_double_quote = false;
-        $double_quote_previous = false;
-        $is_cast = false;
-        $is_clone = false;
-        $is_single_line = false;
-        $is_static_class_call = false;
-//        d($tag);
-//        breakpoint($input);
-        foreach($input['array'] as $nr => $record) {
+        $input = Php::value_set($object, $flags, $options, $input, $is_set);
+
+        ddd($input);
+
+        foreach ($input['array'] as $nr => $record) {
             if ($skip > 0) {
                 $skip--;
                 continue;
@@ -746,4 +742,81 @@ class Php {
             $current = Token::item($input, $nr);
             $next = Token::item($input, $nr + 1);
         }
+    }
+
+    public static function value_set(App $object, $flags, $options, $input, &$is_set=false): array
+    {
+//        d($input);
+        if(!array_key_exists('array', $input)){
+            return $input;
+        }
+        $count = count($input['array']);
+        $first = reset($input['array']);
+        if(
+            $first !== false &&
+            array_key_exists('value', $first) &&
+            $first['value'] === '('
+        ){
+            $set = [];
+            $set['type'] = 'set';
+            $set['value'] = '(';
+            $set['array'] = [];
+            $set_depth = 1;
+            $after = null;
+            for($i = 1; $i <= $count - 1; $i++){
+                $current = Token::item($input, $i);
+                if($current === '('){
+                    $set_depth++;
+                }
+                elseif($current === ')'){
+                    $set_depth--;
+                    if($set_depth === 0){
+                        $after = [];
+                    }
+                }
+                elseif($after !== null){
+                    $after[] = $input['array'][$i];
+                }
+                elseif(
+                    in_array(
+                        $current,
+                        [
+                            'array',
+                            'bool',
+                            'boolean',
+                            'int',
+                            'integer',
+                            'float',
+                            'double',
+                            'string',
+                            'object',
+                            'clone'
+                        ],
+                        true
+                    )
+                ){
+                    $is_set = false;
+                    return $input;
+                } else {
+                    $set['value'] .= $current;
+                    $set['array'][] = $input['array'][$i];
+                }
+            }
+            $set['value'] .= ')';
+            if($after !== null){
+                $input['array'] = [
+                    0 => $set,
+                ];
+                foreach($after as $item){
+                    $input['array'][] = $item;
+                }
+            } else {
+                $input['array'] = [
+                    0 => $set,
+                ];
+            }
+            $is_set = true;
+        }
+        return $input;
+    }
 }

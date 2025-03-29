@@ -385,8 +385,14 @@ class Php {
             }
             $key = array_search($method_match, $use_trait_function, true);
             $trait = $use_trait[$key] ?? null;
-            $reflection = new ReflectionClass($trait);
-            $trait_methods = $reflection->getMethods();
+            $trait_methods = [];
+            try {
+                $reflection = new ReflectionClass($trait);
+                $trait_methods = $reflection->getMethods();
+            }
+            catch (Exception $exception) {
+                //continue
+            }
             foreach($trait_methods as $nr => $method){
                 if(
                     strtolower($method->name) === $method_match

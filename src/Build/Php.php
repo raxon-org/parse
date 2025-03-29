@@ -232,12 +232,16 @@ class Php {
                             $before = [];
                         }
                         $uuid_variable = Core::uuid_variable();
+                        $data[] = 'try {';
                         $data[] = $uuid_variable . ' = ' . $method . ';';
                         $data[] = 'if(is_scalar(' . $uuid_variable . ')){';
                         $data[] = '$content[] = '. $uuid_variable . ';';
                         $data[] = '}';
                         $data[] = 'elseif(is_array(' . $uuid_variable . ') || is_object(' . $uuid_variable . ')){';
                         $data[] = 'return $uuid_variable;';
+                        $data[] = '}';
+                        $data[] = '} catch (Exception $exception) {';
+                        $data[] = 'throw $exception;';
                         $data[] = '}';
                         if(!empty($after)){
                             foreach($after as $line){

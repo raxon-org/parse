@@ -222,7 +222,7 @@ class Php {
                 if(array_key_exists('text', $record)){
                     $text = Php::text($object, $flags, $options, $record);
                     if($text){
-                        $data[] = $text;
+                        $data[] = 'echo \'' . str_replace(['\\','\''], ['\\\\', '\\\''], $text . '\';');
                     }
                 }
                 elseif(
@@ -236,7 +236,7 @@ class Php {
                             }
                             $before = [];
                         }
-                        $data[] = $method;
+                        $data[] = 'echo '. $method . ';';
                         if(!empty($after)){
                             foreach($after as $line){
                                 $data[] = $line;
@@ -245,7 +245,6 @@ class Php {
                         }
                     }
                 }
-
             }
         }
         return $data;
@@ -268,7 +267,7 @@ class Php {
             $record['text'] !== ''
         ) {
             //might need to remove // /* /**    **/  */
-            return 'echo \'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['text']) . '\';' . PHP_EOL;
+            return $record['text'];
         }
         return false;
     }
@@ -282,7 +281,6 @@ class Php {
         $ltrim = $object->config('package.raxon/parse.build.state.ltrim');
         $skip_space = $ltrim * 4;
         $skip = 0;
-
         if(
             array_key_exists('is_class_method', $record['method']) &&
             $record['method']['is_class_method'] === true

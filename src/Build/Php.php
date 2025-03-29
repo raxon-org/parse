@@ -229,9 +229,21 @@ class Php {
                 elseif(
                     array_key_exists('method', $record)
                 ){
-                    $method = Php::method($object, $flags, $options, $record);
+                    $method = Php::method($object, $flags, $options, $record, $before, $after);
                     if($method){
+                        if(!empty($before)){
+                            foreach($before as $line){
+                                $data[] = $line;
+                            }
+                            $before = [];
+                        }
                         $data[] = $method;
+                        if(!empty($after)){
+                            foreach($after as $line){
+                                $data[] = $line;
+                            }
+                            $after = [];
+                        }
                     }
                 }
 
@@ -533,9 +545,6 @@ class Php {
         if($is_argument){
             $argument_value = mb_substr($argument_value, 0, -2);
         }
-        d($before);
-        d($after);
-        d($argument_value);
         return $argument_value;
     }
 

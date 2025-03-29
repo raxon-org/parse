@@ -3,10 +3,14 @@ namespace Raxon\Parse\Build;
 
 use Exception;
 
+use Plugin\Format_code;
+
 use Raxon\App;
 
 
 class Php {
+
+    use Format_code;
 
     /**
      * @throws Exception
@@ -111,6 +115,94 @@ class Php {
         );
         $indent = $object->config('package.raxon/parse.build.state.indent');
         $document[] = str_repeat(' ', $indent * 4) . '}';
+        return $document;
+    }
+
+    public static function document_run_throw(App $object, $flags, $options, $document=[]): array
+    {
+        $indent = $object->config('package.raxon/parse.build.state.indent');
+        $throws = $object->config('package.raxon/parse.build.run.throw');
+        if(is_array($throws)){
+            $document[] = str_repeat(' ', $indent * 4) . '/**';
+            foreach($throws as $throw){
+                $document[] = str_repeat(' ', $indent * 4) . ' * @throws ' . $throw;
+            }
+            $document[] = str_repeat(' ', $indent * 4) . ' */';
+        }
+        return $document;
+    }
+
+    public static function document_run(App $object, $flags, $options, $document = [], $data = []): array
+    {
+        $indent = $object->config('package.raxon/parse.build.state.indent');
+        $document = Php::document_run_throw($object, $flags, $options, $document);
+        $document[] = str_repeat(' ', $indent * 4) . 'public function run(): mixed';
+        $document[] = str_repeat(' ', $indent * 4) . '{';
+        $indent++;
+        $document[] = str_repeat(' ', $indent * 4) . 'ob_start();';
+        $document[] = str_repeat(' ', $indent * 4) . '$object = $this->object();';
+        $document[] = str_repeat(' ', $indent * 4) . '$parse = $this->parse();';
+        $document[] = str_repeat(' ', $indent * 4) . '$data = $this->data();';
+        $document[] = str_repeat(' ', $indent * 4) . '$flags = $this->parse_flags();';
+        $document[] = str_repeat(' ', $indent * 4) . '$options = $this->parse_options();';
+        $document[] = str_repeat(' ', $indent * 4) . '$options->debug = true;';
+        $document[] = str_repeat(' ', $indent * 4) . 'if (!($object instanceof App)) {';
+        $indent++;
+        $document[] = str_repeat(' ', $indent * 4) . 'throw new TemplateException(\'$object is not an instance of Raxon\App\');';
+        $indent--;
+        $document[] = str_repeat(' ', $indent * 4) . '}';
+        $document[] = str_repeat(' ', $indent * 4) . 'if (!($parse instanceof Parse)) {';
+        $indent++;
+        $document[] = str_repeat(' ', $indent * 4) . 'throw new TemplateException(\'$parse is not an instance of Package\Raxon\Parse\Service\Parse\');';
+        $indent--;
+        $document[] = str_repeat(' ', $indent * 4) . '}';
+        $document[] = str_repeat(' ', $indent * 4) . 'if (!($data instanceof Data)) {';
+        $indent++;
+        $document[] = str_repeat(' ', $indent * 4) . 'throw new TemplateException(\'$data is not an instance of Raxon\Module\Data\');';
+        $indent--;
+        $document[] = str_repeat(' ', $indent * 4) . '}';
+        $document[] = str_repeat(' ', $indent * 4) . 'if (!is_object($flags)) {';
+        $indent++;
+        $document[] = str_repeat(' ', $indent * 4) . 'throw new TemplateException(\'$flags is not an object\');';
+        $indent--;
+        $document[] = str_repeat(' ', $indent * 4) . '}';
+        $document[] = str_repeat(' ', $indent * 4) . 'if (!is_object($options)) {';
+        $indent++;
+        $document[] = str_repeat(' ', $indent * 4) . 'throw new TemplateException(\'$options is not an object\');';
+        $indent--;
+        $document[] = str_repeat(' ', $indent * 4) . '}';
+        $document = Php::format($document, $data, $indent);
+        $document[] = str_repeat(' ', $indent * 4) . 'if(ob_get_level() >= 1){';
+        $indent++;
+        $document[] = str_repeat(' ', $indent * 4) . 'return ob_get_clean();';
+        $indent--;
+        $document[] = str_repeat(' ', $indent * 4) . '}';
+        $document[] = str_repeat(' ', $indent * 4) . 'return null;';
+        $indent--;
+        $document[] = str_repeat(' ', $indent * 4) . '}';
+        return $document;
+    }
+
+    public static function format($document=[], $data=[], $indent=2): array
+    {
+        $format_options = (object) [
+            'indent' => $indent,
+            'tag' => (object) [
+                'open' => [
+                    '{',
+                    '[',
+                ],
+                'close' => [
+                    '}',
+                    ']',
+                ]
+            ],
+            'parentheses' => true
+        ];
+        $code = self::format_code($data, $format_options);
+        foreach($code as $nr => $line){
+            $document[] = $line;
+        }
         return $document;
     }
 

@@ -448,7 +448,7 @@ class Php {
                             }
                             $before = [];
                         }
-                        $if_content = PHP::document_tag($object, $flags, $options, Php::lower_if_depth($content['if']['content']));
+                        $if_content = PHP::document_tag($object, $flags, $options, $content['if']['content']);
                         foreach($if_content as $line){
                             $if_data[] = $line;
                         }
@@ -469,7 +469,7 @@ class Php {
                                     $before = [];
                                 }
                                 d($elseif['content']);
-                                $if_content = Php::document_tag($object, $flags, $options, Php::lower_if_depth($elseif['content']));
+                                $if_content = Php::document_tag($object, $flags, $options, $elseif['content']);
                                 foreach($if_content as $line){
                                     $if_data[] = $line;
                                 }
@@ -477,7 +477,7 @@ class Php {
                             }
                         }
                         if(array_key_exists('else', $content)){
-                            $if_content = Php::document_tag($object, $flags, $options, Php::lower_if_depth($content['else']['content']));
+                            $if_content = Php::document_tag($object, $flags, $options, $content['else']['content']);
                             $if_data[] = 'else {';
                             foreach($if_content as $line){
                                 $if_data[] = $line;

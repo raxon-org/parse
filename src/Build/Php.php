@@ -1088,7 +1088,6 @@ class Php {
                         $value .= ' ' . $record['value'] .  ' ';
                         break;
                     default:
-
                         $next = $input['array'][$nr + 1] ?? null;
                         $right = null;
                         if($next){

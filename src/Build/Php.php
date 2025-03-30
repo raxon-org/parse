@@ -471,11 +471,15 @@ class Php {
                             }
                             $if_data[] = '}';
                         }
-                        $if_content = PHP::document_tag($object, $flags, $options, $content['else']['content']);
-                        foreach($if_content as $line){
-                            $if_data[] = $line;
+                        if(array_key_exists('else', $content)){
+                            $if_content = PHP::document_tag($object, $flags, $options, $content['else']['content']);
+                            $if_data[] = 'else {';
+                            foreach($if_content as $line){
+                                $if_data[] = $line;
+                            }
+                            $if_data[] = '}';
                         }
-                        $if_data[] = '}';
+
                         foreach($if_before as $line){
                             $data[] = $line;
                         }

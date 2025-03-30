@@ -504,9 +504,16 @@ class Php {
         return $data;
     }
 
-    public static function lower_if_depth($list=[]): array
+    public static function lower_if_depth($tags=[]): array
     {
-        ddd($list);
+        foreach($tags as $row_nr => $list){
+            foreach($list as $nr => $record) {
+                if(array_key_exists('if_depth', $record)){
+                    $tags[$row_nr][$nr]['if_depth']--;
+                }
+            }
+        }
+        return $tags;
     }
 
     /**

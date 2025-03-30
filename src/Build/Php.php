@@ -534,8 +534,31 @@ class Php {
             $method_value .= ')';
             return $method_value;
         } else {
-            if($record['method']['name'] === 'if'){
-                $method_value = $record['method']['name']  . '(';
+            if (
+                in_array(
+                    $record['method']['name'],
+                    [
+                        'if',
+                        'elseif',
+                        'else_if',
+                        'else.if'
+                    ],
+                    true
+                )
+            ){
+                if(
+                    in_array(
+                        $record['method']['name'],
+                        [
+                            'else_if',
+                            'else.if'
+                        ], true
+                    )
+                ){
+                    $method_value = 'elseif(';
+                } else {
+                    $method_value = $record['method']['name']  . '(';
+                }
                 $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
                 $method_value .= ')';
                 return $method_value;

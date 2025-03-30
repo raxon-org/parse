@@ -431,6 +431,7 @@ class Php {
                     //close if tag
                     $record['if_depth'] = $if_depth;
                     $if_depth--;
+                    d($content);
                     if($if_depth === 0){
                         $if_before = [];
                         $if_after = [];

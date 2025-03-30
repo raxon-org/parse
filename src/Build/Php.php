@@ -1043,6 +1043,7 @@ class Php {
                 $value .= $uuid_variable;
             }
             elseif(
+                array_key_exists('value', $record) &&
                 in_array(
                     $record['value'],
                     [

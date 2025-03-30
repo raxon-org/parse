@@ -225,7 +225,6 @@ class Php {
         $elseif_count = 0;
         $else = false;
         $if_method = 'if';
-        $if = [];
         $content = [];
         foreach($tags as $row_nr => $list) {
             foreach ($list as $nr => &$record) {
@@ -431,6 +430,10 @@ class Php {
                     $record['if_depth'] = $if_depth;
                     $if_depth--;
                     if($if_depth === 0){
+                        $if = Php::method($object, $flags, $options, $content['if']['statement'], $before, $after);
+                        d($if);
+                        d($before);
+                        d($after);
                         ddd($content);
                     }
                 } else {

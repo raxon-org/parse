@@ -379,6 +379,7 @@ class Php {
                                 $content[$if_method]['content'][$row_nr][] = $record;
                             }
                         } else {
+                            trace();
                             d($record);
                             $method = Php::method($object, $flags, $options, $record, $before, $after);
                             if($method) {

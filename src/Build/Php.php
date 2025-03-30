@@ -1024,8 +1024,13 @@ class Php {
     {
         $source = $options->source ?? '';
         $value = '';
+        $skip = 0;
         $input = Php::value_set($object, $flags, $options, $input, $is_set);
         foreach ($input['array'] as $nr => $record) {
+            if($skip > 0){
+                $skip--;
+                continue;
+            }
             if(array_key_exists('is_single_quoted', $record)){
                 $value .= $record['value'];
             }
@@ -1075,8 +1080,12 @@ class Php {
             ) {
                 switch($record['value']){
                     case '===':
-                        ddd($input);
-                        $value .= ' ... ';
+                        $right = $input['array'][$nr + 1] ?? null;
+                        if($right){
+                            d($record['value']);
+                            d($value);
+                            ddd($right);
+                        }
                         break;
                     default:
                         $value .= ' ' . $record['value'] .  ' ';

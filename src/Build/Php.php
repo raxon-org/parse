@@ -432,7 +432,8 @@ class Php {
                     if($if_depth === 0){
                         $if_before = [];
                         $if_after = [];
-                        $data[] = Php::method($object, $flags, $options, $content['if']['statement'], $before, $after);
+                        $if_data = [];
+                        $if_data[] = Php::method($object, $flags, $options, $content['if']['statement'], $before, $after);
                         if(!empty($before)){
                             foreach($before as $line){
                                 $if_before[] = $line;
@@ -446,7 +447,7 @@ class Php {
                             $before = [];
                         }
                         foreach($content['elseif'] as $elseif_nr => $elseif){
-                            $data[] = Php::method($object, $flags, $options, $elseif['statement'], $before, $after);
+                            $if_data[] = Php::method($object, $flags, $options, $elseif['statement'], $before, $after);
                             if(!empty($before)){
                                 foreach($before as $line){
                                     $if_before[] = $line;
@@ -462,7 +463,7 @@ class Php {
                         }
                         d($if_before);
                         d($if_after);
-                        d($data);
+                        d($if_data);
                         d($before);
                         d($after);
                         ddd($content);

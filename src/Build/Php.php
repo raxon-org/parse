@@ -957,7 +957,7 @@ class Php {
                 $record['type'] === 'variable'
             ){
                 $uuid_variable = Core::uuid_variable();
-                $before[] = $uuid_variable = '$this->data(\'' . $record['name'] . '\');';
+                $before[] = $uuid_variable . ' = $this->data(\'' . $record['name'] . '\');';
                 $value .= $uuid_variable;
             }
             else {

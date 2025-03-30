@@ -447,7 +447,9 @@ class Php {
                             $before = [];
                         }
                         $if_content = PHP::document_tag($object, $flags, $options, $content['if']['content']);
-                        ddd($if_content);
+                        foreach($if_content as $line){
+                            $if_data[] = $line;
+                        }
                         foreach($content['elseif'] as $elseif_nr => $elseif){
                             $if_data[] = Php::method($object, $flags, $options, $elseif['statement'], $before, $after) . '{';
                             if(!empty($before)){
@@ -461,6 +463,10 @@ class Php {
                                     $if_after[] = $line;
                                 }
                                 $before = [];
+                            }
+                            $if_content = PHP::document_tag($object, $flags, $options, $elseif['content']);
+                            foreach($if_content as $line){
+                                $if_data[] = $line;
                             }
                         }
                         d($if_before);

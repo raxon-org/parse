@@ -433,7 +433,7 @@ class Php {
                         $if_before = [];
                         $if_after = [];
                         $if_data = [];
-                        $if_data[] = Php::method($object, $flags, $options, $content['if']['statement'], $before, $after);
+                        $if_data[] = Php::method($object, $flags, $options, $content['if']['statement'], $before, $after) . '{';
                         if(!empty($before)){
                             foreach($before as $line){
                                 $if_before[] = $line;
@@ -446,8 +446,10 @@ class Php {
                             }
                             $before = [];
                         }
+                        $if_content = PHP::document_tag($object, $flags, $options, $content['if']['content']);
+                        ddd($if_content);
                         foreach($content['elseif'] as $elseif_nr => $elseif){
-                            $if_data[] = Php::method($object, $flags, $options, $elseif['statement'], $before, $after);
+                            $if_data[] = Php::method($object, $flags, $options, $elseif['statement'], $before, $after) . '{';
                             if(!empty($before)){
                                 foreach($before as $line){
                                     $if_before[] = $line;

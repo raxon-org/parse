@@ -951,7 +951,16 @@ class Php {
         foreach ($input['array'] as $nr => $record) {
             if(array_key_exists('is_single_quoted', $record)){
                 $value .= $record['value'];
-            } else {
+            }
+            elseif(
+                array_key_exists('type', $record) &&
+                $record['type'] === 'variable'
+            ){
+                $uuid_variable = Core::uuid_variable();
+                $before[] = $uuid_variable = '$this->data(\'' . $record['name'] . '\');';
+                $value .= $uuid_variable;
+            }
+            else {
                 ddd($record);
             }
         }

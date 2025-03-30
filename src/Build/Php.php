@@ -266,9 +266,8 @@ class Php {
                                 $content[$if_method]['content'][$row_nr] = [];
                             }
                             $content[$if_method]['content'][$row_nr][] = $record;
-                        }
-                        else {
-                            $content[$if_method][$row_nr][] = $record;
+                        } else {
+                            $content[$if_method]['content'][$row_nr][] = $record;
                         }
 
                     }

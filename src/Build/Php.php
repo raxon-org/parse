@@ -380,6 +380,7 @@ class Php {
                     }
                     $if[$row_nr][] = $record;
                     if($if_depth === 0){
+                        d($content);
                         ddd($if);
                     }
                 } else {

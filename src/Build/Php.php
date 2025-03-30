@@ -1073,7 +1073,15 @@ class Php {
                     true
                 )
             ) {
-                $value .= ' ' . $record['value'] .  ' ';
+                switch($record['value']){
+                    case '===':
+                        ddd($input);
+                        $value .= ' ... ';
+                        break;
+                    default:
+                        $value .= ' ' . $record['value'] .  ' ';
+                        break;
+                }
             } else {
                 ddd($record);
             }

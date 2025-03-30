@@ -484,7 +484,6 @@ class Php {
                             }
                             $if_data[] = '}';
                         }
-
                         foreach($if_before as $line){
                             $data[] = $line;
                         }

@@ -236,10 +236,16 @@ class Php {
                     }
                     elseif(!array_key_exists('if_depth', $record)) {
                         $record['if_depth'] = $if_depth;
-                        if(!array_key_exists('content', $content[$if_method])){
+                        if(
+                            $if_method  === 'if' &&
+                            !array_key_exists('content', $content[$if_method])
+                        ){
                             $content[$if_method]['content'] = [];
                         }
-                        if(!array_key_exists($row_nr, $content[$if_method]['content'])){
+                        if(
+                            $if_method  === 'if' &&
+                            !array_key_exists($row_nr, $content[$if_method]['content'])
+                        ){
                             $content[$if_method]['content'][$row_nr] = [];
                         }
                         if(

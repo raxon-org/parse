@@ -450,6 +450,7 @@ class Php {
                         foreach($if_content as $line){
                             $if_data[] = $line;
                         }
+                        $if_data[] = '}';
                         foreach($content['elseif'] as $elseif_nr => $elseif){
                             $if_data[] = Php::method($object, $flags, $options, $elseif['statement'], $before, $after) . '{';
                             if(!empty($before)){
@@ -468,6 +469,7 @@ class Php {
                             foreach($if_content as $line){
                                 $if_data[] = $line;
                             }
+                            $if_data[] = '}';
                         }
                         d($if_before);
                         d($if_after);

@@ -471,12 +471,21 @@ class Php {
                             }
                             $if_data[] = '}';
                         }
-                        d($if_before);
-                        d($if_after);
-                        d($if_data);
-                        d($before);
-                        d($after);
-                        ddd($content);
+                        $if_content = PHP::document_tag($object, $flags, $options, $content['else']['content']) . '{';
+                        foreach($if_content as $line){
+                            $if_data[] = $line;
+                        }
+                        $if_data[] = '}';
+                        foreach($if_before as $line){
+                            $data[] = $line;
+                        }
+                        foreach($if_data as $line){
+                            $data[] = $line;
+                        }
+                        foreach($if_after as $line){
+                            $data[] = $line;
+                        }
+                        $content = [];
                     }
                 } else {
                     d($record);

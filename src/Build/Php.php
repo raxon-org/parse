@@ -1079,7 +1079,16 @@ class Php {
                 )
             ) {
                 switch($record['value']){
-                    case '===':
+                    case '??':
+                    case '&&':
+                    case 'and' :
+                    case '||':
+                    case 'or':
+                    case 'xor':
+                        $value .= ' ' . $record['value'] .  ' ';
+                        break;
+                    default:
+
                         $next = $input['array'][$nr + 1] ?? null;
                         $right = null;
                         if($next){
@@ -1094,14 +1103,9 @@ class Php {
                                 $before[] = $uuid_variable . ' = $data->get(\'' . $next['name'] . '\');';
                                 $right = $uuid_variable;
                             }
-
-                            d($record['value']);
+                            $value = Php::value_calculate($object, $flags, $options, $record['value'], $value, $right);
                             d($value);
-                            ddd($right);
                         }
-                        break;
-                    default:
-                        $value .= ' ' . $record['value'] .  ' ';
                         break;
                 }
             } else {
@@ -1185,5 +1189,77 @@ class Php {
             $is_set = true;
         }
         return $input;
+    }
+
+    public static function value_calculate(App $object, $flags, $options, $current, $left, $right): string
+    {
+        $value = '';
+        switch($current){
+            case '.=':
+            case '.':
+                $value = '$this->value_concatenate(' . $left . ', ' . $right . ')';
+                break;
+            case '+':
+                $value = '$this->value_plus(' . $left . ', ' . $right . ')';
+                break;
+            case '-':
+                $value = '$this->value_minus(' . $left . ', ' . $right . ')';
+                break;
+            case '*':
+                $value = '$this->value_multiply(' . $left . ', ' . $right . ')';
+                break;
+            case '%':
+                $value = '$this->value_modulo(' . $left . ', ' . $right . ')';
+                break;
+            case '/':
+                $value = '$this->value_divide(' . $left . ', ' . $right . ')';
+                break;
+            case '<':
+                $value = '$this->value_smaller(' . $left . ', ' . $right . ')';
+                break;
+            case '<=':
+                $value = '$this->value_smaller_equal(' . $left . ', ' . $right . ')';
+                break;
+            case '<<':
+                $value = '$this->value_smaller_smaller(' . $left . ', ' . $right . ')';
+                break;
+            case '>':
+                $value = '$this->value_greater(' . $left . ', ' . $right . ')';
+                break;
+            case '>=':
+                $value = '$this->value_greater_equal(' . $left . ', ' . $right . ')';
+                break;
+            case '>>':
+                $value = '$this->value_greater_greater(' . $left . ', ' . $right . ')';
+                break;
+            case '==':
+                $value = '$this->value_equal(' . $left . ', ' . $right . ')';
+                break;
+            case '===':
+                $value = '$this->value_identical(' . $left . ', ' . $right . ')';
+                break;
+            case '!=':
+            case '<>':
+                $value = '$this->value_not_equal(' . $left . ', ' . $right . ')';
+                break;
+            case '!==':
+                $value = '$this->value_not_identical(' . $left . ', ' . $right . ')';
+                break;
+            case '??':
+                $value = $left . ' ?? ' . $right;
+                break;
+            case '&&':
+            case 'and' :
+                $value = $left . ' && ' . $right;
+                break;
+            case '||':
+            case 'or':
+                $value = $left . ' || ' . $right;
+                break;
+            case 'xor':
+                $value = $left . ' xor ' . $right;
+                break;
+        }
+        return $value;
     }
 }

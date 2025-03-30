@@ -946,7 +946,6 @@ class Php {
     {
         $source = $options->source ?? '';
         $value = '';
-        $skip = 0;
         $input = Php::value_set($object, $flags, $options, $input, $is_set);
         foreach ($input['array'] as $nr => $record) {
             if(array_key_exists('is_single_quoted', $record)){

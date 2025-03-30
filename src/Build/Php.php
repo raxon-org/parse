@@ -430,7 +430,38 @@ class Php {
                     $record['if_depth'] = $if_depth;
                     $if_depth--;
                     if($if_depth === 0){
+                        $if_before = [];
+                        $if_after = [];
                         $if = Php::method($object, $flags, $options, $content['if']['statement'], $before, $after);
+                        if(!empty($before)){
+                            foreach($before as $line){
+                                $if_before[] = $line;
+                            }
+                            $before = [];
+                        }
+                        if(!empty($after)){
+                            foreach($after as $line){
+                                $if_after[] = $line;
+                            }
+                            $before = [];
+                        }
+                        foreach($content['elseif'] as $elseif_nr => $elseif){
+                            $elseif_method = Php::method($object, $flags, $options, $elseif['statement'], $before, $after);
+                            if(!empty($before)){
+                                foreach($before as $line){
+                                    $if_before[] = $line;
+                                }
+                                $before = [];
+                            }
+                            if(!empty($after)){
+                                foreach($after as $line){
+                                    $if_after[] = $line;
+                                }
+                                $before = [];
+                            }
+                        }
+                        d($if_before);
+                        d($if_after);
                         d($if);
                         d($before);
                         d($after);

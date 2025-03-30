@@ -226,6 +226,7 @@ class Php {
         $else = false;
         $if_method = 'if';
         $content = [];
+        d($tags);
         foreach($tags as $row_nr => $list) {
             foreach ($list as $nr => &$record) {
                 if(array_key_exists('text', $record)){

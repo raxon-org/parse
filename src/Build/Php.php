@@ -449,7 +449,7 @@ class Php {
                             }
                             $before = [];
                         }
-                        $if_content = PHP::document_tag($object, $flags, $options, $content['if']['content']);
+                        $if_content = PHP::document_tag($object, $flags, $options, Php::remove_if_depth($content['if']['content']));
                         foreach($if_content as $line){
                             $if_data[] = $line;
                         }
@@ -470,7 +470,7 @@ class Php {
                                     $before = [];
                                 }
                                 d($elseif['content']);
-                                $if_content = Php::document_tag($object, $flags, $options, $elseif['content']);
+                                $if_content = Php::document_tag($object, $flags, $options, Php::remove_if_depth($elseif['content']));
                                 foreach($if_content as $line){
                                     $if_data[] = $line;
                                 }
@@ -478,7 +478,7 @@ class Php {
                             }
                         }
                         if(array_key_exists('else', $content)){
-                            $if_content = Php::document_tag($object, $flags, $options, $content['else']['content']);
+                            $if_content = Php::document_tag($object, $flags, $options, Php::remove_if_depth($content['else']['content']));
                             $if_data[] = 'else {';
                             foreach($if_content as $line){
                                 $if_data[] = $line;
@@ -506,12 +506,12 @@ class Php {
         return $data;
     }
 
-    public static function lower_if_depth($tags=[]): array
+    public static function remove_if_depth($tags=[]): array
     {
-        foreach($tags as $row_nr => $list){
-            foreach($list as $nr => $record) {
+        foreach($tags as $row_nr => &$list){
+            foreach($list as $nr => &$record) {
                 if(array_key_exists('if_depth', $record)){
-                    $tags[$row_nr][$nr]['if_depth'] = $record['if_depth']--;
+                    unset($record['if_depth']);
                 }
             }
         }

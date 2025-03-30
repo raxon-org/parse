@@ -223,6 +223,7 @@ class Php {
         $if_depth = 0;
         $if_length = 0;
         $elseif_count = 0;
+        $else = false;
         $if_method = 'if';
         $if = [];
         $content = [];
@@ -240,7 +241,18 @@ class Php {
                         }
                         if($elseif_count > 0){
                             $content[$if_method][$elseif_count - 1][$row_nr][] = $record;
-                        } else {
+                        }
+                        elseif($else === true){
+                            $if_method = 'else';
+                            if(!array_key_exists($if_method, $content)){
+                                $content[$if_method] = [];
+                            }
+                            if(!array_key_exists($row_nr, $content[$if_method])){
+                                $content[$if_method][$row_nr] = [];
+                            }
+                            $content[$if_method][$row_nr][] = $record;
+                        }
+                        else {
                             $content[$if_method][$row_nr][] = $record;
                         }
 
@@ -275,6 +287,10 @@ class Php {
                                     if (!array_key_exists($if_method, $content)){
                                         $content[$if_method] = [];
                                     }
+                                    if(!array_key_exists($row_nr, $content[$if_method])){
+                                        $content[$if_method][$row_nr] = [];
+                                    }
+                                    $content[$if_method][$row_nr][] = $record;
                                     break;
                                 case 'elseif':
                                 case 'else.if':
@@ -287,6 +303,10 @@ class Php {
                                     if(!array_key_exists($elseif_count - 1, $content[$if_method])){
                                         $content[$if_method][$elseif_count - 1] = [];
                                     }
+                                    if(!array_key_exists($row_nr, $content[$if_method][$elseif_count - 1])){
+                                        $content[$if_method][$elseif_count - 1][$row_nr] = [];
+                                    }
+                                    $content[$if_method][$elseif_count - 1][$row_nr][] = $record;
                             }
                         } else {
                             if (!array_key_exists($if_method, $content)){
@@ -359,10 +379,7 @@ class Php {
                     !array_key_exists('if_depth', $record)
                 ) {
                     $record['if_depth'] = $if_depth;
-                    if(!array_key_exists($row_nr, $if)){
-                        $if[$row_nr] = [];
-                    }
-                    $if[$row_nr][] = $record;
+                    $else = true;
                 }
                 elseif(
                     array_key_exists('marker', $record) &&
@@ -375,10 +392,6 @@ class Php {
                     //close if tag
                     $record['if_depth'] = $if_depth;
                     $if_depth--;
-                    if(!array_key_exists($row_nr, $if)){
-                        $if[$row_nr] = [];
-                    }
-                    $if[$row_nr][] = $record;
                     if($if_depth === 0){
                         d($content);
                         ddd($if);

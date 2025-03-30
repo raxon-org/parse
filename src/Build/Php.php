@@ -236,21 +236,36 @@ class Php {
                     }
                     elseif(!array_key_exists('if_depth', $record)) {
                         $record['if_depth'] = $if_depth;
-                        if(!array_key_exists($row_nr, $content[$if_method])){
-                            $content[$if_method][$row_nr] = [];
+                        if(!array_key_exists('content', $content[$if_method])){
+                            $content[$if_method]['content'] = [];
+                        }
+                        if(!array_key_exists($row_nr, $content[$if_method]['content'])){
+                            $content[$if_method]['content'][$row_nr] = [];
                         }
                         if($elseif_count > 0){
-                            $content[$if_method][$elseif_count - 1][$row_nr][] = $record;
+                            if(!array_key_exists($elseif_count - 1, $content[$if_method])){
+                                $content[$if_method][$elseif_count - 1] = [];
+                            }
+                            if(!array_key_exists('content', $content[$if_method][$elseif_count - 1])){
+                                $content[$if_method][$elseif_count - 1]['content'] = [];
+                            }
+                            if(!array_key_exists($row_nr, $content[$if_method][$elseif_count - 1]['content'])){
+                                $content[$if_method][$elseif_count - 1]['content'][$row_nr] = [];
+                            }
+                            $content[$if_method][$elseif_count - 1]['content'][$row_nr][] = $record;
                         }
                         elseif($else === true){
                             $if_method = 'else';
                             if(!array_key_exists($if_method, $content)){
                                 $content[$if_method] = [];
                             }
-                            if(!array_key_exists($row_nr, $content[$if_method])){
-                                $content[$if_method][$row_nr] = [];
+                            if(!array_key_exists('content', $content[$if_method])){
+                                $content[$if_method]['content'] = [];
                             }
-                            $content[$if_method][$row_nr][] = $record;
+                            if(!array_key_exists($row_nr, $content[$if_method]['content'])){
+                                $content[$if_method]['content'][$row_nr] = [];
+                            }
+                            $content[$if_method]['content'][$row_nr][] = $record;
                         }
                         else {
                             $content[$if_method][$row_nr][] = $record;

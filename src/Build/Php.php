@@ -1108,7 +1108,17 @@ class Php {
                         }
                         break;
                 }
-            } else {
+            }
+            elseif(
+                array_key_exists('type', $record) &&
+                $record['type'] === 'method'
+            ){
+                $method = Php::method($object, $flags, $options, $record, $before, $after);
+                d($method);
+                d($before);
+                ddd($after);
+            }
+            else {
                 ddd($record);
             }
         }

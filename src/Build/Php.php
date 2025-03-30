@@ -495,6 +495,8 @@ class Php {
                             $data[] = $line;
                         }
                         $content = [];
+                    } else {
+                        d($record);
                     }
                 } else {
                     d($record);
@@ -509,7 +511,7 @@ class Php {
         foreach($tags as $row_nr => $list){
             foreach($list as $nr => $record) {
                 if(array_key_exists('if_depth', $record)){
-                    $tags[$row_nr][$nr]['if_depth']--;
+                    $tags[$row_nr][$nr]['if_depth'] = $record['if_depth']--;
                 }
             }
         }

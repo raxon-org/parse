@@ -468,6 +468,7 @@ class Php {
                                     }
                                     $before = [];
                                 }
+                                d($elseif['content']);
                                 $if_content = PHP::document_tag($object, $flags, $options, $elseif['content']);
                                 foreach($if_content as $line){
                                     $if_data[] = $line;

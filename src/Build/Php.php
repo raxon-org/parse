@@ -221,7 +221,11 @@ class Php {
     {
         $data = [];
         $if_depth = 0;
+        $if_length = 0;
+        $elseif_count = 0;
+        $if_method = 'if';
         $if = [];
+        $content = [];
         foreach($tags as $row_nr => $list) {
             foreach ($list as $nr => &$record) {
                 if(array_key_exists('text', $record)){
@@ -231,10 +235,15 @@ class Php {
                     }
                     elseif(!array_key_exists('if_depth', $record)) {
                         $record['if_depth'] = $if_depth;
-                        if(!array_key_exists($row_nr, $if)){
-                            $if[$row_nr] = [];
+                        if(!array_key_exists($row_nr, $content[$if_method])){
+                            $content[$if_method][$row_nr] = [];
                         }
-                        $if[$row_nr][] = $record;
+                        if($elseif_count > 0){
+                            $content[$if_method][$elseif_count - 1][$row_nr][] = $record;
+                        } else {
+                            $content[$if_method][$row_nr][] = $record;
+                        }
+
                     }
                 }
                 elseif(
@@ -256,38 +265,89 @@ class Php {
                     ){
                         if($record['method']['name'] === 'if'){
                             $if_depth++;
+                        } else {
+                            $if_length++;
                         }
                         $record['if_depth'] = $if_depth;
-                        if(!array_key_exists($row_nr, $if)){
-                            $if[$row_nr] = [];
-                        }
-                        $if[$row_nr][] = $record;
-                    } else {
-                        $method = Php::method($object, $flags, $options, $record, $before, $after);
-                        if($method) {
-                            if (!empty($before)) {
-                                foreach ($before as $line) {
-                                    $data[] = $line;
-                                }
-                                $before = [];
+                        if($if_depth === 1){
+                            switch($record['method']['name']) {
+                                case 'if':
+                                    if (!array_key_exists($if_method, $content)){
+                                        $content[$if_method] = [];
+                                    }
+                                    break;
+                                case 'elseif':
+                                case 'else.if':
+                                case 'else_if':
+                                    $if_method = 'elseif';
+                                    $elseif_count++;
+                                    if (!array_key_exists($if_method, $content)) {
+                                        $content[$if_method] = [];
+                                    }
+                                    if(!array_key_exists($elseif_count - 1, $content[$if_method])){
+                                        $content[$if_method][$elseif_count - 1] = [];
+                                    }
                             }
-                            $uuid_variable = Core::uuid_variable();
-                            $data[] = 'try {';
-                            $data[] = $uuid_variable . ' = ' . $method . ';';
-                            $data[] = 'if(is_scalar(' . $uuid_variable . ')){';
-                            $data[] = '$content[] = '. $uuid_variable . ';';
-                            $data[] = '}';
-                            $data[] = 'elseif(is_array(' . $uuid_variable . ') || is_object(' . $uuid_variable . ')){';
-                            $data[] = 'return $uuid_variable;';
-                            $data[] = '}';
-                            $data[] = '} catch (TemplateException | Exception $exception) {';
-                            $data[] = 'throw $exception;';
-                            $data[] = '}';
-                            if(!empty($after)){
-                                foreach($after as $line){
-                                    $data[] = $line;
+                        } else {
+                            if (!array_key_exists($if_method, $content)){
+                                $content[$if_method] = [];
+                            }
+                            if(!array_key_exists($row_nr, $content[$if_method])){
+                                $content[$if_method][$row_nr] = [];
+                            }
+                            if($elseif_count > 0){
+                                if(!array_key_exists($elseif_count - 1, $content[$if_method])){
+                                    $content[$if_method][$elseif_count - 1] = [];
                                 }
-                                $after = [];
+                                if(!array_key_exists($row_nr, $content[$if_method][$elseif_count - 1])){
+                                    $content[$if_method][$elseif_count - 1][$row_nr] = [];
+                                }
+                                $content[$if_method][$elseif_count - 1][$row_nr][] = $record;
+                            } else {
+                                $content[$if_method][$row_nr][] = $record;
+                            }
+                        }
+                    } else {
+                        if($if_depth > 0){
+                            if($elseif_count > 0){
+                                if(!array_key_exists($elseif_count - 1, $content[$if_method])){
+                                    $content[$if_method][$elseif_count - 1] = [];
+                                }
+                                if(!array_key_exists($row_nr, $content[$if_method][$elseif_count - 1])){
+                                    $content[$if_method][$elseif_count - 1][$row_nr] = [];
+                                }
+                                $content[$if_method][$elseif_count - 1][$row_nr][] = $record;
+                            } else {
+                                $content[$if_method][$row_nr][] = $record;
+                            }
+                            $content[$if_method][$row_nr][] = $record;
+                        } else {
+                            $method = Php::method($object, $flags, $options, $record, $before, $after);
+                            if($method) {
+                                if (!empty($before)) {
+                                    foreach ($before as $line) {
+                                        $data[] = $line;
+                                    }
+                                    $before = [];
+                                }
+                                $uuid_variable = Core::uuid_variable();
+                                $data[] = 'try {';
+                                $data[] = $uuid_variable . ' = ' . $method . ';';
+                                $data[] = 'if(is_scalar(' . $uuid_variable . ')){';
+                                $data[] = '$content[] = '. $uuid_variable . ';';
+                                $data[] = '}';
+                                $data[] = 'elseif(is_array(' . $uuid_variable . ') || is_object(' . $uuid_variable . ')){';
+                                $data[] = 'return $uuid_variable;';
+                                $data[] = '}';
+                                $data[] = '} catch (TemplateException | Exception $exception) {';
+                                $data[] = 'throw $exception;';
+                                $data[] = '}';
+                                if(!empty($after)){
+                                    foreach($after as $line){
+                                        $data[] = $line;
+                                    }
+                                    $after = [];
+                                }
                             }
                         }
                     }

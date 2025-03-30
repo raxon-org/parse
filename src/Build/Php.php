@@ -1101,9 +1101,9 @@ class Php {
                                 $uuid_variable = Core::uuid_variable();
                                 $before[] = $uuid_variable . ' = $data->get(\'' . $next['name'] . '\');';
                                 $right = $uuid_variable;
-                                $skip++;
-                                $value = Php::value_calculate($object, $flags, $options, $record['value'], $value, $right);
                             }
+                            $skip++;
+                            $value = Php::value_calculate($object, $flags, $options, $record['value'], $value, $right);
                         }
                         break;
                 }

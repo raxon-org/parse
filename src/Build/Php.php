@@ -1113,10 +1113,7 @@ class Php {
                 array_key_exists('type', $record) &&
                 $record['type'] === 'method'
             ){
-                $method = Php::method($object, $flags, $options, $record, $before, $after);
-                d($method);
-                d($before);
-                ddd($after);
+                $value .= Php::method($object, $flags, $options, $record, $before, $after);
             }
             else {
                 ddd($record);

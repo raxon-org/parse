@@ -959,7 +959,44 @@ class Php {
                 $before[] = $uuid_variable . ' = $this->data(\'' . $record['name'] . '\');';
                 $value .= $uuid_variable;
             }
-            else {
+            elseif(
+                in_array(
+                    $record['value'],
+                    [
+                        '+',
+                        '-',
+                        '*',
+                        '/',
+                        '%',
+                        '.',
+                        '<',
+                        '<=',
+                        '<<',
+                        '>',
+                        '>=',
+                        '>>',
+                        '==',
+                        '===',
+                        '!=',
+                        '!==',
+                        '.=',
+                        '+=',
+                        '-=',
+                        '*=',
+                        '...',
+                        '=>',
+                        '&&',
+                        '||',
+                        'xor',
+                        '??',
+                        'and',
+                        'or'
+                    ],
+                    true
+                )
+            ) {
+                $value .= ' ' . $record['value'] .  ' ';
+            } else {
                 ddd($record);
             }
         }

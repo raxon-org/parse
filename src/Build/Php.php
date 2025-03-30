@@ -1080,8 +1080,21 @@ class Php {
             ) {
                 switch($record['value']){
                     case '===':
-                        $right = $input['array'][$nr + 1] ?? null;
-                        if($right){
+                        $next = $input['array'][$nr + 1] ?? null;
+                        $right = null;
+                        if($next){
+                            if(array_key_exists('is_single_quoted', $next)){
+                                $right = $next['value'];
+                            }
+                            elseif(
+                                array_key_exists('type', $next) &&
+                                $next['type'] === 'variable'
+                            ){
+                                $uuid_variable = Core::uuid_variable();
+                                $before[] = $uuid_variable . ' = $data->get(\'' . $next['name'] . '\');';
+                                $right = $uuid_variable;
+                            }
+
                             d($record['value']);
                             d($value);
                             ddd($right);

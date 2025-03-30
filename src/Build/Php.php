@@ -471,7 +471,7 @@ class Php {
                             }
                             $if_data[] = '}';
                         }
-                        $if_content = PHP::document_tag($object, $flags, $options, $content['else']['content']) . '{';
+                        $if_content = PHP::document_tag($object, $flags, $options, $content['else']['content']);
                         foreach($if_content as $line){
                             $if_data[] = $line;
                         }

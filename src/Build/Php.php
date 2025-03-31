@@ -362,27 +362,29 @@ class Php {
                                 $if_data[] = $line;
                             }
                             $if_data[] = '}';
-                            foreach($content['elseif'] as $elseif_nr => $elseif){
-                                if(array_key_exists('statement', $elseif)){
-                                    $if_data[] = Php::method($object, $flags, $options, $elseif['statement'], $before, $after) . '{';
-                                    if(!empty($before)){
-                                        foreach($before as $line){
-                                            $if_before[] = $line;
+                            if(array_key_exists('elseif', $content)){
+                                foreach($content['elseif'] as $elseif_nr => $elseif){
+                                    if(array_key_exists('statement', $elseif)){
+                                        $if_data[] = Php::method($object, $flags, $options, $elseif['statement'], $before, $after) . '{';
+                                        if(!empty($before)){
+                                            foreach($before as $line){
+                                                $if_before[] = $line;
+                                            }
+                                            $before = [];
                                         }
-                                        $before = [];
-                                    }
-                                    if(!empty($after)){
-                                        foreach($after as $line){
-                                            $if_after[] = $line;
+                                        if(!empty($after)){
+                                            foreach($after as $line){
+                                                $if_after[] = $line;
+                                            }
+                                            $before = [];
                                         }
-                                        $before = [];
+                                        $if_content = Php::document_tag($object, $flags, $options, $elseif['content'], true);
+                                        breakpoint($if_content);
+                                        foreach($if_content as $line){
+                                            $if_data[] = $line;
+                                        }
+                                        $if_data[] = '}';
                                     }
-                                    $if_content = Php::document_tag($object, $flags, $options, $elseif['content'], true);
-                                    breakpoint($if_content);
-                                    foreach($if_content as $line){
-                                        $if_data[] = $line;
-                                    }
-                                    $if_data[] = '}';
                                 }
                             }
                             if(array_key_exists('else', $content)){

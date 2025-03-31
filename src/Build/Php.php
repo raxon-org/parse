@@ -339,6 +339,7 @@ class Php {
                                 }
                             }
                             if(array_key_exists('else', $content)){
+                                ddd($content);
                                 $if_content = Php::document_tag($object, $flags, $options, $content['else']['content']);
                                 $if_data[] = 'else {';
                                 foreach($if_content as $line){
@@ -404,6 +405,7 @@ class Php {
                         d($record);
                     }
                     else {
+                        d($content);
                         ddd($record);
                     }
                 }

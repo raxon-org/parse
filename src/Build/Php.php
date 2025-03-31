@@ -357,7 +357,8 @@ class Php {
                                 }
                                 $before = [];
                             }
-                            $if_content = PHP::document_tag($object, $flags, $options, $content['if']['content'], true);
+                            $if_content = PHP::document_tag($object, $flags, $options, $content['if']['content']);
+                            breakpoint($if_content);
                             foreach($if_content as $line){
                                 $if_data[] = $line;
                             }

@@ -235,6 +235,7 @@ class Php {
                     if($record['method']['name'] === 'if'){
                         $if_depth++;
                     }
+                    $record['if_depth'] = $if_depth;
                 }
                 elseif(
                     array_key_exists('marker', $record) &&
@@ -245,10 +246,10 @@ class Php {
                         array_key_exists('is_close', $record['marker']) &&
                         $record['marker']['is_close'] === true
                     ){
+                        $record['if_depth'] = $if_depth;
                         $if_depth--;
                     }
                 }
-                $record['if_depth'] = $if_depth;
                 d($record);
             }
         }

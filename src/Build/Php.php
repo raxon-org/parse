@@ -249,6 +249,8 @@ class Php {
                         $record['if_depth'] = $if_depth;
                         $if_depth--;
                     }
+                } else {
+                    $record['if_depth'] = $if_depth;
                 }
                 d($record);
             }

@@ -234,6 +234,14 @@ class Php {
                 ){
                     if($record['method']['name'] === 'if'){
                         $if_depth++;
+                        if($if_depth === 1){
+                            if(!array_key_exists($if_method, $content)){
+                                $content[$if_method] = [];
+                            }
+                            if(!array_key_exists('content', $content[$if_method])){
+                                $content[$if_method]['statement'] = $record;
+                            }
+                        }
                     }
                     elseif(
                         in_array(
@@ -249,6 +257,17 @@ class Php {
                     ){
                         $if_method = 'elseif';
                         $elseif_count++;
+                        if($if_depth === 1){
+                            if(!array_key_exists($if_method, $content)){
+                                $content[$if_method] = [];
+                            }
+                            if(!array_key_exists($elseif_count - 1, $content[$if_method])){
+                                $content[$if_method][$elseif_count - 1] = [];
+                            }
+                            if(!array_key_exists('content', $content[$if_method])){
+                                $content[$if_method][$elseif_count - 1]['statement'] = $record;
+                            }
+                        }
                     }
                     $record['if_depth'] = $if_depth;
                 }

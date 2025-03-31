@@ -245,6 +245,19 @@ class Php {
                         }
                     }
                     elseif(
+                        $record['method']['name'] === 'else' &&
+                        $if_depth === 1
+                    ) {
+                        $if_method = 'else';
+                        if(!array_key_exists($if_method, $content)){
+                            $content[$if_method] = [];
+                        }
+                        if(!array_key_exists('statement', $content[$if_method])){
+                            $content[$if_method]['statement'] = $record;
+                            continue;
+                        }
+                    }
+                    elseif(
                         in_array(
                             $record['method']['name'],
                             [

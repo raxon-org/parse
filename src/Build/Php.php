@@ -241,12 +241,12 @@ class Php {
                     array_key_exists('marker', $record) &&
                     array_key_exists('name', $record['marker'])
                 ){
+                    $record['if_depth'] = $if_depth;
                     if(
                         $record['marker']['name'] === 'if' &&
                         array_key_exists('is_close', $record['marker']) &&
                         $record['marker']['is_close'] === true
                     ){
-                        $record['if_depth'] = $if_depth;
                         $if_depth--;
                     }
                 } else {

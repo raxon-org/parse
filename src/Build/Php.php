@@ -238,8 +238,9 @@ class Php {
                             if(!array_key_exists($if_method, $content)){
                                 $content[$if_method] = [];
                             }
-                            if(!array_key_exists('content', $content[$if_method])){
+                            if(!array_key_exists('statement', $content[$if_method])){
                                 $content[$if_method]['statement'] = $record;
+                                continue;
                             }
                         }
                     }
@@ -264,8 +265,9 @@ class Php {
                             if(!array_key_exists($elseif_count - 1, $content[$if_method])){
                                 $content[$if_method][$elseif_count - 1] = [];
                             }
-                            if(!array_key_exists('content', $content[$if_method])){
+                            if(!array_key_exists('statement', $content[$if_method])){
                                 $content[$if_method][$elseif_count - 1]['statement'] = $record;
+                                continue;
                             }
                         }
                     }

@@ -295,7 +295,67 @@ class Php {
                         $record['marker']['is_close'] === true
                     ){
                         if($if_depth === 1){
-                            ddd($content);
+                            $if_before = [];
+                            $if_after = [];
+                            $if_data = [];
+                            $if_data[] = Php::method($object, $flags, $options, $content['if']['statement'], $before, $after) . '{';
+                            if(!empty($before)){
+                                foreach($before as $line){
+                                    $if_before[] = $line;
+                                }
+                                $before = [];
+                            }
+                            if(!empty($after)){
+                                foreach($after as $line){
+                                    $if_after[] = $line;
+                                }
+                                $before = [];
+                            }
+                            $if_content = PHP::document_tag($object, $flags, $options, $content['if']['content']);
+                            foreach($if_content as $line){
+                                $if_data[] = $line;
+                            }
+                            $if_data[] = '}';
+                            foreach($content['elseif'] as $elseif_nr => $elseif){
+                                if(array_key_exists('statement', $elseif)){
+                                    $if_data[] = Php::method($object, $flags, $options, $elseif['statement'], $before, $after) . '{';
+                                    if(!empty($before)){
+                                        foreach($before as $line){
+                                            $if_before[] = $line;
+                                        }
+                                        $before = [];
+                                    }
+                                    if(!empty($after)){
+                                        foreach($after as $line){
+                                            $if_after[] = $line;
+                                        }
+                                        $before = [];
+                                    }
+                                    $if_content = Php::document_tag($object, $flags, $options, $elseif['content']);
+                                    foreach($if_content as $line){
+                                        $if_data[] = $line;
+                                    }
+                                    $if_data[] = '}';
+                                }
+                            }
+                            if(array_key_exists('else', $content)){
+                                $if_content = Php::document_tag($object, $flags, $options, $content['else']['content']);
+                                $if_data[] = 'else {';
+                                foreach($if_content as $line){
+                                    $if_data[] = $line;
+                                }
+                                $if_data[] = '}';
+                            }
+                            foreach($if_before as $line){
+                                $data[] = $line;
+                            }
+                            foreach($if_data as $line){
+                                $data[] = $line;
+                            }
+                            foreach($if_after as $line){
+                                $data[] = $line;
+                            }
+                            $content = [];
                         }
                         $if_depth--;
                     }

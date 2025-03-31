@@ -226,6 +226,28 @@ class Php {
         $else = false;
         $if_method = 'if';
         $content = [];
+        foreach ($tags as $row_nr => $list) {
+            foreach ($list as $nr => &$record) {
+                d($record);
+            }
+        }
+        return $data;
+    }
+
+
+    /**
+     * @throws Exception
+     */
+    /*
+    public static function document_tag(App $object, $flags, $options, $tags = []): array
+    {
+        $data = [];
+        $if_depth = 0;
+        $if_length = 0;
+        $elseif_count = 0;
+        $else = false;
+        $if_method = 'if';
+        $content = [];
         d($tags);
         foreach($tags as $row_nr => $list) {
             foreach ($list as $nr => &$record) {
@@ -524,6 +546,7 @@ class Php {
         }
         return $tags;
     }
+    */
 
     /**
      * @throws Exception

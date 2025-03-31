@@ -243,6 +243,13 @@ class Php {
                             }
                             if(!array_key_exists('statement', $content[$if_method])){
                                 $content[$if_method]['statement'] = $record;
+                                if(!array_key_exists('content', $content[$if_method])){
+                                    $content[$if_method]['content'] = [];
+                                }
+                                if(!array_key_exists($row_nr, $content[$if_method]['content'])){
+                                    $content[$if_method]['content'][$row_nr] = [];
+                                }
+                                $content[$if_method]['content'][$row_nr][] = $record;
                                 continue;
                             }
                         }
@@ -311,6 +318,13 @@ class Php {
                         }
                         if(!array_key_exists('statement', $content[$if_method])){
                             $content[$if_method][$elseif_count - 1]['statement'] = $record;
+                            if(!array_key_exists('content', $content[$if_method][$elseif_count - 1])){
+                                $content[$if_method][$elseif_count - 1]['content'] = [];
+                            }
+                            if(!array_key_exists($row_nr, $content[$if_method][$elseif_count - 1]['content'])){
+                                $content[$if_method]['content'][$elseif_count - 1][$row_nr] = [];
+                            }
+                            $content[$if_method]['content'][$row_nr][] = $record;
                             continue;
                         }
                     }
@@ -343,7 +357,7 @@ class Php {
                                 }
                                 $before = [];
                             }
-                            $if_content = PHP::document_tag($object, $flags, $options, $content['if']['content']);
+                            $if_content = PHP::document_tag($object, $flags, $options, $content['if']['content'], true);
                             foreach($if_content as $line){
                                 $if_data[] = $line;
                             }
@@ -363,7 +377,7 @@ class Php {
                                         }
                                         $before = [];
                                     }
-                                    $if_content = Php::document_tag($object, $flags, $options, $elseif['content']);
+                                    $if_content = Php::document_tag($object, $flags, $options, $elseif['content'], true);
                                     breakpoint($if_content);
                                     foreach($if_content as $line){
                                         $if_data[] = $line;

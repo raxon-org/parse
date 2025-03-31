@@ -249,10 +249,22 @@ class Php {
                             switch($if_method){
                                 case 'if' :
                                 case 'else' :
-                                    $content[$if_method]['content'][] = $record;
+                                    if(!array_key_exists('content', $content[$if_method])){
+                                        $content[$if_method]['content'] = [];
+                                    }
+                                    if(!array_key_exists($row_nr, $content[$if_method]['content'])){
+                                        $content[$if_method]['content'][$row_nr] = [];
+                                    }
+                                    $content[$if_method]['content'][$row_nr][] = $record;
                                     break;
                                 case 'elseif':
-                                    $content[$if_method][$elseif_count - 1]['content'][] = $record;
+                                    if(!array_key_exists('content', $content[$if_method][$elseif_count - 1])){
+                                        $content[$if_method]['content'] = [];
+                                    }
+                                    if(!array_key_exists($row_nr, $content[$if_method][$elseif_count - 1]['content'])){
+                                        $content[$if_method]['content'][$row_nr] = [];
+                                    }
+                                    $content[$if_method][$elseif_count - 1]['content'][$row_nr][] = $record;
                                     break;
                             }
                         }

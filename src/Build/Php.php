@@ -245,6 +245,7 @@ class Php {
                             }
                         }
                         elseif($if_depth > 1) {
+                            $is_continue = false;
                             switch($if_method){
                                 case 'if' :
                                 case 'else' :
@@ -255,6 +256,7 @@ class Php {
                                         $content[$if_method]['content'][$row_nr] = [];
                                     }
                                     $content[$if_method]['content'][$row_nr][] = $record;
+                                    $is_continue = true;
                                     break;
                                 case 'elseif':
                                     if(!array_key_exists('content', $content[$if_method][$elseif_count - 1])){
@@ -264,7 +266,11 @@ class Php {
                                         $content[$if_method]['content'][$row_nr] = [];
                                     }
                                     $content[$if_method][$elseif_count - 1]['content'][$row_nr][] = $record;
+                                    $is_continue = true;
                                     break;
+                            }
+                            if($is_continue){
+                                continue;
                             }
                         }
                     }

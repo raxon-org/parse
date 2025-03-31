@@ -244,6 +244,8 @@ class Php {
                                 $content[$if_method]['statement'] = $record;
                                 continue;
                             }
+                        } else {
+                            breakpoint('if_depth: ' . $if_depth);
                         }
                     }
                     elseif(

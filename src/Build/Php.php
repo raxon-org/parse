@@ -354,7 +354,7 @@ class Php {
                                 }
                                 $before = [];
                             }
-                            breakpoint($content);
+                            breakpoint($content['if']['content']);
                             $if_content = PHP::document_tag($object, $flags, $options, $content['if']['content']);
                             breakpoint($if_content);
                             foreach($if_content as $line){

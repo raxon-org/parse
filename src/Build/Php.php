@@ -258,17 +258,15 @@ class Php {
                     ){
                         $if_method = 'elseif';
                         $elseif_count++;
-                        if($if_depth === 1){
-                            if(!array_key_exists($if_method, $content)){
-                                $content[$if_method] = [];
-                            }
-                            if(!array_key_exists($elseif_count - 1, $content[$if_method])){
-                                $content[$if_method][$elseif_count - 1] = [];
-                            }
-                            if(!array_key_exists('statement', $content[$if_method])){
-                                $content[$if_method][$elseif_count - 1]['statement'] = $record;
-                                continue;
-                            }
+                        if(!array_key_exists($if_method, $content)){
+                            $content[$if_method] = [];
+                        }
+                        if(!array_key_exists($elseif_count - 1, $content[$if_method])){
+                            $content[$if_method][$elseif_count - 1] = [];
+                        }
+                        if(!array_key_exists('statement', $content[$if_method])){
+                            $content[$if_method][$elseif_count - 1]['statement'] = $record;
+                            continue;
                         }
                     }
                     $record['if_depth'] = $if_depth;

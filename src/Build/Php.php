@@ -439,6 +439,7 @@ class Php {
                         }
                         $content[$if_method][$elseif_count-1]['content'][$row_nr][] = $record;
                     }
+                    d($record);
                 } else {
                     if(array_key_exists('text', $record)){
                         $text = Php::text($object, $flags, $options, $record);

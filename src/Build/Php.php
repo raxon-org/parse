@@ -228,6 +228,27 @@ class Php {
         $content = [];
         foreach ($tags as $row_nr => $list) {
             foreach ($list as $nr => &$record) {
+                if(
+                    array_key_exists('method', $record) &&
+                    array_key_exists('name', $record['method'])
+                ){
+                    if($record['method']['name'] === 'if'){
+                        $if_depth++;
+                    }
+                }
+                elseif(
+                    array_key_exists('marker', $record) &&
+                    array_key_exists('name', $record['marker'])
+                ){
+                    if(
+                        $record['marker']['name'] === 'if' &&
+                        array_key_exists('is_close', $record['marker']) &&
+                        $record['marker']['is_close'] === true
+                    ){
+                        $if_depth--;
+                    }
+                }
+                $record['if_depth'] = $if_depth;
                 d($record);
             }
         }

@@ -244,8 +244,17 @@ class Php {
                                 $content[$if_method]['statement'] = $record;
                                 continue;
                             }
-                        } else {
-                            breakpoint('if_depth: ' . $if_depth);
+                        }
+                        elseif($if_depth > 1) {
+                            switch($if_method){
+                                case 'if' :
+                                case 'else' :
+                                    $content[$if_method]['content'][] = $record;
+                                    break;
+                                case 'elseif':
+                                    $content[$if_method][$elseif_count - 1]['content'][] = $record;
+                                    break;
+                            }
                         }
                     }
                     elseif(

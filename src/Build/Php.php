@@ -235,6 +235,21 @@ class Php {
                     if($record['method']['name'] === 'if'){
                         $if_depth++;
                     }
+                    elseif(
+                        in_array(
+                            $record['method']['name'],
+                            [
+                                'else.if',
+                                'else_if',
+                                'elseif'
+                            ],
+                            true
+                        ) &&
+                        $if_depth === 1
+                    ){
+                        $if_method = 'elseif';
+                        $elseif_count++;
+                    }
                     $record['if_depth'] = $if_depth;
                 }
                 elseif(
@@ -247,12 +262,50 @@ class Php {
                         array_key_exists('is_close', $record['marker']) &&
                         $record['marker']['is_close'] === true
                     ){
+                        if($if_depth === 1){
+                            ddd($content);
+                        }
                         $if_depth--;
                     }
                 } else {
                     $record['if_depth'] = $if_depth;
                 }
-                d($record);
+                if($record['if_depth'] >= 1){
+                    if($if_method === 'if'){
+                        if(!array_key_exists($if_method, $content)){
+                            $content[$if_method] = [];
+                        }
+                        if(!array_key_exists('content', $content[$if_method])){
+                            $content[$if_method]['content'] = [];
+                        }
+                        if(!array_key_exists($row_nr, $content[$if_method]['content'])){
+                            $content[$if_method]['content'][$row_nr] = [];
+                        }
+                        $content[$if_method]['content'][$row_nr][] = $record;
+                    }
+                    elseif($if_method === 'elseif'){
+                        if(!array_key_exists($if_method, $content)){
+                            $content[$if_method] = [];
+                        }
+                        if(!array_key_exists($elseif_count - 1, $content[$if_method])){
+                            $content[$if_method][$elseif_count - 1] = [];
+                        }
+                        if(!array_key_exists('content', $content[$if_method][$elseif_count - 1])){
+                            $content[$if_method][$elseif_count - 1]['content'] = [];
+                        }
+                        if(!array_key_exists($row_nr, $content[$if_method][$elseif_count - 1]['content'])){
+                            $content[$if_method][$elseif_count - 1]['content'][$row_nr] = [];
+                        }
+                        $content[$if_method][$elseif_count-1]['content'][$row_nr][] = $record;
+                    }
+                } else {
+                    if(array_key_exists('text', $record)){
+                        $text = Php::text($object, $flags, $options, $record);
+                        $data[] = '$content[] =  \'' . str_replace(['\\','\''], ['\\\\', '\\\''], $text) . '\';';
+                    } else {
+                        ddd($record);
+                    }
+                }
             }
         }
         return $data;

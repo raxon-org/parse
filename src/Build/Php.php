@@ -227,6 +227,7 @@ class Php {
         $if_method = 'if';
         $content = [];
         d($tags);
+        trace();
         foreach ($tags as $row_nr => $list) {
             foreach ($list as $nr => &$record) {
                 if(

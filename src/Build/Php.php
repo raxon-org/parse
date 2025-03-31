@@ -227,7 +227,6 @@ class Php {
         $if_method = 'if';
         $content = [];
         d($tags);
-        trace();
         foreach ($tags as $row_nr => $list) {
             foreach ($list as $nr => &$record) {
                 if(
@@ -356,7 +355,6 @@ class Php {
                                         }
                                         $before = [];
                                     }
-                                    d($elseif);
                                     $if_content = Php::document_tag($object, $flags, $options, $elseif['content']);
                                     foreach($if_content as $line){
                                         $if_data[] = $line;
@@ -365,7 +363,6 @@ class Php {
                                 }
                             }
                             if(array_key_exists('else', $content)){
-                                ddd($content);
                                 $if_content = Php::document_tag($object, $flags, $options, $content['else']['content']);
                                 $if_data[] = 'else {';
                                 foreach($if_content as $line){

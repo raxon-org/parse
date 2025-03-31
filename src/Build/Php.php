@@ -404,6 +404,8 @@ class Php {
                                 $data[] = $line;
                             }
                             $content = [];
+                        } else {
+                            breakpoint('if depth: ' . $if_depth);
                         }
                         $if_depth--;
                     }

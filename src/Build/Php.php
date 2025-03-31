@@ -302,7 +302,16 @@ class Php {
                     if(array_key_exists('text', $record)){
                         $text = Php::text($object, $flags, $options, $record);
                         $data[] = '$content[] =  \'' . str_replace(['\\','\''], ['\\\\', '\\\''], $text) . '\';';
-                    } else {
+                    }
+                    elseif(
+                        array_key_exists('variable', $record) &&
+                        array_key_exists('is_assign', $record['variable']) &&
+                        $record['variable']['is_assign'] === true
+                    ){
+                        d('assign');
+                        d($record);
+                    }
+                    else {
                         ddd($record);
                     }
                 }

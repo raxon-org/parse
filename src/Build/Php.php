@@ -228,6 +228,7 @@ class Php {
         $else = false;
         $if_method = 'if';
         $content = [];
+        $remove_newline_next = $object->config('package.raxon/parse.build.state.remove_newline_next');
         foreach ($tags as $row_nr => $list) {
             foreach ($list as $nr => &$record) {
                 if(
@@ -362,7 +363,9 @@ class Php {
                                 }
                                 $before = [];
                             }
+                            $object->config('package.raxon/parse.build.state.remove_newline_next', true);
                             $if_content = PHP::document_tag($object, $flags, $options, $content['if']['content']);
+                            $object->config('delete', 'package.raxon/parse.build.state.remove_newline_next');
                             foreach($if_content as $line){
                                 $if_data[] = $line;
                             }
@@ -383,7 +386,9 @@ class Php {
                                             }
                                             $before = [];
                                         }
-                                        $if_content = Php::document_tag($object, $flags, $options, $elseif['content'], true);
+                                        $object->config('package.raxon/parse.build.state.remove_newline_next', true);
+                                        $if_content = Php::document_tag($object, $flags, $options, $elseif['content']);
+                                        $object->config('delete', 'package.raxon/parse.build.state.remove_newline_next');
                                         foreach($if_content as $line){
                                             $if_data[] = $line;
                                         }
@@ -392,7 +397,9 @@ class Php {
                                 }
                             }
                             if(array_key_exists('else', $content)){
+                                $object->config('package.raxon/parse.build.state.remove_newline_next', true);
                                 $if_content = Php::document_tag($object, $flags, $options, $content['else']['content']);
+                                $object->config('delete', 'package.raxon/parse.build.state.remove_newline_next');
                                 $if_data[] = 'else {';
                                 foreach($if_content as $line){
                                     $if_data[] = $line;
@@ -447,6 +454,10 @@ class Php {
                     }
                 } else {
                     if(array_key_exists('text', $record)){
+                        if($remove_newline_next === true){
+                            $record = Php::remove_newline_next($object, $flags, $options, $record);
+                            $object->config('delete', 'package.raxon/parse.build.state.remove_newline_next');
+                        }
                         $text = Php::text($object, $flags, $options, $record);
                         $data[] = '$content[] =  \'' . str_replace(['\\','\''], ['\\\\', '\\\''], $text) . '\';';
                     }
@@ -458,7 +469,7 @@ class Php {
                         $data[] = Php::variable_assign($object, $flags, $options, $record);
                         $next = $list[$nr + 1] ?? null;
                         if($next){
-                            $list[$nr + 1] = Php::variable_assign_next($object, $flags, $options, $next);
+                            $list[$nr + 1] = Php::remove_newline_next($object, $flags, $options, $next);
                         }
                     }
                     else {
@@ -1577,7 +1588,7 @@ class Php {
      * @throws LocateException
      * @throws TemplateException
      */
-    public static function variable_assign_next(App $object, $flags, $options, $record = []): array
+    public static function remove_newline_next(App $object, $flags, $options, $record = []): array
     {
         if (
             array_key_exists('text', $record) &&

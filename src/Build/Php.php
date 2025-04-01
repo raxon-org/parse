@@ -479,7 +479,7 @@ class Php {
                             }
                             $before = [];
                         }
-                        $data[] = $method;
+                        $data[] = $method . ';';
                         if(!empty($after)){
                             foreach($after as $line){
                                 $data[] = $line;

@@ -457,6 +457,10 @@ class Php {
                         $record['variable']['is_assign'] === true
                     ){
                         $data[] = Php::variable_assign($object, $flags, $options, $record);
+                        $next = $list[$nr + 1] ?? null;
+                        if($next){
+                            $list[$nr + 1] = Php::variable_assign_next($object, $flags, $options, $next);
+                        }
                     }
                     else {
                         d($content);
@@ -1567,6 +1571,65 @@ class Php {
                 break;
         }
         return $value;
+    }
+
+    /**
+     * @throws Exception
+     * @throws LocateException
+     * @throws TemplateException
+     */
+    public static function variable_assign_next(App $object, $flags, $options, $record = []): bool | string
+    {
+        if (
+            array_key_exists('text', $record) &&
+            array_key_exists('is_multiline', $record) &&
+            $record['is_multiline'] === true
+        ) {
+            $data = mb_str_split($record['text']);
+            $is_single_quote = false;
+            $is_double_quote = false;
+            $test = '';
+            foreach ($data as $nr => $char) {
+                if (
+                    $char === '\'' &&
+                    $is_double_quote === false &&
+                    $is_single_quote === false
+                ) {
+                    $is_single_quote = true;
+                } elseif (
+                    $char === '\'' &&
+                    $is_double_quote === false &&
+                    $is_single_quote === true
+                ) {
+                    $is_single_quote = false;
+                } elseif (
+                    $char === '"' &&
+                    $is_double_quote === false &&
+                    $is_single_quote === false
+                ) {
+                    $is_double_quote = true;
+                } elseif (
+                    $char === '"' &&
+                    $is_double_quote === true &&
+                    $is_single_quote === false
+                ) {
+                    $is_double_quote = false;
+                }
+                if (
+                    $char === "\n" &&
+                    $is_single_quote === false &&
+                    $is_double_quote === false
+                ) {
+                    $test = trim($test);
+                    if ($test === '') {
+                        $record['text'] = mb_substr($record['text'], $nr + 1);
+                    }
+                    break;
+                }
+                $test .= $char;
+            }
+        }
+        return $record;
     }
 
     /**

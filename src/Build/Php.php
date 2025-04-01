@@ -469,6 +469,24 @@ class Php {
                             $list[$nr + 1] = Php::remove_newline_next($object, $flags, $options, $next);
                         }
                     }
+                    elseif(
+                        array_key_exists('method', $record)
+                    ){
+                        $method = Php::method($object, $flags, $options, $record, $before, $after);
+                        if(!empty($before)){
+                            foreach($before as $line){
+                                $data[] = $line;
+                            }
+                            $before = [];
+                        }
+                        $data[] = $method;
+                        if(!empty($after)){
+                            foreach($after as $line){
+                                $data[] = $line;
+                            }
+                            $after = [];
+                        }
+                    }
                     else {
                         d($content);
                         ddd($record);

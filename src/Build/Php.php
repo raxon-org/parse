@@ -1387,6 +1387,8 @@ class Php {
                                 $uuid_variable = Core::uuid_variable();
                                 $before[] = $uuid_variable . ' = $data->get(\'' . $next['name'] . '\');';
                                 $right = $uuid_variable;
+                            } else {
+                                ddd($next);
                             }
                             $skip++;
                             $value = Php::value_calculate($object, $flags, $options, $record['value'], $value, $right);
@@ -1399,8 +1401,7 @@ class Php {
                 $record['type'] === 'method'
             ){
                 $value .= Php::method($object, $flags, $options, $record, $before, $after);
-            }
-            else {
+            } else {
                 ddd($record);
             }
         }

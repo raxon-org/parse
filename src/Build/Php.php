@@ -324,8 +324,10 @@ class Php {
                 ){
                     $record['if_depth'] = $if_depth;
                     if($record['marker']['name'] === 'else'){
+                        d($list);
                         if($if_depth === 1) {
                             $if_method = 'else';
+                            continue;
                             /*
                             if (!array_key_exists($if_method, $content)) {
                                 $content[$if_method] = [];

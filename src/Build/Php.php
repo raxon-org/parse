@@ -1387,7 +1387,22 @@ class Php {
                                 $uuid_variable = Core::uuid_variable();
                                 $before[] = $uuid_variable . ' = $data->get(\'' . $next['name'] . '\');';
                                 $right = $uuid_variable;
-                            } else {
+                            }
+                            elseif(
+                                array_key_exists('type', $next) &&
+                                in_array(
+                                    $next['type'],
+                                    [
+                                        'integer',
+                                        'float',
+                                        'boolean'
+                                    ],
+                                    true
+                                )
+                            ){
+                                $right = $next['execute'];
+                            }
+                            else {
                                 ddd($next);
                             }
                             $skip++;

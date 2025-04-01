@@ -458,7 +458,7 @@ class Php {
                         $record['variable']['is_assign'] === true
                     ){
                         d('assign');
-                        d($record);
+                        ddd($record);
                     }
                     else {
                         d($content);

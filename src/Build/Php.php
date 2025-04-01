@@ -13,12 +13,14 @@ use Raxon\App;
 
 use Raxon\Exception\LocateException;
 
+use Raxon\Exception\TemplateException;
 use Raxon\Module\Autoload;
 use Raxon\Module\Core;
 use Raxon\Module\File;
 
 use Raxon\Parse\Module\Token;
 
+use Raxon\Parse\Module\Validator;
 use ReflectionClass;
 
 class Php {
@@ -324,7 +326,6 @@ class Php {
                 ){
                     $record['if_depth'] = $if_depth;
                     if($record['marker']['name'] === 'else'){
-                        d($list);
                         if($if_depth === 1) {
                             $if_method = 'else';
                             continue;
@@ -361,9 +362,7 @@ class Php {
                                 }
                                 $before = [];
                             }
-                            breakpoint($content['if']['content']);
                             $if_content = PHP::document_tag($object, $flags, $options, $content['if']['content']);
-                            breakpoint($if_content);
                             foreach($if_content as $line){
                                 $if_data[] = $line;
                             }
@@ -458,7 +457,8 @@ class Php {
                         $record['variable']['is_assign'] === true
                     ){
                         d('assign');
-                        ddd($record);
+                        $data[] = Php::variable_assign($object, $flags, $options, $record);
+                        ddd($data);
                     }
                     else {
                         d($content);
@@ -1553,5 +1553,462 @@ class Php {
                 break;
         }
         return $value;
+    }
+
+    /**
+     * @throws Exception
+     * @throws LocateException
+     * @throws TemplateException
+     */
+    public static function variable_assign(App $object, $flags, $options, $record = []): bool | string
+    {
+        if(!array_key_exists('variable', $record)){
+            return false;
+        }
+        elseif(
+            !array_key_exists('is_assign', $record['variable']) ||
+            $record['variable']['is_assign'] !== true
+        ) {
+            return false;
+        }
+        $source = $options->source ?? '';
+        $variable_name = $record['variable']['name'];
+        $operator = $record['variable']['operator'];
+        $before = [];
+        $before_value = [];
+        $after_value = [];
+        if(
+            in_array(
+                $operator,
+                [
+                    '++',
+                    '--',
+                    '**'
+                ],
+                true
+            )
+        ){
+            $value = ''; //init ++, --, **
+        }
+        elseif(
+            array_key_exists('value', $record['variable']) &&
+            is_array($record['variable']['value']) &&
+            array_key_exists('array', $record['variable']['value']) &&
+            is_array($record['variable']['value']['array']) &&
+            array_key_exists(0, $record['variable']['value']['array']) &&
+            is_array($record['variable']['value']['array'][0]) &&
+            array_key_exists('is_class_method', $record['variable']['value']['array'][0]) &&
+            $record['variable']['value']['array'][0]['is_class_method'] === true
+        ){
+            //static class method call
+//            breakpoint($record);
+            $method = $record['variable']['value']['array'][0]['method']['name'] ?? null;
+            $method = str_replace('.', '_', $method);
+            $explode = explode('::', $method);
+            $function = array_pop($explode);
+            $method = implode('\\', $explode);
+            if(array_key_exists(1, $explode) && $explode[0] !== ''){
+                $method = '\\' . $method;
+            }
+            $class_name = $method;
+            $method .= '::' . $function;
+            $uuid = Core::uuid_variable();
+            $uuid_methods = Core::uuid_variable();
+            $argument = $record['variable']['value']['array'][0]['method']['argument'] ?? [];
+            foreach($argument as $argument_nr => $argument_record){
+                $value = Php::value($object, $flags, $options, $record, $argument_record, $is_set);
+                $argument[$argument_nr] = $value;
+            }
+            $use_class = $object->config('package.raxon/parse.build.use.class');
+            foreach($use_class as $use_as){
+                $explode = explode('as', $use_as);
+                if(array_key_exists(1, $explode)){
+                    $use_class_name = trim($explode[1]);
+                } else {
+                    $explode = explode('\\', $use_as);
+                    $use_class_name = array_pop($explode);
+                }
+                if($use_class_name === $class_name){
+                    $class_name = $use_as;
+                    break;
+                }
+            }
+            $before[] = 'try {';
+            $before[] = $uuid . ' = new ReflectionClass(\'' . $class_name . '\');';
+            $before[] = $uuid_methods . ' = ' . $uuid . '->getMethods();';
+            $before[] = 'foreach (' . $uuid_methods . ' as $nr => $method) {';
+            $before[] = 'if ($method->isStatic()) {';
+            $before[] = $uuid_methods . '[$nr] = $method->name;';
+            $before[] = '} else {';
+            $before[] = 'unset(' . $uuid_methods . '[$nr]);';
+            $before[] = '}';
+            $before[] = '}';
+//            $before[] = 'd( ' . $uuid_methods . ');';
+            $before[] = 'if(!in_array(\'' . $function . '\', ' . $uuid_methods. ', true)){';
+            $before[] = 'sort(' . $uuid_methods .', SORT_NATURAL);';
+            $before[] = 'throw new TemplateException(\'Static method "' . $function . '" not found in class: ' . $class_name . '\' . PHP_EOL . \'Available static methods:\' . PHP_EOL . implode(PHP_EOL, ' . $uuid_methods . ') . PHP_EOL);';
+            $before[] = '}';
+            $before[] = '}';
+            $before[] = 'catch(Exception | LocateException $exception){';
+            if(
+                array_key_exists('is_multiline', $record) &&
+                $record['is_multiline'] === true
+            ){
+                $before[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: ' . $source . '.\', 0, $exception);';
+            } else {
+                $before[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.\', 0, $exception);';
+            }
+            $before[] = '}';
+            if(array_key_exists(0, $argument)){
+                $value = $method . '(' . implode(', ', $argument) . ')';
+            } else {
+                $value = $method . '()';
+            }
+        }
+        elseif(
+            array_key_exists('value', $record['variable']) &&
+            is_array($record['variable']['value']) &&
+            array_key_exists('array', $record['variable']['value']) &&
+            is_array($record['variable']['value']['array']) &&
+            array_key_exists(0, $record['variable']['value']['array']) &&
+            is_array($record['variable']['value']['array'][0]) &&
+            array_key_exists('value', $record['variable']['value']['array'][0]) &&
+            $record['variable']['value']['array'][0]['value'] === '$' &&
+            array_key_exists(1, $record['variable']['value']['array']) &&
+            is_array($record['variable']['value']['array'][1]) &&
+            array_key_exists('method', $record['variable']['value']['array'][1]) &&
+            array_key_exists('name', $record['variable']['value']['array'][1]['method'])
+        ){
+            //class method call
+//            breakpoint($record);
+            $method = $record['variable']['value']['array'][1]['method']['name'] ?? null;
+            $explode = explode('.', $method, 2);
+            //replace : with \\ for namespace in $explode[0]
+            $class_raw = $explode[0];
+            $class_name = str_replace(':', '\\', $class_raw);
+            $class_object = '$' . $class_name;
+            $class_method = str_replace('.', '_', $explode[1]);
+            $uuid = Core::uuid_variable();
+            $uuid_methods = Core::uuid_variable();
+            $argument = $record['variable']['value']['array'][1]['method']['argument'];
+            foreach($argument as $argument_nr => $argument_record){
+                $value = Php::value($object, $flags, $options, $record, $argument_record, $is_set);
+                $argument[$argument_nr] = $value;
+            }
+            $before[] = 'try {';
+            $before[] = $uuid . ' = $data->data(\'' . $class_name . '\');';
+            $before[] = $uuid_methods . ' = get_class_methods(' . $uuid . ');';
+            $before[] = 'if(!in_array(\'' . $class_method . '\', ' . $uuid_methods. ', true)){';
+            $before[] = 'sort(' . $uuid_methods .', SORT_NATURAL);';
+            $before[] = 'throw new TemplateException(\'Method "' . $class_method . '" not found in class: ' . $class_raw . '\' . PHP_EOL . \'Available methods:\' . PHP_EOL . implode(PHP_EOL, ' . $uuid_methods . ') . PHP_EOL);';
+            $before[] = '}';
+            $before[] = '}';
+            $before[] = 'catch(Exception | TemplateException $exception){';
+            if(
+                array_key_exists('is_multiline', $record) &&
+                $record['is_multiline'] === true
+            ){
+                $before[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: ' . $source . '.\', 0, $exception);';
+            } else {
+                $before[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag'])  . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.\', 0, $exception);';
+            }
+            $before[] = '}';
+            if(array_key_exists(0, $argument)){
+                $value = $uuid . '->' . $class_method .  '(' . implode(', ', $argument) . ')';
+            } else {
+                $value = $uuid . '->' . $class_method . '()';
+            }
+        }
+        elseif(
+            array_key_exists('value', $record['variable']) &&
+            is_array($record['variable']['value']) &&
+            array_key_exists('array', $record['variable']['value']) &&
+            is_array($record['variable']['value']['array']) &&
+            array_key_exists(0, $record['variable']['value']['array']) &&
+            is_array($record['variable']['value']['array'][0]) &&
+            array_key_exists('type', $record['variable']['value']['array'][0]) &&
+            array_key_exists(1, $record['variable']['value']['array']) &&
+            is_array($record['variable']['value']['array'][1]) &&
+            array_key_exists('value', $record['variable']['value']['array'][1]) &&
+            array_key_exists(2, $record['variable']['value']['array']) &&
+            is_array($record['variable']['value']['array'][2]) &&
+            array_key_exists('type', $record['variable']['value']['array'][2]) &&
+            $record['variable']['value']['array'][0]['type'] === 'string' &&
+            $record['variable']['value']['array'][1]['value'] === '::' &&
+            $record['variable']['value']['array'][2]['type'] === 'method'
+        ){
+            //static method call
+            $name = $record['variable']['value']['array'][0]['value'];
+            $name .= $record['variable']['value']['array'][1]['value'];
+            $class_static = Php::class_static($object);
+            if(
+                in_array(
+                    $name,
+                    $class_static,
+                    true
+                )
+            ){
+                $name .= $record['variable']['value']['array'][2]['method']['name'];
+                $argument = $record['variable']['value']['array'][2]['method']['argument'];
+                foreach($argument as $argument_nr => $argument_record){
+                    $value = Php::value($object, $flags, $options, $record, $argument_record, $is_set, $before, $after);
+                    $argument[$argument_nr] = $value;
+                }
+                if(array_key_exists(0, $argument)){
+                    $value = $name . '(' . implode(', ', $argument) . ')';
+                } else {
+                    $value = $name . '()';
+                }
+            } else {
+                if(
+                    array_key_exists('is_multiline', $record) &&
+                    $record['is_multiline'] === true
+                ){
+                    throw new TemplateException(
+                        $record['tag'] . PHP_EOL .
+                        'Unknown static class call "{{' . $name .'}}" please add the class usage on line: ' .
+                        $record['line']['start']  .
+                        ', column: ' .
+                        $record['column'][$record['line']['start']]['start'] .
+                        ' in source: '.
+                        $source,
+                    );
+
+                } else {
+                    throw new TemplateException(
+                        $record['tag'] . PHP_EOL .
+                        'Unknown static class call "{{' . $name .'}}" please add the class usage on line: ' .
+                        $record['line'] .
+                        ', column: ' .
+                        $record['column']['start'] .
+                        ' in source: '.
+                        $source,
+                    );
+                }
+            }
+        } else {
+            $value = Php::value($object, $flags, $options, $record, $record['variable']['value'],$is_set, $before, $after);
+        }
+        if(array_key_exists('modifier', $record['variable'])){
+            d($value);
+            ddd('what happens with value');
+            $previous_modifier = '$data->data(\'' . $record['variable']['name'] . '\')';
+            $modifier_value = '';
+            foreach($record['variable']['modifier'] as $nr => $modifier){
+                $plugin = Php::plugin($object, $flags, $options, $record, str_replace('.', '_', $modifier['name']));
+                $modifier_value = $plugin . '(';
+                $modifier_value .= $previous_modifier .', ';
+                if(array_key_exists('argument', $modifier)){
+                    $is_argument = false;
+                    foreach($modifier['argument'] as $argument_nr => $argument){
+                        $argument = Php::value($object, $flags, $options, $record, $argument, $is_set);
+                        if($argument !== ''){
+                            $modifier_value .= $argument . ', ';
+                            $is_argument = true;
+                        }
+                    }
+                    if($is_argument === true){
+                        $modifier_value = mb_substr($modifier_value, 0, -2);
+                    } else {
+                        $modifier_value = mb_substr($modifier_value, 0, -1);
+                    }
+                }
+                $modifier_value .=  ')';
+                $previous_modifier = $modifier_value;
+            }
+            $value = $modifier_value;
+        }
+        if(
+            $variable_name !== '' &&
+            $operator !== ''
+        ){
+            $result = $before;
+            if($value !== ''){
+                $result[] = 'try {';
+                foreach($before_value as $before_record){
+                    $result[] = $before_record;
+                }
+                switch($operator){
+                    case '=' :
+                        $result[] = '$data->set(' .
+                            '\'' .
+                            $variable_name .
+                            '\', ' .
+                            $value .
+                            ');'
+                        ;
+                        foreach($after_value as $after_record){
+                            if(!is_array($after_record)){
+                                $result[] = $after_record;
+                            }
+                        }
+                        $result[] = '} catch(ErrorException | Error | Exception $exception){';
+                        if(
+                            array_key_exists('is_multiline', $record) &&
+                            $record['is_multiline'] === true
+                        ){
+                            $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '\', 0, $exception);';
+                        } else {
+                            $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\', 0, $exception);';
+                        }
+                        $result[] = '}';
+                        break;
+                    case '.=' :
+                        $result[] = '$data->set(' .
+                            '\'' .
+                            $variable_name .
+                            '\', ' .
+                            '$this->value_concatenate(' .
+                            '$data->data(' .
+                            '\'' .
+                            $variable_name .
+                            '\'), ' .
+                            $value .
+                            ')' .
+                            ');'
+                        ;
+                        foreach($after_value as $after_record){
+                            if(!is_array($after_record)){
+                                $result[] = $after_record;
+                            }
+                        }
+                        $result[] = '} catch(ErrorException | Error | Exception $exception){';
+                        if(
+                            array_key_exists('is_multiline', $record) &&
+                            $record['is_multiline'] === true
+                        ){
+                            $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '\', 0, $exception);';
+                        } else {
+                            $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\', 0, $exception);';
+                        }
+                        $result[] = '}';
+                        break;
+                    case '+=' :
+                        $result[] = '$data->set(' .
+                            '\'' .
+                            $variable_name .
+                            '\', ' .
+                            '$this->value_plus('.
+                            '$data->data('.
+                            '\'' .
+                            $variable_name .
+                            '\'), ' .
+                            $value .
+                            ')' .
+                            ');'
+                        ;
+                        foreach($after_value as $after_record){
+                            if(!is_array($after_record)){
+                                $result[] = $after_record;
+                            }
+                        }
+                        $result[] = '} catch(ErrorException | Error | Exception $exception){';
+                        if(
+                            array_key_exists('is_multiline', $record) &&
+                            $record['is_multiline'] === true
+                        ){
+                            $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '\', 0, $exception);';
+                        } else {
+                            $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\', 0, $exception);';
+                        }
+                        $result[] = '}';
+                        break;
+                    case '-=' :
+                        $result[] = '$data->set('.
+                            '\'' .
+                            $variable_name .
+                            '\', ' .
+                            '$this->value_minus('.
+                            '$data->data('.
+                            '\'' .
+                            $variable_name .
+                            '\'), ' .
+                            $value .
+                            ')'.
+                            ');'
+                        ;
+                        foreach($after_value as $after_record){
+                            if(!is_array($after_record)){
+                                $result[] = $after_record;
+                            }
+                        }
+                        $result[] = '} catch(ErrorException | Error | Exception $exception){';
+                        if(
+                            array_key_exists('is_multiline', $record) &&
+                            $record['is_multiline'] === true
+                        ){
+                            $result[] = 'if(ob_get_level() >= 1){';
+                            $result[] = 'ob_get_clean();';
+                            $result[] = '}';
+                            $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '\', 0, $exception);';
+                        } else {
+                            $result[] = 'if(ob_get_level() >= 1){';
+                            $result[] = 'ob_get_clean();';
+                            $result[] = '}';
+                            $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\', 0, $exception);';
+                        }
+                        $result[] = '}';
+                        break;
+                    case '*=' :
+                        $result[] = '$data->set('.
+                            '\'' .
+                            $variable_name .
+                            '\', ' .
+                            '$this->value_multiply('.
+                            '$data->data('.
+                            '\'' .
+                            $variable_name .
+                            '\'), ' .
+                            $value .
+                            ')'.
+                            ');'
+                        ;
+                        foreach($after_value as $after_record){
+                            if(!is_array($after_record)){
+                                $result[] = $after_record;
+                            }
+                        }
+                        $result[] = '} catch(ErrorException | Error | Exception $exception){';
+                        if(
+                            array_key_exists('is_multiline', $record) &&
+                            $record['is_multiline'] === true
+                        ){
+                            $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '\', 0, $exception);';
+                        } else {
+                            $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\', 0, $exception);';
+                        }
+                        $result[] = '}';
+                        break;
+                }
+                $result = implode(PHP_EOL, $result);
+            } else {
+                switch($operator){
+                    case '++' :
+                        $result = '$data->set(\'' . $variable_name . '\', ' .  '$this->value_plus_plus($data->data(\'' . $variable_name . '\')));';
+                        break;
+                    case '--' :
+                        $result = '$data->set(\'' . $variable_name . '\', ' .  '$this->value_minus_minus($data->data(\'' . $variable_name . '\')));';
+                        break;
+                    case '**' :
+                        $result = '$data->set(\'' . $variable_name . '\', ' .  '$this->value_multiply_multiply($data->data(\'' . $variable_name . '\')));';
+                        break;
+                }
+            }
+            try {
+                Validator::validate($object, $flags, $options, $result);
+            }
+            catch(Exception $exception){
+                if(
+                    array_key_exists('is_multiline', $record) &&
+                    $record['is_multiline'] === true
+                ){
+                    throw new TemplateException($record['tag'] .  PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.', 0, $exception);
+                } else {
+                    throw new TemplateException($record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.', 0, $exception);
+                }
+            }
+            return $result;
+        }
+        return false;
     }
 }

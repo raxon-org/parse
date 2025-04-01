@@ -384,7 +384,6 @@ class Php {
                                             $before = [];
                                         }
                                         $if_content = Php::document_tag($object, $flags, $options, $elseif['content'], true);
-                                        breakpoint($if_content);
                                         foreach($if_content as $line){
                                             $if_data[] = $line;
                                         }

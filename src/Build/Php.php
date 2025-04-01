@@ -1804,7 +1804,6 @@ class Php {
             }
         } else {
             $value = Php::value($object, $flags, $options, $record, $record['variable']['value'],$is_set, $before, $after);
-            ddd($value);
         }
         if(array_key_exists('modifier', $record['variable'])){
             d($value);

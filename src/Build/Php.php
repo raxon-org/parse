@@ -481,12 +481,11 @@ class Php {
                         }
                         $uuid_variable = Core::uuid_variable();
                         $data[] = $uuid_variable . ' = ' . $method . ';';
-                        $data[] = 'if(is_scalar('. $uuid_variable . ')){';
+                        $data[] = 'if(is_scalar('. $uuid_variable . ')) {';
                         $data[] = '    $content[] = ' .  $uuid_variable;
                         $data[] = '} elseif(is_array('. $uuid_variable .') || is_object(' .  $uuid_variable . ')) {';
                         $data[] = '    return ' .  $uuid_variable  . ';';
-                        $data[] = '} else {'; //null
-                        $data[] = '}';
+                        $data[] = '}'; //null
                         if(!empty($after)){
                             foreach($after as $line){
                                 $data[] = $line;

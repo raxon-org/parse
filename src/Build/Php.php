@@ -283,19 +283,6 @@ class Php {
                         }
                     }
                     elseif(
-                        $record['method']['name'] === 'else' &&
-                        $if_depth === 1
-                    ) {
-                        $if_method = 'else';
-                        if(!array_key_exists($if_method, $content)){
-                            $content[$if_method] = [];
-                        }
-                        if(!array_key_exists('statement', $content[$if_method])){
-                            $content[$if_method]['statement'] = $record;
-                            continue;
-                        }
-                    }
-                    elseif(
                         in_array(
                             $record['method']['name'],
                             [
@@ -336,6 +323,20 @@ class Php {
                     array_key_exists('name', $record['marker'])
                 ){
                     $record['if_depth'] = $if_depth;
+                    if($record['marker']['name'] === 'else'){
+                        if($if_depth === 1) {
+                            $if_method = 'else';
+                            /*
+                            if (!array_key_exists($if_method, $content)) {
+                                $content[$if_method] = [];
+                            }
+                            if (!array_key_exists('statement', $content[$if_method])) {
+                                $content[$if_method]['statement'] = $record;
+                                continue;
+                            }
+                            */
+                        }
+                    }
                     if(
                         $record['marker']['name'] === 'if' &&
                         array_key_exists('is_close', $record['marker']) &&
@@ -417,7 +418,7 @@ class Php {
                     $record['if_depth'] = $if_depth;
                 }
                 if($record['if_depth'] >= 1){
-                    if($if_method === 'if'){
+                    if(in_array($if_method, ['if', 'else'], true)){
                         if(!array_key_exists($if_method, $content)){
                             $content[$if_method] = [];
                         }

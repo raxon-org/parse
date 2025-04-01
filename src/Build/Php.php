@@ -1578,7 +1578,7 @@ class Php {
      * @throws LocateException
      * @throws TemplateException
      */
-    public static function variable_assign_next(App $object, $flags, $options, $record = []): bool | string
+    public static function variable_assign_next(App $object, $flags, $options, $record = []): array
     {
         if (
             array_key_exists('text', $record) &&

@@ -411,7 +411,7 @@ class Php {
                             }
                             $content = [];
                         } else {
-                            breakpoint('if depth: ' . $if_depth);
+                            //nothing for now...
                         }
                         $if_depth--;
                     }
@@ -1788,6 +1788,7 @@ class Php {
             }
         } else {
             $value = Php::value($object, $flags, $options, $record, $record['variable']['value'],$is_set, $before, $after);
+            ddd($value);
         }
         if(array_key_exists('modifier', $record['variable'])){
             d($value);

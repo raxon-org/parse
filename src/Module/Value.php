@@ -176,8 +176,14 @@ class Value
                     for($i = $is_double_quoted + 1; $i < $nr; $i++){
                         $item = $input['array'][$i];
                         if(is_array($item)){
-                            d($item);
-                            $value .= $item['value'];
+                            if(
+                                array_key_exists('type', $item) &&
+                                $item['type'] === 'method'
+                            ){
+                                ddd($item);
+                            } else {
+                                $value .= $item['value'];
+                            }
                         } else {
                             $value .= $item;
                         }

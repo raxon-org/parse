@@ -370,6 +370,7 @@ class Parse
         }
         $source = $options->source ?? 'source';
         if($is_debug){
+            d($input);
             ddd($source);
         }
 

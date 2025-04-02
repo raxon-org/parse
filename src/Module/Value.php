@@ -182,7 +182,7 @@ class Value
                             ){
                                 $value .= $item['method']['name'];
                                 $value .= '(';
-                                foreach($item['method']['arguments'] as $argument){
+                                foreach($item['method']['argument'] as $argument){
                                     $value .= $argument['string'];
                                 }
                                 $value .= ')';

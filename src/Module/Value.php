@@ -180,7 +180,12 @@ class Value
                                 array_key_exists('type', $item) &&
                                 $item['type'] === 'method'
                             ){
-                                ddd($item);
+                                $value .= $item['method']['name'];
+                                $value .= '(';
+                                foreach($item['method']['arguments'] as $argument){
+                                    $value .= $argument['string'];
+                                }
+                                $value .= ')';
                             } else {
                                 $value .= $item['value'];
                             }

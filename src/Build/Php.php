@@ -460,13 +460,28 @@ class Php {
                     }
                     elseif(
                         array_key_exists('variable', $record) &&
-                        array_key_exists('is_assign', $record['variable']) &&
-                        $record['variable']['is_assign'] === true
                     ){
-                        $data[] = Php::variable_assign($object, $flags, $options, $record);
-                        $next = $list[$nr + 1] ?? null;
-                        if($next){
-                            $list[$nr + 1] = Php::remove_newline_next($object, $flags, $options, $next);
+                        if(
+                            array_key_exists('is_assign', $record['variable']) &&
+                            $record['variable']['is_assign'] === true
+                        ){
+                            $variable = Php::variable_assign($object, $flags, $options, $record);
+                            if($variable){
+                                $data[] = $variable;
+                            }
+                            $next = $list[$nr + 1] ?? null;
+                            if($next){
+                                $list[$nr + 1] = Php::remove_newline_next($object, $flags, $options, $next);
+                            }
+                        }
+                        elseif(
+                            array_key_exists('is_define', $record['variable']) &&
+                            $record['variable']['is_define'] === true
+                        ){
+                            $variable = Php::variable_define($object, $flags, $options, $record);
+                            if($variable){
+                                $data[] = $variable;
+                            }
                         }
                     }
                     elseif(
@@ -1666,6 +1681,236 @@ class Php {
             }
         }
         return $record;
+    }
+
+    /**
+     * @throws Exception
+     * @throws LocateException
+     */
+    public static function variable_define(App $object, $flags, $options, $record = []): bool | array
+    {
+        if (!array_key_exists('variable', $record)) {
+            return false;
+        }
+        elseif (
+            !array_key_exists('is_define', $record['variable']) ||
+            $record['variable']['is_define'] !== true
+        ) {
+            return false;
+        }
+        if(!array_key_exists('name', $record['variable'])){
+            trace();
+            ddd($record);
+        }
+        $source = $options->source ?? '';
+        $variable_name = $record['variable']['name'];
+        $variable_uuid = Core::uuid_variable();
+        $method_value = '';
+        if(
+            array_key_exists('method', $record['variable']) &&
+            array_key_exists('operator', $record['variable']) &&
+            array_key_exists('name', $record['variable']['method'])
+        ){
+            $method_value .= $record['variable']['operator'] . $record['variable']['method']['name'] . '(' . PHP_EOL;
+            $is_argument = false;
+            if(array_key_exists('argument', $record['variable']['method'])){
+                foreach($record['variable']['method']['argument'] as $argument_nr => $argument){
+                    $argument = Php::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
+                    if($argument !== ''){
+                        $method_value .= $argument . ',' . PHP_EOL;
+                        $is_argument = true;
+                    }
+                }
+                if($is_argument === true){
+                    $method_value = mb_substr($method_value, 0, -2) . PHP_EOL . ')' . PHP_EOL;
+                } else {
+                    $method_value .= ')' . PHP_EOL;
+                }
+            }
+        }
+        if(array_key_exists('modifier', $record['variable'])){
+            $previous_modifier = '$data->data(\'' . $variable_name . '\')' . $method_value;
+            $modifier_value = $previous_modifier;
+            foreach($record['variable']['modifier'] as $nr => $modifier){
+                $plugin = Php::plugin($object, $flags, $options, $record, str_replace('.', '_', $modifier['name']));
+                $modifier_value = $plugin . '(' . PHP_EOL;
+                $modifier_value .= $previous_modifier . ',' . PHP_EOL;
+                $is_argument = false;
+                if(array_key_exists('argument', $modifier)){
+                    foreach($modifier['argument'] as $argument_nr => $argument){
+                        $argument = Php::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
+                        if($argument !== ''){
+                            $modifier_value .= $argument . ',' . PHP_EOL;
+                            $is_argument = true;
+                        }
+                    }
+                    if($is_argument === true){
+                        $modifier_value = mb_substr($modifier_value, 0, -2) . PHP_EOL;
+                    } else {
+                        $modifier_value = mb_substr($modifier_value, 0, -2);
+                    }
+                }
+                $modifier_value .= ')';
+                $previous_modifier = $modifier_value;
+            }
+            $value = $modifier_value;
+            $is_not = '';
+            if(array_key_exists('is_not', $record['variable'])){
+                if($record['variable']['is_not'] === true){
+                    $is_not = ' !! ';
+                }
+                elseif($record['variable']['is_not'] === false){
+                    $is_not = ' !';
+                }
+            }
+            if(
+                array_key_exists('cast', $record['variable']) &&
+                $record['variable']['cast'] !== false
+            ){
+                if($record['variable']['cast'] === 'clone'){
+                    $value = 'clone ' . $value;
+                } else {
+                    $value = '(' . $record['variable']['cast'] . ') ' . $value;
+                }
+            }
+            d($before);
+            d($after);
+            ddd($value);
+            $data = [
+                'try {',
+                $variable_uuid . ' = ' . $is_not . $value . ';',
+            ];
+            if(
+                array_key_exists('is_multiline', $record) &&
+                $record['is_multiline'] === true
+            ){
+                $data[] = 'if(' . $variable_uuid .' === null){';
+                $data[] = 'if(ob_get_level() >= 1){';
+                $data[] = 'ob_end_clean();';
+                $data[] = '}';
+//                $data[] = 'ddd($data);';
+                $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) . '" on line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '. You can use modifier "default" to surpress it \');';
+                $data[] = '}';
+            } else {
+                $data[] = 'if(' . $variable_uuid .' === null){';
+                $data[] = 'if(ob_get_level() >= 1){';
+                $data[] = 'ob_end_clean();';
+                $data[] = '}';
+//                $data[] = 'ddd($data);';
+                $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) . '" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: '. $source . '. You can use modifier "default" to surpress it \');';
+                $data[] = '}';
+            }
+//            $data[] = 'd(' . $variable_uuid . ');';
+            $data[] = 'if(!is_scalar('. $variable_uuid. ')){';
+            $data[] = '//array or object';
+            $data[] = 'ob_get_clean();';
+            $data[] = 'return ' . $variable_uuid .';';
+            $data[] = '}';
+            $data[] = 'elseif(is_bool('. $variable_uuid. ')){';
+            $data[] = 'return ' . $variable_uuid .';';
+            $data[] = '} else {';
+            $data[] = 'echo '. $variable_uuid .';';
+            $data[] = '}';
+            $data[] = '} catch (Exception $exception) {'; //catch
+            if(
+                array_key_exists('is_multiline', $record) &&
+                $record['is_multiline'] === true
+            ){
+                $data[] = 'if(' . $variable_uuid .' === null){';
+                $data[] = 'if(ob_get_level() >= 1){';
+                $data[] = 'ob_end_clean();';
+                $data[] =' }';
+//                $data[] = 'ddd($data);';
+                $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) . '" on line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '. You can use modifier "default" to surpress it \');';
+                $data[] = '}';
+            } else {
+                $data[] = 'if(' . $variable_uuid .' === null){';
+                $data[] = 'if(ob_get_level() >= 1){';
+                $data[] = 'ob_end_clean();';
+                $data[] =' }';
+//                $data[] = 'ddd($data);';
+                $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) . '" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: '. $source . '. You can use modifier "default" to surpress it \');';
+                $data[] = '}';
+            }
+            $data[] = '}';
+            return $data;
+        } else {
+            $is_not = '';
+            if(
+                array_key_exists('is_not', $record['variable'])
+            ){
+                if($record['variable']['is_not'] === true){
+                    $is_not = '!! ';
+                }
+                elseif($record['variable']['is_not'] === false){
+                    $is_not = '! ';
+                }
+            }
+            $cast = '';
+            if(
+                array_key_exists('cast', $record['variable']) &&
+                $record['variable']['cast'] !== false
+            ){
+                if($record['variable']['cast'] === 'clone'){
+                    $cast = 'clone ';
+                } else {
+                    $cast = '(' . $record['variable']['cast'] . ') ';
+                }
+            }
+            if(array_key_exists('array_notation', $record['variable'])){
+                $data = [];
+                $variable_uuid = Core::uuid_variable();
+                $data[] = '$test_' . substr($variable_uuid, 1) . '_record = $data->data();';
+                $data = Build::array_notation_data($object, $flags, $options, $data, $record['variable']['array_notation']['array'], $variable_name, $variable_uuid);
+
+                /*
+                $data = [
+                    '$test1_' . substr($variable_uuid, 1) . '=' . '$data->data(\'' . $variable_name . '\');' ,
+                ];
+                */
+                ddd($data);
+            } else {
+                $data = [
+                    $variable_uuid . ' = ' . $is_not . $cast . '$data->data(\'' . $variable_name . '\');' ,
+                ];
+            }
+
+
+            if(
+                array_key_exists('is_multiline', $record) &&
+                $record['is_multiline'] === true
+            ){
+                $data[] = 'if(' . $variable_uuid .' === null){';
+                $data[] = 'if(ob_get_level() >= 1){';
+                $data[] = 'ob_end_clean();';
+                $data[] =  '}';
+//                $data[] = 'ddd($data);';
+                $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) .'" on line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '. You can use modifier "default" to surpress it \');';
+                $data[] = '}';
+            } else {
+                $data[] = 'if(' . $variable_uuid .' === null){';
+                $data[] = 'if(ob_get_level() >= 1){';
+                $data[] = 'ob_end_clean();';
+                $data[] =  '}';
+//                $data[] = 'ddd($data);';
+                $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) .'" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '. You can use modifier "default" to surpress it \');';
+                $data[] = '}';
+            }
+            $data[] = 'if(!is_scalar('. $variable_uuid. ')){';
+            $data[] = '//array or object';
+            $data[] = 'if(ob_get_level() >= 1){';
+            $data[] = 'ob_end_clean();';
+            $data[] =  '}';
+            $data[] = 'return ' . $variable_uuid .';';
+            $data[] = '}';
+            $data[] = 'elseif(is_bool('. $variable_uuid. ')){';
+            $data[] = 'return ' . $variable_uuid .';';
+            $data[] = '} else {';
+            $data[] = 'echo '. $variable_uuid .';';
+            $data[] = '}';
+            return $data;;
+        }
+        return false;
     }
 
     /**

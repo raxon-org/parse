@@ -1488,7 +1488,7 @@ class Php {
                     $uuid_parse = Core::uuid_variable();
                     $uuid_options = Core::uuid_variable();
                     $before[] = $uuid_options . ' = clone $options;';
-                    $before[] = $uuid_options . '->source = '.  $uuid_options . '->source . \'-\' . Core::uuid();';
+                    $before[] = $uuid_options . '->source = \'internal_\' . ' .  $uuid_options . '->source . \'-\' . Core::uuid();';
                     $before[] = $uuid_storage . '= new Data($data);';
                     $before[] = $uuid_parse . ' = new Parse($object, '. $uuid_storage . ', $flags, '. $uuid_options . ');';
                     $before[] = $uuid_variable . ' = '.  $uuid_parse . '->compile("' . $record['execute'] . '", $data, true);';

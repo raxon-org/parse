@@ -408,9 +408,9 @@ class Parse
             property_exists($is_plugin, 'name_separator') &&
             property_exists($is_plugin, 'name_pop_or_shift')
         ){
-            $options->class = Autoload::name_reducer(
+            $class = Autoload::name_reducer(
                 $object,
-                $options->class ?? $class . '_' . $options->hash,
+                $class . '_' . $options->hash,
                 $is_plugin->name_length,
                 $is_plugin->name_separator,
                 $is_plugin->name_pop_or_shift
@@ -420,7 +420,7 @@ class Parse
                 $object->config('ds') .
                 $object->config('dictionary.view') .
                 $object->config('ds') .
-                $options->class .
+                $class .
                 $object->config('extension.php')
             ;
             $cache_dir = Dir::name($cache_url);
@@ -445,13 +445,13 @@ class Parse
             if($is_debug){
 //                d($token);
             }
-            $url_json = $dir . $options->class . $object->config('extension.json');
+            $url_json = $dir . $class . $object->config('extension.json');
             File::write($url_json, Core::object($token, Core::OBJECT_JSON));
             if($cache_url){
                 $url_php = $cache_url;
             } else {
                 $url_php = $dir .
-                    $options->class .
+                    $class .
                     $object->config('extension.php')
                 ;
             }

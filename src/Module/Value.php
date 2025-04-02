@@ -176,6 +176,7 @@ class Value
                     for($i = $is_double_quoted + 1; $i < $nr; $i++){
                         $item = $input['array'][$i];
                         if(is_array($item)){
+                            d($item);
                             $value .= $item['value'];
                         } else {
                             $value .= $item;

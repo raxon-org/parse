@@ -369,10 +369,7 @@ class Parse
             }
         }
         $source = $options->source ?? 'source';
-        if($is_debug){
-            d($input);
-            ddd($source);
-        }
+
 
         $object->config('package.raxon/parse.build.state.source.url', $source);
         $mtime = false;
@@ -480,6 +477,11 @@ class Parse
             File::touch($url_php, $mtime);
         }
         if($url_php){
+            if($is_debug){
+                d($input);
+                d($url_php);
+                ddd($source);
+            }
             if(property_exists($options, 'info')){
                 echo $url_php . PHP_EOL;
             }

@@ -1488,8 +1488,6 @@ class Php {
                     $before[] = $parse . ' = new Parse($object, $flags, $options);';
                     $before[] = $uuid_variable . ' = '.  $parse . '->compile(' . $record['value'] . ', new Data($data));';
                     $value .= $uuid_variable;
-
-
                 } else {
                     d('not implemented');
                     ddd($record);

@@ -370,7 +370,7 @@ class Parse
         }
         $source = $options->source ?? 'source';
         if($is_debug){
-            ddd($source);
+            d($source);
         }
 
         $object->config('package.raxon/parse.build.state.source.url', $source);

@@ -1729,6 +1729,8 @@ class Php {
             }
         }
         if(array_key_exists('modifier', $record['variable'])){
+            $before = [];
+            $after = [];
             $previous_modifier = '$data->data(\'' . $variable_name . '\')' . $method_value;
             $modifier_value = $previous_modifier;
             foreach($record['variable']['modifier'] as $nr => $modifier){
@@ -1773,7 +1775,6 @@ class Php {
                     $value = '(' . $record['variable']['cast'] . ') ' . $value;
                 }
             }
-            ddd($value);
             $data = [
                 'try {',
                 $variable_uuid . ' = ' . $is_not . $value . ';',
@@ -1797,9 +1798,24 @@ class Php {
             $data[] = '$content[] = ' . $variable_uuid .';';
             $data[] = '}';
             $data[] = 'elseif(is_array(' . $variable_uuid. ')){';
+            if (
+                array_key_exists('is_multiline', $record) &&
+                $record['is_multiline'] === true
+            ){
+                $data[] = 'throw new TemplateException(\'Array to string conversion exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) .'" on line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.\');';
+            } else {
+                $data[] = 'throw new TemplateException(\'Array to string conversion exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) .'" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.\');';
+            }
             $data[] = '}';
             $data[] = 'elseif(is_object(' . $variable_uuid . ')){';
-
+            if (
+                array_key_exists('is_multiline', $record) &&
+                $record['is_multiline'] === true
+            ){
+                $data[] = 'throw new TemplateException(\'Object to string conversion exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) .'" on line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.\');';
+            } else {
+                $data[] = 'throw new TemplateException(\'Object to string conversion exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) .'" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.\');';
+            }
             $data[] = '}';
             $data[] = '} catch (Exception $exception) {'; //catch
             $data[] = 'throw $exception;';

@@ -1484,9 +1484,11 @@ class Php {
                     $record['is_double_quoted'] === true
                 ){
                     $uuid_variable = Core::uuid_variable();
+                    $storage = Core::uuid_variable();
                     $parse = Core::uuid_variable();
-                    $before[] = $parse . ' = new Parse($object, $flags, $options);';
-                    $before[] = $uuid_variable . ' = '.  $parse . '->compile(' . $record['value'] . ', new Data($data));';
+                    $before[] = $storage . '= new Data($data);';
+                    $before[] = $parse . ' = new Parse($object, '. $storage . ', $flags, $options);';
+                    $before[] = $uuid_variable . ' = '.  $parse . '->compile(' . $record['value'] . ', $data);';
                     $value .= $uuid_variable;
                 } else {
                     d('not implemented');

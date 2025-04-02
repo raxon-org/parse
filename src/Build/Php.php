@@ -1483,7 +1483,7 @@ class Php {
                     array_key_exists('is_double_quoted', $record) &&
                     $record['is_double_quoted'] === true
                 ){
-                    $value .= $record['value'];
+                    $value .= '$content[] = $parse->compile(' . $record['value'] . ');';
                 } else {
                     d('not implemented');
                     ddd($record);

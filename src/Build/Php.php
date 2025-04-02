@@ -485,8 +485,8 @@ class Php {
                         $data[] = '    $content[] = ' .  $uuid_variable . ';';
                         $data[] = '} ';
                         $data[] = 'elseif(';
-                        $data[] = 'is_array('. $uuid_variable .') || ';
-                        $data[] = 'is_object(' .  $uuid_variable . ')';
+                        $data[] = '    is_array('. $uuid_variable .') || ';
+                        $data[] = '    is_object(' .  $uuid_variable . ')';
                         $data[] = '){';
                         $data[] = '    return ' .  $uuid_variable  . ';';
                         $data[] = '}'; //null

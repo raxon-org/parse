@@ -1783,17 +1783,11 @@ class Php {
                 $record['is_multiline'] === true
             ){
                 $data[] = 'if(' . $variable_uuid .' === null){';
-                $data[] = 'if(ob_get_level() >= 1){';
-                $data[] = 'ob_end_clean();';
-                $data[] = '}';
 //                $data[] = 'ddd($data);';
                 $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) . '" on line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '. You can use modifier "default" to surpress it \');';
                 $data[] = '}';
             } else {
                 $data[] = 'if(' . $variable_uuid .' === null){';
-                $data[] = 'if(ob_get_level() >= 1){';
-                $data[] = 'ob_end_clean();';
-                $data[] = '}';
 //                $data[] = 'ddd($data);';
                 $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) . '" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: '. $source . '. You can use modifier "default" to surpress it \');';
                 $data[] = '}';
@@ -1801,7 +1795,6 @@ class Php {
 //            $data[] = 'd(' . $variable_uuid . ');';
             $data[] = 'if(!is_scalar('. $variable_uuid. ')){';
             $data[] = '//array or object';
-            $data[] = 'ob_get_clean();';
             $data[] = 'return ' . $variable_uuid .';';
             $data[] = '}';
             $data[] = 'elseif(is_bool('. $variable_uuid. ')){';
@@ -1815,17 +1808,11 @@ class Php {
                 $record['is_multiline'] === true
             ){
                 $data[] = 'if(' . $variable_uuid .' === null){';
-                $data[] = 'if(ob_get_level() >= 1){';
-                $data[] = 'ob_end_clean();';
-                $data[] =' }';
 //                $data[] = 'ddd($data);';
                 $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) . '" on line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '. You can use modifier "default" to surpress it \');';
                 $data[] = '}';
             } else {
                 $data[] = 'if(' . $variable_uuid .' === null){';
-                $data[] = 'if(ob_get_level() >= 1){';
-                $data[] = 'ob_end_clean();';
-                $data[] =' }';
 //                $data[] = 'ddd($data);';
                 $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) . '" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: '. $source . '. You can use modifier "default" to surpress it \');';
                 $data[] = '}';
@@ -1859,7 +1846,7 @@ class Php {
                 $data = [];
                 $variable_uuid = Core::uuid_variable();
                 $data[] = '$test_' . substr($variable_uuid, 1) . '_record = $data->data();';
-                $data = Build::array_notation_data($object, $flags, $options, $data, $record['variable']['array_notation']['array'], $variable_name, $variable_uuid);
+                $data = Php::array_notation_data($object, $flags, $options, $data, $record['variable']['array_notation']['array'], $variable_name, $variable_uuid);
 
                 /*
                 $data = [
@@ -1872,33 +1859,20 @@ class Php {
                     $variable_uuid . ' = ' . $is_not . $cast . '$data->data(\'' . $variable_name . '\');' ,
                 ];
             }
-
-
             if(
                 array_key_exists('is_multiline', $record) &&
                 $record['is_multiline'] === true
             ){
                 $data[] = 'if(' . $variable_uuid .' === null){';
-                $data[] = 'if(ob_get_level() >= 1){';
-                $data[] = 'ob_end_clean();';
-                $data[] =  '}';
-//                $data[] = 'ddd($data);';
                 $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) .'" on line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '. You can use modifier "default" to surpress it \');';
                 $data[] = '}';
             } else {
                 $data[] = 'if(' . $variable_uuid .' === null){';
-                $data[] = 'if(ob_get_level() >= 1){';
-                $data[] = 'ob_end_clean();';
-                $data[] =  '}';
-//                $data[] = 'ddd($data);';
                 $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) .'" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '. You can use modifier "default" to surpress it \');';
                 $data[] = '}';
             }
             $data[] = 'if(!is_scalar('. $variable_uuid. ')){';
             $data[] = '//array or object';
-            $data[] = 'if(ob_get_level() >= 1){';
-            $data[] = 'ob_end_clean();';
-            $data[] =  '}';
             $data[] = 'return ' . $variable_uuid .';';
             $data[] = '}';
             $data[] = 'elseif(is_bool('. $variable_uuid. ')){';
@@ -1906,6 +1880,7 @@ class Php {
             $data[] = '} else {';
             $data[] = 'echo '. $variable_uuid .';';
             $data[] = '}';
+            ddd($data);
             return $data;;
         }
         return false;

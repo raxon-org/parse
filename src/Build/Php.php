@@ -1855,7 +1855,7 @@ class Php {
                 $data[] = '}';
             } else {
                 $data[] = 'if(' . $variable_uuid .' === null){';
-                $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) .'" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.'.  PHP_EOL . 'You can use modifier "default" to surpress it \');';
+                $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) .'" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.' .  PHP_EOL . 'You can use modifier "default" to surpress it \');';
                 $data[] = '}';
             }
             $data[] = 'elseif(is_scalar('. $variable_uuid. ')){';

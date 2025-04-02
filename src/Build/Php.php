@@ -1226,6 +1226,9 @@ class Php {
                 $trait_name = $explode[0];
                 $trait_function = $explode[1];
                 $use_plugin = $trait_function;
+            } else {
+                d($use_package);
+                d($plugin);
             }
             if(!in_array($use_plugin, $use, true)){
                 $use[] = '\\' . $use_package  . 'Trait' . '\\' . $trait_name ;

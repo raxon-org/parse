@@ -1,1 +1,1 @@
-convert this markdown to plain markdown: ```json { "#program": "... 30 msec by default without user verify", "#user": "{{user.login('', '')}}", "#config": {}, "#parallel": [ ], "#output" : { "filter": "..." } }
+{ "#program": "... 30 msec by default without user verify", "#user": "{{user.login('', '')}}", "#config": {}, "#parallel": [ ], "#output" : { "filter": "..." } }

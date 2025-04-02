@@ -1893,6 +1893,8 @@ class Php {
                 $data[] = 'throw new TemplateException(\'Object to string conversion exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) .'" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.\');';
             }
             $data[] = '}';
+            d($before);
+            d($after);
             ddd($data);
             return $data;
         }

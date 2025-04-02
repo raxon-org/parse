@@ -1484,12 +1484,12 @@ class Php {
                     $record['is_double_quoted'] === true
                 ){
                     $uuid_variable = Core::uuid_variable();
-                    $storage = Core::uuid_variable();
-                    $parse = Core::uuid_variable();
-                    $before[] = $storage . '= new Data($data);';
-                    $before[] = $parse . ' = new Parse($object, '. $storage . ', $flags, $options);';
-                    $before[] = $uuid_variable . ' = '.  $parse . '->compile("' . $record['execute'] . '", $data, true);';
-//                    $before[] = $uuid_variable . ' = $parse->compile("' . $record['execute'] . '", $data);';
+//                    $storage = Core::uuid_variable();
+//                    $parse = Core::uuid_variable();
+//                    $before[] = $storage . '= new Data($data);';
+//                    $before[] = $parse . ' = new Parse($object, '. $storage . ', $flags, $options);';
+//                    $before[] = $uuid_variable . ' = '.  $parse . '->compile("' . $record['execute'] . '", $data, true);';
+                    $before[] = $uuid_variable . ' = $parse->compile("' . $record['execute'] . '", $data, true);';
                     $value .= '"'. $uuid_variable . '"';
                 } else {
                     d('not implemented');

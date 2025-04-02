@@ -209,6 +209,9 @@ class Parse
 
         $depth = $options->depth ?? null;
         $type = strtolower(gettype($input));
+        if($is_debug){
+            ddd($type);
+        }
         if(
             in_array(
                 $type,

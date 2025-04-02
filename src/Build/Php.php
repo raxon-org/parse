@@ -1486,7 +1486,7 @@ class Php {
                     $uuid_variable = Core::uuid_variable();
                     $parse = Core::uuid_variable();
                     $before[] = $parse . ' = new Parse($object, $flags, $options);';
-                    $before[] = $uuid_variable . ' = '.  $parse . '->compile(' . $record['value'] . ', $data);';
+                    $before[] = $uuid_variable . ' = '.  $parse . '->compile(' . $record['value'] . ', new Data($data));';
                     $value .= $uuid_variable;
                 } else {
                     d('not implemented');

@@ -1802,6 +1802,7 @@ class Php {
             foreach($before as $line){
                 $data[] = $line;
             }
+            $before = [];
             $data[] = 'try {';
             $data[] = $variable_uuid . ' = ' . $is_not . $value . ';';
             if(
@@ -1845,9 +1846,10 @@ class Php {
             $data[] = '} catch (Exception $exception) {'; //catch
             $data[] = 'throw $exception;';
             $data[] = '}';
-            d($data);
-            d($before);
-            ddd($after);
+            foreach($after as $line){
+                $data[] = $line;
+            }
+            $after = [];
             return $data;
         } else {
             $is_not = '';

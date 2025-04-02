@@ -1474,7 +1474,23 @@ class Php {
                 $record['type'] === 'method'
             ){
                 $value .= Php::method($object, $flags, $options, $record, $before, $after);
-            } else {
+            }
+            elseif(
+                array_key_exists('type', $record) &&
+                $record['type'] === 'string'
+            ){
+                if(
+                    array_key_exists('is_double_quoted', $record) &&
+                    $record['is_double_quoted'] === true
+                ){
+                    $value .= $record['value'];
+                } else {
+                    d('not implemented');
+                    ddd($record);
+                }
+            }
+            else {
+                d('not implemented');
                 ddd($record);
             }
         }

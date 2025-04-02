@@ -1871,14 +1871,27 @@ class Php {
                 $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) .'" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '. You can use modifier "default" to surpress it \');';
                 $data[] = '}';
             }
-            $data[] = 'if(!is_scalar('. $variable_uuid. ')){';
-            $data[] = '//array or object';
-            $data[] = 'return ' . $variable_uuid .';';
+            $data[] = 'if(is_scalar('. $variable_uuid. ')){';
+            $data[] = '$content[] =  '. $variable_uuid .';';
             $data[] = '}';
-            $data[] = 'elseif(is_bool('. $variable_uuid. ')){';
-            $data[] = 'return ' . $variable_uuid .';';
-            $data[] = '} else {';
-            $data[] = 'echo '. $variable_uuid .';';
+            $data[] = 'elseif(is_array('. $variable_uuid. ')){';
+            if (
+                array_key_exists('is_multiline', $record) &&
+                $record['is_multiline'] === true
+            ){
+                $data[] = 'throw new TemplateException(\'Array to string conversion exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) .'" on line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.\');';
+            } else {
+                $data[] = 'throw new TemplateException(\'Array to string conversion exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) .'" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.\');';
+            }
+            $data[] = 'elseif(is_object('. $variable_uuid. ')){';
+            if (
+                array_key_exists('is_multiline', $record) &&
+                $record['is_multiline'] === true
+            ){
+                $data[] = 'throw new TemplateException(\'Object to string conversion exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) .'" on line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.\');';
+            } else {
+                $data[] = 'throw new TemplateException(\'Object to string conversion exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) .'" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.\');';
+            }
             $data[] = '}';
             ddd($data);
             return $data;

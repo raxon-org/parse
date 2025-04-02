@@ -1800,7 +1800,7 @@ class Php {
             }
             $data = [];
             foreach($before as $line){
-                $data[] = $line . ';';
+                $data[] = $line;
             }
             $data[] = 'try {';
             $data[] = $variable_uuid . ' = ' . $is_not . $value . ';';

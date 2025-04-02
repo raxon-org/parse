@@ -408,7 +408,7 @@ class Parse
             property_exists($is_plugin, 'name_separator') &&
             property_exists($is_plugin, 'name_pop_or_shift')
         ){
-            $class = Autoload::name_reducer(
+            $options->class = Autoload::name_reducer(
                 $object,
                 $class . '_' . $options->hash,
                 $is_plugin->name_length,
@@ -491,19 +491,18 @@ class Parse
             require_once $url_php;
             $post_require = microtime(true);
             $run_options = clone $options;
-            $run_options->class = $class;
-            $run = $run_options->namespace . '\\' . $run_options->class;
-            $main = new $run($object, $this, $data, $flags, $run_options);
+            $run = $options->namespace . '\\' . $options->class;
+            $main = new $run($object, $this, $data, $flags, $options);
             $result = $main->run();
-            if(property_exists($run_options, 'duration')){
+            if(property_exists($options, 'duration')){
                 $microtime = microtime(true);
                 $duration_require = round(($post_require - $pre_require) * 1000, 2) . ' ms';
                 $duration_parse = round(($microtime - $post_require) * 1000, 2) . ' ms';
                 $duration_script = round(($microtime - $object->config('time.start')) * 1000, 2) . ' ms';
                 $microtime_explode = explode('.', $microtime);
                 $output = [
-                    'class' => $run_options->class,
-                    'namespace' => $run_options->namespace,
+                    'class' => $class,
+                    'namespace' => $options->namespace,
                     'duration' => [
                         'require' => $duration_require,
                         'parse' => $duration_parse,

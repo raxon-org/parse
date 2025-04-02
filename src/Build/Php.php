@@ -1489,7 +1489,7 @@ class Php {
 //                    $before[] = $storage . '= new Data($data);';
 //                    $before[] = $parse . ' = new Parse($object, '. $storage . ', $flags, $options);';
 //                    $before[] = $uuid_variable . ' = '.  $parse . '->compile(' . $record['execute'] . ', $data);';
-                    $before[] = $uuid_variable . ' = $parse->compile(' . $record['execute'] . ', $data);';
+                    $before[] = $uuid_variable . ' = $parse->compile("' . $record['execute'] . '", $data);';
                     $before[]= 'dd($uuid_variable);';
                     $value .= '"'. $uuid_variable . '"';
                 } else {

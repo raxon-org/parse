@@ -1222,9 +1222,11 @@ class Php {
                 '\\'
             ;
             $explode = explode(':', $explode[1], 2);
-            $trait_name = $explode[0];
-            $trait_function = $explode[1];
-            $use_plugin = $trait_function;
+            if(array_key_exists(1, $explode)){
+                $trait_name = $explode[0];
+                $trait_function = $explode[1];
+                $use_plugin = $trait_function;
+            }
             if(!in_array($use_plugin, $use, true)){
                 $use[] = '\\' . $use_package  . 'Trait' . '\\' . $trait_name ;
                 $use_trait_function[count($use) - 1] = $use_plugin;

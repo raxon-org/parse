@@ -1871,7 +1871,7 @@ class Php {
                 $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) .'" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '. You can use modifier "default" to surpress it \');';
                 $data[] = '}';
             }
-            $data[] = 'if(is_scalar('. $variable_uuid. ')){';
+            $data[] = 'elseif(is_scalar('. $variable_uuid. ')){';
             $data[] = '$content[] =  '. $variable_uuid .';';
             $data[] = '}';
             $data[] = 'elseif(is_array('. $variable_uuid. ')){';

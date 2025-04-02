@@ -1487,7 +1487,7 @@ class Php {
                     $storage = Core::uuid_variable();
                     $parse = Core::uuid_variable();
                     $before[] = $storage . '= new Data($data);';
-                    ddd($record['value']);
+                    ddd($record['execute']);
                     $before[] = $parse . ' = new Parse($object, '. $storage . ', $flags, $options);';
                     $before[] = $uuid_variable . ' = '.  $parse . '->compile(' . $record['value'] . ', $data);';
                     $before[]= 'dd($uuid_variable);';

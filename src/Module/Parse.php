@@ -495,15 +495,15 @@ class Parse
             $run = $run_options->namespace . '\\' . $run_options->class;
             $main = new $run($object, $this, $data, $flags, $run_options);
             $result = $main->run();
-            if(property_exists($options, 'duration')){
+            if(property_exists($run_options, 'duration')){
                 $microtime = microtime(true);
                 $duration_require = round(($post_require - $pre_require) * 1000, 2) . ' ms';
                 $duration_parse = round(($microtime - $post_require) * 1000, 2) . ' ms';
                 $duration_script = round(($microtime - $object->config('time.start')) * 1000, 2) . ' ms';
                 $microtime_explode = explode('.', $microtime);
                 $output = [
-                    'class' => $class,
-                    'namespace' => $options->namespace,
+                    'class' => $run_options->class,
+                    'namespace' => $run_options->namespace,
                     'duration' => [
                         'require' => $duration_require,
                         'parse' => $duration_parse,

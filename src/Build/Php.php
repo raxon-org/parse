@@ -1881,7 +1881,7 @@ class Php {
             $data[] = 'echo '. $variable_uuid .';';
             $data[] = '}';
             ddd($data);
-            return $data;;
+            return $data;
         }
         return false;
     }

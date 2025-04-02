@@ -209,9 +209,6 @@ class Parse
 
         $depth = $options->depth ?? null;
         $type = strtolower(gettype($input));
-        if($is_debug){
-            ddd($type);
-        }
         if(
             in_array(
                 $type,
@@ -372,6 +369,10 @@ class Parse
             }
         }
         $source = $options->source ?? 'source';
+        if($is_debug){
+            ddd($source);
+        }
+
         $object->config('package.raxon/parse.build.state.source.url', $source);
         $mtime = false;
         if(

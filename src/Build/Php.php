@@ -478,7 +478,9 @@ class Php {
                         ){
                             $variable = Php::variable_define($object, $flags, $options, $record);
                             if($variable){
-                                $data[] = $variable;
+                                foreach($variable as $line){
+                                    $data[] = $line;
+                                }
                             }
                         }
                     }

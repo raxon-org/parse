@@ -37,7 +37,7 @@ class Php {
             $use_class = [];
             $use_class[] = 'Raxon\App';
             $use_class[] = 'Raxon\Module\Data';
-            $use_class[] = 'Package\Raxon\Parse\Service\Parse';
+            $use_class[] = 'Package\Raxon\Parse\Module\Parse';
             $use_class[] = 'Plugin';
             $use_class[] = 'Exception';
             $use_class[] = 'Raxon\Exception\TemplateException';
@@ -168,7 +168,7 @@ class Php {
         $document[] = str_repeat(' ', $indent * 4) . '}';
         $document[] = str_repeat(' ', $indent * 4) . 'if (!($parse instanceof Parse)) {';
         $indent++;
-        $document[] = str_repeat(' ', $indent * 4) . 'throw new TemplateException(\'$parse is not an instance of Package\Raxon\Parse\Service\Parse\');';
+        $document[] = str_repeat(' ', $indent * 4) . 'throw new TemplateException(\'$parse is not an instance of Package\Raxon\Parse\Module\Parse\');';
         $indent--;
         $document[] = str_repeat(' ', $indent * 4) . '}';
         $document[] = str_repeat(' ', $indent * 4) . 'if (!($data instanceof Data)) {';
@@ -1489,7 +1489,7 @@ class Php {
 //                    $before[] = $storage . '= new Data($data);';
 //                    $before[] = $parse . ' = new Parse($object, '. $storage . ', $flags, $options);';
 //                    $before[] = $uuid_variable . ' = '.  $parse . '->compile(' . $record['execute'] . ', $data);';
-                    $before[] = $uuid_variable . ' = $parse->compile("' . $record['execute'] . '", $data);';
+//                    $before[] = $uuid_variable . ' = $parse->compile("' . $record['execute'] . '", $data);';
                     $before[]= 'dd($uuid_variable);';
                     $value .= '"'. $uuid_variable . '"';
                 } else {

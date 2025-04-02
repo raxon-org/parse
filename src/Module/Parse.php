@@ -382,10 +382,12 @@ class Parse
         }
         elseif(str_starts_with($source, 'internal_')){
             $mtime = $object->config('package.raxon/parse.build.state.source.mtime');
+
         }
 //        d($options->source);
         $object->config('package.raxon/parse.build.state.source.mtime', $mtime);
         $class = Parse::class_name($object, $object->config('package.raxon/parse.build.state.source.url'));
+        d($class);
         $cache_url = false;
         $is_plugin = false;
         $is_cache_url = false;

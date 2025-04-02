@@ -490,8 +490,10 @@ class Parse
             $pre_require = microtime(true);
             require_once $url_php;
             $post_require = microtime(true);
-            $run = $options->namespace . '\\' . $options->class;
-            $main = new $run($object, $this, $data, $flags, $options);
+            $run_options = clone $options;
+            $run_options->class = $class;
+            $run = $run_options->namespace . '\\' . $run_options->class;
+            $main = new $run($object, $this, $data, $flags, $run_options);
             $result = $main->run();
             if(property_exists($options, 'duration')){
                 $microtime = microtime(true);

@@ -1483,7 +1483,9 @@ class Php {
                     array_key_exists('is_double_quoted', $record) &&
                     $record['is_double_quoted'] === true
                 ){
-                    $value .= '$content[] = $parse->compile(' . $record['value'] . ');';
+                    $uuid_variable = Core::uuid_variable();
+                    $before[] = $uuid_variable . ' = $parse->compile(' . $record['value'] . ');';
+                    $value .= $uuid_variable;
                 } else {
                     d('not implemented');
                     ddd($record);

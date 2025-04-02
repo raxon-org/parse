@@ -1870,6 +1870,7 @@ class Php {
             } else {
                 $data[] = 'throw new TemplateException(\'Array to string conversion exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) .'" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.\');';
             }
+            $data[] = '}';
             $data[] = 'elseif(is_object('. $variable_uuid. ')){';
             if (
                 array_key_exists('is_multiline', $record) &&

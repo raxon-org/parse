@@ -450,7 +450,30 @@ class Php {
                         $record['marker']['is_close'] === true
                     ){
                         if($for_depth === 1){
-                            ddd($content);
+                            $for_before = [];
+                            $for_after = [];
+                            $for_data = [];
+                            $for_data[] = Php::method($object, $flags, $options, $content['for']['statement'], $before, $after) . '{';
+                            if(!empty($before)){
+                                foreach($before as $line){
+                                    $for_before[] = $line;
+                                }
+                                $before = [];
+                            }
+                            if(!empty($after)){
+                                foreach($after as $line){
+                                    $for_after[] = $line;
+                                }
+                                $before = [];
+                            }
+                            $object->config('package.raxon/parse.build.state.remove_newline_next', true);
+                            $for_content = PHP::document_tag($object, $flags, $options, $content['for']['content']);
+                            foreach($for_content as $line){
+                                $for_data[] = $line;
+                            }
+                            $for_data[] = '}';
+
+                            ddd($for_data);
                         }
                         $for_depth--;
 

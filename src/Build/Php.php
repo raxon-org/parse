@@ -1511,6 +1511,7 @@ class Php {
                 array_key_exists('type', $record) &&
                 $record['type'] === 'variable'
             ){
+                d($record);
                 $uuid_variable = Core::uuid_variable();
                 $before[] = $uuid_variable . ' = $data->get(\'' . $record['name'] . '\');';
                 $value .= $uuid_variable;

@@ -1006,7 +1006,7 @@ class Php {
                             if(mb_strtolower($value) === 'null'){
                                 $value = '';
                             }
-                            $method_value[] = $value . ';';
+                            $method_value[] = $value;
                         }
                         $method_value[2] = substr($method_value[2], 0, -1);
                         $before[] = $method_value[0];
@@ -1047,11 +1047,10 @@ class Php {
                             );
                         }
                     }
-                    ddd($method_value);
+                    $method_value = 'for(' . implode(';', $method_value);
                 } else {
                     $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
                 }
-
                 $method_value .= ')';
                 return $method_value;
             } else {

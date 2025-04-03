@@ -1008,6 +1008,7 @@ class Php {
                             }
                             $method_value[] = $value . ';';
                         }
+                        d($before);
                         ddd($method_value);
                         $method_value[3] = substr($method_value[3], 0, -1);
                         $is_argument = true;

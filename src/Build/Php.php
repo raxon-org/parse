@@ -2366,6 +2366,7 @@ class Php {
             $result = $before;
             if($value !== ''){
                 $try_catch = $object->config('package.raxon/parse.build.state.try_catch');
+                $separator = $object->config('package.raxon/parse.build.state.separator');
                 if($try_catch !== false){
                     $result[] = 'try {';
                     foreach($before_value as $before_record){
@@ -2374,13 +2375,19 @@ class Php {
                 }
                 switch($operator){
                     case '=' :
-                        $result[] = '$data->set(' .
+                        $item = '$data->set(' .
                             '\'' .
                             $variable_name .
                             '\', ' .
                             $value .
-                            ');'
+                            ')'
                         ;
+                        if($separator !== null){
+                            $item .= $separator;
+                        } else {
+                            $item .= ';';
+                        }
+                        $result[] = $item;
                         if($try_catch !== false){
                             foreach($after_value as $after_record){
                                 if(!is_array($after_record)){
@@ -2400,7 +2407,7 @@ class Php {
                         }
                         break;
                     case '.=' :
-                        $result[] = '$data->set(' .
+                        $item = '$data->set(' .
                             '\'' .
                             $variable_name .
                             '\', ' .
@@ -2411,8 +2418,14 @@ class Php {
                             '\'), ' .
                             $value .
                             ')' .
-                            ');'
+                            ')'
                         ;
+                        if($separator !== null){
+                            $item .= $separator;
+                        } else {
+                            $item .= ';';
+                        }
+                        $result[] = $item;
                         if($try_catch !== false) {
                             foreach ($after_value as $after_record) {
                                 if (!is_array($after_record)) {
@@ -2432,7 +2445,7 @@ class Php {
                         }
                         break;
                     case '+=' :
-                        $result[] = '$data->set(' .
+                        $item = '$data->set(' .
                             '\'' .
                             $variable_name .
                             '\', ' .
@@ -2443,8 +2456,14 @@ class Php {
                             '\'), ' .
                             $value .
                             ')' .
-                            ');'
+                            ')'
                         ;
+                        if($separator !== null){
+                            $item .= $separator;
+                        } else {
+                            $item .= ';';
+                        }
+                        $result[] = $item;
                         if($try_catch !== false){
                             foreach($after_value as $after_record){
                                 if(!is_array($after_record)){
@@ -2462,7 +2481,6 @@ class Php {
                             }
                             $result[] = '}';
                         }
-
                         break;
                     case '-=' :
                         $result[] = '$data->set('.
@@ -2503,7 +2521,7 @@ class Php {
                         }
                         break;
                     case '*=' :
-                        $result[] = '$data->set('.
+                        $item = '$data->set('.
                             '\'' .
                             $variable_name .
                             '\', ' .
@@ -2514,8 +2532,14 @@ class Php {
                             '\'), ' .
                             $value .
                             ')'.
-                            ');'
+                            ')'
                         ;
+                        if($separator !== null){
+                            $item .= $separator;
+                        } else {
+                            $item .= ';';
+                        }
+                        $result[] = $item;
                         if($try_catch !== false){
                             foreach($after_value as $after_record){
                                 if(!is_array($after_record)){
@@ -2539,13 +2563,31 @@ class Php {
             } else {
                 switch($operator){
                     case '++' :
-                        $result = '$data->set(\'' . $variable_name . '\', ' .  '$this->value_plus_plus($data->data(\'' . $variable_name . '\')));';
+                        $item = '$data->set(\'' . $variable_name . '\', ' .  '$this->value_plus_plus($data->data(\'' . $variable_name . '\')))';
+                        if($separator !== null){
+                            $item .= $separator;
+                        } else {
+                            $item .= ';';
+                        }
+                        $result = $item;
                         break;
                     case '--' :
-                        $result = '$data->set(\'' . $variable_name . '\', ' .  '$this->value_minus_minus($data->data(\'' . $variable_name . '\')));';
+                        $item = '$data->set(\'' . $variable_name . '\', ' .  '$this->value_minus_minus($data->data(\'' . $variable_name . '\')))';
+                        if($separator !== null){
+                            $item .= $separator;
+                        } else {
+                            $item .= ';';
+                        }
+                        $result = $item;
                         break;
                     case '**' :
-                        $result = '$data->set(\'' . $variable_name . '\', ' .  '$this->value_multiply_multiply($data->data(\'' . $variable_name . '\')));';
+                        $item = '$data->set(\'' . $variable_name . '\', ' .  '$this->value_multiply_multiply($data->data(\'' . $variable_name . '\')))';
+                        if($separator !== null){
+                            $item .= $separator;
+                        } else {
+                            $item .= ';';
+                        }
+                        $result = $item;
                         break;
                 }
             }

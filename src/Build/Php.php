@@ -462,6 +462,7 @@ class Php {
                                 $object->config('package.raxon/parse.build.state.separator', $separator);
                             }
                             if(!empty($before)){
+                                d($before);
                                 foreach($before as $line){
                                     $for_before[] = $line;
                                 }

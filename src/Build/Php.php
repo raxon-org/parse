@@ -1548,11 +1548,6 @@ class Php {
                     $separator = $object->config('package.raxon/parse.build.state.separator');
                     if($try_catch === false){
                         $value = '$data->get(\'' . $record['name'] . '\')';
-                        if($separator===null){
-                            $value .= ';';
-                        } else {
-//                            $value .= $separator;
-                        }
                     } else {
                         $before[] = $uuid_variable . ' = $data->get(\'' . $record['name'] . '\');';
                         $value .= $uuid_variable;

@@ -903,7 +903,8 @@ class Php {
                         'if',
                         'elseif',
                         'else_if',
-                        'else.if'
+                        'else.if',
+                        'for'
                     ],
                     true
                 )

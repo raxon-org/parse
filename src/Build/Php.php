@@ -473,6 +473,7 @@ class Php {
                             }
                             $for_data[] = '}';
 
+                            d($for_before);
                             ddd($for_data);
                         }
                         $for_depth--;

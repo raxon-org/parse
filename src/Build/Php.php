@@ -996,7 +996,60 @@ class Php {
                 } else {
                     $method_value = $record['method']['name']  . '(';
                 }
-                $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
+                if($record['method']['name'] === 'for'){
+                    $method_value = [];
+                    $is_argument = false;
+                    $argument_count = count($record['method']['argument']);
+                    if($argument_count === 3){
+                        foreach($record['method']['argument'] as $nr => $argument){
+                            $value = Php::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
+                            if(mb_strtolower($value) === 'null'){
+                                $value = '';
+                            }
+                            $method_value[] = $value . ';';
+                        }
+                        $method_value[3] = substr($method_value[3], 0, -1);
+                        $is_argument = true;
+                    }
+                    if($is_argument === false) {
+                        if (
+                            array_key_exists('is_multiline', $record) &&
+                            $record['is_multiline'] === true
+                        ) {
+                            throw new TemplateException(
+                                $record['tag'] .
+                                PHP_EOL .
+                                'Invalid argument for {{for()}}' .
+                                PHP_EOL .
+                                'On line: ' .
+                                $record['line']['start'] .
+                                ', column: ' .
+                                $record['column'][$record['line']['start']]['start'] .
+                                ' in source: ' .
+                                $source .
+                                '.'
+                            );
+                        } else {
+                            throw new TemplateException(
+                                $record['tag'] .
+                                PHP_EOL .
+                                'Invalid argument for {{for()}}' .
+                                PHP_EOL .
+                                'On line: ' .
+                                $record['line'] .
+                                ', column: ' .
+                                $record['column']['start'] .
+                                ' in source: ' .
+                                $source .
+                                '.'
+                            );
+                        }
+                    }
+                    ddd($method_value);
+                } else {
+                    $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
+                }
+
                 $method_value .= ')';
                 return $method_value;
             } else {

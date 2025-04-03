@@ -454,7 +454,8 @@ class Php {
                             $for_after = [];
                             $for_data = [];
                             $separator = $object->config('package.raxon/parse.build.state.separator');
-                            $object->config('package.raxon/parse.build.state.separator', ',');
+                            $separator_uuid = Core::uuid();
+                            $object->config('package.raxon/parse.build.state.separator', $separator_uuid);
                             $for_data[] = Php::method($object, $flags, $options, $content['for']['statement'], $before, $after) . '{';
                             if($separator === null){
                                 $object->config('delete', 'package.raxon/parse.build.state.separator');

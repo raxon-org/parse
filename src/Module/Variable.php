@@ -132,6 +132,8 @@ class Variable
                                             true
                                         )
                                     ){
+                                        d($input);
+                                        d($char);
                                         $variable = [
                                             'is_assign' => true,
                                             'operator' => $char['value'],

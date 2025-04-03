@@ -1521,6 +1521,7 @@ class Php {
                     array_key_exists('is_assign', $record['variable']) &&
                     $record['variable']['is_assign'] === true
                 ){
+                    ddd($record);
                     $value = Php::variable_assign($object, $flags, $options, $record, $before, $after);
                     d($before);
                     ddd($value);

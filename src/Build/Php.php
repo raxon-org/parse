@@ -227,6 +227,7 @@ class Php {
         $elseif_count = 0;
         $else = false;
         $if_method = 'if';
+        $for_depth = 0;
         $content = [];
         $remove_newline_next = $object->config('package.raxon/parse.build.state.remove_newline_next');
         foreach ($tags as $row_nr => $list) {
@@ -319,7 +320,32 @@ class Php {
                             continue;
                         }
                     }
+                    elseif(
+                        $record['method']['name'] === 'for'
+                    ){
+                        $for_depth++;
+                        if($for_depth === 1){
+                            if(!array_key_exists('for', $content)){
+                                $content['for'] = [];
+                            }
+                            if(!array_key_exists('statement', $content['for'])){
+                                $content['for']['statement'] = $record;
+                                continue;
+                            }
+                        }
+                        elseif($for_depth > 1){
+                            if(!array_key_exists('content', $content['for'])){
+                                $content['for']['content'] = [];
+                            }
+                            if(!array_key_exists($row_nr, $content['for']['content'])){
+                                $content['for']['content'][$row_nr] = [];
+                            }
+                            $content['for']['content'][$row_nr][] = $record;
+                            continue;
+                        }
+                    }
                     $record['if_depth'] = $if_depth;
+                    $record['for_depth'] = $for_depth;
                 }
                 elseif(
                     array_key_exists('marker', $record) &&
@@ -418,8 +444,20 @@ class Php {
                         }
                         $if_depth--;
                     }
+                    elseif(
+                        $record['marker']['name'] === 'for' &&
+                        array_key_exists('is_close', $record['marker']) &&
+                        $record['marker']['is_close'] === true
+                    ){
+                        if($for_depth === 1){
+                            ddd($content);
+                        }
+                        $for_depth--;
+
+                    }
                 } else {
                     $record['if_depth'] = $if_depth;
+                    $record['for_depth'] = $for_depth;
                 }
                 if($record['if_depth'] >= 1){
                     if(in_array($if_method, ['if', 'else'], true)){
@@ -449,6 +487,18 @@ class Php {
                         }
                         $content[$if_method][$elseif_count-1]['content'][$row_nr][] = $record;
                     }
+                }
+                elseif($record['for_depth'] >= 1){
+                    if(!array_key_exists('for', $content)){
+                        $content['for'] = [];
+                    }
+                    if(!array_key_exists('content', $content['for'])){
+                        $content[$if_method]['content'] = [];
+                    }
+                    if(!array_key_exists($row_nr, $content['for']['content'])){
+                        $content[$if_method]['content'][$row_nr] = [];
+                    }
+                    $content[$if_method]['content'][$row_nr][] = $record;
                 } else {
                     if(array_key_exists('text', $record)){
                         if($remove_newline_next === true){

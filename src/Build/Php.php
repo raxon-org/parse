@@ -482,11 +482,18 @@ class Php {
                             }
                             $for_data[] = '}';
 
-                            d($for_before);
-                            ddd($for_data);
+                            foreach($for_before as $line){
+                                $data[] = $line;
+                            }
+                            foreach($for_data as $line){
+                                $data[] = $line;
+                            }
+                            foreach($for_after as $line){
+                                $data[] = $line;
+                            }
+                            $content = [];
                         }
                         $for_depth--;
-
                     }
                 } else {
                     $record['if_depth'] = $if_depth;

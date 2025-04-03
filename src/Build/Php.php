@@ -1544,12 +1544,7 @@ class Php {
                     $value .= Php::variable_assign($object, $flags, $options, $record, $before, $after);
                 } else {
                     $uuid_variable = Core::uuid_variable();
-                    $separator = $object->config('package.raxon/parse.build.state.separator');
-                    if($separator === null){
-                        $before[] = $uuid_variable . ' = $data->get(\'' . $record['name'] . '\');';
-                    } else {
-                        $before[] = $uuid_variable . ' = $data->get(\'' . $record['name'] . '\')' . $separator;
-                    }
+                    $before[] = $uuid_variable . ' = $data->get(\'' . $record['name'] . '\');';
                     $value .= $uuid_variable;
                 }
             }

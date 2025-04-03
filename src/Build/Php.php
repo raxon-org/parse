@@ -1010,17 +1010,33 @@ class Php {
                     $is_argument = false;
                     $argument_count = count($record['method']['argument']);
                     $try_catch = $object->config('package.raxon/parse.build.state.try_catch');
+                    $separator_uuid = Core::uuid();
+                    $separator = $object->config('package.raxon/parse.build.state.separator');
+                    $object->config('package.raxon/parse.build.state.separator', $separator_uuid);
+                    $before_for = [];
+                    $after_for = [];
                     if($argument_count === 3){
                         foreach($record['method']['argument'] as $nr => $argument){
                             $object->config('package.raxon/parse.build.state.try_catch', false);
-                            $value = Php::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
+                            $value = Php::value($object, $flags, $options, $record, $argument, $is_set, $before_for, $after_for);
                             if(mb_strtolower($value) === 'null'){
                                 $value = '';
                             }
                             $method_value[] = $value;
                         }
+                        if($separator === null){
+                            $object->config('delete', 'package.raxon/parse.build.state.separator');
+                        } else {
+                            $object->config('package.raxon/parse.build.state.separator', $separator);
+                        }
                         $method_value[2] = substr($method_value[2], 0, -1);
-//                        $before[] = $method_value[0];
+                        $before[] = str_replace($separator_uuid, ';', $method_value[0]);
+                        foreach($before_for as $line){
+                            $before[] = str_replace($separator_uuid, ';', $line);
+                        }
+                        foreach($after_for as $line){
+                            $after[] = str_replace($separator_uuid, ';', $line);
+                        }
                         $method_value[0] = null;
                         $is_argument = true;
                     }
@@ -1029,7 +1045,6 @@ class Php {
                     } else {
                         $object->config('package.raxon/parse.build.state.try_catch', $try_catch);
                     }
-
                     if($is_argument === false) {
                         if (
                             array_key_exists('is_multiline', $record) &&
@@ -1065,6 +1080,11 @@ class Php {
                         }
                     }
                     $method_value = 'for(' . implode(';', $method_value);
+                    if($separator === null){
+                        $object->config('delete', 'package.raxon/parse.build.state.separator');
+                    } else {
+                        $object->config('package.raxon/parse.build.state.separator', $separator);
+                    }
                 } else {
                     $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
                 }

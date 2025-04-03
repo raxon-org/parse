@@ -456,7 +456,11 @@ class Php {
                             $separator = $object->config('package.raxon/parse.build.state.separator');
                             $object->config('package.raxon/parse.build.state.separator', ',');
                             $for_data[] = Php::method($object, $flags, $options, $content['for']['statement'], $before, $after) . '{';
-                            $object->config('package.raxon/parse.build.state.separator', $separator);
+                            if($separator === null){
+                                $object->config('delete', 'package.raxon/parse.build.state.separator');
+                            } else {
+                                $object->config('package.raxon/parse.build.state.separator', $separator);
+                            }
                             if(!empty($before)){
                                 foreach($before as $line){
                                     $for_before[] = $line;
@@ -1018,7 +1022,12 @@ class Php {
                         $method_value[0] = null;
                         $is_argument = true;
                     }
-                    $object->config('package.raxon/parse.build.state.try_catch', $try_catch);
+                    if($try_catch === null){
+                        $object->config('delete', 'package.raxon/parse.build.state.try_catch');
+                    } else {
+                        $object->config('package.raxon/parse.build.state.try_catch', $try_catch);
+                    }
+
                     if($is_argument === false) {
                         if (
                             array_key_exists('is_multiline', $record) &&

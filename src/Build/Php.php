@@ -1551,7 +1551,7 @@ class Php {
                         if($separator===null){
                             $value .= ';';
                         } else {
-                            $value .= $separator;
+//                            $value .= $separator;
                         }
                     } else {
                         $before[] = $uuid_variable . ' = $data->get(\'' . $record['name'] . '\');';

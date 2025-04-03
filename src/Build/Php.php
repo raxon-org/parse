@@ -1011,7 +1011,9 @@ class Php {
                     if($argument_count === 3){
                         foreach($record['method']['argument'] as $nr => $argument){
                             $object->config('package.raxon/parse.build.state.try_catch', false);
+                            $object->config('package.raxon/parse.build.state.separator', ',');
                             $value = Php::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
+                            $object->config('delete', 'package.raxon/parse.build.state.separator');
                             if(mb_strtolower($value) === 'null'){
                                 $value = '';
                             }

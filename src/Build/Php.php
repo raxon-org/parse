@@ -1521,6 +1521,10 @@ class Php {
                     array_key_exists('is_assign', $record['variable']) &&
                     $record['variable']['is_assign'] === true
                 ){
+//                    $record['line'] =
+//                    $record['column']['start']
+//                    $record['column']['end']
+                    d($input);
                     ddd($record);
                     $value = Php::variable_assign($object, $flags, $options, $record, $before, $after);
                     d($before);

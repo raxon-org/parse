@@ -1484,6 +1484,7 @@ class Php {
                     array_key_exists('is_double_quoted', $record) &&
                     $record['is_double_quoted'] === true
                 ){
+                    //double_quoted_string needs to be simplified in the tokenizer als just a double quoted string instead of tokenized
                     $uuid_variable = Core::uuid_variable();
                     $uuid_storage = Core::uuid_variable();
                     $uuid_parse = Core::uuid_variable();
@@ -1500,6 +1501,12 @@ class Php {
                     d('not implemented');
                     ddd($record);
                 }
+            }
+            elseif(
+                array_key_exists('value', $record) &&
+                $record['value'] === ','
+            ){
+
             }
             else {
                 d('not implemented');

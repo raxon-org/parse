@@ -1517,6 +1517,7 @@ class Php {
                 array_key_exists('type', $record) &&
                 $record['type'] === 'variable'
             ){
+                trace();
                 d($record);
                 if(
                     array_key_exists('is_assign', $record['variable']) &&

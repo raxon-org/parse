@@ -1008,9 +1008,9 @@ class Php {
                             }
                             $method_value[] = $value . ';';
                         }
-                        d($before);
-                        ddd($method_value);
-                        $method_value[3] = substr($method_value[3], 0, -1);
+                        $method_value[2] = substr($method_value[2], 0, -1);
+                        $before[] = $method_value[0];
+                        $method_value[0] = null;
                         $is_argument = true;
                     }
                     if($is_argument === false) {
@@ -1028,7 +1028,7 @@ class Php {
                                 ', column: ' .
                                 $record['column'][$record['line']['start']]['start'] .
                                 ' in source: ' .
-                                $source .
+                                $options->source .
                                 '.'
                             );
                         } else {
@@ -1042,7 +1042,7 @@ class Php {
                                 ', column: ' .
                                 $record['column']['start'] .
                                 ' in source: ' .
-                                $source .
+                                $options->source .
                                 '.'
                             );
                         }

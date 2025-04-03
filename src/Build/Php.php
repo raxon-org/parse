@@ -2642,7 +2642,10 @@ class Php {
                 }
             }
             try {
-                Validator::validate($object, $flags, $options, $result_validator);
+                $try_catch = $object->config('package.raxon/parse.build.state.try_catch');
+                if($try_catch !== false){
+                    Validator::validate($object, $flags, $options, $result_validator);
+                }
             }
             catch(Exception $exception){
                 if(

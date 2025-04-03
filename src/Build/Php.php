@@ -453,7 +453,10 @@ class Php {
                             $for_before = [];
                             $for_after = [];
                             $for_data = [];
+                            $separator = $object->config('package.raxon/parse.build.state.separator');
+                            $object->config('package.raxon/parse.build.state.separator', ',');
                             $for_data[] = Php::method($object, $flags, $options, $content['for']['statement'], $before, $after) . '{';
+                            $object->config('package.raxon/parse.build.state.separator', $separator);
                             if(!empty($before)){
                                 foreach($before as $line){
                                     $for_before[] = $line;

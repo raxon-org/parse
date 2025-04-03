@@ -1000,8 +1000,10 @@ class Php {
                     $method_value = [];
                     $is_argument = false;
                     $argument_count = count($record['method']['argument']);
+                    $try_catch = $object->config('package.raxon/parse.build.state.try_catch');
                     if($argument_count === 3){
                         foreach($record['method']['argument'] as $nr => $argument){
+                            $object->config('package.raxon/parse.build.state.try_catch', false);
                             $value = Php::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
                             if(mb_strtolower($value) === 'null'){
                                 $value = '';
@@ -1013,6 +1015,7 @@ class Php {
                         $method_value[0] = null;
                         $is_argument = true;
                     }
+                    $object->config('package.raxon/parse.build.state.try_catch', $try_catch);
                     if($is_argument === false) {
                         if (
                             array_key_exists('is_multiline', $record) &&
@@ -2362,9 +2365,12 @@ class Php {
         ){
             $result = $before;
             if($value !== ''){
-                $result[] = 'try {';
-                foreach($before_value as $before_record){
-                    $result[] = $before_record;
+                $try_catch = $object->config('package.raxon/parse.build.state.try_catch');
+                if($try_catch !== false){
+                    $result[] = 'try {';
+                    foreach($before_value as $before_record){
+                        $result[] = $before_record;
+                    }
                 }
                 switch($operator){
                     case '=' :
@@ -2375,21 +2381,23 @@ class Php {
                             $value .
                             ');'
                         ;
-                        foreach($after_value as $after_record){
-                            if(!is_array($after_record)){
-                                $result[] = $after_record;
+                        if($try_catch !== false){
+                            foreach($after_value as $after_record){
+                                if(!is_array($after_record)){
+                                    $result[] = $after_record;
+                                }
                             }
+                            $result[] = '} catch(ErrorException | Error | Exception $exception){';
+                            if(
+                                array_key_exists('is_multiline', $record) &&
+                                $record['is_multiline'] === true
+                            ){
+                                $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '\', 0, $exception);';
+                            } else {
+                                $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\', 0, $exception);';
+                            }
+                            $result[] = '}';
                         }
-                        $result[] = '} catch(ErrorException | Error | Exception $exception){';
-                        if(
-                            array_key_exists('is_multiline', $record) &&
-                            $record['is_multiline'] === true
-                        ){
-                            $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '\', 0, $exception);';
-                        } else {
-                            $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\', 0, $exception);';
-                        }
-                        $result[] = '}';
                         break;
                     case '.=' :
                         $result[] = '$data->set(' .
@@ -2405,21 +2413,23 @@ class Php {
                             ')' .
                             ');'
                         ;
-                        foreach($after_value as $after_record){
-                            if(!is_array($after_record)){
-                                $result[] = $after_record;
+                        if($try_catch !== false) {
+                            foreach ($after_value as $after_record) {
+                                if (!is_array($after_record)) {
+                                    $result[] = $after_record;
+                                }
                             }
+                            $result[] = '} catch(ErrorException | Error | Exception $exception){';
+                            if (
+                                array_key_exists('is_multiline', $record) &&
+                                $record['is_multiline'] === true
+                            ) {
+                                $result[] = 'throw new TemplateException(\'' . str_replace(['\\', '\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start'] . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: ' . $source . '\', 0, $exception);';
+                            } else {
+                                $result[] = 'throw new TemplateException(\'' . str_replace(['\\', '\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line'] . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\', 0, $exception);';
+                            }
+                            $result[] = '}';
                         }
-                        $result[] = '} catch(ErrorException | Error | Exception $exception){';
-                        if(
-                            array_key_exists('is_multiline', $record) &&
-                            $record['is_multiline'] === true
-                        ){
-                            $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '\', 0, $exception);';
-                        } else {
-                            $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\', 0, $exception);';
-                        }
-                        $result[] = '}';
                         break;
                     case '+=' :
                         $result[] = '$data->set(' .
@@ -2435,21 +2445,24 @@ class Php {
                             ')' .
                             ');'
                         ;
-                        foreach($after_value as $after_record){
-                            if(!is_array($after_record)){
-                                $result[] = $after_record;
+                        if($try_catch !== false){
+                            foreach($after_value as $after_record){
+                                if(!is_array($after_record)){
+                                    $result[] = $after_record;
+                                }
                             }
+                            $result[] = '} catch(ErrorException | Error | Exception $exception){';
+                            if(
+                                array_key_exists('is_multiline', $record) &&
+                                $record['is_multiline'] === true
+                            ){
+                                $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '\', 0, $exception);';
+                            } else {
+                                $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\', 0, $exception);';
+                            }
+                            $result[] = '}';
                         }
-                        $result[] = '} catch(ErrorException | Error | Exception $exception){';
-                        if(
-                            array_key_exists('is_multiline', $record) &&
-                            $record['is_multiline'] === true
-                        ){
-                            $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '\', 0, $exception);';
-                        } else {
-                            $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\', 0, $exception);';
-                        }
-                        $result[] = '}';
+
                         break;
                     case '-=' :
                         $result[] = '$data->set('.
@@ -2465,27 +2478,29 @@ class Php {
                             ')'.
                             ');'
                         ;
-                        foreach($after_value as $after_record){
-                            if(!is_array($after_record)){
-                                $result[] = $after_record;
+                        if($try_catch !== false){
+                            foreach($after_value as $after_record){
+                                if(!is_array($after_record)){
+                                    $result[] = $after_record;
+                                }
                             }
-                        }
-                        $result[] = '} catch(ErrorException | Error | Exception $exception){';
-                        if(
-                            array_key_exists('is_multiline', $record) &&
-                            $record['is_multiline'] === true
-                        ){
-                            $result[] = 'if(ob_get_level() >= 1){';
-                            $result[] = 'ob_get_clean();';
+                            $result[] = '} catch(ErrorException | Error | Exception $exception){';
+                            if(
+                                array_key_exists('is_multiline', $record) &&
+                                $record['is_multiline'] === true
+                            ){
+                                $result[] = 'if(ob_get_level() >= 1){';
+                                $result[] = 'ob_get_clean();';
+                                $result[] = '}';
+                                $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '\', 0, $exception);';
+                            } else {
+                                $result[] = 'if(ob_get_level() >= 1){';
+                                $result[] = 'ob_get_clean();';
+                                $result[] = '}';
+                                $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\', 0, $exception);';
+                            }
                             $result[] = '}';
-                            $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '\', 0, $exception);';
-                        } else {
-                            $result[] = 'if(ob_get_level() >= 1){';
-                            $result[] = 'ob_get_clean();';
-                            $result[] = '}';
-                            $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\', 0, $exception);';
                         }
-                        $result[] = '}';
                         break;
                     case '*=' :
                         $result[] = '$data->set('.
@@ -2501,21 +2516,23 @@ class Php {
                             ')'.
                             ');'
                         ;
-                        foreach($after_value as $after_record){
-                            if(!is_array($after_record)){
-                                $result[] = $after_record;
+                        if($try_catch !== false){
+                            foreach($after_value as $after_record){
+                                if(!is_array($after_record)){
+                                    $result[] = $after_record;
+                                }
                             }
+                            $result[] = '} catch(ErrorException | Error | Exception $exception){';
+                            if(
+                                array_key_exists('is_multiline', $record) &&
+                                $record['is_multiline'] === true
+                            ){
+                                $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '\', 0, $exception);';
+                            } else {
+                                $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\', 0, $exception);';
+                            }
+                            $result[] = '}';
                         }
-                        $result[] = '} catch(ErrorException | Error | Exception $exception){';
-                        if(
-                            array_key_exists('is_multiline', $record) &&
-                            $record['is_multiline'] === true
-                        ){
-                            $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '\', 0, $exception);';
-                        } else {
-                            $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\', 0, $exception);';
-                        }
-                        $result[] = '}';
                         break;
                 }
                 $result = implode(PHP_EOL, $result);

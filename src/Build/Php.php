@@ -1524,9 +1524,7 @@ class Php {
                     $record['line'] = $tag['line'] ?? 'unknown';
                     $record['length'] = $tag['length'] ?? 'unknown';
                     $record['column'] = $tag['column'] ?? ['start' => 'unknown', 'end' => 'unknown'];
-                    $value = Php::variable_assign($object, $flags, $options, $record, $before, $after);
-                    d($before);
-                    ddd($value);
+                    $value .= Php::variable_assign($object, $flags, $options, $record, $before, $after);
                 } else {
                     $uuid_variable = Core::uuid_variable();
                     $before[] = $uuid_variable . ' = $data->get(\'' . $record['name'] . '\');';

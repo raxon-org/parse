@@ -2378,6 +2378,7 @@ class Php {
             $operator !== ''
         ){
             $result = $before;
+            $result_validator = $before;
             if($value !== ''){
                 if($try_catch !== false){
                     $result[] = 'try {';
@@ -2394,6 +2395,8 @@ class Php {
                             $value .
                             ')'
                         ;
+                        $item_validator = $item  . ';';
+                        $result_validator[] = $item_validator;
                         if($separator !== null){
                             $item .= $separator;
                         } else {
@@ -2432,6 +2435,8 @@ class Php {
                             ')' .
                             ')'
                         ;
+                        $item_validator = $item  . ';';
+                        $result_validator[] = $item_validator;
                         if($separator !== null){
                             $item .= $separator;
                         } else {
@@ -2470,6 +2475,8 @@ class Php {
                             ')' .
                             ')'
                         ;
+                        $item_validator = $item  . ';';
+                        $result_validator[] = $item_validator;
                         if($separator !== null){
                             $item .= $separator;
                         } else {
@@ -2495,7 +2502,7 @@ class Php {
                         }
                         break;
                     case '-=' :
-                        $result[] = '$data->set('.
+                        $item = '$data->set('.
                             '\'' .
                             $variable_name .
                             '\', ' .
@@ -2506,8 +2513,16 @@ class Php {
                             '\'), ' .
                             $value .
                             ')'.
-                            ');'
+                            ')'
                         ;
+                        $item_validator = $item  . ';';
+                        $result_validator[] = $item_validator;
+                        if($separator !== null){
+                            $item .= $separator;
+                        } else {
+                            $item .= ';';
+                        }
+                        $result[] = $item;
                         if($try_catch !== false){
                             foreach($after_value as $after_record){
                                 if(!is_array($after_record)){
@@ -2546,6 +2561,8 @@ class Php {
                             ')'.
                             ')'
                         ;
+                        $item_validator = $item  . ';';
+                        $result_validator[] = $item_validator;
                         if($separator !== null){
                             $item .= $separator;
                         } else {
@@ -2559,23 +2576,29 @@ class Php {
                                 }
                             }
                             $result[] = '} catch(ErrorException | Error | Exception $exception){';
+                            $result_validator[] = '} catch(ErrorException | Error | Exception $exception){';
                             if(
                                 array_key_exists('is_multiline', $record) &&
                                 $record['is_multiline'] === true
                             ){
                                 $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '\', 0, $exception);';
+                                $result_validator[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '\', 0, $exception);';
                             } else {
                                 $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\', 0, $exception);';
+                                $result_validator[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\', 0, $exception);';
                             }
                             $result[] = '}';
+                            $result_validator[] = '}';
                         }
                         break;
                 }
                 $result = implode(PHP_EOL, $result);
+                $result_validator = implode(PHP_EOL, $result_validator);
             } else {
                 switch($operator){
                     case '++' :
                         $item = '$data->set(\'' . $variable_name . '\', ' .  '$this->value_plus_plus($data->data(\'' . $variable_name . '\')))';
+                        $result_validator = $item  . ';';
                         if($separator !== null){
                             $item .= $separator;
                         } else {
@@ -2585,6 +2608,7 @@ class Php {
                         break;
                     case '--' :
                         $item = '$data->set(\'' . $variable_name . '\', ' .  '$this->value_minus_minus($data->data(\'' . $variable_name . '\')))';
+                        $result_validator = $item  . ';';
                         if($separator !== null){
                             $item .= $separator;
                         } else {
@@ -2594,6 +2618,7 @@ class Php {
                         break;
                     case '**' :
                         $item = '$data->set(\'' . $variable_name . '\', ' .  '$this->value_multiply_multiply($data->data(\'' . $variable_name . '\')))';
+                        $result_validator = $item  . ';';
                         if($separator !== null){
                             $item .= $separator;
                         } else {
@@ -2604,7 +2629,7 @@ class Php {
                 }
             }
             try {
-                Validator::validate($object, $flags, $options, $result);
+                Validator::validate($object, $flags, $options, $result_validator);
             }
             catch(Exception $exception){
                 if(

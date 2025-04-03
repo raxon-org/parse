@@ -493,12 +493,12 @@ class Php {
                         $content['for'] = [];
                     }
                     if(!array_key_exists('content', $content['for'])){
-                        $content[$if_method]['content'] = [];
+                        $content['for']['content'] = [];
                     }
                     if(!array_key_exists($row_nr, $content['for']['content'])){
-                        $content[$if_method]['content'][$row_nr] = [];
+                        $content['for']['content'][$row_nr] = [];
                     }
-                    $content[$if_method]['content'][$row_nr][] = $record;
+                    $content['for']['content'][$row_nr][] = $record;
                 } else {
                     if(array_key_exists('text', $record)){
                         if($remove_newline_next === true){

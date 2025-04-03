@@ -1020,7 +1020,7 @@ class Php {
                             $method_value[] = $value;
                         }
                         $method_value[2] = substr($method_value[2], 0, -1);
-                        $before[] = $method_value[0];
+//                        $before[] = $method_value[0];
                         $method_value[0] = null;
                         $is_argument = true;
                     }

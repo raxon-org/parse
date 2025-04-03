@@ -352,6 +352,7 @@ class Php {
                     array_key_exists('name', $record['marker'])
                 ){
                     $record['if_depth'] = $if_depth;
+                    $record['for_depth'] = $for_depth;
                     if($record['marker']['name'] === 'else'){
                         if($if_depth === 1) {
                             $if_method = 'else';

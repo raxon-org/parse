@@ -2118,6 +2118,8 @@ class Php {
         $before = [];
         $before_value = [];
         $after_value = [];
+        $try_catch = $object->config('package.raxon/parse.build.state.try_catch');
+        $separator = $object->config('package.raxon/parse.build.state.separator');
         if(
             in_array(
                 $operator,
@@ -2365,8 +2367,6 @@ class Php {
         ){
             $result = $before;
             if($value !== ''){
-                $try_catch = $object->config('package.raxon/parse.build.state.try_catch');
-                $separator = $object->config('package.raxon/parse.build.state.separator');
                 if($try_catch !== false){
                     $result[] = 'try {';
                     foreach($before_value as $before_record){

@@ -238,7 +238,7 @@ class Php {
                 ){
                     if($record['method']['name'] === 'if'){
                         $if_depth++;
-                        if($if_depth === 1 && $for_depth === 0){
+                        if($if_depth === 1){
                             if(!array_key_exists($if_method, $content)){
                                 $content[$if_method] = [];
                             }
@@ -256,20 +256,7 @@ class Php {
                                 continue;
                             }
                         }
-                        elseif($if_depth >= 1 && $for_depth > 0){
-                            if(!array_key_exists('for', $content)){
-                                $content['for'] = [];
-                            }
-                            if(!array_key_exists('content', $content['for'])){
-                                $content['for']['content'] = [];
-                            }
-                            if(!array_key_exists($row_nr, $content['for']['content'])){
-                                $content['for']['content'][$row_nr] = [];
-                            }
-                            $content['for']['content'][$row_nr][] = $record;
-                            continue;
-                        }
-                        elseif($if_depth > 1 && $for_depth === 0) {
+                        elseif($if_depth > 1) {
                             $is_continue = false;
                             switch($if_method){
                                 case 'if' :
@@ -309,8 +296,7 @@ class Php {
                             ],
                             true
                         ) &&
-                        $if_depth === 1 &&
-                        $for_depth === 0
+                        $if_depth === 1
                     ){
                         $if_method = 'elseif';
                         $elseif_count++;
@@ -338,7 +324,7 @@ class Php {
                         $record['method']['name'] === 'for'
                     ){
                         $for_depth++;
-                        if($for_depth === 1 && $if_depth === 0){
+                        if($for_depth === 1){
                             d($record);
                             if(!array_key_exists('for', $content)){
                                 $content['for'] = [];
@@ -348,20 +334,7 @@ class Php {
                                 continue;
                             }
                         }
-                        elseif($for_depth >= 1 && $if_depth > 0){
-                            if(!array_key_exists('for', $content)){
-                                $content['for'] = [];
-                            }
-                            if(!array_key_exists('content', $content['for'])){
-                                $content['for']['content'] = [];
-                            }
-                            if(!array_key_exists($row_nr, $content['for']['content'])){
-                                $content['for']['content'][$row_nr] = [];
-                            }
-                            $content['for']['content'][$row_nr][] = $record;
-                            continue;
-                        }
-                        elseif($for_depth > 1 && $if_depth === 0){
+                        elseif($for_depth > 1){
                             if(!array_key_exists('content', $content['for'])){
                                 $content['for']['content'] = [];
                             }
@@ -382,7 +355,7 @@ class Php {
                     $record['if_depth'] = $if_depth;
                     $record['for_depth'] = $for_depth;
                     if($record['marker']['name'] === 'else'){
-                        if($if_depth === 1 && $for_depth === 0) {
+                        if($if_depth === 1) {
                             $if_method = 'else';
                             continue;
                             /*
@@ -401,7 +374,7 @@ class Php {
                         array_key_exists('is_close', $record['marker']) &&
                         $record['marker']['is_close'] === true
                     ){
-                        if($if_depth === 1 && $for_depth === 0){
+                        if($if_depth === 1){
                             $if_before = [];
                             $if_after = [];
                             $if_data = [];
@@ -478,7 +451,7 @@ class Php {
                         array_key_exists('is_close', $record['marker']) &&
                         $record['marker']['is_close'] === true
                     ){
-                        if($for_depth === 1 && $if_depth === 0){
+                        if($for_depth === 1){
                             $for_before = [];
                             $for_after = [];
                             $for_data = [];
@@ -622,17 +595,7 @@ class Php {
                         if($record['method']['name'] === 'break'){
                             $data[] = $method . ';';
                         } else {
-                            $uuid_variable = Core::uuid_variable();
-                            $data[] = $uuid_variable . ' = ' . $method . ';';
-                            $data[] = 'if(is_scalar('. $uuid_variable . ')){';
-                            $data[] = '$content[] = ' .  $uuid_variable . ';';
-                            $data[] = '} ';
-                            $data[] = 'elseif(';
-                            $data[] = '    is_array('. $uuid_variable .') || ';
-                            $data[] = '    is_object(' .  $uuid_variable . ')';
-                            $data[] = '){';
-                            $data[] = 'return ' .  $uuid_variable  . ';';
-                            $data[] = '}'; //null
+
                         }
                         if(!empty($after)){
                             foreach($after as $line){

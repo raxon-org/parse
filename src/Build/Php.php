@@ -823,6 +823,7 @@ class Php {
                 ){
                     $method_value .= ')';
                 }
+                trace();
                 return $method_value;
             } else {
                 $plugin = Php::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));

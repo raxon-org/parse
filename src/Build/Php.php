@@ -457,7 +457,7 @@ class Php {
                             $separator = $object->config('package.raxon/parse.build.state.separator');
                             $separator_uuid = Core::uuid();
                             $object->config('package.raxon/parse.build.state.separator', $separator_uuid);
-                            if(!array_key_exists('for', $content)){
+                            if(!array_key_exists('statement', $content['for'])){
                                 ddd($content);
                             }
                             $for_data[] = Php::method($object, $flags, $options, $content['for']['statement'], $before, $after) . '{';

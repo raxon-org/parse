@@ -267,6 +267,7 @@ class Php {
                                 $content['for']['content'][$row_nr] = [];
                             }
                             $content['for']['content'][$row_nr][] = $record;
+                            continue;
                         }
                         elseif($if_depth > 1 && $for_depth === 0) {
                             $is_continue = false;

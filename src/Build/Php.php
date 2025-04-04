@@ -681,7 +681,8 @@ class Php {
                         'elseif',
                         'else_if',
                         'else.if',
-                        'for'
+                        'for',
+                        'break'
                     ],
                     true
                 )
@@ -696,7 +697,12 @@ class Php {
                     )
                 ){
                     $method_value = 'elseif(';
-                } else {
+                }
+                elseif($record['method']['name'] === 'break'){
+                    $method_value = 'break';
+                    ddd($record);
+                }
+                else {
                     $method_value = $record['method']['name']  . '(';
                 }
                 if($record['method']['name'] === 'for'){

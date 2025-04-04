@@ -700,7 +700,17 @@ class Php {
                 }
                 elseif($record['method']['name'] === 'break'){
                     $method_value = 'break';
-                    ddd($record);
+                    if(
+                        array_key_exists('argument', $record['method']) &&
+                        array_key_exists(0, $record['method']['argument']) &&
+                        array_key_exists('array', $record['method']['argument'][0]) &&
+                        array_key_exists(0, $record['method']['argument'][0]['array']) &&
+                        array_key_exists('type', $record['method']['argument'][0]['array'][0]) &&
+                        $record['method']['argument'][0]['array'][0]['type'] === 'integer'
+                    ){
+                        $method_value .= ' ' . $record['method']['argument'][0]['array'][0]['value'];
+                    }
+                    ddd($method_value);
                 }
                 else {
                     $method_value = $record['method']['name']  . '(';

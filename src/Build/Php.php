@@ -348,6 +348,19 @@ class Php {
                                 continue;
                             }
                         }
+                        elseif($for_depth >= 1 && $if_depth > 0){
+                            if(!array_key_exists('for', $content)){
+                                $content['for'] = [];
+                            }
+                            if(!array_key_exists('content', $content['for'])){
+                                $content['for']['content'] = [];
+                            }
+                            if(!array_key_exists($row_nr, $content['for']['content'])){
+                                $content['for']['content'][$row_nr] = [];
+                            }
+                            $content['for']['content'][$row_nr][] = $record;
+                            continue;
+                        }
                         elseif($for_depth > 1 && $if_depth === 0){
                             if(!array_key_exists('content', $content['for'])){
                                 $content['for']['content'] = [];

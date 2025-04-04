@@ -256,8 +256,17 @@ class Php {
                                 continue;
                             }
                         }
-                        elseif($if_depth === 1 && $for_depth > 0){
-                            ddd($record);
+                        elseif($if_depth >= 1 && $for_depth > 0){
+                            if(!array_key_exists('for', $content)){
+                                $content['for'] = [];
+                            }
+                            if(!array_key_exists('content', $content['for'])){
+                                $content['for']['content'] = [];
+                            }
+                            if(!array_key_exists($row_nr, $content['for']['content'])){
+                                $content['for']['content'][$row_nr] = [];
+                            }
+                            $content['for']['content'][$row_nr][] = $record;
                         }
                         elseif($if_depth > 1 && $for_depth === 0) {
                             $is_continue = false;

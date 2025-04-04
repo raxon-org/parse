@@ -582,7 +582,10 @@ class Php {
                     elseif(
                         array_key_exists('method', $record)
                     ){
+                        d($record);
                         $method = Php::method($object, $flags, $options, $record, $before, $after);
+                        d($before);
+                        d($method);
                         if(!empty($before)){
                             foreach($before as $line){
                                 $data[] = $line;

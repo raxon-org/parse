@@ -325,6 +325,7 @@ class Php {
                     ){
                         $for_depth++;
                         if($for_depth === 1){
+                            d($record);
                             if(!array_key_exists('for', $content)){
                                 $content['for'] = [];
                             }
@@ -334,13 +335,6 @@ class Php {
                             }
                         }
                         elseif($for_depth > 1){
-                            if(!array_key_exists('for', $content)){
-                                $content['for'] = [];
-                            }
-                            if(!array_key_exists('statement', $content['for'])){
-                                $content['for']['statement'] = $record;
-                                continue;
-                            }
                             if(!array_key_exists('content', $content['for'])){
                                 $content['for']['content'] = [];
                             }

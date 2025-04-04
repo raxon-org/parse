@@ -236,7 +236,7 @@ class Php {
                     array_key_exists('method', $record) &&
                     array_key_exists('name', $record['method'])
                 ){
-                    if($record['method']['name'] === 'if'){
+                    if($record['method']['name'] === 'if' && $for_depth === 0){
                         $if_depth++;
                         if($if_depth === 1){
                             if(!array_key_exists($if_method, $content)){
@@ -296,7 +296,8 @@ class Php {
                             ],
                             true
                         ) &&
-                        $if_depth === 1
+                        $if_depth === 1 &&
+                        $for_depth === 0
                     ){
                         $if_method = 'elseif';
                         $elseif_count++;
@@ -372,79 +373,84 @@ class Php {
                     if(
                         $record['marker']['name'] === 'if' &&
                         array_key_exists('is_close', $record['marker']) &&
-                        $record['marker']['is_close'] === true
+                        $record['marker']['is_close'] === true &&
+                        $for_depth === 0
                     ){
                         if($if_depth === 1){
-                            $if_before = [];
-                            $if_after = [];
-                            $if_data = [];
-                            $if_data[] = Php::method($object, $flags, $options, $content['if']['statement'], $before, $after) . '{';
-                            if(!empty($before)){
-                                foreach($before as $line){
-                                    $if_before[] = $line;
-                                }
-                                $before = [];
-                            }
-                            if(!empty($after)){
-                                foreach($after as $line){
-                                    $if_after[] = $line;
-                                }
-                                $before = [];
-                            }
-                            $object->config('package.raxon/parse.build.state.remove_newline_next', true);
-                            $if_content = PHP::document_tag($object, $flags, $options, $content['if']['content']);
-                            foreach($if_content as $line){
-                                $if_data[] = $line;
-                            }
-                            $if_data[] = '}';
-                            if(array_key_exists('elseif', $content)){
-                                foreach($content['elseif'] as $elseif_nr => $elseif){
-                                    if(array_key_exists('statement', $elseif)){
-                                        $if_data[] = Php::method($object, $flags, $options, $elseif['statement'], $before, $after) . '{';
-                                        if(!empty($before)){
-                                            foreach($before as $line){
-                                                $if_before[] = $line;
-                                            }
-                                            $before = [];
-                                        }
-                                        if(!empty($after)){
-                                            foreach($after as $line){
-                                                $if_after[] = $line;
-                                            }
-                                            $before = [];
-                                        }
-                                        $object->config('package.raxon/parse.build.state.remove_newline_next', true);
-                                        $if_content = Php::document_tag($object, $flags, $options, $elseif['content']);
-                                        foreach($if_content as $line){
-                                            $if_data[] = $line;
-                                        }
-                                        $if_data[] = '}';
+                            if($for_depth > 0){
+
+                            } else {
+                                $if_before = [];
+                                $if_after = [];
+                                $if_data = [];
+                                $if_data[] = Php::method($object, $flags, $options, $content['if']['statement'], $before, $after) . '{';
+                                if(!empty($before)){
+                                    foreach($before as $line){
+                                        $if_before[] = $line;
                                     }
+                                    $before = [];
                                 }
-                            }
-                            if(array_key_exists('else', $content)){
+                                if(!empty($after)){
+                                    foreach($after as $line){
+                                        $if_after[] = $line;
+                                    }
+                                    $before = [];
+                                }
                                 $object->config('package.raxon/parse.build.state.remove_newline_next', true);
-                                $if_content = Php::document_tag($object, $flags, $options, $content['else']['content']);
-                                $if_data[] = 'else {';
+                                $if_content = PHP::document_tag($object, $flags, $options, $content['if']['content']);
                                 foreach($if_content as $line){
                                     $if_data[] = $line;
                                 }
                                 $if_data[] = '}';
+                                if(array_key_exists('elseif', $content)){
+                                    foreach($content['elseif'] as $elseif_nr => $elseif){
+                                        if(array_key_exists('statement', $elseif)){
+                                            $if_data[] = Php::method($object, $flags, $options, $elseif['statement'], $before, $after) . '{';
+                                            if(!empty($before)){
+                                                foreach($before as $line){
+                                                    $if_before[] = $line;
+                                                }
+                                                $before = [];
+                                            }
+                                            if(!empty($after)){
+                                                foreach($after as $line){
+                                                    $if_after[] = $line;
+                                                }
+                                                $before = [];
+                                            }
+                                            $object->config('package.raxon/parse.build.state.remove_newline_next', true);
+                                            $if_content = Php::document_tag($object, $flags, $options, $elseif['content']);
+                                            foreach($if_content as $line){
+                                                $if_data[] = $line;
+                                            }
+                                            $if_data[] = '}';
+                                        }
+                                    }
+                                }
+                                if(array_key_exists('else', $content)){
+                                    $object->config('package.raxon/parse.build.state.remove_newline_next', true);
+                                    $if_content = Php::document_tag($object, $flags, $options, $content['else']['content']);
+                                    $if_data[] = 'else {';
+                                    foreach($if_content as $line){
+                                        $if_data[] = $line;
+                                    }
+                                    $if_data[] = '}';
+                                }
+                                foreach($if_before as $line){
+                                    $data[] = $line;
+                                }
+                                foreach($if_data as $line){
+                                    $data[] = $line;
+                                }
+                                foreach($if_after as $line){
+                                    $data[] = $line;
+                                }
+                                $content[$if_method] = [];
+                            } else {
+                                //nothing for now...
                             }
-                            foreach($if_before as $line){
-                                $data[] = $line;
-                            }
-                            foreach($if_data as $line){
-                                $data[] = $line;
-                            }
-                            foreach($if_after as $line){
-                                $data[] = $line;
-                            }
-                            $content[$if_method] = [];
-                        } else {
-                            //nothing for now...
-                        }
                         $if_depth--;
+                        }
                     }
                     elseif(
                         $record['marker']['name'] === 'for' &&

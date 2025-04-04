@@ -440,7 +440,7 @@ class Php {
                             foreach($if_after as $line){
                                 $data[] = $line;
                             }
-                            $content = [];
+                            $content[$if_method] = [];
                         } else {
                             //nothing for now...
                         }
@@ -496,7 +496,7 @@ class Php {
                             foreach($for_after as $line){
                                 $data[] = $line;
                             }
-                            $content = [];
+                            $content['for'] = [];
                         }
                         $for_depth--;
                     }

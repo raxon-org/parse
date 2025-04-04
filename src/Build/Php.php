@@ -256,6 +256,9 @@ class Php {
                                 continue;
                             }
                         }
+                        elseif($if_depth === 1 && $for_depth > 0){
+                            ddd($record);
+                        }
                         elseif($if_depth > 1 && $for_depth === 0) {
                             $is_continue = false;
                             switch($if_method){

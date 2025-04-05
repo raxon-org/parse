@@ -377,7 +377,7 @@ class Php {
                             if(!array_key_exists('content', $content['while'])){
                                 $content['while']['content'] = [];
                             }
-                            if(!array_key_exists($row_nr, $content['for']['while'])){
+                            if(!array_key_exists($row_nr, $content['while']['content'])){
                                 $content['while']['content'][$row_nr] = [];
                             }
                             $content['while']['content'][$row_nr][] = $record;

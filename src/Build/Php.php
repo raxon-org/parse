@@ -936,12 +936,10 @@ class Php {
                     $object->config('package.raxon/parse.build.state.separator', $separator_uuid);
                     $before_while = [];
                     $after_while = [];
-                    if($argument_count === 3){
+                    if($argument_count === 1){
                         foreach($record['method']['argument'] as $nr => $argument){
-                            if($nr > 0){
-                                $object->config('package.raxon/parse.build.state.try_catch', false);
-                            }
-                            $value = Php::value($object, $flags, $options, $record, $argument, $is_set, $before_for, $after_for);
+                            $object->config('package.raxon/parse.build.state.try_catch', false);
+                            $value = Php::value($object, $flags, $options, $record, $argument, $is_set, $before_while, $after_while);
                             if(mb_strtolower($value) === 'null'){
                                 $value = '';
                             }
@@ -952,13 +950,13 @@ class Php {
                         } else {
                             $object->config('package.raxon/parse.build.state.separator', $separator);
                         }
-                        $method_value[2] = str_replace($separator_uuid, ',', $method_value[2]);
-                        $method_value[2] = substr($method_value[2], 0, -1);
+//                        $method_value[2] = str_replace($separator_uuid, ',', $method_value[2]);
+//                        $method_value[2] = substr($method_value[2], 0, -1);
                         $before[] = str_replace($separator_uuid, ';', $method_value[0]);
-                        foreach($before_for as $line){
+                        foreach($before_while as $line){
                             $before[] = str_replace($separator_uuid, ';', $line);
                         }
-                        foreach($after_for as $line){
+                        foreach($after_while as $line){
                             $after[] = str_replace($separator_uuid, ';', $line);
                         }
                         $method_value[0] = null;

@@ -952,7 +952,7 @@ class Php {
                         }
 //                        $method_value[2] = str_replace($separator_uuid, ',', $method_value[2]);
 //                        $method_value[2] = substr($method_value[2], 0, -1);
-                        $before[] = str_replace($separator_uuid, ';', $method_value[0]);
+//                        $before[] = str_replace($separator_uuid, ';', $method_value[0]);
                         foreach($before_while as $line){
                             $before[] = str_replace($separator_uuid, ';', $line);
                         }
@@ -1648,14 +1648,14 @@ class Php {
 
             }
             elseif(
-                (
-                    array_key_exists('type', $record) &&
-                    $record['type'] === 'boolean'
-                ) ||
-                (
-                    array_key_exists('is_boolean', $record) &&
-                    $record['is_boolean'] === true
-                )
+                array_key_exists('type', $record) &&
+                $record['type'] === 'boolean'
+            ){
+                $value .= $record['value'];
+            }
+            elseif(
+                array_key_exists('is_boolean', $record) &&
+                $record['is_boolean'] === true
             ){
                 $value .= $record['value'];
             }

@@ -925,6 +925,90 @@ class Php {
                         $object->config('package.raxon/parse.build.state.separator', $separator);
                     }
                 }
+                elseif($record['method']['name'] === 'while'){
+                    $method_value = [];
+                    $is_argument = false;
+                    $argument_count = count($record['method']['argument']);
+                    $try_catch = $object->config('package.raxon/parse.build.state.try_catch');
+                    $separator_uuid = Core::uuid();
+                    $separator = $object->config('package.raxon/parse.build.state.separator');
+                    $object->config('package.raxon/parse.build.state.separator', $separator_uuid);
+                    $before_while = [];
+                    $after_while = [];
+                    if($argument_count === 3){
+                        foreach($record['method']['argument'] as $nr => $argument){
+                            if($nr > 0){
+                                $object->config('package.raxon/parse.build.state.try_catch', false);
+                            }
+                            $value = Php::value($object, $flags, $options, $record, $argument, $is_set, $before_for, $after_for);
+                            if(mb_strtolower($value) === 'null'){
+                                $value = '';
+                            }
+                            $method_value[] = $value;
+                        }
+                        if($separator === null){
+                            $object->config('delete', 'package.raxon/parse.build.state.separator');
+                        } else {
+                            $object->config('package.raxon/parse.build.state.separator', $separator);
+                        }
+                        $method_value[2] = str_replace($separator_uuid, ',', $method_value[2]);
+                        $method_value[2] = substr($method_value[2], 0, -1);
+                        $before[] = str_replace($separator_uuid, ';', $method_value[0]);
+                        foreach($before_for as $line){
+                            $before[] = str_replace($separator_uuid, ';', $line);
+                        }
+                        foreach($after_for as $line){
+                            $after[] = str_replace($separator_uuid, ';', $line);
+                        }
+                        $method_value[0] = null;
+                        $is_argument = true;
+                    }
+                    if($try_catch === null){
+                        $object->config('delete', 'package.raxon/parse.build.state.try_catch');
+                    } else {
+                        $object->config('package.raxon/parse.build.state.try_catch', $try_catch);
+                    }
+                    if($is_argument === false) {
+                        if (
+                            array_key_exists('is_multiline', $record) &&
+                            $record['is_multiline'] === true
+                        ) {
+                            throw new TemplateException(
+                                $record['tag'] .
+                                PHP_EOL .
+                                'Invalid argument for {{while()}}' .
+                                PHP_EOL .
+                                'On line: ' .
+                                $record['line']['start'] .
+                                ', column: ' .
+                                $record['column'][$record['line']['start']]['start'] .
+                                ' in source: ' .
+                                $options->source .
+                                '.'
+                            );
+                        } else {
+                            throw new TemplateException(
+                                $record['tag'] .
+                                PHP_EOL .
+                                'Invalid argument for {{while()}}' .
+                                PHP_EOL .
+                                'On line: ' .
+                                $record['line'] .
+                                ', column: ' .
+                                $record['column']['start'] .
+                                ' in source: ' .
+                                $options->source .
+                                '.'
+                            );
+                        }
+                    }
+                    $method_value = 'while(' . implode(';', $method_value);
+                    if($separator === null){
+                        $object->config('delete', 'package.raxon/parse.build.state.separator');
+                    } else {
+                        $object->config('package.raxon/parse.build.state.separator', $separator);
+                    }
+                }
                 elseif(
                     !in_array(
                         $record['method']['name'],
@@ -1208,7 +1292,6 @@ class Php {
                     'object',
                     'echo',
                     'parse',
-                    'break',
                     'continue',
                     'constant',
                     'require',

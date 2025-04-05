@@ -810,7 +810,8 @@ class Php {
                         'else_if',
                         'else.if',
                         'for',
-                        'break'
+                        'break',
+                        'while'
                     ],
                     true
                 )

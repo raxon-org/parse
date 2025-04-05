@@ -945,6 +945,7 @@ class Php {
                             }
                             $method_value[] = $value;
                         }
+                        ddd($method_value);
                         if($separator === null){
                             $object->config('delete', 'package.raxon/parse.build.state.separator');
                         } else {

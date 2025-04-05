@@ -1001,7 +1001,7 @@ class Php {
                             );
                         }
                     }
-                    $method_value = 'while(' . $method_value[0] . ')';
+                    $method_value = 'while(' . $method_value[0];
                     if($separator === null){
                         $object->config('delete', 'package.raxon/parse.build.state.separator');
                     } else {

@@ -963,7 +963,7 @@ class Php {
                         foreach($after_while as $line){
                             $after[] = str_replace($separator_uuid, ';', $line);
                         }
-                        $method_value[0] = null;
+//                        $method_value[0] = null;
                         $is_argument = true;
                     }
                     if($try_catch === null){

@@ -936,6 +936,7 @@ class Php {
                     $object->config('package.raxon/parse.build.state.separator', $separator_uuid);
                     $before_while = [];
                     $after_while = [];
+                    d($record);
                     if($argument_count === 1){
                         foreach($record['method']['argument'] as $nr => $argument){
                             $object->config('package.raxon/parse.build.state.try_catch', false);

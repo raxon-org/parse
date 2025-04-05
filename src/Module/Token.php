@@ -1260,6 +1260,7 @@ class Token
                 return $input;
             case 'true':
                 $input['array'] = [[
+                    'type' => 'boolean',
                     'value' => $value,
                     'execute' => true,
                     'is_boolean' => true
@@ -1267,6 +1268,7 @@ class Token
                 return $input;
             case 'false':
                 $input['array'] = [[
+                    'type' => 'boolean',
                     'value' => $value,
                     'execute' => false,
                     'is_boolean' => true
@@ -1274,6 +1276,7 @@ class Token
                 return $input;
             case 'null':
                 $input['array'] = [[
+                    'type' => 'null',
                     'value' => $value,
                     'execute' => null,
                     'is_null' => true

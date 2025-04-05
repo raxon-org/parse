@@ -322,7 +322,8 @@ class Php {
                         }
                     }
                     elseif(
-                        $record['method']['name'] === 'for'
+                        $record['method']['name'] === 'for' &&
+                        $if_depth === 0
                     ){
                         $for_depth++;
                         if($for_depth === 1){
@@ -451,9 +452,10 @@ class Php {
                     elseif(
                         $record['marker']['name'] === 'for' &&
                         array_key_exists('is_close', $record['marker']) &&
-                        $record['marker']['is_close'] === true
+                        $record['marker']['is_close'] === true &&
+                        $if_depth === 0
                     ){
-                        if($for_depth === 1 && $if_depth === 0){
+                        if($for_depth === 1){
                             $for_before = [];
                             $for_after = [];
                             $for_data = [];

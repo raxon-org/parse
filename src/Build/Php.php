@@ -228,6 +228,8 @@ class Php {
         $else = false;
         $if_method = 'if';
         $for_depth = 0;
+        $foreach_depth = 0;
+        $while_depth = 0;
         $content = [];
         $remove_newline_next = $object->config('package.raxon/parse.build.state.remove_newline_next');
         foreach ($tags as $row_nr => $list) {
@@ -236,7 +238,12 @@ class Php {
                     array_key_exists('method', $record) &&
                     array_key_exists('name', $record['method'])
                 ){
-                    if($record['method']['name'] === 'if' && $for_depth === 0){
+                    if(
+                        $record['method']['name'] === 'if' &&
+                        $for_depth === 0 &&
+                        $while_depth === 0 &&
+                        $foreach_depth === 0
+                    ){
                         $if_depth++;
                         if($if_depth === 1){
                             if(!array_key_exists($if_method, $content)){
@@ -297,7 +304,9 @@ class Php {
                             true
                         ) &&
                         $if_depth === 1 &&
-                        $for_depth === 0
+                        $for_depth === 0 &&
+                        $while_depth === 0 &&
+                        $foreach_depth === 0
                     ){
                         $if_method = 'elseif';
                         $elseif_count++;
@@ -323,7 +332,9 @@ class Php {
                     }
                     elseif(
                         $record['method']['name'] === 'for' &&
-                        $if_depth === 0
+                        $if_depth === 0 &&
+                        $while_depth === 0 &&
+                        $foreach_depth === 0
                     ){
                         $for_depth++;
                         if($for_depth === 1){
@@ -346,8 +357,37 @@ class Php {
                             continue;
                         }
                     }
+                    elseif(
+                        $record['method']['name'] === 'while' &&
+                        $if_depth === 0 &&
+                        $for_depth === 0 &&
+                        $foreach_depth === 0
+                    ){
+                        $while_depth++;
+                        if($while_depth === 1){
+                            if(!array_key_exists('while', $content)){
+                                $content['while'] = [];
+                            }
+                            if(!array_key_exists('statement', $content['while'])){
+                                $content['while']['statement'] = $record;
+                                continue;
+                            }
+                        }
+                        elseif($while_depth > 1){
+                            if(!array_key_exists('content', $content['while'])){
+                                $content['while']['content'] = [];
+                            }
+                            if(!array_key_exists($row_nr, $content['for']['while'])){
+                                $content['while']['content'][$row_nr] = [];
+                            }
+                            $content['while']['content'][$row_nr][] = $record;
+                            continue;
+                        }
+                    }
                     $record['if_depth'] = $if_depth;
                     $record['for_depth'] = $for_depth;
+                    $record['foreach_depth'] = $foreach_depth;
+                    $record['while_depth'] = $while_depth;
                 }
                 elseif(
                     array_key_exists('marker', $record) &&
@@ -355,6 +395,8 @@ class Php {
                 ){
                     $record['if_depth'] = $if_depth;
                     $record['for_depth'] = $for_depth;
+                    $record['foreach_depth'] = $foreach_depth;
+                    $record['while_depth'] = $while_depth;
                     if($record['marker']['name'] === 'else'){
                         if($if_depth === 1) {
                             $if_method = 'else';
@@ -374,7 +416,9 @@ class Php {
                         $record['marker']['name'] === 'if' &&
                         array_key_exists('is_close', $record['marker']) &&
                         $record['marker']['is_close'] === true &&
-                        $for_depth === 0
+                        $for_depth === 0 &&
+                        $while_depth === 0 &&
+                        $foreach_depth === 0
                     ){
                         if($if_depth === 1){
                             $if_before = [];
@@ -452,7 +496,9 @@ class Php {
                         $record['marker']['name'] === 'for' &&
                         array_key_exists('is_close', $record['marker']) &&
                         $record['marker']['is_close'] === true &&
-                        $if_depth === 0
+                        $if_depth === 0 &&
+                        $foreach_depth === 0 &&
+                        $while_depth === 0
                     ){
                         if($for_depth === 1){
                             $for_before = [];
@@ -502,9 +548,67 @@ class Php {
                         }
                         $for_depth--;
                     }
+                    elseif(
+                        $record['marker']['name'] === 'while' &&
+                        array_key_exists('is_close', $record['marker']) &&
+                        $record['marker']['is_close'] === true &&
+                        $if_depth === 0 &&
+                        $foreach_depth === 0 &&
+                        $for_depth === 0
+                    ){
+                        if($while_depth === 1){
+                            $while_before = [];
+                            $while_after = [];
+                            $while_data = [];
+                            $separator = $object->config('package.raxon/parse.build.state.separator');
+                            $separator_uuid = Core::uuid();
+                            $object->config('package.raxon/parse.build.state.separator', $separator_uuid);
+                            if(!array_key_exists('statement', $content['while'])){
+                                ddd($content);
+                            }
+                            $while_data[] = Php::method($object, $flags, $options, $content['while']['statement'], $before, $after) . '{';
+                            if($separator === null){
+                                $object->config('delete', 'package.raxon/parse.build.state.separator');
+                            } else {
+                                $object->config('package.raxon/parse.build.state.separator', $separator);
+                            }
+                            if(!empty($before)){
+                                foreach($before as $line){
+                                    $while_before[] = $line;
+                                }
+                                $before = [];
+                            }
+                            if(!empty($after)){
+                                foreach($after as $line){
+                                    $while_after[] = $line;
+                                }
+                                $before = [];
+                            }
+                            $object->config('package.raxon/parse.build.state.remove_newline_next', true);
+                            $while_content = PHP::document_tag($object, $flags, $options, $content['while']['content']);
+                            foreach($while_content as $line){
+                                $while_data[] = $line;
+                            }
+                            $while_data[] = '}';
+
+                            foreach($while_before as $line){
+                                $data[] = $line;
+                            }
+                            foreach($while_data as $line){
+                                $data[] = $line;
+                            }
+                            foreach($while_after as $line){
+                                $data[] = $line;
+                            }
+                            $content['while'] = [];
+                        }
+                        $while_depth--;
+                    }
                 } else {
                     $record['if_depth'] = $if_depth;
                     $record['for_depth'] = $for_depth;
+                    $record['foreach_depth'] = $foreach_depth;
+                    $record['while_depth'] = $while_depth;
                 }
                 if($record['if_depth'] >= 1){
                     if(in_array($if_method, ['if', 'else'], true)){
@@ -546,6 +650,30 @@ class Php {
                         $content['for']['content'][$row_nr] = [];
                     }
                     $content['for']['content'][$row_nr][] = $record;
+                }
+                elseif($record['foreach_depth'] >= 1){
+                    if(!array_key_exists('foreach', $content)){
+                        $content['foreach'] = [];
+                    }
+                    if(!array_key_exists('content', $content['foreach'])){
+                        $content['foreach']['content'] = [];
+                    }
+                    if(!array_key_exists($row_nr, $content['foreach']['content'])){
+                        $content['foreach']['content'][$row_nr] = [];
+                    }
+                    $content['foreach']['content'][$row_nr][] = $record;
+                }
+                elseif($record['while_depth'] >= 1){
+                    if(!array_key_exists('while', $content)){
+                        $content['while'] = [];
+                    }
+                    if(!array_key_exists('content', $content['while'])){
+                        $content['while']['content'] = [];
+                    }
+                    if(!array_key_exists($row_nr, $content['while']['content'])){
+                        $content['while']['content'][$row_nr] = [];
+                    }
+                    $content['while']['content'][$row_nr][] = $record;
                 } else {
                     if(array_key_exists('text', $record)){
                         if($remove_newline_next === true){

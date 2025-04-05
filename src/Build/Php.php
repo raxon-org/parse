@@ -327,7 +327,6 @@ class Php {
                     ){
                         $for_depth++;
                         if($for_depth === 1){
-                            d($record);
                             if(!array_key_exists('for', $content)){
                                 $content['for'] = [];
                             }

@@ -453,7 +453,7 @@ class Php {
                         array_key_exists('is_close', $record['marker']) &&
                         $record['marker']['is_close'] === true
                     ){
-                        if($for_depth === 1){
+                        if($for_depth === 1 && $if_depth === 0){
                             $for_before = [];
                             $for_after = [];
                             $for_data = [];

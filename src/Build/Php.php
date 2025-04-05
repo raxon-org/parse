@@ -472,7 +472,6 @@ class Php {
                                 $object->config('package.raxon/parse.build.state.separator', $separator);
                             }
                             if(!empty($before)){
-                                d($before);
                                 foreach($before as $line){
                                     $for_before[] = $line;
                                 }
@@ -586,10 +585,7 @@ class Php {
                     elseif(
                         array_key_exists('method', $record)
                     ){
-                        d($record);
                         $method = Php::method($object, $flags, $options, $record, $before, $after);
-                        d($before);
-                        d($method);
                         if(!empty($before)){
                             foreach($before as $line){
                                 $data[] = $line;
@@ -824,7 +820,6 @@ class Php {
                 ){
                     $method_value .= ')';
                 }
-                trace();
                 return $method_value;
             } else {
                 $plugin = Php::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));

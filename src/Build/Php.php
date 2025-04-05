@@ -1648,9 +1648,14 @@ class Php {
 
             }
             elseif(
-                array_key_exists('type', $record) &&
-                $record['type'] === 'boolean'
-
+                (
+                    array_key_exists('type', $record) &&
+                    $record['type'] === 'boolean'
+                ) ||
+                (
+                    array_key_exists('is_boolean', $record) &&
+                    $record['is_boolean'] === true
+                )
             ){
                 $value .= $record['value'];
             }

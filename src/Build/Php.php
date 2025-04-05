@@ -1378,12 +1378,23 @@ class Php {
                                     [
                                         'integer',
                                         'float',
-                                        'boolean'
                                     ],
                                     true
                                 )
                             ){
                                 $right = $next['execute'];
+                            }
+                            elseif(
+                                array_key_exists('type', $next) &&
+                                in_array(
+                                    $next['type'],
+                                    [
+                                        'boolean',
+                                    ],
+                                    true
+                                )
+                            ){
+                                $right = $next['value'];
                             }
                             else {
                                 ddd($next);

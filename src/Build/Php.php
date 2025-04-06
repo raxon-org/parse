@@ -587,8 +587,6 @@ class Php {
                         $while_depth === 0 &&
                         $for_depth === 0
                     ){
-                        d($foreach_depth);
-                        d(Cli::alert('ALERT'));
                         if($foreach_depth === 1){
                             $foreach_before = [];
                             $foreach_after = [];
@@ -1905,6 +1903,7 @@ class Php {
                     $array_value .= Php::value($object, $flags, $options, $record, $array_input, $is_set_array, $before_array, $after_array);
                 }
                 $value .= $array_value;
+                $object->config('package.raxon/parse.build.state.remove_newline_next', true);
             }
             else {
                 d('not implemented');

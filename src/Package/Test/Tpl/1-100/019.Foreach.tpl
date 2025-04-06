@@ -16,3 +16,7 @@
 {{$value}}
 
 {{/foreach}}
+{{foreach($array as $value)}}
+{{$value}}
+
+{{/foreach}}

@@ -1738,6 +1738,7 @@ class Php {
                         '??',
                         'and',
                         'or',
+                        'as',
                         '[',
                         ']',
                         ','
@@ -1753,6 +1754,7 @@ class Php {
                     case 'or':
                     case 'xor':
                     case '=>':
+                    case 'as':
                         $value .= ' ' . $record['value'] .  ' ';
                         break;
                     case '[':

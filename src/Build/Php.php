@@ -354,6 +354,7 @@ class Php {
                         $while_depth === 0
                     ){
                         $foreach_depth++;
+                        ddd('yes');
                         if($foreach_depth === 1){
                             if(!array_key_exists('foreach', $content)){
                                 $content['foreach'] = [];

@@ -1732,7 +1732,6 @@ class Php {
                     $value .= Php::variable_assign($object, $flags, $options, $record, $before, $after);
                     //remove next newline
                     $next = $input['array'][$nr + 1] ?? null;
-                    ddd($next);
                     if($next){
                         $input['array'][$nr + 1] = Php::remove_newline_next($object, $flags, $options, $next);
 
@@ -1906,7 +1905,12 @@ class Php {
                     $array_value .= Php::value($object, $flags, $options, $record, $array_input, $is_set_array, $before_array, $after_array);
                 }
                 $value .= $array_value;
-//                $object->config('package.raxon/parse.build.state.remove_newline_next', true);
+                //remove next newline
+                $next = $input['array'][$nr + 1] ?? null;
+                if($next){
+                    $input['array'][$nr + 1] = Php::remove_newline_next($object, $flags, $options, $next);
+
+                }
             }
             else {
                 d('not implemented');

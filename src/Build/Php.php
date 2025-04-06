@@ -241,8 +241,8 @@ class Php {
                     if(
                         $record['method']['name'] === 'if' &&
                         $for_depth === 0 &&
-                        $while_depth === 0 &&
-                        $foreach_depth === 0
+                        $foreach_depth === 0 &&
+                        $while_depth === 0
                     ){
                         $if_depth++;
                         if($if_depth === 1){
@@ -251,15 +251,6 @@ class Php {
                             }
                             if(!array_key_exists('statement', $content[$if_method])){
                                 $content[$if_method]['statement'] = $record;
-                                /*
-                                if(!array_key_exists('content', $content[$if_method])){
-                                    $content[$if_method]['content'] = [];
-                                }
-                                if(!array_key_exists($row_nr, $content[$if_method]['content'])){
-                                    $content[$if_method]['content'][$row_nr] = [];
-                                }
-                                $content[$if_method]['content'][$row_nr][] = $record;
-                                */
                                 continue;
                             }
                         }
@@ -318,15 +309,6 @@ class Php {
                         }
                         if(!array_key_exists('statement', $content[$if_method])){
                             $content[$if_method][$elseif_count - 1]['statement'] = $record;
-                            /*
-                            if(!array_key_exists('content', $content[$if_method][$elseif_count - 1])){
-                                $content[$if_method][$elseif_count - 1]['content'] = [];
-                            }
-                            if(!array_key_exists($row_nr, $content[$if_method][$elseif_count - 1]['content'])){
-                                $content[$if_method]['content'][$elseif_count - 1][$row_nr] = [];
-                            }
-                            $content[$if_method]['content'][$row_nr][] = $record;
-                            */
                             continue;
                         }
                     }
@@ -354,6 +336,33 @@ class Php {
                                 $content['for']['content'][$row_nr] = [];
                             }
                             $content['for']['content'][$row_nr][] = $record;
+                            continue;
+                        }
+                    }
+                    elseif(
+                        $record['method']['name'] === 'foreach' &&
+                        $if_depth === 0 &&
+                        $for_depth === 0 &&
+                        $while_depth === 0
+                    ){
+                        $foreach_depth++;
+                        if($foreach_depth === 1){
+                            if(!array_key_exists('foreach', $content)){
+                                $content['foreach'] = [];
+                            }
+                            if(!array_key_exists('statement', $content['foreach'])){
+                                $content['foreach']['statement'] = $record;
+                                continue;
+                            }
+                        }
+                        elseif($foreach_depth > 1){
+                            if(!array_key_exists('content', $content['foreach'])){
+                                $content['foreach']['content'] = [];
+                            }
+                            if(!array_key_exists($row_nr, $content['foreach']['content'])){
+                                $content['foreach']['content'][$row_nr] = [];
+                            }
+                            $content['foreach']['content'][$row_nr][] = $record;
                             continue;
                         }
                     }
@@ -547,6 +556,70 @@ class Php {
                             $content['for'] = [];
                         }
                         $for_depth--;
+                    }
+                    elseif(
+                        in_array(
+                            $record['marker']['name'],
+                            [
+                                'foreach',
+                                'for.each',
+                                'for_each'
+                            ],
+                            true
+                        ) &&
+                        array_key_exists('is_close', $record['marker']) &&
+                        $record['marker']['is_close'] === true &&
+                        $if_depth === 0 &&
+                        $while_depth === 0 &&
+                        $for_depth === 0
+                    ){
+                        if($foreach_depth === 1){
+                            $foreach_before = [];
+                            $foreach_after = [];
+                            $foreach_data = [];
+                            $separator = $object->config('package.raxon/parse.build.state.separator');
+                            $separator_uuid = Core::uuid();
+                            $object->config('package.raxon/parse.build.state.separator', $separator_uuid);
+                            if(!array_key_exists('statement', $content['foreach'])){
+                                ddd($content);
+                            }
+                            $foreach_data[] = Php::method($object, $flags, $options, $content['foreach']['statement'], $before, $after) . '{';
+                            if($separator === null){
+                                $object->config('delete', 'package.raxon/parse.build.state.separator');
+                            } else {
+                                $object->config('package.raxon/parse.build.state.separator', $separator);
+                            }
+                            if(!empty($before)){
+                                foreach($before as $line){
+                                    $foreach_before[] = $line;
+                                }
+                                $before = [];
+                            }
+                            if(!empty($after)){
+                                foreach($after as $line){
+                                    $foreach_after[] = $line;
+                                }
+                                $before = [];
+                            }
+                            $object->config('package.raxon/parse.build.state.remove_newline_next', true);
+                            $foreach_content = PHP::document_tag($object, $flags, $options, $content['foreach']['content']);
+                            foreach($foreach_content as $line){
+                                $foreach_data[] = $line;
+                            }
+                            $foreach_data[] = '}';
+
+                            foreach($foreach_before as $line){
+                                $data[] = $line;
+                            }
+                            foreach($foreach_data as $line){
+                                $data[] = $line;
+                            }
+                            foreach($foreach_after as $line){
+                                $data[] = $line;
+                            }
+                            $content['foreach'] = [];
+                        }
+                        $foreach_depth--;
                     }
                     elseif(
                         $record['marker']['name'] === 'while' &&
@@ -810,6 +883,9 @@ class Php {
                         'else_if',
                         'else.if',
                         'for',
+                        'foreach',
+                        'for_each',
+                        'for.each',
                         'break',
                         'while'
                     ],
@@ -920,6 +996,116 @@ class Php {
                         }
                     }
                     $method_value = 'for(' . implode(';', $method_value);
+                    if($separator === null){
+                        $object->config('delete', 'package.raxon/parse.build.state.separator');
+                    } else {
+                        $object->config('package.raxon/parse.build.state.separator', $separator);
+                    }
+
+                }
+                elseif(
+                    in_array(
+                        $record['method']['name'],
+                        [
+                            'foreach',
+                            'for_each',
+                            'for.each'
+                        ],
+                        true
+                    )
+                ){
+                    $method_value = [];
+                    $is_argument = false;
+                    $argument_count = count($record['method']['argument']);
+                    $try_catch = $object->config('package.raxon/parse.build.state.try_catch');
+                    $separator_uuid = Core::uuid();
+                    $separator = $object->config('package.raxon/parse.build.state.separator');
+                    $object->config('package.raxon/parse.build.state.separator', $separator_uuid);
+                    $before_foreach = [];
+                    $after_foreach = [];
+                    d($record);
+                    d($argument_count);
+                    if($argument_count === 3 || $argument_count === 5){
+                        foreach($record['method']['argument'] as $nr => $argument){
+                            $object->config('package.raxon/parse.build.state.try_catch', false);
+                            $value = Php::value($object, $flags, $options, $record, $argument, $is_set, $before_foreach, $after_foreach);
+                            d($before_foreach);
+                            d($value);
+                            if(mb_strtolower($value) === 'null'){
+                                $value = '';
+                            }
+                            $method_value[] = $value;
+                        }
+                        if($separator === null){
+                            $object->config('delete', 'package.raxon/parse.build.state.separator');
+                        } else {
+                            $object->config('package.raxon/parse.build.state.separator', $separator);
+                        }
+//                        $method_value[2] = str_replace($separator_uuid, ',', $method_value[2]);
+//                        $method_value[2] = substr($method_value[2], 0, -1);
+//                        $before[] = str_replace($separator_uuid, ';', $method_value[0]);
+                        foreach($before_foreach as $line){
+                            $before[] = str_replace($separator_uuid, ';', $line);
+                        }
+                        foreach($after_foreach as $line){
+                            $after[] = str_replace($separator_uuid, ';', $line);
+                        }
+//                        $method_value[0] = null;
+                        $is_argument = true;
+                    }
+                    if($try_catch === null){
+                        $object->config('delete', 'package.raxon/parse.build.state.try_catch');
+                    } else {
+                        $object->config('package.raxon/parse.build.state.try_catch', $try_catch);
+                    }
+                    if($is_argument === false) {
+                        if (
+                            array_key_exists('is_multiline', $record) &&
+                            $record['is_multiline'] === true
+                        ) {
+                            throw new TemplateException(
+                                $record['tag'] .
+                                PHP_EOL .
+                                'Invalid argument for {{for.each()}}' .
+                                PHP_EOL .
+                                'On line: ' .
+                                $record['line']['start'] .
+                                ', column: ' .
+                                $record['column'][$record['line']['start']]['start'] .
+                                ' in source: ' .
+                                $options->source .
+                                '.'
+                            );
+                        } else {
+                            throw new TemplateException(
+                                $record['tag'] .
+                                PHP_EOL .
+                                'Invalid argument for {{for.each()}}' .
+                                PHP_EOL .
+                                'On line: ' .
+                                $record['line'] .
+                                ', column: ' .
+                                $record['column']['start'] .
+                                ' in source: ' .
+                                $options->source .
+                                '.'
+                            );
+                        }
+                    }
+                    d($method_value);
+                    if(
+                        array_key_exists(0, $method_value) &&
+                        array_key_exists(2, $method_value) &&
+                        array_key_exists(4, $method_value)
+                    ){
+                        $method_value = 'foreach(' . $method_value[0] . ' ' . 'as' . ' ' . $method_value[2] . ' ' . '=>' . ' ' . $method_value[4];
+                    }
+                    elseif(
+                        array_key_exists(0, $method_value) &&
+                        array_key_exists(2, $method_value)
+                    ) {
+                        $method_value = 'foreach(' . $method_value[0] . ' ' . 'as' . ' ' . $method_value[2];
+                    }
                     if($separator === null){
                         $object->config('delete', 'package.raxon/parse.build.state.separator');
                     } else {

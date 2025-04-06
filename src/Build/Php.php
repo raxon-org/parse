@@ -1759,7 +1759,6 @@ class Php {
                             $before[] = $uuid_variable . ' = $data->get(\'' . $record['name'] . '\');';
                             $value .= $uuid_variable;
                         }
-                        ddd($record);
                         $array_notation = Php::value($object, $flags, $options, $tag, $record['array_notation'], $is_set, $before, $after);
                         d($array_notation);
                         d($before);

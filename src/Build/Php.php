@@ -1709,6 +1709,11 @@ class Php {
                 continue;
             }
             if(array_key_exists('is_single_quoted', $record)){
+                $remove_newline_next = $object->config('package.raxon/parse.build.state.remove_newline_next');
+                if($remove_newline_next){
+                    $record = Php::remove_newline_next($object, $flags, $options, $record);
+                    $object->config('delete', 'package.raxon/parse.build.state.remove_newline_next');
+                }
                 $value .= $record['value'];
             }
             elseif(

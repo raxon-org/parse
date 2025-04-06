@@ -512,6 +512,7 @@ class Php {
                             //nothing for now...
                         }
                         $if_depth--;
+                        continue;
                     }
                     elseif(
                         $record['marker']['name'] === 'for' &&
@@ -568,6 +569,7 @@ class Php {
                             $content['for'] = [];
                         }
                         $for_depth--;
+                        continue;
                     }
                     elseif(
                         in_array(
@@ -645,6 +647,7 @@ class Php {
                             $content['foreach'] = [];
                         }
                         $foreach_depth--;
+                        continue;
                     }
                     elseif(
                         $record['marker']['name'] === 'while' &&

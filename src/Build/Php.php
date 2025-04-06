@@ -1856,7 +1856,7 @@ class Php {
                     true
                 )
             ){
-                $value .= $record['execute'];
+                $value .= $record['value'];
             }
             elseif(
                 array_key_exists('type', $record) &&

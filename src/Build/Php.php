@@ -2334,15 +2334,11 @@ class Php {
             }
             if(array_key_exists('array_notation', $record['variable'])){
                 $data = [];
-                $variable_uuid = Core::uuid_variable();
-                $data[] = '$test_' . substr($variable_uuid, 1) . '_record = $data->data();';
-                $data = Php::array_notation_data($object, $flags, $options, $data, $record['variable']['array_notation']['array'], $variable_name, $variable_uuid);
-
-                /*
+                $array_notation = Php::value($object, $flags, $options, $record, $record['array_notation'], $is_set, $before, $after);
+                $variable_value = '$data->get(\'' . $record['name'] . '\')' .  $array_notation;
                 $data = [
-                    '$test1_' . substr($variable_uuid, 1) . '=' . '$data->data(\'' . $variable_name . '\');' ,
+                    $variable_uuid . ' = ' . $is_not . $cast . $variable_value . ';' ,
                 ];
-                */
                 ddd($data);
             } else {
                 $data = [

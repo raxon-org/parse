@@ -701,6 +701,7 @@ class Token
                                         }
                                         if($array_depth_variable === $array_depth){
                                             if($next !== '['){
+                                                d($char);
                                                 d($next);
                                                 //need to check on ] with depth = 1
                                                 $is_array_notation = false;

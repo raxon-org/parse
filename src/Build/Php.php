@@ -1851,7 +1851,9 @@ class Php {
                 $array_value = '';
                 foreach($record['array'] as $array_record){
                     $array_input = [];
-                    $array_input[] = $array_record;
+                    $array_input['string'] = $array_record['string'] ?? '';
+                    $array_input['array'] = [];
+                    $array_input['array'][] = $array_record;
                     $array_value .= Php::value($object, $flags, $options, $record, $array_input, $is_set_array, $before_array, $after_array);
                 }
                 ddd($array_value);

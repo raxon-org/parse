@@ -354,6 +354,7 @@ class Php {
                         $for_depth === 0 &&
                         $while_depth === 0
                     ){
+                        d(Cli::debug('DEBUG'));
                         $foreach_depth++;
                         if($foreach_depth === 1){
                             if(!array_key_exists('foreach', $content)){

@@ -1869,6 +1869,7 @@ class Php {
                     $array_input['string'] = $array_record['value'] ?? $array_record['execute'] ?? '';
                     $array_input['array'] = [];
                     $array_input['array'][] = $array_record;
+                    d($array_input);
                     $array_value .= Php::value($object, $flags, $options, $record, $array_input, $is_set_array, $before_array, $after_array);
                 }
                 ddd($array_value);

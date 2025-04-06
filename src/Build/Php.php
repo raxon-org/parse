@@ -1759,6 +1759,7 @@ class Php {
                             $before[] = $uuid_variable . ' = $data->get(\'' . $record['name'] . '\');';
                             $value .= $uuid_variable;
                         }
+                        ddd($record);
                         $array_notation = Php::value($object, $flags, $options, $tag, $record['array_notation'], $is_set, $before, $after);
                         d($array_notation);
                         d($before);
@@ -1767,17 +1768,14 @@ class Php {
                         $uuid_variable = Core::uuid_variable();
                         $try_catch = $object->config('package.raxon/parse.build.state.try_catch');
                         $separator = $object->config('package.raxon/parse.build.state.separator');
-                        if($try_catch === false){
+                        if ($try_catch === false) {
                             $value .= '$data->get(\'' . $record['name'] . '\')';
                         } else {
                             $before[] = $uuid_variable . ' = $data->get(\'' . $record['name'] . '\');';
                             $value .= $uuid_variable;
                         }
                     }
-
-
                     //array_notation
-
                 }
             }
             elseif(

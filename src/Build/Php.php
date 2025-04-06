@@ -1907,6 +1907,7 @@ class Php {
                 $value .= $array_value;
                 //remove next newline
                 $next = $input['array'][$nr + 1] ?? null;
+                d($input['array']);
                 if($next){
                     $input['array'][$nr + 1] = Php::remove_newline_next($object, $flags, $options, $next);
 

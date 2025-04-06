@@ -1829,6 +1829,14 @@ class Php {
                             }
                             elseif(
                                 array_key_exists('type', $next) &&
+                                $next['type'] === 'method'
+                            ){
+                                $uuid_variable = Core::uuid_variable();
+                                $before[] = $uuid_variable . ' = ' . Php::method($object, $flags, $options, $next, $before, $after) . ';';
+                                $right = $uuid_variable;
+                            }
+                            elseif(
+                                array_key_exists('type', $next) &&
                                 in_array(
                                     $next['type'],
                                     [

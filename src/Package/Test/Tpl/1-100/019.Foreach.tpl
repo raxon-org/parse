@@ -16,11 +16,3 @@
 {{$value}}
 
 {{/foreach}}
-{{for.each($array as $value)}}
-{{$value}}
-
-{{/for.each}}
-{{for_each($array as $value)}}
-{{$value}}
-
-{{/for_each}}

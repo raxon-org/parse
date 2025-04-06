@@ -1846,6 +1846,20 @@ class Php {
             }
             elseif(
                 array_key_exists('type', $record) &&
+                $record['type'] === 'symbol' &&
+                in_array(
+                    $record['value'],
+                    [
+                        '[',
+                        ']',
+                    ],
+                    true
+                )
+            ){
+                $value .= $record['execute'];
+            }
+            elseif(
+                array_key_exists('type', $record) &&
                 $record['type'] === 'array'
             ){
                 $array_value = '';

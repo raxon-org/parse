@@ -584,6 +584,7 @@ class Php {
                         $while_depth === 0 &&
                         $for_depth === 0
                     ){
+                        d($foreach_depth);
                         d(Cli::alert('ALERT'));
                         if($foreach_depth === 1){
                             $foreach_before = [];

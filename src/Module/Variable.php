@@ -415,7 +415,6 @@ class Variable
                         $is_reference = true;
                         $input['array'][$is_variable - 1] = null;
                     }
-                    d($array_notation);
                     if($array_notation !== ''){
                         $list = Token::value(
                             $object,

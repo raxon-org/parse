@@ -1854,7 +1854,6 @@ class Php {
                                 array_key_exists('type', $next) &&
                                 $next['type'] === 'variable'
                             ){
-                                d($next);
                                 $uuid_variable = Core::uuid_variable();
                                 $before[] = $uuid_variable . ' = $data->get(\'' . $next['name'] . '\');';
                                 $right = $uuid_variable;

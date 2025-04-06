@@ -1737,7 +1737,10 @@ class Php {
                         'xor',
                         '??',
                         'and',
-                        'or'
+                        'or',
+                        '[',
+                        ']',
+                        ','
                     ],
                     true
                 )
@@ -1749,7 +1752,13 @@ class Php {
                     case '||':
                     case 'or':
                     case 'xor':
+                    case '=>':
                         $value .= ' ' . $record['value'] .  ' ';
+                        break;
+                    case '[':
+                    case ']':
+                    case ',':
+                        $value .=  $record['value'];
                         break;
                     default:
                         $next = $input['array'][$nr + 1] ?? null;
@@ -1835,22 +1844,6 @@ class Php {
             elseif(
                 array_key_exists('type', $record) &&
                 $record['type'] === 'boolean'
-            ){
-                $value .= $record['value'];
-            }
-            elseif(
-                array_key_exists('type', $record) &&
-                $record['type'] === 'symbol' &&
-                in_array(
-                    $record['value'],
-                    [
-                        '[',
-                        ']',
-                        ',',
-                        '=>'
-                    ],
-                    true
-                )
             ){
                 $value .= $record['value'];
             }

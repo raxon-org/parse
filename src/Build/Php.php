@@ -591,7 +591,7 @@ class Php {
                             if(!array_key_exists('statement', $content['foreach'])){
                                 ddd($content);
                             }
-                            $foreach_data[] = Php::method($object, $flags, $options, $content['foreach']['statement'], $before, $after) . '{';
+                            $foreach_data[] = Php::method($object, $flags, $options, $content['foreach']['statement'], $before, $after, $inline_before, $inline_after) . '{';
                             if($separator === null){
                                 $object->config('delete', 'package.raxon/parse.build.state.separator');
                             } else {
@@ -610,17 +610,23 @@ class Php {
                                 $before = [];
                             }
                             $object->config('package.raxon/parse.build.state.remove_newline_next', true);
+                            if(!empty($inline_before)){
+                                foreach($inline_before as $line){
+                                    $foreach_data[] = $line;
+                                }
+                                $inline_before = [];
+                            }
                             $foreach_content = PHP::document_tag($object, $flags, $options, $content['foreach']['content']);
                             foreach($foreach_content as $line){
                                 $foreach_data[] = $line;
                             }
+                            if(!empty($inline_after)){
+                                foreach($inline_after as $line){
+                                    $foreach_data[] = $line;
+                                }
+                                $inline_after = [];
+                            }
                             $foreach_data[] = '}';
-
-                            d($foreach_before);
-                            d($foreach_after);
-                            ddd($foreach_data);
-
-
                             foreach($foreach_before as $line){
                                 $data[] = $line;
                             }
@@ -853,7 +859,7 @@ class Php {
     /**
      * @throws Exception
      */
-    public static function method(App $object, $flags, $options, $record = [], &$before=[], &$after=[]): bool | string
+    public static function method(App $object, $flags, $options, $record = [], &$before=[], &$after=[], &$inline_before=[], &$inline_after=[]): bool | string
     {
         $is_echo = $object->config('package.raxon/parse.build.state.echo');
         $ltrim = $object->config('package.raxon/parse.build.state.ltrim');
@@ -1045,20 +1051,31 @@ class Php {
                             $argument_input['string'] = $argument['array'][0]['tag'] ?? $argument['array'][0]['value'] ?? $argument['array'][0]['execute'] ?? null;
                             $argument_input['array'][] = $argument['array'][0];
                             $value = Php::value($object, $flags, $options, $record, $argument_input, $is_set, $before_foreach, $after_foreach);
-
-                            $argument_input = [];
-                            $argument_input['string'] = $argument['array'][2]['tag'] ?? $argument['array'][2]['value'] ?? $argument['array'][2]['execute'] ?? null;
-                            $argument_input['array'][] = $argument['array'][2];
-                            $foreach_value = Php::value($object, $flags, $options, $record, $argument_input, $is_set, $before_foreach_value, $after_foreach_value);
-                            $before_foreach_value[0] = str_replace($foreach_value . ' = $data->get(', '$data->set(', substr($before_foreach_value[0], 0, -2)) . ', ' . $foreach_value . ');';
-
-
-                            d($foreach_value);
-                            d($before_foreach_value);
-                            ddd($argument);
-
-                            d($before_foreach);
-                            d($value);
+                            if(
+                                array_key_exists(2, $argument['array']) &&
+                                array_key_exists(4, $argument['array'])
+                            ){
+                                $argument_input = [];
+                                $argument_input['string'] = $argument['array'][2]['tag'] ?? $argument['array'][2]['value'] ?? $argument['array'][2]['execute'] ?? null;
+                                $argument_input['array'][] = $argument['array'][2];
+                                $foreach_value = Php::value($object, $flags, $options, $record, $argument_input, $is_set, $before_foreach_value, $after_foreach_value);
+                                $inline_before[] = str_replace($foreach_value . ' = $data->get(', '$data->set(', substr($before_foreach_value[0], 0, -2)) . ', ' . $foreach_value . ');';
+                                $value .= ' as ' . $foreach_value;
+                                $argument_input = [];
+                                $argument_input['string'] = $argument['array'][4]['tag'] ?? $argument['array'][4]['value'] ?? $argument['array'][4]['execute'] ?? null;
+                                $argument_input['array'][] = $argument['array'][4];
+                                $foreach_value = Php::value($object, $flags, $options, $record, $argument_input, $is_set, $before_foreach_value, $after_foreach_value);
+                                $inline_before[] = str_replace($foreach_value . ' = $data->get(', '$data->set(', substr($before_foreach_value[0], 0, -2)) . ', ' . $foreach_value . ');';
+                                $value .= ' => ' . $foreach_value;
+                            }
+                            elseif(array_key_exists(2, $argument['array'])){
+                                $argument_input = [];
+                                $argument_input['string'] = $argument['array'][2]['tag'] ?? $argument['array'][2]['value'] ?? $argument['array'][2]['execute'] ?? null;
+                                $argument_input['array'][] = $argument['array'][2];
+                                $foreach_value = Php::value($object, $flags, $options, $record, $argument_input, $is_set, $before_foreach_value, $after_foreach_value);
+                                $inline_before[] = str_replace($foreach_value . ' = $data->get(', '$data->set(', substr($before_foreach_value[0], 0, -2)) . ', ' . $foreach_value . ');';
+                                $value .= ' as ' . $foreach_value;
+                            }
                             if(mb_strtolower($value) === 'null'){
                                 $value = '';
                             }
@@ -1069,9 +1086,6 @@ class Php {
                         } else {
                             $object->config('package.raxon/parse.build.state.separator', $separator);
                         }
-//                        $method_value[2] = str_replace($separator_uuid, ',', $method_value[2]);
-//                        $method_value[2] = substr($method_value[2], 0, -1);
-//                        $before[] = str_replace($separator_uuid, ';', $method_value[0]);
                         foreach($before_foreach as $line){
                             $before[] = str_replace($separator_uuid, ';', $line);
                         }

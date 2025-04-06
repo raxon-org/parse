@@ -1092,7 +1092,7 @@ class Php {
                             );
                         }
                     }
-                    d($method_value);
+                    ddd($method_value);
                     if(
                         array_key_exists(0, $method_value) &&
                         array_key_exists(2, $method_value) &&

@@ -1903,7 +1903,7 @@ class Php {
                     $array_value .= Php::value($object, $flags, $options, $record, $array_input, $is_set_array, $before_array, $after_array);
                 }
                 $value .= $array_value;
-                $object->config('package.raxon/parse.build.state.remove_newline_next', true);
+//                $object->config('package.raxon/parse.build.state.remove_newline_next', true);
             }
             else {
                 d('not implemented');

@@ -5,6 +5,13 @@
 4,
 5
 ]}}
+{{$array = [
+'test' => 1,
+'default' => 2,
+]}}
+
+
+
 {{foreach($array as $value)}}
 {{$value}}
 

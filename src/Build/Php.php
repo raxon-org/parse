@@ -1866,8 +1866,7 @@ class Php {
                     d($array_input);
                     $array_value .= Php::value($object, $flags, $options, $record, $array_input, $is_set_array, $before_array, $after_array);
                 }
-                ddd($array_value);
-                $value .= $record['value'];
+                $value .= $array_value;
             }
             else {
                 d('not implemented');

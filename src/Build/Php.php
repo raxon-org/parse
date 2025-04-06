@@ -1093,19 +1093,9 @@ class Php {
                             );
                         }
                     }
-                    ddd($method_value);
-                    if(
-                        array_key_exists(0, $method_value) &&
-                        array_key_exists(2, $method_value) &&
-                        array_key_exists(4, $method_value)
+                    if(array_key_exists(0, $method_value)
                     ){
-                        $method_value = 'foreach(' . $method_value[0] . ' ' . 'as' . ' ' . $method_value[2] . ' ' . '=>' . ' ' . $method_value[4];
-                    }
-                    elseif(
-                        array_key_exists(0, $method_value) &&
-                        array_key_exists(2, $method_value)
-                    ) {
-                        $method_value = 'foreach(' . $method_value[0] . ' ' . 'as' . ' ' . $method_value[2];
+                        $method_value = 'foreach(' . $method_value[0];
                     }
                     if($separator === null){
                         $object->config('delete', 'package.raxon/parse.build.state.separator');

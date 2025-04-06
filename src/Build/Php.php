@@ -1833,12 +1833,6 @@ class Php {
                 }
             }
             elseif(
-                array_key_exists('value', $record) &&
-                $record['value'] === ','
-            ){
-
-            }
-            elseif(
                 array_key_exists('type', $record) &&
                 $record['type'] === 'boolean'
             ){

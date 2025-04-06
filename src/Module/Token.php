@@ -700,9 +700,11 @@ class Token
                                             $has_variable_name = true;
                                         }
                                         if($array_depth_variable === $array_depth){
+                                            if($is_array_notation === true){
+                                                $array_notation .= $char;
+                                                $array_notation_array[] = $char;
+                                            }
                                             if($next !== '['){
-                                                d($char);
-                                                d($next);
                                                 //need to check on ] with depth = 1
                                                 $is_array_notation = false;
                                             }

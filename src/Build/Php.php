@@ -1732,8 +1732,10 @@ class Php {
                     $value .= Php::variable_assign($object, $flags, $options, $record, $before, $after);
                     //remove next newline
                     $next = $input['array'][$nr + 1] ?? null;
+                    ddd($next);
                     if($next){
                         $input['array'][$nr + 1] = Php::remove_newline_next($object, $flags, $options, $next);
+
                     }
                 } else {
                     $uuid_variable = Core::uuid_variable();

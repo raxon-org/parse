@@ -11,5 +11,5 @@
     9
 ]}}
 {{for($i=0; $i < 4; $i++)}}
-    {{echo($list[$i] . PHP_EOL)}}
+    {{echo($list[$i] . constant('PHP_EOL'))}}
 {{/for}}

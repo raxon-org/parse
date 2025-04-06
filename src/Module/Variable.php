@@ -258,7 +258,6 @@ class Variable
                     $current = Token::item($input, $i);
                     if($current === '['){
                         $is_array_notation = true;
-                        d($input);
                     }
                     if(
                         in_array(
@@ -352,7 +351,6 @@ class Variable
                                         ],
                                     );
                                 }
-                                d($list);
                                 $input['array'][$is_variable] = [
                                     'type' => 'variable',
                                     'tag' => $name,

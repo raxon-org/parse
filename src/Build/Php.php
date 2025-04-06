@@ -702,6 +702,7 @@ class Php {
                             $content['while'] = [];
                         }
                         $while_depth--;
+                        continue;
                     }
                 } else {
                     $record['if_depth'] = $if_depth;

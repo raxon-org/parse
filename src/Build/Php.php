@@ -2338,11 +2338,15 @@ class Php {
                 $after = [];
                 $array_notation = Php::value($object, $flags, $options, $record, $record['variable']['array_notation'], $is_set, $before, $after);
                 $variable_value = '$data->get(\'' . $record['variable']['name'] . '\')' .  $array_notation;
-                ddd($before);
-                $data = [
-                    $variable_uuid . ' = ' . $is_not . $cast . $variable_value . ';' ,
-                ];
-                ddd($data);
+                foreach($before as $line){
+                    $data[] = $line;
+                }
+                $before = [];
+                $data[] = $variable_uuid . ' = ' . $is_not . $cast . $variable_value . ';';
+                foreach($after as $line){
+                    $data[] = $line;
+                }
+                $after = [];
             } else {
                 $data = [
                     $variable_uuid . ' = ' . $is_not . $cast . '$data->data(\'' . $variable_name . '\');' ,

@@ -1699,7 +1699,7 @@ class Php {
                     $try_catch = $object->config('package.raxon/parse.build.state.try_catch');
                     $separator = $object->config('package.raxon/parse.build.state.separator');
                     if($try_catch === false){
-                        $value = '$data->get(\'' . $record['name'] . '\')';
+                        $value .= '$data->get(\'' . $record['name'] . '\')';
                     } else {
                         $before[] = $uuid_variable . ' = $data->get(\'' . $record['name'] . '\');';
                         $value .= $uuid_variable;

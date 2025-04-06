@@ -12,9 +12,9 @@ namespace Plugin;
 
 trait Plugin_echo {
 
-    protected function plugin_echo($value=''): void
+    protected function plugin_echo($value=''): string
     {
-        echo (string) $value;
+        return (string) $value;
     }
 
 }

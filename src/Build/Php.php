@@ -2336,7 +2336,9 @@ class Php {
                 $data = [];
                 $before = [];
                 $after = [];
+                d($record);
                 $array_notation = Php::value($object, $flags, $options, $record, $record['variable']['array_notation'], $is_set, $before, $after);
+                d($array_notation);
                 $variable_value = '$data->get(\'' . $record['variable']['name'] . '\')' .  $array_notation;
                 foreach($before as $line){
                     $data[] = $line;

@@ -2357,6 +2357,8 @@ class Php {
                 $data[] = 'throw new TemplateException(\'Object to string conversion exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) .'" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.\');';
             }
             $data[] = '}';
+            $object->config('package.raxon/parse.build.state.remove_newline_next', true);
+            //remove newline next
             return $data;
         }
         return false;

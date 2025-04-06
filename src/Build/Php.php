@@ -15,6 +15,7 @@ use Raxon\Exception\LocateException;
 
 use Raxon\Exception\TemplateException;
 use Raxon\Module\Autoload;
+use Raxon\Module\Cli;
 use Raxon\Module\Core;
 use Raxon\Module\File;
 
@@ -581,6 +582,7 @@ class Php {
                         $while_depth === 0 &&
                         $for_depth === 0
                     ){
+                        d(Cli::alert('ALERT'));
                         if($foreach_depth === 1){
                             $foreach_before = [];
                             $foreach_after = [];

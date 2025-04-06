@@ -354,6 +354,7 @@ class Php {
                         $for_depth === 0 &&
                         $while_depth === 0
                     ){
+                        d($foreach_depth);
                         breakpoint(Cli::debug('DEBUG'));
                         $foreach_depth++;
                         if($foreach_depth === 1){

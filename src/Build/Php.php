@@ -354,8 +354,6 @@ class Php {
                         $for_depth === 0 &&
                         $while_depth === 0
                     ){
-                        d($foreach_depth);
-                        breakpoint(Cli::debug('DEBUG'));
                         $foreach_depth++;
                         if($foreach_depth === 1){
                             if(!array_key_exists('foreach', $content)){
@@ -1051,8 +1049,6 @@ class Php {
                     $object->config('package.raxon/parse.build.state.separator', $separator_uuid);
                     $before_foreach = [];
                     $after_foreach = [];
-                    d($record);
-                    d($argument_count);
                     if($argument_count === 1){
                         foreach($record['method']['argument'] as $nr => $argument){
 //                            $object->config('package.raxon/parse.build.state.try_catch', false);

@@ -1025,7 +1025,7 @@ class Php {
                     $after_foreach = [];
                     d($record);
                     d($argument_count);
-                    if($argument_count === 3 || $argument_count === 5){
+                    if($argument_count === 1){
                         foreach($record['method']['argument'] as $nr => $argument){
                             $object->config('package.raxon/parse.build.state.try_catch', false);
                             $value = Php::value($object, $flags, $options, $record, $argument, $is_set, $before_foreach, $after_foreach);
@@ -1857,7 +1857,6 @@ class Php {
                     $array_input['string'] = $array_record['value'] ?? $array_record['execute'] ?? '';
                     $array_input['array'] = [];
                     $array_input['array'][] = $array_record;
-                    d($array_input);
                     $array_value .= Php::value($object, $flags, $options, $record, $array_input, $is_set_array, $before_array, $after_array);
                 }
                 $value .= $array_value;

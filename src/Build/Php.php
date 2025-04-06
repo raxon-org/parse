@@ -1759,7 +1759,7 @@ class Php {
                             $before[] = $uuid_variable . ' = $data->get(\'' . $record['name'] . '\');';
                             $value .= $uuid_variable;
                         }
-                        $array_notation = Php::value($object, $flags, $options, $record['variable']['array_notation'], $record['variable']['array_notation'], $is_set, $before_array_notation, $after_array_notation);
+                        $array_notation = Php::value($object, $flags, $options, $tag, $record['array_notation'], $is_set, $before_array_notation, $after_array_notation);
                         d($array_notation);
                         d($before_array_notation);
                         /*

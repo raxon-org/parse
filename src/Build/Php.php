@@ -1745,15 +1745,41 @@ class Php {
                     }
                 } else {
                     d($record);
-                    $uuid_variable = Core::uuid_variable();
-                    $try_catch = $object->config('package.raxon/parse.build.state.try_catch');
-                    $separator = $object->config('package.raxon/parse.build.state.separator');
-                    if($try_catch === false){
-                        $value .= '$data->get(\'' . $record['name'] . '\')';
+
+                    if(array_key_exists('array_notation', $record['variable'])){
+                        $uuid_variable = Core::uuid_variable();
+                        $try_catch = $object->config('package.raxon/parse.build.state.try_catch');
+                        $separator = $object->config('package.raxon/parse.build.state.separator');
+                        if($try_catch === false){
+                            $value .= '$data->get(\'' . $record['name'] . '\')';
+                        } else {
+                            $before[] = $uuid_variable . ' = $data->get(\'' . $record['name'] . '\');';
+                            $value .= $uuid_variable;
+                        }
+                        $array_notation = Php::value($object, $flags, $options, $record['variable']['array_notation'], $record['variable']['array_notation'], $is_set, $before_array_notation, $after_array_notation);
+                        d($array_notation);
+                        d($before_array_notation);
+                        /*
+                        $data = [
+                            '$test1_' . substr($variable_uuid, 1) . '=' . '$data->data(\'' . $variable_name . '\');' ,
+                        ];
+                        */
+                        ddd($data);
                     } else {
-                        $before[] = $uuid_variable . ' = $data->get(\'' . $record['name'] . '\');';
-                        $value .= $uuid_variable;
+                        $uuid_variable = Core::uuid_variable();
+                        $try_catch = $object->config('package.raxon/parse.build.state.try_catch');
+                        $separator = $object->config('package.raxon/parse.build.state.separator');
+                        if($try_catch === false){
+                            $value .= '$data->get(\'' . $record['name'] . '\')';
+                        } else {
+                            $before[] = $uuid_variable . ' = $data->get(\'' . $record['name'] . '\');';
+                            $value .= $uuid_variable;
+                        }
                     }
+
+
+                    //array_notation
+
                 }
             }
             elseif(

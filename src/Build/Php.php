@@ -1747,7 +1747,8 @@ class Php {
                     d($record);
 
                     if(
-                        array_key_exists('array_notation', $record)
+                        array_key_exists('array_notation', $record) &&
+                        !empty($record['array_notation'])
                     ){
                         $uuid_variable = Core::uuid_variable();
                         $try_catch = $object->config('package.raxon/parse.build.state.try_catch');

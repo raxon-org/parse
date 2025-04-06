@@ -235,6 +235,9 @@ class Php {
         foreach ($tags as $row_nr => $list) {
             foreach ($list as $nr => &$record) {
                 $remove_newline_next = $object->config('package.raxon/parse.build.state.remove_newline_next');
+                if($remove_newline_next){
+                    $object->config('delete', 'package.raxon/parse.build.state.remove_newline_next');
+                }
                 if(
                     array_key_exists('method', $record) &&
                     array_key_exists('name', $record['method'])
@@ -837,7 +840,6 @@ class Php {
                 }
             }
         }
-        $object->config('delete', 'package.raxon/parse.build.state.remove_newline_next');
         return $data;
     }
 

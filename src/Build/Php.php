@@ -258,7 +258,7 @@ class Php {
                                 continue;
                             }
                         }
-                        elseif($if_depth > 1) {
+                        elseif($if_depth >= 1) {
                             $is_continue = false;
                             switch($if_method){
                                 case 'if' :

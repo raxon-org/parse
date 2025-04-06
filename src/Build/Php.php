@@ -581,7 +581,6 @@ class Php {
                         $while_depth === 0 &&
                         $for_depth === 0
                     ){
-                        d($record);
                         if($foreach_depth === 1){
                             $foreach_before = [];
                             $foreach_after = [];
@@ -616,6 +615,11 @@ class Php {
                                 $foreach_data[] = $line;
                             }
                             $foreach_data[] = '}';
+
+                            d($foreach_before);
+                            d($foreach_after);
+                            ddd($foreach_data);
+
 
                             foreach($foreach_before as $line){
                                 $data[] = $line;

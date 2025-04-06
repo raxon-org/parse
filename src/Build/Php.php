@@ -823,8 +823,18 @@ class Php {
                         }
                         if($record['method']['name'] === 'break'){
                             $data[] = $method . ';';
-                        } else {
-                            ddd($method);
+                        } elseif($method) {
+                            $uuid_method = Core::uuid_variable();
+                            $data[] = $uuid_method . ' = ' . $method . ';';
+                            $data[] = 'if(is_scalar(' . $uuid_method . ')){';
+                            $data[] = '    $content[] = ' . $uuid_method . ';';
+                            $data[] = '}';
+                            $data[] = 'elseif(is_array(' . $uuid_method . ')){';
+                            $data[] = 'throw new TemplateException(\'Array to string conversion error (' . $record['tag'] . ')\');';
+                            $data[] = '}';
+                            $data[] = 'elseif(is_object(' . $uuid_method . ')){';
+                            $data[] = 'throw new TemplateException(\'Object to string conversion error (' . $record['tag'] . ')\');';
+                            $data[] = '}';
                         }
                         if(!empty($after)){
                             foreach($after as $line){

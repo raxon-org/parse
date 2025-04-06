@@ -384,6 +384,7 @@ class Php {
                         $foreach_depth === 0
                     ){
                         $while_depth++;
+                        breakpoint(Cli::debug('while depth' . $while_depth));
                         if($while_depth === 1){
                             if(!array_key_exists('while', $content)){
                                 $content['while'] = [];
@@ -653,6 +654,7 @@ class Php {
                         $foreach_depth === 0 &&
                         $for_depth === 0
                     ){
+                        breakpoint(Cli::alert('while depth:' . $while_depth));
                         if($while_depth === 1){
                             $while_before = [];
                             $while_after = [];

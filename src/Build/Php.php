@@ -232,9 +232,9 @@ class Php {
         $foreach_depth = 0;
         $while_depth = 0;
         $content = [];
-        $remove_newline_next = $object->config('package.raxon/parse.build.state.remove_newline_next');
         foreach ($tags as $row_nr => $list) {
             foreach ($list as $nr => &$record) {
+                $remove_newline_next = $object->config('package.raxon/parse.build.state.remove_newline_next');
                 if(
                     array_key_exists('method', $record) &&
                     array_key_exists('name', $record['method'])

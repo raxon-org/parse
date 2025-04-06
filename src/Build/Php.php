@@ -2334,9 +2334,11 @@ class Php {
             }
             if(array_key_exists('array_notation', $record['variable'])){
                 $data = [];
-                ddd($record);
+                $before = [];
+                $after = [];
                 $array_notation = Php::value($object, $flags, $options, $record, $record['variable']['array_notation'], $is_set, $before, $after);
                 $variable_value = '$data->get(\'' . $record['variable']['name'] . '\')' .  $array_notation;
+                ddd($before);
                 $data = [
                     $variable_uuid . ' = ' . $is_not . $cast . $variable_value . ';' ,
                 ];

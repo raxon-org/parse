@@ -258,7 +258,7 @@ class Php {
                                 continue;
                             }
                         }
-                        elseif($if_depth >= 1) {
+                        elseif($if_depth > 1) {
                             $is_continue = false;
                             switch($if_method){
                                 case 'if' :
@@ -442,6 +442,7 @@ class Php {
                         $while_depth === 0 &&
                         $foreach_depth === 0
                     ){
+                        d($if_depth);
                         if($if_depth === 1){
                             $if_before = [];
                             $if_after = [];

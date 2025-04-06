@@ -1734,6 +1734,11 @@ class Php {
                     $record['length'] = $tag['length'] ?? 'unknown';
                     $record['column'] = $tag['column'] ?? ['start' => 'unknown', 'end' => 'unknown'];
                     $value .= Php::variable_assign($object, $flags, $options, $record, $before, $after);
+                    //remove next newline
+                    $next = $input['array'][$nr + 1] ?? null;
+                    if($next){
+                        $input['array'][$nr + 1] = Php::remove_newline_next($object, $flags, $options, $next);
+                    }
                 } else {
                     $uuid_variable = Core::uuid_variable();
                     $try_catch = $object->config('package.raxon/parse.build.state.try_catch');

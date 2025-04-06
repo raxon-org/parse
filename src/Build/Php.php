@@ -1850,7 +1850,9 @@ class Php {
             ){
                 $array_value = '';
                 foreach($record['array'] as $array_record){
-                    $array_value .= Php::value($object, $flags, $options, $record, $array_record, $is_set_array, $before_array, $after_array);
+                    $array_input = [];
+                    $array_input[] = $array_record;
+                    $array_value .= Php::value($object, $flags, $options, $record, $array_input, $is_set_array, $before_array, $after_array);
                 }
                 ddd($array_value);
                 $value .= $record['value'];

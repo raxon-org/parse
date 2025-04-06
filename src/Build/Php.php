@@ -354,7 +354,6 @@ class Php {
                         $while_depth === 0
                     ){
                         $foreach_depth++;
-                        ddd('yes');
                         if($foreach_depth === 1){
                             if(!array_key_exists('foreach', $content)){
                                 $content['foreach'] = [];
@@ -582,6 +581,7 @@ class Php {
                         $while_depth === 0 &&
                         $for_depth === 0
                     ){
+                        d($record);
                         if($foreach_depth === 1){
                             $foreach_before = [];
                             $foreach_after = [];

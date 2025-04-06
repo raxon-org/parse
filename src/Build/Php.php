@@ -513,6 +513,18 @@ class Php {
                             }
                             $content[$if_method] = [];
                         } else {
+                            if($if_method === 'elseif'){
+                                if(!array_key_exists($row_nr, $content[$if_method][$elseif_count - 1]['content'])){
+                                    $content[$if_method]['content'][$row_nr] = [];
+                                }
+                                $content[$if_method][$elseif_count - 1]['content'][$row_nr][] = $record;
+                            } else {
+                                if(!array_key_exists($row_nr, $content[$if_method]['content'])){
+                                    $content[$if_method]['content'][$row_nr] = [];
+                                }
+                                $content[$if_method]['content'][$row_nr][] = $record;
+                            }
+
                             //nothing for now...
                         }
                         $if_depth--;

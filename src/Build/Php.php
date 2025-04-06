@@ -842,6 +842,10 @@ class Php {
                             }
                             $after = [];
                         }
+                        $next = $list[$nr + 1] ?? null;
+                        if($next){
+                            $list[$nr + 1] = Php::remove_newline_next($object, $flags, $options, $next);
+                        }
                     }
                     else {
                         d($content);

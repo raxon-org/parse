@@ -9,9 +9,6 @@
 'test' => 1,
 'default' => 2,
 ]}}
-
-
-
 {{foreach($array as $value)}}
 {{$value}}
 

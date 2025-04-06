@@ -1041,8 +1041,14 @@ class Php {
                     if($argument_count === 1){
                         foreach($record['method']['argument'] as $nr => $argument){
 //                            $object->config('package.raxon/parse.build.state.try_catch', false);
+                            $argument_input = [];
+                            $argument_input['string'] = $argument[0]['tag'] ?? $argument[0]['value'] ?? $argument[0]['execute'] ?? null;
+                            $argument_input['array'][] = $argument[0];
+                            $value = Php::value($object, $flags, $options, $record, $argument_input, $is_set, $before_foreach, $after_foreach);
+                            d($before_foreach);
+                            d($value);
                             ddd($argument);
-                            $value = Php::value($object, $flags, $options, $record, $argument, $is_set, $before_foreach, $after_foreach);
+
                             d($before_foreach);
                             d($value);
                             if(mb_strtolower($value) === 'null'){

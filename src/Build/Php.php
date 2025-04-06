@@ -340,7 +340,15 @@ class Php {
                         }
                     }
                     elseif(
-                        $record['method']['name'] === 'foreach' &&
+                        in_array(
+                            $record['method']['name'],
+                            [
+                                'foreach',
+                                'for.each',
+                                'for_each'
+                            ],
+                            true
+                        ) &&
                         $if_depth === 0 &&
                         $for_depth === 0 &&
                         $while_depth === 0

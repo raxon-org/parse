@@ -1759,15 +1759,10 @@ class Php {
                             $before[] = $uuid_variable . ' = $data->get(\'' . $record['name'] . '\');';
                             $value .= $uuid_variable;
                         }
-                        $array_notation = Php::value($object, $flags, $options, $tag, $record['array_notation'], $is_set, $before_array_notation, $after_array_notation);
+                        $array_notation = Php::value($object, $flags, $options, $tag, $record['array_notation'], $is_set, $before, $after);
                         d($array_notation);
-                        d($before_array_notation);
-                        /*
-                        $data = [
-                            '$test1_' . substr($variable_uuid, 1) . '=' . '$data->data(\'' . $variable_name . '\');' ,
-                        ];
-                        */
-                        ddd($data);
+                        d($before);
+                        ddd($after);
                     } else {
                         $uuid_variable = Core::uuid_variable();
                         $try_catch = $object->config('package.raxon/parse.build.state.try_catch');

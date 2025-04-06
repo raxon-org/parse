@@ -1744,6 +1744,7 @@ class Php {
 
                     }
                 } else {
+                    d($record);
                     $uuid_variable = Core::uuid_variable();
                     $try_catch = $object->config('package.raxon/parse.build.state.try_catch');
                     $separator = $object->config('package.raxon/parse.build.state.separator');

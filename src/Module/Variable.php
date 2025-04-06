@@ -258,6 +258,7 @@ class Variable
                     $current = Token::item($input, $i);
                     if($current === '['){
                         $is_array_notation = true;
+                        ddd($input);
                     }
                     if(
                         in_array(
@@ -415,6 +416,7 @@ class Variable
                         $is_reference = true;
                         $input['array'][$is_variable - 1] = null;
                     }
+                    d($array_notation);
                     if($array_notation !== ''){
                         $list = Token::value(
                             $object,

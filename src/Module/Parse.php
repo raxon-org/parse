@@ -382,7 +382,7 @@ class Parse
                 true
             )
         ){
-            $object->config('package.raxon/parse.build.state.source.is.json', true)
+            $object->config('package.raxon/parse.build.state.source.is.json', true);
         }
         d(File::extension($source));
         d($source);

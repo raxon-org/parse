@@ -803,7 +803,14 @@ class Php {
                             $record = Php::remove_newline_next($object, $flags, $options, $record);
                             $object->config('delete', 'package.raxon/parse.build.state.remove_newline_next');
                         }
-                        ddd($record);
+                        if(
+                            substr($record['text'], 0, 1) === '"' &&
+                            substr($record['text'], -1) === '"'
+                        ){
+                            $data[] = '"';
+                            $data[] = '$content[] = $parse->compile("' . substr($record['text'], 1, -1) . '", $data);';
+                            $data[] = '"';
+                        }
                         $text = Php::text($object, $flags, $options, $record);
                         $data[] = '$content[] =  \'' . str_replace(['\\','\''], ['\\\\', '\\\''], $text) . '\';';
                     }

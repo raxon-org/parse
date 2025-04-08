@@ -22,6 +22,8 @@ trait Main {
             throw new Exception('Source not found: ' . $options->source);
         }
         $object = $this->object();
+        $extension = File::extension($options->source);
+        ddd($extension);
         $input = File::read($options->source);
         $parse = new Parse($object, new Data(), $flags, $options);
         $object->config(Parse::CONFIG . '.build.builder', 'Compile'); //can be removed if bold is replaced.

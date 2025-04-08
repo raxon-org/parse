@@ -199,7 +199,6 @@ class Tag
             ){
                 $tag = '{{';
                 $text = mb_substr($text, 0, -1);
-                ddd($text);
             }
             elseif(
                 $tag !== false &&

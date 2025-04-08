@@ -794,9 +794,11 @@ class Php {
                     $content['while']['content'][$row_nr][] = $record;
                 } else {
                     if(
-                        array_key_exists('text', $record) &&
-                        !empty($record['text'])
+                        array_key_exists('text', $record)
                     ){
+                        if(empty($record['text'])){
+                            continue;
+                        }
                         if($remove_newline_next === true){
                             $record = Php::remove_newline_next($object, $flags, $options, $record);
                             $object->config('delete', 'package.raxon/parse.build.state.remove_newline_next');

@@ -899,6 +899,7 @@ class Php {
             array_key_exists('text', $record) &&
             $record['text'] !== ''
         ) {
+            /*
             if(
                 substr($record['text'], 0, 1) === '"' &&
                 substr($record['text'], -1) === '"'
@@ -911,6 +912,7 @@ class Php {
             ){
                 return '" . $parse->compile("' . substr($record['text'], 1, -1) . '") . ";';
             }
+            */
             //might need to remove // /* /**    **/  */
             return $record['text'];
         }

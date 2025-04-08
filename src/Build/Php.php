@@ -231,6 +231,7 @@ class Php {
         $for_depth = 0;
         $foreach_depth = 0;
         $while_depth = 0;
+        $remove_next_char = 0;
         $content = [];
         foreach ($tags as $row_nr => $list) {
             foreach ($list as $nr => &$record) {
@@ -798,6 +799,10 @@ class Php {
                             $object->config('delete', 'package.raxon/parse.build.state.remove_newline_next');
                         }
                         $text = Php::text($object, $flags, $options, $record);
+                        if($remove_next_char > 0){
+                            d($text);
+                            ddd($remove_next_char);
+                        }
                         $data[] = '$content[] =  \'' . str_replace(['\\','\''], ['\\\\', '\\\''], $text) . '\';';
                     }
                     elseif(array_key_exists('variable', $record)){
@@ -848,6 +853,7 @@ class Php {
                             if($object->config('package.raxon/parse.build.state.source.is.json') === true){
                                 $data[] = '$content[] = substr(array_pop($content), 0, -1);';
                                 $data[] = '$content[] = Core::object(' . $uuid_method . ', Core::JSON);';
+                                $remove_next_char++;
                             } else {
                                 $data[] = 'throw new TemplateException(\'Array to string conversion error (' . str_replace('\'', '\\\'', $record['tag']) . ')\');';
                             }
@@ -857,6 +863,7 @@ class Php {
                             if($object->config('package.raxon/parse.build.state.source.is.json') === true){
                                 $data[] = '$content[] = substr(array_pop($content), 0, -1);';
                                 $data[] = '$content[] = Core::object(' . $uuid_method . ', Core::JSON);';
+                                $remove_next_char++;
                             } else {
                                 $data[] = 'throw new TemplateException(\'Object to string conversion error (' . str_replace('\'', '\\\'', $record['tag']) . ')\');';
                             }

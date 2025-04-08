@@ -60,6 +60,7 @@ class Tag
                 $is_double_quoted_backslash === false &&
                 $previous !== '\\'
             ){
+                d($text);
                 $is_single_quoted = true;
             }
             elseif(
@@ -69,7 +70,6 @@ class Tag
                 $is_double_quoted_backslash === false &&
                 $previous !== '\\'
             ){
-                d($split);
                 d($text);
                 $is_single_quoted = false;
             }

@@ -840,8 +840,8 @@ class Php {
                         }
                         else {
                             $text = Php::text($object, $flags, $options, $record);
-                            $data[] = '$content[] =  \'' . str_replace(['\\','\''], ['\\\\', '\\\''], $text) . '\';';
-
+                            $data[] = '$content[] =  \'' . str_replace(['\\', '\''], ['\\\\', '\\\''], $text) . '\';';
+                        }
                     }
                     elseif(array_key_exists('variable', $record)){
                         if(

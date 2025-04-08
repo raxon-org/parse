@@ -304,7 +304,7 @@ class Tag
                 $previous === '\\'
             ){
                 if($text !== ''){
-                    ddd($text);
+                    $text = substr($text, 0, -1);
                     $explode = explode("\n", $text);
                     $count = count($explode);
                     $explode_tag = explode("\n", $tag);
@@ -352,7 +352,7 @@ class Tag
                         }
                         $tag_list[$line][] = $record;
                     }
-                    $text = '';
+                    $text = '\\';
                 }
                 $is_double_quoted_backslash = true;
             }

@@ -846,8 +846,7 @@ class Php {
                             $data[] = '}';
                             $data[] = 'elseif(is_array(' . $uuid_method . ')){';
                             if($object->config('package.raxon/parse.build.state.source.is.json') === true){
-                                $data[] = '$pop = array_pop($content);';
-                                $data[] = 'dd($pop);';
+                                $data[] = '$content[] = substr(array_pop($content), 0, -1);';
                                 $data[] = '$content[] = Core::object(' . $uuid_method . ', Core::JSON);';
                             } else {
                                 $data[] = 'throw new TemplateException(\'Array to string conversion error (' . str_replace('\'', '\\\'', $record['tag']) . ')\');';
@@ -856,8 +855,7 @@ class Php {
                             $data[] = '}';
                             $data[] = 'elseif(is_object(' . $uuid_method . ')){';
                             if($object->config('package.raxon/parse.build.state.source.is.json') === true){
-                                $data[] = '$pop = array_pop($content);';
-                                $data[] = 'dd($pop);';
+                                $data[] = '$content[] = substr(array_pop($content), 0, -1);';
                                 $data[] = '$content[] = Core::object(' . $uuid_method . ', Core::JSON);';
                             } else {
                                 $data[] = 'throw new TemplateException(\'Object to string conversion error (' . str_replace('\'', '\\\'', $record['tag']) . ')\');';

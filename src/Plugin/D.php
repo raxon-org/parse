@@ -51,9 +51,6 @@ trait D {
                     $options['trace'] =  $source . ':' . $tag['line'] . PHP_EOL;
                 }
             }
-            d($source);
-            d($tag);
-            ddd($options);
         }
         d($value, $options);
     }

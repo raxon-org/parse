@@ -377,6 +377,7 @@ class Value
                 $input['array'][$value_nr -1] = null;
             }
         }
+        trace();
         d($input);
         return $input;
     }

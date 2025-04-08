@@ -10,7 +10,7 @@
  */
 namespace Plugin;
 
-use Raxon\Attribute\Validate;
+use Raxon\Parse\Attribute\Validate;
 
 trait Config_ALl {
 

@@ -235,6 +235,7 @@ class Php {
         $content = [];
         foreach ($tags as $row_nr => $list) {
             foreach ($list as $nr => &$record) {
+                $object->config('package.raxon/parse.build.state.tag', $record);
                 $remove_newline_next = $object->config('package.raxon/parse.build.state.remove_newline_next');
                 if($remove_newline_next){
                     $object->config('delete', 'package.raxon/parse.build.state.remove_newline_next');

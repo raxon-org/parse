@@ -810,9 +810,11 @@ class Php {
                             $data[] = '$content[] = \'"\'';
                             $data[] = '$content[] = $parse->compile("' . substr($record['text'], 1, -1) . '", $data);';
                             $data[] = '$content[] = \'"\'';
+                        } else {
+                            $text = Php::text($object, $flags, $options, $record);
+                            $data[] = '$content[] =  \'' . str_replace(['\\','\''], ['\\\\', '\\\''], $text) . '\';';
                         }
-                        $text = Php::text($object, $flags, $options, $record);
-                        $data[] = '$content[] =  \'' . str_replace(['\\','\''], ['\\\\', '\\\''], $text) . '\';';
+
                     }
                     elseif(array_key_exists('variable', $record)){
                         if(

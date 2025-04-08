@@ -807,9 +807,9 @@ class Php {
                             substr($record['text'], 0, 1) === '"' &&
                             substr($record['text'], -1) === '"'
                         ){
-                            $data[] = '"';
+                            $data[] = '$content[] = \'"\'';
                             $data[] = '$content[] = $parse->compile("' . substr($record['text'], 1, -1) . '", $data);';
-                            $data[] = '"';
+                            $data[] = '$content[] = \'"\'';
                         }
                         $text = Php::text($object, $flags, $options, $record);
                         $data[] = '$content[] =  \'' . str_replace(['\\','\''], ['\\\\', '\\\''], $text) . '\';';

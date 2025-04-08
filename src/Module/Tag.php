@@ -60,7 +60,6 @@ class Tag
                 $is_double_quoted_backslash === false &&
                 $previous !== '\\'
             ){
-                d($text);
                 $is_single_quoted = true;
             }
             elseif(
@@ -347,7 +346,6 @@ class Tag
                 $tag .= $char;
             }
             elseif($is_comment === false){
-                d($char);
                 $text .= $char;
             }
             if($char !== "\n") {

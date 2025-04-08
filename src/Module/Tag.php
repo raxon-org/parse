@@ -710,7 +710,6 @@ class Tag
                 $tag_list[$line][] = $record;
             }
         }
-        d($tag_list);
         return $tag_list;
     }
 

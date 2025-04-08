@@ -198,6 +198,7 @@ class Tag
                 $is_double_quoted_backslash === false
             ){
                 $tag = '{{';
+                ddd($text);
             }
             elseif(
                 $tag !== false &&

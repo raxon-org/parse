@@ -69,7 +69,7 @@ class Tag
                 $is_double_quoted_backslash === false &&
                 $previous !== '\\'
             ){
-                d($char);
+                d($split);
                 d($text);
                 $is_single_quoted = false;
             }

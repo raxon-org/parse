@@ -798,6 +798,7 @@ class Php {
                             $record = Php::remove_newline_next($object, $flags, $options, $record);
                             $object->config('delete', 'package.raxon/parse.build.state.remove_newline_next');
                         }
+                        ddd($record);
                         $text = Php::text($object, $flags, $options, $record);
                         $data[] = '$content[] =  \'' . str_replace(['\\','\''], ['\\\\', '\\\''], $text) . '\';';
                     }
@@ -902,13 +903,13 @@ class Php {
                 substr($record['text'], 0, 1) === '"' &&
                 substr($record['text'], -1) === '"'
             ){
-                return '\'"\' . $parse->compile("' . substr($record['text'], 1, -1) . '") . \'"\';';
+                return '" . $parse->compile("' . substr($record['text'], 1, -1) . '") . ";';
             }
             elseif(
                 substr($record['text'], 0, 2) === '\\"' &&
                 substr($record['text'], -2) === '\\"'
             ){
-                return '\'\\"\' . $parse->compile("' . substr($record['text'], 1, -1) . '") . \'\\"\';';
+                return '" . $parse->compile("' . substr($record['text'], 1, -1) . '") . ";';
             }
             //might need to remove // /* /**    **/  */
             return $record['text'];

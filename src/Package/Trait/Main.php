@@ -29,7 +29,11 @@ trait Main {
             case 'data':
             case 'json':
             case 'jsonl':
-                return $object->parse_read($options->source);
+                $parse =  $object->parse_read($options->source);
+                if($parse){
+                    return $parse->data();
+                }
+                return null;
             default:
                 $input = File::read($options->source);
                 $parse = new Parse($object, new Data(), $flags, $options);

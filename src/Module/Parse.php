@@ -3,10 +3,13 @@ namespace Raxon\Parse\Module;
 
 use Exception;
 use Plugin;
+
 use Raxon\App;
 use Raxon\Config;
+
 use Raxon\Exception\ObjectException;
 use Raxon\Exception\TemplateException;
+
 use Raxon\Module\Autoload;
 use Raxon\Module\Core;
 use Raxon\Module\Data;
@@ -369,7 +372,19 @@ class Parse
             }
         }
         $source = $options->source ?? 'source';
-
+        if(
+            in_array(
+                File::extension($source),
+                [
+                    'json',
+                    'jsonl',
+                ],
+                true
+            )
+        ){
+            $object->config('package.raxon/parse.build.state.source.is.json', true)
+        }
+        d(File::extension($source));
         d($source);
         $object->config('package.raxon/parse.build.state.source.url', $source);
         $mtime = false;

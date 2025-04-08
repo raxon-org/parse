@@ -845,6 +845,8 @@ class Php {
                             $data[] = '    $content[] = ' . $uuid_method . ';';
                             $data[] = '}';
                             $data[] = 'elseif(is_array(' . $uuid_method . ')){';
+                            //if is.json we can convert it to json... $content pop and push the last content (remove ")
+
                             $data[] = 'throw new TemplateException(\'Array to string conversion error (' . str_replace('\'', '\\\'', $record['tag']) . ')\');';
                             $data[] = '}';
                             $data[] = 'elseif(is_object(' . $uuid_method . ')){';

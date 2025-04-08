@@ -23,13 +23,32 @@ trait D {
             $tag = $object->config('package.raxon/parse.build.state.tag');
             if($source && $tag){
                 if(
+                    is_object($tag) &&
                     property_exists($tag, 'line') &&
                     is_object($tag->line) &&
                     property_exists($tag->line, 'start')
                 ){
                     $options['trace'] =  $source . ':' . $tag->line->start . PHP_EOL;
-                } else {
+                }
+                elseif(
+                    is_object($tag) &&
+                    property_exists($tag, 'line')
+                ) {
                     $options['trace'] =  $source . ':' . $tag->line . PHP_EOL;
+                }
+                elseif(
+                    is_array($tag) &&
+                    array_key_exists('line', $tag) &&
+                    is_array($tag['line']) &&
+                    array_key_exists('start', $tag['line'])
+                ){
+                    $options['trace'] =  $source . ':' . $tag['line']['start'] . PHP_EOL;
+                }
+                elseif(
+                    is_array($tag) &&
+                    array_key_exists('line', $tag)
+                ) {
+                    $options['trace'] =  $source . ':' . $tag['line'] . PHP_EOL;
                 }
             }
             d($source);

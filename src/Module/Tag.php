@@ -63,6 +63,7 @@ class Tag
                 if($text !== ''){
                     $explode = explode("\n", $text);
                     $count = count($explode);
+                    $explode_tag = explode("\n", $tag);
                     if($count > 1){
                         $length_start = mb_strlen($explode[0]);
                         $record = [
@@ -121,6 +122,7 @@ class Tag
                 if($text !== ''){
                     $explode = explode("\n", $text);
                     $count = count($explode);
+                    $explode_tag = explode("\n", $tag);
                     if($count > 1){
                         $length_start = mb_strlen($explode[0]);
                         $record = [

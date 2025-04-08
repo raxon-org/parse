@@ -190,7 +190,10 @@ class Tag
                 $tag === false &&
                 $char === '{' &&
                 $previous === '{' &&
-                $is_comment === false
+                $is_comment === false &&
+                $is_single_quoted === false &&
+                $is_double_quoted === false &&
+                $is_double_quoted_backslash === false
             ){
                 $tag = '{{';
             }
@@ -199,7 +202,10 @@ class Tag
                 $char === '}' &&
                 $previous === '}' &&
                 $is_comment === false &&
-                $curly_count === 0
+                $curly_count === 0 &&
+                $is_single_quoted === false &&
+                $is_double_quoted === false &&
+                $is_double_quoted_backslash === false
             ){
                 if(mb_strlen($text) > 0){
                     $text = mb_substr($text, 0, -1);

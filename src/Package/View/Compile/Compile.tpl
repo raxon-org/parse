@@ -3,6 +3,7 @@
 is.array($response) ||
 is.object($response)
 )}}
+{{d($response)}}
 {{$response|json.encode}}
 {{else}}
 {{$response|default:''}}

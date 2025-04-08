@@ -1290,7 +1290,7 @@ class Token
                 ]];
                 return $input;
             default:
-                $trim_value = trim($value);
+                $trim_value = mb_trim($value);
                 if(
                     $trim_value === '' &&
                     $trim_value !== $value
@@ -1307,9 +1307,21 @@ class Token
                 ){
                     $input['array'] = [[
                         'value' => $value,
-                        'execute' => substr($value, 1, -1),
+                        'execute' => mb_substr($value, 1, -1),
                         'type' => 'string',
                         'is_single_quoted' => true
+                    ]];
+                    return $input;
+                }
+                elseif(
+                    mb_substr($value, 0, 1) === '"' &&
+                    mb_substr($value, -1) === '"'
+                ){
+                    $input['array'] = [[
+                        'value' => $value,
+                        'execute' => mb_substr($value, 1, -1),
+                        'type' => 'string',
+                        'is_double_quoted' => true
                     ]];
                     return $input;
                 }

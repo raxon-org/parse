@@ -201,6 +201,7 @@ class Value
                         $input['array'][$i] = null;
                     }
                     $is_double_quoted = false;
+                    ddd($input);
                 }
                 elseif(
                     $char['value'] === '"' &&
@@ -759,6 +760,9 @@ class Value
                 }
             }
             if($is_double_quote === true){
+
+                /**
+                //old code
                 if($current === '{{'){
                     $curly_depth++;
                     if($tag_nr === false){
@@ -797,6 +801,7 @@ class Value
                     $tag .= $current;
                     $tag_array[] = $char;
                 }
+                */
             }
         }
         return $input;

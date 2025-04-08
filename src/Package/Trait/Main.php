@@ -29,6 +29,7 @@ trait Main {
             case 'data':
             case 'json':
             case 'jsonl':
+                $object->config('package.raxon/parse.build.state.source.url', $options->source);
                 $parse =  $object->compile_read($options->source, null, $flags, $options);
                 if($parse){
                     return $parse->data();
@@ -36,6 +37,7 @@ trait Main {
                 return null;
             default:
                 $input = File::read($options->source);
+                $object->config('package.raxon/parse.build.state.source.url', $options->source);
                 $parse = new Parse($object, new Data(), $flags, $options);
                 $object->config(Parse::CONFIG . '.build.builder', 'Compile'); //can be removed if bold is replaced.
                 return $parse->compile($input);

@@ -832,7 +832,7 @@ class Php {
                             $data[] = $uuid_options . '->source = \'internal_\' . Core::uuid();';
                             $data[] = $uuid_storage . '= new Data($data);';
                             $data[] = $uuid_parse . ' = new Parse($object, '. $uuid_storage . ', $flags, '. $uuid_options . ');';
-                            $data[] = $uuid_variable . ' = '.  $uuid_parse . '->compile("' . substr($record['text'], 1, -1) . '", $data, true);';
+                            $data[] = $uuid_variable . ' = '.  $uuid_parse . '->compile("' . substr($record['text'], 2, -2) . '", $data, true);';
                             $data[] = '$content[] = \'\\"\';';
                             $data[] = '$content[] = ' . $uuid_variable . ';';
                             $data[] = '$content[] = \'\\"\';';

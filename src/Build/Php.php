@@ -231,7 +231,6 @@ class Php {
         $for_depth = 0;
         $foreach_depth = 0;
         $while_depth = 0;
-        $data[] = '$remove_next_char = 0;';
         $content = [];
         foreach ($tags as $row_nr => $list) {
             foreach ($list as $nr => &$record) {
@@ -801,10 +800,6 @@ class Php {
                         }
                         $text = Php::text($object, $flags, $options, $record);
                         $data[] = '$content[] =  \'' . str_replace(['\\','\''], ['\\\\', '\\\''], $text) . '\';';
-                        $data[] = 'if($remove_next_char > 0){';
-                        $data[] = '    $content[] = substr(array_pop($content), 1);';
-                        $data[] = '    $remove_next_char--;';
-                        $data[] = '}';
                     }
                     elseif(array_key_exists('variable', $record)){
                         if(

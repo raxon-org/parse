@@ -29,7 +29,7 @@ trait Main {
             case 'data':
             case 'json':
             case 'jsonl':
-                $parse =  $object->parse_read($options->source);
+                $parse =  $object->compile_read($options->source, null, $flags, $options);
                 if($parse){
                     return $parse->data();
                 }

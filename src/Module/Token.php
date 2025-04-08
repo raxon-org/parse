@@ -1191,6 +1191,7 @@ class Token
                                 ],
                                 $tag
                             );
+                            d($list);
                         }
                         if(
                             array_key_exists(0, $list['array']) &&

@@ -807,8 +807,17 @@ class Php {
                             substr($record['text'], 0, 1) === '"' &&
                             substr($record['text'], -1) === '"'
                         ){
+                            $uuid_variable = Core::uuid_variable();
+                            $uuid_storage = Core::uuid_variable();
+                            $uuid_parse = Core::uuid_variable();
+                            $uuid_options = Core::uuid_variable();
+                            $data[] = $uuid_options . ' = clone $options;';
+                            $data[] = $uuid_options . '->source = \'internal_\' . Core::uuid();';
+                            $data[] = $uuid_storage . '= new Data($data);';
+                            $data[] = $uuid_parse . ' = new Parse($object, '. $uuid_storage . ', $flags, '. $uuid_options . ');';
+                            $data[] = $uuid_variable . ' = '.  $uuid_parse . '->compile("' . substr($record['text'], 1, -1) . '", $data, true);';
                             $data[] = '$content[] = \'"\';';
-                            $data[] = '$content[] = $parse->compile("' . substr($record['text'], 1, -1) . '", $data);';
+                            $data[] = '$content[] = ' . $uuid_variable . ';';
                             $data[] = '$content[] = \'"\';';
                         } else {
                             $text = Php::text($object, $flags, $options, $record);

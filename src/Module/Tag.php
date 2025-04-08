@@ -346,6 +346,7 @@ class Tag
                 $tag .= $char;
             }
             elseif($is_comment === false){
+                d($char);
                 $text .= $char;
             }
             if($char !== "\n") {

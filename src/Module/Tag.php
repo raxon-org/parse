@@ -304,6 +304,7 @@ class Tag
                 $previous === '\\'
             ){
                 if($text !== ''){
+                    ddd($text);
                     $explode = explode("\n", $text);
                     $count = count($explode);
                     $explode_tag = explode("\n", $tag);

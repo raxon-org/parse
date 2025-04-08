@@ -185,6 +185,7 @@ class Tag
                 if($text !== ''){
                     $explode = explode("\n", $text);
                     $count = count($explode);
+                    d($count);
                     $explode_tag = explode("\n", $tag);
                     if($count > 1){
                         $length_start = mb_strlen($explode[0]);

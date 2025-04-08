@@ -339,37 +339,43 @@ class Token
                                 }
                                 elseif(
                                     $char === '(' &&
-                                    $is_single_quoted === false
+                                    $is_single_quoted === false &&
+                                    $is_double_quoted === false
                                 ){
                                     $set_depth++;
                                 }
                                 elseif(
                                     $char === ')' &&
-                                    $is_single_quoted === false
+                                    $is_single_quoted === false &&
+                                    $is_double_quoted === false
                                 ){
                                     $set_depth--;
                                 }
                                 elseif(
                                     $char === '[' &&
-                                    $is_single_quoted === false
+                                    $is_single_quoted === false &&
+                                    $is_double_quoted === false
                                 ){
                                     $array_depth++;
                                 }
                                 elseif(
                                     $char === ']' &&
-                                    $is_single_quoted === false
+                                    $is_single_quoted === false &&
+                                    $is_double_quoted === false
                                 ){
                                     $array_depth--;
                                 }
                                 elseif(
                                     $char === '{' &&
-                                    $is_single_quoted === false
+                                    $is_single_quoted === false &&
+                                    $is_double_quoted === false
                                 ){
                                     $curly_depth++;
                                 }
                                 elseif(
                                     $char === '}' &&
-                                    $is_single_quoted === false
+                                    $is_single_quoted === false &&
+                                    $is_double_quoted === false
                                 ){
                                     $curly_depth--;
                                 }

@@ -32,6 +32,7 @@ trait D {
                     $options['trace'] =  $source . ':' . $tag->line . PHP_EOL;
                 }
             }
+            d($object->config());
             d($source);
             d($tag);
             ddd($options);

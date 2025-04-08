@@ -384,7 +384,6 @@ class Parse
         ){
             $object->config('package.raxon/parse.build.state.source.is.json', true);
         }
-        d(File::extension($source));
         d($source);
         $object->config('package.raxon/parse.build.state.source.url', $source);
         $mtime = false;

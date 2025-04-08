@@ -836,6 +836,7 @@ class Php {
                             $data[] = '$content[] = \'\\"\';';
                             $data[] = '$content[] = ' . $uuid_variable . ';';
                             $data[] = '$content[] = \'\\"\';';
+                            d($data);
                         }
                         else {
                             $text = Php::text($object, $flags, $options, $record);

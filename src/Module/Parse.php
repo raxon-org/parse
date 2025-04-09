@@ -354,7 +354,7 @@ class Parse
                             $source = str_replace($i . 'x_', '', $source);
                         }
                     }
-                    $options->source = 'internal_' . ($depth + 1) . 'x_' . $source . '_' . $key . '_' . str_replace('-', '_', Core::uuid());
+                    $options->source = 'internal_' . ($depth + 1) . 'x_' . $source . '_' . $key;
                     $options->source_root = $old_source;
                     $options->class = Parse::class_name($object, $options->source);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);

@@ -1296,7 +1296,7 @@ class Token
                 ]];
                 return $input;
             default:
-                $trim_value = mb_trim($value);
+                $trim_value = trim($value);
                 if(
                     $trim_value === '' &&
                     $trim_value !== $value

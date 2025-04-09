@@ -382,7 +382,6 @@ class Compile
                         'object',
                         'echo',
                         'parse',
-                        'break',
                         'continue',
                         'constant',
                         'require',

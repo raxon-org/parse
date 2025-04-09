@@ -21,20 +21,32 @@ trait Main {
         if(File::exist($options->source) === false){
             throw new Exception('Source not found: ' . $options->source);
         }
+        $extension = File::extension($options->source);
         if(!property_exists($options, 'type')){
             $options->type = 'string';
+        }
+        if(
+            in_array(
+                $extension,
+                [
+                    'json',
+                    'jsonl'
+                ],
+                true
+            )
+        ){
+            $options->type = 'data';
         }
         $object = $this->object();
         switch($options->type){
             case 'data':
-            case 'json':
-            case 'jsonl':
                 $object->config('package.raxon/parse.build.state.source.url', $options->source);
                 $parse =  $object->compile_read($options->source, null, $flags, $options);
                 if($parse){
                     return $parse->data();
                 }
                 return null;
+            case 'string':
             default:
                 $input = File::read($options->source);
                 $object->config('package.raxon/parse.build.state.source.url', $options->source);

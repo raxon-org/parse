@@ -360,7 +360,6 @@ class Parse
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
                     $input->{$key} = $this->compile($value, $data, $is_debug);
-                    ddd($options);
                     $options->source = $old_source;
                     if($old_class){
                         $options->class = $old_class;

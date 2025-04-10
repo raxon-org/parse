@@ -642,7 +642,6 @@ class Php {
                         $while_depth === 0 &&
                         $foreach_depth === 0
                     ){
-                        d($if_depth);
                         if($if_depth === 1){
                             $if_before = [];
                             $if_after = [];
@@ -926,6 +925,11 @@ class Php {
                     $record['for_depth'] = $for_depth;
                     $record['foreach_depth'] = $foreach_depth;
                     $record['while_depth'] = $while_depth;
+                    $record['script_depth'] = $script_depth;
+                    $record['link_depth'] = $link_depth;
+                    $record['block_depth'] = $block_depth;
+                    $record['capture_append_depth'] = $capture_append_depth;
+                    $record['capture_prepend_depth'] = $capture_prepend_depth;
                 }
                 if($record['if_depth'] >= 1){
                     if(in_array($if_method, ['if', 'else'], true)){
@@ -991,7 +995,68 @@ class Php {
                         $content['while']['content'][$row_nr] = [];
                     }
                     $content['while']['content'][$row_nr][] = $record;
-                } else {
+                }
+                elseif($record['script_depth'] >= 1){
+                    if(!array_key_exists('script', $content)){
+                        $content['script'] = [];
+                    }
+                    if(!array_key_exists('content', $content['script'])){
+                        $content['script']['content'] = [];
+                    }
+                    if(!array_key_exists($row_nr, $content['script']['content'])){
+                        $content['script']['content'][$row_nr] = [];
+                    }
+                    $content['script']['content'][$row_nr][] = $record;
+                }
+                elseif($record['link_depth'] >= 1){
+                    if(!array_key_exists('link', $content)){
+                        $content['link'] = [];
+                    }
+                    if(!array_key_exists('content', $content['link'])){
+                        $content['link']['content'] = [];
+                    }
+                    if(!array_key_exists($row_nr, $content['link']['content'])){
+                        $content['link']['content'][$row_nr] = [];
+                    }
+                    $content['link']['content'][$row_nr][] = $record;
+                }
+                elseif($record['block_depth'] >= 1){
+                    if(!array_key_exists('block', $content)){
+                        $content['block'] = [];
+                    }
+                    if(!array_key_exists('content', $content['block'])){
+                        $content['block']['content'] = [];
+                    }
+                    if(!array_key_exists($row_nr, $content['block']['content'])){
+                        $content['block']['content'][$row_nr] = [];
+                    }
+                    $content['block']['content'][$row_nr][] = $record;
+                }
+                elseif($record['capture_append_depth'] >= 1){
+                    if(!array_key_exists('capture_append', $content)){
+                        $content['capture_append'] = [];
+                    }
+                    if(!array_key_exists('content', $content['capture_append'])){
+                        $content['capture_append']['content'] = [];
+                    }
+                    if(!array_key_exists($row_nr, $content['capture_append']['content'])){
+                        $content['capture_append']['content'][$row_nr] = [];
+                    }
+                    $content['capture_append']['content'][$row_nr][] = $record;
+                }
+                elseif($record['capture_prepend_depth'] >= 1){
+                    if(!array_key_exists('capture_prepend', $content)){
+                        $content['capture_prepend'] = [];
+                    }
+                    if(!array_key_exists('content', $content['capture_prepend'])){
+                        $content['capture_prepend']['content'] = [];
+                    }
+                    if(!array_key_exists($row_nr, $content['capture_prepend']['content'])){
+                        $content['capture_prepend']['content'][$row_nr] = [];
+                    }
+                    $content['capture_prepend']['content'][$row_nr][] = $record;
+                }
+                else {
                     if(
                         array_key_exists('text', $record)
                     ){

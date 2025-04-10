@@ -2,4 +2,4 @@
 ...content
 {{require(config('controller.dir.view') + 'User' + '/Module/Authorization.js')}}
 {{/capture.append}}
-{{dd('this')}}
+{{dd('{{this}}')}}

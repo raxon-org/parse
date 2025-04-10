@@ -231,6 +231,11 @@ class Php {
         $for_depth = 0;
         $foreach_depth = 0;
         $while_depth = 0;
+        $script_depth = 0;
+        $link_depth = 0;
+        $block_depth = 0;
+        $capture_append_depth = 0;
+        $capture_prepend_depth = 0;
         $content = [];
         foreach ($tags as $row_nr => $list) {
             foreach ($list as $nr => &$record) {
@@ -247,7 +252,12 @@ class Php {
                         $record['method']['name'] === 'if' &&
                         $for_depth === 0 &&
                         $foreach_depth === 0 &&
-                        $while_depth === 0
+                        $while_depth === 0 &&
+                        $script_depth === 0 &&
+                        $link_depth === 0 &&
+                        $capture_append_depth === 0 &&
+                        $capture_prepend_depth === 0 &&
+                        $block_depth === 0
                     ){
                         $if_depth++;
                         if($if_depth === 1){
@@ -302,7 +312,12 @@ class Php {
                         $if_depth === 1 &&
                         $for_depth === 0 &&
                         $while_depth === 0 &&
-                        $foreach_depth === 0
+                        $foreach_depth === 0 &&
+                        $script_depth === 0 &&
+                        $link_depth === 0 &&
+                        $capture_append_depth === 0 &&
+                        $capture_prepend_depth === 0 &&
+                        $block_depth === 0
                     ){
                         $if_method = 'elseif';
                         $elseif_count++;
@@ -321,7 +336,12 @@ class Php {
                         $record['method']['name'] === 'for' &&
                         $if_depth === 0 &&
                         $while_depth === 0 &&
-                        $foreach_depth === 0
+                        $foreach_depth === 0 &&
+                        $script_depth === 0 &&
+                        $link_depth === 0 &&
+                        $capture_append_depth === 0 &&
+                        $capture_prepend_depth === 0 &&
+                        $block_depth === 0
                     ){
                         $for_depth++;
                         if($for_depth === 1){
@@ -356,7 +376,12 @@ class Php {
                         ) &&
                         $if_depth === 0 &&
                         $for_depth === 0 &&
-                        $while_depth === 0
+                        $while_depth === 0 &&
+                        $script_depth === 0 &&
+                        $link_depth === 0 &&
+                        $capture_append_depth === 0 &&
+                        $capture_prepend_depth === 0 &&
+                        $block_depth === 0
                     ){
                         $foreach_depth++;
                         if($foreach_depth === 1){
@@ -383,10 +408,14 @@ class Php {
                         $record['method']['name'] === 'while' &&
                         $if_depth === 0 &&
                         $for_depth === 0 &&
-                        $foreach_depth === 0
+                        $foreach_depth === 0 &&
+                        $script_depth === 0 &&
+                        $link_depth === 0 &&
+                        $capture_append_depth === 0 &&
+                        $capture_prepend_depth === 0 &&
+                        $block_depth === 0
                     ){
                         $while_depth++;
-                        breakpoint(Cli::debug('while depth' . $while_depth));
                         if($while_depth === 1){
                             if(!array_key_exists('while', $content)){
                                 $content['while'] = [];
@@ -407,10 +436,175 @@ class Php {
                             continue;
                         }
                     }
+                    elseif(
+                        $record['method']['name'] === 'script' &&
+                        $if_depth === 0 &&
+                        $for_depth === 0 &&
+                        $foreach_depth === 0 &&
+                        $while_depth === 0 &&
+                        $link_depth === 0 &&
+                        $capture_append_depth === 0 &&
+                        $capture_prepend_depth === 0 &&
+                        $block_depth === 0
+                    ){
+                        $script_depth++;
+                        if($script_depth === 1){
+                            if(!array_key_exists('script', $content)){
+                                $content['script'] = [];
+                            }
+                            if(!array_key_exists('statement', $content['script'])){
+                                $content['script']['statement'] = $record;
+                                continue;
+                            }
+                        }
+                        elseif($script_depth > 1){
+                            if(!array_key_exists('content', $content['script'])){
+                                $content['script']['content'] = [];
+                            }
+                            if(!array_key_exists($row_nr, $content['script']['content'])){
+                                $content['script']['content'][$row_nr] = [];
+                            }
+                            $content['script']['content'][$row_nr][] = $record;
+                            continue;
+                        }
+                    }
+                    elseif(
+                        $record['method']['name'] === 'link' &&
+                        $if_depth === 0 &&
+                        $for_depth === 0 &&
+                        $foreach_depth === 0 &&
+                        $while_depth === 0 &&
+                        $script_depth === 0 &&
+                        $capture_append_depth === 0 &&
+                        $capture_prepend_depth === 0 &&
+                        $block_depth === 0
+                    ){
+                        $link_depth++;
+                        if($link_depth === 1){
+                            if(!array_key_exists('link', $content)){
+                                $content['link'] = [];
+                            }
+                            if(!array_key_exists('statement', $content['link'])){
+                                $content['link']['statement'] = $record;
+                                continue;
+                            }
+                        }
+                        elseif($link_depth > 1){
+                            if(!array_key_exists('content', $content['link'])){
+                                $content['link']['content'] = [];
+                            }
+                            if(!array_key_exists($row_nr, $content['link']['content'])){
+                                $content['link']['content'][$row_nr] = [];
+                            }
+                            $content['link']['content'][$row_nr][] = $record;
+                            continue;
+                        }
+                    }
+                    elseif(
+                        $record['method']['name'] === 'capture.append' &&
+                        $if_depth === 0 &&
+                        $for_depth === 0 &&
+                        $foreach_depth === 0 &&
+                        $while_depth === 0 &&
+                        $script_depth === 0 &&
+                        $link_depth === 0 &&
+                        $block_depth === 0 &&
+                        $capture_prepend_depth === 0
+                    ){
+                        $capture_append_depth++;
+                        if($capture_append_depth === 1){
+                            if(!array_key_exists('capture_append', $content)){
+                                $content['capture_append'] = [];
+                            }
+                            if(!array_key_exists('statement', $content['capture_append'])){
+                                $content['capture_append']['statement'] = $record;
+                                continue;
+                            }
+                        }
+                        elseif($capture_append_depth > 1){
+                            if(!array_key_exists('content', $content['capture_append'])){
+                                $content['capture_append']['content'] = [];
+                            }
+                            if(!array_key_exists($row_nr, $content['capture_append']['content'])){
+                                $content['capture_append']['content'][$row_nr] = [];
+                            }
+                            $content['capture_append']['content'][$row_nr][] = $record;
+                            continue;
+                        }
+                    }
+                    elseif(
+                        $record['method']['name'] === 'capture.prepend' &&
+                        $if_depth === 0 &&
+                        $for_depth === 0 &&
+                        $foreach_depth === 0 &&
+                        $while_depth === 0 &&
+                        $script_depth === 0 &&
+                        $link_depth === 0 &&
+                        $capture_append_depth === 0 &&
+                        $block_depth === 0
+                    ){
+                        $capture_prepend_depth++;
+                        if($capture_prepend_depth === 1){
+                            if(!array_key_exists('capture_prepend', $content)){
+                                $content['capture_prepend'] = [];
+                            }
+                            if(!array_key_exists('statement', $content['capture_prepend'])){
+                                $content['capture_prepend']['statement'] = $record;
+                                continue;
+                            }
+                        }
+                        elseif($capture_prepend_depth > 1){
+                            if(!array_key_exists('content', $content['capture_prepend'])){
+                                $content['capture_prepend']['content'] = [];
+                            }
+                            if(!array_key_exists($row_nr, $content['capture_prepend']['content'])){
+                                $content['capture_prepend']['content'][$row_nr] = [];
+                            }
+                            $content['capture_prepend']['content'][$row_nr][] = $record;
+                            continue;
+                        }
+                    }
+                    elseif(
+                        str_starts_with($record['method']['name'],'block.') &&
+                        $if_depth === 0 &&
+                        $for_depth === 0 &&
+                        $foreach_depth === 0 &&
+                        $while_depth === 0 &&
+                        $script_depth === 0 &&
+                        $link_depth === 0 &&
+                        $capture_append_depth === 0 &&
+                        $capture_prepend_depth === 0
+                    ){
+                        $block_depth++;
+                        if($block_depth === 1){
+                            if(!array_key_exists('block', $content)){
+                                $content['block'] = [];
+                            }
+                            if(!array_key_exists('statement', $content['block'])){
+                                $content['block']['statement'] = $record;
+                                continue;
+                            }
+                        }
+                        elseif($block_depth > 1){
+                            if(!array_key_exists('content', $content['block'])){
+                                $content['block']['content'] = [];
+                            }
+                            if(!array_key_exists($row_nr, $content['block']['content'])){
+                                $content['block']['content'][$row_nr] = [];
+                            }
+                            $content['block']['content'][$row_nr][] = $record;
+                            continue;
+                        }
+                    }
                     $record['if_depth'] = $if_depth;
                     $record['for_depth'] = $for_depth;
                     $record['foreach_depth'] = $foreach_depth;
                     $record['while_depth'] = $while_depth;
+                    $record['script_depth'] = $script_depth;
+                    $record['link_depth'] = $link_depth;
+                    $record['block_depth'] = $block_depth;
+                    $record['capture_append_depth'] = $capture_append_depth;
+                    $record['capture_prepend_depth'] = $capture_prepend_depth;
                 }
                 elseif(
                     array_key_exists('marker', $record) &&

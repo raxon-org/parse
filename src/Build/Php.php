@@ -640,7 +640,12 @@ class Php {
                         $record['marker']['is_close'] === true &&
                         $for_depth === 0 &&
                         $while_depth === 0 &&
-                        $foreach_depth === 0
+                        $foreach_depth === 0 &&
+                        $script_depth === 0 &&
+                        $link_depth === 0 &&
+                        $capture_append_depth === 0 &&
+                        $capture_prepend_depth === 0 &&
+                        $block_depth === 0
                     ){
                         if($if_depth === 1){
                             $if_before = [];
@@ -735,7 +740,12 @@ class Php {
                         $record['marker']['is_close'] === true &&
                         $if_depth === 0 &&
                         $foreach_depth === 0 &&
-                        $while_depth === 0
+                        $while_depth === 0 &&
+                        $script_depth === 0 &&
+                        $link_depth === 0 &&
+                        $capture_append_depth === 0 &&
+                        $capture_prepend_depth === 0 &&
+                        $block_depth === 0
                     ){
                         if($for_depth === 1){
                             $for_before = [];
@@ -800,7 +810,12 @@ class Php {
                         $record['marker']['is_close'] === true &&
                         $if_depth === 0 &&
                         $while_depth === 0 &&
-                        $for_depth === 0
+                        $for_depth === 0 &&
+                        $script_depth === 0 &&
+                        $link_depth === 0 &&
+                        $capture_append_depth === 0 &&
+                        $capture_prepend_depth === 0 &&
+                        $block_depth === 0
                     ){
                         if($foreach_depth === 1){
                             $foreach_before = [];
@@ -868,7 +883,12 @@ class Php {
                         $record['marker']['is_close'] === true &&
                         $if_depth === 0 &&
                         $foreach_depth === 0 &&
-                        $for_depth === 0
+                        $for_depth === 0 &&
+                        $script_depth === 0 &&
+                        $link_depth === 0 &&
+                        $capture_append_depth === 0 &&
+                        $capture_prepend_depth === 0 &&
+                        $block_depth === 0
                     ){
                         breakpoint(Cli::alert('while depth:' . $while_depth));
                         if($while_depth === 1){
@@ -918,6 +938,316 @@ class Php {
                             $content['while'] = [];
                         }
                         $while_depth--;
+                        continue;
+                    }
+                    elseif(
+                        $record['marker']['name'] === 'script' &&
+                        array_key_exists('is_close', $record['marker']) &&
+                        $record['marker']['is_close'] === true &&
+                        $if_depth === 0 &&
+                        $foreach_depth === 0 &&
+                        $for_depth === 0 &&
+                        $while_depth === 0 &&
+                        $link_depth === 0 &&
+                        $capture_append_depth === 0 &&
+                        $capture_prepend_depth === 0 &&
+                        $block_depth === 0
+                    ){
+                        breakpoint(Cli::alert('script depth:' . $script_depth));
+                        if($script_depth === 1){
+                            $script_before = [];
+                            $script_after = [];
+                            $script_data = [];
+                            $separator = $object->config('package.raxon/parse.build.state.separator');
+                            $separator_uuid = Core::uuid();
+                            $object->config('package.raxon/parse.build.state.separator', $separator_uuid);
+                            if(!array_key_exists('statement', $content['script'])){
+                                ddd($content);
+                            }
+                            $script_data[] = Php::method($object, $flags, $options, $content['script']['statement'], $before, $after) . '{';
+                            if($separator === null){
+                                $object->config('delete', 'package.raxon/parse.build.state.separator');
+                            } else {
+                                $object->config('package.raxon/parse.build.state.separator', $separator);
+                            }
+                            if(!empty($before)){
+                                foreach($before as $line){
+                                    $script_before[] = $line;
+                                }
+                                $before = [];
+                            }
+                            if(!empty($after)){
+                                foreach($after as $line){
+                                    $script_after[] = $line;
+                                }
+                                $before = [];
+                            }
+                            $object->config('package.raxon/parse.build.state.remove_newline_next', true);
+                            $script_content = PHP::document_tag($object, $flags, $options, $content['script']['content']);
+                            foreach($script_content as $line){
+                                $script_data[] = $line;
+                            }
+                            $script_data[] = '}';
+
+                            foreach($script_before as $line){
+                                $data[] = $line;
+                            }
+                            foreach($script_data as $line){
+                                $data[] = $line;
+                            }
+                            foreach($script_after as $line){
+                                $data[] = $line;
+                            }
+                            $content['script'] = [];
+                        }
+                        $script_depth--;
+                        continue;
+                    }
+                    elseif(
+                        $record['marker']['name'] === 'link' &&
+                        array_key_exists('is_close', $record['marker']) &&
+                        $record['marker']['is_close'] === true &&
+                        $if_depth === 0 &&
+                        $foreach_depth === 0 &&
+                        $for_depth === 0 &&
+                        $while_depth === 0 &&
+                        $script_depth === 0 &&
+                        $capture_append_depth === 0 &&
+                        $capture_prepend_depth === 0 &&
+                        $block_depth === 0
+                    ){
+                        breakpoint(Cli::alert('link depth:' . $link_depth));
+                        if($link_depth === 1){
+                            $link_before = [];
+                            $link_after = [];
+                            $link_data = [];
+                            $separator = $object->config('package.raxon/parse.build.state.separator');
+                            $separator_uuid = Core::uuid();
+                            $object->config('package.raxon/parse.build.state.separator', $separator_uuid);
+                            if(!array_key_exists('statement', $content['link'])){
+                                ddd($content);
+                            }
+                            $link_data[] = Php::method($object, $flags, $options, $content['link']['statement'], $before, $after) . '{';
+                            if($separator === null){
+                                $object->config('delete', 'package.raxon/parse.build.state.separator');
+                            } else {
+                                $object->config('package.raxon/parse.build.state.separator', $separator);
+                            }
+                            if(!empty($before)){
+                                foreach($before as $line){
+                                    $link_before[] = $line;
+                                }
+                                $before = [];
+                            }
+                            if(!empty($after)){
+                                foreach($after as $line){
+                                    $link_after[] = $line;
+                                }
+                                $before = [];
+                            }
+                            $object->config('package.raxon/parse.build.state.remove_newline_next', true);
+                            $link_content = PHP::document_tag($object, $flags, $options, $content['link']['content']);
+                            foreach($link_content as $line){
+                                $link_data[] = $line;
+                            }
+                            $link_data[] = '}';
+
+                            foreach($link_before as $line){
+                                $data[] = $line;
+                            }
+                            foreach($link_data as $line){
+                                $data[] = $line;
+                            }
+                            foreach($link_after as $line){
+                                $data[] = $line;
+                            }
+                            $content['link'] = [];
+                        }
+                        $link_depth--;
+                        continue;
+                    }
+                    elseif(
+                        $record['marker']['name'] === 'block' &&
+                        array_key_exists('is_close', $record['marker']) &&
+                        $record['marker']['is_close'] === true &&
+                        $if_depth === 0 &&
+                        $foreach_depth === 0 &&
+                        $for_depth === 0 &&
+                        $while_depth === 0 &&
+                        $script_depth === 0 &&
+                        $link_depth === 0 &&
+                        $capture_append_depth === 0 &&
+                        $capture_prepend_depth === 0
+                    ){
+                        breakpoint(Cli::alert('block depth:' . $block_depth));
+                        if($block_depth === 1){
+                            $block_before = [];
+                            $block_after = [];
+                            $block_data = [];
+                            $separator = $object->config('package.raxon/parse.build.state.separator');
+                            $separator_uuid = Core::uuid();
+                            $object->config('package.raxon/parse.build.state.separator', $separator_uuid);
+                            if(!array_key_exists('statement', $content['block'])){
+                                ddd($content);
+                            }
+                            $block_data[] = Php::method($object, $flags, $options, $content['block']['statement'], $before, $after) . '{';
+                            if($separator === null){
+                                $object->config('delete', 'package.raxon/parse.build.state.separator');
+                            } else {
+                                $object->config('package.raxon/parse.build.state.separator', $separator);
+                            }
+                            if(!empty($before)){
+                                foreach($before as $line){
+                                    $block_before[] = $line;
+                                }
+                                $before = [];
+                            }
+                            if(!empty($after)){
+                                foreach($after as $line){
+                                    $block_after[] = $line;
+                                }
+                                $before = [];
+                            }
+                            $object->config('package.raxon/parse.build.state.remove_newline_next', true);
+                            $block_content = PHP::document_tag($object, $flags, $options, $content['block']['content']);
+                            foreach($block_content as $line){
+                                $block_data[] = $line;
+                            }
+                            $block_data[] = '}';
+
+                            foreach($block_before as $line){
+                                $data[] = $line;
+                            }
+                            foreach($block_data as $line){
+                                $data[] = $line;
+                            }
+                            foreach($block_after as $line){
+                                $data[] = $line;
+                            }
+                            $content['block'] = [];
+                        }
+                        $block_depth--;
+                        continue;
+                    }
+                    elseif(
+                        $record['marker']['name'] === 'capture.append' &&
+                        array_key_exists('is_close', $record['marker']) &&
+                        $record['marker']['is_close'] === true &&
+                        $if_depth === 0 &&
+                        $foreach_depth === 0 &&
+                        $for_depth === 0
+                    ){
+                        breakpoint(Cli::alert('capture.append depth:' . $capture_append_depth));
+                        if($capture_append_depth === 1){
+                            $capture_append_before = [];
+                            $capture_append_after = [];
+                            $capture_append_data = [];
+                            $separator = $object->config('package.raxon/parse.build.state.separator');
+                            $separator_uuid = Core::uuid();
+                            $object->config('package.raxon/parse.build.state.separator', $separator_uuid);
+                            if(!array_key_exists('statement', $content['capture_append'])){
+                                ddd($content);
+                            }
+                            $capture_append_data[] = Php::method($object, $flags, $options, $content['capture_append']['statement'], $before, $after) . '{';
+                            if($separator === null){
+                                $object->config('delete', 'package.raxon/parse.build.state.separator');
+                            } else {
+                                $object->config('package.raxon/parse.build.state.separator', $separator);
+                            }
+                            if(!empty($before)){
+                                foreach($before as $line){
+                                    $capture_append_before[] = $line;
+                                }
+                                $before = [];
+                            }
+                            if(!empty($after)){
+                                foreach($after as $line){
+                                    $capture_append_after[] = $line;
+                                }
+                                $before = [];
+                            }
+                            $object->config('package.raxon/parse.build.state.remove_newline_next', true);
+                            $capture_append_content = PHP::document_tag($object, $flags, $options, $content['capture_append']['content']);
+                            foreach($capture_append_content as $line){
+                                $capture_append_data[] = $line;
+                            }
+                            $capture_append_data[] = '}';
+
+                            foreach($capture_append_before as $line){
+                                $data[] = $line;
+                            }
+                            foreach($capture_append_data as $line){
+                                $data[] = $line;
+                            }
+                            foreach($capture_append_after as $line){
+                                $data[] = $line;
+                            }
+                            $content['capture_append'] = [];
+                        }
+                        $capture_append_depth--;
+                        continue;
+                    }
+                    elseif(
+                        $record['marker']['name'] === 'capture.prepend' &&
+                        array_key_exists('is_close', $record['marker']) &&
+                        $record['marker']['is_close'] === true &&
+                        $if_depth === 0 &&
+                        $foreach_depth === 0 &&
+                        $for_depth === 0 &&
+                        $while_depth === 0 &&
+                        $script_depth === 0 &&
+                        $link_depth === 0 &&
+                        $capture_append_depth === 0 &&
+                        $block_depth === 0
+                    ){
+                        breakpoint(Cli::alert('capture.prepend depth:' . $capture_prepend_depth));
+                        if($capture_prepend_depth === 1){
+                            $capture_prepend_before = [];
+                            $capture_prepend_after = [];
+                            $capture_prepend_data = [];
+                            $separator = $object->config('package.raxon/parse.build.state.separator');
+                            $separator_uuid = Core::uuid();
+                            $object->config('package.raxon/parse.build.state.separator', $separator_uuid);
+                            if(!array_key_exists('statement', $content['capture_prepend'])){
+                                ddd($content);
+                            }
+                            $capture_prepend_data[] = Php::method($object, $flags, $options, $content['capture_prepend']['statement'], $before, $after) . '{';
+                            if($separator === null){
+                                $object->config('delete', 'package.raxon/parse.build.state.separator');
+                            } else {
+                                $object->config('package.raxon/parse.build.state.separator', $separator);
+                            }
+                            if(!empty($before)){
+                                foreach($before as $line){
+                                    $capture_prepend_before[] = $line;
+                                }
+                                $before = [];
+                            }
+                            if(!empty($after)){
+                                foreach($after as $line){
+                                    $capture_prepend_after[] = $line;
+                                }
+                                $before = [];
+                            }
+                            $object->config('package.raxon/parse.build.state.remove_newline_next', true);
+                            $capture_prepend_content = PHP::document_tag($object, $flags, $options, $content['capture_prepend']['content']);
+                            foreach($capture_prepend_content as $line){
+                                $capture_prepend_data[] = $line;
+                            }
+                            $capture_prepend_data[] = '}';
+
+                            foreach($capture_prepend_before as $line){
+                                $data[] = $line;
+                            }
+                            foreach($capture_prepend_data as $line){
+                                $data[] = $line;
+                            }
+                            foreach($capture_prepend_after as $line){
+                                $data[] = $line;
+                            }
+                            $content['capture_prepend'] = [];
+                        }
+                        $capture_prepend_depth--;
                         continue;
                     }
                 } else {

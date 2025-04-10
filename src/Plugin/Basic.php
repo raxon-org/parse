@@ -49,6 +49,24 @@ trait Basic {
         return $this->data;
     }
 
+    public function storage(Data $data=null): ?Data
+    {
+        if($data !== null){
+            $this->setStorage($data);
+        }
+        return $this->getStorage();
+    }
+
+    private function setStorage(Data $data): void
+    {
+        $this->data = $data;
+    }
+
+    private function getStorage(): ?Data
+    {
+        return $this->data;
+    }
+
     public function parse_options(object $options=null): ?object
     {
         if($options !== null){

@@ -991,6 +991,7 @@ class Php {
                             if(array_key_exists('method', $content['script']['statement'])){
                                 $content['script']['statement']['method']['argument'] = $arguments;
                             }
+                            $script_content[] = $options->variable . ' = implode(\'\', ' . $options->variable . ');';
                             d($script_content);
                             ddd($content['script']);
                             if($variable_old){

@@ -3,9 +3,9 @@
 {{require(config('controller.dir.view') + 'User' + '/Module/Authorization.js')}}
 {{/capture.append}}
 {{capture.prepend('script')}}
-...before
+...before in script 1
 {{capture.prepend('script')}}
-...before in script
+...before in script 2
 {{/capture.prepend}}
 {{/capture.prepend}}
 hello

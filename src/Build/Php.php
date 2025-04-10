@@ -1428,7 +1428,7 @@ class Php {
                     }
                     $content['block']['content'][$row_nr][] = $record;
                 }
-                elseif($record['capture_adepth'] >= 1){
+                elseif($record['capture_depth'] >= 1){
                     if(!array_key_exists('capture', $content)){
                         $content['capture'] = [];
                     }

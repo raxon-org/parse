@@ -1421,7 +1421,7 @@ class Php {
                             $data[] = $uuid_parse . ' = new Parse($object, '. $uuid_storage . ', $flags, '. $uuid_options . ');';
                             $data[] = $uuid_variable . ' = '.  $uuid_parse . '->compile("' . substr($record['text'], 1, -1) . '", $data, true);';
 
-                            if(property_exists('variable', $options)){
+                            if(property_exists($options, 'variable')){
                                 $data[] = $options->variable . '[] = \'"\';';
                                 $data[] = $options->variable . '[] = ' . $uuid_variable . ';';
                                 $data[] = $options->variable . '[] = \'"\';';
@@ -1444,7 +1444,7 @@ class Php {
                             $data[] = $uuid_storage . '= new Data($data);';
                             $data[] = $uuid_parse . ' = new Parse($object, '. $uuid_storage . ', $flags, '. $uuid_options . ');';
                             $data[] = $uuid_variable . ' = '.  $uuid_parse . '->compile("' . substr($record['text'], 2, -2) . '", $data, true);';
-                            if(property_exists('variable', $options)){
+                            if(property_exists($options, 'variable')){
                                 $data[] = $options->variable . '[] = \'\\"\';';
                                 $data[] = $options->variable . '[] = ' . $uuid_variable . ';';
                                 $data[] = $options->variable . '[] = \'\\"\';';
@@ -1456,7 +1456,7 @@ class Php {
                         }
                         else {
                             $text = Php::text($object, $flags, $options, $record);
-                            if(property_exists('variable', $options)){
+                            if(property_exists($options, 'variable')){
                                 $data[] = $options->variable . '[] =  \'' . str_replace(['\\', '\''], ['\\\\', '\\\''], $text) . '\';';
                             } else {
                                 $data[] = '$content[] =  \'' . str_replace(['\\', '\''], ['\\\\', '\\\''], $text) . '\';';
@@ -1505,7 +1505,7 @@ class Php {
                             $uuid_method = Core::uuid_variable();
                             $data[] = $uuid_method . ' = ' . $method . ';';
                             $data[] = 'if(is_scalar(' . $uuid_method . ')){';
-                            if(property_exists('variable', $options)){
+                            if(property_exists($options, 'variable')){
                                 $data[] = '    '. $options->variable . '[] = ' . $uuid_method . ';';
                             } else {
                                 $data[] = '    $content[] = ' . $uuid_method . ';';
@@ -2997,7 +2997,7 @@ class Php {
             }
 //            $data[] = 'd(' . $variable_uuid . ');';
             $data[] = 'elseif(is_scalar('. $variable_uuid. ')){';
-            if(property_exists('variable', $options)){
+            if(property_exists($options, 'variable')){
                 $data[] = $options->variable . '[] = ' . $variable_uuid . ';';
             } else {
                 $data[] = '$content[] = ' . $variable_uuid . ';';
@@ -3087,7 +3087,7 @@ class Php {
                 $data[] = '}';
             }
             $data[] = 'elseif(is_scalar('. $variable_uuid. ')){';
-            if(property_exists('variable', $options)){
+            if(property_exists($options, 'variable')){
                 $data[] = $options->variable . '[] = ' . $variable_uuid . ';';
             } else {
                 $data[] = '$content[] =  ' . $variable_uuid . ';';

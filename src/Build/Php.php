@@ -1455,11 +1455,6 @@ class Php {
                             substr($record['text'], 0, 1) === '"' &&
                             substr($record['text'], -1) === '"'
                         ){
-                            $uuid_variable = Core::uuid_variable();
-                            $uuid_storage = Core::uuid_variable();
-                            $uuid_parse = Core::uuid_variable();
-                            $uuid_options = Core::uuid_variable();
-
                             $variable_old = $options->variable ?? null;
                             $options->variable = Core::uuid_variable();
 
@@ -1482,6 +1477,10 @@ class Php {
                             }
 
                             /*
+                            $uuid_variable = Core::uuid_variable();
+                            $uuid_storage = Core::uuid_variable();
+                            $uuid_parse = Core::uuid_variable();
+                            $uuid_options = Core::uuid_variable();
                             $data[] = $uuid_options . ' = clone $options;';
                             $data[] = $uuid_options . '->source = \'internal_\' . Core::uuid();';
                             $data[] = $uuid_storage . '= new Data($data);';
@@ -1503,6 +1502,27 @@ class Php {
                             substr($record['text'], 0, 2) === '\\"' &&
                             substr($record['text'], -2) === '\\"'
                         ){
+                            $variable_old = $options->variable ?? null;
+                            $options->variable = Core::uuid_variable();
+
+                            $token = Token::tokenize($object, $flags, $options, substr($record['text'], 2, -2));
+                            $token = Php::document_tag_prepare($object, $flags, $options, $token);
+                            $embed = Php::document_tag($object, $flags, $options, $token);
+                            if(property_exists($options, 'variable')){
+                                $data[] = $options->variable . '[] = \'\\"\';';
+                                foreach($embed as $line){
+                                    $data[] = $line;
+                                }
+                                $data[] = $options->variable . '[] = \'\\"\';';
+                            }
+                            if($variable_old){
+                                $data[] = $variable_old . '[] = implode(\'\', ' . $options->variable . ');';
+                                $options->variable = $variable_old;
+                            } else {
+                                $data[] = '$content[] = implode(\'\', ' . $options->variable . ');';
+                                unset($options->variable);
+                            }
+                            /*
                             $uuid_variable = Core::uuid_variable();
                             $uuid_storage = Core::uuid_variable();
                             $uuid_parse = Core::uuid_variable();
@@ -1521,6 +1541,7 @@ class Php {
                                 $data[] = '$content[] = ' . $uuid_variable . ';';
                                 $data[] = '$content[] = \'\\"\';';
                             }
+                            */
                         }
                         else {
                             $text = Php::text($object, $flags, $options, $record);

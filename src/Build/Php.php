@@ -964,6 +964,7 @@ class Php {
                             if(!array_key_exists('statement', $content['script'])){
                                 ddd($content);
                             }
+                            ddd($content['script']);
                             $script_data[] = Php::method($object, $flags, $options, $content['script']['statement'], $before, $after) . '{';
                             if($separator === null){
                                 $object->config('delete', 'package.raxon/parse.build.state.separator');

@@ -614,6 +614,11 @@ class Php {
                     $record['for_depth'] = $for_depth;
                     $record['foreach_depth'] = $foreach_depth;
                     $record['while_depth'] = $while_depth;
+                    $record['script_depth'] = $script_depth;
+                    $record['link_depth'] = $link_depth;
+                    $record['block_depth'] = $block_depth;
+                    $record['capture_append_depth'] = $capture_append_depth;
+                    $record['capture_prepend_depth'] = $capture_prepend_depth;
                     if($record['marker']['name'] === 'else'){
                         if($if_depth === 1) {
                             $if_method = 'else';

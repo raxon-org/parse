@@ -1,15 +1,8 @@
 <?php
 namespace Plugin;
 
-use Raxon\Exception\ObjectException;
-
-use Raxon\Module\Core;
-
 trait Link {
 
-    /**
-     * @throws ObjectException
-     */
     public function link(string $content): void
     {
         $data = $this->data();

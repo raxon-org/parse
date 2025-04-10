@@ -1,14 +1,8 @@
 <?php
-
-use Raxon\Exception\ObjectException;
-
-use Raxon\Module\Core;
+namespace Plugin;
 
 trait Capture_append {
 
-    /**
-     * @throws ObjectException
-     */
     public function capture_append(string $content, string $name): void
     {
         $data = $this->data();

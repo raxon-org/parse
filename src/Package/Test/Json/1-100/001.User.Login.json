@@ -4,5 +4,6 @@
   "#parallel": [],
   "#output": {
     "filter": "..."
-  }
+  },
+  "#type": "{{options('type')}}"
 }

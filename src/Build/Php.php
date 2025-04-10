@@ -993,13 +993,14 @@ class Php {
                                 $content['script']['statement']['method']['argument'] = $arguments;
                             }
                             $script_content[] = $options->variable . ' = implode(\'\', ' . $options->variable . ');';
+                            $script_before[] = $options->variable . ' = [];';
+                            foreach($script_content as $line){
+                                $script_before[] = $line;
+                            }
                             if($variable_old){
                                 $options->variable = $variable_old;
                             } else {
                                 unset($options->variable);
-                            }
-                            foreach($script_content as $line){
-                                $script_before[] = $line;
                             }
                             $script_data[] = Php::method($object, $flags, $options, $content['script']['statement'], $before, $after) . ';';
                             if($separator === null){

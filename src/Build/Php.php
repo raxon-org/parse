@@ -975,21 +975,28 @@ class Php {
                                 'is_not' => null,
                                 'array_notation' => []
                             ];
-                            $argument = [];
-                            $argument[0] = [
+                            $arguments = [];
+                            $arguments[0] = [
                                 'string' => $options->variable,
                                 'array' => [ $variable_argument ]
                             ];
-
+                            if(
+                                array_key_exists('method', $content['script']['statement']) &&
+                                array_key_exists('argument', $content['script']['statement']['method'])
+                            ){
+                                foreach($content['script']['statement']['method']['argument'] as $argument){
+                                    $arguments[] = $argument;
+                                }
+                            }
+                            $content['script']['statement']['method']['argument'] = $arguments;
                             d($script_content);
-                            d($argument);
                             ddd($content['script']);
                             if($variable_old){
                                 $options->variable = $variable_old;
                             } else {
                                 unset($options->variable);
                             }
-                            $script_data[] = Php::method($object, $flags, $options, $content['script']['statement'], $before, $after) . '{';
+                            $script_data[] = Php::method($object, $flags, $options, $content['script']['statement'], $before, $after) . ';';
                             if($separator === null){
                                 $object->config('delete', 'package.raxon/parse.build.state.separator');
                             } else {

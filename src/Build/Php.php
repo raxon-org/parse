@@ -890,7 +890,6 @@ class Php {
                         $capture_prepend_depth === 0 &&
                         $block_depth === 0
                     ){
-                        breakpoint(Cli::alert('while depth:' . $while_depth));
                         if($while_depth === 1){
                             $while_before = [];
                             $while_after = [];
@@ -955,19 +954,20 @@ class Php {
                     ){
                         breakpoint(Cli::alert('script depth:' . $script_depth));
                         if($script_depth === 1){
-                            $script_before = [];
-                            $script_after = [];
-                            $script_data = [];
+                            $category = 'script';
+                            $block_before = [];
+                            $block_after = [];
+                            $block_data = [];
                             $separator = $object->config('package.raxon/parse.build.state.separator');
                             $separator_uuid = Core::uuid();
                             $object->config('package.raxon/parse.build.state.separator', $separator_uuid);
-                            if(!array_key_exists('statement', $content['script'])){
+                            if(!array_key_exists('statement', $content[$category])){
                                 ddd($content);
                             }
                             $variable_old = $options->variable ?? null;
                             $options->variable = Core::uuid_variable();
                             $object->config('package.raxon/parse.build.state.remove_newline_next', true);
-                            $script_content = PHP::document_tag($object, $flags, $options, $content['script']['content']);
+                            $block_content = PHP::document_tag($object, $flags, $options, $content[$category]['content']);
                             $variable_argument = [
                                 'type' => 'variable',
                                 'tag' => $options->variable,
@@ -982,28 +982,28 @@ class Php {
                                 'array' => [ $variable_argument ]
                             ];
                             if(
-                                array_key_exists('method', $content['script']['statement']) &&
-                                array_key_exists('argument', $content['script']['statement']['method'])
+                                array_key_exists('method', $content[$category]['statement']) &&
+                                array_key_exists('argument', $content[$category]['statement']['method'])
                             ){
-                                foreach($content['script']['statement']['method']['argument'] as $argument){
+                                foreach($content[$category]['statement']['method']['argument'] as $argument){
                                     $arguments[] = $argument;
                                 }
                             }
-                            if(array_key_exists('method', $content['script']['statement'])){
-                                $content['script']['statement']['method']['argument'] = $arguments;
+                            if(array_key_exists('method', $content[$category]['statement'])){
+                                $content[$category]['statement']['method']['argument'] = $arguments;
                             }
-                            $script_content[] = '$data->set(\'' . substr($options->variable, 1) . '\', implode(\'\', ' . $options->variable . '));';
-                            $script_before[] = $options->variable . ' = [];';
-                            $script_after[] = '$data->delete(\'' . substr($options->variable, 1) . '\');';
-                            foreach($script_content as $line){
-                                $script_before[] = $line;
+                            $block_content[] = '$data->set(\'' . substr($options->variable, 1) . '\', implode(\'\', ' . $options->variable . '));';
+                            $block_before[] = $options->variable . ' = [];';
+                            $block_after[] = '$data->delete(\'' . substr($options->variable, 1) . '\');';
+                            foreach($block_content as $line){
+                                $block_before[] = $line;
                             }
                             if($variable_old){
                                 $options->variable = $variable_old;
                             } else {
                                 unset($options->variable);
                             }
-                            $script_data[] = Php::method($object, $flags, $options, $content['script']['statement'], $before, $after) . ';';
+                            $block_data[] = Php::method($object, $flags, $options, $content[$category]['statement'], $before, $after) . ';';
                             if($separator === null){
                                 $object->config('delete', 'package.raxon/parse.build.state.separator');
                             } else {
@@ -1011,26 +1011,26 @@ class Php {
                             }
                             if(!empty($before)){
                                 foreach($before as $line){
-                                    $script_before[] = $line;
+                                    $block_before[] = $line;
                                 }
                                 $before = [];
                             }
                             if(!empty($after)){
                                 foreach($after as $line){
-                                    $script_after[] = $line;
+                                    $block_after[] = $line;
                                 }
                                 $before = [];
                             }
-                            foreach($script_before as $line){
+                            foreach($block_before as $line){
                                 $data[] = $line;
                             }
-                            foreach($script_data as $line){
+                            foreach($block_data as $line){
                                 $data[] = $line;
                             }
-                            foreach($script_after as $line){
+                            foreach($block_after as $line){
                                 $data[] = $line;
                             }
-                            $content['script'] = [];
+                            $content[$category] = [];
                         }
                         $script_depth--;
                         continue;
@@ -1050,16 +1050,56 @@ class Php {
                     ){
                         breakpoint(Cli::alert('link depth:' . $link_depth));
                         if($link_depth === 1){
-                            $link_before = [];
-                            $link_after = [];
-                            $link_data = [];
+                            $category = 'link';
+                            $block_before = [];
+                            $block_after = [];
+                            $block_data = [];
                             $separator = $object->config('package.raxon/parse.build.state.separator');
                             $separator_uuid = Core::uuid();
                             $object->config('package.raxon/parse.build.state.separator', $separator_uuid);
-                            if(!array_key_exists('statement', $content['link'])){
+                            if(!array_key_exists('statement', $content[$category])){
                                 ddd($content);
                             }
-                            $link_data[] = Php::method($object, $flags, $options, $content['link']['statement'], $before, $after) . '{';
+                            $variable_old = $options->variable ?? null;
+                            $options->variable = Core::uuid_variable();
+                            $object->config('package.raxon/parse.build.state.remove_newline_next', true);
+                            $block_content = PHP::document_tag($object, $flags, $options, $content[$category]['content']);
+                            $variable_argument = [
+                                'type' => 'variable',
+                                'tag' => $options->variable,
+                                'name' => substr($options->variable, 1),
+                                'is_reference' => false,
+                                'is_not' => null,
+                                'array_notation' => []
+                            ];
+                            $arguments = [];
+                            $arguments[0] = [
+                                'string' => $options->variable,
+                                'array' => [ $variable_argument ]
+                            ];
+                            if(
+                                array_key_exists('method', $content[$category]['statement']) &&
+                                array_key_exists('argument', $content[$category]['statement']['method'])
+                            ){
+                                foreach($content[$category]['statement']['method']['argument'] as $argument){
+                                    $arguments[] = $argument;
+                                }
+                            }
+                            if(array_key_exists('method', $content[$category]['statement'])){
+                                $content[$category]['statement']['method']['argument'] = $arguments;
+                            }
+                            $block_content[] = '$data->set(\'' . substr($options->variable, 1) . '\', implode(\'\', ' . $options->variable . '));';
+                            $block_before[] = $options->variable . ' = [];';
+                            $block_after[] = '$data->delete(\'' . substr($options->variable, 1) . '\');';
+                            foreach($block_content as $line){
+                                $block_before[] = $line;
+                            }
+                            if($variable_old){
+                                $options->variable = $variable_old;
+                            } else {
+                                unset($options->variable);
+                            }
+                            $block_data[] = Php::method($object, $flags, $options, $content[$category]['statement'], $before, $after) . ';';
                             if($separator === null){
                                 $object->config('delete', 'package.raxon/parse.build.state.separator');
                             } else {
@@ -1067,33 +1107,26 @@ class Php {
                             }
                             if(!empty($before)){
                                 foreach($before as $line){
-                                    $link_before[] = $line;
+                                    $block_before[] = $line;
                                 }
                                 $before = [];
                             }
                             if(!empty($after)){
                                 foreach($after as $line){
-                                    $link_after[] = $line;
+                                    $block_after[] = $line;
                                 }
                                 $before = [];
                             }
-                            $object->config('package.raxon/parse.build.state.remove_newline_next', true);
-                            $link_content = PHP::document_tag($object, $flags, $options, $content['link']['content']);
-                            foreach($link_content as $line){
-                                $link_data[] = $line;
-                            }
-                            $link_data[] = '}';
-
-                            foreach($link_before as $line){
+                            foreach($block_before as $line){
                                 $data[] = $line;
                             }
-                            foreach($link_data as $line){
+                            foreach($block_data as $line){
                                 $data[] = $line;
                             }
-                            foreach($link_after as $line){
+                            foreach($block_after as $line){
                                 $data[] = $line;
                             }
-                            $content['link'] = [];
+                            $content[$category] = [];
                         }
                         $link_depth--;
                         continue;
@@ -1113,16 +1146,56 @@ class Php {
                     ){
                         breakpoint(Cli::alert('block depth:' . $block_depth));
                         if($block_depth === 1){
+                            $category = 'block';
                             $block_before = [];
                             $block_after = [];
                             $block_data = [];
                             $separator = $object->config('package.raxon/parse.build.state.separator');
                             $separator_uuid = Core::uuid();
                             $object->config('package.raxon/parse.build.state.separator', $separator_uuid);
-                            if(!array_key_exists('statement', $content['block'])){
+                            if(!array_key_exists('statement', $content[$category])){
                                 ddd($content);
                             }
-                            $block_data[] = Php::method($object, $flags, $options, $content['block']['statement'], $before, $after) . '{';
+                            $variable_old = $options->variable ?? null;
+                            $options->variable = Core::uuid_variable();
+                            $object->config('package.raxon/parse.build.state.remove_newline_next', true);
+                            $block_content = PHP::document_tag($object, $flags, $options, $content[$category]['content']);
+                            $variable_argument = [
+                                'type' => 'variable',
+                                'tag' => $options->variable,
+                                'name' => substr($options->variable, 1),
+                                'is_reference' => false,
+                                'is_not' => null,
+                                'array_notation' => []
+                            ];
+                            $arguments = [];
+                            $arguments[0] = [
+                                'string' => $options->variable,
+                                'array' => [ $variable_argument ]
+                            ];
+                            if(
+                                array_key_exists('method', $content[$category]['statement']) &&
+                                array_key_exists('argument', $content[$category]['statement']['method'])
+                            ){
+                                foreach($content[$category]['statement']['method']['argument'] as $argument){
+                                    $arguments[] = $argument;
+                                }
+                            }
+                            if(array_key_exists('method', $content[$category]['statement'])){
+                                $content[$category]['statement']['method']['argument'] = $arguments;
+                            }
+                            $block_content[] = '$data->set(\'' . substr($options->variable, 1) . '\', implode(\'\', ' . $options->variable . '));';
+                            $block_before[] = $options->variable . ' = [];';
+                            $block_after[] = '$data->delete(\'' . substr($options->variable, 1) . '\');';
+                            foreach($block_content as $line){
+                                $block_before[] = $line;
+                            }
+                            if($variable_old){
+                                $options->variable = $variable_old;
+                            } else {
+                                unset($options->variable);
+                            }
+                            $block_data[] = Php::method($object, $flags, $options, $content[$category]['statement'], $before, $after) . ';';
                             if($separator === null){
                                 $object->config('delete', 'package.raxon/parse.build.state.separator');
                             } else {
@@ -1140,13 +1213,6 @@ class Php {
                                 }
                                 $before = [];
                             }
-                            $object->config('package.raxon/parse.build.state.remove_newline_next', true);
-                            $block_content = PHP::document_tag($object, $flags, $options, $content['block']['content']);
-                            foreach($block_content as $line){
-                                $block_data[] = $line;
-                            }
-                            $block_data[] = '}';
-
                             foreach($block_before as $line){
                                 $data[] = $line;
                             }
@@ -1156,7 +1222,7 @@ class Php {
                             foreach($block_after as $line){
                                 $data[] = $line;
                             }
-                            $content['block'] = [];
+                            $content[$category] = [];
                         }
                         $block_depth--;
                         continue;
@@ -1171,16 +1237,56 @@ class Php {
                     ){
                         breakpoint(Cli::alert('capture.append depth:' . $capture_append_depth));
                         if($capture_append_depth === 1){
-                            $capture_append_before = [];
-                            $capture_append_after = [];
-                            $capture_append_data = [];
+                            $category = 'capture_append';
+                            $block_before = [];
+                            $block_after = [];
+                            $block_data = [];
                             $separator = $object->config('package.raxon/parse.build.state.separator');
                             $separator_uuid = Core::uuid();
                             $object->config('package.raxon/parse.build.state.separator', $separator_uuid);
-                            if(!array_key_exists('statement', $content['capture_append'])){
+                            if(!array_key_exists('statement', $content[$category])){
                                 ddd($content);
                             }
-                            $capture_append_data[] = Php::method($object, $flags, $options, $content['capture_append']['statement'], $before, $after) . '{';
+                            $variable_old = $options->variable ?? null;
+                            $options->variable = Core::uuid_variable();
+                            $object->config('package.raxon/parse.build.state.remove_newline_next', true);
+                            $block_content = PHP::document_tag($object, $flags, $options, $content[$category]['content']);
+                            $variable_argument = [
+                                'type' => 'variable',
+                                'tag' => $options->variable,
+                                'name' => substr($options->variable, 1),
+                                'is_reference' => false,
+                                'is_not' => null,
+                                'array_notation' => []
+                            ];
+                            $arguments = [];
+                            $arguments[0] = [
+                                'string' => $options->variable,
+                                'array' => [ $variable_argument ]
+                            ];
+                            if(
+                                array_key_exists('method', $content[$category]['statement']) &&
+                                array_key_exists('argument', $content[$category]['statement']['method'])
+                            ){
+                                foreach($content[$category]['statement']['method']['argument'] as $argument){
+                                    $arguments[] = $argument;
+                                }
+                            }
+                            if(array_key_exists('method', $content[$category]['statement'])){
+                                $content[$category]['statement']['method']['argument'] = $arguments;
+                            }
+                            $block_content[] = '$data->set(\'' . substr($options->variable, 1) . '\', implode(\'\', ' . $options->variable . '));';
+                            $block_before[] = $options->variable . ' = [];';
+                            $block_after[] = '$data->delete(\'' . substr($options->variable, 1) . '\');';
+                            foreach($block_content as $line){
+                                $block_before[] = $line;
+                            }
+                            if($variable_old){
+                                $options->variable = $variable_old;
+                            } else {
+                                unset($options->variable);
+                            }
+                            $block_data[] = Php::method($object, $flags, $options, $content[$category]['statement'], $before, $after) . ';';
                             if($separator === null){
                                 $object->config('delete', 'package.raxon/parse.build.state.separator');
                             } else {
@@ -1188,33 +1294,26 @@ class Php {
                             }
                             if(!empty($before)){
                                 foreach($before as $line){
-                                    $capture_append_before[] = $line;
+                                    $block_before[] = $line;
                                 }
                                 $before = [];
                             }
                             if(!empty($after)){
                                 foreach($after as $line){
-                                    $capture_append_after[] = $line;
+                                    $block_after[] = $line;
                                 }
                                 $before = [];
                             }
-                            $object->config('package.raxon/parse.build.state.remove_newline_next', true);
-                            $capture_append_content = PHP::document_tag($object, $flags, $options, $content['capture_append']['content']);
-                            foreach($capture_append_content as $line){
-                                $capture_append_data[] = $line;
-                            }
-                            $capture_append_data[] = '}';
-
-                            foreach($capture_append_before as $line){
+                            foreach($block_before as $line){
                                 $data[] = $line;
                             }
-                            foreach($capture_append_data as $line){
+                            foreach($block_data as $line){
                                 $data[] = $line;
                             }
-                            foreach($capture_append_after as $line){
+                            foreach($block_after as $line){
                                 $data[] = $line;
                             }
-                            $content['capture_append'] = [];
+                            $content[$category] = [];
                         }
                         $capture_append_depth--;
                         continue;
@@ -1234,16 +1333,56 @@ class Php {
                     ){
                         breakpoint(Cli::alert('capture.prepend depth:' . $capture_prepend_depth));
                         if($capture_prepend_depth === 1){
-                            $capture_prepend_before = [];
-                            $capture_prepend_after = [];
-                            $capture_prepend_data = [];
+                            $category = 'capture_prepend';
+                            $block_before = [];
+                            $block_after = [];
+                            $block_data = [];
                             $separator = $object->config('package.raxon/parse.build.state.separator');
                             $separator_uuid = Core::uuid();
                             $object->config('package.raxon/parse.build.state.separator', $separator_uuid);
-                            if(!array_key_exists('statement', $content['capture_prepend'])){
+                            if(!array_key_exists('statement', $content[$category])){
                                 ddd($content);
                             }
-                            $capture_prepend_data[] = Php::method($object, $flags, $options, $content['capture_prepend']['statement'], $before, $after) . '{';
+                            $variable_old = $options->variable ?? null;
+                            $options->variable = Core::uuid_variable();
+                            $object->config('package.raxon/parse.build.state.remove_newline_next', true);
+                            $block_content = PHP::document_tag($object, $flags, $options, $content[$category]['content']);
+                            $variable_argument = [
+                                'type' => 'variable',
+                                'tag' => $options->variable,
+                                'name' => substr($options->variable, 1),
+                                'is_reference' => false,
+                                'is_not' => null,
+                                'array_notation' => []
+                            ];
+                            $arguments = [];
+                            $arguments[0] = [
+                                'string' => $options->variable,
+                                'array' => [ $variable_argument ]
+                            ];
+                            if(
+                                array_key_exists('method', $content[$category]['statement']) &&
+                                array_key_exists('argument', $content[$category]['statement']['method'])
+                            ){
+                                foreach($content[$category]['statement']['method']['argument'] as $argument){
+                                    $arguments[] = $argument;
+                                }
+                            }
+                            if(array_key_exists('method', $content[$category]['statement'])){
+                                $content[$category]['statement']['method']['argument'] = $arguments;
+                            }
+                            $block_content[] = '$data->set(\'' . substr($options->variable, 1) . '\', implode(\'\', ' . $options->variable . '));';
+                            $block_before[] = $options->variable . ' = [];';
+                            $block_after[] = '$data->delete(\'' . substr($options->variable, 1) . '\');';
+                            foreach($block_content as $line){
+                                $block_before[] = $line;
+                            }
+                            if($variable_old){
+                                $options->variable = $variable_old;
+                            } else {
+                                unset($options->variable);
+                            }
+                            $block_data[] = Php::method($object, $flags, $options, $content[$category]['statement'], $before, $after) . ';';
                             if($separator === null){
                                 $object->config('delete', 'package.raxon/parse.build.state.separator');
                             } else {
@@ -1251,33 +1390,26 @@ class Php {
                             }
                             if(!empty($before)){
                                 foreach($before as $line){
-                                    $capture_prepend_before[] = $line;
+                                    $block_before[] = $line;
                                 }
                                 $before = [];
                             }
                             if(!empty($after)){
                                 foreach($after as $line){
-                                    $capture_prepend_after[] = $line;
+                                    $block_after[] = $line;
                                 }
                                 $before = [];
                             }
-                            $object->config('package.raxon/parse.build.state.remove_newline_next', true);
-                            $capture_prepend_content = PHP::document_tag($object, $flags, $options, $content['capture_prepend']['content']);
-                            foreach($capture_prepend_content as $line){
-                                $capture_prepend_data[] = $line;
-                            }
-                            $capture_prepend_data[] = '}';
-
-                            foreach($capture_prepend_before as $line){
+                            foreach($block_before as $line){
                                 $data[] = $line;
                             }
-                            foreach($capture_prepend_data as $line){
+                            foreach($block_data as $line){
                                 $data[] = $line;
                             }
-                            foreach($capture_prepend_after as $line){
+                            foreach($block_after as $line){
                                 $data[] = $line;
                             }
-                            $content['capture_prepend'] = [];
+                            $content[$category] = [];
                         }
                         $capture_prepend_depth--;
                         continue;

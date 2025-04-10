@@ -12,54 +12,107 @@ trait Script {
      */
     public function script($name='script', mixed $script=null): mixed
     {
-        d($name);
-        ddd($script);
-        $object = $this->object();
-        $data = $this->storage();
-        if(is_array($script) || is_object($script)){
-            if(is_object($script)){
-                $parents = class_parents($script);
-                if(in_array('Exception', $parents)){
-                    //this happened rebuilding the parser with trait plugins instead of functions
-                    throw $script;
+        if(
+            // old parser
+            in_array(
+                $name,
+                [
+                    'script',
+                    'ready',
+                    'module'
+                ],
+                true
+            )
+        ){
+            $object = $this->object();
+            $data = $this->storage();
+            if(is_array($script) || is_object($script)){
+                if(is_object($script)){
+                    $parents = class_parents($script);
+                    if(in_array('Exception', $parents)){
+                        //this happened rebuilding the parser with trait plugins instead of functions
+                        throw $script;
+                    }
                 }
+                return Core::object($script, Core::JSON);
+            } else {
+                $script = trim($script);
             }
-            return Core::object($script, Core::JSON);
+            if($name === 'ready'){
+                $name = 'script';
+                $value = [];
+                $value[] = '<script type="text/javascript">';
+                $value[] = 'ready(() => {';
+                $value[] = $script;
+                $value[] = '});';
+                $value[] = "\t\t\t" . '</script>';
+            }
+            elseif($name === 'module'){
+                $name = 'script';
+                $value = [];
+                $value[] = '<script type="module">';
+                $value[] = $script;
+                $value[] = "\t\t\t" . '</script>';
+            } else {
+                $value = [];
+                $value[] = '<script type="text/javascript">';
+                $value[] = $script;
+                $value[] = "\t\t\t" . '</script>';
+            }
+            $list = $data->data($name);
+            if(is_string($list)){
+                $list = [];
+            }
+            if(empty($list)){
+                $list = [];
+            }
+            $value = implode("\n", $value);
+            $list[] = $value;
+            $data->data($name, $list);
+            return null;
         } else {
-            $script = trim($script);
+            $block = $name;
+            $name = $script;
+            d($name);
+            ddd($block);
+
+            /*
+            if($name === 'ready'){
+                $name = 'script';
+                $value = [];
+                $value[] = '<script type="text/javascript">';
+                $value[] = 'ready(() => {';
+                $value[] = $script;
+                $value[] = '});';
+                $value[] = "\t\t\t" . '</script>';
+            }
+            elseif($name === 'module'){
+                $name = 'script';
+                $value = [];
+                $value[] = '<script type="module">';
+                $value[] = $script;
+                $value[] = "\t\t\t" . '</script>';
+            } else {
+                $value = [];
+                $value[] = '<script type="text/javascript">';
+                $value[] = $script;
+                $value[] = "\t\t\t" . '</script>';
+            }
+            $list = $data->data($name);
+            if(is_string($list)){
+                $list = [];
+            }
+            if(empty($list)){
+                $list = [];
+            }
+            $value = implode("\n", $value);
+            $list[] = $value;
+            $data->data($name, $list);
+            return null;
+            d($name);
+            ddd($script);
+            */
         }
-        if($name === 'ready'){
-            $name = 'script';
-            $value = [];
-            $value[] = '<script type="text/javascript">';
-            $value[] = 'ready(() => {';
-            $value[] = $script;
-            $value[] = '});';
-            $value[] = "\t\t\t" . '</script>';
-        }
-        elseif($name === 'module'){
-            $name = 'script';
-            $value = [];
-            $value[] = '<script type="module">';
-            $value[] = $script;
-            $value[] = "\t\t\t" . '</script>';
-        } else {
-            $value = [];
-            $value[] = '<script type="text/javascript">';
-            $value[] = $script;
-            $value[] = "\t\t\t" . '</script>';
-        }
-        $list = $data->data($name);
-        if(is_string($list)){
-            $list = [];
-        }
-        if(empty($list)){
-            $list = [];
-        }
-        $value = implode("\n", $value);
-        $list[] = $value;
-        $data->data($name, $list);
-        return null;
     }
 
 }

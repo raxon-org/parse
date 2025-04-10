@@ -94,6 +94,7 @@ trait Script {
                     $value[] = '</script>';
                 break;
             }
+            $name = 'script';
             $list = $data->get($name);
             if(!is_array($list)){
                 $list = [];

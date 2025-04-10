@@ -73,33 +73,28 @@ trait Script {
         } else {
             $block = $name;
             $name = $script;
-            d($name);
-            ddd($block);
-
-            /*
-            if($name === 'ready'){
-                $name = 'script';
-                $value = [];
-                $value[] = '<script type="text/javascript">';
-                $value[] = 'ready(() => {';
-                $value[] = $script;
-                $value[] = '});';
-                $value[] = "\t\t\t" . '</script>';
-            }
-            elseif($name === 'module'){
-                $name = 'script';
-                $value = [];
-                $value[] = '<script type="module">';
-                $value[] = $script;
-                $value[] = "\t\t\t" . '</script>';
-            } else {
-                $value = [];
-                $value[] = '<script type="text/javascript">';
-                $value[] = $script;
-                $value[] = "\t\t\t" . '</script>';
+            $value = [];
+            switch($name){
+                case 'ready':
+                    $value[] = '<script type="text/javascript">';
+                    $value[] = 'ready(() => {';
+                    $value[] = $block;
+                    $value[] = '});';
+                    $value[] = '</script>';
+                break;
+                case 'module':
+                    $value[] = '<script type="module">';
+                    $value[] = $block;
+                    $value[] = '</script>';
+                break;
+                case 'script':
+                    $value[] = '<script type="text/javascript">';
+                    $value[] = $block;
+                    $value[] = '</script>';
+                break;
             }
             $list = $data->data($name);
-            if(is_string($list)){
+            if(!is_array($list)){
                 $list = [];
             }
             if(empty($list)){
@@ -109,10 +104,6 @@ trait Script {
             $list[] = $value;
             $data->data($name, $list);
             return null;
-            d($name);
-            ddd($script);
-            */
         }
     }
-
 }

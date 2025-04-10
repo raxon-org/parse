@@ -988,7 +988,9 @@ class Php {
                                     $arguments[] = $argument;
                                 }
                             }
-                            $content['script']['statement']['method']['argument'] = $arguments;
+                            if(array_key_exists('method', $content['script']['statement'])){
+                                $content['script']['statement']['method']['argument'] = $arguments;
+                            }
                             d($script_content);
                             ddd($content['script']);
                             if($variable_old){

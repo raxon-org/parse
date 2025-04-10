@@ -38,7 +38,6 @@ trait Main {
         if(!property_exists($options, 'type')){
             $options->type = 'string';
         }
-        ddd($options);
         $object = $this->object();
         switch($options->type){
             case 'data':

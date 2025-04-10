@@ -1,7 +1,7 @@
 {
   "#program": "... 30 msec by default without user verify",
   "#user": "{{user.login('', '')}}",
-  "#config": "...",
+  "_user": "...",
   "#parallel": [],
   "#output": {
     "filter": "..."

@@ -964,9 +964,16 @@ class Php {
                             if(!array_key_exists('statement', $content['script'])){
                                 ddd($content);
                             }
+                            $variable_old = $options->variable ?? null;
+                            $options->variable = Core::uuid_variable();
                             $script_content = PHP::document_tag($object, $flags, $options, $content['script']['content']);
                             d($script_content);
                             ddd($content['script']);
+                            if($variable_old){
+                                $options->variable = $variable_old;
+                            } else {
+                                unset($options->variable);
+                            }
                             $script_data[] = Php::method($object, $flags, $options, $content['script']['statement'], $before, $after) . '{';
                             if($separator === null){
                                 $object->config('delete', 'package.raxon/parse.build.state.separator');
@@ -1482,6 +1489,7 @@ class Php {
                             $uuid_method = Core::uuid_variable();
                             $data[] = $uuid_method . ' = ' . $method . ';';
                             $data[] = 'if(is_scalar(' . $uuid_method . ')){';
+                            ddd($options);
                             $data[] = '    $content[] = ' . $uuid_method . ';';
                             $data[] = '}';
                             $data[] = 'elseif(is_array(' . $uuid_method . ')){';

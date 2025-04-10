@@ -38,6 +38,7 @@ trait Main {
         if(!property_exists($options, 'type')){
             $options->type = 'string';
         }
+        ddd($options);
         $object = $this->object();
         switch($options->type){
             case 'data':
@@ -52,7 +53,6 @@ trait Main {
                 $input = File::read($options->source);
                 $object->config('package.raxon/parse.build.state.source.url', $options->source);
                 $parse = new Parse($object, new Data(), $flags, $options);
-                $object->config(Parse::CONFIG . '.build.builder', 'Compile'); //can be removed if bold is replaced.
                 return $parse->compile($input);
         }
     }

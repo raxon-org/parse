@@ -967,19 +967,22 @@ class Php {
                             $variable_old = $options->variable ?? null;
                             $options->variable = Core::uuid_variable();
                             $script_content = PHP::document_tag($object, $flags, $options, $content['script']['content']);
-
                             $variable_argument = [
-                                'value',
-                                'execute',
-                                'type'
+                                'type' => 'variable',
+                                'tag' => $options->variable,
+                                'name' => substr($options->variable, 1),
+                                'is_reference' => false,
+                                'is_not' => null,
+                                'array_notation' => []
                             ];
                             $argument = [];
                             $argument[0] = [
                                 'string' => '...',
-                                'array' => []
+                                'array' => [ $variable_argument ]
                             ];
 
                             d($script_content);
+                            d($argument);
                             ddd($content['script']);
                             if($variable_old){
                                 $options->variable = $variable_old;

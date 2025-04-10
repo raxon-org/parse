@@ -234,8 +234,7 @@ class Php {
         $script_depth = 0;
         $link_depth = 0;
         $block_depth = 0;
-        $capture_append_depth = 0;
-        $capture_prepend_depth = 0;
+        $capture_depth = 0;
         $content = [];
         foreach ($tags as $row_nr => $list) {
             foreach ($list as $nr => &$record) {
@@ -255,8 +254,7 @@ class Php {
                         $while_depth === 0 &&
                         $script_depth === 0 &&
                         $link_depth === 0 &&
-                        $capture_append_depth === 0 &&
-                        $capture_prepend_depth === 0 &&
+                        $capture_depth === 0 &&
                         $block_depth === 0
                     ){
                         $if_depth++;
@@ -315,8 +313,7 @@ class Php {
                         $foreach_depth === 0 &&
                         $script_depth === 0 &&
                         $link_depth === 0 &&
-                        $capture_append_depth === 0 &&
-                        $capture_prepend_depth === 0 &&
+                        $capture_depth === 0 &&
                         $block_depth === 0
                     ){
                         $if_method = 'elseif';
@@ -339,28 +336,28 @@ class Php {
                         $foreach_depth === 0 &&
                         $script_depth === 0 &&
                         $link_depth === 0 &&
-                        $capture_append_depth === 0 &&
-                        $capture_prepend_depth === 0 &&
+                        $capture_depth === 0 &&
                         $block_depth === 0
                     ){
                         $for_depth++;
+                        $category = 'for';
                         if($for_depth === 1){
-                            if(!array_key_exists('for', $content)){
-                                $content['for'] = [];
+                            if(!array_key_exists($category, $content)){
+                                $content[$category] = [];
                             }
-                            if(!array_key_exists('statement', $content['for'])){
-                                $content['for']['statement'] = $record;
+                            if(!array_key_exists('statement', $content[$category])){
+                                $content[$category]['statement'] = $record;
                                 continue;
                             }
                         }
                         elseif($for_depth > 1){
-                            if(!array_key_exists('content', $content['for'])){
-                                $content['for']['content'] = [];
+                            if(!array_key_exists('content', $content[$category])){
+                                $content[$category]['content'] = [];
                             }
-                            if(!array_key_exists($row_nr, $content['for']['content'])){
-                                $content['for']['content'][$row_nr] = [];
+                            if(!array_key_exists($row_nr, $content[$category]['content'])){
+                                $content[$category]['content'][$row_nr] = [];
                             }
-                            $content['for']['content'][$row_nr][] = $record;
+                            $content[$category]['content'][$row_nr][] = $record;
                             continue;
                         }
                     }
@@ -379,28 +376,28 @@ class Php {
                         $while_depth === 0 &&
                         $script_depth === 0 &&
                         $link_depth === 0 &&
-                        $capture_append_depth === 0 &&
-                        $capture_prepend_depth === 0 &&
+                        $capture_depth === 0 &&
                         $block_depth === 0
                     ){
                         $foreach_depth++;
+                        $category = 'foreach';
                         if($foreach_depth === 1){
-                            if(!array_key_exists('foreach', $content)){
-                                $content['foreach'] = [];
+                            if(!array_key_exists($category, $content)){
+                                $content[$category] = [];
                             }
-                            if(!array_key_exists('statement', $content['foreach'])){
-                                $content['foreach']['statement'] = $record;
+                            if(!array_key_exists('statement', $content[$category])){
+                                $content[$category]['statement'] = $record;
                                 continue;
                             }
                         }
                         elseif($foreach_depth > 1){
-                            if(!array_key_exists('content', $content['foreach'])){
-                                $content['foreach']['content'] = [];
+                            if(!array_key_exists('content', $content[$category])){
+                                $content[$category]['content'] = [];
                             }
-                            if(!array_key_exists($row_nr, $content['foreach']['content'])){
-                                $content['foreach']['content'][$row_nr] = [];
+                            if(!array_key_exists($row_nr, $content[$category]['content'])){
+                                $content[$category]['content'][$row_nr] = [];
                             }
-                            $content['foreach']['content'][$row_nr][] = $record;
+                            $content[$category]['content'][$row_nr][] = $record;
                             continue;
                         }
                     }
@@ -411,28 +408,28 @@ class Php {
                         $foreach_depth === 0 &&
                         $script_depth === 0 &&
                         $link_depth === 0 &&
-                        $capture_append_depth === 0 &&
-                        $capture_prepend_depth === 0 &&
+                        $capture_depth === 0 &&
                         $block_depth === 0
                     ){
                         $while_depth++;
+                        $category = 'while';
                         if($while_depth === 1){
-                            if(!array_key_exists('while', $content)){
-                                $content['while'] = [];
+                            if(!array_key_exists($category, $content)){
+                                $content[$category] = [];
                             }
-                            if(!array_key_exists('statement', $content['while'])){
-                                $content['while']['statement'] = $record;
+                            if(!array_key_exists('statement', $content[$category])){
+                                $content[$category]['statement'] = $record;
                                 continue;
                             }
                         }
                         elseif($while_depth > 1){
-                            if(!array_key_exists('content', $content['while'])){
-                                $content['while']['content'] = [];
+                            if(!array_key_exists('content', $content[$category])){
+                                $content[$category]['content'] = [];
                             }
-                            if(!array_key_exists($row_nr, $content['while']['content'])){
-                                $content['while']['content'][$row_nr] = [];
+                            if(!array_key_exists($row_nr, $content[$category]['content'])){
+                                $content[$category]['content'][$row_nr] = [];
                             }
-                            $content['while']['content'][$row_nr][] = $record;
+                            $content[$category]['content'][$row_nr][] = $record;
                             continue;
                         }
                     }
@@ -443,28 +440,28 @@ class Php {
                         $foreach_depth === 0 &&
                         $while_depth === 0 &&
                         $link_depth === 0 &&
-                        $capture_append_depth === 0 &&
-                        $capture_prepend_depth === 0 &&
+                        $capture_depth === 0 &&
                         $block_depth === 0
                     ){
                         $script_depth++;
+                        $category = 'script';
                         if($script_depth === 1){
-                            if(!array_key_exists('script', $content)){
-                                $content['script'] = [];
+                            if(!array_key_exists($category, $content)){
+                                $content[$category] = [];
                             }
-                            if(!array_key_exists('statement', $content['script'])){
-                                $content['script']['statement'] = $record;
+                            if(!array_key_exists('statement', $content[$category])){
+                                $content[$category]['statement'] = $record;
                                 continue;
                             }
                         }
                         elseif($script_depth > 1){
-                            if(!array_key_exists('content', $content['script'])){
-                                $content['script']['content'] = [];
+                            if(!array_key_exists('content', $content[$category])){
+                                $content[$category]['content'] = [];
                             }
-                            if(!array_key_exists($row_nr, $content['script']['content'])){
-                                $content['script']['content'][$row_nr] = [];
+                            if(!array_key_exists($row_nr, $content[$category]['content'])){
+                                $content[$category]['content'][$row_nr] = [];
                             }
-                            $content['script']['content'][$row_nr][] = $record;
+                            $content[$category]['content'][$row_nr][] = $record;
                             continue;
                         }
                     }
@@ -475,92 +472,68 @@ class Php {
                         $foreach_depth === 0 &&
                         $while_depth === 0 &&
                         $script_depth === 0 &&
-                        $capture_append_depth === 0 &&
-                        $capture_prepend_depth === 0 &&
+                        $capture_depth === 0 &&
                         $block_depth === 0
                     ){
                         $link_depth++;
+                        $category = 'link';
                         if($link_depth === 1){
-                            if(!array_key_exists('link', $content)){
-                                $content['link'] = [];
+                            if(!array_key_exists($category, $content)){
+                                $content[$category] = [];
                             }
-                            if(!array_key_exists('statement', $content['link'])){
-                                $content['link']['statement'] = $record;
+                            if(!array_key_exists('statement', $content[$category])){
+                                $content[$category]['statement'] = $record;
                                 continue;
                             }
                         }
                         elseif($link_depth > 1){
-                            if(!array_key_exists('content', $content['link'])){
-                                $content['link']['content'] = [];
+                            if(!array_key_exists('content', $content[$category])){
+                                $content[$category]['content'] = [];
                             }
-                            if(!array_key_exists($row_nr, $content['link']['content'])){
-                                $content['link']['content'][$row_nr] = [];
+                            if(!array_key_exists($row_nr, $content[$category]['content'])){
+                                $content[$category]['content'][$row_nr] = [];
                             }
-                            $content['link']['content'][$row_nr][] = $record;
+                            $content[$category]['content'][$row_nr][] = $record;
                             continue;
                         }
                     }
                     elseif(
-                        $record['method']['name'] === 'capture.append' &&
+                        in_array(
+                            $record['method']['name'],
+                            [
+                                'capture.append',
+                                'capture.prepend',
+                                'capture'
+                            ],
+                            true
+                        ) &&
                         $if_depth === 0 &&
                         $for_depth === 0 &&
                         $foreach_depth === 0 &&
                         $while_depth === 0 &&
                         $script_depth === 0 &&
                         $link_depth === 0 &&
-                        $block_depth === 0 &&
-                        $capture_prepend_depth === 0
-                    ){
-                        $capture_append_depth++;
-                        if($capture_append_depth === 1){
-                            if(!array_key_exists('capture_append', $content)){
-                                $content['capture_append'] = [];
-                            }
-                            if(!array_key_exists('statement', $content['capture_append'])){
-                                $content['capture_append']['statement'] = $record;
-                                continue;
-                            }
-                        }
-                        elseif($capture_append_depth > 1){
-                            if(!array_key_exists('content', $content['capture_append'])){
-                                $content['capture_append']['content'] = [];
-                            }
-                            if(!array_key_exists($row_nr, $content['capture_append']['content'])){
-                                $content['capture_append']['content'][$row_nr] = [];
-                            }
-                            $content['capture_append']['content'][$row_nr][] = $record;
-                            continue;
-                        }
-                    }
-                    elseif(
-                        $record['method']['name'] === 'capture.prepend' &&
-                        $if_depth === 0 &&
-                        $for_depth === 0 &&
-                        $foreach_depth === 0 &&
-                        $while_depth === 0 &&
-                        $script_depth === 0 &&
-                        $link_depth === 0 &&
-                        $capture_append_depth === 0 &&
                         $block_depth === 0
                     ){
-                        $capture_prepend_depth++;
-                        if($capture_prepend_depth === 1){
-                            if(!array_key_exists('capture_prepend', $content)){
-                                $content['capture_prepend'] = [];
+                        $capture_depth++;
+                        $category = 'capture';
+                        if($capture_depth === 1){
+                            if(!array_key_exists($category, $content)){
+                                $content[$category] = [];
                             }
-                            if(!array_key_exists('statement', $content['capture_prepend'])){
-                                $content['capture_prepend']['statement'] = $record;
+                            if(!array_key_exists('statement', $content[$category])){
+                                $content[$category]['statement'] = $record;
                                 continue;
                             }
                         }
-                        elseif($capture_prepend_depth > 1){
-                            if(!array_key_exists('content', $content['capture_prepend'])){
-                                $content['capture_prepend']['content'] = [];
+                        elseif($capture_depth > 1){
+                            if(!array_key_exists('content', $content[$category])){
+                                $content[$category]['content'] = [];
                             }
-                            if(!array_key_exists($row_nr, $content['capture_prepend']['content'])){
-                                $content['capture_prepend']['content'][$row_nr] = [];
+                            if(!array_key_exists($row_nr, $content[$category]['content'])){
+                                $content[$category]['content'][$row_nr] = [];
                             }
-                            $content['capture_prepend']['content'][$row_nr][] = $record;
+                            $content[$category]['content'][$row_nr][] = $record;
                             continue;
                         }
                     }
@@ -572,27 +545,27 @@ class Php {
                         $while_depth === 0 &&
                         $script_depth === 0 &&
                         $link_depth === 0 &&
-                        $capture_append_depth === 0 &&
-                        $capture_prepend_depth === 0
+                        $capture_depth === 0
                     ){
                         $block_depth++;
+                        $category = 'block';
                         if($block_depth === 1){
-                            if(!array_key_exists('block', $content)){
-                                $content['block'] = [];
+                            if(!array_key_exists($category, $content)){
+                                $content[$category] = [];
                             }
-                            if(!array_key_exists('statement', $content['block'])){
-                                $content['block']['statement'] = $record;
+                            if(!array_key_exists('statement', $content[$category])){
+                                $content[$category]['statement'] = $record;
                                 continue;
                             }
                         }
                         elseif($block_depth > 1){
-                            if(!array_key_exists('content', $content['block'])){
-                                $content['block']['content'] = [];
+                            if(!array_key_exists('content', $content[$category])){
+                                $content[$category]['content'] = [];
                             }
-                            if(!array_key_exists($row_nr, $content['block']['content'])){
-                                $content['block']['content'][$row_nr] = [];
+                            if(!array_key_exists($row_nr, $content[$category]['content'])){
+                                $content[$category]['content'][$row_nr] = [];
                             }
-                            $content['block']['content'][$row_nr][] = $record;
+                            $content[$category]['content'][$row_nr][] = $record;
                             continue;
                         }
                     }
@@ -603,8 +576,7 @@ class Php {
                     $record['script_depth'] = $script_depth;
                     $record['link_depth'] = $link_depth;
                     $record['block_depth'] = $block_depth;
-                    $record['capture_append_depth'] = $capture_append_depth;
-                    $record['capture_prepend_depth'] = $capture_prepend_depth;
+                    $record['capture_depth'] = $capture_depth;
                 }
                 elseif(
                     array_key_exists('marker', $record) &&
@@ -617,21 +589,11 @@ class Php {
                     $record['script_depth'] = $script_depth;
                     $record['link_depth'] = $link_depth;
                     $record['block_depth'] = $block_depth;
-                    $record['capture_append_depth'] = $capture_append_depth;
-                    $record['capture_prepend_depth'] = $capture_prepend_depth;
+                    $record['capture_depth'] = $capture_depth;
                     if($record['marker']['name'] === 'else'){
                         if($if_depth === 1) {
                             $if_method = 'else';
                             continue;
-                            /*
-                            if (!array_key_exists($if_method, $content)) {
-                                $content[$if_method] = [];
-                            }
-                            if (!array_key_exists('statement', $content[$if_method])) {
-                                $content[$if_method]['statement'] = $record;
-                                continue;
-                            }
-                            */
                         }
                     }
                     if(
@@ -643,8 +605,7 @@ class Php {
                         $foreach_depth === 0 &&
                         $script_depth === 0 &&
                         $link_depth === 0 &&
-                        $capture_append_depth === 0 &&
-                        $capture_prepend_depth === 0 &&
+                        $capture_depth === 0 &&
                         $block_depth === 0
                     ){
                         if($if_depth === 1){
@@ -728,8 +689,6 @@ class Php {
                                 }
                                 $content[$if_method]['content'][$row_nr][] = $record;
                             }
-
-                            //nothing for now...
                         }
                         $if_depth--;
                         continue;
@@ -743,8 +702,7 @@ class Php {
                         $while_depth === 0 &&
                         $script_depth === 0 &&
                         $link_depth === 0 &&
-                        $capture_append_depth === 0 &&
-                        $capture_prepend_depth === 0 &&
+                        $capture_depth === 0 &&
                         $block_depth === 0
                     ){
                         $category = 'for';
@@ -819,8 +777,7 @@ class Php {
                         $for_depth === 0 &&
                         $script_depth === 0 &&
                         $link_depth === 0 &&
-                        $capture_append_depth === 0 &&
-                        $capture_prepend_depth === 0 &&
+                        $capture_depth === 0 &&
                         $block_depth === 0
                     ){
                         $category = 'foreach';
@@ -898,8 +855,7 @@ class Php {
                         $for_depth === 0 &&
                         $script_depth === 0 &&
                         $link_depth === 0 &&
-                        $capture_append_depth === 0 &&
-                        $capture_prepend_depth === 0 &&
+                        $capture_depth === 0 &&
                         $block_depth === 0
                     ){
                         $category = 'while';
@@ -966,8 +922,7 @@ class Php {
                         $for_depth === 0 &&
                         $while_depth === 0 &&
                         $link_depth === 0 &&
-                        $capture_append_depth === 0 &&
-                        $capture_prepend_depth === 0 &&
+                        $capture_depth === 0 &&
                         $block_depth === 0
                     ){
                         $category = 'script';
@@ -1066,8 +1021,7 @@ class Php {
                         $for_depth === 0 &&
                         $while_depth === 0 &&
                         $script_depth === 0 &&
-                        $capture_append_depth === 0 &&
-                        $capture_prepend_depth === 0 &&
+                        $capture_depth === 0 &&
                         $block_depth === 0
                     ){
                         $category = 'link';
@@ -1167,8 +1121,7 @@ class Php {
                         $while_depth === 0 &&
                         $script_depth === 0 &&
                         $link_depth === 0 &&
-                        $capture_append_depth === 0 &&
-                        $capture_prepend_depth === 0
+                        $capture_depth === 0
                     ){
                         $category = 'block';
                         if($block_depth === 1){
@@ -1258,102 +1211,15 @@ class Php {
                         continue;
                     }
                     elseif(
-                        $record['marker']['name'] === 'capture.append' &&
-                        array_key_exists('is_close', $record['marker']) &&
-                        $record['marker']['is_close'] === true &&
-                        $if_depth === 0 &&
-                        $foreach_depth === 0 &&
-                        $for_depth === 0
-                    ){
-                        $category = 'capture_append';
-                        if($capture_append_depth === 1){
-                            $block_before = [];
-                            $block_after = [];
-                            $block_data = [];
-                            $separator = $object->config('package.raxon/parse.build.state.separator');
-                            $separator_uuid = Core::uuid();
-                            $object->config('package.raxon/parse.build.state.separator', $separator_uuid);
-                            if(!array_key_exists('statement', $content[$category])){
-                                ddd($content);
-                            }
-                            $variable_old = $options->variable ?? null;
-                            $options->variable = Core::uuid_variable();
-                            $object->config('package.raxon/parse.build.state.remove_newline_next', true);
-                            $block_content = PHP::document_tag($object, $flags, $options, $content[$category]['content']);
-                            $variable_argument = [
-                                'type' => 'variable',
-                                'tag' => $options->variable,
-                                'name' => substr($options->variable, 1),
-                                'is_reference' => false,
-                                'is_not' => null,
-                                'array_notation' => []
-                            ];
-                            $arguments = [];
-                            $arguments[0] = [
-                                'string' => $options->variable,
-                                'array' => [ $variable_argument ]
-                            ];
-                            if(
-                                array_key_exists('method', $content[$category]['statement']) &&
-                                array_key_exists('argument', $content[$category]['statement']['method'])
-                            ){
-                                foreach($content[$category]['statement']['method']['argument'] as $argument){
-                                    $arguments[] = $argument;
-                                }
-                            }
-                            if(array_key_exists('method', $content[$category]['statement'])){
-                                $content[$category]['statement']['method']['argument'] = $arguments;
-                            }
-                            $block_content[] = '$data->set(\'' . substr($options->variable, 1) . '\', implode(\'\', ' . $options->variable . '));';
-                            $block_before[] = $options->variable . ' = [];';
-                            $block_after[] = '$data->delete(\'' . substr($options->variable, 1) . '\');';
-                            foreach($block_content as $line){
-                                $block_before[] = $line;
-                            }
-                            if($variable_old){
-                                $options->variable = $variable_old;
-                            } else {
-                                unset($options->variable);
-                            }
-                            $block_data[] = Php::method($object, $flags, $options, $content[$category]['statement'], $before, $after) . ';';
-                            if($separator === null){
-                                $object->config('delete', 'package.raxon/parse.build.state.separator');
-                            } else {
-                                $object->config('package.raxon/parse.build.state.separator', $separator);
-                            }
-                            if(!empty($before)){
-                                foreach($before as $line){
-                                    $block_before[] = $line;
-                                }
-                                $before = [];
-                            }
-                            if(!empty($after)){
-                                foreach($after as $line){
-                                    $block_after[] = $line;
-                                }
-                                $before = [];
-                            }
-                            foreach($block_before as $line){
-                                $data[] = $line;
-                            }
-                            foreach($block_data as $line){
-                                $data[] = $line;
-                            }
-                            foreach($block_after as $line){
-                                $data[] = $line;
-                            }
-                            $content[$category] = [];
-                        } else {
-                            if(!array_key_exists($row_nr, $content[$category]['content'])){
-                                $content[$category]['content'][$row_nr] = [];
-                            }
-                            $content[$category]['content'][$row_nr][] = $record;
-                        }
-                        $capture_append_depth--;
-                        continue;
-                    }
-                    elseif(
-                        $record['marker']['name'] === 'capture.prepend' &&
+                        in_array(
+                            $record['marker']['name'],
+                            [
+                                'capture.append',
+                                'capture.prepend',
+                                'capture'
+                            ],
+                            true
+                        ) &&
                         array_key_exists('is_close', $record['marker']) &&
                         $record['marker']['is_close'] === true &&
                         $if_depth === 0 &&
@@ -1362,11 +1228,10 @@ class Php {
                         $while_depth === 0 &&
                         $script_depth === 0 &&
                         $link_depth === 0 &&
-                        $capture_append_depth === 0 &&
                         $block_depth === 0
                     ){
-                        $category = 'capture_prepend';
-                        if($capture_prepend_depth === 1){
+                        $category = 'capture';
+                        if($capture_depth === 1){
                             $block_before = [];
                             $block_after = [];
                             $block_data = [];
@@ -1449,7 +1314,7 @@ class Php {
                             }
                             $content[$category]['content'][$row_nr][] = $record;
                         }
-                        $capture_prepend_depth--;
+                        $capture_depth--;
                         continue;
                     }
                 } else {
@@ -1460,8 +1325,7 @@ class Php {
                     $record['script_depth'] = $script_depth;
                     $record['link_depth'] = $link_depth;
                     $record['block_depth'] = $block_depth;
-                    $record['capture_append_depth'] = $capture_append_depth;
-                    $record['capture_prepend_depth'] = $capture_prepend_depth;
+                    $record['capture_depth'] = $capture_depth;
                 }
                 if($record['if_depth'] >= 1){
                     if(in_array($if_method, ['if', 'else'], true)){
@@ -1564,29 +1428,17 @@ class Php {
                     }
                     $content['block']['content'][$row_nr][] = $record;
                 }
-                elseif($record['capture_append_depth'] >= 1){
-                    if(!array_key_exists('capture_append', $content)){
-                        $content['capture_append'] = [];
+                elseif($record['capture_adepth'] >= 1){
+                    if(!array_key_exists('capture', $content)){
+                        $content['capture'] = [];
                     }
-                    if(!array_key_exists('content', $content['capture_append'])){
-                        $content['capture_append']['content'] = [];
+                    if(!array_key_exists('content', $content['capture'])){
+                        $content['capture']['content'] = [];
                     }
-                    if(!array_key_exists($row_nr, $content['capture_append']['content'])){
-                        $content['capture_append']['content'][$row_nr] = [];
+                    if(!array_key_exists($row_nr, $content['capture']['content'])){
+                        $content['capture']['content'][$row_nr] = [];
                     }
-                    $content['capture_append']['content'][$row_nr][] = $record;
-                }
-                elseif($record['capture_prepend_depth'] >= 1){
-                    if(!array_key_exists('capture_prepend', $content)){
-                        $content['capture_prepend'] = [];
-                    }
-                    if(!array_key_exists('content', $content['capture_prepend'])){
-                        $content['capture_prepend']['content'] = [];
-                    }
-                    if(!array_key_exists($row_nr, $content['capture_prepend']['content'])){
-                        $content['capture_prepend']['content'][$row_nr] = [];
-                    }
-                    $content['capture_prepend']['content'][$row_nr][] = $record;
+                    $content['capture']['content'][$row_nr][] = $record;
                 }
                 else {
                     if(

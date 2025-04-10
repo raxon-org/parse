@@ -999,7 +999,7 @@ class Php {
                                 unset($options->variable);
                             }
                             foreach($script_content as $line){
-                                $script_data[] = $line;
+                                $script_before[] = $line;
                             }
                             $script_data[] = Php::method($object, $flags, $options, $content['script']['statement'], $before, $after) . ';';
                             if($separator === null){

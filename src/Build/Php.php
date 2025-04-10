@@ -1461,7 +1461,10 @@ class Php {
                             $uuid_options = Core::uuid_variable();
 
                             $token = Token::tokenize($object, $flags, $options, substr($record['text'], 1, -1));
+                            $token = Php::document_tag_prepare($object, $flags, $options, $token);
+                            $embed = Php::document_tag($object, $flags, $options, $token);
                             d($token);
+                            d($embed);
                             ddd($record);
 
 

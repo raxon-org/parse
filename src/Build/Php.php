@@ -992,7 +992,7 @@ class Php {
                             if(array_key_exists('method', $content['script']['statement'])){
                                 $content['script']['statement']['method']['argument'] = $arguments;
                             }
-                            $script_content[] = $options->variable . ' = implode(\'\', ' . $options->variable . ');';
+                            $script_content[] = '$data->set(\'' . substr($options->variable, 1) . '\', implode(\'\', ' . $options->variable . ');';
                             $script_before[] = $options->variable . ' = [];';
                             foreach($script_content as $line){
                                 $script_before[] = $line;

@@ -2524,8 +2524,6 @@ class Php {
                             array_key_exists('is_multiline', $record) &&
                             $record['is_multiline'] === true
                         ){
-                            breakpoint($record);
-                            breakpoint($locate_exception);
                             throw new LocateException(
                                 'Plugin not found (' .
                                 str_replace('_', '.', $name) .
@@ -2540,8 +2538,6 @@ class Php {
                                 $locate_exception
                             );
                         } else {
-                            breakpoint($record);
-                            breakpoint($locate_exception);
                             throw new LocateException(
                                 'Plugin not found (' .
                                 str_replace('_', '.', $name) .

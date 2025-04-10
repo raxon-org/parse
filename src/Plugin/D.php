@@ -52,6 +52,19 @@ trait D {
                 }
             }
         }
+        if(
+            in_array(
+                $value,
+                [
+                    '$this',
+                    '{$this}',
+                    '{{$this}}'
+                ],
+                true
+            )
+        ){
+            $value = $this->data();
+        }
         d($value, $options);
     }
 

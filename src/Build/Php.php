@@ -994,6 +994,7 @@ class Php {
                             }
                             $script_content[] = '$data->set(\'' . substr($options->variable, 1) . '\', implode(\'\', ' . $options->variable . '));';
                             $script_before[] = $options->variable . ' = [];';
+                            $script_after[] = '$data->delete(\'' . substr($options->variable, 1) . '\');';
                             foreach($script_content as $line){
                                 $script_before[] = $line;
                             }

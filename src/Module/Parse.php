@@ -354,9 +354,6 @@ class Parse
                             $source = str_replace($i . 'x_', '', $source);
                         }
                     }
-                    d($options);
-                    d($key);
-                    ddd($value);
                     $options->source = 'internal_' . ($depth + 1) . 'x_' . $source . '_' . $key . '_' . $options->hash;
                     $options->source_root = $old_source;
                     $options->class = Parse::class_name($object, $options->source);

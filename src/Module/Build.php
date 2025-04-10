@@ -37,4 +37,10 @@ class Build {
         return $document;
     }
 
+    public static function embed(App $object, $flags, $options, $tags=[]): array
+    {
+        $tags = Php::document_tag_prepare($object, $flags, $options, $tags);
+        $embed = Php::document_tag($object, $flags, $options, $tags);
+        return $embed;
+    }
 }

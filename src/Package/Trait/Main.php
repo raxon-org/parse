@@ -22,9 +22,6 @@ trait Main {
             throw new Exception('Source not found: ' . $options->source);
         }
         $extension = File::extension($options->source);
-        if(!property_exists($options, 'type')){
-            $options->type = 'string';
-        }
         if(
             in_array(
                 $extension,
@@ -33,9 +30,13 @@ trait Main {
                     'jsonl'
                 ],
                 true
-            )
+            ) &&
+            !property_exists($options, 'type')
         ){
             $options->type = 'data';
+        }
+        if(!property_exists($options, 'type')){
+            $options->type = 'string';
         }
         $object = $this->object();
         switch($options->type){

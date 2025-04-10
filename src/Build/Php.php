@@ -1048,7 +1048,6 @@ class Php {
                         $capture_prepend_depth === 0 &&
                         $block_depth === 0
                     ){
-                        breakpoint(Cli::alert('link depth:' . $link_depth));
                         if($link_depth === 1){
                             $category = 'link';
                             $block_before = [];

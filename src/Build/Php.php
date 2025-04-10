@@ -1460,6 +1460,8 @@ class Php {
                             $uuid_parse = Core::uuid_variable();
                             $uuid_options = Core::uuid_variable();
 
+                            $token = Token::tokenize($object, $flags, $options, substr($record['text'], 1, -1));
+                            d($token);
                             ddd($record);
 
 

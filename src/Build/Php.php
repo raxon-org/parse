@@ -1420,9 +1420,16 @@ class Php {
                             $data[] = $uuid_storage . '= new Data($data);';
                             $data[] = $uuid_parse . ' = new Parse($object, '. $uuid_storage . ', $flags, '. $uuid_options . ');';
                             $data[] = $uuid_variable . ' = '.  $uuid_parse . '->compile("' . substr($record['text'], 1, -1) . '", $data, true);';
-                            $data[] = '$content[] = \'"\';';
-                            $data[] = '$content[] = ' . $uuid_variable . ';';
-                            $data[] = '$content[] = \'"\';';
+
+                            if(property_exists('variable', $options)){
+                                $data[] = $options->variable . '[] = \'"\';';
+                                $data[] = $options->variable . '[] = ' . $uuid_variable . ';';
+                                $data[] = $options->variable . '[] = \'"\';';
+                            } else {
+                                $data[] = '$content[] = \'"\';';
+                                $data[] = '$content[] = ' . $uuid_variable . ';';
+                                $data[] = '$content[] = \'"\';';
+                            }
                         }
                         elseif(
                             substr($record['text'], 0, 2) === '\\"' &&
@@ -1437,14 +1444,23 @@ class Php {
                             $data[] = $uuid_storage . '= new Data($data);';
                             $data[] = $uuid_parse . ' = new Parse($object, '. $uuid_storage . ', $flags, '. $uuid_options . ');';
                             $data[] = $uuid_variable . ' = '.  $uuid_parse . '->compile("' . substr($record['text'], 2, -2) . '", $data, true);';
-                            $data[] = '$content[] = \'\\"\';';
-                            $data[] = '$content[] = ' . $uuid_variable . ';';
-                            $data[] = '$content[] = \'\\"\';';
-                            d($data);
+                            if(property_exists('variable', $options)){
+                                $data[] = $options->variable . '[] = \'\\"\';';
+                                $data[] = $options->variable . '[] = ' . $uuid_variable . ';';
+                                $data[] = $options->variable . '[] = \'\\"\';';
+                            } else {
+                                $data[] = '$content[] = \'\\"\';';
+                                $data[] = '$content[] = ' . $uuid_variable . ';';
+                                $data[] = '$content[] = \'\\"\';';
+                            }
                         }
                         else {
                             $text = Php::text($object, $flags, $options, $record);
-                            $data[] = '$content[] =  \'' . str_replace(['\\', '\''], ['\\\\', '\\\''], $text) . '\';';
+                            if(property_exists('variable', $options)){
+                                $data[] = $options->variable . '[] =  \'' . str_replace(['\\', '\''], ['\\\\', '\\\''], $text) . '\';';
+                            } else {
+                                $data[] = '$content[] =  \'' . str_replace(['\\', '\''], ['\\\\', '\\\''], $text) . '\';';
+                            }
                         }
                     }
                     elseif(array_key_exists('variable', $record)){
@@ -1489,8 +1505,11 @@ class Php {
                             $uuid_method = Core::uuid_variable();
                             $data[] = $uuid_method . ' = ' . $method . ';';
                             $data[] = 'if(is_scalar(' . $uuid_method . ')){';
-                            ddd($options);
-                            $data[] = '    $content[] = ' . $uuid_method . ';';
+                            if(property_exists('variable', $options)){
+                                $data[] = '    '. $options->variable . '[] = ' . $uuid_method . ';';
+                            } else {
+                                $data[] = '    $content[] = ' . $uuid_method . ';';
+                            }
                             $data[] = '}';
                             $data[] = 'elseif(is_array(' . $uuid_method . ')){';
                             if($object->config('package.raxon/parse.build.state.source.is.json') === true){
@@ -2978,7 +2997,11 @@ class Php {
             }
 //            $data[] = 'd(' . $variable_uuid . ');';
             $data[] = 'elseif(is_scalar('. $variable_uuid. ')){';
-            $data[] = '$content[] = ' . $variable_uuid .';';
+            if(property_exists('variable', $options)){
+                $data[] = $options->variable . '[] = ' . $variable_uuid . ';';
+            } else {
+                $data[] = '$content[] = ' . $variable_uuid . ';';
+            }
             $data[] = '}';
             $data[] = 'elseif(is_array(' . $variable_uuid. ')){';
             if (
@@ -3064,7 +3087,11 @@ class Php {
                 $data[] = '}';
             }
             $data[] = 'elseif(is_scalar('. $variable_uuid. ')){';
-            $data[] = '$content[] =  '. $variable_uuid .';';
+            if(property_exists('variable', $options)){
+                $data[] = $options->variable . '[] = ' . $variable_uuid . ';';
+            } else {
+                $data[] = '$content[] =  ' . $variable_uuid . ';';
+            }
             $data[] = '}';
             $data[] = 'elseif(is_array('. $variable_uuid. ')){';
             if (

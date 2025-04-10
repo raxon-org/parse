@@ -74,6 +74,7 @@ trait Script {
             $block = $name;
             $name = $script;
             $value = [];
+            $data = $this->data();
             switch($name){
                 case 'ready':
                     $value[] = '<script type="text/javascript">';
@@ -93,7 +94,8 @@ trait Script {
                     $value[] = '</script>';
                 break;
             }
-            $list = $this->data($name);
+
+            $list = $data->get($name);
             if(!is_array($list)){
                 $list = [];
             }
@@ -102,7 +104,7 @@ trait Script {
             }
             $value = implode(PHP_EOL, $value);
             $list[] = $value;
-            $this->data($name, $list);
+            $data->set($name, $list);
             return null;
         }
     }

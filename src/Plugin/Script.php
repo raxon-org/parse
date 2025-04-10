@@ -1,15 +1,8 @@
 <?php
 namespace Plugin;
 
-use Raxon\Exception\ObjectException;
-
-use Raxon\Module\Core;
-
 trait Script {
 
-    /**
-     * @throws ObjectException
-     */
     public function script($name='script', mixed $script=null): void
     {
         if(

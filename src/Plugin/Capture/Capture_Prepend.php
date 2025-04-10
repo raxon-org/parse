@@ -1,9 +1,9 @@
 <?php
 namespace Plugin;
 
-trait Capture_Append {
+trait Capture_Prepend {
 
-    public function capture_append(string $content, string $name): void
+    public function capture_prepend(string $content, string $name): void
     {
         $data = $this->data();
         $list = $data->get($name);
@@ -13,7 +13,7 @@ trait Capture_Append {
         if(empty($list)){
             $list = [];
         }
-        $list[] = $content;
+        array_unshift($list, $content);
         $data->set($name, $list);
     }
 }

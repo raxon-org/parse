@@ -12,7 +12,7 @@ namespace Plugin;
 
 use Raxon\Parse\Attribute\Validate;
 
-trait Config_ALl {
+trait Config_All {
 
     #[Validate(
         result: "mixed"

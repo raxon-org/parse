@@ -747,6 +747,7 @@ class Php {
                         $capture_prepend_depth === 0 &&
                         $block_depth === 0
                     ){
+                        $category = 'for';
                         if($for_depth === 1){
                             $for_before = [];
                             $for_after = [];
@@ -754,10 +755,10 @@ class Php {
                             $separator = $object->config('package.raxon/parse.build.state.separator');
                             $separator_uuid = Core::uuid();
                             $object->config('package.raxon/parse.build.state.separator', $separator_uuid);
-                            if(!array_key_exists('statement', $content['for'])){
+                            if(!array_key_exists('statement', $content[$category])){
                                 ddd($content);
                             }
-                            $for_data[] = Php::method($object, $flags, $options, $content['for']['statement'], $before, $after) . '{';
+                            $for_data[] = Php::method($object, $flags, $options, $content[$category]['statement'], $before, $after) . '{';
                             if($separator === null){
                                 $object->config('delete', 'package.raxon/parse.build.state.separator');
                             } else {
@@ -776,7 +777,7 @@ class Php {
                                 $before = [];
                             }
                             $object->config('package.raxon/parse.build.state.remove_newline_next', true);
-                            $for_content = PHP::document_tag($object, $flags, $options, $content['for']['content']);
+                            $for_content = PHP::document_tag($object, $flags, $options, $content[$category]['content']);
                             foreach($for_content as $line){
                                 $for_data[] = $line;
                             }
@@ -791,7 +792,12 @@ class Php {
                             foreach($for_after as $line){
                                 $data[] = $line;
                             }
-                            $content['for'] = [];
+                            $content[$category] = [];
+                        } else {
+                            if(!array_key_exists($row_nr, $content[$category]['content'])){
+                                $content[$category]['content'][$row_nr] = [];
+                            }
+                            $content[$category]['content'][$row_nr][] = $record;
                         }
                         $for_depth--;
                         continue;
@@ -817,6 +823,7 @@ class Php {
                         $capture_prepend_depth === 0 &&
                         $block_depth === 0
                     ){
+                        $category = 'foreach';
                         if($foreach_depth === 1){
                             $foreach_before = [];
                             $foreach_after = [];
@@ -824,10 +831,10 @@ class Php {
                             $separator = $object->config('package.raxon/parse.build.state.separator');
                             $separator_uuid = Core::uuid();
                             $object->config('package.raxon/parse.build.state.separator', $separator_uuid);
-                            if(!array_key_exists('statement', $content['foreach'])){
+                            if(!array_key_exists('statement', $content[$category])){
                                 ddd($content);
                             }
-                            $foreach_data[] = Php::method($object, $flags, $options, $content['foreach']['statement'], $before, $after, $inline_before, $inline_after) . '{';
+                            $foreach_data[] = Php::method($object, $flags, $options, $content[$category]['statement'], $before, $after, $inline_before, $inline_after) . '{';
                             if($separator === null){
                                 $object->config('delete', 'package.raxon/parse.build.state.separator');
                             } else {
@@ -852,7 +859,7 @@ class Php {
                                 }
                                 $inline_before = [];
                             }
-                            $foreach_content = PHP::document_tag($object, $flags, $options, $content['foreach']['content']);
+                            $foreach_content = PHP::document_tag($object, $flags, $options, $content[$category]['content']);
                             foreach($foreach_content as $line){
                                 $foreach_data[] = $line;
                             }
@@ -872,7 +879,12 @@ class Php {
                             foreach($foreach_after as $line){
                                 $data[] = $line;
                             }
-                            $content['foreach'] = [];
+                            $content[$category] = [];
+                        } else {
+                            if(!array_key_exists($row_nr, $content[$category]['content'])){
+                                $content[$category]['content'][$row_nr] = [];
+                            }
+                            $content[$category]['content'][$row_nr][] = $record;
                         }
                         $foreach_depth--;
                         continue;
@@ -890,6 +902,7 @@ class Php {
                         $capture_prepend_depth === 0 &&
                         $block_depth === 0
                     ){
+                        $category = 'while';
                         if($while_depth === 1){
                             $while_before = [];
                             $while_after = [];
@@ -897,10 +910,10 @@ class Php {
                             $separator = $object->config('package.raxon/parse.build.state.separator');
                             $separator_uuid = Core::uuid();
                             $object->config('package.raxon/parse.build.state.separator', $separator_uuid);
-                            if(!array_key_exists('statement', $content['while'])){
+                            if(!array_key_exists('statement', $content[$category])){
                                 ddd($content);
                             }
-                            $while_data[] = Php::method($object, $flags, $options, $content['while']['statement'], $before, $after) . '{';
+                            $while_data[] = Php::method($object, $flags, $options, $content[$category]['statement'], $before, $after) . '{';
                             if($separator === null){
                                 $object->config('delete', 'package.raxon/parse.build.state.separator');
                             } else {
@@ -919,7 +932,7 @@ class Php {
                                 $before = [];
                             }
                             $object->config('package.raxon/parse.build.state.remove_newline_next', true);
-                            $while_content = PHP::document_tag($object, $flags, $options, $content['while']['content']);
+                            $while_content = PHP::document_tag($object, $flags, $options, $content[$category]['content']);
                             foreach($while_content as $line){
                                 $while_data[] = $line;
                             }
@@ -934,7 +947,12 @@ class Php {
                             foreach($while_after as $line){
                                 $data[] = $line;
                             }
-                            $content['while'] = [];
+                            $content[$category] = [];
+                        } else {
+                            if(!array_key_exists($row_nr, $content[$category]['content'])){
+                                $content[$category]['content'][$row_nr] = [];
+                            }
+                            $content[$category]['content'][$row_nr][] = $record;
                         }
                         $while_depth--;
                         continue;
@@ -952,9 +970,8 @@ class Php {
                         $capture_prepend_depth === 0 &&
                         $block_depth === 0
                     ){
-                        breakpoint(Cli::alert('script depth:' . $script_depth));
+                        $category = 'script';
                         if($script_depth === 1){
-                            $category = 'script';
                             $block_before = [];
                             $block_after = [];
                             $block_data = [];
@@ -1031,6 +1048,11 @@ class Php {
                                 $data[] = $line;
                             }
                             $content[$category] = [];
+                        } else {
+                            if(!array_key_exists($row_nr, $content[$category]['content'])){
+                                $content[$category]['content'][$row_nr] = [];
+                            }
+                            $content[$category]['content'][$row_nr][] = $record;
                         }
                         $script_depth--;
                         continue;
@@ -1048,8 +1070,8 @@ class Php {
                         $capture_prepend_depth === 0 &&
                         $block_depth === 0
                     ){
+                        $category = 'link';
                         if($link_depth === 1){
-                            $category = 'link';
                             $block_before = [];
                             $block_after = [];
                             $block_data = [];
@@ -1126,6 +1148,11 @@ class Php {
                                 $data[] = $line;
                             }
                             $content[$category] = [];
+                        } else {
+                            if(!array_key_exists($row_nr, $content[$category]['content'])){
+                                $content[$category]['content'][$row_nr] = [];
+                            }
+                            $content[$category]['content'][$row_nr][] = $record;
                         }
                         $link_depth--;
                         continue;
@@ -1143,9 +1170,8 @@ class Php {
                         $capture_append_depth === 0 &&
                         $capture_prepend_depth === 0
                     ){
-                        breakpoint(Cli::alert('block depth:' . $block_depth));
+                        $category = 'block';
                         if($block_depth === 1){
-                            $category = 'block';
                             $block_before = [];
                             $block_after = [];
                             $block_data = [];
@@ -1222,6 +1248,11 @@ class Php {
                                 $data[] = $line;
                             }
                             $content[$category] = [];
+                        } else {
+                            if(!array_key_exists($row_nr, $content[$category]['content'])){
+                                $content[$category]['content'][$row_nr] = [];
+                            }
+                            $content[$category]['content'][$row_nr][] = $record;
                         }
                         $block_depth--;
                         continue;
@@ -1234,9 +1265,8 @@ class Php {
                         $foreach_depth === 0 &&
                         $for_depth === 0
                     ){
-                        breakpoint(Cli::alert('capture.append depth:' . $capture_append_depth));
+                        $category = 'capture_append';
                         if($capture_append_depth === 1){
-                            $category = 'capture_append';
                             $block_before = [];
                             $block_after = [];
                             $block_data = [];
@@ -1313,6 +1343,11 @@ class Php {
                                 $data[] = $line;
                             }
                             $content[$category] = [];
+                        } else {
+                            if(!array_key_exists($row_nr, $content[$category]['content'])){
+                                $content[$category]['content'][$row_nr] = [];
+                            }
+                            $content[$category]['content'][$row_nr][] = $record;
                         }
                         $capture_append_depth--;
                         continue;
@@ -1330,9 +1365,8 @@ class Php {
                         $capture_append_depth === 0 &&
                         $block_depth === 0
                     ){
-                        breakpoint(Cli::alert('capture.prepend depth:' . $capture_prepend_depth));
+                        $category = 'capture_prepend';
                         if($capture_prepend_depth === 1){
-                            $category = 'capture_prepend';
                             $block_before = [];
                             $block_after = [];
                             $block_data = [];
@@ -1409,6 +1443,11 @@ class Php {
                                 $data[] = $line;
                             }
                             $content[$category] = [];
+                        } else {
+                            if(!array_key_exists($row_nr, $content[$category]['content'])){
+                                $content[$category]['content'][$row_nr] = [];
+                            }
+                            $content[$category]['content'][$row_nr][] = $record;
                         }
                         $capture_prepend_depth--;
                         continue;

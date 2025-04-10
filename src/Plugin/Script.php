@@ -10,7 +10,7 @@ trait Script {
     /**
      * @throws ObjectException
      */
-    public function script($name='script', mixed $script=null): mixed
+    public function script($name='script', mixed $script=null): void
     {
         if(
             // old parser
@@ -34,7 +34,6 @@ trait Script {
                         throw $script;
                     }
                 }
-                return Core::object($script, Core::JSON);
             } else {
                 $script = trim($script);
             }
@@ -69,7 +68,6 @@ trait Script {
             $value = implode("\n", $value);
             $list[] = $value;
             $data->data($name, $list);
-            return null;
         } else {
             $block = $name;
             $name = $script;
@@ -105,7 +103,6 @@ trait Script {
             $value = implode(PHP_EOL, $value);
             $list[] = $value;
             $data->set($name, $list);
-            return null;
         }
     }
 }

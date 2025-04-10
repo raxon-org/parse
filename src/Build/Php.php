@@ -977,7 +977,7 @@ class Php {
                             ];
                             $argument = [];
                             $argument[0] = [
-                                'string' => '...',
+                                'string' => $options->variable,
                                 'array' => [ $variable_argument ]
                             ];
 

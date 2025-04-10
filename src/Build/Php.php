@@ -1460,14 +1460,30 @@ class Php {
                             $uuid_parse = Core::uuid_variable();
                             $uuid_options = Core::uuid_variable();
 
+                            $variable_old = $options->variable ?? null;
+                            $options->variable = Core::uuid_variable();
+
                             $token = Token::tokenize($object, $flags, $options, substr($record['text'], 1, -1));
                             $token = Php::document_tag_prepare($object, $flags, $options, $token);
                             $embed = Php::document_tag($object, $flags, $options, $token);
+                            if(property_exists($options, 'variable')){
+                                $data[] = $options->variable . '[] = \'"\';';
+                                foreach($embed as $line){
+                                    $data[] = $line;
+                                }
+                                $data[] = $options->variable . '[] = \'"\';';
+                            }
+                            if($variable_old){
+                                $options->variable = $variable_old;
+                            } else {
+                                unset($options->variable);
+                            }
+                            ddd($data);
                             d($token);
                             d($embed);
                             ddd($record);
 
-
+                            /*
                             $data[] = $uuid_options . ' = clone $options;';
                             $data[] = $uuid_options . '->source = \'internal_\' . Core::uuid();';
                             $data[] = $uuid_storage . '= new Data($data);';
@@ -1483,6 +1499,7 @@ class Php {
                                 $data[] = '$content[] = ' . $uuid_variable . ';';
                                 $data[] = '$content[] = \'"\';';
                             }
+                            */
                         }
                         elseif(
                             substr($record['text'], 0, 2) === '\\"' &&

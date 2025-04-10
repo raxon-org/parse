@@ -14,6 +14,7 @@ trait Dd {
 
     public function dd($value, $options=[]): void
     {
+        die;
         $object = $this->object();
         if(!array_key_exists('trace', $options)){
             $options['trace'] = true;

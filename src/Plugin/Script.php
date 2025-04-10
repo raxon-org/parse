@@ -69,7 +69,7 @@ trait Script {
             $list[] = $value;
             $data->data($name, $list);
         } else {
-            $block = $name;
+            $content = $name;
             $name = $script;
             $value = [];
             $data = $this->data();
@@ -77,18 +77,18 @@ trait Script {
                 case 'ready':
                     $value[] = '<script type="text/javascript">';
                     $value[] = 'ready(() => {';
-                    $value[] = $block;
+                    $value[] = $content;
                     $value[] = '});';
                     $value[] = '</script>';
                 break;
                 case 'module':
                     $value[] = '<script type="module">';
-                    $value[] = $block;
+                    $value[] = $content;
                     $value[] = '</script>';
                 break;
                 case 'script':
                     $value[] = '<script type="text/javascript">';
-                    $value[] = $block;
+                    $value[] = $content;
                     $value[] = '</script>';
                 break;
             }

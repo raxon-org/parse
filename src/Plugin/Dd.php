@@ -14,14 +14,12 @@ trait Dd {
 
     public function dd($value, $options=[]): void
     {
-        die;
         $object = $this->object();
         if(!array_key_exists('trace', $options)){
             $options['trace'] = true;
         }
         if($options['trace'] === true){
-            $storage = $this->data();
-            $source = $storage->get('raxon.org.parse.view.url');
+            $source = $object->config('package.raxon/parse.build.state.source.url');
             $tag = $object->config('package.raxon/parse.build.state.tag');
             if($source && $tag){
                 if(
@@ -52,9 +50,6 @@ trait Dd {
                 ) {
                     $options['trace'] =  $source . ':' . $tag['line'] . PHP_EOL;
                 }
-            }
-            elseif($source){
-                $options['trace'] =  $source . PHP_EOL;
             }
         }
         if(

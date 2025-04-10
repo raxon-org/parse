@@ -10,7 +10,7 @@ trait Terminal_Readline {
     /**
      * @throws ObjectException
      */
-    protected function terminal_readline($text, $type=Cli::INPUT): string
+    protected function terminal_readline(string $text, string $type=Cli::INPUT): string
     {
         if(
             $text === Cli::STREAM &&

@@ -964,6 +964,8 @@ class Php {
                             if(!array_key_exists('statement', $content['script'])){
                                 ddd($content);
                             }
+                            $script_content = PHP::document_tag($object, $flags, $options, $content['script']['content']);
+                            d($script_content);
                             ddd($content['script']);
                             $script_data[] = Php::method($object, $flags, $options, $content['script']['statement'], $before, $after) . '{';
                             if($separator === null){

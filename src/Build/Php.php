@@ -966,6 +966,7 @@ class Php {
                             }
                             $variable_old = $options->variable ?? null;
                             $options->variable = Core::uuid_variable();
+                            $object->config('package.raxon/parse.build.state.remove_newline_next', true);
                             $script_content = PHP::document_tag($object, $flags, $options, $content['script']['content']);
                             $variable_argument = [
                                 'type' => 'variable',
@@ -992,12 +993,13 @@ class Php {
                                 $content['script']['statement']['method']['argument'] = $arguments;
                             }
                             $script_content[] = $options->variable . ' = implode(\'\', ' . $options->variable . ');';
-                            d($script_content);
-                            ddd($content['script']);
                             if($variable_old){
                                 $options->variable = $variable_old;
                             } else {
                                 unset($options->variable);
+                            }
+                            foreach($script_content as $line){
+                                $script_data[] = $line;
                             }
                             $script_data[] = Php::method($object, $flags, $options, $content['script']['statement'], $before, $after) . ';';
                             if($separator === null){
@@ -1017,13 +1019,6 @@ class Php {
                                 }
                                 $before = [];
                             }
-                            $object->config('package.raxon/parse.build.state.remove_newline_next', true);
-                            $script_content = PHP::document_tag($object, $flags, $options, $content['script']['content']);
-                            foreach($script_content as $line){
-                                $script_data[] = $line;
-                            }
-                            $script_data[] = '}';
-
                             foreach($script_before as $line){
                                 $data[] = $line;
                             }

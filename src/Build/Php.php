@@ -1474,14 +1474,12 @@ class Php {
                                 $data[] = $options->variable . '[] = \'"\';';
                             }
                             if($variable_old){
+                                $data[] = $variable_old . '[] = implode(\'\', ' . $options->variable . ');';
                                 $options->variable = $variable_old;
                             } else {
+                                $data[] = '$content[] = implode(\'\', ' . $options->variable . ');';
                                 unset($options->variable);
                             }
-                            ddd($data);
-                            d($token);
-                            d($embed);
-                            ddd($record);
 
                             /*
                             $data[] = $uuid_options . ' = clone $options;';

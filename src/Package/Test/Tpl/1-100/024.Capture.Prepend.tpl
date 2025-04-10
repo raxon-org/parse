@@ -4,6 +4,9 @@
 {{/capture.append}}
 {{capture.prepend('script')}}
 ...before
+{{capture.prepend('script')}}
+...before in script
+{{/capture.prepend}}
 {{/capture.prepend}}
 hello
 {{d('$this')}}

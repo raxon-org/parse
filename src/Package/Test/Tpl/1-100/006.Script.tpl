@@ -1,4 +1,4 @@
-{{script('module', $variable)}}
+{{script('module')}}
 
 
 ...content

@@ -93,16 +93,16 @@ trait Script {
                     $value[] = '</script>';
                 break;
             }
-            $list = $data->data($name);
+            $list = $this->data($name);
             if(!is_array($list)){
                 $list = [];
             }
             if(empty($list)){
                 $list = [];
             }
-            $value = implode("\n", $value);
+            $value = implode(PHP_EOL, $value);
             $list[] = $value;
-            $data->data($name, $list);
+            $this->data($name, $list);
             return null;
         }
     }

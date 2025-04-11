@@ -11,9 +11,13 @@
 namespace Plugin;
 
 use Error;
+use Raxon\Exception\TemplateException;
 
 trait Plugin_constant {
 
+    /**
+     * @throws TemplateException
+     */
     protected function plugin_constant(string $constant, mixed $value=null): mixed
     {
         $constant = mb_strtoupper($constant);
@@ -22,10 +26,31 @@ trait Plugin_constant {
                 return constant($constant);
             }
             catch(Error $error){
-                d($constant);
                 $object = $this->object();
-                ddd($object->config('package.raxon/parse.build.state.tag'));
-                ddd($error);
+                $tag = $object->config('package.raxon/parse.build.state.tag');
+                if(
+                    array_key_exists('line', $tag) &&
+                    array_key_exists('start', $tag['line'])
+                ){
+                    throw new TemplateException('
+                    ' . 'Constant not defined: ' . $constant . ' on line ' . $tag['line']['start'],
+                        $previous->getCode(),
+                        $previous
+                    );
+                } elseif(array_key_exists('line', $tag)){
+                    throw new TemplateException('
+                    ' . 'Constant not defined: ' . $constant . ' on line ' . $tag['line'],
+                        $previous->getCode(),
+                        $previous
+                    );
+                } else {
+                    throw new TemplateException('
+                    ' . 'Constant not defined: ' . $constant,
+                        $previous->getCode(),
+                        $previous
+                    );
+
+                }
             }
         } else {
             define($constant, $value);

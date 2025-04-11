@@ -6,6 +6,6 @@
 
 {{echo(__CLASS__)}}
 
-{{constant('__CLASS__',__CLASS__)}}
-{{echo(constant('__CLASS__'))}}
+{{constant('__TRAIT__',__TRAIT__)}}
+{{echo(constant('__TRAIT__'))}}
 

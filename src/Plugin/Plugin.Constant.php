@@ -24,7 +24,7 @@ trait Plugin_constant {
         if($value === null){
             try {
                 d(constant('__CLASS__'));
-                d($constant);
+                ddd($constant);
                 return constant($constant);
             }
             catch(Error $error){

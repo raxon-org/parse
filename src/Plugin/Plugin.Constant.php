@@ -10,13 +10,20 @@
  */
 namespace Plugin;
 
+use Error;
+
 trait Plugin_constant {
 
     protected function plugin_constant(string $constant, mixed $value=null): mixed
     {
         $constant = mb_strtoupper($constant);
         if($value === null){
-            return constant($constant);
+            try {
+                return constant($constant);
+            }
+            catch(Error $error){
+                ddd($error);
+            }
         } else {
             define($constant, $value);
         }

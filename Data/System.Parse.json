@@ -199,6 +199,7 @@
               "Exception",
               "Error",
               "ErrorException",
+              "ParseError",
               "ReflectionClass",
               "Raxon\\Exception\\TemplateException",
               "Raxon\\Exception\\LocateException"
@@ -212,7 +213,11 @@
           "run" : {
             "throw": [
               "Raxon\\Exception\\TemplateException",
-              "Raxon\\Exception\\LocateException"
+              "Raxon\\Exception\\LocateException",
+              "Exception",
+              "Error",
+              "ErrorException",
+              "ParseError"
             ]
           }
         }

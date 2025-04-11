@@ -6,6 +6,6 @@
 
 {{echo(__CLASS__)}}
 
-{{constant('test', true)}}
-{{echo(constant('test'))}}
+{{constant('__CLASS__',__CLASS__)}}
+{{echo(constant('__CLASS__'))}}
 

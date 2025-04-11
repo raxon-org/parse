@@ -22,6 +22,8 @@ trait Plugin_constant {
                 return constant($constant);
             }
             catch(Error $error){
+                $object = $this->object();
+                ddd($object->config());
                 ddd($error);
             }
         } else {

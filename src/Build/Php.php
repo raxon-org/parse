@@ -2734,9 +2734,9 @@ class Php {
                 elseif(
                     array_key_exists('is_raw', $record) &&
                     $record['is_raw'] === true
-                ){
+                ) {
                     $value .= $record['value'];
-                else {
+                } else {
                     d('not implemented');
                     ddd($record);
                 }

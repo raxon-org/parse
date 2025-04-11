@@ -2623,7 +2623,8 @@ class Php {
                         'as',
                         '[',
                         ']',
-                        ','
+                        ',',
+                        '_'
                     ],
                     true
                 )
@@ -2642,6 +2643,7 @@ class Php {
                     case '[':
                     case ']':
                     case ',':
+                    case '_':
                         $value .=  $record['value'];
                         break;
                     default:

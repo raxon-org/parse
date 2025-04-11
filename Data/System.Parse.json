@@ -194,14 +194,15 @@
               "Error",
               "ErrorException",
               "Exception",
+              "ParseError",
+              "Plugin",
+              "Package\\Raxon\\Parse\\Module\\Parse",
               "Raxon\\App",
               "Raxon\\Module\\Data",
               "Raxon\\Module\\Core",
               "Raxon\\Parse\\Module\\Parse",
-              "ParseError",
-              "Plugin",
-              "Raxon\\Exception\\TemplateException",
               "Raxon\\Exception\\LocateException",
+              "Raxon\\Exception\\TemplateException",
               "ReflectionClass"
             ],
             "trait": [
@@ -212,12 +213,12 @@
           },
           "run" : {
             "throw": [
-              "Raxon\\Exception\\TemplateException",
-              "Raxon\\Exception\\LocateException",
               "Exception",
               "Error",
               "ErrorException",
-              "ParseError"
+              "ParseError",
+              "Raxon\\Exception\\LocateException",
+              "Raxon\\Exception\\TemplateException",
             ]
           }
         }

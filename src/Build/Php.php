@@ -41,6 +41,9 @@ class Php {
             $use_class[] = 'Package\Raxon\Parse\Module\Parse';
             $use_class[] = 'Plugin';
             $use_class[] = 'Exception';
+            $use_class[] = 'ErrorException';
+            $use_class[] = 'Error';
+            $use_class[] = 'ParseError';
             $use_class[] = 'Raxon\Exception\TemplateException';
             $use_class[] = 'Raxon\Exception\LocateException';
         }
@@ -55,6 +58,14 @@ class Php {
         $object->config('package.raxon/parse.build.use.trait', $use_trait);
         $object->config('package.raxon/parse.build.state.echo', true);
         $object->config('package.raxon/parse.build.state.indent', 2);
+        $object->config('package.raxon/parse.build.run.throw', [
+            'Error',
+            'ErrorException',
+            'Exception',
+            'Raxon\Exception\TemplateException',
+            'Raxon\Exception\LocateException',
+            'ParseError',
+        ]);
     }
 
     public static function document_tag_prepare(App $object, $flags, $options, $tags=[]): array
@@ -3108,7 +3119,7 @@ class Php {
                 $data[] = 'throw new TemplateException(\'Object to string conversion exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) .'" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.\');';
             }
             $data[] = '}';
-            $data[] = '} catch (Exception $exception) {'; //catch
+            $data[] = '} catch (Error | ErrorException | Exception | ParseError $exception) {'; //catch
             $data[] = 'throw $exception;';
             $data[] = '}';
             foreach($after as $line){

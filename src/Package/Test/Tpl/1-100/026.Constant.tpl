@@ -5,3 +5,5 @@
 {{echo(__NAMESPACE__)}}
 
 {{echo(__CLASS__)}}
+
+{{echo(__CLASS2__)}}

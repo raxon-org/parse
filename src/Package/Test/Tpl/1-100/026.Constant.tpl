@@ -8,3 +8,4 @@
 
 {{constant('test', true)}}
 {{echo(constant('test'))}}
+

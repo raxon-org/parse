@@ -2730,7 +2730,13 @@ class Php {
                     $before[] = $uuid_variable . ' = '.  $uuid_parse . '->compile("' . $record['execute'] . '", $data, true);';
 //                    $before[] = $uuid_variable . ' = $parse->compile("' . $record['execute'] . '", $data, true);';
                     $value .= '"'. $uuid_variable . '"';
-                } else {
+                }
+                elseif(
+                    array_key_exists('is_raw', $record) &&
+                    $record['is_raw'] === true
+                ){
+                    $value .= $record['value'];
+                else {
                     d('not implemented');
                     ddd($record);
                 }

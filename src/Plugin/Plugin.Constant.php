@@ -32,20 +32,20 @@ trait Plugin_constant {
                     array_key_exists('line', $tag) &&
                     array_key_exists('start', $tag['line'])
                 ){
-                    throw new TemplateException('
-                    ' . 'Constant not defined: ' . $constant . ' on line ' . $tag['line']['start'],
+                    throw new TemplateException(
+                        'Constant not defined: ' . $constant . ' on line ' . $tag['line']['start'],
                         $error->getCode(),
                         $error
                     );
                 } elseif(array_key_exists('line', $tag)){
-                    throw new TemplateException('
-                    ' . 'Constant not defined: ' . $constant . ' on line ' . $tag['line'],
+                    throw new TemplateException(
+                    'Constant not defined: ' . $constant . ' on line ' . $tag['line'],
                         $error->getCode(),
                         $error
                     );
                 } else {
-                    throw new TemplateException('
-                    ' . 'Constant not defined: ' . $constant,
+                    throw new TemplateException(
+                        'Constant not defined: ' . $constant,
                         $error->getCode(),
                         $error
                     );

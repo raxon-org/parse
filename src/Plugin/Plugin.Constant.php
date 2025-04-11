@@ -22,6 +22,7 @@ trait Plugin_constant {
                 return constant($constant);
             }
             catch(Error $error){
+                d($constant);
                 $object = $this->object();
                 ddd($object->config('package.raxon/parse.build.state.tag'));
                 ddd($error);

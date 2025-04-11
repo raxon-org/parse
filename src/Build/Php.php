@@ -203,7 +203,7 @@ class Php {
         $document = Php::format($document, $data, $indent);
         $document[] = str_repeat(' ', $indent * 4) . 'return implode(\'\', $content);';
         $indent--;
-        $document[] = str_repeat(' ', $indent * 4) . 'catch(Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception) {';
+        $document[] = str_repeat(' ', $indent * 4) . '} catch(Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception) {';
         $indent++;
         $document[] = str_repeat(' ', $indent * 4) . 'throw $exception;';
         $indent--;

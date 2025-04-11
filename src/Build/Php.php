@@ -34,7 +34,7 @@ class Php {
     public static function document_default(App $object, $flags, $options): void
     {
         $use_class = $object->config('package.raxon/parse.build.use.class');
-        if(empty($use_class)){
+        if(empty($use_class)) {
             $use_class = [];
             $use_class[] = 'Error';
             $use_class[] = 'ErrorException';
@@ -46,7 +46,7 @@ class Php {
             $use_class[] = 'Raxon\Exception\LocateException';
             $use_class[] = 'Raxon\Module\Data';
             $use_class[] = 'Raxon\Parse\Module\Parse';
-
+        }
         $object->config('package.raxon/parse.build.use.class', $use_class);
         $use_trait = $object->config('package.raxon/parse.build.use.trait');
         if(empty($use_trait)){

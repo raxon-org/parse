@@ -23,6 +23,7 @@ trait Plugin_constant {
         $constant = mb_strtoupper($constant);
         if($value === null){
             try {
+                d($constant);
                 return constant($constant);
             }
             catch(Error $error){

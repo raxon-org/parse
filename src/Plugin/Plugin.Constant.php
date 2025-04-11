@@ -34,22 +34,21 @@ trait Plugin_constant {
                 ){
                     throw new TemplateException('
                     ' . 'Constant not defined: ' . $constant . ' on line ' . $tag['line']['start'],
-                        $previous->getCode(),
-                        $previous
+                        $error->getCode(),
+                        $error
                     );
                 } elseif(array_key_exists('line', $tag)){
                     throw new TemplateException('
                     ' . 'Constant not defined: ' . $constant . ' on line ' . $tag['line'],
-                        $previous->getCode(),
-                        $previous
+                        $error->getCode(),
+                        $error
                     );
                 } else {
                     throw new TemplateException('
                     ' . 'Constant not defined: ' . $constant,
-                        $previous->getCode(),
-                        $previous
+                        $error->getCode(),
+                        $error
                     );
-
                 }
             }
         } else {

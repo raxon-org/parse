@@ -34,6 +34,7 @@ class Php {
     public static function document_default(App $object, $flags, $options): void
     {
         $use_class = $object->config('package.raxon/parse.build.use.class');
+        ddd($use_class);
         if(empty($use_class)){
             $use_class = [];
             $use_class[] = 'Raxon\App';
@@ -3119,7 +3120,7 @@ class Php {
                 $data[] = 'throw new TemplateException(\'Object to string conversion exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) .'" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.\');';
             }
             $data[] = '}';
-            $data[] = '} catch (Error | ErrorException | Exception | ParseError $exception) {'; //catch
+            $data[] = '} catch (Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception) {'; //catch
             $data[] = 'throw $exception;';
             $data[] = '}';
             foreach($after as $line){
@@ -3312,7 +3313,7 @@ class Php {
             $before[] = 'throw new TemplateException(\'Static method "' . $function . '" not found in class: ' . $class_name . '\' . PHP_EOL . \'Available static methods:\' . PHP_EOL . implode(PHP_EOL, ' . $uuid_methods . ') . PHP_EOL);';
             $before[] = '}';
             $before[] = '}';
-            $before[] = 'catch(Exception | LocateException $exception){';
+            $before[] = 'catch(Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception){';
             if(
                 array_key_exists('is_multiline', $record) &&
                 $record['is_multiline'] === true
@@ -3366,7 +3367,7 @@ class Php {
             $before[] = 'throw new TemplateException(\'Method "' . $class_method . '" not found in class: ' . $class_raw . '\' . PHP_EOL . \'Available methods:\' . PHP_EOL . implode(PHP_EOL, ' . $uuid_methods . ') . PHP_EOL);';
             $before[] = '}';
             $before[] = '}';
-            $before[] = 'catch(Exception | TemplateException $exception){';
+            $before[] = 'catch(Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception){';
             if(
                 array_key_exists('is_multiline', $record) &&
                 $record['is_multiline'] === true
@@ -3517,7 +3518,7 @@ class Php {
                                     $result[] = $after_record;
                                 }
                             }
-                            $result[] = '} catch(ErrorException | Error | Exception $exception){';
+                            $result[] = '} catch(Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception){';
                             if(
                                 array_key_exists('is_multiline', $record) &&
                                 $record['is_multiline'] === true
@@ -3557,7 +3558,7 @@ class Php {
                                     $result[] = $after_record;
                                 }
                             }
-                            $result[] = '} catch(ErrorException | Error | Exception $exception){';
+                            $result[] = '} catch(Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception){';
                             if (
                                 array_key_exists('is_multiline', $record) &&
                                 $record['is_multiline'] === true
@@ -3597,7 +3598,7 @@ class Php {
                                     $result[] = $after_record;
                                 }
                             }
-                            $result[] = '} catch(ErrorException | Error | Exception $exception){';
+                            $result[] = '} catch(Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception){';
                             if(
                                 array_key_exists('is_multiline', $record) &&
                                 $record['is_multiline'] === true
@@ -3637,19 +3638,13 @@ class Php {
                                     $result[] = $after_record;
                                 }
                             }
-                            $result[] = '} catch(ErrorException | Error | Exception $exception){';
+                            $result[] = '} catch(Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception){';
                             if(
                                 array_key_exists('is_multiline', $record) &&
                                 $record['is_multiline'] === true
                             ){
-                                $result[] = 'if(ob_get_level() >= 1){';
-                                $result[] = 'ob_get_clean();';
-                                $result[] = '}';
                                 $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '\', 0, $exception);';
                             } else {
-                                $result[] = 'if(ob_get_level() >= 1){';
-                                $result[] = 'ob_get_clean();';
-                                $result[] = '}';
                                 $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\', 0, $exception);';
                             }
                             $result[] = '}';
@@ -3683,8 +3678,8 @@ class Php {
                                     $result[] = $after_record;
                                 }
                             }
-                            $result[] = '} catch(ErrorException | Error | Exception $exception){';
-                            $result_validator[] = '} catch(ErrorException | Error | Exception $exception){';
+                            $result[] = '} catch(Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception){';
+                            $result_validator[] = '} catch(Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception){';
                             if(
                                 array_key_exists('is_multiline', $record) &&
                                 $record['is_multiline'] === true

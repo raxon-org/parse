@@ -39,14 +39,14 @@ class Php {
             $use_class[] = 'Error';
             $use_class[] = 'ErrorException';
             $use_class[] = 'Exception';
-            $use_class[] = 'Package\Raxon\Parse\Module\Parse';
             $use_class[] = 'ParseError';
             $use_class[] = 'Plugin';
             $use_class[] = 'Raxon\App';
-            $use_class[] = 'Raxon\Module\Data';
             $use_class[] = 'Raxon\Exception\TemplateException';
             $use_class[] = 'Raxon\Exception\LocateException';
-        }
+            $use_class[] = 'Raxon\Module\Data';
+            $use_class[] = 'Raxon\Parse\Module\Parse';
+
         $object->config('package.raxon/parse.build.use.class', $use_class);
         $use_trait = $object->config('package.raxon/parse.build.use.trait');
         if(empty($use_trait)){

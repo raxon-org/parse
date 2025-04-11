@@ -196,13 +196,12 @@
               "Exception",
               "ParseError",
               "Plugin",
-              "Package\\Raxon\\Parse\\Module\\Parse",
               "Raxon\\App",
+              "Raxon\\Exception\\LocateException",
+              "Raxon\\Exception\\TemplateException",
               "Raxon\\Module\\Data",
               "Raxon\\Module\\Core",
               "Raxon\\Parse\\Module\\Parse",
-              "Raxon\\Exception\\LocateException",
-              "Raxon\\Exception\\TemplateException",
               "ReflectionClass"
             ],
             "trait": [

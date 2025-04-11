@@ -39,7 +39,7 @@ trait Plugin_constant {
                     );
                 } elseif(array_key_exists('line', $tag)){
                     throw new TemplateException(
-                    'Constant not defined: ' . $constant . ' on line ' . $tag['line'],
+                        'Constant not defined: ' . $constant . ' on line ' . $tag['line'],
                         $error->getCode(),
                         $error
                     );

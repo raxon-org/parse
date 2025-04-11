@@ -36,19 +36,19 @@ trait Plugin_constant {
                     array_key_exists('start', $tag['line'])
                 ){
                     throw new TemplateException(
-                        'Constant not defined: ' . $constant . ' on line ' . $tag['line']['start'],
+                        'Constant not defined: ' . $constant . ' on line: ' . $tag['line']['start'] . ' in file: ' . $object->config('package.raxon/parse.build.state.source.url'),
                         $error->getCode(),
                         $error
                     );
                 } elseif(array_key_exists('line', $tag)){
                     throw new TemplateException(
-                        'Constant not defined: ' . $constant . ' on line ' . $tag['line'],
+                        'Constant not defined: ' . $constant . ' on line: ' . $tag['line'] . ' in file: ' . $object->config('package.raxon/parse.build.state.source.url'),
                         $error->getCode(),
                         $error
                     );
                 } else {
                     throw new TemplateException(
-                        'Constant not defined: ' . $constant,
+                        'Constant not defined: ' . $constant . ' in file: ' . $object->config('package.raxon/parse.build.state.source.url'),
                         $error->getCode(),
                         $error
                     );

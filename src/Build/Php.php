@@ -163,6 +163,7 @@ class Php {
     {
         $indent = $object->config('package.raxon/parse.build.state.indent');
         $document = Php::document_run_throw($object, $flags, $options, $document);
+        ddd($document);
         $document[] = str_repeat(' ', $indent * 4) . 'public function run(): mixed';
         $document[] = str_repeat(' ', $indent * 4) . '{';
         $indent++;

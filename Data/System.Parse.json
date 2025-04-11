@@ -191,18 +191,18 @@
         "build": {
           "use" : {
             "class" : [
+              "Error",
+              "ErrorException",
+              "Exception",
               "Raxon\\App",
               "Raxon\\Module\\Data",
               "Raxon\\Module\\Core",
               "Raxon\\Parse\\Module\\Parse",
-              "Plugin",
-              "Exception",
-              "Error",
-              "ErrorException",
               "ParseError",
-              "ReflectionClass",
+              "Plugin",
               "Raxon\\Exception\\TemplateException",
-              "Raxon\\Exception\\LocateException"
+              "Raxon\\Exception\\LocateException",
+              "ReflectionClass"
             ],
             "trait": [
               "Plugin\\Basic",

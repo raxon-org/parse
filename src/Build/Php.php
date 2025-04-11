@@ -34,17 +34,16 @@ class Php {
     public static function document_default(App $object, $flags, $options): void
     {
         $use_class = $object->config('package.raxon/parse.build.use.class');
-        ddd($use_class);
         if(empty($use_class)){
             $use_class = [];
+            $use_class[] = 'Error';
+            $use_class[] = 'ErrorException';
+            $use_class[] = 'Exception';
+            $use_class[] = 'Package\Raxon\Parse\Module\Parse';
+            $use_class[] = 'ParseError';
+            $use_class[] = 'Plugin';
             $use_class[] = 'Raxon\App';
             $use_class[] = 'Raxon\Module\Data';
-            $use_class[] = 'Package\Raxon\Parse\Module\Parse';
-            $use_class[] = 'Plugin';
-            $use_class[] = 'Exception';
-            $use_class[] = 'ErrorException';
-            $use_class[] = 'Error';
-            $use_class[] = 'ParseError';
             $use_class[] = 'Raxon\Exception\TemplateException';
             $use_class[] = 'Raxon\Exception\LocateException';
         }

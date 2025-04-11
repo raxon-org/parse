@@ -34,6 +34,7 @@ class Build {
 //        d($data);
         $document = Php::document_run($object, $flags, $options, $document, $data);
         $document[] = '}';
+        ddd($document);
         return $document;
     }
 

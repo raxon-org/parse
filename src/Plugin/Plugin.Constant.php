@@ -29,6 +29,7 @@ trait Plugin_constant {
                 $object = $this->object();
                 $tag = $object->config('package.raxon/parse.build.state.tag');
                 $data = $this->data();
+                d($object->config('package.raxon/parse.build.state'));
                 ddd($data);
                 if(
                     array_key_exists('line', $tag) &&

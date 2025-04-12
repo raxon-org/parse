@@ -140,8 +140,6 @@ class Php {
         $document[] = str_repeat(' ', $indent * 4) . '$this->data($data);';
         $document[] = str_repeat(' ', $indent * 4) . '$this->parse_flags($flags);';
         $document[] = str_repeat(' ', $indent * 4) . '$this->parse_options($options);';
-        $document[] = str_repeat(' ', $indent * 4) . 'set_error_handler(\'exceptions_error_handler_new\');';
-        $document[] = str_repeat(' ', $indent * 4) . 'set_exception_handler(\'exception_handler\');';
         $object->config(
             'package.raxon/parse.build.state.indent',
             $object->config('package.raxon/parse.build.state.indent') - 1

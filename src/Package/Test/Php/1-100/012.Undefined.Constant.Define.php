@@ -13,7 +13,7 @@ class Temp {
     {
         try {
             echo UNDEFINED_CONSTANT;
-        } catch (ErrorException|Exception $e) {
+        } catch (Error|ErrorException|Exception $e) {
             echo "Caught warning: " . $e->getMessage();
         }
     }

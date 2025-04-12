@@ -136,6 +136,11 @@ class Php {
         $document[] = str_repeat(' ', $indent * 4) . '$this->data($data);';
         $document[] = str_repeat(' ', $indent * 4) . '$this->parse_flags($flags);';
         $document[] = str_repeat(' ', $indent * 4) . '$this->parse_options($options);';
+        $document[] = str_repeat(' ', $indent * 4) . 'set_error_handler(function($severity, $message, $file, $line) {';
+        $indent++;
+        $document[] = str_repeat(' ', $indent * 4) . 'throw new TemplateException($message, 0, $severity, $file, $line);';
+        $indent--;
+        $document[] = str_repeat(' ', $indent * 4) . '});';
         $object->config(
             'package.raxon/parse.build.state.indent',
             $object->config('package.raxon/parse.build.state.indent') - 1

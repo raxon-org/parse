@@ -202,17 +202,17 @@ class Php {
         $document[] = str_repeat(' ', $indent * 4) . 'throw new TemplateException(\'$options is not an object\');';
         $indent--;
         $document[] = str_repeat(' ', $indent * 4) . '}';
-        $document[] = str_repeat(' ', $indent * 4) . 'try {';
-        $indent++;
+//        $document[] = str_repeat(' ', $indent * 4) . 'try {';
+//        $indent++;
         $document = Php::format($document, $data, $indent);
         $document[] = str_repeat(' ', $indent * 4) . 'return implode(\'\', $content);';
         $indent--;
-        $document[] = str_repeat(' ', $indent * 4) . '} catch(Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception) {';
-        $indent++;
-        $document[] = str_repeat(' ', $indent * 4) . 'throw $exception;';
-        $indent--;
-        $document[] = str_repeat(' ', $indent * 4) . '}';
-        $indent--;
+//        $document[] = str_repeat(' ', $indent * 4) . '} catch(Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception) {';
+//        $indent++;
+//        $document[] = str_repeat(' ', $indent * 4) . 'throw $exception;';
+//        $indent--;
+//        $document[] = str_repeat(' ', $indent * 4) . '}';
+//        $indent--;
         $document[] = str_repeat(' ', $indent * 4) . '}';
         return $document;
     }

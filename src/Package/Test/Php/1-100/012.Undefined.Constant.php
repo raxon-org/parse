@@ -20,5 +20,8 @@ class Temp {
 
 }
 
+$obj = new Temp();
+$obj->run();
+
 
 

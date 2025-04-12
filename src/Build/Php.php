@@ -1584,7 +1584,7 @@ class Php {
                             if($variable){
                                 $data[] = 'try {';
                                 $data[] = $variable;
-                                $data[] = '} catch (Error | ErrorException | Exception $exception) {';
+                                $data[] = '} catch (Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception) {';
                                 if (
                                     array_key_exists('is_multiline', $record) &&
                                     $record['is_multiline'] === true
@@ -1625,7 +1625,7 @@ class Php {
                                 foreach($variable as $line){
                                     $data[] = 'try {';
                                     $data[] = $line;
-                                    $data[] = '} catch (Error | ErrorException | Exception $exception) {';
+                                    $data[] = '} catch (Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception) {';
                                     if (
                                         array_key_exists('is_multiline', $record) &&
                                         $record['is_multiline'] === true
@@ -1664,7 +1664,7 @@ class Php {
                             foreach($before as $line){
                                 $data[] = $line;
                             }
-                            $data[] = '} catch (Error | ErrorException | Exception $exception | ParseError | LocateException | TemplateException $exception) {';
+                            $data[] = '} catch (Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception) {';
                             if (
                                 array_key_exists('is_multiline', $record) &&
                                 $record['is_multiline'] === true

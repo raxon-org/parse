@@ -20,7 +20,7 @@ class Temp {
             $eheekhmh_mjol_klmh_omgd_hphgidkdlggl = __CLASS__;
             $eelmggac_bolk_knif_pfpm_nacddngdmfob = '__METHOD__';
             $lgeagbfe_anmg_khhl_bgmf_gmceogidcnhh = __CLASS__2;
-        } catch(Error | Exception $exception) {
+        } catch(Error $exception) {
             throw $exception;
         }
     }

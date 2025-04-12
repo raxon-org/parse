@@ -1,4 +1,8 @@
 <?php
+namespace Package\Raxon\Parse;
+use Error;
+use ErrorException;
+use Exception;
 set_error_handler(function ($severity, $message, $file, $line) {
     throw new ErrorException($message, 0, $severity, $file, $line);
 });
@@ -14,7 +18,7 @@ class Temp {
         try {
             $test = UNDEFINED_CONSTANT;
             echo $test;
-        } catch (Error|ErrorException|Exception $e) {
+        } catch (Error|Exception $e) {
             echo "Caught warning: " . $e->getMessage();
         }
     }

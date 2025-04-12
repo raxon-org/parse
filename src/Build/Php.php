@@ -1608,7 +1608,6 @@ class Php {
                                 }
                             }
                         }
-                        ddd($data);
                     }
                     elseif(
                         array_key_exists('method', $record)
@@ -1619,6 +1618,7 @@ class Php {
                                 $data[] = $line;
                             }
                             $before = [];
+                            ddd($data);
                         }
                         if($record['method']['name'] === 'break'){
                             $data[] = $method . ';';

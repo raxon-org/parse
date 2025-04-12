@@ -1,13 +1,8 @@
 <?php
+
 set_error_handler(function ($severity, $message, $file, $line) {
     throw new ErrorException($message, 0, $severity, $file, $line);
 });
-
-use Error;
-use ErrorException;
-use Exception;
-use ParseError;
-
 class Temp {
 
     /**

@@ -501,17 +501,7 @@ class Parse
             $run_options = clone $options;
             $run = $options->namespace . '\\' . $options->class;
             $main = new $run($object, $this, $data, $flags, $options);
-            try {
-                $result = $main->run();
-            } catch (Exception $exception) {
-                $object->config('package.raxon/parse.build.state.exception', $exception);
-                throw new TemplateException(
-                    'Parse error: ' . $exception->getMessage(),
-                    $exception->getCode(),
-                    $exception
-                );
-            }
-
+            $result = $main->run();
             if(property_exists($options, 'duration')){
                 $microtime = microtime(true);
                 $duration_require = round(($post_require - $pre_require) * 1000, 2) . ' ms';

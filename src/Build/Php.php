@@ -1582,7 +1582,11 @@ class Php {
                         ){
                             $variable = Php::variable_assign($object, $flags, $options, $record);
                             if($variable){
+                                $data[] = 'try {';
                                 $data[] = $variable;
+                                $data[] = '} catch (Error | ErrorException | Exception $exception) {';
+                                $data[] = '    throw new TemplateException(\'Variable assign error (' . str_replace('\'', '\\\'', $record['tag']) . ', $exception->getCode(), $exception)\');';
+                                $data[] = '}';
                             }
                             $next = $list[$nr + 1] ?? null;
                             if($next){
@@ -1596,7 +1600,11 @@ class Php {
                             $variable = Php::variable_define($object, $flags, $options, $record);
                             if($variable){
                                 foreach($variable as $line){
+                                    $data[] = 'try {';
                                     $data[] = $line;
+                                    $data[] = '} catch (Error | ErrorException | Exception $exception) {';
+                                    $data[] = '    throw new TemplateException(\'Variable assign error (' . str_replace('\'', '\\\'', $record['tag']) . ', $exception->getCode(), $exception)\');';
+                                    $data[] = '}';
                                 }
                             }
                         }

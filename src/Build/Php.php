@@ -136,7 +136,7 @@ class Php {
         $document[] = str_repeat(' ', $indent * 4) . '$this->data($data);';
         $document[] = str_repeat(' ', $indent * 4) . '$this->parse_flags($flags);';
         $document[] = str_repeat(' ', $indent * 4) . '$this->parse_options($options);';
-        $document[] = str_repeat(' ', $indent * 4) . 'set_error_handler(function($severity, $message, $file, $line) {';
+        $document[] = str_repeat(' ', $indent * 4) . 'set_error_handler(function($severity, $message, $file, $line){';
         $indent++;
         $document[] = str_repeat(' ', $indent * 4) . 'throw new ErrorException($message, 0, $severity, $file, $line);';
         $indent--;

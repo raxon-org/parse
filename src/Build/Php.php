@@ -1762,7 +1762,7 @@ class Php {
                                 $record['column'][$record['line']['start']]['start'] .
                                 ' in source: ' .
                                 $options->source .
-                                '.\');';
+                                '.\', $exception->getCode(), $exception);';
                         } else {
                             $data[] = 'throw new TemplateException(\'Method error (' .
                                 str_replace('\'', '\\\'', $record['tag']) .
@@ -1772,7 +1772,7 @@ class Php {
                                 $record['column']['start'] .
                                 ' in source: ' .
                                 $options->source .
-                                '.\');';
+                                '.\', $exception->getCode(), $exception);';
                         }
                         $data[] = '}';
                     }

@@ -1591,7 +1591,7 @@ class Php {
                                 ) {
                                     $data[] = 'throw new TemplateException(\'Variable assign error (' .
                                         str_replace('\'', '\\\'', $record['tag']) .
-                                        ')\' . PHP_EOL . \'On line: ' .
+                                        ')\' . PHP_EOL . $exception->getMessage() . PHP_EOL . \'On line: ' .
                                         $record['line']['start'] .
                                         ', column: ' .
                                         $record['column'][$record['line']['start']]['start'] .
@@ -1601,7 +1601,7 @@ class Php {
                                 } else {
                                     $data[] = 'throw new TemplateException(\'Variable assign error (' .
                                         str_replace('\'', '\\\'', $record['tag']) .
-                                        ')\' . PHP_EOL . \'On line: ' .
+                                        ')\' . PHP_EOL . $exception->getMessage() . PHP_EOL . \'On line: ' .
                                         $record['line'] .
                                         ', column: ' .
                                         $record['column']['start'] .
@@ -1632,7 +1632,7 @@ class Php {
                                     ) {
                                         $data[] = 'throw new TemplateException(\'Variable define error (' .
                                             str_replace('\'', '\\\'', $record['tag']) .
-                                            ')\' . PHP_EOL . \'On line: ' .
+                                            ')\' . PHP_EOL . $exception->getMessage() . PHP_EOL . \'On line: ' .
                                             $record['line']['start'] .
                                             ', column: ' .
                                             $record['column'][$record['line']['start']]['start'] .
@@ -1642,7 +1642,7 @@ class Php {
                                     } else {
                                         $data[] = 'throw new TemplateException(\'Variable define error (' .
                                             str_replace('\'', '\\\'', $record['tag']) .
-                                            ')\' . PHP_EOL . \'On line: ' .
+                                            ')\' . PHP_EOL . $exception->getMessage() . PHP_EOL . \'On line: ' .
                                             $record['line'] .
                                             ', column: ' .
                                             $record['column']['start'] .

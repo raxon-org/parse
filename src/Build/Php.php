@@ -1608,6 +1608,7 @@ class Php {
                                 }
                             }
                         }
+                        d($data);
                     }
                     elseif(
                         array_key_exists('method', $record)

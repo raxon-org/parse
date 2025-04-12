@@ -97,9 +97,9 @@ class Php {
         $document[] = '';
         $document[] = 'namespace Package\Raxon\Parse;';
         $document[] = '';
-        $document[] = 'set_error_handler(function($severity, $message, $file, $line){';
-        $document[] = str_repeat(' ', 4) . 'throw new ErrorException($message, 0, $severity, $file, $line);';
-        $document[] = '});';
+//        $document[] = 'set_error_handler(function($severity, $message, $file, $line){';
+//        $document[] = str_repeat(' ', 4) . 'throw new ErrorException($message, 0, $severity, $file, $line);';
+//        $document[] = '});';
         $document[] = '';
         return $document;
     }

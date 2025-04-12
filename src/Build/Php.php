@@ -1585,7 +1585,30 @@ class Php {
                                 $data[] = 'try {';
                                 $data[] = $variable;
                                 $data[] = '} catch (Error | ErrorException | Exception $exception) {';
-                                $data[] = '    throw new TemplateException(\'Variable assign error "' . str_replace('\'', '\\\'', $record['tag']) . '"\', $exception->getCode(), $exception));';
+                                if (
+                                    array_key_exists('is_multiline', $record) &&
+                                    $record['is_multiline'] === true
+                                ) {
+                                    $data[] = 'throw new TemplateException(\'Variable assign error (' .
+                                        str_replace('\'', '\\\'', $record['tag']) .
+                                        ')\' . PHP_EOL . \'On line: ' .
+                                        $record['line']['start'] .
+                                        ', column: ' .
+                                        $record['column'][$record['line']['start']]['start'] .
+                                        ' in source: ' .
+                                        $options->source .
+                                        '.\', $exception->getCode(), $exception);';
+                                } else {
+                                    $data[] = 'throw new TemplateException(\'Variable assign error (' .
+                                        str_replace('\'', '\\\'', $record['tag']) .
+                                        ')\' . PHP_EOL . \'On line: ' .
+                                        $record['line'] .
+                                        ', column: ' .
+                                        $record['column']['start'] .
+                                        ' in source: ' .
+                                        $options->source .
+                                        '.\', $exception->getCode(), $exception);';
+                                }
                                 $data[] = '}';
                             }
                             $next = $list[$nr + 1] ?? null;
@@ -1603,7 +1626,30 @@ class Php {
                                     $data[] = 'try {';
                                     $data[] = $line;
                                     $data[] = '} catch (Error | ErrorException | Exception $exception) {';
-                                    $data[] = '    throw new TemplateException(\'Variable define error "' . str_replace('\'', '\\\'', $record['tag']) . '"\', $exception->getCode(), $exception));';
+                                    if (
+                                        array_key_exists('is_multiline', $record) &&
+                                        $record['is_multiline'] === true
+                                    ) {
+                                        $data[] = 'throw new TemplateException(\'Variable define error (' .
+                                            str_replace('\'', '\\\'', $record['tag']) .
+                                            ')\' . PHP_EOL . \'On line: ' .
+                                            $record['line']['start'] .
+                                            ', column: ' .
+                                            $record['column'][$record['line']['start']]['start'] .
+                                            ' in source: ' .
+                                            $options->source .
+                                            '.\', $exception->getCode(), $exception);';
+                                    } else {
+                                        $data[] = 'throw new TemplateException(\'Variable define error (' .
+                                            str_replace('\'', '\\\'', $record['tag']) .
+                                            ')\' . PHP_EOL . \'On line: ' .
+                                            $record['line'] .
+                                            ', column: ' .
+                                            $record['column']['start'] .
+                                            ' in source: ' .
+                                            $options->source .
+                                            '.\', $exception->getCode(), $exception);';
+                                    }
                                     $data[] = '}';
                                 }
                             }
@@ -1619,7 +1665,30 @@ class Php {
                                 $data[] = $line;
                             }
                             $data[] = '} catch (Error | ErrorException | Exception $exception | ParseError | LocateException | TemplateException $exception) {';
-                            $data[] = '    throw new TemplateException(\'Method error "' . str_replace('\'', '\\\'', $record['tag']) . '"\', $exception->getCode(), $exception));';
+                            if (
+                                array_key_exists('is_multiline', $record) &&
+                                $record['is_multiline'] === true
+                            ) {
+                                $data[] = 'throw new TemplateException(\'Method error (' .
+                                    str_replace('\'', '\\\'', $record['tag']) .
+                                    ')\' . PHP_EOL . \'On line: ' .
+                                    $record['line']['start'] .
+                                    ', column: ' .
+                                    $record['column'][$record['line']['start']]['start'] .
+                                    ' in source: ' .
+                                    $options->source .
+                                    '.\', $exception->getCode(), $exception);';
+                            } else {
+                                $data[] = 'throw new TemplateException(\'Method error (' .
+                                    str_replace('\'', '\\\'', $record['tag']) .
+                                    ')\' . PHP_EOL . \'On line: ' .
+                                    $record['line'] .
+                                    ', column: ' .
+                                    $record['column']['start'] .
+                                    ' in source: ' .
+                                    $options->source .
+                                    '.\', $exception->getCode(), $exception);';
+                            }
                             $data[] = '}';
                             $before = [];
                             ddd($data);
@@ -1640,15 +1709,60 @@ class Php {
                             if($object->config('package.raxon/parse.build.state.source.is.json') === true){
                                 $data[] = 'return ' . $uuid_method . ';';
                             } else {
-                                $data[] = 'throw new TemplateException(\'Array to string conversion error (' . str_replace('\'', '\\\'', $record['tag']) . ')\');';
+                                if (
+                                    array_key_exists('is_multiline', $record) &&
+                                    $record['is_multiline'] === true
+                                ) {
+                                    $data[] = 'throw new TemplateException(\'Array to string conversion error (' .
+                                        str_replace('\'', '\\\'', $record['tag']) .
+                                        ')\' . PHP_EOL . \'On line: ' .
+                                        $record['line']['start'] .
+                                        ', column: ' .
+                                        $record['column'][$record['line']['start']]['start'] .
+                                        ' in source: ' .
+                                        $options->source .
+                                        '.\');';
+                                } else {
+                                    $data[] = 'throw new TemplateException(\'Array to string conversion error (' .
+                                        str_replace('\'', '\\\'', $record['tag']) .
+                                        ')\' . PHP_EOL . \'On line: ' .
+                                        $record['line'] .
+                                        ', column: ' .
+                                        $record['column']['start'] .
+                                        ' in source: ' .
+                                        $options->source .
+                                        '.\');';
+                                }
                             }
-                            //if is.json we can convert it to json... $content pop and push the last content (remove ")
                             $data[] = '}';
                             $data[] = 'elseif(is_object(' . $uuid_method . ')){';
                             if($object->config('package.raxon/parse.build.state.source.is.json') === true){
                                 $data[] = 'return ' . $uuid_method . ';';
                             } else {
-                                $data[] = 'throw new TemplateException(\'Object to string conversion error (' . str_replace('\'', '\\\'', $record['tag']) . ')\');';
+                                if (
+                                    array_key_exists('is_multiline', $record) &&
+                                    $record['is_multiline'] === true
+                                ) {
+                                    $data[] = 'throw new TemplateException(\'Object to string conversion error (' .
+                                        str_replace('\'', '\\\'', $record['tag']) .
+                                        ')\' . PHP_EOL . \'On line: ' .
+                                        $record['line']['start'] .
+                                        ', column: ' .
+                                        $record['column'][$record['line']['start']]['start'] .
+                                        ' in source: ' .
+                                        $options->source .
+                                        '.\');';
+                                } else {
+                                    $data[] = 'throw new TemplateException(\'Object to string conversion error (' .
+                                        str_replace('\'', '\\\'', $record['tag']) .
+                                        ')\' . PHP_EOL . \'On line: ' .
+                                        $record['line'] .
+                                        ', column: ' .
+                                        $record['column']['start'] .
+                                        ' in source: ' .
+                                        $options->source .
+                                        '.\');';
+                                }
                             }
                             $data[] = '}';
                         }

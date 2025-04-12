@@ -1691,7 +1691,6 @@ class Php {
                             }
                             $data[] = '}';
                             $before = [];
-                            ddd($data);
                         }
                         if($record['method']['name'] === 'break'){
                             $data[] = $method . ';';

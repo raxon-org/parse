@@ -1585,7 +1585,7 @@ class Php {
                                 $data[] = 'try {';
                                 $data[] = $variable;
                                 $data[] = '} catch (Error | ErrorException | Exception $exception) {';
-                                $data[] = '    throw new TemplateException(\'Variable assign error (' . str_replace('\'', '\\\'', $record['tag']) . ', $exception->getCode(), $exception)\');';
+                                $data[] = '    throw new TemplateException(\'Variable assign error "' . str_replace('\'', '\\\'', $record['tag']) . '"\', $exception->getCode(), $exception));';
                                 $data[] = '}';
                             }
                             $next = $list[$nr + 1] ?? null;
@@ -1603,7 +1603,7 @@ class Php {
                                     $data[] = 'try {';
                                     $data[] = $line;
                                     $data[] = '} catch (Error | ErrorException | Exception $exception) {';
-                                    $data[] = '    throw new TemplateException(\'Variable assign error (' . str_replace('\'', '\\\'', $record['tag']) . ', $exception->getCode(), $exception)\');';
+                                    $data[] = '    throw new TemplateException(\'Variable define error "' . str_replace('\'', '\\\'', $record['tag']) . '"\', $exception->getCode(), $exception));';
                                     $data[] = '}';
                                 }
                             }
@@ -1619,7 +1619,7 @@ class Php {
                                 $data[] = $line;
                             }
                             $data[] = '} catch (Error | ErrorException | Exception $exception | ParseError | LocateException | TemplateException $exception) {';
-                            $data[] = '    throw new TemplateException(\'Method error (' . str_replace('\'', '\\\'', $record['tag']) . ', $exception->getCode(), $exception)\');';
+                            $data[] = '    throw new TemplateException(\'Method error "' . str_replace('\'', '\\\'', $record['tag']) . '"\', $exception->getCode(), $exception));';
                             $data[] = '}';
                             $before = [];
                             ddd($data);

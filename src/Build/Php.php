@@ -1658,38 +1658,12 @@ class Php {
                     elseif(
                         array_key_exists('method', $record)
                     ){
+                        $data[] = 'try {';
                         $method = Php::method($object, $flags, $options, $record, $before, $after);
                         if(!empty($before)){
-                            $data[] = 'try {';
                             foreach($before as $line){
                                 $data[] = $line;
-                            }
-                            $data[] = '} catch (Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception) {';
-                            if (
-                                array_key_exists('is_multiline', $record) &&
-                                $record['is_multiline'] === true
-                            ) {
-                                $data[] = 'throw new TemplateException(\'Method error (' .
-                                    str_replace('\'', '\\\'', $record['tag']) .
-                                    ')\' . PHP_EOL . \'On line: ' .
-                                    $record['line']['start'] .
-                                    ', column: ' .
-                                    $record['column'][$record['line']['start']]['start'] .
-                                    ' in source: ' .
-                                    $options->source .
-                                    '.\');';
-                            } else {
-                                $data[] = 'throw new TemplateException(\'Method error (' .
-                                    str_replace('\'', '\\\'', $record['tag']) .
-                                    ')\' . PHP_EOL . \'On line: ' .
-                                    $record['line'] .
-                                    ', column: ' .
-                                    $record['column']['start'] .
-                                    ' in source: ' .
-                                    $options->source .
-                                    '.\');';
-                            }
-                            $data[] = '}';
+                            };
                             $before = [];
                         }
                         if($record['method']['name'] === 'break'){
@@ -1775,6 +1749,32 @@ class Php {
                         if($next){
                             $list[$nr + 1] = Php::remove_newline_next($object, $flags, $options, $next);
                         }
+                        $data[] = '} catch (Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception) {';
+                        if (
+                            array_key_exists('is_multiline', $record) &&
+                            $record['is_multiline'] === true
+                        ) {
+                            $data[] = 'throw new TemplateException(\'Method error (' .
+                                str_replace('\'', '\\\'', $record['tag']) .
+                                ')\' . PHP_EOL . \'On line: ' .
+                                $record['line']['start'] .
+                                ', column: ' .
+                                $record['column'][$record['line']['start']]['start'] .
+                                ' in source: ' .
+                                $options->source .
+                                '.\');';
+                        } else {
+                            $data[] = 'throw new TemplateException(\'Method error (' .
+                                str_replace('\'', '\\\'', $record['tag']) .
+                                ')\' . PHP_EOL . \'On line: ' .
+                                $record['line'] .
+                                ', column: ' .
+                                $record['column']['start'] .
+                                ' in source: ' .
+                                $options->source .
+                                '.\');';
+                        }
+                        $data[] = '}';
                     }
                     else {
                         d($content);

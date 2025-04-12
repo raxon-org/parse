@@ -209,7 +209,6 @@ class Php {
         $indent--;
         $document[] = str_repeat(' ', $indent * 4) . '} catch(Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception) {';
         $indent++;
-        $document[] = str_repeat(' ', $indent * 4) . 'echo  \'catch2:\' . PHP_EOL;';
         $document[] = str_repeat(' ', $indent * 4) . 'throw $exception;';
         $indent--;
         $document[] = str_repeat(' ', $indent * 4) . '}';
@@ -3141,8 +3140,6 @@ class Php {
             }
             $data[] = '}';
             $data[] = '} catch (Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception) {'; //catch
-            $data[] =  'echo  \'catch:\' . PHP_EOL;';
-            ddd($record);
             $data[] = 'throw $exception;';
             $data[] = '}';
             foreach($after as $line){

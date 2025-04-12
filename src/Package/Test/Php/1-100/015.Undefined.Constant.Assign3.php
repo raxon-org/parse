@@ -21,7 +21,7 @@ class Temp {
             $eelmggac_bolk_knif_pfpm_nacddngdmfob = '__METHOD__';
             $lgeagbfe_anmg_khhl_bgmf_gmceogidcnhh = __CLASS__2;
         } catch(Error | ErrorException | Exception | ParseError $exception) {
-            throw $exception;
+            echo $exception;
         }
     }
 }

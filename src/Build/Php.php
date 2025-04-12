@@ -3141,7 +3141,7 @@ class Php {
             }
             $data[] = '}';
             $data[] = '} catch (Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception) {'; //catch
-            $data[] =  . 'echo  \'catch:\' . PHP_EOL;';
+            $data[] =  'echo  \'catch:\' . PHP_EOL;';
             $data[] = 'throw $exception;';
             $data[] = '}';
             foreach($after as $line){

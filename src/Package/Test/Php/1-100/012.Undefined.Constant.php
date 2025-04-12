@@ -5,6 +5,6 @@ set_error_handler(function ($severity, $message, $file, $line) {
 
 try {
     echo UNDEFINED_CONSTANT;
-} catch (ErrorException $e) {
+} catch (Error | ErrorException | Exception $e) {
     echo "Caught warning: " . $e->getMessage();
 }

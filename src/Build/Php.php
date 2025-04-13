@@ -2819,11 +2819,9 @@ class Php {
                 $record['type'] === 'method'
             ){
                 if(empty($reord['tag'])){
-                    $record['tag'] = $tag['tag'];
-                    $record['line'] = $tag['line'];
+                    $record['tag'] = $tag['tag'] ?? 'unknown';
+                    $record['line'] = $tag['line'] ?? 'unknown';
                 }
-                d($tag);
-                d($record);
                 $value .= Php::method($object, $flags, $options, $record, $before, $after);
             }
             elseif(

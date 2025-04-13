@@ -1582,34 +1582,7 @@ class Php {
                         ){
                             $variable = Php::variable_assign($object, $flags, $options, $record);
                             if($variable){
-                                $data[] = 'try {';
                                 $data[] = $variable;
-                                $data[] = '} catch (Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception) {';
-                                if (
-                                    array_key_exists('is_multiline', $record) &&
-                                    $record['is_multiline'] === true
-                                ) {
-                                    $data[] = 'throw new TemplateException(\'Variable assign error (' .
-                                        str_replace('\'', '\\\'', $record['tag']) .
-                                        ')\' . PHP_EOL . $exception->getMessage() . PHP_EOL . \'On line: ' .
-                                        $record['line']['start'] .
-                                        ', column: ' .
-                                        $record['column'][$record['line']['start']]['start'] .
-                                        ' in source: ' .
-                                        $options->source .
-                                        '.\', $exception->getCode(), $exception);';
-                                } else {
-                                    $data[] = 'throw new TemplateException(\'Variable assign error (' .
-                                        str_replace('\'', '\\\'', $record['tag']) .
-                                        ')\' . PHP_EOL . $exception->getMessage() . PHP_EOL . \'On line: ' .
-                                        $record['line'] .
-                                        ', column: ' .
-                                        $record['column']['start'] .
-                                        ' in source: ' .
-                                        $options->source .
-                                        '.\', $exception->getCode(), $exception);';
-                                }
-                                $data[] = '}';
                             }
                             $next = $list[$nr + 1] ?? null;
                             if($next){
@@ -1623,34 +1596,7 @@ class Php {
                             $variable = Php::variable_define($object, $flags, $options, $record);
                             if($variable){
                                 foreach($variable as $line){
-                                    $data[] = 'try {';
                                     $data[] = $line;
-                                    $data[] = '} catch (Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception) {';
-                                    if (
-                                        array_key_exists('is_multiline', $record) &&
-                                        $record['is_multiline'] === true
-                                    ) {
-                                        $data[] = 'throw new TemplateException(\'Variable define error (' .
-                                            str_replace('\'', '\\\'', $record['tag']) .
-                                            ')\' . PHP_EOL . $exception->getMessage() . PHP_EOL . \'On line: ' .
-                                            $record['line']['start'] .
-                                            ', column: ' .
-                                            $record['column'][$record['line']['start']]['start'] .
-                                            ' in source: ' .
-                                            $options->source .
-                                            '.\', $exception->getCode(), $exception);';
-                                    } else {
-                                        $data[] = 'throw new TemplateException(\'Variable define error (' .
-                                            str_replace('\'', '\\\'', $record['tag']) .
-                                            ')\' . PHP_EOL . $exception->getMessage() . PHP_EOL . \'On line: ' .
-                                            $record['line'] .
-                                            ', column: ' .
-                                            $record['column']['start'] .
-                                            ' in source: ' .
-                                            $options->source .
-                                            '.\', $exception->getCode(), $exception);';
-                                    }
-                                    $data[] = '}';
                                 }
                             }
                         }
@@ -1658,13 +1604,39 @@ class Php {
                     elseif(
                         array_key_exists('method', $record)
                     ){
-                        $data[] = 'try {';
                         $method = Php::method($object, $flags, $options, $record, $before, $after);
                         if(!empty($before)){
+                            $data[] = 'try {';
                             foreach($before as $line){
                                 $data[] = $line;
                             };
                             $before = [];
+                            $data[] = '} catch (Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception) {';
+                            if (
+                                array_key_exists('is_multiline', $record) &&
+                                $record['is_multiline'] === true
+                            ) {
+                                $data[] = 'throw new TemplateException(\'Method argument error (' .
+                                    str_replace('\'', '\\\'', $record['tag']) .
+                                    ')\' . PHP_EOL . $exception->getMessage() . PHP_EOL . \'On line: ' .
+                                    $record['line']['start'] .
+                                    ', column: ' .
+                                    $record['column'][$record['line']['start']]['start'] .
+                                    ' in source: ' .
+                                    $options->source .
+                                    '.\');';
+                            } else {
+                                $data[] = 'throw new TemplateException(\'Method argument error (' .
+                                    str_replace('\'', '\\\'', $record['tag']) .
+                                    ')\' . PHP_EOL . $exception->getMessage() . PHP_EOL . \'On line: ' .
+                                    $record['line'] .
+                                    ', column: ' .
+                                    $record['column']['start'] .
+                                    ' in source: ' .
+                                    $options->source .
+                                    '.\');';
+                            }
+                            $data[] = '}';
                         }
                         if($record['method']['name'] === 'break'){
                             $data[] = $method . ';';
@@ -1749,32 +1721,6 @@ class Php {
                         if($next){
                             $list[$nr + 1] = Php::remove_newline_next($object, $flags, $options, $next);
                         }
-                        $data[] = '} catch (Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception) {';
-                        if (
-                            array_key_exists('is_multiline', $record) &&
-                            $record['is_multiline'] === true
-                        ) {
-                            $data[] = 'throw new TemplateException(\'Method error (' .
-                                str_replace('\'', '\\\'', $record['tag']) .
-                                ')\' . PHP_EOL . $exception->getMessage() . PHP_EOL . \'On line: ' .
-                                $record['line']['start'] .
-                                ', column: ' .
-                                $record['column'][$record['line']['start']]['start'] .
-                                ' in source: ' .
-                                $options->source .
-                                '.\');';
-                        } else {
-                            $data[] = 'throw new TemplateException(\'Method error (' .
-                                str_replace('\'', '\\\'', $record['tag']) .
-                                ')\' . PHP_EOL . $exception->getMessage() . PHP_EOL . \'On line: ' .
-                                $record['line'] .
-                                ', column: ' .
-                                $record['column']['start'] .
-                                ' in source: ' .
-                                $options->source .
-                                '.\');';
-                        }
-                        $data[] = '}';
                     }
                     else {
                         d($content);
@@ -3217,11 +3163,11 @@ class Php {
                 }
             }
             $data = [];
+            $data[] = 'try {';
             foreach($before as $line){
                 $data[] = $line;
             }
             $before = [];
-            $data[] = 'try {';
             $data[] = $variable_uuid . ' = ' . $is_not . $value . ';';
             if(
                 array_key_exists('is_multiline', $record) &&
@@ -3265,13 +3211,13 @@ class Php {
                 $data[] = 'throw new TemplateException(\'Object to string conversion exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) .'" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.\');';
             }
             $data[] = '}';
-            $data[] = '} catch (Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception) {'; //catch
-            $data[] = 'throw $exception;';
-            $data[] = '}';
             foreach($after as $line){
                 $data[] = $line;
             }
             $after = [];
+            $data[] = '} catch (Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception) {'; //catch
+            $data[] = 'throw $exception;';
+            $data[] = '}';
             return $data;
         } else {
             $is_not = '';
@@ -3300,6 +3246,7 @@ class Php {
                 $data = [];
                 $before = [];
                 $after = [];
+                $data[] = 'try {';
                 $array_notation = Php::value($object, $flags, $options, $record, $record['variable']['array_notation'], $is_set, $before, $after);
                 $variable_value = '$data->get(\'' . $record['variable']['name'] . '\')' .  $array_notation;
                 foreach($before as $line){
@@ -3311,10 +3258,30 @@ class Php {
                     $data[] = $line;
                 }
                 $after = [];
+                $data[] = '} catch (Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception) {';
+                if(
+                    array_key_exists('is_multiline', $record) &&
+                    $record['is_multiline'] === true
+                ) {
+                    $data[] = 'throw new TemplateException(\'' . str_replace(['\\', '\''], ['\\\\', '\\\''], $record['tag']) . '\' on line: ' . $record['line']['start'] . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: ' . $source . '.' . PHP_EOL . '\');';
+                } else {
+                    $data[] = 'throw new TemplateException(\'' . str_replace(['\\', '\''], ['\\\\', '\\\''], $record['tag']) . '\' on line: ' . $record['line'] . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.' . PHP_EOL . '\');';
+                }
+                $data[] = '}';
             } else {
-                $data = [
-                    $variable_uuid . ' = ' . $is_not . $cast . '$data->data(\'' . $variable_name . '\');' ,
-                ];
+                $data = [];
+                $data[] = 'try {';
+                $data[] = $variable_uuid . ' = ' . $is_not . $cast . '$data->data(\'' . $variable_name . '\');' ;
+                $data[] = '} catch (Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception) {';
+                if(
+                    array_key_exists('is_multiline', $record) &&
+                    $record['is_multiline'] === true
+                ) {
+                    $data[] = 'throw new TemplateException(\'' . str_replace(['\\', '\''], ['\\\\', '\\\''], $record['tag']) . '\' on line: ' . $record['line']['start'] . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: ' . $source . '.' . PHP_EOL . '\');';
+                } else {
+                    $data[] = 'throw new TemplateException(\'' . str_replace(['\\', '\''], ['\\\\', '\\\''], $record['tag']) . '\' on line: ' . $record['line'] . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.' . PHP_EOL . '\');';
+                }
+                $data[] = '}';
             }
             if(
                 array_key_exists('is_multiline', $record) &&

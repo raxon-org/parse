@@ -1642,7 +1642,34 @@ class Php {
                             $data[] = $method . ';';
                         } elseif($method) {
                             $uuid_method = Core::uuid_variable();
+                            $data[] = 'try {';
                             $data[] = $uuid_method . ' = ' . $method . ';';
+                            $data[] = '} catch (Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception) {';
+                            if (
+                                array_key_exists('is_multiline', $record) &&
+                                $record['is_multiline'] === true
+                            ) {
+                                $data[] = 'throw new TemplateException(\'Method error (' .
+                                    str_replace('\'', '\\\'', $record['tag']) .
+                                    ')\' . PHP_EOL . $exception->getMessage() . PHP_EOL . \'On line: ' .
+                                    $record['line']['start'] .
+                                    ', column: ' .
+                                    $record['column'][$record['line']['start']]['start'] .
+                                    ' in source: ' .
+                                    $options->source .
+                                    '.\');';
+                            } else {
+                                $data[] = 'throw new TemplateException(\'Method error (' .
+                                    str_replace('\'', '\\\'', $record['tag']) .
+                                    ')\' . PHP_EOL . $exception->getMessage() . PHP_EOL . \'On line: ' .
+                                    $record['line'] .
+                                    ', column: ' .
+                                    $record['column']['start'] .
+                                    ' in source: ' .
+                                    $options->source .
+                                    '.\');';
+                            }
+                            $data[] = '}';
                             $data[] = 'if(is_scalar(' . $uuid_method . ')){';
                             if(property_exists($options, 'variable')){
                                 $data[] = '    '. $options->variable . '[] = ' . $uuid_method . ';';

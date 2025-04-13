@@ -2824,7 +2824,7 @@ class Php {
             ){
                 if(empty($record['tag'])){
                     d($tag);
-                    ddd('found')
+                    ddd('found');
                 }
                 $value .= Php::method($object, $flags, $options, $record, $before, $after);
             }

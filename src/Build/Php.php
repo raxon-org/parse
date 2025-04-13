@@ -2818,6 +2818,10 @@ class Php {
                 array_key_exists('type', $record) &&
                 $record['type'] === 'method'
             ){
+                if(empty($reord['tag'])){
+                    $record['tag'] = $tag['tag'];
+                    $record['line'] = $tag['line'];
+                }
                 d($tag);
                 d($record);
                 $value .= Php::method($object, $flags, $options, $record, $before, $after);

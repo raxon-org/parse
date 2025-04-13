@@ -8,3 +8,4 @@
 
 {{constant('__METHOD__',__METHOD__)}}
 {{echo(constant('__METHOD__'))}}
+

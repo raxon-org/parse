@@ -1605,7 +1605,7 @@ class Php {
                         array_key_exists('method', $record)
                     ){
                         $tag = $object->config('package.raxon/parse.build.state.tag');
-                        $record['tag'] = $record['tag'] ?? $tag['tag'] ?? null;
+                        d($tag);
                         ddd($record);
                         $method = Php::method($object, $flags, $options, $record, $before, $after);
                         if(!empty($before)){

@@ -2578,10 +2578,7 @@ class Php {
                         }
                     }
                     if($exist === false){
-                        if(empty($record['tag'])){
-                            trace();
-                            ddd('found');
-                        }
+                        ddd($record);
                         if(
                             array_key_exists('is_multiline', $record) &&
                             $record['is_multiline'] === true

@@ -2822,6 +2822,10 @@ class Php {
                 array_key_exists('type', $record) &&
                 $record['type'] === 'method'
             ){
+                if(empty($record['tag'])){
+                    d($tag);
+                    ddd('found')
+                }
                 $value .= Php::method($object, $flags, $options, $record, $before, $after);
             }
             elseif(

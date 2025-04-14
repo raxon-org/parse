@@ -2737,7 +2737,9 @@ class Php {
                         ',',
                         '_',
                         '\'',
-                        '"'
+                        '"',
+                        '(',
+                        ')'
                     ],
                     true
                 )
@@ -2759,6 +2761,8 @@ class Php {
                     case '_':
                     case '\'':
                     case '"':
+                    case '(':
+                    case ')':
                         $value .=  $record['value'];
                         break;
                     default:

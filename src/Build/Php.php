@@ -2877,7 +2877,6 @@ class Php {
                     } else {
                         unset($options->variable);
                     }
-                    d('affirmative');
                     //double_quoted_string needs to be simplified in the tokenizer als just a double quoted string instead of tokenized
                     /*
                     $uuid_variable = Core::uuid_variable();

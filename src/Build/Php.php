@@ -3337,9 +3337,9 @@ class Php {
                     array_key_exists('is_multiline', $record) &&
                     $record['is_multiline'] === true
                 ) {
-                    $data[] = 'throw new TemplateException(\'' . str_replace(['\\', '\''], ['\\\\', '\\\''], $record['tag']) . '\' on line: ' . $record['line']['start'] . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: ' . $source . '.' . PHP_EOL . '\');';
+                    $data[] = 'throw new TemplateException(\'' . str_replace(['\\', '\''], ['\\\\', '\\\''], $record['tag']) . ' on line: ' . $record['line']['start'] . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: ' . $source . '.' . PHP_EOL . '\');';
                 } else {
-                    $data[] = 'throw new TemplateException(\'' . str_replace(['\\', '\''], ['\\\\', '\\\''], $record['tag']) . '\' on line: ' . $record['line'] . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.' . PHP_EOL . '\');';
+                    $data[] = 'throw new TemplateException(\'' . str_replace(['\\', '\''], ['\\\\', '\\\''], $record['tag']) . ' on line: ' . $record['line'] . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.' . PHP_EOL . '\');';
                 }
                 $data[] = '}';
             } else {
@@ -3351,9 +3351,9 @@ class Php {
                     array_key_exists('is_multiline', $record) &&
                     $record['is_multiline'] === true
                 ) {
-                    $data[] = 'throw new TemplateException(\'' . str_replace(['\\', '\''], ['\\\\', '\\\''], $record['tag']) . '\' on line: ' . $record['line']['start'] . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: ' . $source . '.' . PHP_EOL . '\');';
+                    $data[] = 'throw new TemplateException(\'' . str_replace(['\\', '\''], ['\\\\', '\\\''], $record['tag']) . ' on line: ' . $record['line']['start'] . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: ' . $source . '.' . PHP_EOL . '\');';
                 } else {
-                    $data[] = 'throw new TemplateException(\'' . str_replace(['\\', '\''], ['\\\\', '\\\''], $record['tag']) . '\' on line: ' . $record['line'] . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.' . PHP_EOL . '\');';
+                    $data[] = 'throw new TemplateException(\'' . str_replace(['\\', '\''], ['\\\\', '\\\''], $record['tag']) . ' on line: ' . $record['line'] . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.' . PHP_EOL . '\');';
                 }
                 $data[] = '}';
             }
@@ -3713,7 +3713,6 @@ class Php {
                             } else {
                                 $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\', 0, $exception);';
                             }
-                            ddd($result);
                             $result[] = '}';
                         }
                         break;

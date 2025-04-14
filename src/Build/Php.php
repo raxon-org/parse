@@ -2809,6 +2809,26 @@ class Php {
                             ){
                                 $right = $next['value'];
                             }
+                            elseif(
+                                array_key_exists('type', $next) &&
+                                in_array(
+                                    $next['type'],
+                                    [
+                                        'string',
+                                    ],
+                                    true
+                                )
+                            ){
+                                if(
+                                    array_key_exists('is_raw', $next) &&
+                                    $next['is_raw'] === true
+                                ){
+                                    $right = $next['value'];
+                                } else {
+                                    d('unimplemented');
+                                    ddd($next);
+                                }
+                            }
                             else {
                                 ddd($next);
                             }

@@ -2862,7 +2862,7 @@ class Php {
                 ){
                     $variable_old = $options->variable ?? null;
                     $options->variable = Core::uuid_variable();
-                    $token = Token::tokenize($object, $flags, $options, substr($record['text'], 1, -1));
+                    $token = Token::tokenize($object, $flags, $options, $record['execute']);
                     $token = Php::document_tag_prepare($object, $flags, $options, $token);
                     $embed = Php::document_tag($object, $flags, $options, $token);
                     if(property_exists($options, 'variable')){

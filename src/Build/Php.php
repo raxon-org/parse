@@ -3713,6 +3713,7 @@ class Php {
                             } else {
                                 $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\', 0, $exception);';
                             }
+                            ddd($result);
                             $result[] = '}';
                         }
                         break;

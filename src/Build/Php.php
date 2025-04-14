@@ -2882,13 +2882,6 @@ class Php {
                 $value .= $array_value;
                 //remove next newline
                 $object->config('package.raxon/parse.build.state.remove_newline_next', true);
-                /*
-                $next = $input['array'][$nr + 1] ?? null;
-                d($input['array']);
-                if($next){
-                    $input['array'][$nr + 1] = Php::remove_newline_next($object, $flags, $options, $next);
-                }
-                */
             }
             else {
                 d('not implemented');

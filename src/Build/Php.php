@@ -2860,12 +2860,33 @@ class Php {
                     array_key_exists('is_double_quoted', $record) &&
                     $record['is_double_quoted'] === true
                 ){
+                    $variable_old = $options->variable ?? null;
+                    $options->variable = Core::uuid_variable();
+                    $token = Token::tokenize($object, $flags, $options, substr($record['text'], 1, -1));
+                    $token = Php::document_tag_prepare($object, $flags, $options, $token);
+                    $embed = Php::document_tag($object, $flags, $options, $token);
+                    if(property_exists($options, 'variable')){
+                        foreach($embed as $line){
+                            $before[] = $line;
+                        }
+                    }
+                    $before[] = $options->variable . ' = implode(\'\', ' . $options->variable . ');';
+                    $value .= '"' . $options->variable . '"';
+                    if($variable_old) {
+                        $options->variable = $variable_old;
+                    } else {
+                        unset($options->variable);
+                    }
+                    d('affirmative');
                     //double_quoted_string needs to be simplified in the tokenizer als just a double quoted string instead of tokenized
+                    /*
                     $uuid_variable = Core::uuid_variable();
                     $uuid_storage = Core::uuid_variable();
                     $uuid_parse = Core::uuid_variable();
                     $uuid_options = Core::uuid_variable();
                     d($record);
+
+
                     $before[] = $uuid_options . ' = clone $options;';
                     $before[] = $uuid_options . '->source = \'internal_\' . Core::uuid();';
                     $before[] = $uuid_storage . '= new Data($data);';
@@ -2873,6 +2894,7 @@ class Php {
                     $before[] = $uuid_variable . ' = '.  $uuid_parse . '->compile("' . $record['execute'] . '", $data, true);';
 //                    $before[] = $uuid_variable . ' = $parse->compile("' . $record['execute'] . '", $data, true);';
                     $value .= '"'. $uuid_variable . '"';
+                    */
                 }
                 elseif(
                     array_key_exists('is_raw', $record) &&

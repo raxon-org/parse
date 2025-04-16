@@ -7,9 +7,13 @@ trait Block_Html {
     {
         $object = $this->object();
 
-        ddd($object->config('package.raxon/parse.build.use.trait_function'));
-
-
+        if($object->config('package.raxon/parse.build.use.trait_function')
+        ){
+            //new parser we start with the value
+            $value_value = $name;
+            $value = $name;
+            $name = $value_value;
+        }
         $data = $this->storage();
         if($value === null){
             $value = $name;

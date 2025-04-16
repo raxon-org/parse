@@ -7,7 +7,7 @@ trait Block_Html {
     {
         $object = $this->object();
 
-        ddd($object->config('package.raxon/parse'));
+        ddd($object->config('package.raxon/parse.build.use.trait_function'));
 
 
         $data = $this->storage();

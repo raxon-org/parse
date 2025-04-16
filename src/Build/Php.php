@@ -1998,10 +1998,15 @@ class Php {
                                 $argument_input['array'][] = $argument['array'][2];
                                 $foreach_value = Php::value($object, $flags, $options, $record, $argument_input, $is_set, $before_foreach_value, $after_foreach_value);
 
+                                $explode = explode(' = $data->get(', $before_foreach_value[0]);
+                                ddd($explode);
+
+                                $before_foreach_value[0] = str_replace($foreach_value . ' = $data->get(', '$data->set(', substr($before_foreach_value[0], 0, -2)) . ', ' . $foreach_value . ');';
+
                                 d($before_foreach_value);
                                 d($foreach_value);
 
-                                $inline_before[] = str_replace($foreach_value . ' = $data->get(', '$data->set(', substr($before_foreach_value[0], 0, -2)) . ', ' . $foreach_value . ');';
+//                                $inline_before[] = str_replace($foreach_value . ' = $data->get(', '$data->set(', substr($before_foreach_value[0], 0, -2)) . ', ' . $foreach_value . ');';
                                 $value .= ' as ' . $foreach_value;
                                 $argument_input = [];
                                 $argument_input['string'] = $argument['array'][4]['tag'] ?? $argument['array'][4]['value'] ?? $argument['array'][4]['execute'] ?? null;

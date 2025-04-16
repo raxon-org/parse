@@ -2188,9 +2188,9 @@ class Php {
                         ],
                         true
                     )
-                ){
+                ) {
                     $method_value .= ')';
-
+                }
                 d($method_value);
                 d($before);
                 d($after);

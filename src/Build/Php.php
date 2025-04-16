@@ -1997,6 +1997,10 @@ class Php {
                                 $argument_input['string'] = $argument['array'][2]['tag'] ?? $argument['array'][2]['value'] ?? $argument['array'][2]['execute'] ?? null;
                                 $argument_input['array'][] = $argument['array'][2];
                                 $foreach_value = Php::value($object, $flags, $options, $record, $argument_input, $is_set, $before_foreach_value, $after_foreach_value);
+
+                                d($before_foreach_value);
+                                d($foreach_value);
+
                                 $inline_before[] = str_replace($foreach_value . ' = $data->get(', '$data->set(', substr($before_foreach_value[0], 0, -2)) . ', ' . $foreach_value . ');';
                                 $value .= ' as ' . $foreach_value;
                                 $argument_input = [];

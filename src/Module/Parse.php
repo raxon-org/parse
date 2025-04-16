@@ -384,7 +384,6 @@ class Parse
         ){
             $object->config('package.raxon/parse.build.state.source.is.json', true);
         }
-        d($source);
         $object->config('package.raxon/parse.build.state.source.url', $source);
         $mtime = false;
         if(
@@ -478,7 +477,6 @@ class Parse
             else {
                 $document = Build::create($object, $flags, $options, $token);
             }
-            d($url_php);
             File::write($url_php, implode(PHP_EOL, $document));
             File::permission(
                 $object,
@@ -510,6 +508,7 @@ class Parse
                 $microtime_explode = explode('.', $microtime);
                 $output = [
                     'class' => $class,
+                    'url' => $url_php,
                     'namespace' => $options->namespace,
                     'duration' => [
                         'require' => $duration_require,

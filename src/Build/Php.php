@@ -1197,7 +1197,11 @@ class Php {
                             } else {
                                 unset($options->variable);
                             }
-                            $block_data[] = Php::method($object, $flags, $options, $content[$category]['statement'], $before, $after) . ';';
+                            if(property_exists('variable', $options)){
+                                $block_data[] = $options->variable . '[] = ' . Php::method($object, $flags, $options, $content[$category]['statement'], $before, $after) . ';';
+                            } else {
+                                $block_data[] = '$content[] = ' . Php::method($object, $flags, $options, $content[$category]['statement'], $before, $after) . ';';
+                            }
                             if($separator === null){
                                 $object->config('delete', 'package.raxon/parse.build.state.separator');
                             } else {

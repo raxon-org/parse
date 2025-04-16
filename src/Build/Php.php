@@ -1197,7 +1197,7 @@ class Php {
                             } else {
                                 unset($options->variable);
                             }
-                            if(property_exists('variable', $options)){
+                            if(property_exists($options, 'variable')){
                                 $block_data[] = $options->variable . '[] = ' . Php::method($object, $flags, $options, $content[$category]['statement'], $before, $after) . ';';
                             } else {
                                 $block_data[] = '$content[] = ' . Php::method($object, $flags, $options, $content[$category]['statement'], $before, $after) . ';';

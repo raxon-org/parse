@@ -789,7 +789,8 @@ class Php {
                             [
                                 'foreach',
                                 'for.each',
-                                'for_each'
+                                'for_each',
+                                'for'
                             ],
                             true
                         ) &&

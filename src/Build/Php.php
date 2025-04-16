@@ -2004,7 +2004,7 @@ class Php {
                                 $argument_input['string'] = $argument['array'][4]['tag'] ?? $argument['array'][4]['value'] ?? $argument['array'][4]['execute'] ?? null;
                                 $argument_input['array'][] = $argument['array'][4];
                                 $foreach_value = Php::value($object, $flags, $options, $record, $argument_input, $is_set, $before_foreach_value, $after_foreach_value);
-                                $explode = explode(' = $data->get(', substr($before_foreach_key[0], 0, -2));
+                                $explode = explode(' = $data->get(', substr($before_foreach_value[0], 0, -2));
                                 $inline_before[] = '$data->set(' . $explode[1] . ', ' . $explode[0] . ');';
                                 $value .= ' => ' . $foreach_value;
                             }

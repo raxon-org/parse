@@ -506,7 +506,6 @@ class Tag
                 $is_double_quoted_backslash === false
             ){
                 $tag = '{{';
-                d($text);
                 $text = mb_substr($text, 0, -1);
             }
             elseif(
@@ -519,7 +518,6 @@ class Tag
                 $is_double_quoted === false &&
                 $is_double_quoted_backslash === false
             ){
-                d($text);
                 /* is done in curly_open
                 if(mb_strlen($text) > 0){
                     $text = mb_substr($text, 0, -1);

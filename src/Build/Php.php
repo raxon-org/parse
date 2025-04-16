@@ -2009,6 +2009,9 @@ class Php {
                                 $foreach_value = Php::value($object, $flags, $options, $record, $argument_input, $is_set, $before_foreach_value, $after_foreach_value);
                                 $inline_before[] = str_replace($foreach_value . ' = $data->get(', '$data->set(', substr($before_foreach_value[0], 0, -2)) . ', ' . $foreach_value . ');';
                                 $value .= ' => ' . $foreach_value;
+                                d($before_foreach_value);
+                                d($foreach_value);
+                                d($inline_before);
                             }
                             elseif(array_key_exists(2, $argument['array'])){
                                 $argument_input = [];

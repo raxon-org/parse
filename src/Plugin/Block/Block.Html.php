@@ -28,7 +28,7 @@ trait Block_Html {
                         $dataRow[$dataRowNr] = '';
                     }
                 }
-                $content[$nr] = implode('>', $dataRow);
+                $content_html[$nr] = implode('>', $dataRow);
             }
         }
         $value = implode('<', $content_html);

@@ -520,9 +520,11 @@ class Tag
                 $is_double_quoted_backslash === false
             ){
                 d($text);
+                /* is done in curly_open
                 if(mb_strlen($text) > 0){
                     $text = mb_substr($text, 0, -1);
                 }
+                */
                 $tag .= $char;
                 $column[$line]++;
                 if($text !== ''){

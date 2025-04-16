@@ -5,7 +5,7 @@ trait Block_Html {
 
     protected function block_html(string $name='', $value=null): string
     {
-        $object = $this->object();k
+        $object = $this->object();
         $data = $this->storage();
         if($value === null){
             $value = $name;

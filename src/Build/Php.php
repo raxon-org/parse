@@ -2094,8 +2094,6 @@ class Php {
                     $object->config('package.raxon/parse.build.state.separator', $separator_uuid);
                     $before_while = [];
                     $after_while = [];
-                    d($record);
-                    d($argument_count);
                     if($argument_count === 1){
                         foreach($record['method']['argument'] as $nr => $argument){
                             $object->config('package.raxon/parse.build.state.try_catch', false);
@@ -2112,17 +2110,46 @@ class Php {
                         } else {
                             $object->config('package.raxon/parse.build.state.separator', $separator);
                         }
-//                        $method_value[2] = str_replace($separator_uuid, ',', $method_value[2]);
-//                        $method_value[2] = substr($method_value[2], 0, -1);
-//                        $before[] = str_replace($separator_uuid, ';', $method_value[0]);
                         foreach($before_while as $line){
                             $before[] = str_replace($separator_uuid, ';', $line);
                         }
                         foreach($after_while as $line){
                             $after[] = str_replace($separator_uuid, ';', $line);
                         }
-//                        $method_value[0] = null;
                         $is_argument = true;
+                    } else {
+                        if (
+                            array_key_exists('is_multiline', $record) &&
+                            $record['is_multiline'] === true
+                        ) {
+                            throw new TemplateException(
+                                $record['tag'] .
+                                PHP_EOL .
+                                'Invalid argument count for {{while()}}, expected: 1, but got: ' . $argument_count .
+                                PHP_EOL .
+                                'On line: ' .
+                                $record['line']['start'] .
+                                ', column: ' .
+                                $record['column'][$record['line']['start']]['start'] .
+                                ' in source: ' .
+                                $options->source .
+                                '.'
+                            );
+                        } else {
+                            throw new TemplateException(
+                                $record['tag'] .
+                                PHP_EOL .
+                                'Invalid argument count for {{while()}}, expected: 1, but got: ' . $argument_count .
+                                PHP_EOL .
+                                'On line: ' .
+                                $record['line'] .
+                                ', column: ' .
+                                $record['column']['start'] .
+                                ' in source: ' .
+                                $options->source .
+                                '.'
+                            );
+                        }
                     }
                     if($try_catch === null){
                         $object->config('delete', 'package.raxon/parse.build.state.try_catch');
@@ -2163,7 +2190,6 @@ class Php {
                             );
                         }
                     }
-                    d($method_value);
                     $method_value = 'while(' . $method_value[0];
                     if($separator === null){
                         $object->config('delete', 'package.raxon/parse.build.state.separator');
@@ -2193,9 +2219,6 @@ class Php {
                 ) {
                     $method_value .= ')';
                 }
-                d($method_value);
-                d($before);
-                d($after);
                 return $method_value;
             } else {
                 $plugin = Php::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));

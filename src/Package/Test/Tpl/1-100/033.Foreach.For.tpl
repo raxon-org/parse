@@ -6,4 +6,4 @@
 {{for.each($list as $key => $value)}}
 {{$key}} => {{$value}}
 
-{{/for}}
+{{/for.each}}

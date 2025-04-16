@@ -5,6 +5,11 @@ trait Block_Html {
 
     protected function block_html(string $name='', $value=null): string
     {
+        $object = $this->object();
+
+        ddd($object->config('package.raxon/parse'));
+
+
         $data = $this->storage();
         if($value === null){
             $value = $name;

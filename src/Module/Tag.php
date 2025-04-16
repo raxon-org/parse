@@ -519,6 +519,7 @@ class Tag
                 $is_double_quoted === false &&
                 $is_double_quoted_backslash === false
             ){
+                d($text);
                 if(mb_strlen($text) > 0){
                     $text = mb_substr($text, 0, -1);
                 }

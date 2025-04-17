@@ -3,14 +3,9 @@ namespace Plugin;
 
 trait Block_Html {
 
-    protected function block_html(string $name='', $value=null): string
+    protected function block_html($value=null, string $name=''): string
     {
-        $object = $this->object();
         $data = $this->storage();
-        if($value === null){
-            $value = $name;
-            $name = null;
-        }
         $search = [" ", "\t", "\n", "\r", "\r\n"];
         $replace = ['','','','',''];
         $content_html = trim($value);

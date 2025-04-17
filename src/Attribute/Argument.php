@@ -9,8 +9,8 @@ class Argument
 {
     public function __construct(
         public string $apply='',
-        public int|array $count=0,
-        public int|array $index=0,
+        public int|array|string $count=0,
+        public int|array|string $index=0,
     ) {
 
     }

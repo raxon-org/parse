@@ -23,6 +23,7 @@ use Raxon\Parse\Module\Token;
 
 use Raxon\Parse\Module\Validator;
 use ReflectionClass;
+use ReflectionMethod;
 use ReflectionObject;
 
 class Php {
@@ -2228,9 +2229,15 @@ class Php {
             } else {
                 $plugin = Php::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
                 $method_value = $plugin . '(';
-                d($object->config('package.raxon/parse.build.state.plugin.trait'));
-                d($object->config('package.raxon/parse.build.state.plugin.function'));
-                d($plugin);
+                $reflection = new ReflectionMethod(
+                    $object->config('package.raxon/parse.build.state.plugin.trait'),
+                    $object->config('package.raxon/parse.build.state.plugin.function')
+                );
+                d($reflection->getAttributes());
+
+//                d($object->config('package.raxon/parse.build.state.plugin.trait'));
+//                d($object->config('package.raxon/parse.build.state.plugin.function'));
+//                d($plugin);
 
 //                $reflection = new ReflectionObject(new $entityName());
 //                $properties = $reflection->getProperties();

@@ -30,13 +30,13 @@ trait Block_Html {
             }
         }
         $value = implode('<', $content_html);
+        $name = trim($name,'\'"');
         if(empty($name)){
             $content = $data->data('#content');
             $content[] = $value;
             $data->data('#content', $content);
             return $value;
         } else {
-            $name = trim($name,'\'"');
             if(substr($name, 0, 1) === '$'){
                 $name = substr($name, 1);
             }

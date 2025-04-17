@@ -19,16 +19,10 @@ trait Plugin_Unset {
     {
         $data = $this->storage();
         foreach($attributes as $unset){
+            $unset = trim($unset,'\'"');
             if(substr($unset, 0, 1) == '$'){
                 $attribute = substr($unset, 1);
-            }
-            elseif(substr($unset, 0, 1) === '\'' && substr($unset, -1) === '\''){
-                $attribute = substr($unset, 1, -1);
-            }
-            elseif(substr($unset, 0, 1) === '"' && substr($unset, -1) === '"'){
-                $attribute = substr($unset, 1, -1);
-            }
-            else {
+            } else {
                 $attribute = $unset;
             }
             $data->data('delete', $attribute);

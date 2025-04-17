@@ -21,7 +21,14 @@ trait Plugin_Unset {
         foreach($attributes as $unset){
             if(substr($unset, 0, 1) == '$'){
                 $attribute = substr($unset, 1);
-            } else {
+            }
+            elseif(substr($unset, 0, 1) === '\'' && substr($unset, -1) === '\''){
+                $attribute = substr($unset, 1, -1);
+            }
+            elseif(substr($unset, 0, 1) === '"' && substr($unset, -1) === '"'){
+                $attribute = substr($unset, 1, -1);
+            }
+            else {
                 $attribute = $unset;
             }
             $data->data('delete', $attribute);

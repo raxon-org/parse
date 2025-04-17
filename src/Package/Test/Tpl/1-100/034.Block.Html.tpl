@@ -7,4 +7,5 @@
 </html>
 {{/block}}
 {{$test}}
-{{unset($test, $test.nested)}}
+
+{{unset($test)}}

@@ -2535,13 +2535,15 @@ class Php {
                 d($use_package);
                 d($plugin);
             }
-            if(!in_array($use_plugin, $use, true)){
+            if(!in_array($use_plugin, $use_trait_function, true)){
                 $use[] = '\\' . $use_package  . 'Trait' . '\\' . $trait_name ;
                 $use_trait_function[count($use) - 1] = $use_plugin;
                 $object->config('package.raxon/parse.build.use.trait', $use);
                 $object->config('package.raxon/parse.build.use.trait_function', $use_trait_function);
-                return '$this->' . $use_plugin;
             }
+            $object->config('package.raxon/parse.build.state.plugin.trait', $use_plugin);
+            $object->config('package.raxon/parse.build.state.plugin.function', $use_trait_function);
+            return '$this->' . $use_plugin;
         } else {
             $is_code_point = false;
             $split = mb_str_split($name);
@@ -2655,8 +2657,8 @@ class Php {
                 }
             }
         }
-        d($object->config('package.raxon/parse'));
-        ddd($use_plugin);
+        $object->config('package.raxon/parse.build.state.plugin.trait', $use_plugin);
+        $object->config('package.raxon/parse.build.state.plugin.function', $use_trait_function);
         $object->config('package.raxon/parse.build.use.trait', $use);
         $object->config('package.raxon/parse.build.use.trait_function', $use_trait_function);
         return '$this->' . mb_strtolower($plugin);

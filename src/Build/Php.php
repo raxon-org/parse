@@ -2229,12 +2229,13 @@ class Php {
             } else {
                 $plugin = Php::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
                 $method_value = $plugin . '(';
+                /*
                 $reflection = new ReflectionMethod(
                     $object->config('package.raxon/parse.build.state.plugin.trait'),
                     $object->config('package.raxon/parse.build.state.plugin.function')
                 );
                 $attributes = $reflection->getAttributes();
-                $argument_attribute = (object) [];
+                $argument_attribute = false;
                 foreach($attributes as $attribute_nr => $attribute){
                     $instance = $attribute->newInstance();
                     $instance->class = get_class($instance);
@@ -2243,38 +2244,17 @@ class Php {
                     }
                     $attributes[$attribute_nr] = $instance;
                 }
-                if(
-                    property_exists($argument_attribute, 'apply') &&
-                    $argument_attribute->apply === 'literal' &&
-                    property_exists($argument_attribute, 'count') &&
-                    $argument_attribute->count === '*'
-                ){
-                    ddd($record);
-                    //all arguments are literal
-                    $argument = '\'' . str_replace(['\\','\''], ['\\\\', '\\\''], trim($argument['string'])) . '\'';
-                }
-                elseif(
-                    property_exists($argument_attribute, 'apply') &&
-                    $argument_attribute->apply === 'literal' &&
-                    property_exists($argument_attribute, 'index') &&
-                    is_array($argument_attribute->index)
-                ){
-                    ddd($record);
-                    //we have multiple indexes
-                    $argument = '\'' . str_replace(['\\','\''], ['\\\\', '\\\''], trim($argument['string'])) . '\'';
-                }
-                elseif (
-                    property_exists($argument_attribute, 'apply') &&
-                    $argument_attribute->apply === 'literal' &&
-                    property_exists($argument_attribute, 'index') &&
-                    is_int($argument_attribute->index)
-                ){
-                    ddd($record);
-                    //we have a single index
-                    $argument = '\'' . str_replace(['\\','\''], ['\\\\', '\\\''], trim($argument['string'])) . '\'';
-                } else {
-                    $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
-                }
+                d($argument_attribute);
+                d($attributes);
+
+//                d($object->config('package.raxon/parse.build.state.plugin.trait'));
+//                d($object->config('package.raxon/parse.build.state.plugin.function'));
+//                d($plugin);
+
+//                $reflection = new ReflectionObject(new $entityName());
+//                $properties = $reflection->getProperties();
+*/
+                $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
                 $method_value .= ')';
                 return $method_value;
             }
@@ -2360,7 +2340,7 @@ class Php {
                     foreach($attributes as $attribute_nr => $attribute){
                         $instance = $attribute->newInstance();
                         $instance->class = get_class($instance);
-                        if($instance->class === 'Raxon\\Attribute\\Argument'){
+                        if($instance->class === 'Raxon\\Parse\\Attribute\\Argument'){
                             $argument_attribute = $instance;
                         }
                         $attributes[$attribute_nr] = $instance;

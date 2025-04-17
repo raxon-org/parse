@@ -1,4 +1,4 @@
-{{$assign = 'block'}}
+{{$assign = 'Block'}}
 {{block.html()}}
 <html>
 <body>

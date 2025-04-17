@@ -2234,6 +2234,7 @@ class Php {
                     $object->config('package.raxon/parse.build.state.plugin.function')
                 );
                 $attributes = $reflection->getAttributes();
+                $argument_attribute = false;
                 foreach($attributes as $attribute_nr => $attribute){
                     $instance = $attribute->newInstance();
                     $instance->class = get_class($instance);

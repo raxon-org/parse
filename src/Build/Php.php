@@ -2655,6 +2655,7 @@ class Php {
                 }
             }
         }
+        d($object->config('package.raxon/parse'));
         ddd($use_plugin);
         $object->config('package.raxon/parse.build.use.trait', $use);
         $object->config('package.raxon/parse.build.use.trait_function', $use_trait_function);

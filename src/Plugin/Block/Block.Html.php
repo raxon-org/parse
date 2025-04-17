@@ -39,6 +39,12 @@ trait Block_Html {
             if(substr($name, 0, 1) === '$'){
                 $name = substr($name, 1);
             }
+            if(substr($name, 0, 1) === '\'' && substr($name, -1) === '\''){
+                $name = substr($name, 1, -1);
+            }
+            if(substr($name, 0, 1) === '"' && substr($name, -1) === '"'){
+                $name = substr($name, 1, -1);
+            }
             $data->data($name, $value);
         }
         return '';

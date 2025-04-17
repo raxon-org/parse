@@ -2230,8 +2230,8 @@ class Php {
                 $method_value = $plugin . '(';
                 d($plugin);
 
-                $reflection = new ReflectionObject(new $entityName());
-                $properties = $reflection->getProperties();
+//                $reflection = new ReflectionObject(new $entityName());
+//                $properties = $reflection->getProperties();
 
                 $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
                 $method_value .= ')';

@@ -36,6 +36,9 @@ trait Block_Html {
             $data->data('#content', $content);
             return $value;
         } else {
+            if(substr($name, 0, 1) === '$'){
+                $name = substr($name, 1);
+            }
             $data->data($name, $value);
         }
         return '';

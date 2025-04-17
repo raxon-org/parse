@@ -2243,17 +2243,38 @@ class Php {
                     }
                     $attributes[$attribute_nr] = $instance;
                 }
-                d($argument_attribute);
-                d($attributes);
-
-//                d($object->config('package.raxon/parse.build.state.plugin.trait'));
-//                d($object->config('package.raxon/parse.build.state.plugin.function'));
-//                d($plugin);
-
-//                $reflection = new ReflectionObject(new $entityName());
-//                $properties = $reflection->getProperties();
-
-                $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
+                if(
+                    property_exists($argument_attribute, 'apply') &&
+                    $argument_attribute->apply === 'literal' &&
+                    property_exists($argument_attribute, 'count') &&
+                    $argument_attribute->count === '*'
+                ){
+                    ddd($record);
+                    //all arguments are literal
+                    $argument = '\'' . str_replace(['\\','\''], ['\\\\', '\\\''], trim($argument['string'])) . '\'';
+                }
+                elseif(
+                    property_exists($argument_attribute, 'apply') &&
+                    $argument_attribute->apply === 'literal' &&
+                    property_exists($argument_attribute, 'index') &&
+                    is_array($argument_attribute->index)
+                ){
+                    ddd($record);
+                    //we have multiple indexes
+                    $argument = '\'' . str_replace(['\\','\''], ['\\\\', '\\\''], trim($argument['string'])) . '\'';
+                }
+                elseif (
+                    property_exists($argument_attribute, 'apply') &&
+                    $argument_attribute->apply === 'literal' &&
+                    property_exists($argument_attribute, 'index') &&
+                    is_int($argument_attribute->index)
+                ){
+                    ddd($record);
+                    //we have a single index
+                    $argument = '\'' . str_replace(['\\','\''], ['\\\\', '\\\''], trim($argument['string'])) . '\'';
+                } else {
+                    $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
+                }
                 $method_value .= ')';
                 return $method_value;
             }

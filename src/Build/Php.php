@@ -2233,7 +2233,17 @@ class Php {
                     $object->config('package.raxon/parse.build.state.plugin.trait'),
                     $object->config('package.raxon/parse.build.state.plugin.function')
                 );
-                d($reflection->getAttributes());
+                $attributes = $reflection->getAttributes();
+                foreach($attributes as $attribute_nr => $attribute){
+                    $instance = $attribute->newInstance();
+                    $instance->class = get_class($instance);
+                    if($instance->class === 'Raxon\\Attribute\\Argument'){
+                        $argument_attribute = $instance;
+                    }
+                    $attributes[$attribute_nr] = $instance;
+                }
+                d($argument_attribute);
+                d($attributes);
 
 //                d($object->config('package.raxon/parse.build.state.plugin.trait'));
 //                d($object->config('package.raxon/parse.build.state.plugin.function'));

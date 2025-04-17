@@ -1,5 +1,5 @@
 {{$assign = 'Block'}}
-{{block.html('test')}}
+{{block.html($test)}}
 <html>
 <body>
 <h1>Welcome to the {{$assign}}!</h1>

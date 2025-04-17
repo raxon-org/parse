@@ -2232,7 +2232,7 @@ class Php {
                 $reflection = new ReflectionMethod(
                     $object->config('package.raxon/parse.build.state.plugin.trait'),
                     $object->config('package.raxon/parse.build.state.plugin.function')
-                );k
+                );
                 $attributes = $reflection->getAttributes();
                 $argument_attribute = (object) [];
                 foreach($attributes as $attribute_nr => $attribute){

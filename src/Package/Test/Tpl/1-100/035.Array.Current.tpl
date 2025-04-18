@@ -19,4 +19,14 @@
 
 {{array.next($array)}}
 
+{{array.previous($array)}}
+
+{{array.previous($array)}}
+
+{{array.previous($array)}}
+
+{{array.previous($array)}}
+
+{{array.previous($array)}}
+
 done...

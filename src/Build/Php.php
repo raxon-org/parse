@@ -2763,6 +2763,7 @@ class Php {
                             $value .= $uuid_variable;
                         }
                     }
+                    d($record);
                     //array_notation
                 }
             }

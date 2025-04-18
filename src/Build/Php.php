@@ -2458,6 +2458,9 @@ class Php {
                     //we have a single index
                     $argument = '\'' . str_replace(['\\','\''], ['\\\\', '\\\''], trim($argument['string'])) . '\'';
                 } else {
+                    if(array_key_exists($nr, $argument_is_reference)){
+                        $argument['is_reference'] = true;
+                    }
                     $argument = Php::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
                     $uuid_variable = Core::uuid_variable();
                     $before[] = $uuid_variable . ' = ' . $argument . ';';

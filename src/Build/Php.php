@@ -2479,6 +2479,7 @@ class Php {
                     d($nr);
                     d($after);
                     d($argument_is_reference);
+                    /*
                     if(
                         array_key_exists($nr, $argument_is_reference) &&
                         $argument_is_reference[$nr] === true &&
@@ -2489,6 +2490,7 @@ class Php {
                     } else {
                         $after[$nr] = null;
                     }
+                    */
                 }
             }
             if($argument !== ''){
@@ -2766,7 +2768,12 @@ class Php {
                             $value .= $uuid_variable;
                         }
                     }
-                    d($record);
+                    if(
+                        array_key_exists('is_reference', $record) &&
+                        $record['is_reference'] === true
+                    ){
+                        $after[] = '$data->set(\'' . $record['name'] . '\', ' . $uuid_variable . ');';
+                    }
                     //array_notation
                 }
             }

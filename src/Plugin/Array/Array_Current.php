@@ -5,8 +5,8 @@ use Countable;
 
 trait Array_Current {
 
-    protected function array_current(Countable | array $array, int $mode=COUNT_NORMAL): int
+    protected function array_current(Countable | array $array): mixed
     {
-        return count($array, $mode);
+        return current($array);
     }
 }

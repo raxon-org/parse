@@ -18,7 +18,9 @@ trait Array_Next {
         $data = $this->data();
         $array = $data->get($name);
         $result = next($array);
-        $data->set($name, $array);
+        if($result !== false){
+            $data->set($name, $array);
+        }
         return $result;
     }
 }

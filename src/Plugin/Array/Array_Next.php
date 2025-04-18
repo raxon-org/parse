@@ -9,9 +9,16 @@ trait Array_Next {
 
 
     #[Argument(apply: "literal", count: 1)]
-    protected function array_next(string $array): mixed
+    protected function array_next(string $name=''): mixed
     {
-        ddd($array);
-        return next($array);
+        $name = trim($name, '\'"');
+        if(substr($name, 0, 1) === '$'){
+            $name = substr($name, 1);
+        }
+        $data = $this->data();
+        $array = $data->get($name);
+        $result = next($array);
+        $data->set($name, $array);
+        return $result;
     }
 }

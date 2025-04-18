@@ -2475,6 +2475,7 @@ class Php {
                     $argument = $uuid_variable;
                     d($nr);
                     d($after);
+                    d($argument_is_reference);
                     if(
                         array_key_exists($nr, $argument_is_reference) &&
                         $argument_is_reference[$nr] === true &&

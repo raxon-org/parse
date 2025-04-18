@@ -2473,9 +2473,12 @@ class Php {
                         $before[] = '$this->validate(' . $uuid_variable . ', \'argument\', Core::object(\'' . $attributes_transfer . '\', Core::FINALIZE), ' . $nr . ');';
                     }
                     $argument = $uuid_variable;
+                    d($nr);
+                    d($after);
                     if(
                         array_key_exists($nr, $argument_is_reference) &&
                         $argument_is_reference[$nr] === true &&
+                        array_key_exists($nr, $after) &&
                         array_key_exists('attribute', $after[$nr])
                     ){
                         $after[$nr] = '$data->set(\'' .  $after[$nr]['attribute'] . '\', ' . $uuid_variable . ');';

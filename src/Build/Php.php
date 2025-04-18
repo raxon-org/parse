@@ -2467,7 +2467,7 @@ class Php {
                         if($attributes !== false && !in_array($trait, $use_trait, true)){
                             $use_trait[] = $trait;
                             $object->config('package.raxon/parse.build.use.trait', $use_trait);
-                            $attributes_transfer =  Core::object($attributes, Core::TRANSFER);
+//                            $attributes_transfer =  Core::object($attributes, Core::TRANSFER);
                         }
                         $attributes_transfer =  Core::object($attributes, Core::TRANSFER);
                         $before[] = '$this->validate(' . $uuid_variable . ', \'argument\', Core::object(\'' . $attributes_transfer . '\', Core::FINALIZE), ' . $nr . ');';

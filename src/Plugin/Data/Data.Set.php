@@ -1,17 +1,11 @@
 <?php
-/**
- * @package Plugin\Modifier
- * @author Remco van der Velde
- * @since 2024-08-19
- * @license MIT
- * @version 1.0
- * @changeLog
- *    - all
- */
 namespace Plugin;
+
+use Raxon\Parse\Attribute\Argument;
 
 trait Data_Set {
 
+    #[Argument(apply: "literal", count: 1)]
     protected function data_set(string $attribute, mixed $value=null): void
     {
         $object = $this->object();

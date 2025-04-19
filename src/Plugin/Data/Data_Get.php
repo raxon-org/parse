@@ -1,9 +1,12 @@
 <?php
 namespace Plugin;
 
-trait Data {
+use Raxon\Parse\Attribute\Argument;
 
-    protected function data(string $attribute, mixed $value=null): mixed
+trait Data_Get {
+
+    #[Argument(apply: "literal", count: 1)]
+    protected function data_get(string $attribute): mixed
     {
         $data = $this->data();
         $attribute = trim($attribute, '\'"');
@@ -11,9 +14,6 @@ trait Data {
             substr($attribute, 0, 1) === '$'
         ){
             $attribute = substr($attribute, 1);
-        }
-        if($value !== null){
-            $data->data($attribute, $value);
         }
         return $data->data($attribute);
     }

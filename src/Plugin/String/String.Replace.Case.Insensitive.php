@@ -3,7 +3,7 @@ namespace Plugin;
 
 use Raxon\Parse\Attribute\Argument;
 
-trait String_Replace {
+trait String_Replace_Case_Insensitive {
 
     #[Argument(apply: "literal", count: 1, index:3)]
     protected function string_replace(array|string $search='', array|string $replace='', array|string $subject='', string $attribute=null): array|string
@@ -14,11 +14,11 @@ trait String_Replace {
                 $attribute = substr($attribute, 1);
             }
             $count = 0;
-            $subject = str_replace($search, $replace, $subject, $count);
+            $subject = str_ireplace($search, $replace, $subject, $count);
             $data = $this->data();
             $data->data($attribute, $count);
         } else {
-            $subject = str_replace($search, $replace, $subject);
+            $subject = str_ireplace($search, $replace, $subject);
         }
         return $subject;
     }

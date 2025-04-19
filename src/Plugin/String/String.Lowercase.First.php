@@ -1,7 +1,6 @@
 <?php
 namespace Plugin;
 
-
 trait String_Lowercase_First {
 
     protected function string_lowercase_first(string $string): string

@@ -21,7 +21,7 @@ trait Data {
      */
     protected function data(string $attribute=null, mixed $value=null): mixed
     {
-        $data = $this->Data();
+        $data = $this->data();
         if(
             $attribute === null &&
             $value === null

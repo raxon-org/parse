@@ -2303,21 +2303,13 @@ class Php {
         ){
             $method_match = str_replace('.', '_', strtolower($record['method']['name']));
             $plugin_rename = $object->config('package.raxon/parse.plugin.rename');
-            ddd($plugin_rename);
+            if($plugin_rename === null){
+                throw new Exception('Invalid plugin rename configuration, please check your configuration file, try: app install raxon/parse -patch');
+            }
             if(
                 in_array(
                     $method_match,
-                    [
-                        'constant',
-                        'default',
-                        'echo',
-                        'exit',
-                        'float',
-                        'object',
-                        'require',
-                        'string',
-                        'unset'
-                    ],
+                    $plugin_rename,
                     true
                 )
             ){
@@ -2512,22 +2504,13 @@ class Php {
         $source = $options->source ?? '';
         $name_lowercase = mb_strtolower($name);
         $plugin_rename = $object->config('package.raxon/parse.plugin.rename');
-        ddd($plugin_rename);
+        if($plugin_rename === null){
+            throw new Exception('Invalid plugin rename configuration, please check your configuration file, try: app install raxon/parse -patch');
+        }
         if(
             in_array(
                 $name_lowercase,
-                [
-                    'array',
-                    'constant',
-                    'default',
-                    'echo',
-                    'exit',
-                    'float',
-                    'object',
-                    'require',
-                    'string',
-                    'unset',
-                ],
+                $plugin_rename,
                 true
             )
         ){

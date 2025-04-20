@@ -8,7 +8,6 @@ trait Preg_Split {
         if(is_string($flags)){
             $flags = constant($flags);
         }
-        $result = preg_split($pattern, $subject, $limit, $flags);
-        return $result;
+        return preg_split($pattern, $subject, $limit, $flags);
     }
 }

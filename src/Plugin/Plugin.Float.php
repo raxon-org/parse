@@ -8,21 +8,18 @@
  * @changeLog
  *    - all
  */
-
 namespace Plugin;
 
-use Exception;
+use Raxon\Exception\ObjectException;
 use Raxon\Module\Core;
 
-trait Binary
-{
+trait Plugin_Float {
 
     /**
-     * @throws Exception
+     * @throws ObjectException
      */
-    protected function binary(string $fallback = null): ?string
-    {
-        $object = $this->object();
-        return Core::binary($object) ?? $fallback;
+    function plugin_float(mixed $value){
+        return (float) $value;
     }
+
 }

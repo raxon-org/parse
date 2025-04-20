@@ -19,7 +19,7 @@ trait Plugin_object {
     /**
      * @throws ObjectException
      */
-    protected function plugin_object($input=null, $output=null, $type=null){
+    protected function plugin_object(mixed $input=null, string $output=Core::OBJECT, string $type=null){
         return Core::object($input, $output, $type);
     }
 

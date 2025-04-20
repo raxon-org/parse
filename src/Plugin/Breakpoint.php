@@ -18,7 +18,7 @@ trait Breakpoint {
     /**
      * @throws ObjectException
      */
-    public function breakpoint($value, $options=[]): void
+    public function breakpoint(mixed $value, array $options=[]): void
     {
         $object = $this->object();
         if(!array_key_exists('trace', $options)){

@@ -12,7 +12,7 @@ namespace Plugin;
 
 trait Plugin_echo {
 
-    protected function plugin_echo($value=''): string
+    protected function plugin_echo(mixed $value=''): string
     {
         return (string) $value;
     }

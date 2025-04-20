@@ -12,7 +12,7 @@ namespace Plugin;
 
 trait Plugin_Exit {
 
-    protected function plugin_exit($status=0): void
+    protected function plugin_exit(int $status=0): void
     {
         exit($status);
     }

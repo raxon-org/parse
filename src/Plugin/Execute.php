@@ -12,7 +12,7 @@ trait Execute
     /**
      * @throws Exception
      */
-    protected function execute(string $command='', $notification=''): ?string
+    protected function execute(string $command='', string $notification=''): ?string
     {
         $object = $this->object();
         $data = $this->storage();

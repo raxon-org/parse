@@ -2306,14 +2306,14 @@ class Php {
                 in_array(
                     $method_match,
                     [
-                        'default',
-                        'object',
-                        'echo',
-                        'parse',
-                        'break',
-                        'continue',
                         'constant',
+                        'default',
+                        'echo',
+                        'exit',
+                        'float',
+                        'object',
                         'require',
+                        'string',
                         'unset'
                     ],
                     true
@@ -2513,14 +2513,16 @@ class Php {
             in_array(
                 $name_lowercase,
                 [
-                    'default',
-                    'object',
-                    'echo',
-                    'parse',
-                    'continue',
+                    'array',
                     'constant',
+                    'default',
+                    'echo',
+                    'exit',
+                    'float',
+                    'object',
                     'require',
-                    'unset'
+                    'string',
+                    'unset',
                 ],
                 true
             )

@@ -20,7 +20,7 @@ trait Date
     /**
      * @throws Exception
      */
-    protected function date(string $format, $timestamp=null): ?string
+    protected function date(string $format, int $timestamp=null): ?string
     {
         if(empty($format)){
             $format = 'Y-m-d H:i:s';

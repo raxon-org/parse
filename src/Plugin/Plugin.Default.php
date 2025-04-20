@@ -12,7 +12,7 @@ namespace Plugin;
 
 trait Plugin_default {
 
-    function plugin_default($value, $default=null){
+    function plugin_default(mixed $value, mixed $default=null){
         if(
             empty($value) &&
             $value !== 0 &&

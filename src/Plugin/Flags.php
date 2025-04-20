@@ -18,7 +18,7 @@ trait Flags {
     /**
      * @throws Exception
      */
-    protected function flags($type=''): array|object
+    protected function flags(): array|object
     {
         $this->object();
         return Framework::flags($this->object());

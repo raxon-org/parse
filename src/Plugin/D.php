@@ -12,7 +12,7 @@ namespace Plugin;
 
 trait D {
 
-    public function d($value, $options=[]): void
+    public function d(mixed $value, array $options=[]): void
     {
         $object = $this->object();
         if(!array_key_exists('trace', $options)){

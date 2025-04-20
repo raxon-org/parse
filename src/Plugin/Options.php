@@ -21,7 +21,7 @@ trait Options {
     /**
      * @throws Exception
      */
-    protected function options($type=''): mixed
+    protected function options(string $type=''): mixed
     {
         $this->object();
         switch($type){
@@ -33,8 +33,7 @@ trait Options {
             default:
                 $options = Framework::options($this->object());
                 $data = new Data($options);
-                $result = $data->get($type);
-                return $result;
+                return $data->get($type);
         }
     }
 }

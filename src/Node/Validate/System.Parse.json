@@ -18,6 +18,11 @@
                             }
                         }
                     ],
+                    "plugin.rename": [
+                        {
+                            "is.array": true
+                        }
+                    ],
                     "plugin.block": [
                         {
                             "is.array": true
@@ -62,6 +67,11 @@
                             }
                         }
                     ],
+                    "plugin.rename": [
+                        {
+                            "is.array": true
+                        }
+                    ],
                     "plugin.block": [
                         {
                             "is.array": true
@@ -104,6 +114,11 @@
                                     "#class"
                                 ]
                             }
+                        }
+                    ],
+                    "?plugin.rename": [
+                        {
+                            "is.array": true
                         }
                     ],
                     "?plugin.block": [

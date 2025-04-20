@@ -38,6 +38,7 @@
                             "plugin": {
                                 "multiple": false,
                                 "output": [
+                                    "rename",
                                     "block",
                                     "literal"
                                 ],
@@ -115,6 +116,7 @@
                             "plugin": {
                                 "multiple": false,
                                 "output": [
+                                    "rename",
                                     "block",
                                     "literal"
                                 ],
@@ -192,6 +194,7 @@
                             "plugin": {
                                 "multiple": false,
                                 "output": [
+                                    "rename",
                                     "block",
                                     "literal"
                                 ],
@@ -269,6 +272,7 @@
                             "plugin": {
                                 "multiple": false,
                                 "output": [
+                                    "rename",
                                     "block",
                                     "literal"
                                 ],
@@ -346,6 +350,7 @@
                             "plugin": {
                                 "multiple": false,
                                 "output": [
+                                    "rename",
                                     "block",
                                     "literal"
                                 ],
@@ -423,6 +428,7 @@
                             "plugin": {
                                 "multiple": false,
                                 "output": [
+                                    "rename",
                                     "block",
                                     "literal"
                                 ],
@@ -500,6 +506,7 @@
                             "plugin": {
                                 "multiple": false,
                                 "output": [
+                                    "rename",
                                     "block",
                                     "literal"
                                 ],
@@ -577,6 +584,7 @@
                             "plugin": {
                                 "multiple": false,
                                 "output": [
+                                    "rename",
                                     "block",
                                     "literal"
                                 ],
@@ -654,6 +662,7 @@
                             "plugin": {
                                 "multiple": false,
                                 "output": [
+                                    "rename",
                                     "block",
                                     "literal"
                                 ],
@@ -731,6 +740,7 @@
                             "plugin": {
                                 "multiple": false,
                                 "output": [
+                                    "rename",
                                     "block",
                                     "literal"
                                 ],
@@ -808,6 +818,7 @@
                             "plugin": {
                                 "multiple": false,
                                 "output": [
+                                    "rename",
                                     "block",
                                     "literal"
                                 ],

@@ -22,17 +22,7 @@
           }
         },
         "plugin": {
-          "rename": [
-            "constant",
-            "default",
-            "echo",
-            "exit",
-            "float",
-            "object",
-            "require",
-            "string",
-            "unset"
-          ],
+          "rename": [],
           "control": {
             "block":[
               "if",

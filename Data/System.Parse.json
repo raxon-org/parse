@@ -23,28 +23,6 @@
         },
         "plugin": {
           "rename": [],
-          "control": {
-            "block":[
-              "if",
-              "else",
-              "elseif",
-              "else.if",
-              "switch",
-              "while",
-              "for",
-              "foreach",
-              "for.each"
-            ],
-            "normal": [
-              "case",
-              "break",
-              "continue",
-              "return",
-              "exit",
-              "die",
-              "goto"
-            ]
-          },
           "block": [
             "block.*",
             "capture.*",

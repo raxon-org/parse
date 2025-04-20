@@ -22,6 +22,17 @@
           }
         },
         "plugin": {
+          "rename": [
+            "constant",
+            "default",
+            "echo",
+            "exit",
+            "float",
+            "object",
+            "require",
+            "string",
+            "unset"
+          ],
           "control": {
             "block":[
               "if",

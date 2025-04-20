@@ -2302,6 +2302,8 @@ class Php {
             is_array($use_trait_function)
         ){
             $method_match = str_replace('.', '_', strtolower($record['method']['name']));
+            $plugin_rename = $object->config('package.raxon/parse.plugin.rename');
+            ddd($plugin_rename);
             if(
                 in_array(
                     $method_match,
@@ -2509,6 +2511,8 @@ class Php {
     {
         $source = $options->source ?? '';
         $name_lowercase = mb_strtolower($name);
+        $plugin_rename = $object->config('package.raxon/parse.plugin.rename');
+        ddd($plugin_rename);
         if(
             in_array(
                 $name_lowercase,

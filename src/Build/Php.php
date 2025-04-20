@@ -2511,7 +2511,7 @@ class Php {
     {
         $source = $options->source ?? '';
         $name_lowercase = mb_strtolower($name);
-        $plugin_rename = $object->config('package.raxon/parse.plugin.rename');
+        $plugin_rename = $object->config();
         ddd($plugin_rename);
         if(
             in_array(

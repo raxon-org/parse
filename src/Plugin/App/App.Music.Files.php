@@ -47,7 +47,7 @@ trait App_Music_Files {
         if($options['url'] !== false){
             $url = $options['url'];
             $dir = Dir::name($url);
-            Dir::Create($dir, Dir::CHMOD);
+            Dir::create($dir, Dir::CHMOD);
         } else {
             $dir = '/mnt/Disk2/Media/Voice/';
             $uuid = Core::uuid();

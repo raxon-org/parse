@@ -87,6 +87,9 @@ class Token
             $is_new === true
         ){
             Dir::create($cache_dir, Dir::CHMOD);
+            File::permission($object, [
+                'target' => $cache_dir,
+            ]);
             if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
                 if(
                     property_exists($options, 'compress') &&
@@ -115,9 +118,10 @@ class Token
                 }
             }
             File::touch($cache_url, $mtime);
-            d($cache_url);
+            File::permission($object, [
+                'target' => $cache_url,
+            ]);
         }
-
         return $tags;
     }
 

@@ -22,7 +22,17 @@
           }
         },
         "plugin": {
-          "rename": [],
+          "rename": [
+            "constant",
+            "default",
+            "echo",
+            "exit",
+            "float",
+            "object",
+            "require",
+            "string",
+            "unset"
+          ],
           "block": [
             "block.*",
             "capture.*",

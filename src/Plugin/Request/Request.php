@@ -3,7 +3,7 @@ namespace Plugin;
 
 trait Request {
 
-    protected function request(string $attribute=null, mixed $value=null): mixed
+    protected function request(string $attribute, mixed $value=null): mixed
     {
         $object = $this->object();
         if($value !== null){

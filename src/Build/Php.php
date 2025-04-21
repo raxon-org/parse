@@ -247,6 +247,9 @@ class Php {
      */
     public static function document_tag(App $object, $flags, $options, $tags = []): array
     {
+        if(!property_exists('source', $options)){
+            throw new Exception('Document tag: source not found in options' . PHP_EOL);
+        }
         $data = [];
         $if_depth = 0;
         $if_length = 0;

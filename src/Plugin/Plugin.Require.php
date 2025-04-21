@@ -122,6 +122,7 @@ trait Plugin_require {
             $data_data->data('rdelim', '}');
             $data->data('raxon.org.parse.view.source.mtime', $mtime);
 //        ob_start();
+            ddd('implement new parser');
             $parser = new Parse($object);
             $compile =  $parser->compile($read, [], $data_data);
 //        d($compile);

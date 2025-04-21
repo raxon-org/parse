@@ -2551,6 +2551,9 @@ class Php {
                 d($use_package);
                 d($plugin);
             }
+            d($use);
+            d($use_plugin);
+            d($use_trait_function);
             if(!in_array($use_plugin, $use_trait_function, true)){
                 $use[] = '\\' . $use_package  . 'Trait' . '\\' . $trait_name;
                 $use_trait_function[count($use) - 1] = $use_plugin;

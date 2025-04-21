@@ -22,7 +22,7 @@ trait Config {
         ],
         result: "mixed"
     )]
-    protected function config(string $attribute, mixed $value=null): mixed
+    protected function config(string $attribute=null, mixed $value=null): mixed
     {
         $object = $this->object();
 //        breakpoint($object->config());

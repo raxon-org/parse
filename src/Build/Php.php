@@ -2529,6 +2529,8 @@ class Php {
         $use_trait_function = $object->config('package.raxon/parse.build.use.trait_function');
         if(!$use){
             $use = [];
+        }
+        if(!$use_trait_function){
             $use_trait_function = [];
         }
         if(str_contains($plugin, ':')){

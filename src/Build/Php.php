@@ -618,14 +618,18 @@ class Php {
                     $record['link_depth'] = $link_depth;
                     $record['block_depth'] = $block_depth;
                     $record['capture_depth'] = $capture_depth;
-                    if($record['marker']['name'] === 'else'){
+                    $marker_name = mb_strtolower($record['marker']['name']);
+                    if($marker_name === 'rax'){
+                        continue;
+                    }
+                    if($marker_name === 'else'){
                         if($if_depth === 1) {
                             $if_method = 'else';
                             continue;
                         }
                     }
-                    if(
-                        $record['marker']['name'] === 'if' &&
+                    elseif(
+                        $marker_name === 'if' &&
                         array_key_exists('is_close', $record['marker']) &&
                         $record['marker']['is_close'] === true &&
                         $for_depth === 0 &&
@@ -722,7 +726,7 @@ class Php {
                         continue;
                     }
                     elseif(
-                        $record['marker']['name'] === 'for' &&
+                        $marker_name === 'for' &&
                         array_key_exists('is_close', $record['marker']) &&
                         $record['marker']['is_close'] === true &&
                         $if_depth === 0 &&
@@ -790,7 +794,7 @@ class Php {
                     }
                     elseif(
                         in_array(
-                            $record['marker']['name'],
+                            $marker_name,
                             [
                                 'foreach',
                                 'for.each',
@@ -876,7 +880,7 @@ class Php {
                         continue;
                     }
                     elseif(
-                        $record['marker']['name'] === 'while' &&
+                        $marker_name === 'while' &&
                         array_key_exists('is_close', $record['marker']) &&
                         $record['marker']['is_close'] === true &&
                         $if_depth === 0 &&
@@ -943,7 +947,7 @@ class Php {
                         continue;
                     }
                     elseif(
-                        $record['marker']['name'] === 'script' &&
+                        $marker_name === 'script' &&
                         array_key_exists('is_close', $record['marker']) &&
                         $record['marker']['is_close'] === true &&
                         $if_depth === 0 &&
@@ -1042,7 +1046,7 @@ class Php {
                         continue;
                     }
                     elseif(
-                        $record['marker']['name'] === 'link' &&
+                        $marker_name === 'link' &&
                         array_key_exists('is_close', $record['marker']) &&
                         $record['marker']['is_close'] === true &&
                         $if_depth === 0 &&
@@ -1141,7 +1145,7 @@ class Php {
                         continue;
                     }
                     elseif(
-                        $record['marker']['name'] === 'block' &&
+                        $marker_name === 'block' &&
                         array_key_exists('is_close', $record['marker']) &&
                         $record['marker']['is_close'] === true &&
                         $if_depth === 0 &&
@@ -1245,7 +1249,7 @@ class Php {
                     }
                     elseif(
                         in_array(
-                            $record['marker']['name'],
+                            $marker_name,
                             [
                                 'capture.append',
                                 'capture.prepend',

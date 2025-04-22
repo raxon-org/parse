@@ -5,6 +5,7 @@ trait Script {
 
     public function script(mixed $script, $name='script'): void
     {
+        d($name);
         $value = [];
         $data = $this->data();
         switch($name){

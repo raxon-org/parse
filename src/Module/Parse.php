@@ -317,7 +317,12 @@ class Parse
                             $source = str_replace($i . 'x_', '', $source);
                         }
                     }
-                    $hash = hash('sha256', $key . '_' . Core::object($value, Core::JSON));
+                    if(is_scalar($value) || is_null($value)){
+                        $hash = hash('sha256', $key . '_' . $value);
+                    } else {
+                        $hash = hash('sha256', $key . '_' . Core::object($value, Core::JSON));
+                    }
+
                     $options->source = 'internal_' . ($depth + 1) . 'x' . '_' . $key . '_' . $hash;
                     $options->source_root = $old_source;
                     $options->class = Build::class_name($options->source);

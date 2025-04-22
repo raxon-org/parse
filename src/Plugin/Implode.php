@@ -14,10 +14,6 @@ trait Implode {
 
     protected function implode(string $glue, array $array=null): string
     {
-        trace();
-        d($glue);
-        $object = $this->object();
-        d($object->config('package.raxon/parse.build.state'));
         return implode($glue, $array);
     }
 

@@ -258,6 +258,7 @@ class Parse
                     $options->source_root = $temp_source;
                     $options->class = Build::class_name($options->source);
                     $this->parse_set_options($options);
+                    d($options);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
                     $input[$key] = $this->compile($value, $data, $is_debug);
                     $options->source = $temp_source;

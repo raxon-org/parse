@@ -358,7 +358,7 @@ class Parse
                         }
                     }
                     $hash = hash('sha256', $key . '_' . Core::object($value, Core::JSON));
-                    $options->source = 'internal_' . ($depth + 1) . 'x_' . $source . '_' . $key . '_' . $hash;
+                    $options->source = 'internal_' . ($depth + 1) . 'x' . '_' . $key . '_' . $hash;
                     $options->source_root = $old_source;
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);

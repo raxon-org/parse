@@ -23,6 +23,11 @@ trait View {
      */
     protected function view(mixed $template, mixed $data=null): mixed
     {
+        if(empty($template)){
+            trace();
+            d($data);
+            die();
+        }
         d($template);
         d($data);
         $url = Controller::locate($this->object(), $template);

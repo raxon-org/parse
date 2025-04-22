@@ -423,6 +423,7 @@ class Parse
             property_exists($is_plugin, 'name_separator') &&
             property_exists($is_plugin, 'name_pop_or_shift')
         ){
+            ddd($options);
             $options->class = Autoload::name_reducer(
                 $object,
                 $class . '_' . $options->hash,

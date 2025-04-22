@@ -38,7 +38,7 @@ trait View {
         $storage->data('raxon.org.parse.view.source.mtime', $mtime);
 
         if($data === null){
-            $data = new Data();
+            $data = $storage;
         }
         elseif(
             is_object($data) &&

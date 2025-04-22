@@ -330,6 +330,7 @@ class Parse
                 $options->depth--;
 //                $object->config('package.raxon/parse.build.state.this.attribute', $attribute);
 //                $object->config('package.raxon/parse.build.state.this.property', $property);
+                d($input);
                 return $input;
             }
         }

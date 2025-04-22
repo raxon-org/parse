@@ -320,6 +320,7 @@ class Parse
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
                     d($value);
+                    /*
                     if(
                         is_object($value) &&
                         property_exists($value, 'author') &&
@@ -329,6 +330,7 @@ class Parse
                         d($is_debug);
                         ddd('found, start debugging');
                     }
+                    */
                     if($key === 'author'){
                         ddd($value);
                     }

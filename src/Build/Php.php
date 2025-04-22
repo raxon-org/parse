@@ -2529,7 +2529,6 @@ class Php {
         } else {
             $plugin = $name_lowercase;
         }
-        d($plugin);
         $plugin = str_replace('.', '_', $plugin);
         $plugin = str_replace('-', '_', $plugin);
         $backslash_double = Core::uuid();
@@ -2537,6 +2536,7 @@ class Php {
         $plugin = str_replace('\\', '\\\\', $plugin);
         $plugin = str_replace($backslash_double, '\\\\', $plugin);
         $plugin = str_replace('\\\\', '_', $plugin);
+        d($plugin);
         $use = $object->config('package.raxon/parse.build.use.trait');
         $use_trait_function = $object->config('package.raxon/parse.build.use.trait_function');
         if(!$use){

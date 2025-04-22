@@ -452,6 +452,8 @@ class Parse
             $post_require = microtime(true);
             $run_options = clone $options;
             $run = $options->namespace . '\\' . $options->class;
+            d($url_php);
+            d($run);
             $main = new $run($object, $this, $data, $flags, $options);
             $result = $main->run();
             if(property_exists($options, 'duration')){

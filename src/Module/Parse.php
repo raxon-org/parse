@@ -3,20 +3,17 @@ namespace Raxon\Parse\Module;
 
 use Exception;
 use Plugin;
-
 use Raxon\App;
 use Raxon\Config;
-
 use Raxon\Exception\ObjectException;
 use Raxon\Exception\TemplateException;
-
 use Raxon\Module\Autoload;
 use Raxon\Module\Core;
 use Raxon\Module\Data;
 use Raxon\Module\Dir;
 use Raxon\Module\File;
-
 use Raxon\Node\Module\Node;
+use Raxon\Parse\Build\Php;
 
 class Parse
 {
@@ -129,51 +126,6 @@ class Parse
         return $result;
     }
 
-    public static function class_name(App $object, $class=''){
-        return ltrim(
-            str_replace(
-                [
-                    '!',
-                    '@',
-                    '#',
-                    '$',
-                    '%',
-                    '^',
-                    '&',
-                    '*',
-                    '(',
-                    ')',
-                    '-',
-                    '+',
-                    '=',
-                    '{',
-                    '}',
-                    '|',
-                    ':',
-                    '\'',
-                    '"',
-                    '<',
-                    '>',
-                    ',',
-                    '?',
-                    '/',
-                    ';',
-                    '.',
-                    ' ',
-                    '~',
-                    '`',
-                    '[',
-                    ']',
-                    '\\',
-                ],
-                '_',
-                $class
-            ),
-            '_'
-        );
-    }
-
-
     /**
      * @throws Exception
      * @throws ObjectException
@@ -202,7 +154,7 @@ class Parse
         if(!property_exists($options, 'source')) {
             throw new Exception('Error: source not set in options');
         }
-        $options->class = Parse::class_name($object, $options->source);
+        $options->class = Build::class_name($options->source);
         if($is_debug){
             $object->config('package.raxon/parse.build.state.input.debug', true);
         }
@@ -304,7 +256,7 @@ class Parse
                     $temp_class = $options->class;
                     $options->source = 'internal_' . Core::uuid();
                     $options->source_root = $temp_source;
-                    $options->class = Parse::class_name($object, $options->source);
+                    $options->class = Build::class_name($options->source);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
                     $input[$key] = $this->compile($value, $data, $is_debug);
                     $options->source = $temp_source;

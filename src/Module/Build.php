@@ -16,9 +16,7 @@ class Build {
      */
     public static function create(App $object, $flags, $options, $tags=[]): array
     {
-        $options->class = $options->class ?? 'Main';
-        trace();
-        breakpoint($options->class);
+        $options->class = $options->class ?? Build::class_name($options->source);
         Php::document_default($object, $flags, $options);
         $tags = Php::document_tag_prepare($object, $flags, $options, $tags);
         $data = Php::document_tag($object, $flags, $options, $tags);
@@ -44,5 +42,51 @@ class Build {
         $tags = Php::document_tag_prepare($object, $flags, $options, $tags);
         $embed = Php::document_tag($object, $flags, $options, $tags);
         return $embed;
+    }
+
+
+    public static function class_name($class=''): string
+    {
+        return ltrim(
+            str_replace(
+                [
+                    '!',
+                    '@',
+                    '#',
+                    '$',
+                    '%',
+                    '^',
+                    '&',
+                    '*',
+                    '(',
+                    ')',
+                    '-',
+                    '+',
+                    '=',
+                    '{',
+                    '}',
+                    '|',
+                    ':',
+                    '\'',
+                    '"',
+                    '<',
+                    '>',
+                    ',',
+                    '?',
+                    '/',
+                    ';',
+                    '.',
+                    ' ',
+                    '~',
+                    '`',
+                    '[',
+                    ']',
+                    '\\',
+                ],
+                '_',
+                $class
+            ),
+            '_'
+        );
     }
 }

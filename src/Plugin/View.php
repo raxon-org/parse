@@ -25,7 +25,6 @@ trait View {
     {
         $url = Controller::locate($this->object(), $template);
         $read = File::read($url);
-        d($url);
         $mtime = File::mtime($url);
         $parse = $this->parse();
         $storage = $this->storage();
@@ -73,7 +72,6 @@ trait View {
                 $data->data('link', array_merge($link, $data_link));
             }
         }
-        return 'no error';
         return $read;
     }
 

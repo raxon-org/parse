@@ -1,9 +1,9 @@
 <?php
 namespace Plugin;
 
-trait Data {
+trait Plugin_Data {
 
-    protected function data(string $attribute=null, mixed $value=null): mixed
+    protected function plugin_data(string $attribute=null, mixed $value=null): mixed
     {
         $data = $this->data();
         $attribute = trim($attribute, '\'"');

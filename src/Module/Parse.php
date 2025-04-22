@@ -354,9 +354,11 @@ class Parse
                             $source = str_replace($i . 'x_', '', $source);
                         }
                     }
-                    $options->source = 'internal_' . ($depth + 1) . 'x_' . $source . '_' . $key . '_' . $options->hash;
+                    $hash = hash('sha256', $key . '_' . Core::object($value, Core::JSON));
+                    $options->source = 'internal_' . ($depth + 1) . 'x_' . $source . '_' . $key . '_' . $hash;
                     $options->source_root = $old_source;
                     $options->class = Parse::class_name($object, $options->source);
+                    d($input);
                     d($options->source);
                     d($options->class);
                     breakpoint($options->source_root);

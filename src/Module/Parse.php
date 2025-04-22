@@ -199,7 +199,10 @@ class Parse
         $object = $this->object();
         $flags = $this->parse_flags();
         $options = $this->parse_options();
-
+        if(!property_exists($options, 'source')) {
+            throw new Exception('Error: source not set in options');
+        }
+        $options->class = Parse::class_name($object, $options->source);
         if($is_debug){
             $object->config('package.raxon/parse.build.state.input.debug', true);
         }
@@ -357,11 +360,6 @@ class Parse
                     $hash = hash('sha256', $key . '_' . Core::object($value, Core::JSON));
                     $options->source = 'internal_' . ($depth + 1) . 'x_' . $source . '_' . $key . '_' . $hash;
                     $options->source_root = $old_source;
-                    $options->class = Parse::class_name($object, $options->source);
-                    d($input);
-                    d($options->source);
-                    d($options->class);
-                    breakpoint($options->source_root);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
                     $input->{$key} = $this->compile($value, $data, $is_debug);

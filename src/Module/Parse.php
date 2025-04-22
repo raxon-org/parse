@@ -402,7 +402,7 @@ class Parse
         }
 //        d($options->source);
         $object->config('package.raxon/parse.build.state.source.mtime', $mtime);
-        $class = Parse::class_name($object, $object->config('package.raxon/parse.build.state.source.url'));
+//        $class = Parse::class_name($object, $object->config('package.raxon/parse.build.state.source.url'));
         $cache_url = false;
         $is_plugin = false;
         $is_cache_url = false;

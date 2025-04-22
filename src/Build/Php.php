@@ -1583,7 +1583,7 @@ class Php {
                         }
                         else {
                             $text = Php::text($object, $flags, $options, $record);
-                            d($text);
+//                            d($text);
                             if(property_exists($options, 'variable')){
                                 $data[] = $options->variable . '[] =  "' . str_replace(['"'], ['\"'], $text) . '";';
                             } else {

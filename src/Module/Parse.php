@@ -317,10 +317,13 @@ class Parse
                     $this->parse_set_options($options);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
+                    d($value);
                     $input->{$key} = $this->compile($value, $data, $is_debug);
                     $options->source = $old_source;
                     if($old_class){
                         $options->class = $old_class;
+                    } else {
+                        unset($options->class);
                     }
                     $this->parse_set_options($options);
                 }

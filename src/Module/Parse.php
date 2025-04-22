@@ -252,8 +252,6 @@ class Parse
             $options->hash = hash('sha256', Core::object($input, Core::OBJECT_JSON_LINE));
             if(is_array($input)){
                 foreach($input as $key => $value){
-                    ddd($object->config('package.raxon/parse'));
-
                     $temp_source = $options->source ?? 'source';
                     $temp_class = $options->class;
                     $options->source = 'internal_' . Core::uuid();

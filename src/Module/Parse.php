@@ -295,6 +295,7 @@ class Parse
                 );
                 d($input);
                 foreach($input as $key => $value){
+                    d($key);
                     if(
                         in_array(
                             $key,
@@ -302,6 +303,7 @@ class Parse
                             true
                         )
                     ){
+                        d('key continue' . $key);
                         continue;
                     }
                     $old_source = $options->source ?? 'source';

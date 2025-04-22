@@ -293,6 +293,7 @@ class Parse
                         $object->config('package.raxon/parse.object.this.property')
                     )
                 );
+                d($input);
                 foreach($input as $key => $value){
                     if(
                         in_array(

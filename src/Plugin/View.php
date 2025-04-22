@@ -39,11 +39,15 @@ trait View {
         if(empty($data)){
             $storage->data('raxon.org.parse.view.source.url', $url);
             $storage->data('raxon.org.parse.view.source.mtime', $mtime);
+            $options = $parse->parse_options();
+            $view_options = (object) [];
+            $view_options->url = $url;
+            $parse->parse_options($view_options);
             $read = $parse->compile($read, []);
+            $parse->parse_options($options);
         } else {
             $storage->data('raxon.org.parse.view.source.url', $url);
             $storage->data('raxon.org.parse.view.source.mtime', $mtime);
-
             if(
                 is_object($data) &&
                 get_class($data) === 'Data'
@@ -52,7 +56,12 @@ trait View {
             } else {
                 $data_data = new Data($data);
             }
+            $options = $parse->parse_options();
+            $view_options = (object) [];
+            $view_options->url = $url;
+            $parse->parse_options($view_options);
             $read = $parse->compile($read, $data_data);
+            $parse->parse_options($options);
             $data_script = $data_data->data('script');
             $script = $data->data('script');
             if(!empty($data_script) && empty($script)){

@@ -16,7 +16,7 @@ use Raxon\Module\Autoload;
 use Raxon\Module\Data;
 use Raxon\Module\Dir;
 use Raxon\Module\File;
-use Raxon\ParseModule\Parse;
+use Raxon\Parse\Module\Parse;
 
 use Exception;
 

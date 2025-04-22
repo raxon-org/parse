@@ -472,6 +472,7 @@ class Parse
             }
             if($object->config(Parse::CONFIG . '.build.builder') === 'Build'){
 //                $document = Build::create($object, $flags, $options, $token);
+                ddd($options);
                 $document = Build::create($object, $flags, $options, $token);
             }
             elseif($object->config(Parse::CONFIG . '.build.builder') === 'Compile'){

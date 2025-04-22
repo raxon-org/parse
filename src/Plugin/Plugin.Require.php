@@ -10,6 +10,7 @@
  */
 namespace Plugin;
 
+use Raxon\App;
 use Raxon\Config;
 
 use Raxon\Module\Autoload;
@@ -157,6 +158,9 @@ trait Plugin_require {
             $source = $data->data('raxon.org.parse.view.source.url');
             $data->data('raxon.org.parse.view.source.url', $url);
             $data->data('raxon.org.parse.view.source.mtime', $mtime);
+            $flags = App::flags($object);
+            $options = (object) [];
+            $options->source = $url;
             $parser = new Parse($object, $data);
             $compile = $parser->compile($read, $data);
             $data->data('raxon.org.parse.view.source.url', $source);

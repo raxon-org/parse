@@ -72,6 +72,7 @@ trait View {
                 $data->data('link', array_merge($link, $data_link));
             }
         }
+        return 'no error';
         return $read;
     }
 

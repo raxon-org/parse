@@ -320,6 +320,9 @@ class Parse
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
                     d($value);
+                    if(is_object($value) && property_exists($value, 'author') && $value->author ==='{{$meta.author|default:\'\'}}'){
+                        ddd('found, start debugging');
+                    }
                     $input->{$key} = $this->compile($value, $data, $is_debug);
                     d($input);
                     $options->source = $old_source;

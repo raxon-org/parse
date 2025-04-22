@@ -1311,6 +1311,7 @@ class Token
                     ]];
                     return $input;
                 }
+                /*
                 elseif(
                     mb_substr($value, 0, 1) === '\'' &&
                     mb_substr($value, -1) === '\''
@@ -1335,6 +1336,7 @@ class Token
                     ]];
                     return $input;
                 }
+                */
                 return Token::value_split($object, $flags, $options, $input, $tag);
         }
     }

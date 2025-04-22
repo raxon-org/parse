@@ -325,6 +325,7 @@ class Parse
                         property_exists($value, 'author') &&
                         $value->author === '{{$meta.author|default:\'\'}}'
                     ){
+                        d($is_debug);
                         ddd('found, start debugging');
                     }
                     $input->{$key} = $this->compile($value, $data, $is_debug);

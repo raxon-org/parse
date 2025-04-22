@@ -25,13 +25,14 @@ trait View {
     {
         $url = Controller::locate($this->object(), $template);
         $read = File::read($url);
+        d($url);
         $mtime = File::mtime($url);
         $parse = $this->parse();
-        $storage = $this->storage();
+        $storage = $this->data();
         if(empty($data)){
             $storage->data('raxon.org.parse.view.source.url', $url);
             $storage->data('raxon.org.parse.view.source.mtime', $mtime);
-            $read = $parse->compile($read, [], $storage);
+            $read = $parse->compile($read, []);
         } else {
             $storage->data('raxon.org.parse.view.source.url', $url);
             $storage->data('raxon.org.parse.view.source.mtime', $mtime);
@@ -44,7 +45,7 @@ trait View {
             } else {
                 $data_data = new Data($data);
             }
-            $read = $parse->compile($read, $data_data, $storage);
+            $read = $parse->compile($read, $data_data);
             $data_script = $data_data->data('script');
             $script = $data->data('script');
             if(!empty($data_script) && empty($script)){

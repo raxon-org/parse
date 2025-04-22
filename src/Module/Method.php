@@ -94,7 +94,21 @@ class Method
                                     $name .= $input['array'][$i]['value'];
                                 }
 
-                            } else {
+                            }
+                            elseif(
+                                array_key_exists('value', $input['array'][$i]) &&
+                                in_array(
+                                    $input['array'][$i]['value'],
+                                    [
+                                        '_',
+                                    ],
+                                    true
+                                ) &&
+                                $name === ''
+                            ){
+                                $name .= $input['array'][$i]['value'];
+                            }
+                            else {
                                 break;
                             }
                         } else {

@@ -454,6 +454,7 @@ class Parse
             $run = $options->namespace . '\\' . $options->class;
             d($url_php);
             d($run);
+            d('test');
             $main = new $run($object, $this, $data, $flags, $options);
             $result = $main->run();
             if(property_exists($options, 'duration')){

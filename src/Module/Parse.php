@@ -257,10 +257,12 @@ class Parse
                     $options->source = 'internal_' . Core::uuid();
                     $options->source_root = $temp_source;
                     $options->class = Build::class_name($options->source);
+                    $this->parse_set_options($options);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
                     $input[$key] = $this->compile($value, $data, $is_debug);
                     $options->source = $temp_source;
                     $options->class = $temp_class;
+                    $this->parse_set_options($options);
                 }
                 $data->set('this.' . $object->config('package.raxon/parse.object.this.key', null));
                 return $input;
@@ -312,6 +314,7 @@ class Parse
                     $hash = hash('sha256', $key . '_' . Core::object($value, Core::JSON));
                     $options->source = 'internal_' . ($depth + 1) . 'x' . '_' . $key . '_' . $hash;
                     $options->source_root = $old_source;
+                    $this->parse_set_options($options);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
                     $input->{$key} = $this->compile($value, $data, $is_debug);
@@ -319,6 +322,7 @@ class Parse
                     if($old_class){
                         $options->class = $old_class;
                     }
+                    $this->parse_set_options($options);
                 }
                 $options->depth--;
 //                $object->config('package.raxon/parse.build.state.this.attribute', $attribute);

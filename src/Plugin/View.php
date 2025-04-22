@@ -41,7 +41,7 @@ trait View {
             $storage->data('raxon.org.parse.view.source.mtime', $mtime);
             $options = $parse->parse_options();
             $view_options = (object) [];
-            $view_options->url = $url;
+            $view_options->source = $url;
             $parse->parse_options($view_options);
             $read = $parse->compile($read, []);
             $parse->parse_options($options);
@@ -58,7 +58,7 @@ trait View {
             }
             $options = $parse->parse_options();
             $view_options = (object) [];
-            $view_options->url = $url;
+            $view_options->source = $url;
             $parse->parse_options($view_options);
             $read = $parse->compile($read, $data_data);
             $parse->parse_options($options);

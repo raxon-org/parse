@@ -2517,6 +2517,7 @@ class Php {
         if(empty($plugin_rename)){
             throw new Exception('Invalid plugin rename configuration, please check your configuration file, try: app install raxon/parse -patch');
         }
+        d($name_lowercase);
         if(
             in_array(
                 $name_lowercase,

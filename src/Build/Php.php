@@ -1582,6 +1582,7 @@ class Php {
                             */
                         }
                         else {
+                            trace();
                             d($record);
                             $text = Php::text($object, $flags, $options, $record);
                             d($text);

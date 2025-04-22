@@ -423,10 +423,9 @@ class Parse
             property_exists($is_plugin, 'name_separator') &&
             property_exists($is_plugin, 'name_pop_or_shift')
         ){
-            ddd($options);
             $options->class = Autoload::name_reducer(
                 $object,
-                $class . '_' . $options->hash,
+                $options->class,
                 $is_plugin->name_length,
                 $is_plugin->name_separator,
                 $is_plugin->name_pop_or_shift
@@ -436,7 +435,7 @@ class Parse
                 $object->config('ds') .
                 $object->config('dictionary.view') .
                 $object->config('ds') .
-                $class .
+                $options->class .
                 $object->config('extension.php')
             ;
             $cache_dir = Dir::name($cache_url);
@@ -471,17 +470,7 @@ class Parse
                     $object->config('extension.php')
                 ;
             }
-            if($object->config(Parse::CONFIG . '.build.builder') === 'Build'){
-//                $document = Build::create($object, $flags, $options, $token);
-                ddd($options);
-                $document = Build::create($object, $flags, $options, $token);
-            }
-            elseif($object->config(Parse::CONFIG . '.build.builder') === 'Compile'){
-                $document = Build::create($object, $flags, $options, $token);
-            }
-            else {
-                $document = Build::create($object, $flags, $options, $token);
-            }
+            $document = Build::create($object, $flags, $options, $token);
             File::write($url_php, implode(PHP_EOL, $document));
             File::permission(
                 $object,
@@ -512,7 +501,7 @@ class Parse
                 $duration_script = round(($microtime - $object->config('time.start')) * 1000, 2) . ' ms';
                 $microtime_explode = explode('.', $microtime);
                 $output = [
-                    'class' => $class,
+                    'class' => $options->class,
                     'url' => $url_php,
                     'namespace' => $options->namespace,
                     'duration' => [

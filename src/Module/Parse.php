@@ -460,13 +460,13 @@ class Parse
             if($is_debug){
 //                d($token);
             }
-            $url_json = $dir . $class . $object->config('extension.json');
+            $url_json = $dir . $options->class . $object->config('extension.json');
             File::write($url_json, Core::object($token, Core::OBJECT_JSON));
             if($cache_url){
                 $url_php = $cache_url;
             } else {
                 $url_php = $dir .
-                    $class .
+                    $options->class .
                     $object->config('extension.php')
                 ;
             }

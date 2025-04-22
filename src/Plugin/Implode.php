@@ -14,6 +14,7 @@ trait Implode {
 
     protected function implode(string $glue, array $array=null): string
     {
+        d($glue);
         return implode($glue, $array);
     }
 

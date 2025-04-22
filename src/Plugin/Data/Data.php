@@ -3,7 +3,7 @@ namespace Plugin;
 
 trait Data {
 
-    protected function data(string $attribute, mixed $value=null): mixed
+    protected function data(string $attribute=null, mixed $value=null): mixed
     {
         $data = $this->data();
         $attribute = trim($attribute, '\'"');

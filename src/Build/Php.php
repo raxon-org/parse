@@ -1585,9 +1585,9 @@ class Php {
                             $text = Php::text($object, $flags, $options, $record);
                             d($text);
                             if(property_exists($options, 'variable')){
-                                $data[] = $options->variable . '[] =  "' . str_replace(['\\', '\"'], ['\\\\', '\\\"'], $text) . '";';
+                                $data[] = $options->variable . '[] =  "' . str_replace(['"'], ['\"'], $text) . '";';
                             } else {
-                                $data[] = '$content[] =  "' . str_replace(['\\', '\"'], ['\\\\', '\\\"'], $text) . '";';
+                                $data[] = '$content[] =  "' . str_replace(['"'], ['\"'], $text) . '";';
 //                                $data[] = '$content[] =  \'' . str_replace(['\\', '\''], ['\\\\', '\\\''], $text) . '\';';
                             }
                         }

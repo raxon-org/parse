@@ -424,7 +424,6 @@ class Parse
 //                d($token);
             }
             $url_json = $dir . $options->class . $object->config('extension.json');
-            d($url_json);
             File::write($url_json, Core::object($token, Core::OBJECT_JSON));
             if($cache_url){
                 $url_php = $cache_url;
@@ -434,8 +433,6 @@ class Parse
                     $object->config('extension.php')
                 ;
             }
-            d($token);
-            d($url_php);
             $document = Build::create($object, $flags, $options, $token);
             File::write($url_php, implode(PHP_EOL, $document));
             File::permission(
@@ -458,9 +455,6 @@ class Parse
             $post_require = microtime(true);
             $run_options = clone $options;
             $run = $options->namespace . '\\' . $options->class;
-            d($url_php);
-            d($run);
-            d('test');
             $main = new $run($object, $this, $data, $flags, $options);
             $result = $main->run();
             if(property_exists($options, 'duration')){

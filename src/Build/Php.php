@@ -2948,6 +2948,7 @@ class Php {
                         }
                     }
                     $before[] = $options->variable . ' = implode(\'\', ' . $options->variable . ');';
+                    d($before);
                     $value .= '"' . $options->variable . '"';
                     if($variable_old) {
                         $options->variable = $variable_old;

@@ -23,6 +23,8 @@ trait View {
      */
     protected function view(mixed $template, mixed $data=null): mixed
     {
+        d($template);
+        d($data);
         $url = Controller::locate($this->object(), $template);
         $read = File::read($url);
         $mtime = File::mtime($url);

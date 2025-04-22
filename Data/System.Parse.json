@@ -32,7 +32,8 @@
             "object",
             "require",
             "string",
-            "unset"
+            "unset",
+            "__"
           ],
           "block": [
             "block.*",

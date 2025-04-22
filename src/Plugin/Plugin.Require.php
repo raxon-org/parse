@@ -16,7 +16,7 @@ use Raxon\Module\Autoload;
 use Raxon\Module\Data;
 use Raxon\Module\Dir;
 use Raxon\Module\File;
-use Raxon\Module\Parse;
+use Raxon\ParseModule\Parse;
 
 use Exception;
 
@@ -157,8 +157,8 @@ trait Plugin_require {
             $source = $data->data('raxon.org.parse.view.source.url');
             $data->data('raxon.org.parse.view.source.url', $url);
             $data->data('raxon.org.parse.view.source.mtime', $mtime);
-            $parser = new Parse($object);
-            $compile = $parser->compile($read, [], $data);
+            $parser = new Parse($object, $data);
+            $compile = $parser->compile($read, $data);
             $data->data('raxon.org.parse.view.source.url', $source);
             return $compile;
         }

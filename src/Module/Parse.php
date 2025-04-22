@@ -157,7 +157,6 @@ class Parse
         $options->class = Build::class_name($options->source);
         if($is_debug){
             $object->config('package.raxon/parse.build.state.input.debug', true);
-            ddd($input);
         }
         /*
         if($object->config('package.raxon/parse.build.state.input.debug') === true){
@@ -329,6 +328,9 @@ class Parse
                         $input->{$key} = $this->compile($value, $data, true);
                         d($is_debug);
                         ddd('found, start debugging');
+                    }
+                    if($key === 'author'){
+                        ddd($value);
                     }
                     $input->{$key} = $this->compile($value, $data, $is_debug);
                     d($input);

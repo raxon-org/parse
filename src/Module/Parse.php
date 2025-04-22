@@ -249,7 +249,6 @@ class Parse
                 }
             }
         } else {
-            d($input);
             $options->hash = hash('sha256', Core::object($input, Core::OBJECT_JSON_LINE));
             if(is_array($input)){
                 foreach($input as $key => $value){
@@ -293,10 +292,7 @@ class Parse
                         $object->config('package.raxon/parse.object.this.property')
                     )
                 );
-                d($input);
                 foreach($input as $key => $value){
-                    d($key);
-                    d($reserved_keys);
                     if(
                         in_array(
                             $key,
@@ -328,21 +324,7 @@ class Parse
                     $this->parse_set_options($options);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
-                    if(
-                        is_object($value) &&
-                        property_exists($value, 'author') &&
-                        $value->author === '{{$meta.author|default:\'\'}}'
-                    ) {
-                        $input->{$key} = $this->compile($value, $data, true);
-                        d($is_debug);
-                        ddd('found, start debugging');
-                    }
-                    d($key);
-                    if($key === 'author'){
-                        ddd($value);
-                    }
                     $input->{$key} = $this->compile($value, $data, $is_debug);
-                    d($input);
                     $options->source = $old_source;
                     if($old_class){
                         $options->class = $old_class;
@@ -354,7 +336,6 @@ class Parse
                 $options->depth--;
 //                $object->config('package.raxon/parse.build.state.this.attribute', $attribute);
 //                $object->config('package.raxon/parse.build.state.this.property', $property);
-                d($input);
                 return $input;
             }
         }

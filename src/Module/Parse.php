@@ -326,6 +326,10 @@ class Parse
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
                     d($value);
 
+                    if($is_debug === true){
+                        ddd($value);
+                    }
+
                     if(
                         is_object($value) &&
                         property_exists($value, 'author') &&

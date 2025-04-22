@@ -32,7 +32,6 @@ trait Parse_Read {
             } else {
                 $read = $object->compile_read($url);
             }
-            ddd($read);
             if($read){
                 try {
                     $data = $this->storage();

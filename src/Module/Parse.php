@@ -359,7 +359,6 @@ class Parse
         }
         elseif(str_starts_with($source, 'internal_')){
             $mtime = $object->config('package.raxon/parse.build.state.source.mtime');
-
         }
         $object->config('package.raxon/parse.build.state.source.mtime', $mtime);
 //        $class = Parse::class_name($object, $object->config('package.raxon/parse.build.state.source.url'));
@@ -421,6 +420,7 @@ class Parse
 //                d($token);
             }
             $url_json = $dir . $options->class . $object->config('extension.json');
+            d($url_json);
             File::write($url_json, Core::object($token, Core::OBJECT_JSON));
             if($cache_url){
                 $url_php = $cache_url;
@@ -430,6 +430,7 @@ class Parse
                     $object->config('extension.php')
                 ;
             }
+            d($url_php);
             $document = Build::create($object, $flags, $options, $token);
             File::write($url_php, implode(PHP_EOL, $document));
             File::permission(

@@ -2513,6 +2513,7 @@ class Php {
     {
         $source = $options->source ?? '';
         $name_lowercase = mb_strtolower($name);
+        d($name_lowercase);
         $plugin_rename = $object->config('package.raxon/parse.plugin.rename');
         if(empty($plugin_rename)){
             throw new Exception('Invalid plugin rename configuration, please check your configuration file, try: app install raxon/parse -patch');

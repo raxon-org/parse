@@ -26,7 +26,6 @@ trait Parse_Read {
     {
         if(File::exist($url)){
             $object = $this->object();
-            d($url);
             if($cache){
                 $read = $object->compile_read($url, sha1($url));
             } else {

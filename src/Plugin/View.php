@@ -80,6 +80,7 @@ trait View {
             }
             $storage->data('link', array_merge($link, $data_link));
         }
+        $this->storage($storage);
         return $read;
     }
 

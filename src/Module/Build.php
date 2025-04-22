@@ -17,6 +17,7 @@ class Build {
     public static function create(App $object, $flags, $options, $tags=[]): array
     {
         $options->class = $options->class ?? 'Main';
+        trace();
         breakpoint($options->class);
         Php::document_default($object, $flags, $options);
         $tags = Php::document_tag_prepare($object, $flags, $options, $tags);

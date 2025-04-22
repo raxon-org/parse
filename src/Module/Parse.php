@@ -331,6 +331,7 @@ class Parse
                         ddd('found, start debugging');
                     }
                     */
+                    d($key);
                     if($key === 'author'){
                         ddd($value);
                     }

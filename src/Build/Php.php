@@ -1621,6 +1621,7 @@ class Php {
                     elseif(
                         array_key_exists('method', $record)
                     ){
+                        d($record);
                         $method = Php::method($object, $flags, $options, $record, $before, $after);
                         if(!empty($before)){
                             $data[] = 'try {';

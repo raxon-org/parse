@@ -322,19 +322,12 @@ class Parse
                     } else {
                         $hash = hash('sha256', $key . '_' . Core::object($value, Core::JSON));
                     }
-
                     $options->source = 'internal_' . ($depth + 1) . 'x' . '_' . $key . '_' . $hash;
                     $options->source_root = $old_source;
                     $options->class = Build::class_name($options->source);
                     $this->parse_set_options($options);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
-                    d($value);
-
-                    if($is_debug === true){
-                        ddd($value);
-                    }
-
                     if(
                         is_object($value) &&
                         property_exists($value, 'author') &&

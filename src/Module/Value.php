@@ -256,7 +256,7 @@ class Value
                     }
                     $value = Value::basic($object, $flags, $options, $value);
                     $input['array'][$is_single_quoted] = $value;
-                    if(!array_key_exists('execute')){
+                    if(!array_key_exists('execute', $value)){
                         ddd($value);
                     }
                     $input['array'][$is_single_quoted]['value'] = '\'' . $value['execute'] . '\'';

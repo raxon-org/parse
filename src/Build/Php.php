@@ -3719,13 +3719,7 @@ class Php {
                 }
             }
         } else {
-            d($record);
             $value = Php::value($object, $flags, $options, $record, $record['variable']['value'],$is_set, $before, $after);
-            d($value);
-            if($value === '__(\'meta.author\')'){
-                ddd($value);
-            }
-
         }
         if(array_key_exists('modifier', $record['variable'])){
             d($value);

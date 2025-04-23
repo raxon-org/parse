@@ -269,10 +269,23 @@ class Value
                         if(is_array($item)){
                             if(array_key_exists('value', $item)){
                                 $value .= $item['value'];
-                            } else {
-                               ddd($item);
                             }
-
+                            elseif(
+                                array_key_exists('type', $item) &&
+                                $item['type'] === 'method') {
+                                $value .= $item['method']['name'];
+                                $value .= '(';
+                                foreach($item['method']['argument'] as $argument){
+                                    $value .= $argument['string'];
+                                }
+                                $value .= ')';
+                            }
+                            elseif(
+                                array_key_exists('type', $item) &&
+                                $item['type'] === 'variable'
+                            ){
+                                $value .= '$data->get(\'' . $item['name'] . '\');';
+                            }
                         } else {
                             $value .= $item;
                         }

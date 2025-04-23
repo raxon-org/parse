@@ -27,7 +27,7 @@ trait Parse_Read {
                     /**
                      * $script, already available script
                      * $script_merge_read, from reading the script property
-                     * $script_merge, from the object (result after parsing the url)
+                     * $script_merge, from the object (result after parsing the url (template / require inside))
                      */
                     $data = $this->storage();
                     $script = $data->data('script') ?? [];

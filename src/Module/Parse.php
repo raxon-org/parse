@@ -458,6 +458,7 @@ class Parse
             $run = $options->namespace . '\\' . $options->class;
 //            d($data);
 //            d($data->get('script'));
+            d($url_php);
 //            trace();
             $main = new $run($object, $this, $data, $flags, $options);
             $result = $main->run();

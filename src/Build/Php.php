@@ -2701,6 +2701,7 @@ class Php {
         $skip = 0;
         $input = Php::value_set($object, $flags, $options, $input, $is_set);
         $object->config('package.raxon/parse.build.state.value', $input);
+        $object->config('package.raxon/parse.build.state.trace', trace());
         foreach ($input['array'] as $nr => $record) {
             if($skip > 0){
                 $skip--;
@@ -3165,6 +3166,7 @@ class Php {
                 break;
             case '-':
                 d($object->config('package.raxon/parse.build.state.value'));
+                d($object->config('package.raxon/parse.build.state.trace'));
                 d($options);
                 d($left);
                 ddd($right);

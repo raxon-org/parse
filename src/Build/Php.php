@@ -3057,7 +3057,7 @@ class Php {
             elseif(array_key_exists('type', $record) &&
                 $record['type'] === 'cast'
             ){
-                $value .= ' (' . $record['value'] . ') ';
+                $value .= $record['value'];
             }
             else {
                 d('not implemented');

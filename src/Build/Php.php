@@ -2994,7 +2994,7 @@ class Php {
                         ddd($array_record_value);
                         $index = 0;
                     }
-                    elseif($index === 0) {
+                    if($index === 0) {
                         $array_record_key[] = $array_record;
                     }
                     elseif($index === 1) {

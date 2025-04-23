@@ -45,7 +45,7 @@ trait Parse_Read {
                         $link = array_merge($link, $link_merge);
                         $object->data('link', $link);
                     }
-                    $this->data($object->data());
+                    $this->data($object);
                 } catch (ObjectException $e) {
                 }
                 return $read->data();

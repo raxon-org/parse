@@ -2976,6 +2976,35 @@ class Php {
                 $array_array = $record['array'];
                 $start_tag = array_shift($array_array);
                 $end_tag = array_pop($array_array);
+                $array_record_key = [];
+                $array_record_value = [];
+                $index = 0;
+                foreach($array_array as $array_nr => $array_record){
+                    if(
+                        array_key_exists('value', $record) &&
+                        $record['value'] === '=>'
+                    ){
+                        $index++;
+                    }
+                    elseif(
+                        array_key_exists('value', $record) &&
+                        $record['value'] === ','
+                    ){
+                        d($array_record_key);
+                        ddd($array_record_value);
+                        $index = 0;
+                    }
+                    elseif($index === 0) {
+                        $array_record_key[] = $array_record;
+                    }
+                    elseif($index === 1) {
+                        $array_record_value[] = $array_record;
+                    } else {
+                        throw new Exception('=> to much...');
+                    }
+                }
+                d($array_record_key);
+                ddd($array_record_value);
                 d($start_tag);
                 ddd($end_tag);
                 /*

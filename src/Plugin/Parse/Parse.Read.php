@@ -32,6 +32,10 @@ trait Parse_Read {
                     $link = $data->data('link') ?? [];
                     $link_merge = $object->data('link') ?? [];
                     $link_merge_read = $read->data('link') ?? [];
+                    //check sorting order
+                    d($script);
+                    d($script_merge);
+                    ddd($script_merge_read);
                     $read->data('link', array_merge($link, $link_merge, $link_merge_read));
                     $data->data(Core::object_merge($data->data(), $read->data()));
                 } catch (ObjectException $e) {

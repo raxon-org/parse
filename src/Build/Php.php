@@ -2973,15 +2973,22 @@ class Php {
                 $record['type'] === 'array'
             ){
                 $array_value = '';
-                ddd($record);
-                foreach($record['array'] as $array_record){
-                    $array_input = [];
-                    $array_input['string'] = $array_record['value'] ?? $array_record['execute'] ?? '';
-                    $array_input['array'] = [];
+                $array_array = $record['array'];
+                $start_tag = array_shift($array_array);
+                $end_tag = array_pop($array_array);
+                d($start_tag);
+                ddd($end_tag);
+                /*
+                foreach($record['array'] as $array_record) {
+                    if(!$start_tag) {
+                        $start_tag = $array_record;
+                    }
                     $array_input['array'][] = $array_record;
+                }
                     $array_value .= Php::value($object, $flags, $options, $record, $array_input, $is_set_array, $before, $after);
 
                 }
+                */
                 $value .= $array_value;
                 //remove next newline
                 $object->config('package.raxon/parse.build.state.remove_newline_next', true);

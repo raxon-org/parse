@@ -2840,7 +2840,7 @@ class Php {
                                 $next['type'] === 'method'
                             ){
                                 $uuid_variable = Core::uuid_variable();
-                                d($next);
+//                                d($next);
                                 $before[] = $uuid_variable . ' = ' . Php::method($object, $flags, $options, $next, $before, $after) . ';';
                                 $right = $uuid_variable;
                             }

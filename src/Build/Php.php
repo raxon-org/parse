@@ -2017,6 +2017,7 @@ class Php {
                                 $explode = explode(' = $data->get(', substr($before_foreach_key[0], 0, -2));
                                 d($foreach_value);
                                 d($explode);
+                                d($object->config('package.raxon/parse'));
                                 $inline_before[] = '$data->set(' . $explode[1] . ', ' . $explode[0] . ');';
                                 $value .= ' as ' . $foreach_value;
                                 $argument_input = [];

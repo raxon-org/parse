@@ -631,8 +631,7 @@ class Php {
                         foreach($marker_data as $line){
                             $data[] = $line;
                         }
-                        trace();
-                        ddd($data);
+                        $object->config('package.raxon/parse.build.state.is_raw', true);
                         continue;
 //                        $method = Php::method($object, $flags, $options, $marker_data, $before, $after) . ';';
 //                        $data[] = $method;
@@ -1513,14 +1512,20 @@ class Php {
                             $token = Token::tokenize($object, $flags, $options, substr($record['text'], 1, -1));
                             $token = Php::document_tag_prepare($object, $flags, $options, $token);
                             $embed = Php::document_tag($object, $flags, $options, $token);
+                            $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
 //                            d($embed);
                             if(property_exists($options, 'variable')){
-                                $data[] = $options->variable . '[] = \'"\';';
+                                if($is_raw !== true){
+                                    $data[] = $options->variable . '[] = \'"\';';
+                                }
                                 foreach($embed as $line){
                                     $data[] = $line;
                                 }
-                                $data[] = $options->variable . '[] = \'"\';';
+                                if($is_raw !== true) {
+                                    $data[] = $options->variable . '[] = \'"\';';
+                                }
                             }
+                            $object->config('delete', 'package.raxon/parse.build.state.is_raw');
                             if($variable_old){
                                 $data[] = $variable_old . '[] = implode(\'\', ' . $options->variable . ');';
                                 $options->variable = $variable_old;

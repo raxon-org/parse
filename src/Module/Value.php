@@ -256,10 +256,13 @@ class Value
                     }
                     $value = Value::basic($object, $flags, $options, $value);
                     $input['array'][$is_single_quoted] = $value;
+
                     if(!array_key_exists('execute', $value)){
                         ddd($value);
                     }
-                    $input['array'][$is_single_quoted]['value'] = '\'' . $value['execute'] . '\'';
+                    //maybe with value (whitespace we need double quote (\t\s))
+                    $value_current = $value['execute'] ?? $value['value'];
+                    $input['array'][$is_single_quoted]['value'] = '\'' . $value_current . '\'';
                     $input['array'][$is_single_quoted]['is_single_quoted'] = true;
                     for ($i = $is_single_quoted + 1; $i <= $nr; $i++) {
                         $input['array'][$i] = null;

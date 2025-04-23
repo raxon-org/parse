@@ -2015,6 +2015,7 @@ class Php {
                                 $argument_input['array'][] = $argument['array'][2];
                                 $foreach_value = Php::value($object, $flags, $options, $record, $argument_input, $is_set, $before_foreach_key, $after_foreach_key);
                                 $explode = explode(' = $data->get(', substr($before_foreach_key[0], 0, -2));
+                                d($explode);
                                 $inline_before[] = '$data->set(' . $explode[1] . ', ' . $explode[0] . ');';
                                 $value .= ' as ' . $foreach_value;
                                 $argument_input = [];

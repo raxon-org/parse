@@ -2973,6 +2973,7 @@ class Php {
                 $record['type'] === 'array'
             ){
                 $array_value = '';
+                ddd($record);
                 foreach($record['array'] as $array_record){
                     $array_input = [];
                     $array_input['string'] = $array_record['value'] ?? $array_record['execute'] ?? '';
@@ -3614,9 +3615,9 @@ class Php {
                 array_key_exists('is_multiline', $record) &&
                 $record['is_multiline'] === true
             ){
-                $before[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: ' . $source . '.\', 0, $exception);';
+                $before[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: ' . $source . '.\' . PHP_EOL . (string) $exception, 0, $exception);';
             } else {
-                $before[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag'])  . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.\', 0, $exception);';
+                $before[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag'])  . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.\' . PHP_EOL . (string) $exception, 0, $exception);';
             }
             $before[] = '}';
             if(array_key_exists(0, $argument)){

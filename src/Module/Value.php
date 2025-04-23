@@ -284,7 +284,7 @@ class Value
                                 array_key_exists('type', $item) &&
                                 $item['type'] === 'variable'
                             ){
-                                $value .= '$data->get(\'' . $item['name'] . '\');';
+                                $value .= '$data->get(\'' . $item['name'] . '\')';
                             } else {
                                 dd($item);
                             }

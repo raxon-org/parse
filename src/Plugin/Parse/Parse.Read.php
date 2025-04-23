@@ -27,10 +27,12 @@ trait Parse_Read {
                     $data = $this->storage();
                     $script = $data->data('script') ?? [];
                     $script_merge = $object->data('script') ?? [];
-                    $data->data('script', array_merge($script, $script_merge));
+                    $script_merge_read = $read->data('script') ?? [];
+                    $data->data('script', array_merge($script, $script_merge, $script_merge_read));
                     $link = $data->data('link') ?? [];
                     $link_merge = $object->data('link') ?? [];
-                    $data->data('link', array_merge($script, $script_merge));
+                    $link_merge_read = $read->data('link') ?? [];
+                    $data->data('link', array_merge($script, $script_merge, $link_merge_read));
                     d($data->data('script'));
                     d($read);
                     $data->data(Core::object_merge($data->data(), $read->data()));

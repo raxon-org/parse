@@ -8,8 +8,6 @@ trait Block_Html {
     #[Argument(apply: "literal", count: 1, index:1)]
     protected function block_html($value=null, string $name=''): string
     {
-        d($value);
-        d($name);
         $data = $this->storage();
         $search = [" ", "\t", "\n", "\r", "\r\n"];
         $replace = ['','','','',''];

@@ -18,10 +18,12 @@ trait Language {
         if($attribute === null){
             $language = $object->session('language');
             if($language === null){
-                $language = $object->session('language', $object->config('framework.default.language'));
+                $object->session('language', $object->config('framework.default.language'));
+                $language = $object->session('language');
             }
         } else {
-            $language = $object->session('language', $attribute);
+            $object->session('language', $attribute);
+            $language = $attribute;
         }
         return $language;
     }

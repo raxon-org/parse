@@ -2629,7 +2629,6 @@ class Php {
                 )
             ){
                 if(!in_array($use_plugin, $use, true)){
-                    d($use_plugin);
                     //pre scanning for the right exception
                     //this one breakpoint is wrong, it should not contain controller
                     $autoload = $object->data(App::AUTOLOAD_RAXON);

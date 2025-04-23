@@ -1225,12 +1225,37 @@ class Token
                                 array_shift($temp['array']);
                                 foreach($temp['array'] as $temp_nr => $char){
                                     $current = Token::item($temp, $temp_nr);
-                                    $name .= $current;
+                                    if(
+                                        !in_array(
+                                            $current,
+                                            [
+                                                '|'
+                                            ],
+                                            true
+                                        )
+                                    ){
+                                        $name .= $current;
+                                    } else {
+                                        break;
+                                    }
                                 }
                             } else {
                                 foreach($list['array'] as $temp_nr => $char){
                                     $current = Token::item($list, $temp_nr);
-                                    $name .= $current;
+                                    if(
+                                        !in_array(
+                                            $current,
+                                            [
+                                                '|'
+                                            ],
+                                            true
+                                        )
+                                    ){
+                                        $name .= $current;
+                                    } else {
+                                        break;
+                                    }
+
                                 }
                             }
                             if($name === ''){

@@ -2700,7 +2700,7 @@ class Php {
         $value = '';
         $skip = 0;
         $input = Php::value_set($object, $flags, $options, $input, $is_set);
-        $object->config('package.raxon/parse.build.state.value', $input['array']);
+        $object->config('package.raxon/parse.build.state.value', $input);
         foreach ($input['array'] as $nr => $record) {
             if($skip > 0){
                 $skip--;

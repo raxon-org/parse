@@ -194,6 +194,7 @@ class Value
                                 array_key_exists('type', $item) &&
                                 $item['type'] === 'variable'
                             ){
+                                d($item);
                                 $value .= '$data->get(\'' . $item['variable']['name'] . '\');';
                                 ddd($value);
                             }

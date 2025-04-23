@@ -35,7 +35,7 @@ trait Parse_Read {
                 try {
                     $data = $this->storage();
                     d($object->data('script'));
-                    ddd($read);
+                    d($read);
                     $data->data(Core::object_merge($data->data(), $read->data()));
                 } catch (ObjectException $e) {
                 }

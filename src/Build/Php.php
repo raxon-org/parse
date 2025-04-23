@@ -3164,7 +3164,7 @@ class Php {
                 break;
             case '-':
                 d($options);
-                d($value);
+                d($left);
                 ddd($right);
                 trace();
                 $value = '$this->value_minus(' . $left . ', ' . $right . ')';

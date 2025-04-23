@@ -33,10 +33,7 @@ trait Parse_Read {
                     $link_merge = $object->data('link') ?? [];
                     $link_merge_read = $read->data('link') ?? [];
                     $read->data('link', array_merge($link, $link_merge, $link_merge_read));
-                    d($data->data('script'));
-                    d($read);
                     $data->data(Core::object_merge($data->data(), $read->data()));
-                    ddd($data);
                 } catch (ObjectException $e) {
                 }
                 return $read->data();

@@ -163,14 +163,19 @@ class Value
                 if(
                     $char['value'] === '"' &&
                     $previous !== '\\' &&
-                    $is_double_quoted === false
+                    $is_double_quoted === false &&
+                    $is_single_quoted === false &&
+                    $is_double_quoted_backslash === false
                 ){
                     $is_double_quoted = $nr;
                 }
                 elseif(
                     $char['value'] === '"' &&
                     $previous !== '\\' &&
-                    $is_double_quoted !== false
+                    $is_double_quoted !== false &&
+                    $is_single_quoted === false &&
+                    $is_double_quoted_backslash === false
+
                 ){
                     $value = '';
                     for($i = $is_double_quoted + 1; $i < $nr; $i++){
@@ -219,10 +224,12 @@ class Value
                 elseif(
                     $char['value'] === '"' &&
                     $previous === '\\' &&
-                    $is_double_quoted_backslash !== false
+                    $is_double_quoted_backslash !== false &&
+                    $is_double_quoted === false &&
+                    $is_single_quoted === false
                 ){
                     $value = '';
-                    for($i = $is_double_quoted + 1; $i < $nr; $i++){
+                    for($i = $is_double_quoted_backslash + 1; $i < $nr; $i++){
                         $item = $input['array'][$i];
                         if(is_array($item)){
                             $value .= $item['value'];
@@ -243,14 +250,18 @@ class Value
                 elseif(
                     $char['value'] === '\'' &&
                     $previous !== '\\' &&
-                    $is_single_quoted === false
+                    $is_single_quoted === false &&
+                    $is_double_quoted === false &&
+                    $is_single_quoted_backslash === false
                 ){
                     $is_single_quoted = $nr;
                 }
                 elseif(
                     $char['value'] === '\'' &&
                     $previous !== '\\' &&
-                    $is_single_quoted !== false
+                    $is_single_quoted !== false &&
+                    $is_double_quoted === false &&
+                    $is_single_quoted_backslash === false
                 ){
                     $value = '';
                     for($i = $is_single_quoted + 1; $i < $nr; $i++){

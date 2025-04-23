@@ -3163,7 +3163,7 @@ class Php {
                 $value = '$this->value_plus(' . $left . ', ' . $right . ')';
                 break;
             case '-':
-                d($record);
+                d($options);
                 d($value);
                 ddd($right);
                 trace();

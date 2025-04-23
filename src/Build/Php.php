@@ -3162,6 +3162,7 @@ class Php {
                 $value = '$this->value_plus(' . $left . ', ' . $right . ')';
                 break;
             case '-':
+                trace();
                 $value = '$this->value_minus(' . $left . ', ' . $right . ')';
                 break;
             case '*':

@@ -2974,11 +2974,11 @@ class Php {
             ){
                 $array_value = '';
                 $array_array = $record['array'];
-                $start_tag = array_shift($array_array);
-                $end_tag = array_pop($array_array);
-                $array_key_value = [];
-                $array_record_key = [];
-                $array_record_value = [];
+                $start_tag = ['array' => [array_shift($array_array)]];
+                $end_tag = ['array' => [array_pop($array_array)]];
+                $array_key_value = ['array' => []];
+                $array_record_key = ['array' => []];
+                $array_record_value = ['array' => []];
                 $index = 0;
                 foreach($array_array as $array_nr => $array_record){
                     if(
@@ -2986,33 +2986,38 @@ class Php {
                         $array_record['value'] === '=>'
                     ){
                         $index++;
-                        $array_key_value[] = $array_record;
+                        $array_key_value['array'][] = $array_record;
                         continue;
                     }
                     elseif(
                         array_key_exists('value', $array_record) &&
                         $array_record['value'] === ','
                     ){
-                        d($array_record_key);
-                        ddd($array_record_value);
                         $index = 0;
-                        $array_key_value = [];
+                        $array_record_key = ['array' => []];
+                        $array_record_value = ['array' => []];
+                        $array_key_value = ['array' => []];
                     }
                     if($index === 0) {
-                        $array_record_key[] = $array_record;
+                        $array_record_key['array'][] = $array_record;
                     }
                     elseif($index === 1) {
-                        $array_record_value[] = $array_record;
+                        $array_record_value['array'][] = $array_record;
                     } else {
                         throw new Exception('=> to much...');
                     }
                 }
-                $array_value .= Php::value($object, $flags, $options, $record, $array_record_key, $is_set_array, $before, $after);
-                d($array_key_value);
-                d($array_record_key);
-                ddd($array_record_value);
-                d($start_tag);
-                ddd($end_tag);
+                $array_value .= Php::value($object, $flags, $options, $record, $start_tag, $is_set_array, $before, $after);
+                if(array_key_exists(0, $array_record_key['array'])){
+                    $array_value .= Php::value($object, $flags, $options, $record, $array_record_key, $is_set_array, $before, $after);
+                }
+                if(array_key_exists(0, $array_key_value['array'])){
+                    $array_value .= Php::value($object, $flags, $options, $record, $array_key_value, $is_set_array, $before, $after);
+                }
+                if(array_key_exists(0, $array_record_value['array'])){
+                    $array_value .= Php::value($object, $flags, $options, $record, $array_record_value, $is_set_array, $before, $after);
+                }
+                $array_value .= Php::value($object, $flags, $options, $record, $end_tag, $is_set_array, $before, $after);
                 /*
                 foreach($record['array'] as $array_record) {
                     if(!$start_tag) {

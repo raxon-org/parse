@@ -2824,7 +2824,6 @@ class Php {
                         $next = $input['array'][$nr + 1] ?? null;
                         $right = null;
                         if($next){
-                            d($next);
                             if(array_key_exists('is_single_quoted', $next)){
                                 $right = $next['value'];
                             }

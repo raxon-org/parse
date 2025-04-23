@@ -332,7 +332,8 @@ class Parse
                     }
                     $this->parse_set_options($options);
                 }
-                d($this->storage('script'));
+                $temp = $this->storage();
+                d($temp->get('script'));
                 $options->depth--;
 //                $object->config('package.raxon/parse.build.state.this.attribute', $attribute);
 //                $object->config('package.raxon/parse.build.state.this.property', $property);

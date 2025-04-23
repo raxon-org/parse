@@ -331,8 +331,8 @@ class Parse
                         unset($options->class);
                     }
                     $this->parse_set_options($options);
-                    d($this->storage());
                 }
+                d($this->storage());
                 $options->depth--;
 //                $object->config('package.raxon/parse.build.state.this.attribute', $attribute);
 //                $object->config('package.raxon/parse.build.state.this.property', $property);

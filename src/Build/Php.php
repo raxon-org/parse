@@ -2981,14 +2981,14 @@ class Php {
                 $index = 0;
                 foreach($array_array as $array_nr => $array_record){
                     if(
-                        array_key_exists('value', $record) &&
-                        $record['value'] === '=>'
+                        array_key_exists('value', $array_record) &&
+                        $array_record['value'] === '=>'
                     ){
                         $index++;
                     }
                     elseif(
-                        array_key_exists('value', $record) &&
-                        $record['value'] === ','
+                        array_key_exists('value', $array_record) &&
+                        $array_record['value'] === ','
                     ){
                         d($array_record_key);
                         ddd($array_record_value);

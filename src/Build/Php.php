@@ -620,6 +620,7 @@ class Php {
                     $record['capture_depth'] = $capture_depth;
                     $marker_name = mb_strtolower($record['marker']['name']);
                     if($marker_name === 'rax'){
+                        $object->config('package.raxon/parse.build.state.remove_newline_next', true);
                         continue;
                     }
                     if($marker_name === 'else'){

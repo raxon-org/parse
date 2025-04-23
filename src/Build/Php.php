@@ -2701,7 +2701,7 @@ class Php {
         $skip = 0;
         $input = Php::value_set($object, $flags, $options, $input, $is_set);
         $object->config('package.raxon/parse.build.state.value', $input);
-        $object->config('package.raxon/parse.build.state.trace', trace());
+        $object->config('package.raxon/parse.build.state.trace', trace(true));
         foreach ($input['array'] as $nr => $record) {
             if($skip > 0){
                 $skip--;

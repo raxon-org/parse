@@ -624,14 +624,13 @@ class Php {
                         continue;
                     }
                     elseif($marker_name === 'raw'){
-                        $marker_data = $record['marker']['value']['array'][2] ?? [];
-                        d($marker_data);
-                        $method = Php::method($object, $flags, $options, $marker_data, $before, $after) . '{';
-                        d($data);
-                        d($method);
-                        d($before);
-                        d($after);
-                        ddd($record);
+                        $marker_data = [];
+                        $marker_data[$record['line']] = [];
+                        $marker_data[$record['line']] = $record['marker']['value']['array'][2] ?? [];
+                        $marker_data = Php::document_tag($object, $flags, $options, $marker_data);
+                        ddd($marker_data);
+//                        $method = Php::method($object, $flags, $options, $marker_data, $before, $after) . ';';
+                        $data[] = $method;
                     }
                     elseif($marker_name === 'else'){
                         if($if_depth === 1) {

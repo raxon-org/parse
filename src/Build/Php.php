@@ -3775,6 +3775,7 @@ class Php {
                 }
             }
         } else {
+            d($record);
             $value = Php::value($object, $flags, $options, $record, $record['variable']['value'],$is_set, $before, $after);
         }
         if(array_key_exists('modifier', $record['variable'])){

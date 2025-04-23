@@ -2700,7 +2700,7 @@ class Php {
         $value = '';
         $skip = 0;
         $input = Php::value_set($object, $flags, $options, $input, $is_set);
-        d($input);
+        $object->config('package.raxon/parse.build.state.value', $input['array']);
         foreach ($input['array'] as $nr => $record) {
             if($skip > 0){
                 $skip--;
@@ -3164,6 +3164,7 @@ class Php {
                 $value = '$this->value_plus(' . $left . ', ' . $right . ')';
                 break;
             case '-':
+                d($object->config('package.raxon/parse.build.state.value'));
                 d($options);
                 d($left);
                 ddd($right);

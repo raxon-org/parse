@@ -285,6 +285,8 @@ class Value
                                 $item['type'] === 'variable'
                             ){
                                 $value .= '$data->get(\'' . $item['name'] . '\');';
+                            } else {
+                                dd($item);
                             }
                         } else {
                             $value .= $item;

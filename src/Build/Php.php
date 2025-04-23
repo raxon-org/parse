@@ -2513,7 +2513,6 @@ class Php {
     {
         $source = $options->source ?? '';
         $name_lowercase = mb_strtolower($name);
-        d($name_lowercase);
         $plugin_rename = $object->config('package.raxon/parse.plugin.rename');
         if(empty($plugin_rename)){
             throw new Exception('Invalid plugin rename configuration, please check your configuration file, try: app install raxon/parse -patch');
@@ -2536,7 +2535,6 @@ class Php {
         $plugin = str_replace('\\', '\\\\', $plugin);
         $plugin = str_replace($backslash_double, '\\\\', $plugin);
         $plugin = str_replace('\\\\', '_', $plugin);
-        d($plugin);
         $use = $object->config('package.raxon/parse.build.use.trait');
         $use_trait_function = $object->config('package.raxon/parse.build.use.trait_function');
         if(!$use){

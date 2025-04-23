@@ -26,17 +26,17 @@ trait Parse_Read {
                 try {
                     $data = $this->storage();
                     $script = $data->data('script') ?? [];
-                    $script_merge = $object->data('script') ?? [];
                     $script_merge_read = $read->data('script') ?? [];
-                    $read->data('script', array_merge($script, $script_merge, $script_merge_read));
+                    $script_merge = $object->data('script') ?? [];
+                    $read->data('script', array_merge($script, $script_merge_read, $script_merge));
                     $link = $data->data('link') ?? [];
-                    $link_merge = $object->data('link') ?? [];
                     $link_merge_read = $read->data('link') ?? [];
+                    $link_merge = $object->data('link') ?? [];
                     //check sorting order
                     d($script);
                     d($script_merge);
                     ddd($script_merge_read);
-                    $read->data('link', array_merge($link, $link_merge, $link_merge_read));
+                    $read->data('link', array_merge($link, $link_merge_read, $link_merge));
                     $data->data(Core::object_merge($data->data(), $read->data()));
                 } catch (ObjectException $e) {
                 }

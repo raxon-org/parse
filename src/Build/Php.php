@@ -2976,7 +2976,7 @@ class Php {
                 $array_array = $record['array'];
                 $start_tag = array_shift($array_array);
                 $end_tag = array_pop($array_array);
-                $array_key_value = false;
+                $array_key_value = [];
                 $array_record_key = [];
                 $array_record_value = [];
                 $index = 0;
@@ -2986,7 +2986,7 @@ class Php {
                         $array_record['value'] === '=>'
                     ){
                         $index++;
-                        $array_key_value = true;
+                        $array_key_value[] = $array_record;
                         continue;
                     }
                     elseif(
@@ -2996,7 +2996,7 @@ class Php {
                         d($array_record_key);
                         ddd($array_record_value);
                         $index = 0;
-                        $array_key_value = false;
+                        $array_key_value = [];
                     }
                     if($index === 0) {
                         $array_record_key[] = $array_record;
@@ -3007,6 +3007,7 @@ class Php {
                         throw new Exception('=> to much...');
                     }
                 }
+                $array_value .= Php::value($object, $flags, $options, $record, $array_record_key, $is_set_array, $before, $after);
                 d($array_key_value);
                 d($array_record_key);
                 ddd($array_record_value);

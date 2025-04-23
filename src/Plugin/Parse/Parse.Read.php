@@ -1,14 +1,5 @@
 <?php
 namespace Plugin;
-/**
- * @package Plugin
- * @author Remco van der Velde
- * @since 2025-02-15
- * @license MIT
- * @version 1.0
- * @changeLog
- *    - all
- */
 
 use Raxon\Module\Core;
 use Raxon\Module\File;
@@ -34,6 +25,7 @@ trait Parse_Read {
             if($read){
                 try {
                     $data = $this->storage();
+                    d($data->data('script'));
                     d($object->data('script'));
                     d($read);
                     $data->data(Core::object_merge($data->data(), $read->data()));

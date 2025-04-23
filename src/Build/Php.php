@@ -1496,7 +1496,7 @@ class Php {
                         ){
                             $variable_old = $options->variable ?? null;
                             $options->variable = Core::uuid_variable();
-
+                            $data[] = $options->variable . ' = [];';
                             $token = Token::tokenize($object, $flags, $options, substr($record['text'], 1, -1));
                             $token = Php::document_tag_prepare($object, $flags, $options, $token);
                             $embed = Php::document_tag($object, $flags, $options, $token);
@@ -1544,7 +1544,7 @@ class Php {
                         ){
                             $variable_old = $options->variable ?? null;
                             $options->variable = Core::uuid_variable();
-
+                            $data[] = $options->variable . ' = [];';
                             $token = Token::tokenize($object, $flags, $options, substr($record['text'], 2, -2));
                             $token = Php::document_tag_prepare($object, $flags, $options, $token);
                             $embed = Php::document_tag($object, $flags, $options, $token);

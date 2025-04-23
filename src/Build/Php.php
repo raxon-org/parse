@@ -624,9 +624,8 @@ class Php {
                         continue;
                     }
                     elseif($marker_name === 'raw'){
-                        $marker_data = [];
-                        $marker_data[$record['line']] = [];
-                        $marker_data[$record['line']][] = $record['marker']['value']['array'][2] ?? [];
+                        $marker_data = $record['marker']['value']['array'][2] ?? [];
+                        d($marker_data);
                         $data[] = Php::method($object, $flags, $options, $marker_data, $before, $after) . '{';
                         d($data);
                         d($before);

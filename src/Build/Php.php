@@ -626,8 +626,8 @@ class Php {
                     elseif($marker_name === 'raw'){
                         $marker_data = [];
                         ddd($record);
-                        $marker_data[$record['row_nr']] = [];
-                        $marker_data[$record['row_nr']][] = $record['marker']['value']['array'][2] ?? [];
+                        $marker_data[$record['line']] = [];
+                        $marker_data[$record['line']][] = $record['marker']['value']['array'][2] ?? [];
                         $data[] = Php::method($object, $flags, $options, $marker_data, $before, $after) . '{';
                         d($data);
                         d($before);

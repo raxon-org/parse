@@ -195,7 +195,7 @@ class Value
                                 $item['type'] === 'variable'
                             ){
                                 d($item);
-                                $value .= '$data->get(\'' . $item['variable']['name'] . '\');';
+                                $value .= '$data->get(\'' . $item['name'] . '\');';
                                 ddd($value);
                             }
                         } else {

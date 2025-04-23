@@ -1636,7 +1636,7 @@ class Php {
                             ) {
                                 $data[] = 'throw new TemplateException(\'Method argument error (' .
                                     str_replace(['\\','\''], ['\\\\', '\\\''],  $record['tag']) .
-                                    ')\' . PHP_EOL . $exception->getMessage() . PHP_EOL . \'On line: ' .
+                                    ')\' . PHP_EOL . (string) $exception . PHP_EOL . \'On line: ' .
                                     $record['line']['start'] .
                                     ', column: ' .
                                     $record['column'][$record['line']['start']]['start'] .
@@ -1646,7 +1646,7 @@ class Php {
                             } else {
                                 $data[] = 'throw new TemplateException(\'Method argument error (' .
                                     str_replace(['\\','\''], ['\\\\', '\\\''],  $record['tag']) .
-                                    ')\' . PHP_EOL . $exception->getMessage() . PHP_EOL . \'On line: ' .
+                                    ')\' . PHP_EOL . (string) $exception . PHP_EOL . \'On line: ' .
                                     $record['line'] .
                                     ', column: ' .
                                     $record['column']['start'] .
@@ -1669,7 +1669,7 @@ class Php {
                             ) {
                                 $data[] = 'throw new TemplateException(\'Method error (' .
                                     str_replace(['\\','\''], ['\\\\', '\\\''],  $record['tag']) .
-                                    ')\' . PHP_EOL . $exception->getMessage() . PHP_EOL . \'On line: ' .
+                                    ')\' . PHP_EOL . (string) $exception . PHP_EOL . \'On line: ' .
                                     $record['line']['start'] .
                                     ', column: ' .
                                     $record['column'][$record['line']['start']]['start'] .
@@ -1679,7 +1679,7 @@ class Php {
                             } else {
                                 $data[] = 'throw new TemplateException(\'Method error (' .
                                     str_replace(['\\','\''], ['\\\\', '\\\''],  $record['tag']) .
-                                    ')\' . PHP_EOL . $exception->getMessage() . PHP_EOL . \'On line: ' .
+                                    ')\' . PHP_EOL . (string) $exception . PHP_EOL . \'On line: ' .
                                     $record['line'] .
                                     ', column: ' .
                                     $record['column']['start'] .
@@ -3808,9 +3808,9 @@ class Php {
                                 array_key_exists('is_multiline', $record) &&
                                 $record['is_multiline'] === true
                             ){
-                                $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '\' . PHP_EOL . $exception->getMessage(), 0, $exception);';
+                                $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '\' . PHP_EOL . (string) $exception, 0, $exception);';
                             } else {
-                                $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\' . PHP_EOL . $exception->getMessage(), 0, $exception);';
+                                $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\' . PHP_EOL . (string) $exception, 0, $exception);';
                             }
                             $result[] = '}';
                         }

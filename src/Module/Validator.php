@@ -87,10 +87,8 @@ class Validator
                 }
                 $notification = implode('', $notification);
                 //don't need $output
-                breakpoint('Validator exception');
                 throw new Exception($notification . PHP_EOL . 'Temp-file: ' . $url);
             }
-            breakpoint('Validator exception');
             throw new Exception($output);
         }
     }

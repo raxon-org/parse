@@ -201,7 +201,6 @@ class Value
                         $input['array'][$i] = null;
                     }
                     $is_double_quoted = false;
-                    ddd($input);
                 }
                 elseif(
                     $char['value'] === '"' &&

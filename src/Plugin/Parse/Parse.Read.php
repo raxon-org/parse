@@ -37,14 +37,15 @@ trait Parse_Read {
                     $script_merge = $read->data('script') ?? [];
                     if(array_key_exists(0, $script_merge)){
                         $script = array_merge($script, $script_merge);
-                        $this->data('script', $script);
+                        $object->data('script', $script);
                     }
                     $link = $object->data('link') ?? [];
                     $link_merge = $read->data('link') ?? [];
                     if(array_key_exists(0, $link_merge)){
                         $link = array_merge($link, $link_merge);
-                        $this->data('link', $link);
+                        $object->data('link', $link);
                     }
+                    $this->data($object->data());
                 } catch (ObjectException $e) {
                 }
                 return $read->data();

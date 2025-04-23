@@ -256,7 +256,12 @@ class Value
                     for($i = $is_single_quoted + 1; $i < $nr; $i++){
                         $item = $input['array'][$i];
                         if(is_array($item)){
-                            $value .= $item['value'];
+                            if(array_key_exists('value', $item)){
+                                $value .= $item['value'];
+                            } else {
+                               ddd($item);
+                            }
+
                         } else {
                             $value .= $item;
                         }

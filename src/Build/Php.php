@@ -2917,9 +2917,6 @@ class Php {
                                 ddd($next);
                             }
                             $skip++;
-                            d($record);
-                            d($value);
-                            d($right);
                             $value = Php::value_calculate($object, $flags, $options, $record['value'], $value, $right);
                         }
                         break;
@@ -3166,6 +3163,9 @@ class Php {
                 $value = '$this->value_plus(' . $left . ', ' . $right . ')';
                 break;
             case '-':
+                d($record);
+                d($value);
+                ddd($right);
                 trace();
                 $value = '$this->value_minus(' . $left . ', ' . $right . ')';
                 break;

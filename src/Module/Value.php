@@ -186,8 +186,10 @@ class Value
                                     $value .= $argument['string'];
                                 }
                                 $value .= ')';
-                            } else {
+                            } elseif(array_key_exists('value', $item)) {
                                 $value .= $item['value'];
+                            } else {
+                                ddd($item);
                             }
                         } else {
                             $value .= $item;

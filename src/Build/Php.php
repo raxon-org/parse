@@ -1617,7 +1617,7 @@ class Php {
                             array_key_exists('is_assign', $record['variable']) &&
                             $record['variable']['is_assign'] === true
                         ){
-                            d($record);
+//                            d($record);
                             $variable = Php::variable_assign($object, $flags, $options, $record);
                             if($variable){
                                 $data[] = $variable;
@@ -3813,6 +3813,7 @@ class Php {
         ){
             $result = $before;
             $result_validator = $before;
+            d($value);
             if($value !== ''){
                 if($try_catch !== false){
                     $result[] = 'try {';

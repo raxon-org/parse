@@ -3054,6 +3054,11 @@ class Php {
                 //remove next newline
                 $object->config('package.raxon/parse.build.state.remove_newline_next', true);
             }
+            elseif(array_key_exists('type', $record) &&
+                $record['type'] === 'cast'
+            ){
+                $value .= ' (' . $record['value'] . ') ';
+            }
             else {
                 d('not implemented');
                 ddd($record);

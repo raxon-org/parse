@@ -456,7 +456,7 @@ class Parse
             $post_require = microtime(true);
             $run_options = clone $options;
             $run = $options->namespace . '\\' . $options->class;
-            d($data);
+//            d($data);
             d($data->get('script'));
             trace();
             $main = new $run($object, $this, $data, $flags, $options);

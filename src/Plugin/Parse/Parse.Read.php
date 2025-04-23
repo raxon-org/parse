@@ -25,6 +25,7 @@ trait Parse_Read {
             if($read){
                 try {
                     /**
+                     * $script sorting order:
                      * $script, already available script
                      * $script_merge_read, from reading the script property
                      * $script_merge, from the object (result after parsing the url (template / require inside))
@@ -37,11 +38,6 @@ trait Parse_Read {
                     $link = $data->data('link') ?? [];
                     $link_merge_read = $read->data('link') ?? [];
                     $link_merge = $object->data('link') ?? [];
-                    //check sorting order
-                    d($script);
-                    d($script_merge_read);
-                    ddd($script_merge);
-
                     $read->data('link', array_merge($link, $link_merge_read, $link_merge));
                     $data->data(Core::object_merge($data->data(), $read->data()));
                 } catch (ObjectException $e) {

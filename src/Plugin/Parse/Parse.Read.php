@@ -24,6 +24,11 @@ trait Parse_Read {
             }
             if($read){
                 try {
+                    /**
+                     * $script, already available script
+                     * $script_merge_read, from reading the script property
+                     * $script_merge, from the object (result after parsing the url)
+                     */
                     $data = $this->storage();
                     $script = $data->data('script') ?? [];
                     $script_merge_read = $read->data('script') ?? [];

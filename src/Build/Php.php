@@ -854,7 +854,6 @@ class Php {
                             foreach($foreach_content as $line){
                                 $foreach_data[] = $line;
                             }
-                            d($foreach_data);
                             if(!empty($inline_after)){
                                 foreach($inline_after as $line){
                                     $foreach_data[] = $line;

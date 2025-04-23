@@ -2240,31 +2240,6 @@ class Php {
             } else {
                 $plugin = Php::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
                 $method_value = $plugin . '(';
-                /*
-                $reflection = new ReflectionMethod(
-                    $object->config('package.raxon/parse.build.state.plugin.trait'),
-                    $object->config('package.raxon/parse.build.state.plugin.function')
-                );
-                $attributes = $reflection->getAttributes();
-                $argument_attribute = false;
-                foreach($attributes as $attribute_nr => $attribute){
-                    $instance = $attribute->newInstance();
-                    $instance->class = get_class($instance);
-                    if($instance->class === 'Raxon\\Parse\\Attribute\\Argument'){
-                        $argument_attribute = $instance;
-                    }
-                    $attributes[$attribute_nr] = $instance;
-                }
-                d($argument_attribute);
-                d($attributes);
-
-//                d($object->config('package.raxon/parse.build.state.plugin.trait'));
-//                d($object->config('package.raxon/parse.build.state.plugin.function'));
-//                d($plugin);
-
-//                $reflection = new ReflectionObject(new $entityName());
-//                $properties = $reflection->getProperties();
-*/
                 $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
                 $method_value .= ')';
                 return $method_value;
@@ -3717,6 +3692,7 @@ class Php {
                 }
             }
         } else {
+            d($record);
             $value = Php::value($object, $flags, $options, $record, $record['variable']['value'],$is_set, $before, $after);
         }
         if(array_key_exists('modifier', $record['variable'])){

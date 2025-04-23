@@ -623,7 +623,7 @@ class Php {
                         $object->config('package.raxon/parse.build.state.remove_newline_next', true);
                         continue;
                     }
-                    elseif($marker_name === 'raw|'){
+                    elseif($marker_name === 'raw'){
                         ddd($record);
                     }
                     elseif($marker_name === 'else'){

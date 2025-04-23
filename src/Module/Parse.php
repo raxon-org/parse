@@ -457,13 +457,13 @@ class Parse
             $run_options = clone $options;
             $run = $options->namespace . '\\' . $options->class;
 //            d($data);
-            d($data->get('script'));
-            trace();
+//            d($data->get('script'));
+//            trace();
             $main = new $run($object, $this, $data, $flags, $options);
             $result = $main->run();
-            d($url_php);
-            d($data->get('script'));
-            d($this->data()->get('script'));
+//            d($url_php);
+//            d($data->get('script'));
+//            d($this->data()->get('script'));
             if(property_exists($options, 'duration')){
                 $microtime = microtime(true);
                 $duration_require = round(($post_require - $pre_require) * 1000, 2) . ' ms';

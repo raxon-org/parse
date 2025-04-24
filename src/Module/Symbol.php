@@ -49,7 +49,7 @@ class Symbol
                 $previous !== '\\' &&
                 $is_single_quote === false &&
                 $is_double_quote === false &&
-                $is_double_quote_backslash === false;
+                $is_double_quote_backslash === false
             ){
                 $is_single_quote = $nr;
                 continue;

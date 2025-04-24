@@ -20,6 +20,7 @@ class Symbol
         $previous_nr = false;
         $is_single_quote = false;
         $is_double_quote = false;
+        $is_double_quote_backslash = false;
         if(is_int($input['array'])){
             trace();
             ddd($input);
@@ -44,20 +45,34 @@ class Symbol
             }
             if(
                 $char === '\'' &&
+                $previous !== '\\' &&
                 $is_single_quote === false &&
                 $is_double_quote === false
             ){
-                $is_single_quote = true;
+                $is_single_quote = $nr;
             }
             elseif(
                 $char === '\'' &&
-                $is_single_quote === true &&
+                $previous !== '\\' &&
+                $is_single_quote !== false &&
                 $is_double_quote === false
             ){
+                $string = '';
+                for($i = $is_single_quote; $i <= $nr; $i++){
+                    $string .= $input['array'][$i];
+                    $input['array'][$i] = null;
+                }
+                $input['array'][$is_single_quote] = [
+                    'type' => 'string',
+                    'value' => $string,
+                    'execute' => substr($string, 1, -1),
+                    'is_single_quoted' => true
+                ];
                 $is_single_quote = false;
             }
             elseif(
                 $char === '"' &&
+                $previous !== '\\' &&
                 $is_single_quote === false &&
                 $is_double_quote === false
             ){
@@ -65,16 +80,57 @@ class Symbol
             }
             elseif(
                 $char === '"' &&
+                $previous !== '\\' &&
                 $is_single_quote === false &&
                 $is_double_quote !== false
             ){
+                $string = '';
+                for($i = $is_double_quote; $i <= $nr; $i++){
+                    $string .= $input['array'][$i];
+                    $input['array'][$i] = null;
+                }
+                $input['array'][$is_double_quote] = [
+                    'type' => 'string',
+                    'value' => $string,
+                    'execute' => substr($string, 1, -1),
+                    'is_double_quoted' => true
+                ];
                 $is_double_quote = false;
+            }
+            elseif(
+                $char === '"' &&
+                $previous === '\\' &&
+                $is_single_quote === false &&
+                $is_double_quote === false
+            ){
+                $is_double_quote_backslash = $nr;
+            }
+            elseif(
+                $char === '"' &&
+                $previous === '\\' &&
+                $is_single_quote === false &&
+                $is_double_quote_backslash !== false
+            ){
+                $string = '';
+                for($i = $is_double_quote_backslash; $i <= $nr; $i++){
+                    $string .= $input['array'][$i];
+                    $input['array'][$i] = null;
+                }
+                $input['array'][$is_double_quote_backslash] = [
+                    'type' => 'string',
+                    'value' => $string,
+                    'execute' => substr($string, 2, -2),
+                    'is_double_quoted' => true,
+                    'is_backslash' => true
+                ];
+                $is_double_quote_backslash = false;
             }
             if(
                 (
                     (
                         $is_single_quote === false &&
-                        $is_double_quote === false
+                        $is_double_quote === false &&
+                        $is_double_quote_backslash === false
                     )
                      ||
                     (

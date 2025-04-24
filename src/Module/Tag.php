@@ -491,7 +491,7 @@ class Tag
                     }
                     continue;
                 }
-                elseif($curly_count === 0 && $next_next === null){
+                elseif($curly_count === 0){
                     $skip++;
                     continue;
                 }

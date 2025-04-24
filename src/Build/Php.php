@@ -844,30 +844,31 @@ class Php {
                             }
                             if(!empty($before)){
                                 foreach($before as $line){
-                                    $foreach_before[] = $line;
+                                    $foreach_before[] = str_replace($separator, ';', $line);
                                 }
                                 $before = [];
                             }
                             if(!empty($after)){
                                 foreach($after as $line){
-                                    $foreach_after[] = $line;
+                                    $foreach_after[] = str_replace($separator, ';', $line);
                                 }
                                 $before = [];
                             }
                             $object->config('package.raxon/parse.build.state.remove_newline_next', true);
                             if(!empty($inline_before)){
                                 foreach($inline_before as $line){
-                                    $foreach_data[] = $line;
+                                    $foreach_data[] = str_replace($separator, ';', $line);
                                 }
                                 $inline_before = [];
                             }
                             $foreach_content = PHP::document_tag($object, $flags, $options, $content[$category]['content']);
+                            $separator = $object->config('package.raxon/parse.build.state.separator');
                             foreach($foreach_content as $line){
-                                $foreach_data[] = $line;
+                                $foreach_data[] = str_replace($separator,';', $line);
                             }
                             if(!empty($inline_after)){
                                 foreach($inline_after as $line){
-                                    $foreach_data[] = $line;
+                                    $foreach_data[] = str_replace($separator, ';', $line);
                                 }
                                 $inline_after = [];
                             }

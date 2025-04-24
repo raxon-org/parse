@@ -26,6 +26,7 @@ class Symbol
             ddd($input);
         }
         $skip = 0;
+        breakpoint($input);
         foreach($input['array'] as $nr => $char){
             $previous_nr = $nr - 1;
             if($previous_nr < 0){
@@ -47,15 +48,18 @@ class Symbol
                 $char === '\'' &&
                 $previous !== '\\' &&
                 $is_single_quote === false &&
-                $is_double_quote === false
+                $is_double_quote === false &&
+                $is_double_quote_backslash === false;
             ){
                 $is_single_quote = $nr;
+                continue;
             }
             elseif(
                 $char === '\'' &&
                 $previous !== '\\' &&
                 $is_single_quote !== false &&
-                $is_double_quote === false
+                $is_double_quote === false &&
+                $is_double_quote_backslash === false
             ){
                 $string = '';
                 for($i = $is_single_quote; $i <= $nr; $i++){
@@ -77,6 +81,7 @@ class Symbol
                 $is_double_quote === false
             ){
                 $is_double_quote = $nr;
+                continue;
             }
             elseif(
                 $char === '"' &&
@@ -100,10 +105,10 @@ class Symbol
             elseif(
                 $char === '"' &&
                 $previous === '\\' &&
-                $is_single_quote === false &&
-                $is_double_quote === false
+                $is_single_quote === false
             ){
                 $is_double_quote_backslash = $nr;
+                continue;
             }
             elseif(
                 $char === '"' &&

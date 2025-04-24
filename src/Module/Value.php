@@ -209,7 +209,7 @@ class Value
                     $input['array'][$is_double_quoted] = $value;
                     $input['array'][$is_double_quoted]['value'] = '"' . $value['execute'] . '"';
                     $input['array'][$is_double_quoted]['is_double_quoted'] = true;
-                    for ($i = $is_single_quoted + 1; $i <= $nr; $i++) {
+                    for ($i = $is_double_quoted + 1; $i <= $nr; $i++) {
                         $input['array'][$i] = null;
                     }
                     $is_double_quoted = false;

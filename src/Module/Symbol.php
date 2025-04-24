@@ -19,6 +19,7 @@ class Symbol
         }
         $previous_nr = false;
         $is_single_quote = false;
+        $is_double_quote = false;
         if(is_int($input['array'])){
             trace();
             ddd($input);
@@ -43,19 +44,39 @@ class Symbol
             }
             if(
                 $char === '\'' &&
-                $is_single_quote === false
+                $is_single_quote === false &&
+                $is_double_quote === false
             ){
                 $is_single_quote = true;
             }
             elseif(
                 $char === '\'' &&
-                $is_single_quote === true
+                $is_single_quote === true &&
+                $is_double_quote === false
             ){
                 $is_single_quote = false;
             }
+            elseif(
+                $char === '"' &&
+                $is_single_quote === false &&
+                $is_double_quote === false
+            ){
+                $is_double_quote = true;
+            }
+            elseif(
+                $char === '"' &&
+                $is_single_quote === false &&
+                $is_double_quote === true
+            ){
+                $is_double_quote = false;
+            }
             if(
                 (
-                    $is_single_quote === false ||
+                    (
+                        $is_single_quote === false &&
+                        $is_double_quote === false
+                    )
+                     ||
                     (
                         $char === '\'' &&
                         $is_single_quote === true

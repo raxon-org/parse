@@ -62,7 +62,10 @@ class Validator
 //        $init = $object->config('core.execute.stream.init');
 //        $object->config('core.execute.stream.init', true);
         // Use PHP's built-in syntax checker
-        Core::execute($object, 'php -l ' . escapeshellarg($url), $output, $notification);
+        $notification = '';
+        exec('php -l ' . escapeshellarg($url), $output, $return_var);
+        d($output);
+//        Core::execute($object, 'php -l ' . escapeshellarg($url), $output, $notification);
 //        if($init){
 //            $object->config('core.execute.stream.init', $init);
 //        } else {

@@ -26,7 +26,6 @@ class Symbol
             ddd($input);
         }
         $skip = 0;
-        breakpoint($input);
         foreach($input['array'] as $nr => $char){
             $previous_nr = $nr - 1;
             if($previous_nr < 0){
@@ -290,7 +289,6 @@ class Symbol
                 }
             }
         }
-        d($input);
         return $input;
     }
 }

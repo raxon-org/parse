@@ -29,6 +29,7 @@ trait Parse_String {
         }
         $options = $parse->parse_options();
         $old_source = $options->source ?? null;
+        d($mixed);
         $hash = hash('sha256', Core::object($mixed, Core::JSON_LINE));
         $options->source = 'Internal_' . $hash;
         $parse->parse_options($options);

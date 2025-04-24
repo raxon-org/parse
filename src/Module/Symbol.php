@@ -73,6 +73,7 @@ class Symbol
                     'is_single_quoted' => true
                 ];
                 $is_single_quote = false;
+                continue;
             }
             elseif(
                 $char === '"' &&
@@ -101,6 +102,7 @@ class Symbol
                     'is_double_quoted' => true
                 ];
                 $is_double_quote = false;
+                continue;
             }
             elseif(
                 $char === '"' &&
@@ -129,6 +131,7 @@ class Symbol
                     'is_backslash' => true
                 ];
                 $is_double_quote_backslash = false;
+                continue;
             }
             if(
                 (

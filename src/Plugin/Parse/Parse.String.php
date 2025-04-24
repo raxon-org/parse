@@ -29,7 +29,6 @@ trait Parse_String {
         }
         $options = $parse->parse_options();
         $old_source = $options->source ?? null;
-        d($mixed);
         if(is_scalar($mixed) || is_null($mixed)){
             $hash = hash('sha256', 'parse_string_' . $mixed);
         } else {

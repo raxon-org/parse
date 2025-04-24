@@ -161,7 +161,7 @@ trait Plugin_require {
             $flags = App::flags($object);
             $options = (object) [];
             $options->source = $url;
-            d($data->data());
+//            d($data->data());
             $parser = new Parse($object, $data, $flags, $options);
             $compile = $parser->compile($read, $data);
             $data->data('raxon.org.parse.view.source.url', $source);

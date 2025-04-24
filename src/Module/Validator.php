@@ -72,7 +72,7 @@ class Validator
         if (strpos($output, 'No syntax errors detected') !== false) {
             return true;
         } else {
-            if($notification !== ''){
+            if($notification !== '') {
                 $notification = str_replace(
                     [
                         $url,
@@ -83,13 +83,14 @@ class Validator
                         'Raxon Parse'
                     ], $notification);
                 $notification = explode('on line', $notification);
-                if(array_key_exists(1, $notification)){
+                if (array_key_exists(1, $notification)) {
                     array_pop($notification);
                 }
                 $notification = implode('', $notification);
                 //don't need $output
                 throw new Exception($notification . PHP_EOL . 'Temp-file: ' . $url);
             }
+            ddd($output);
             throw new Exception($output);
         }
     }

@@ -2911,8 +2911,7 @@ class Php {
                                 ){
                                     $right = $next['value'];
                                 } else {
-                                    d('unimplemented');
-                                    ddd($next);
+                                    $right = $next['value'];
                                 }
                             }
                             else {

@@ -695,8 +695,6 @@ class Php {
                                         }
                                         $object->config('package.raxon/parse.build.state.remove_newline_next', true);
                                         $if_content = Php::document_tag($object, $flags, $options, $elseif['content']);
-                                        d($elseif['content']);
-                                        d($if_content);
                                         foreach($if_content as $line){
                                             $if_data[] = $line;
                                         }

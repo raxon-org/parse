@@ -3085,6 +3085,10 @@ class Php {
         }
         $count = count($input['array']);
         $first = reset($input['array']);
+        if(!is_array($first)){
+            trace();
+            ddd($input);
+        }
         if(
             $first !== false &&
             array_key_exists('value', $first) &&

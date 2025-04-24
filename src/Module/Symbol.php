@@ -61,12 +61,12 @@ class Symbol
                 $is_single_quote === false &&
                 $is_double_quote === false
             ){
-                $is_double_quote = true;
+                $is_double_quote = $nr;
             }
             elseif(
                 $char === '"' &&
                 $is_single_quote === false &&
-                $is_double_quote === true
+                $is_double_quote !== false
             ){
                 $is_double_quote = false;
             }
@@ -226,6 +226,7 @@ class Symbol
                 }
             }
         }
+        d($input);
         return $input;
     }
 }

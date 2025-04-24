@@ -66,7 +66,6 @@ class Validator
         exec('php -l ' . escapeshellarg($url), $output, $return_var);
         $output = implode(PHP_EOL, $output);
         $notification = $output;
-        d($output);
 //        Core::execute($object, 'php -l ' . escapeshellarg($url), $output, $notification);
 //        if($init){
 //            $object->config('core.execute.stream.init', $init);

@@ -493,6 +493,17 @@ class Tag
                 }
                 elseif($curly_count === 0){
                     $skip++;
+                    if(
+                        in_array(
+                            $next_next ,
+                            [
+                                "\n"
+                            ],
+                            true
+                        )
+                    ){
+                        $skip++;
+                    }
                     continue;
                 }
             }

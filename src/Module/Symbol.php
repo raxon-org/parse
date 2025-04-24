@@ -143,7 +143,7 @@ class Symbol
                      ||
                     (
                         $char === '\'' &&
-                        $is_single_quote === true
+                        $is_single_quote !== false
                     )
                 )
                 &&

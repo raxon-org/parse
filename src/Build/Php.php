@@ -2552,6 +2552,7 @@ class Php {
                 '\\'
             ;
             $explode = explode(':', $explode[1], 2);
+            $use_plugin = null;
             if(array_key_exists(1, $explode)){
                 $trait_name = $explode[0];
                 $trait_function = $explode[1];

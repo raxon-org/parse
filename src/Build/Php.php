@@ -3382,10 +3382,11 @@ class Php {
                     $value = '(' . $record['variable']['cast'] . ') ' . $value;
                 }
             }
+            $separator = $object->config('package.raxon/parse.build.state.separator');
             $data = [];
             $data[] = 'try {';
             foreach($before as $line){
-                $data[] = $line;
+                $data[] = str_replace($separator, ';', $line);
             }
             $before = [];
             $data[] = $variable_uuid . ' = ' . $is_not . $value . ';';

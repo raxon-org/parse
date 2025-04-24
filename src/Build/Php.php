@@ -3470,8 +3470,9 @@ class Php {
                 $data[] = 'try {';
                 $array_notation = Php::value($object, $flags, $options, $record, $record['variable']['array_notation'], $is_set, $before, $after);
                 $variable_value = '$data->get(\'' . $record['variable']['name'] . '\')' .  $array_notation;
+                $separator = $object->config('package.raxon/parse.build.state.separator');
                 foreach($before as $line){
-                    $data[] = $line;
+                    $data[] = str_replace($separator, ';', $line);
                 }
                 $before = [];
                 $data[] = $variable_uuid . ' = ' . $is_not . $cast . $variable_value . ';';
@@ -3824,9 +3825,10 @@ class Php {
 //            d($value);
             if($value !== ''){
                 if($try_catch !== false){
+                    $separator = $object->config('package.raxon/parse.build.state.separator');
                     $result[] = 'try {';
                     foreach($before_value as $before_record){
-                        $result[] = $before_record;
+                        $result[] = str_replace($separator, ';', $before_record);
                     }
                 }
                 switch($operator){

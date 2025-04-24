@@ -58,15 +58,16 @@ class Validator
         if(File::exist($url) === false){
             File::write($url, '<?php ' . PHP_EOL . $string . PHP_EOL);
         }
-        $init = $object->config('core.execute.stream.init');
-        $object->config('core.execute.stream.init', true);
+        //bug in stream: ErrorException: fwrite(): Write of 44532 bytes failed with errno=32 Broken pipe in
+//        $init = $object->config('core.execute.stream.init');
+//        $object->config('core.execute.stream.init', true);
         // Use PHP's built-in syntax checker
         Core::execute($object, 'php -l ' . escapeshellarg($url), $output, $notification);
-        if($init){
-            $object->config('core.execute.stream.init', $init);
-        } else {
-            $object->config('delete', 'core.execute.stream.init');
-        }
+//        if($init){
+//            $object->config('core.execute.stream.init', $init);
+//        } else {
+//            $object->config('delete', 'core.execute.stream.init');
+//        }
         // Check the output to see if any syntax errors were found
         if (strpos($output, 'No syntax errors detected') !== false) {
             return true;

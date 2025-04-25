@@ -1853,7 +1853,7 @@ class Php {
             $text = str_replace($ampersand_uuid, '&', $text);
             $text = str_replace($double_quote_uuid, '"', $text);
             $text = str_replace($single_quote_uuid, '\'', $text);
-            return $record['text'];
+            return$text;
         }
         return false;
     }

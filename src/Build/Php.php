@@ -1514,7 +1514,7 @@ class Php {
                             $text = $record['text'];
                             $text = str_replace('\\&', $ampersand_uuid, $text);
                             $text = str_replace('&quot;', $double_quote_uuid, $text);
-                            $text = str_replace('&pos;', $single_quote_uuid, $text);
+                            $text = str_replace('&apos;', $single_quote_uuid, $text);
                             $token = Token::tokenize($object, $flags, $options, substr($text, 1, -1));
                             $token = Php::document_tag_prepare($object, $flags, $options, $token);
                             $embed = Php::document_tag($object, $flags, $options, $token);
@@ -1574,7 +1574,7 @@ class Php {
                             $data[] = $options->variable . ' = [];';
                             $text = str_replace('\\&', $ampersand_uuid, $text);
                             $text = str_replace('&quot;', $double_quote_uuid, $text);
-                            $text = str_replace('&pos;', $single_quote_uuid, $text);
+                            $text = str_replace('&apos;', $single_quote_uuid, $text);
                             $token = Token::tokenize($object, $flags, $options, substr($record['text'], 2, -2));
                             $token = Php::document_tag_prepare($object, $flags, $options, $token);
                             $embed = Php::document_tag($object, $flags, $options, $token);
@@ -1849,7 +1849,7 @@ class Php {
             $single_quote_uuid = Core::uuid_variable();
             $text = str_replace('\\&', $ampersand_uuid, $text);
             $text = str_replace('&quot;', $double_quote_uuid, $text);
-            $text = str_replace('&pos;', $single_quote_uuid, $text);
+            $text = str_replace('&apos;', $single_quote_uuid, $text);
             $text = str_replace($ampersand_uuid, '&', $text);
             $text = str_replace($double_quote_uuid, '"', $text);
             $text = str_replace($single_quote_uuid, '\'', $text);

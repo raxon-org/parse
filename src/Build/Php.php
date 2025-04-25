@@ -3023,6 +3023,7 @@ class Php {
                 $record['type'] === 'array'
             ){
                 $array_value = '';
+                d($record);
                 $array_array = $record['array'];
                 $start_tag = ['array' => [array_shift($array_array)]];
                 $end_tag = ['array' => [array_pop($array_array)]];
@@ -3030,6 +3031,7 @@ class Php {
                 $array_record_key = ['array' => []];
                 $array_record_value = ['array' => []];
                 $index = 0;
+                d($array_array);
                 foreach($array_array as $array_nr => $array_record){
                     if(
                         array_key_exists('value', $array_record) &&

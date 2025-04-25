@@ -3032,6 +3032,7 @@ class Php {
                 $array_record_value = ['array' => []];
                 $index = 0;
                 d($array_array);
+                $array_value .= Php::value($object, $flags, $options, $record, $start_tag, $is_set_array, $before, $after);
                 foreach($array_array as $array_nr => $array_record){
                     if(
                         array_key_exists('value', $array_record) &&
@@ -3045,6 +3046,15 @@ class Php {
                         array_key_exists('value', $array_record) &&
                         $array_record['value'] === ','
                     ){
+                        if(array_key_exists(0, $array_record_key['array'])){
+                            $array_value .= Php::value($object, $flags, $options, $record, $array_record_key, $is_set_array, $before, $after);
+                        }
+                        if(array_key_exists(0, $array_key_value['array'])){
+                            $array_value .= Php::value($object, $flags, $options, $record, $array_key_value, $is_set_array, $before, $after);
+                        }
+                        if(array_key_exists(0, $array_record_value['array'])){
+                            $array_value .= Php::value($object, $flags, $options, $record, $array_record_value, $is_set_array, $before, $after);
+                        }
                         $index = 0;
                         $array_record_key = ['array' => []];
                         $array_record_value = ['array' => []];
@@ -3059,7 +3069,6 @@ class Php {
                         throw new Exception('=> to much...');
                     }
                 }
-                $array_value .= Php::value($object, $flags, $options, $record, $start_tag, $is_set_array, $before, $after);
                 if(array_key_exists(0, $array_record_key['array'])){
                     $array_value .= Php::value($object, $flags, $options, $record, $array_record_key, $is_set_array, $before, $after);
                 }

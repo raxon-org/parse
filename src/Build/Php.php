@@ -4125,6 +4125,7 @@ class Php {
                     throw new TemplateException($record['tag'] . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.' . PHP_EOL . (string) $exception, 0, $exception);
                 }
             }
+            $object->config('package.raxon/parse.build.state.remove_newline_next', true);
             return $result;
         }
         return false;

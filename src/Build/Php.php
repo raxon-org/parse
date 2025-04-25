@@ -1843,6 +1843,16 @@ class Php {
             }
             */
             //might need to remove // /* /**    **/  */
+            $text = $record['text'];
+            $ampersand_uuid = Core::uuid_variable();
+            $double_quote_uuid = Core::uuid_variable();
+            $single_quote_uuid = Core::uuid_variable();
+            $text = str_replace('\\&', $ampersand_uuid, $text);
+            $text = str_replace('&quot;', $double_quote_uuid, $text);
+            $text = str_replace('&pos;', $single_quote_uuid, $text);
+            $text = str_replace($ampersand_uuid, '&', $text);
+            $text = str_replace($double_quote_uuid, '"', $text);
+            $text = str_replace($single_quote_uuid, '\'', $text);
             return $record['text'];
         }
         return false;

@@ -1508,7 +1508,14 @@ class Php {
                             $variable_old = $options->variable ?? null;
                             $options->variable = Core::uuid_variable();
                             $data[] = $options->variable . ' = [];';
-                            $token = Token::tokenize($object, $flags, $options, substr($record['text'], 1, -1));
+                            $single_quote_uuid = Core::uuid_variable();
+                            $double_quote_uuid = Core::uuid_variable();
+                            $ampersand_uuid = core::uuid_variable();
+                            $text = $record['text'];
+                            $text = str_replace('\\&', $ampersand_uuid, $text);
+                            $text = str_replace('&quot;', $double_quote_uuid, $text);
+                            $text = str_replace('&pos;', $single_quote_uuid, $text);
+                            $token = Token::tokenize($object, $flags, $options, substr($text, 1, -1));
                             $token = Php::document_tag_prepare($object, $flags, $options, $token);
                             $embed = Php::document_tag($object, $flags, $options, $token);
                             $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
@@ -1518,6 +1525,9 @@ class Php {
                                     $data[] = $options->variable . '[] = \'"\';';
                                 }
                                 foreach($embed as $line){
+                                    $line = str_replace($double_quote_uuid, '"', $line);
+                                    $line = str_replace($single_quote_uuid, '\'', $line);
+                                    $line = str_replace($ampersand_uuid, '&', $line);
                                     $data[] = $line;
                                 }
                                 if($is_raw !== true) {

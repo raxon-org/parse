@@ -3023,7 +3023,6 @@ class Php {
                 $record['type'] === 'array'
             ){
                 $array_value = '';
-                d($record);
                 $array_array = $record['array'];
                 $start_tag = ['array' => [array_shift($array_array)]];
                 $end_tag = ['array' => [array_pop($array_array)]];
@@ -3031,7 +3030,6 @@ class Php {
                 $array_record_key = ['array' => []];
                 $array_record_value = ['array' => []];
                 $index = 0;
-                d($array_array);
                 $array_value .= Php::value($object, $flags, $options, $record, $start_tag, $is_set_array, $before, $after);
                 foreach($array_array as $array_nr => $array_record){
                     if(
@@ -3867,7 +3865,6 @@ class Php {
         ){
             $result = $before;
             $result_validator = $before;
-            d($value);
             if($value !== ''){
                 if($try_catch !== false){
                     $separator = $object->config('package.raxon/parse.build.state.separator');

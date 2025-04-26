@@ -64,6 +64,7 @@ class Validator
         // Use PHP's built-in syntax checker
         $notification = '';
         exec('php -l ' . escapeshellarg($url) . ' 2>&1', $output, $return_var);
+
         $output = implode(PHP_EOL, $output);
         $notification = $output;
 //        Core::execute($object, 'php -l ' . escapeshellarg($url), $output, $notification);

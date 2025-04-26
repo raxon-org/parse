@@ -323,6 +323,7 @@ class Parse
                         }
                     }
                     if(is_scalar($value) || is_null($value)){
+                        d($value);
                         if(is_string($value)){
                             $hash = 'scalar_' . hash('sha256', $key . '_' . Core::object('{"scalar": "' . $value . '"}', Core::JSON));
                         } else {

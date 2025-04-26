@@ -323,7 +323,6 @@ class Parse
                         }
                     }
                     if(is_scalar($value) || is_null($value)){
-                        d($value);
                         if(is_string($value)){
                             $hash = 'scalar_' . hash('sha256', $key . '_' . '{"scalar": "' . $value . '"}');
                         } else {

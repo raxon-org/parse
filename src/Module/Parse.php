@@ -254,7 +254,13 @@ class Parse
                 foreach($input as $key => $value){
                     $temp_source = $options->source ?? 'source';
                     $temp_class = $options->class;
-                    $options->source = 'internal_' . Core::uuid();
+                    if(is_scalar($value) || is_null($value)){
+                        $hash = 'scalar_' . hash('sha256', $key . '_' . Core::object('{"scalar": ' . $value . '}', Core::JSON));
+                    } else {
+                        $hash = hash('sha256', $key . '_' . Core::object($value, Core::JSON));
+                    }
+                    $options->source = 'internal_' . $hash;
+//                    $options->source = 'internal_' . Core::uuid(); //wrong, hash should not be unique but referable
                     $options->source_root = $temp_source;
                     $options->class = Build::class_name($options->source);
                     $this->parse_set_options($options);
@@ -313,7 +319,7 @@ class Parse
                         }
                     }
                     if(is_scalar($value) || is_null($value)){
-                        $hash = hash('sha256', $key . '_' . $value);
+                        $hash = 'scalar_' . hash('sha256', $key . '_' . Core::object('{"scalar": ' . $value . '}', Core::JSON));
                     } else {
                         $hash = hash('sha256', $key . '_' . Core::object($value, Core::JSON));
                     }

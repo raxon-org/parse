@@ -1,4 +1,5 @@
 {{$response = Package.Raxon.Parse:Main:compile(flags(), options())}}
+{{dd($response)}}
 {{if(
 is.array($response) ||
 is.object($response)

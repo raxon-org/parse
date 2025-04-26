@@ -261,7 +261,7 @@ class Parse
                             $hash = 'scalar_' . hash('sha256', $key . '_' . '{"scalar": ' . $value . '}');
                         }
                     } else {
-                        $hash = hash('sha256', $key . '_' . Core::object($value, Core::JSON));
+                        $hash = hash('sha256', $key . '_' . Core::object($value, Core::JSON_LINE));
                     }
                     $options->source = 'internal_' . $hash;
 //                    $options->source = 'internal_' . Core::uuid(); //wrong, hash should not be unique but referable
@@ -329,7 +329,7 @@ class Parse
                             $hash = 'scalar_' . hash('sha256', $key . '_' . '{"scalar": ' . $value . '}');
                         }
                     } else {
-                        $hash = hash('sha256', $key . '_' . Core::object($value, Core::JSON));
+                        $hash = hash('sha256', $key . '_' . Core::object($value, Core::JSON_LINE));
                     }
                     $options->source = 'internal_' . ($depth + 1) . 'x' . '_' . $key . '_' . $hash;
                     $options->source_root = $old_source;

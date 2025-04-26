@@ -30,7 +30,11 @@ trait Parse_String {
         $options = $parse->parse_options();
         $old_source = $options->source ?? null;
         if(is_scalar($mixed) || is_null($mixed)){
-            $hash = hash('sha256', 'parse_string_' . $mixed);
+            if(is_string($mixed)){
+                $hash = 'scalar_' . hash('sha256', '{"scalar": "' . $mixed . '"}');
+            } else {
+                $hash = 'scalar_' . hash('sha256', '{"scalar":' . $mixed . '}');
+            }
         } else {
             $hash = hash('sha256', Core::object($mixed, Core::JSON_LINE));
         }

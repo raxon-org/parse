@@ -165,7 +165,7 @@ class Parse
         }
         */
 
-        $depth = $options->depth ?? null;
+        $depth = $options->depth ?? 0;
         $type = strtolower(gettype($input));
         if(
             in_array(

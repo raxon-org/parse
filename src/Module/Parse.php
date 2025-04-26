@@ -255,6 +255,9 @@ class Parse
                     $temp_source = $options->source ?? 'source';
                     $temp_class = $options->class;
                     if(is_scalar($value) || is_null($value)){
+                        if(is_string($value)){
+                            $value = '"' . $value . '"';
+                        }
                         $hash = 'scalar_' . hash('sha256', $key . '_' . Core::object('{"scalar": ' . $value . '}', Core::JSON));
                     } else {
                         $hash = hash('sha256', $key . '_' . Core::object($value, Core::JSON));
@@ -319,6 +322,9 @@ class Parse
                         }
                     }
                     if(is_scalar($value) || is_null($value)){
+                        if(is_string($value)){
+                            $value = '"' . $value . '"';
+                        }
                         $hash = 'scalar_' . hash('sha256', $key . '_' . Core::object('{"scalar": ' . $value . '}', Core::JSON));
                     } else {
                         $hash = hash('sha256', $key . '_' . Core::object($value, Core::JSON));

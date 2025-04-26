@@ -1,0 +1,1 @@
+{{echo(execute('app ramdisk speedtest'))}}

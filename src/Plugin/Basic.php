@@ -12,6 +12,7 @@ trait Basic {
     protected object $flags;
     protected object $options;
     protected array $local = [];
+    protected array $limit = [];
 
     public function object(App $object=null): ?App
     {
@@ -103,7 +104,7 @@ trait Basic {
         return $this->flags;
     }
 
-    public function local($depth=0, $local=null): ?object
+    public function local(int $depth=0, mixed $local=null): ?object
     {
         if($local !== null){
             $this->local[$depth] = $local;
@@ -120,6 +121,14 @@ trait Basic {
     public function framework(): ?App
     {
         return $this->object();
+    }
+
+    public function limit(array $limit=null): ?array
+    {
+        if($limit !== null){
+            $this->limit = $limit;
+        }
+        return $this->limit;
     }
 
 }

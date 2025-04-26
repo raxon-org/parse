@@ -3478,6 +3478,7 @@ class Php {
             $data[] = '} catch (Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception) {'; //catch
             $data[] = 'throw $exception;';
             $data[] = '}';
+            $object->config('package.raxon/parse.build.state.remove_newline_next', true);
             return $data;
         } else {
             $is_not = '';
@@ -3588,7 +3589,6 @@ class Php {
             }
             $data[] = '}';
             $object->config('package.raxon/parse.build.state.remove_newline_next', true);
-            //remove newline next
             return $data;
         }
         return false;

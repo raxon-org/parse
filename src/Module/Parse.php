@@ -263,7 +263,7 @@ class Parse
                     } else {
                         $hash = hash('sha256', $key . '_' . Core::object($value, Core::JSON_LINE));
                     }
-                    $options->source = 'internal_' . $hash;
+                    $options->source = 'Internal_' . $hash;
 //                    $options->source = 'internal_' . Core::uuid(); //wrong, hash should not be unique but referable
                     $options->source_root = $temp_source;
                     $options->class = Build::class_name($options->source);
@@ -317,7 +317,7 @@ class Parse
                     $source = $options->source;
                     for($i = 0; $i <= $depth; $i++){
                         if($i === 0){
-                            $source = str_replace('internal_', '', $source);
+                            $source = str_replace('Internal_', '', $source);
                         } else {
                             $source = str_replace($i . 'x_', '', $source);
                         }
@@ -331,7 +331,7 @@ class Parse
                     } else {
                         $hash = hash('sha256', $key . '_' . Core::object($value, Core::JSON_LINE));
                     }
-                    $options->source = 'internal_' . ($depth + 1) . 'x' . '_' . $key . '_' . $hash;
+                    $options->source = 'Internal_' . ($depth + 1) . 'x' . '_' . $key . '_' . $hash;
                     $options->source_root = $old_source;
                     $options->class = Build::class_name($options->source);
                     $this->parse_set_options($options);
@@ -376,7 +376,7 @@ class Parse
             $mtime = File::mtime($options->source);
             $object->config('package.raxon/parse.build.state.source.mtime', $mtime);
         }
-        elseif(str_starts_with($source, 'internal_')){
+        elseif(str_starts_with($source, 'Internal_')){
             $mtime = $object->config('package.raxon/parse.build.state.source.mtime');
         }
         $object->config('package.raxon/parse.build.state.source.mtime', $mtime);

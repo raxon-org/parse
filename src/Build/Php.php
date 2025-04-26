@@ -1908,7 +1908,6 @@ class Php {
                         'for.each',
                         'break',
                         'while',
-                        'echo'
                     ],
                     true
                 )

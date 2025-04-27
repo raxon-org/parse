@@ -25,25 +25,34 @@ trait Ramdisk_Speedtest {
         }
         if($object->config('ramdisk.url')){
             $url = $object->config('ramdisk.url') . 'speedtest';
-            $command = 'dd if=/dev/zero of=' . $url . 'zero bs=4k count=100000';
-            Core::execute($object, $command, $output, $notification);
+            $command = 'dd if=/dev/zero of=' . $url . 'zero bs=4k count=100000 2>&1';
+            exec($command, $output);
+//            Core::execute($object, $command, $output, $notification);
             $content = [];
             $content[] = 'Write:' . PHP_EOL;
             if($output){
-                $content[] = $output . PHP_EOL;
+                $content[] = implode(PHP_EOL, $output) . PHP_EOL;
             }
+            /*
             if($notification){
                 $content[] = $notification . PHP_EOL;
             }
-            $command = 'dd if=' . $url . 'zero of=/dev/null bs=4k count=100000';
-            Core::execute($object, $command, $output, $notification);
+            */
+            $command = 'dd if=' . $url . 'zero of=/dev/null bs=4k count=100000 2>&1';
+            exec($command, $output);
+//            Core::execute($object, $command, $output, $notification);
             $content[] = 'Read:' . PHP_EOL;
+            if($output){
+                $content[] = implode(PHP_EOL, $output) . PHP_EOL;
+            }
+            /*
             if($output){
                 $content[] = $output . PHP_EOL;
             }
             if($notification){
                 $content[] = $notification . PHP_EOL;
             }
+            */
             File::delete($url . 'zero');
             return implode('', $content);
         }

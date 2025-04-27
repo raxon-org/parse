@@ -32,6 +32,6 @@ trait Execute
         }
         */
 //    exec($command, $output);
-        return $output;
+        return implode(PHP_EOL, $output) . PHP_EOL;
     }
 }

@@ -14,6 +14,7 @@ trait Ramdisk_Speedtest {
     /**
      * @throws ObjectException|
      * @throws DirectoryCreateException
+     * @throws Exception
      */
     protected function ramdisk_speedtest(): string
     {

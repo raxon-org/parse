@@ -18,6 +18,8 @@ trait Execute
         $data = $this->storage();
         $command = escapeshellcmd($command);
         $output = false;
+        exec($command . ' 2>&1', $output);
+        /*
         Core::execute($object, $command, $output, $notify);
         if($notification){
             if(
@@ -28,6 +30,7 @@ trait Execute
             }
             $data->data($notification, $notify);
         }
+        */
 //    exec($command, $output);
         return $output;
     }

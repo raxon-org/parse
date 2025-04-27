@@ -46,5 +46,6 @@ trait Ramdisk_Speedtest {
             File::delete($url . 'zero');
             return implode('', $content);
         }
+        return '';
     }
 }

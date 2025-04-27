@@ -1,1 +1,2 @@
-{{echo(execute('app ramdisk speedtest'))}}
+{{$execute = (execute('app ramdisk speedtest'))}}
+{{$execute}}

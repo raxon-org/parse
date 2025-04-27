@@ -26,6 +26,7 @@ trait Ramdisk_Speedtest {
         if($object->config('ramdisk.url')){
             $url = $object->config('ramdisk.url') . 'speedtest';
             $command = 'dd if=/dev/zero of=' . $url . 'zero bs=4k count=100000 2>&1';
+            $output = false;
             exec($command, $output);
 //            Core::execute($object, $command, $output, $notification);
             $content = [];
@@ -38,6 +39,7 @@ trait Ramdisk_Speedtest {
                 $content[] = $notification . PHP_EOL;
             }
             */
+            $output = false;
             $command = 'dd if=' . $url . 'zero of=/dev/null bs=4k count=100000 2>&1';
             exec($command, $output);
 //            Core::execute($object, $command, $output, $notification);

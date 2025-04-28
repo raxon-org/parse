@@ -709,18 +709,19 @@ class Token
 //                                            }
                                             $has_variable_name = true;
                                         }
+                                        $is_patched = false;
                                         if($array_depth_variable === $array_depth){
                                             if($is_array_notation === true){
                                                 $array_notation .= $char;
                                                 $array_notation_array[] = $char;
-                                                continue;
+                                                $is_patched = true;
                                             }
                                             if($next !== '['){
                                                 //need to check on ] with depth = 1
                                                 $is_array_notation = false;
                                             }
                                         }
-                                        if($is_array_notation){
+                                        if($is_array_notation && $is_patched === false){
                                             $array_notation .= $char;
                                             $array_notation_array[] = $char;
                                         }

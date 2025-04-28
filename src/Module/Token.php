@@ -713,6 +713,7 @@ class Token
                                             if($is_array_notation === true){
                                                 $array_notation .= $char;
                                                 $array_notation_array[] = $char;
+                                                continue;
                                             }
                                             if($next !== '['){
                                                 //need to check on ] with depth = 1

@@ -885,6 +885,7 @@ class Token
                                     } else {
                                         if($array_notation !== ''){
                                             d($array_notation);
+                                            ddd($array_notation_array);
                                             $list = Token::value(
                                                 $object,
                                                 $flags,

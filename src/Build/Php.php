@@ -2715,6 +2715,14 @@ class Php {
         return '$this->' . mb_strtolower($plugin);
     }
 
+    public static function value_array_notation(App $object, $flags, $options, $tag, $input, &$is_set=false, &$before=[], &$after=[]): array
+    {
+        $result = [];
+        $input = Php::value_set($object, $flags, $options, $input, $is_set);
+        ddd($input);
+        return $result;
+    }
+
     /**
      * @throws Exception
      * @throws LocateException
@@ -3510,6 +3518,7 @@ class Php {
                 $before = [];
                 $after = [];
                 $data[] = 'try {';
+                $array_notation = Php::value_array_notation($object, $flags, $options, $record, $record['variable']['array_notation'], $is_set, $before, $after);
                 $array_notation = Php::value($object, $flags, $options, $record, $record['variable']['array_notation'], $is_set, $before, $after);
                 $variable_value = '$data->get(\'' . $record['variable']['name'] . '\')' .  $array_notation;
                 $separator = $object->config('package.raxon/parse.build.state.separator');

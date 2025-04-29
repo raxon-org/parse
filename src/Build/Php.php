@@ -2733,8 +2733,6 @@ class Php {
         $value = '';
         $skip = 0;
         $input = Php::value_set($object, $flags, $options, $input, $is_set);
-        $object->config('package.raxon/parse.build.state.value', $input);
-        $object->config('package.raxon/parse.build.state.trace', trace(true));
         foreach ($input['array'] as $nr => $record) {
             if($skip > 0){
                 $skip--;
@@ -3211,12 +3209,6 @@ class Php {
                 $value = '$this->value_plus(' . $left . ', ' . $right . ')';
                 break;
             case '-':
-                d($object->config('package.raxon/parse.build.state.value'));
-                d($object->config('package.raxon/parse.build.state.trace'));
-                d($options);
-                d($left);
-                ddd($right);
-                trace();
                 $value = '$this->value_minus(' . $left . ', ' . $right . ')';
                 break;
             case '*':

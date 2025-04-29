@@ -3491,19 +3491,18 @@ class Php {
                 $data[] = 'try {';
                 $array_notation = Php::value($object, $flags, $options, $record, $record['variable']['array_notation'], $is_set, $before, $after);
                 $array_notation = explode('][', substr($array_notation, 1, -1));
-                $check_uuid = Core::uuid_variable();
-                $data[] = $check_uuid . ' = $data->get(\'' . $record['variable']['name'] . '\');';
-                array_unshift($array_notation, $check_uuid);
-                $inside = Php::array_notation($object, $flags, $options, $record, $array_notation);
-
-                ddd($array_notation);
+                $root_uuid = Core::uuid_variable();
+//                array_unshift($array_notation, $check_uuid);
+//                $inside = Php::array_notation($object, $flags, $options, $record, $array_notation);
                 $variable_value = '$data->get(\'' . $record['variable']['name'] . '\')' .  $array_notation;
                 $separator = $object->config('package.raxon/parse.build.state.separator');
                 foreach($before as $line){
                     $data[] = str_replace($separator, ';', $line);
                 }
+                $data[] = $root_uuid . ' = $data->get(\'' . $record['variable']['name'] . '\');';
+                $data[] = $root_uuid . ' = $this->value_child(' . $root_uuid . ', ' . implode(', ', $array_notation) . ');';
                 $before = [];
-                $data[] = $variable_uuid . ' = ' . $is_not . $cast . $variable_value . ';';
+                $data[] = $variable_uuid . ' = ' . $is_not . $cast . $root_uuid . ';';
                 foreach($after as $line){
                     $data[] = $line;
                 }

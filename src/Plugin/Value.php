@@ -189,4 +189,9 @@ trait Value {
     {
         return $variable1 ?? $variable2;
     }
+
+    protected function value_child($root, ...$children){
+        d($root);
+        ddd($children);
+    }
 }

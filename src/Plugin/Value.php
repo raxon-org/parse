@@ -190,7 +190,7 @@ trait Value {
         return $variable1 ?? $variable2;
     }
 
-    protected function value_child(array|object $root, array ...$children){
+    protected function value_child(array|object $root, int|string  ...$children){
         while(true){
             $child = array_shift($children);
             if($child === null){

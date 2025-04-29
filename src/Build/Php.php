@@ -2717,23 +2717,16 @@ class Php {
 
     public static function array_notation(App $object, $flags, $options, $input, $array): array
     {
-        $inner_reverse = [];
+        $inner = [];
         $to_check = array_shift($array);
+        $object_start = 'if(is_object(' . $to_check . ')';
 //        $inner_reverse[] = 'if(is_object(' . $to_check . '->' . implode('->', $array) . ')){';
 //        $inner_reverse[] = 'if(is_array(' . $to_check . '[' . implode('][', $array) . '])){';
-        while($check_array = array_pop($array)){
-            ddd($check_array);
-            if(array_key_exists(0, $array)){
-                $inner_reverse[] = 'if(is_object(' . $to_check . '->' . implode('->', $array) . ')){';
-                $inner_reverse[] = 'if(is_array(' . $to_check . '[' . implode('][', $array) . ']' . ')){';
-            } else {
-                $inner_reverse[] = 'if(is_object(' . $to_check . ')){';
-                $inner_reverse[] = 'if(is_array(' . $to_check . ')){';
-            }
+        while($check_array = array_shift($array)){
+            $inner[] = $object_start . ' && property_exists(' . $to_check .', ' . $check_array . ')';
 
         }
-        krsort($inner_reverse);
-        ddd($inner_reverse);
+        ddd($inner);
 //        $inner[] = 'if(is_object(' . $to_check .'){';
 //        $inner[] = '  if(is_object(' . $to_check . '->' . $array[0] . ')){';
 //        $inner[] = '    if(is_object(' . $to_check . '->' . $array[0] . '->' . $array[1] . ')){';

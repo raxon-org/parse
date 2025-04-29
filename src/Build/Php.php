@@ -3492,9 +3492,6 @@ class Php {
                 $array_notation = Php::value($object, $flags, $options, $record, $record['variable']['array_notation'], $is_set, $before, $after);
                 $array_notation = explode('][', substr($array_notation, 1, -1));
                 $root_uuid = Core::uuid_variable();
-//                array_unshift($array_notation, $check_uuid);
-//                $inside = Php::array_notation($object, $flags, $options, $record, $array_notation);
-//                $variable_value = '$data->get(\'' . $record['variable']['name'] . '\')' .  $array_notation;
                 $separator = $object->config('package.raxon/parse.build.state.separator');
                 foreach($before as $line){
                     $data[] = str_replace($separator, ';', $line);
@@ -3506,7 +3503,6 @@ class Php {
                 foreach($after as $line){
                     $data[] = $line;
                 }
-                breakpoint($data);
                 $after = [];
                 $data[] = '} catch (Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception) {';
                 if(

@@ -2722,8 +2722,14 @@ class Php {
         $inner_reverse[] = 'if(is_object(' . $to_check . '->' . implode('->', $array) . ')){';
         $inner_reverse[] = 'if(is_array(' . $to_check . '[' . implode('][', $array) . '])){';
         while($check_array = array_pop($array)){
-            $inner_reverse[] = rtrim('if(is_object(' . $to_check . '->' . implode('->', $array),'->') . ')){';
-            $inner_reverse[] = rtrim('if(is_array(' . $to_check . '[' . implode('][', $array) . ']','[') . ')){';
+            if(array_key_exists(0, $array)){
+                $inner_reverse[] = 'if(is_object(' . $to_check . '->' . implode('->', $array) . ')){';
+                $inner_reverse[] = 'if(is_array(' . $to_check . '[' . implode('][', $array) . ']' . ')){';
+            } else {
+                $inner_reverse[] = 'if(is_object(' . $to_check . ')){';
+                $inner_reverse[] = 'if(is_array(' . $to_check . ')){';
+            }
+
         }
         krsort($inner_reverse);
         ddd($inner_reverse);

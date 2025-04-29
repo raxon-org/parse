@@ -2729,32 +2729,9 @@ class Php {
 //        $inner_reverse[] = 'if(is_array(' . $to_check . '[' . implode('][', $array) . '])){';
         $inner[] = $object_start . '{';
         while($check_array = array_shift($array)){
-            d($inner);
-            d($object_start);
-            ddd($check_array);
-
-
-
-//            $object_start_to_array = $object_start . ' && array_key_exists(' . $check_array . ', ' . $to_check . ')';
-//            $array_start_to_object = $array_start . ' && property_exists(' . $to_check .', ' . $check_array . ')';
-//            $object_start = $object_start . ' && property_exists(' . $to_check .', ' . $check_array . ')';
-//            $array_start = $array_start . ' && array_key_exists(' . $check_array . ', ' . $to_check_array . ')';
-//            $to_check_object_to_array = $to_check . '[' . $check_array . ']';
-//            $to_check_array_to_object = $to_check_array . '->' . $check_array;
-//            $to_check = $to_check . '->' . $check_array;
-//            $to_check_array = $to_check_array . '[' . $check_array . ']';
-//            $inner[] = $array_value_uuid .' = ' . $to_check . ';';
-//            $inner[] = $object_start_to_array . '{';
-//            $inner[] = $array_value_uuid .' = ' . $to_check_object_to_array . ';';
-//            $inner[] = '}';
-//            $inner[] = $array_start . '{';
-//            $inner[] = $array_value_uuid .' = ' . $to_check_array . ';';
-//            $inner[] = '}';
-            /*
-            $inner[] = $array_start_to_object . '{';
-            $inner[] = $array_value_uuid .' = ' . $to_check_array_to_object . ';';
-            $inner[] = '}';
-            */
+            $object_start = $object_start . ' && property_exists(' . $to_check .', ' . $check_array . ')';
+            $inner[] = $object_start;
+            $to_check = $to_check . '->' . $check_array;
         }
         $inner[] = '}';
         ddd($inner);

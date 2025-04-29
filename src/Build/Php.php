@@ -3521,6 +3521,7 @@ class Php {
                 foreach($after as $line){
                     $data[] = $line;
                 }
+                breakpoint($data);
                 $after = [];
                 $data[] = '} catch (Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception) {';
                 if(

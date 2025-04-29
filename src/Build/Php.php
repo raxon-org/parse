@@ -2719,7 +2719,10 @@ class Php {
     {
         $result = [];
         $input = Php::value_set($object, $flags, $options, $input, $is_set);
-        ddd($input);
+        $notation = [];
+        foreach ($input['array'] as $nr => $record) {
+            breakpoint($record);
+        }
         return $result;
     }
 

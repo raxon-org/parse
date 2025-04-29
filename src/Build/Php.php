@@ -3062,6 +3062,8 @@ class Php {
                 array_key_exists('type', $record) &&
                 $record['type'] === 'array'
             ){
+                d(Cli::alert('array'));
+                breakpoint($record);
                 $array_value = '';
                 $array_array = $record['array'];
                 $start_tag = ['array' => [array_shift($array_array)]];

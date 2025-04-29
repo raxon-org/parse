@@ -2722,6 +2722,7 @@ class Php {
         $notation = [];
         foreach ($input['array'] as $nr => $record) {
             if(
+                array_key_exists('value', $record) &&
                 in_array(
                     $record['value'],
                     [

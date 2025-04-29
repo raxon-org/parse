@@ -2748,7 +2748,7 @@ class Php {
                         true
                     )
                 ){
-                    unset($record[$key]);
+                    unset($record['array'][$key]);
                 }
             }
             $notation['array'][] = $record;

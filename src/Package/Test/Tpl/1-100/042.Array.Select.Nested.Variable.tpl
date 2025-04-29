@@ -1,7 +1,7 @@
 {{$zero = 0}}
 {{$execute =[
 $zero =>[
-    $zero =>[
+    $zero => (object) [
         'test'
     ],
 'test'

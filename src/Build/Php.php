@@ -2721,8 +2721,21 @@ class Php {
         $input = Php::value_set($object, $flags, $options, $input, $is_set);
         $notation = [];
         foreach ($input['array'] as $nr => $record) {
-            breakpoint($record);
+            if(
+                in_array(
+                    $record['value'],
+                    [
+                        '[',
+                        ']'
+                    ],
+                    true
+                )
+            ){
+                continue;
+            }
+            $notation['array'][] = $record;
         }
+        ddd($notation);
         return $result;
     }
 

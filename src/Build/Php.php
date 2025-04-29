@@ -2729,8 +2729,8 @@ class Php {
 //        $inner_reverse[] = 'if(is_array(' . $to_check . '[' . implode('][', $array) . '])){';
         $inner[] = $object_start . '{';
         while($check_array = array_shift($array)){
-            $object_start = $object_start . ' && property_exists(' . $to_check .', ' . $check_array . ')';
-            $inner[] = $object_start;
+            $line = 'if(property_exists(' . $to_check .', ' . $check_array . ')';
+            $inner[] = $line;
             $to_check = $to_check . '->' . $check_array;
         }
         $inner[] = '}';

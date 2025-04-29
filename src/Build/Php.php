@@ -3062,17 +3062,7 @@ class Php {
                 array_key_exists('type', $record) &&
                 $record['type'] === 'array'
             ){
-//                d(Cli::alert('array'));
-//                breakpoint($record);
-                $array_value = '';
-                $record_copy = $record;
-//                $start_tag = ['array' => [array_shift($array_array)]];
-//                $end_tag = ['array' => [array_pop($array_array)]];
-//                $array_key_value = ['array' => []];
-//                $array_record_key = ['array' => []];
-//                $array_record_value = ['array' => []];
-                $index = 0;
-                $value .= Php::value($object, $flags, $options, $record, $record_copy, $is_set_array, $before, $after);
+                $value .= Php::value($object, $flags, $options, $record, $record, $is_set_array, $before, $after);
                 //remove next newline
                 $object->config('package.raxon/parse.build.state.remove_newline_next', true);
             }

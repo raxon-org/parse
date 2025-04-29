@@ -2753,6 +2753,9 @@ class Php {
             }
             $notation['array'][] = $record;
         }
+        $notation = Php::value($object, $flags, $options, $tag, $notation, $is_set, $before, $after);
+        d($before);
+        d($after);
         ddd($notation);
         return $result;
     }

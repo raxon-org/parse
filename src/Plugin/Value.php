@@ -204,7 +204,6 @@ trait Value {
                 return null;
             }
         }
-        d($root);
-        ddd($children);
+        return $root;
     }
 }

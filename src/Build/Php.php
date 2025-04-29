@@ -2734,6 +2734,18 @@ class Php {
             ){
                 continue;
             }
+            foreach($record as $key => $value){
+                if(
+                    is_array($value) &&
+                    array_key_exists('value', $value) &&
+                    in_array($value['value'], [
+                        '[',
+                        ']'
+                    ], true)
+                ){
+                    unset($record[$key]);
+                }
+            }
             $notation['array'][] = $record;
         }
         ddd($notation);

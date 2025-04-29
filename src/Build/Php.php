@@ -3062,17 +3062,18 @@ class Php {
                 array_key_exists('type', $record) &&
                 $record['type'] === 'array'
             ){
-                d(Cli::alert('array'));
-                breakpoint($record);
+//                d(Cli::alert('array'));
+//                breakpoint($record);
                 $array_value = '';
                 $array_array = $record['array'];
-                $start_tag = ['array' => [array_shift($array_array)]];
-                $end_tag = ['array' => [array_pop($array_array)]];
-                $array_key_value = ['array' => []];
-                $array_record_key = ['array' => []];
-                $array_record_value = ['array' => []];
+//                $start_tag = ['array' => [array_shift($array_array)]];
+//                $end_tag = ['array' => [array_pop($array_array)]];
+//                $array_key_value = ['array' => []];
+//                $array_record_key = ['array' => []];
+//                $array_record_value = ['array' => []];
                 $index = 0;
-                $array_value .= Php::value($object, $flags, $options, $record, $start_tag, $is_set_array, $before, $after);
+                $array_value = Php::value($object, $flags, $options, $record, $array_array, $is_set_array, $before, $after);
+                ddd($array_value);
                 foreach($array_array as $array_nr => $array_record){
                     if(
                         array_key_exists('value', $array_record) &&

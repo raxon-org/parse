@@ -191,8 +191,11 @@ trait Value {
     }
 
     protected function value_child($root, ...$children){
-        d($root);
-        while($child = array_shift($children)){
+        while(true){
+            $child = array_shift($children);
+            if($child === null){
+                break;
+            }
             if(is_object($root) && property_exists($root, $child)){
                 $root = $root->{$child};
             } elseif(is_array($root) && array_key_exists($child, $root)){

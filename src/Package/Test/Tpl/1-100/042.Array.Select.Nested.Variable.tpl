@@ -1,7 +1,10 @@
 {{$zero = 0}}
 {{$execute =[
 $zero =>[
+    $zero =>[
+        'test'
+    ],
 'test'
 ]
 ]}}
-{{$execute[$zero][$zero]}}
+{{$execute[$zero][$zero][$zero]}}

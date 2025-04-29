@@ -3548,6 +3548,7 @@ class Php {
                 $after = [];
                 $data[] = 'try {';
                 $array_notation = Php::value($object, $flags, $options, $record, $record['variable']['array_notation'], $is_set, $before, $after);
+                $array_notation = explode('][', substr($array_notation, 1, -1));
                 ddd($array_notation);
                 $variable_value = '$data->get(\'' . $record['variable']['name'] . '\')' .  $array_notation;
                 $separator = $object->config('package.raxon/parse.build.state.separator');

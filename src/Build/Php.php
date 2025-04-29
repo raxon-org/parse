@@ -3065,14 +3065,14 @@ class Php {
 //                d(Cli::alert('array'));
 //                breakpoint($record);
                 $array_value = '';
-                $array_array = $record['array'];
+                $record_copy = $record;
 //                $start_tag = ['array' => [array_shift($array_array)]];
 //                $end_tag = ['array' => [array_pop($array_array)]];
 //                $array_key_value = ['array' => []];
 //                $array_record_key = ['array' => []];
 //                $array_record_value = ['array' => []];
                 $index = 0;
-                $array_value = Php::value($object, $flags, $options, $record, $array_array, $is_set_array, $before, $after);
+                $array_value = Php::value($object, $flags, $options, $record, $record_copy, $is_set_array, $before, $after);
                 ddd($array_value);
                 foreach($array_array as $array_nr => $array_record){
                     if(

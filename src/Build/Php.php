@@ -2720,13 +2720,15 @@ class Php {
         $inner = [];
         $to_check = array_shift($array);
         $object_start = 'if(is_object(' . $to_check . ')';
+        $array_value_uuid = Core::uuid_variable();
 //        $inner_reverse[] = 'if(is_object(' . $to_check . '->' . implode('->', $array) . ')){';
 //        $inner_reverse[] = 'if(is_array(' . $to_check . '[' . implode('][', $array) . '])){';
         while($check_array = array_shift($array)){
             $object_start = $object_start . ' && property_exists(' . $to_check .', ' . $check_array . ')';
             $to_check = $to_check . '->' . $check_array;
-            $inner[] = $object_start;
-
+            $inner[] = $object_start . '{';
+            $inner[] = $array_value_uuid .' = ' . $to_check . ';';
+            $inner[] = '}';
         }
         ddd($inner);
 //        $inner[] = 'if(is_object(' . $to_check .'){';

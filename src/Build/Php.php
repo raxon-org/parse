@@ -2723,6 +2723,7 @@ class Php {
         while($check_array = array_pop($array)){
             $inner_reverse[] = 'if(is_object(' . $to_check . '->' . implode('->', $array) . ')){';
         }
+        arsort($inner_reverse);
         ddd($inner_reverse);
 //        $inner[] = 'if(is_object(' . $to_check .'){';
 //        $inner[] = '  if(is_object(' . $to_check . '->' . $array[0] . ')){';

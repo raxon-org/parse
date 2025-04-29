@@ -2715,49 +2715,38 @@ class Php {
         return '$this->' . mb_strtolower($plugin);
     }
 
-    public static function value_array_notation(App $object, $flags, $options, $tag, $input, &$is_set=false, &$before=[], &$after=[]): array
+    public static function array_notation(App $object, $flags, $options, $input, $array): array
     {
-        $result = [];
-        $input = Php::value_set($object, $flags, $options, $input, $is_set);
-        $notation = [];
-        foreach ($input['array'] as $nr => $record) {
-            if(
-                array_key_exists('value', $record) &&
-                in_array(
-                    $record['value'],
-                    [
-                        '[',
-                        ']'
-                    ],
-                    true
-                )
-            ){
-                continue;
-            }
-            foreach($record['array'] as $key => $value){
-                breakpoint($value);
-                if(
-                    is_array($value) &&
-                    array_key_exists('value', $value) &&
-                    in_array(
-                        $value['value'],
-                        [
-                            '[',
-                            ']'
-                        ],
-                        true
-                    )
-                ){
-                    unset($record['array'][$key]);
-                }
-            }
-            $notation['array'][] = $record;
+        $inner_reverse = [];
+        $to_check = array_shift($array);
+        $inner_reverse[] = 'if(is_object(' . $to_check . '->' . implode('->', $array) . ')){';
+        while($check_array = array_pop($array)){
+            $inner_reverse[] = 'if(is_object(' . $to_check . '->' . implode('->', $array) . ')){';
         }
-        $notation = Php::value($object, $flags, $options, $tag, $notation, $is_set, $before, $after);
-        d($before);
-        d($after);
-        ddd($notation);
-        return $result;
+        ddd($inner_reverse);
+//        $inner[] = 'if(is_object(' . $to_check .'){';
+//        $inner[] = '  if(is_object(' . $to_check . '->' . $array[0] . ')){';
+//        $inner[] = '    if(is_object(' . $to_check . '->' . $array[0] . '->' . $array[1] . ')){';
+//        $inner[] = '      if(is_object(' . $to_check . '->' . $array[0] . '->' . $array[1] . '->' . $array[2] . ')){';
+
+
+        $inner[] = '    }';
+        $inner[] = '  }';
+        $inner[] = '}';
+
+        /*
+        $separator = $object->config('package.raxon/parse.build.state.separator');
+        foreach($before as $line){
+            $data[] = str_replace($separator, ';', $line);
+        }
+        $before = [];
+        $data[] = $variable_uuid . ' = ' . $is_not . $cast . $variable_value . ';';
+        foreach($after as $line){
+            $data[] = $line;
+        }
+
+        return $data;
+        */
     }
 
     /**
@@ -3549,6 +3538,11 @@ class Php {
                 $data[] = 'try {';
                 $array_notation = Php::value($object, $flags, $options, $record, $record['variable']['array_notation'], $is_set, $before, $after);
                 $array_notation = explode('][', substr($array_notation, 1, -1));
+                $check_uuid = Core::uuid_variable();
+                $data[] = $check_uuid . ' = $data->get(\'' . $record['variable']['name'] . '\');';
+                array_unshift($array_notation, $check_uuid);
+                $inside = Php::array_notation($object, $flags, $options, $record, $array_notation);
+
                 ddd($array_notation);
                 $variable_value = '$data->get(\'' . $record['variable']['name'] . '\')' .  $array_notation;
                 $separator = $object->config('package.raxon/parse.build.state.separator');

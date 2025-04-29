@@ -3104,6 +3104,11 @@ class Php {
                     elseif($index === 1) {
                         $array_record_value['array'][] = $array_record;
                     } else {
+                        d($index);
+                        d($array_record);
+                        d($array_key_value);
+                        d($array_record_key);
+                        d($array_record_value);
                         throw new Exception('=> to much...');
                     }
                 }

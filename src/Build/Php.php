@@ -2721,7 +2721,7 @@ class Php {
         $to_check = array_shift($array);
         $inner_reverse[] = 'if(is_object(' . $to_check . '->' . implode('->', $array) . ')){';
         while($check_array = array_pop($array)){
-            $inner_reverse[] = 'if(is_object(' . $to_check . '->' . implode('->', $array) . ')){';
+            $inner_reverse[] = rtrim('if(is_object(' . $to_check . '->' . implode('->', $array),'->') . ')){';
         }
         krsort($inner_reverse);
         ddd($inner_reverse);

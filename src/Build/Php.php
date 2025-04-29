@@ -3072,71 +3072,7 @@ class Php {
 //                $array_record_key = ['array' => []];
 //                $array_record_value = ['array' => []];
                 $index = 0;
-                $array_value = Php::value($object, $flags, $options, $record, $record_copy, $is_set_array, $before, $after);
-                ddd($array_value);
-                foreach($array_array as $array_nr => $array_record){
-                    if(
-                        array_key_exists('value', $array_record) &&
-                        $array_record['value'] === '=>'
-                    ){
-                        $index++;
-                        $array_key_value['array'][] = $array_record;
-                        continue;
-                    }
-                    elseif(
-                        array_key_exists('value', $array_record) &&
-                        $array_record['value'] === ','
-                    ){
-                        if(array_key_exists(0, $array_record_key['array'])){
-                            $array_value .= Php::value($object, $flags, $options, $record, $array_record_key, $is_set_array, $before, $after);
-                        }
-                        if(array_key_exists(0, $array_key_value['array'])){
-                            $array_value .= Php::value($object, $flags, $options, $record, $array_key_value, $is_set_array, $before, $after);
-                        }
-                        if(array_key_exists(0, $array_record_value['array'])){
-                            $array_value .= Php::value($object, $flags, $options, $record, $array_record_value, $is_set_array, $before, $after);
-                        }
-                        $index = 0;
-                        $array_record_key = ['array' => []];
-                        $array_record_value = ['array' => []];
-                        $array_key_value = ['array' => []];
-                    }
-                    if($index === 0) {
-                        $array_record_key['array'][] = $array_record;
-                    }
-                    elseif($index === 1) {
-                        $array_record_value['array'][] = $array_record;
-                    } else {
-                        d($index);
-                        d($array_record);
-                        d($array_key_value);
-                        d($array_record_key);
-                        d($array_record_value);
-                        throw new Exception('=> to much...');
-                    }
-                }
-                if(array_key_exists(0, $array_record_key['array'])){
-                    $array_value .= Php::value($object, $flags, $options, $record, $array_record_key, $is_set_array, $before, $after);
-                }
-                if(array_key_exists(0, $array_key_value['array'])){
-                    $array_value .= Php::value($object, $flags, $options, $record, $array_key_value, $is_set_array, $before, $after);
-                }
-                if(array_key_exists(0, $array_record_value['array'])){
-                    $array_value .= Php::value($object, $flags, $options, $record, $array_record_value, $is_set_array, $before, $after);
-                }
-                $array_value .= Php::value($object, $flags, $options, $record, $end_tag, $is_set_array, $before, $after);
-                /*
-                foreach($record['array'] as $array_record) {
-                    if(!$start_tag) {
-                        $start_tag = $array_record;
-                    }
-                    $array_input['array'][] = $array_record;
-                }
-                    $array_value .= Php::value($object, $flags, $options, $record, $array_input, $is_set_array, $before, $after);
-
-                }
-                */
-                $value .= $array_value;
+                $value .= Php::value($object, $flags, $options, $record, $record_copy, $is_set_array, $before, $after);
                 //remove next newline
                 $object->config('package.raxon/parse.build.state.remove_newline_next', true);
             }

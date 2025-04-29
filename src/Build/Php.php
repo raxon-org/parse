@@ -2735,6 +2735,7 @@ class Php {
                 continue;
             }
             foreach($record as $key => $value){
+                breakpoint($value);
                 if(
                     is_array($value) &&
                     array_key_exists('value', $value) &&

@@ -2734,15 +2734,19 @@ class Php {
             ){
                 continue;
             }
-            foreach($record as $key => $value){
+            foreach($record['array'] as $key => $value){
                 breakpoint($value);
                 if(
                     is_array($value) &&
                     array_key_exists('value', $value) &&
-                    in_array($value['value'], [
-                        '[',
-                        ']'
-                    ], true)
+                    in_array(
+                        $value['value'],
+                        [
+                            '[',
+                            ']'
+                        ],
+                        true
+                    )
                 ){
                     unset($record[$key]);
                 }

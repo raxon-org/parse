@@ -1,6 +1,6 @@
 {{$zero = 0}}
 {{$execute =[
-$zero =>[
+$zero => (object) [
     $zero => (object) [
         'test'
     ],

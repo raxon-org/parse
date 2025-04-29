@@ -3505,6 +3505,7 @@ class Php {
                 }
             }
             if(array_key_exists('array_notation', $record['variable'])){
+                breakpoint($record);
                 $data = [];
                 $before = [];
                 $after = [];

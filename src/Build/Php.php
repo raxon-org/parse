@@ -2718,6 +2718,8 @@ class Php {
     public static function array_notation(App $object, $flags, $options, $input, $array): array
     {
         $inner = [];
+        d($input);
+        ddd($array);
         $to_check = array_shift($array);
         $to_check_array = $to_check;
         $to_check_array_to_object = $to_check;
@@ -2729,9 +2731,15 @@ class Php {
 //        $inner_reverse[] = 'if(is_array(' . $to_check . '[' . implode('][', $array) . '])){';
         $inner[] = $object_start . '{';
         while($check_array = array_shift($array)){
-            $line = 'if(property_exists(' . $to_check .', ' . $check_array . ')';
-            $inner[] = $line;
-            $to_check = $to_check . '->' . $check_array;
+            $inner[] = 'if(';
+//            $inner[] = '(';
+            $inner[] = 'is_object(' . $to_check . ') && property_exists(' . $to_check .', ' . $check_array . ')';
+//            $inner[] = '||';
+//            $inner[] = 'is_array(' . $to_check . ') && array_key_exists(' . $check_array . ', ' . $to_check . ')';
+//            $inner[] = ')';
+            $inner[] = '){';
+//            $inner[] = '  if(is_object(' . $to_check . ')){';
+                $to_check = $to_check . '->' . $check_array;
         }
         $inner[] = '}';
         ddd($inner);

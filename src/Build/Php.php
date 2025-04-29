@@ -2719,8 +2719,8 @@ class Php {
     {
         $inner_reverse = [];
         $to_check = array_shift($array);
-        $inner_reverse[] = 'if(is_object(' . $to_check . '->' . implode('->', $array) . ')){';
-        $inner_reverse[] = 'if(is_array(' . $to_check . '[' . implode('][', $array) . '])){';
+//        $inner_reverse[] = 'if(is_object(' . $to_check . '->' . implode('->', $array) . ')){';
+//        $inner_reverse[] = 'if(is_array(' . $to_check . '[' . implode('][', $array) . '])){';
         while($check_array = array_pop($array)){
             ddd($check_array);
             if(array_key_exists(0, $array)){

@@ -2739,15 +2739,19 @@ class Php {
             $inner[] = $object_start . '{';
             $inner[] = $array_value_uuid .' = ' . $to_check . ';';
             $inner[] = '}';
+            /*
             $inner[] = $object_start_to_array . '{';
             $inner[] = $array_value_uuid .' = ' . $to_check_object_to_array . ';';
             $inner[] = '}';
+            */
             $inner[] = $array_start . '{';
             $inner[] = $array_value_uuid .' = ' . $to_check_array . ';';
             $inner[] = '}';
+            /*
             $inner[] = $array_start_to_object . '{';
             $inner[] = $array_value_uuid .' = ' . $to_check_array_to_object . ';';
             $inner[] = '}';
+            */
         }
         ddd($inner);
 //        $inner[] = 'if(is_object(' . $to_check .'){';

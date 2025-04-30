@@ -7,4 +7,5 @@ $zero => (object) [
 'test'
 ]
 ]}}
-{{$execute[$zero][$zero][$zero]}}
+{{config('test', $execute[$zero][$zero][$zero])}}
+{{config('test')}}

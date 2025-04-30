@@ -2715,59 +2715,6 @@ class Php {
         return '$this->' . mb_strtolower($plugin);
     }
 
-    public static function array_notation(App $object, $flags, $options, $input, $array): array
-    {
-        $inner = [];
-        d($input);
-        ddd($array);
-        $to_check = array_shift($array);
-        $to_check_array = $to_check;
-        $to_check_array_to_object = $to_check;
-        $to_check_object_to_array = $to_check;
-        $object_start = 'if(is_object(' . $to_check . ')';
-        $array_start = 'if(is_array(' . $to_check . ')';
-        $array_value_uuid = Core::uuid_variable();
-//        $inner_reverse[] = 'if(is_object(' . $to_check . '->' . implode('->', $array) . ')){';
-//        $inner_reverse[] = 'if(is_array(' . $to_check . '[' . implode('][', $array) . '])){';
-        $inner[] = $object_start . '{';
-        while($check_array = array_shift($array)){
-            $inner[] = 'if(';
-//            $inner[] = '(';
-            $inner[] = 'is_object(' . $to_check . ') && property_exists(' . $to_check .', ' . $check_array . ')';
-//            $inner[] = '||';
-//            $inner[] = 'is_array(' . $to_check . ') && array_key_exists(' . $check_array . ', ' . $to_check . ')';
-//            $inner[] = ')';
-            $inner[] = '){';
-//            $inner[] = '  if(is_object(' . $to_check . ')){';
-                $to_check = $to_check . '->' . $check_array;
-        }
-        $inner[] = '}';
-        ddd($inner);
-//        $inner[] = 'if(is_object(' . $to_check .'){';
-//        $inner[] = '  if(is_object(' . $to_check . '->' . $array[0] . ')){';
-//        $inner[] = '    if(is_object(' . $to_check . '->' . $array[0] . '->' . $array[1] . ')){';
-//        $inner[] = '      if(is_object(' . $to_check . '->' . $array[0] . '->' . $array[1] . '->' . $array[2] . ')){';
-
-
-        $inner[] = '    }';
-        $inner[] = '  }';
-        $inner[] = '}';
-
-        /*
-        $separator = $object->config('package.raxon/parse.build.state.separator');
-        foreach($before as $line){
-            $data[] = str_replace($separator, ';', $line);
-        }
-        $before = [];
-        $data[] = $variable_uuid . ' = ' . $is_not . $cast . $variable_value . ';';
-        foreach($after as $line){
-            $data[] = $line;
-        }
-
-        return $data;
-        */
-    }
-
     /**
      * @throws Exception
      * @throws LocateException
@@ -2821,6 +2768,19 @@ class Php {
                         array_key_exists('array_notation', $record) &&
                         !empty($record['array_notation'])
                     ){
+                        $array_notation = Php::value($object, $flags, $options, $record, $record['variable']['array_notation'], $is_set, $before, $after);
+                        $array_notation = explode('][', substr($array_notation, 1, -1));
+                        $root_uuid = Core::uuid_variable();
+                        $separator = $object->config('package.raxon/parse.build.state.separator');
+                        if($try_catch === false){
+                            $value = '$this->value_child($data->get(\'' . $record['variable']['name'] . '\')' . ', ' . implode(', ', $array_notation) . ')';
+                        } else {
+                            $before[] = $root_uuid . ' = $data->get(\'' . $record['variable']['name'] . '\');';
+                            $before[] = $root_uuid . ' = $this->value_child(' . $root_uuid . ', ' . implode(', ', $array_notation) . ');';
+                            $value .= $root_uuid;
+                        }
+                        /*
+
                         $uuid_variable = Core::uuid_variable();
                         $try_catch = $object->config('package.raxon/parse.build.state.try_catch');
                         $separator = $object->config('package.raxon/parse.build.state.separator');
@@ -2832,6 +2792,7 @@ class Php {
                             $before[] = $uuid_variable . ' = $data->get(\'' . $record['name'] . '\')'. $array_notation . ';';
                             $value .= $uuid_variable;
                         }
+                        */
                     } else {
                         $uuid_variable = Core::uuid_variable();
                         $try_catch = $object->config('package.raxon/parse.build.state.try_catch');

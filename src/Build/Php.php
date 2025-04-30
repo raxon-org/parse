@@ -3850,7 +3850,7 @@ class Php {
                             '$this->value_concatenate(' .
                             '$data->data(' .
                             '\'' .
-                            $variable_name .
+                            str_replace('\'', '\\\'', $variable_name) .
                             '\'), ' .
                             $value .
                             ')' .
@@ -3890,7 +3890,7 @@ class Php {
                             '$this->value_plus('.
                             '$data->data('.
                             '\'' .
-                            $variable_name .
+                            str_replace('\'', '\\\'', $variable_name) .
                             '\'), ' .
                             $value .
                             ')' .
@@ -3930,7 +3930,7 @@ class Php {
                             '$this->value_minus('.
                             '$data->data('.
                             '\'' .
-                            $variable_name .
+                            str_replace('\'', '\\\'', $variable_name) .
                             '\'), ' .
                             $value .
                             ')'.
@@ -3970,7 +3970,7 @@ class Php {
                             '$this->value_multiply('.
                             '$data->data('.
                             '\'' .
-                            $variable_name .
+                            str_replace('\'', '\\\'', $variable_name) .
                             '\'), ' .
                             $value .
                             ')'.

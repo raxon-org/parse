@@ -1,6 +1,6 @@
 {{$one = '1'}}
 {{$two = '2'}}
 {{$array = []}}
-{{$array[1] = []}}
-{{$array[1][2] = 'test'}}
+{{$array[3] = []}}
+{{$array[3][2] = 'test'}}
 {{d($array)}}

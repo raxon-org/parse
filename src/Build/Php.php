@@ -3791,6 +3791,10 @@ class Php {
             }
             $value = $modifier_value;
         }
+        if(array_key_exists('array_notation', $record['variable'])){
+            d($variable_name);
+            ddd($record);
+        }
         if(
             $variable_name !== '' &&
             $operator !== ''

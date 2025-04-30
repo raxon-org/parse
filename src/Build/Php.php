@@ -3792,6 +3792,8 @@ class Php {
             $value = $modifier_value;
         }
         if(array_key_exists('array_notation', $record['variable'])){
+            $array_notation = Php::value($object, $flags, $options, $record, $record['variable'['array_notation'], $is_set, $before, $after);
+            d($array_notation);
             d($variable_name);
             ddd($record);
         }

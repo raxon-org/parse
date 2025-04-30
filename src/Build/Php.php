@@ -2781,20 +2781,6 @@ class Php {
                             $before[] = $uuid_variable . ' = $this->value_child(' . $uuid_variable . ', ' . implode(', ', $array_notation) . ');';
                             $value .= $uuid_variable;
                         }
-                        /*
-
-                        $uuid_variable = Core::uuid_variable();
-                        $try_catch = $object->config('package.raxon/parse.build.state.try_catch');
-                        $separator = $object->config('package.raxon/parse.build.state.separator');
-                        breakpoint($record);
-                        $array_notation = Php::value($object, $flags, $options, $tag, $record['array_notation'], $is_set, $before, $after);
-                        if($try_catch === false){
-                            $value .= '$data->get(\'' . $record['name'] . '\')' .  $array_notation;
-                        } else {
-                            $before[] = $uuid_variable . ' = $data->get(\'' . $record['name'] . '\')'. $array_notation . ';';
-                            $value .= $uuid_variable;
-                        }
-                        */
                     } else {
                         $try_catch = $object->config('package.raxon/parse.build.state.try_catch');
                         $separator = $object->config('package.raxon/parse.build.state.separator');
@@ -2811,7 +2797,6 @@ class Php {
                     ){
                         $after[] = '$data->set(\'' . $record['name'] . '\', ' . $uuid_variable . ');';
                     }
-                    //array_notation
                 }
             }
             elseif(

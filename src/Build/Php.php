@@ -2788,6 +2788,7 @@ class Php {
                             $value .= '$data->get(\'' . $record['name'] . '\')';
                         } else {
                             $before[] = $uuid_variable . ' = $data->get(\'' . $record['name'] . '\');';
+                            $before[] = '$data->set(\'' . substr($uuid_variable, 1) . '\', ' . $uuid_variable . ');';
                             $value .= $uuid_variable;
                         }
                     }
@@ -2883,6 +2884,7 @@ class Php {
                             ){
                                 $uuid_variable = Core::uuid_variable();
                                 $before[] = $uuid_variable . ' = $data->get(\'' . $next['name'] . '\');';
+                                $before[] = '$data->set(\'' . substr($uuid_variable, 1) . '\', ' . $uuid_variable . ');';
                                 $right = $uuid_variable;
                             }
                             elseif(

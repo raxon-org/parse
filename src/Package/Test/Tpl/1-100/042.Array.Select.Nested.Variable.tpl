@@ -9,6 +9,3 @@ $zero => (object) [
 ]}}
 {{config('test', $execute[$zero][$zero][$zero])}}
 {{config('test')}}
-{{$array = []}}
-{{$array[1] = 'test'}}
-{{d($array)}}

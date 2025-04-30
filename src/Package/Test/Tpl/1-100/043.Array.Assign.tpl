@@ -1,3 +1,3 @@
 {{$array = []}}
-{{$array[1] = 'test'}}
+{{$array['1'] = 'test'}}
 {{d($array)}}

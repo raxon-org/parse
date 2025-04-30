@@ -2768,6 +2768,8 @@ class Php {
                         array_key_exists('array_notation', $record) &&
                         !empty($record['array_notation'])
                     ){
+                        $try_catch = $object->config('package.raxon/parse.build.state.try_catch');
+                        $separator = $object->config('package.raxon/parse.build.state.separator');
                         $array_notation = Php::value($object, $flags, $options, $record, $record['array_notation'], $is_set, $before, $after);
                         $array_notation = explode('][', substr($array_notation, 1, -1));
                         $root_uuid = Core::uuid_variable();

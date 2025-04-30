@@ -3811,7 +3811,7 @@ class Php {
                     case '=' :
                         $item = '$data->set(' .
                             '\'' .
-                            $variable_name .
+                            str_replace('\'', '\\\'', $variable_name) .
                             '\', ' .
                             $value .
                             ')'
@@ -3845,7 +3845,7 @@ class Php {
                     case '.=' :
                         $item = '$data->set(' .
                             '\'' .
-                            $variable_name .
+                            str_replace('\'', '\\\'', $variable_name) .
                             '\', ' .
                             '$this->value_concatenate(' .
                             '$data->data(' .
@@ -3885,7 +3885,7 @@ class Php {
                     case '+=' :
                         $item = '$data->set(' .
                             '\'' .
-                            $variable_name .
+                            str_replace('\'', '\\\'', $variable_name) .
                             '\', ' .
                             '$this->value_plus('.
                             '$data->data('.
@@ -3925,7 +3925,7 @@ class Php {
                     case '-=' :
                         $item = '$data->set('.
                             '\'' .
-                            $variable_name .
+                            str_replace('\'', '\\\'', $variable_name) .
                             '\', ' .
                             '$this->value_minus('.
                             '$data->data('.
@@ -3965,7 +3965,7 @@ class Php {
                     case '*=' :
                         $item = '$data->set('.
                             '\'' .
-                            $variable_name .
+                            str_replace('\'', '\\\'', $variable_name) .
                             '\', ' .
                             '$this->value_multiply('.
                             '$data->data('.

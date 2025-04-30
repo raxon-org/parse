@@ -2775,10 +2775,10 @@ class Php {
                         $array_notation = explode('][', substr($array_notation, 1, -1));
                         $separator = $object->config('package.raxon/parse.build.state.separator');
                         if($try_catch === false){
-                            $value .= '$this->value_child($data->get(\'' . $record['variable']['name'] . '\')' . ', ' . implode(', ', $array_notation) . ')';
+                            $value .= '$this->value_child($data->get(\'' . $record['name'] . '\')' . ', ' . implode(', ', $array_notation) . ')';
                         } else {
                             $before[] = $uuid_variable . ' = $data->get(\'' . $record['name'] . '\');';
-                            $before[] = $uuid_variable . ' = $this->value_child(' . $root_uuid . ', ' . implode(', ', $array_notation) . ');';
+                            $before[] = $uuid_variable . ' = $this->value_child(' . $uuid_variable . ', ' . implode(', ', $array_notation) . ');';
                             $value .= $uuid_variable;
                         }
                         /*

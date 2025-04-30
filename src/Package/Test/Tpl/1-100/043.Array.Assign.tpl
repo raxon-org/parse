@@ -3,4 +3,4 @@
 {{$array = []}}
 {{$array[$one] = []}}
 {{$array[$one][$two] = 'test'}}
-{{d($array)}}
+{{dd($array)}}

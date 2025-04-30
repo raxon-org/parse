@@ -1078,6 +1078,8 @@ class Token
                                             $is_single_quoted === false &&
                                             $is_double_quoted === false
                                         ){
+                                            d($array_notation);
+                                            d($array_notation_array);
                                             $variable = [
                                                 'is_assign' => true,
                                                 'is_not' => $is_not,

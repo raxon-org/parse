@@ -1078,16 +1078,37 @@ class Token
                                             $is_single_quoted === false &&
                                             $is_double_quoted === false
                                         ){
-                                            d($array_notation);
-                                            d($array_notation_array);
-                                            $variable = [
-                                                'is_assign' => true,
-                                                'is_not' => $is_not,
-                                                'operator' => $operator,
-                                                'name' => mb_substr($variable_target, 1),
-                                                'value' => $list,
-                                                'cast' => $cast
-                                            ];
+
+                                            if($array_notation !== ''){
+                                                $list = Token::value(
+                                                    $object,
+                                                    $flags,
+                                                    $options,
+                                                    [
+                                                        'string' => $array_notation,
+                                                        'array' => $array_notation_array,
+                                                    ],
+                                                );
+                                                $variable = [
+                                                    'is_assign' => true,
+                                                    'is_not' => $is_not,
+                                                    'operator' => $operator,
+                                                    'name' => mb_substr($variable_target, 1),
+                                                    'value' => $list,
+                                                    'cast' => $cast,
+                                                    'array_notation' => $list
+                                                ];
+                                            } else {
+                                                $variable = [
+                                                    'is_assign' => true,
+                                                    'is_not' => $is_not,
+                                                    'operator' => $operator,
+                                                    'name' => mb_substr($variable_target, 1),
+                                                    'value' => $list,
+                                                    'cast' => $cast
+                                                ];
+                                            }
+
                                         } else {
                                             if($array_notation !== ''){
                                                 d($array_notation);

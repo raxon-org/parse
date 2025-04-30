@@ -2773,7 +2773,7 @@ class Php {
                         $root_uuid = Core::uuid_variable();
                         $separator = $object->config('package.raxon/parse.build.state.separator');
                         if($try_catch === false){
-                            $value = '$this->value_child($data->get(\'' . $record['variable']['name'] . '\')' . ', ' . implode(', ', $array_notation) . ')';
+                            $value .= '$this->value_child($data->get(\'' . $record['variable']['name'] . '\')' . ', ' . implode(', ', $array_notation) . ')';
                         } else {
                             $before[] = $root_uuid . ' = $data->get(\'' . $record['variable']['name'] . '\');';
                             $before[] = $root_uuid . ' = $this->value_child(' . $root_uuid . ', ' . implode(', ', $array_notation) . ');';

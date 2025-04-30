@@ -1,12 +1,8 @@
-a
 {{$one = '1'}}
-b
 {{$two = '2'}}
-c
 {{$array = []}}
-d
 {{$array[3] = []}}
-e
 {{$array[3][2] = 'test'}}
-f
+{{$array[3][5] = 'test2'}}
+
 {{d($array)}}

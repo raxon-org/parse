@@ -2764,6 +2764,7 @@ class Php {
 
                     }
                 } else {
+                    $uuid_variable = Core::uuid_variable();
                     if(
                         array_key_exists('array_notation', $record) &&
                         !empty($record['array_notation'])
@@ -2772,14 +2773,13 @@ class Php {
                         $separator = $object->config('package.raxon/parse.build.state.separator');
                         $array_notation = Php::value($object, $flags, $options, $record, $record['array_notation'], $is_set, $before, $after);
                         $array_notation = explode('][', substr($array_notation, 1, -1));
-                        $root_uuid = Core::uuid_variable();
                         $separator = $object->config('package.raxon/parse.build.state.separator');
                         if($try_catch === false){
                             $value .= '$this->value_child($data->get(\'' . $record['variable']['name'] . '\')' . ', ' . implode(', ', $array_notation) . ')';
                         } else {
-                            $before[] = $root_uuid . ' = $data->get(\'' . $record['name'] . '\');';
-                            $before[] = $root_uuid . ' = $this->value_child(' . $root_uuid . ', ' . implode(', ', $array_notation) . ');';
-                            $value .= $root_uuid;
+                            $before[] = $uuid_variable . ' = $data->get(\'' . $record['name'] . '\');';
+                            $before[] = $uuid_variable . ' = $this->value_child(' . $root_uuid . ', ' . implode(', ', $array_notation) . ');';
+                            $value .= $uuid_variable;
                         }
                         /*
 
@@ -2796,7 +2796,6 @@ class Php {
                         }
                         */
                     } else {
-                        $uuid_variable = Core::uuid_variable();
                         $try_catch = $object->config('package.raxon/parse.build.state.try_catch');
                         $separator = $object->config('package.raxon/parse.build.state.separator');
                         if ($try_catch === false) {

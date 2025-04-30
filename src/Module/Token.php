@@ -1080,7 +1080,7 @@ class Token
                                         ){
 
                                             if($array_notation !== ''){
-                                                $list = Token::value(
+                                                $array_notation_list = Token::value(
                                                     $object,
                                                     $flags,
                                                     $options,
@@ -1096,7 +1096,7 @@ class Token
                                                     'name' => mb_substr($variable_target, 1),
                                                     'value' => $list,
                                                     'cast' => $cast,
-                                                    'array_notation' => $list
+                                                    'array_notation' => $array_notation_list
                                                 ];
                                             } else {
                                                 $variable = [

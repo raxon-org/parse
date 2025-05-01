@@ -2770,6 +2770,7 @@ class Php {
                         array_key_exists('array_notation', $record) &&
                         !empty($record['array_notation'])
                     ){
+                        breakpoint($record);
                         $try_catch = $object->config('package.raxon/parse.build.state.try_catch');
                         $separator = $object->config('package.raxon/parse.build.state.separator');
                         $array_notation = Php::value($object, $flags, $options, $record, $record['array_notation'], $is_set, $before, $after);

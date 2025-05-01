@@ -2944,9 +2944,6 @@ class Php {
                                 ddd($next);
                             }
                             $skip++;
-                            d($record['value']);
-                            d($value);
-                            breakpoint($right);
                             $value = Php::value_calculate($object, $flags, $options, $record['value'], $value, $right);
                         }
                         break;

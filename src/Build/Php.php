@@ -3081,7 +3081,7 @@ class Php {
                             $value .= Php::value($object, $flags, $options, $record, $array_key, $is_set_array, $before, $after);
                             $key_set = true;
                         }
-                        $value .= '=>';
+                        $value .= ' => ';
                     } else {
                         if($is_key === true){
                             $array_key['array'][] = $array_value;

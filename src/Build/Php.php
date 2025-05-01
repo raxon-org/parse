@@ -1633,7 +1633,6 @@ class Php {
                         ){
                             $variable = Php::variable_assign($object, $flags, $options, $record);
                             if($variable){
-                                breakpoint($variable);
                                 $data[] = $variable;
                             }
                             $next = $list[$nr + 1] ?? null;
@@ -3832,8 +3831,6 @@ class Php {
             }
         } else {
             $value = Php::value($object, $flags, $options, $record, $record['variable']['value'],$is_set, $before, $after);
-            d($before);
-            breakpoint($value);
         }
         if(array_key_exists('modifier', $record['variable'])){
             d($value);

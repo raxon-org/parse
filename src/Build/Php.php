@@ -3029,8 +3029,72 @@ class Php {
                 array_key_exists('type', $record) &&
                 $record['type'] === 'array'
             ){
+                $array_key = ['array' => []];
+                $array_value_value = ['array' => []];
+                $key_set = false;
                 foreach($record['array'] as $array_nr => $array_value){
-
+                    if(
+                        array_key_exists('value', $array_value) &&
+                        $array_value['value'] === '['
+                    ){
+                        $value .= '[';
+                        $array_key = ['array' => []];
+                        $array_value_value = ['array' => []];
+                        $is_key = true;
+                        $key_set = false;
+                    }
+                    elseif(
+                        array_key_exists('value', $array_value) &&
+                        $array_value['value'] === ']'
+                    ){
+                        if(
+                            $key_set === true &&
+                            array_key_exists(0, $array_value_value['array'])
+                        ){
+                            $value .= Php::value($object, $flags, $options, $record, $array_value_value, $is_set_array, $before, $after);
+                        }
+                        elseif(array_key_exists(0, $array_key['array'])){
+                            $value .= Php::value($object, $flags, $options, $record, $array_key, $is_set_array, $before, $after);
+                        }
+                        $array_key = ['array' => []];
+                        $array_value_value = ['array' => []];
+                        $value .= ']';
+                    }
+                    elseif(
+                        array_key_exists('value', $array_value) &&
+                        $array_value['value'] === ','
+                    ){
+                        if(
+                            $key_set === true &&
+                            array_key_exists(0, $array_value_value['array'])
+                        ){
+                            $value .= Php::value($object, $flags, $options, $record, $array_value_value, $is_set_array, $before, $after);
+                        }
+                        elseif(array_key_exists(0, $array_key['array'])){
+                            $value .= Php::value($object, $flags, $options, $record, $array_key, $is_set_array, $before, $after);
+                        }
+                        $array_key = ['array' => []];
+                        $array_value_value = ['array' => []];
+                        $value .= ',';
+                        $key_set = false;
+                    }
+                    elseif(
+                        array_key_exists('value', $array_value) &&
+                        $array_value['value'] === '=>'
+                    ){
+                        $is_key = false;
+                        if(array_key_exists(0, $array_key['array'])){
+                            $value .= Php::value($object, $flags, $options, $record, $array_key, $is_set_array, $before, $after);
+                            $key_set = true;
+                        }
+                        $value .= '=>';
+                    } else {
+                        if($is_key === true){
+                            $array_key['array'][] = $array_value;
+                        } else {
+                            $array_value_value['array'][] = $array_value;
+                        }
+                    }
                 }
                 ddd($record);
                 $value .= Php::value($object, $flags, $options, $record, $record, $is_set_array, $before, $after);

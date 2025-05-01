@@ -3029,6 +3029,10 @@ class Php {
                 array_key_exists('type', $record) &&
                 $record['type'] === 'array'
             ){
+                foreach($record['array'] as $array_nr => $array_value){
+
+                }
+                ddd($record);
                 $value .= Php::value($object, $flags, $options, $record, $record, $is_set_array, $before, $after);
                 //remove next newline
                 $object->config('package.raxon/parse.build.state.remove_newline_next', true);

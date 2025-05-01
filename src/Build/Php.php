@@ -1633,6 +1633,7 @@ class Php {
                         ){
                             $variable = Php::variable_assign($object, $flags, $options, $record);
                             if($variable){
+                                breakpoint($variable);
                                 $data[] = $variable;
                             }
                             $next = $list[$nr + 1] ?? null;

@@ -3797,7 +3797,10 @@ class Php {
             $operator !== ''
         ){
             if(array_key_exists('array_notation', $record['variable'])){
+                breakpoint($record);
                 $array_notation = Php::value($object, $flags, $options, $record, $record['variable']['array_notation'], $is_set, $before, $after);
+                d($before);
+                breakpoint($array_notation);
                 $variable_name .= $array_notation;
             }
             $result = $before;

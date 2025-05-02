@@ -1680,8 +1680,15 @@ class Token
             is_array($input['array'][$index])
         ) {
             if (array_key_exists('execute', $input['array'][$index])) {
-                d($input);
-                $item = $input['array'][$index]['execute'] ?? null;
+                if(
+                    array_key_exists('type', $input['array'][$index]) &&
+                    $input['array'][$index]['type'] === 'string'
+                ) {
+                    //special case...
+                    $item = $input['array'][$index]['value'] ?? null;
+                } else {
+                    $item = $input['array'][$index]['execute'] ?? null;
+                }
             }
             elseif (array_key_exists('tag', $input['array'][$index])) {
                 $item = $input['array'][$index]['tag'] ?? null;

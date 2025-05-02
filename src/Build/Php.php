@@ -3368,6 +3368,7 @@ class Php {
                 }
             }
         }
+        breakpoint($record);
         if(array_key_exists('modifier', $record['variable'])){
             $before = [];
             $after = [];
@@ -3530,7 +3531,6 @@ class Php {
                 }
                 $data[] = '}';
             } else {
-                breakpoint($record);
                 $data = [];
                 $data[] = 'try {';
                 $data[] = $variable_uuid . ' = ' . $is_not . $cast . '$data->data(\'' . $variable_name . '\');' ;

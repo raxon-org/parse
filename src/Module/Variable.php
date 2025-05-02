@@ -559,6 +559,7 @@ class Variable
                         'name' => $modifier_name,
                         'argument' => $argument_array
                     ];
+                    breakpoint($input['array'][$is_variable]);
                     $index_set_depth = 0;
                     //check this
                     for($index = $is_variable + 1; $index < $nr; $index++){
@@ -705,6 +706,7 @@ class Variable
                         'name' => $modifier_name,
                         'argument' => $argument_array
                     ];
+                    breakpoint($input['array'][$is_variable]);
                     if(array_key_exists('modifier', $input)){
                         foreach($input['modifier'] as $index => $modifier){
                             $input['array'][$is_variable]['modifier'][] = $modifier;
@@ -804,6 +806,7 @@ class Variable
                             'name' => $modifier_name,
                             'argument' => $argument_array
                         ];
+                        breakpoint($input['array'][$is_variable]);
                         if(
                             $is_array === true &&
                             $set_depth === $set_depth_modifier
@@ -835,6 +838,7 @@ class Variable
                             'name' => $modifier_name,
                             'argument' => []
                         ];
+                        breakpoint($input['array'][$is_variable]);
                         //check this
                         for($index = $is_variable + 1; $index <= $nr; $index++){
                             $input['array'][$index] = null;
@@ -966,7 +970,7 @@ class Variable
                     'name' => $modifier_name,
                     'argument' => $argument_array
                 ];
-                //check this
+                breakpoint($input['array'][$is_variable]);
                 for($index = $is_variable + 1; $index <= $nr; $index++){
                     $input['array'][$index] = null;
                 }
@@ -977,7 +981,6 @@ class Variable
                     'name' => $modifier_name,
                     'argument' => []
                 ];
-                //check this
                 for($index = $is_variable + 1; $index <= $nr; $index++){
                     $input['array'][$index] = null;
                 }

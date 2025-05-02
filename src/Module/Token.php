@@ -560,6 +560,8 @@ class Token
                                     $operator = $char;
                                     continue;
                                 }
+                                d($operator);
+                                d($is_after);
                                 if($operator && $is_after === false){
                                     if($operator === '.' && $char === '='){
                                         $operator .= $char;

@@ -648,6 +648,16 @@ class Token
                                     }
                                 }
                                 elseif($is_after) {
+                                    d($operator);
+                                    d($is_after);
+                                    breakpoint('found');
+                                    /**
+                                     * elseif($operator === '.'){
+                                    //fix false positives
+                                    $variable_name .= $operator . $char;
+                                    $operator = false;
+                                    }
+                                     */
                                     if(
                                         (
                                             $char === ' ' ||

@@ -2752,6 +2752,9 @@ class Php {
         $input = Variable::modifier($object, $flags, $options, $input, $tag);
         d($input);
         foreach ($input['array'] as $nr => $record) {
+            if($record === null){
+                continue;
+            }
             if($skip > 0){
                 $skip--;
                 continue;

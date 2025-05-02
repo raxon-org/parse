@@ -776,6 +776,7 @@ class Variable
                     $is_modifier !== false
                 ){
                     if($is_argument !== false){
+                        trace();
                         breakpoint($argument_array);
                         foreach($argument_array as $argument_nr => $array){
                             if(array_key_exists('string', $array)){

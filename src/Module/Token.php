@@ -1193,6 +1193,9 @@ class Token
                                         'is_not' => $is_not,
                                         'cast' => $cast
                                     ]);
+                                    d($after);
+                                    d($after_array);
+                                    breakpoint('wrong ?');
                                     $list = Token::value(
                                         $object,
                                         $flags,

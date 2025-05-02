@@ -3530,6 +3530,7 @@ class Php {
                 }
                 $data[] = '}';
             } else {
+                breakpoint($record);
                 $data = [];
                 $data[] = 'try {';
                 $data[] = $variable_uuid . ' = ' . $is_not . $cast . '$data->data(\'' . $variable_name . '\');' ;

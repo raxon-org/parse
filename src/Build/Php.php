@@ -1644,7 +1644,6 @@ class Php {
                             array_key_exists('is_define', $record['variable']) &&
                             $record['variable']['is_define'] === true
                         ){
-                            breakpoint($record);
                             $variable = Php::variable_define($object, $flags, $options, $record);
                             if($variable){
                                 foreach($variable as $line){
@@ -3343,8 +3342,6 @@ class Php {
             trace();
             ddd($record);
         }
-        d($record);
-        trace();
         $source = $options->source ?? '';
         $variable_name = $record['variable']['name'];
         $variable_uuid = Core::uuid_variable();
@@ -3371,7 +3368,6 @@ class Php {
                 }
             }
         }
-        breakpoint($record);
         if(array_key_exists('modifier', $record['variable'])){
             $before = [];
             $after = [];
@@ -3867,10 +3863,7 @@ class Php {
             $operator !== ''
         ){
             if(array_key_exists('array_notation', $record['variable'])){
-                breakpoint($record);
                 $array_notation = Php::value($object, $flags, $options, $record, $record['variable']['array_notation'], $is_set, $before, $after);
-                d($before);
-                breakpoint($array_notation);
                 $variable_name .= $array_notation;
             }
             $result = $before;

@@ -25,6 +25,10 @@ class Symbol
             trace();
             ddd($input);
         }
+        if(is_string($input['array'])){
+            trace();
+            ddd($input);
+        }
         $skip = 0;
         foreach($input['array'] as $nr => $char){
             $previous_nr = $nr - 1;

@@ -307,7 +307,6 @@ class Variable
                                         ':',
                                         '_',
                                         '#',
-                                        ']'
                                     ],
                                     true
                                 )

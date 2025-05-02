@@ -952,6 +952,9 @@ class Variable
                     }
 //                    $argument_nr++; //already happened
                 }
+                elseif($current === ']'){
+                    ddd('found');
+                }
             }
             elseif(
                 $is_argument

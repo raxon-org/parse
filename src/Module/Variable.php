@@ -341,6 +341,8 @@ class Variable
                                     $input['array'][$is_variable - 1] = null;
                                 }
                                 if($array_notation !== ''){
+                                    d($array_notation);
+                                    breakpoint($array_notation_array);
                                     $list = Token::value(
                                         $object,
                                         $flags,
@@ -416,6 +418,8 @@ class Variable
                         $input['array'][$is_variable - 1] = null;
                     }
                     if($array_notation !== ''){
+                        d($array_notation);
+                        breakpoint($array_notation_array);
                         $list = Token::value(
                             $object,
                             $flags,

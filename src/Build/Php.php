@@ -1690,7 +1690,16 @@ class Php {
                             }
                             $data[] = '}';
                         }
-                        if($record['method']['name'] === 'break'){
+                        if(
+                            in_array(
+                                $record['method']['name'],
+                                [
+                                    'break',
+                                '   continue'
+                                ],
+                                true
+                            )
+                        ){
                             $data[] = $method . ';';
                         } elseif($method) {
                             $uuid_method = Core::uuid_variable();

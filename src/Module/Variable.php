@@ -261,12 +261,6 @@ class Variable
                         $is_array_notation = true;
                         $array_depth++;
                     }
-                    elseif($current === ']'){
-                        $array_depth--;
-                        if($array_depth === 0){
-                            $is_array_notation = false;
-                        }
-                    }
                     elseif(
                         in_array(
                             $current,
@@ -380,6 +374,12 @@ class Variable
                         }
                         elseif($has_name === false){
                             $name .= $current;
+                        }
+                        elseif($current === ']'){
+                            $array_depth--;
+                            if($array_depth === 0){
+                                $is_array_notation = false;
+                            }
                         }
                     }
                 }

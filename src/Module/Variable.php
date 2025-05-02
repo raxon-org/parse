@@ -488,6 +488,7 @@ class Variable
         $argument = [];
         $argument_array = [];
         $nr = $count - 1;
+        d($input);
         foreach($input['array'] as $nr => $char) {
             if(!is_numeric($nr)){
                 // ',' in modifier causes this
@@ -686,7 +687,6 @@ class Variable
                 breakpoint($array_depth);
                 if($array_depth === 0){
                     $is_array = false;
-                    $is_modifier = false;
                 }
             }
             elseif(

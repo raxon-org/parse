@@ -31,6 +31,10 @@ class Symbol
         }
         $skip = 0;
         foreach($input['array'] as $nr => $char){
+            if(!is_int($nr)){
+                trace();
+                ddd($input);
+            }
             $previous_nr = $nr - 1;
             if($previous_nr < 0){
                 $previous_nr = null;

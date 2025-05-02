@@ -518,7 +518,6 @@ class Variable
                             $argument[$argument_nr] = '';
                         }
                         $argument[$argument_nr] .= $current;
-                        d($char);
                         $argument_array[$argument_nr][] = $char;
                         $modifier_string .= $current;
                     }
@@ -875,6 +874,7 @@ class Variable
                             "\r",
                             ':',
                             '|',
+                            ']'
                         ],
                         true
                     )

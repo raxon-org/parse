@@ -3342,6 +3342,8 @@ class Php {
             trace();
             ddd($record);
         }
+        d($record);
+        trace();
         $source = $options->source ?? '';
         $variable_name = $record['variable']['name'];
         $variable_uuid = Core::uuid_variable();

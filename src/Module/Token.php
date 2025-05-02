@@ -1655,15 +1655,15 @@ class Token
         if($cache->has($hash)){
             $input = $cache->get($hash);
         } else {
-            d($input);
+//            d($input);
             $input = Symbol::define($object, $flags, $options, $input);
 //            $input = Token::remove_comment($object, $flags, $options, $input);
 //            breakpoint($input);
             $input = Cast::define($object, $flags, $options, $input);
             $input = Method::define($object, $flags, $options, $input, $tag);
-            d($input);
+//            d($input);
             $input = Variable::define($object, $flags, $options, $input);
-d($input);
+//d($input);
             $input = Variable::modifier($object, $flags, $options, $input, $tag);
             $input = Variable::assign($object, $flags, $options, $input);
             $input = Value::define($object, $flags, $options, $input);

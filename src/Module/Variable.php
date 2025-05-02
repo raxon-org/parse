@@ -536,7 +536,6 @@ class Variable
                             ddd($set_depth_argument);
                         }
                     }
-                    breakpoint($argument_array);
                     foreach($argument_array as $argument_nr => $array){
                         $argument_value = Cast::define(
                             $object,
@@ -554,7 +553,6 @@ class Variable
                             $argument_value,
                             $tag
                         );
-                        breakpoint($argument_value);
                         $argument_array[$argument_nr] = $argument_value;
                     }
                     $input['array'][$is_variable]['modifier'][] = [
@@ -684,7 +682,6 @@ class Variable
                 )
             ){
                 if($is_argument !== false){
-                    breakpoint($argument_array);
                     foreach($argument_array as $argument_nr => $array){
                         $argument_value = Cast::define(
                             $object,
@@ -702,7 +699,6 @@ class Variable
                             $argument_value,
                             $tag
                         );
-                        breakpoint($argument_value);
                         $argument_array[$argument_nr] = $argument_value;
                     }
                     $input['array'][$is_variable]['modifier'][] = [
@@ -804,7 +800,6 @@ class Variable
                             );
                             $argument_array[$argument_nr] = $argument_value;
                         }
-                        breakpoint($argument_array);
                         $input['array'][$is_variable]['modifier'][] = [
                             'string' => $modifier_string,
                             'name' => $modifier_name,
@@ -948,7 +943,6 @@ class Variable
             $is_modifier !== false
         ){
             if($is_argument !== false){
-                breakpoint($argument_array);
                 foreach($argument_array as $argument_nr => $array){
                     $argument_value = Cast::define(
                         $object,
@@ -959,7 +953,6 @@ class Variable
                             'array' => $array
                         ]
                     );
-                    d($argument_value);
                     $argument_value = Token::value(
                         $object,
                         $flags,

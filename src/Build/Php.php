@@ -1907,6 +1907,7 @@ class Php {
                         'for_each',
                         'for.each',
                         'break',
+                        'continue',
                         'while',
                     ],
                     true
@@ -1935,7 +1936,21 @@ class Php {
                     ){
                         $method_value .= ' ' . $record['method']['argument'][0]['array'][0]['value'];
                     }
-                } else {
+                }
+                elseif($record['method']['name'] === 'continue'){
+                    $method_value = 'continue';
+                    if(
+                        array_key_exists('argument', $record['method']) &&
+                        array_key_exists(0, $record['method']['argument']) &&
+                        array_key_exists('array', $record['method']['argument'][0]) &&
+                        array_key_exists(0, $record['method']['argument'][0]['array']) &&
+                        array_key_exists('type', $record['method']['argument'][0]['array'][0]) &&
+                        $record['method']['argument'][0]['array'][0]['type'] === 'integer'
+                    ){
+                        $method_value .= ' ' . $record['method']['argument'][0]['array'][0]['value'];
+                    }
+                }
+                else {
                     $method_value = $record['method']['name']  . '(';
                 }
                 if($record['method']['name'] === 'for'){
@@ -2264,7 +2279,8 @@ class Php {
                     !in_array(
                         $record['method']['name'],
                         [
-                            'break'
+                            'break',
+                            'continue'
                         ],
                         true
                     )
@@ -2275,7 +2291,8 @@ class Php {
                     !in_array(
                         $record['method']['name'],
                         [
-                            'break'
+                            'break',
+                            'continue'
                         ],
                         true
                     )

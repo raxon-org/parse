@@ -3373,6 +3373,7 @@ class Php {
             $after = [];
             $previous_modifier = '$data->data(\'' . $variable_name . '\')' . $method_value;
             $modifier_value = $previous_modifier;
+            d($record);
             foreach($record['variable']['modifier'] as $nr => $modifier){
                 $plugin = Php::plugin($object, $flags, $options, $record, str_replace('.', '_', $modifier['name']));
                 $modifier_value = $plugin . '(' . PHP_EOL;
@@ -3380,7 +3381,6 @@ class Php {
                 $is_argument = false;
                 if(array_key_exists('argument', $modifier)){
                     foreach($modifier['argument'] as $argument_nr => $argument){
-                        d($argument);
                         $argument = Php::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
                         if($argument !== ''){
                             $modifier_value .= $argument . ',' . PHP_EOL;

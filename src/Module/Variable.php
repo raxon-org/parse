@@ -452,7 +452,6 @@ class Variable
         if(array_key_exists('array', $input) === false){
             return $input;
         }
-        d($input);
         $count = count($input['array']);
         $set_depth = 0;
         $set_depth_modifier = false;
@@ -514,6 +513,7 @@ class Variable
                             $argument[$argument_nr] = '';
                         }
                         $argument[$argument_nr] .= $current;
+                        d($char);
                         $argument_array[$argument_nr][] = $char;
                         $modifier_string .= $current;
                     }
@@ -554,6 +554,7 @@ class Variable
                             $argument_value,
                             $tag
                         );
+                        breakpoint($argument_value);
                         $argument_array[$argument_nr] = $argument_value;
                     }
                     $input['array'][$is_variable]['modifier'][] = [
@@ -701,6 +702,7 @@ class Variable
                             $argument_value,
                             $tag
                         );
+                        breakpoint($argument_value);
                         $argument_array[$argument_nr] = $argument_value;
                     }
                     $input['array'][$is_variable]['modifier'][] = [

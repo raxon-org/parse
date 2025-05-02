@@ -655,13 +655,6 @@ class Token
                                     }
                                 }
                                 elseif($is_after) {
-                                    /**
-                                     * elseif($operator === '.'){
-                                    //fix false positives
-                                    $variable_name .= $operator . $char;
-                                    $operator = false;
-                                    }
-                                     */
                                     if(
                                         (
                                             $char === ' ' ||

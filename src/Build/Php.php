@@ -3373,7 +3373,6 @@ class Php {
             $after = [];
             $previous_modifier = '$data->data(\'' . $variable_name . '\')' . $method_value;
             $modifier_value = $previous_modifier;
-            d($record);
             foreach($record['variable']['modifier'] as $nr => $modifier){
                 $plugin = Php::plugin($object, $flags, $options, $record, str_replace('.', '_', $modifier['name']));
                 $modifier_value = $plugin . '(' . PHP_EOL;

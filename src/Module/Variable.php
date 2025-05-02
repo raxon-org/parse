@@ -474,8 +474,6 @@ class Variable
         $argument = [];
         $argument_array = [];
         $nr = $count - 1;
-        trace();
-        d($input);
         foreach($input['array'] as $nr => $char) {
             if(!is_numeric($nr)){
                 // ',' in modifier causes this
@@ -561,7 +559,6 @@ class Variable
                         'name' => $modifier_name,
                         'argument' => $argument_array
                     ];
-                    breakpoint($input['array'][$is_variable]);
                     $index_set_depth = 0;
                     //check this
                     for($index = $is_variable + 1; $index < $nr; $index++){
@@ -708,7 +705,6 @@ class Variable
                         'name' => $modifier_name,
                         'argument' => $argument_array
                     ];
-                    breakpoint($input['array'][$is_variable]);
                     if(array_key_exists('modifier', $input)){
                         foreach($input['modifier'] as $index => $modifier){
                             $input['array'][$is_variable]['modifier'][] = $modifier;
@@ -808,7 +804,6 @@ class Variable
                             'name' => $modifier_name,
                             'argument' => $argument_array
                         ];
-                        breakpoint($input['array'][$is_variable]);
                         if(
                             $is_array === true &&
                             $set_depth === $set_depth_modifier
@@ -840,7 +835,6 @@ class Variable
                             'name' => $modifier_name,
                             'argument' => []
                         ];
-                        breakpoint($input['array'][$is_variable]);
                         //check this
                         for($index = $is_variable + 1; $index <= $nr; $index++){
                             $input['array'][$index] = null;
@@ -948,7 +942,6 @@ class Variable
             $is_modifier !== false
         ){
             if($is_argument !== false){
-                breakpoint($argument_array);
                 foreach($argument_array as $argument_nr => $array){
                     $argument_value = Cast::define(
                         $object,
@@ -973,7 +966,6 @@ class Variable
                     'name' => $modifier_name,
                     'argument' => $argument_array
                 ];
-                breakpoint($input['array'][$is_variable]);
                 for($index = $is_variable + 1; $index <= $nr; $index++){
                     $input['array'][$index] = null;
                 }

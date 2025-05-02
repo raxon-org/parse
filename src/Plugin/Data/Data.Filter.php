@@ -12,6 +12,10 @@ trait Data_Filter {
      */
     protected function data_filter(array $list=null, array $where=[]): mixed
     {
-        return Filter::list($list)->where($where);
+        d($list);
+        d($where);
+        $list = Filter::list($list)->where($where);
+        ddd($list);
+        return $list;
     }
 }

@@ -1062,7 +1062,7 @@ class Token
                                                 'argument' => $argument_value
                                             ];
                                         }
-                                        breakpoint($operator);
+                                        breakpoint($modifier_array);
                                         $variable = [
                                             'is_define' => true,
                                             'is_not' => $is_not,
@@ -1141,7 +1141,7 @@ class Token
                                                 $array_notation_array = [];
                                                 $has_variable_name = false;
                                             } else {
-                                                breakpoint($operator);
+                                                breakpoint($modifier_array);
                                                 $variable = [
                                                     'is_define' => true,
                                                     'is_not' => $is_not,

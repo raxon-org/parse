@@ -1695,7 +1695,7 @@ class Php {
                                 $record['method']['name'],
                                 [
                                     'break',
-                                '   continue'
+                                    'continue'
                                 ],
                                 true
                             )

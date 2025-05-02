@@ -859,6 +859,7 @@ class Variable
                 $is_variable = $nr;
             }
             if($is_modifier === true){
+                breakpoint($array_depth);
                 $modifier_string .= $current;
             }
             if(
@@ -875,7 +876,6 @@ class Variable
                             "\r",
                             ':',
                             '|',
-                            ']'
                         ],
                         true
                     )

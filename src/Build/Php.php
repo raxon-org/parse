@@ -22,6 +22,7 @@ use Raxon\Module\File;
 use Raxon\Parse\Module\Token;
 
 use Raxon\Parse\Module\Validator;
+use Raxon\Parse\Module\Variable;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionObject;
@@ -2748,6 +2749,7 @@ class Php {
         $value = '';
         $skip = 0;
         $input = Php::value_set($object, $flags, $options, $input, $is_set);
+        $input = Variable::modifier($object, $flags, $options, $input, $tag);
         d($input);
         foreach ($input['array'] as $nr => $record) {
             if($skip > 0){

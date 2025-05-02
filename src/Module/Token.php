@@ -1655,7 +1655,7 @@ class Token
         if($cache->has($hash)){
             $input = $cache->get($hash);
         } else {
-//            d($input);
+            d($input);
             $input = Symbol::define($object, $flags, $options, $input);
 //            $input = Token::remove_comment($object, $flags, $options, $input);
 //            breakpoint($input);

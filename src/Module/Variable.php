@@ -239,6 +239,7 @@ class Variable
         $has_name = false;
         $name = '';
 //        breakpoint($input);
+        $array_depth = 0;
         foreach($input['array'] as $nr => $char){
             if(!is_numeric($nr)){
                 // ',' in modifier causes this
@@ -258,8 +259,15 @@ class Variable
                     $current = Token::item($input, $i);
                     if($current === '['){
                         $is_array_notation = true;
+                        $array_depth++;
                     }
-                    if(
+                    elseif($current === ']'){
+                        $array_depth--;
+                        if($array_depth === 0){
+                            $is_array_notation = false;
+                        }
+                    }
+                    elseif(
                         in_array(
                             $current,
                             [

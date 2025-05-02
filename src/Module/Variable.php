@@ -669,6 +669,7 @@ class Variable
                 $is_double_quote_backslash === false
             ){
                 $array_depth--;
+                breakpoint($array_depth);
                 if($array_depth === 0){
                     $is_array = false;
                 }

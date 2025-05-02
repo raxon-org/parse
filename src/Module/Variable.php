@@ -429,6 +429,7 @@ class Variable
                                 'array' => $array_notation_array,
                             ],
                         );
+                        breakpoint($list);
                     }
                     $input['array'][$is_variable] = [
                         'type' => 'variable',

@@ -1700,6 +1700,7 @@ class Php {
                                 true
                             )
                         ){
+
                             $data[] = $method . ';';
                         } elseif($method) {
                             $uuid_method = Core::uuid_variable();
@@ -1933,21 +1934,17 @@ class Php {
                 ){
                     $method_value = 'elseif(';
                 }
-                elseif($record['method']['name'] === 'break'){
-                    $method_value = 'break';
-                    if(
-                        array_key_exists('argument', $record['method']) &&
-                        array_key_exists(0, $record['method']['argument']) &&
-                        array_key_exists('array', $record['method']['argument'][0]) &&
-                        array_key_exists(0, $record['method']['argument'][0]['array']) &&
-                        array_key_exists('type', $record['method']['argument'][0]['array'][0]) &&
-                        $record['method']['argument'][0]['array'][0]['type'] === 'integer'
-                    ){
-                        $method_value .= ' ' . $record['method']['argument'][0]['array'][0]['value'];
-                    }
-                }
-                elseif($record['method']['name'] === 'continue'){
-                    $method_value = 'continue';
+                elseif(
+                    in_array(
+                    $record['method']['name'],
+                    [
+                        'break',
+                        'continue'
+                    ],
+                    true
+                    )
+                ){
+                    $method_value = $record['method']['name'];
                     if(
                         array_key_exists('argument', $record['method']) &&
                         array_key_exists(0, $record['method']['argument']) &&

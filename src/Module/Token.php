@@ -562,7 +562,9 @@ class Token
                                 }
                                 if($operator === '.' && $is_after === true){
                                     //fix false positives
-                                    $variable_name .= $operator . $char;
+//                                    $variable_name .= $operator . $char;
+                                    $after .= $char;
+                                    $after_array[] = $char;
                                     $operator = false;
                                 }
                                 if($operator && $is_after === false){

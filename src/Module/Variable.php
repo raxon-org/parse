@@ -474,6 +474,7 @@ class Variable
         $argument = [];
         $argument_array = [];
         $nr = $count - 1;
+        trace();
         d($input);
         foreach($input['array'] as $nr => $char) {
             if(!is_numeric($nr)){

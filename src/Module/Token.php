@@ -875,6 +875,7 @@ class Token
                                             ],
                                             $record
                                         );
+                                        breakpoint($operator);
                                         $variable = [
                                             'is_define' => true,
                                             'is_not' => $is_not,

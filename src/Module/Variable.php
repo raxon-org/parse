@@ -687,6 +687,7 @@ class Variable
                 breakpoint($array_depth);
                 if($array_depth === 0){
                     $is_array = false;
+                    $is_modifier = false;
                 }
             }
             elseif(

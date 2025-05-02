@@ -475,6 +475,7 @@ class Variable
         $is_double_quote_backslash = false;
         $is_array = false;
         $array_depth = 0;
+        $array_depth_modifier = false;
         $argument_nr = -1;
         $argument = [];
         $argument_array = [];
@@ -506,6 +507,10 @@ class Variable
                     (
                         $set_depth === $set_depth_modifier - 1 ||
                         $set_depth_modifier === false
+                    ) &&
+                    (
+                        $array_depth === $array_depth_modifier - 1 ||
+                        $array_depth_modifier === false
                     )
                 ){
                     if(
@@ -597,6 +602,7 @@ class Variable
                     $argument = [];
                     $argument_nr = -1;
                     $set_depth_modifier = false;
+                    $array_depth_modifier = false;
                 }
             }
             elseif($current === '{{'){
@@ -684,6 +690,10 @@ class Variable
                 (
                     $set_depth === $set_depth_modifier ||
                     $set_depth_modifier === false
+                ) &&
+                (
+                    $array_depth === $array_depth_modifier ||
+                    $array_depth_modifier === false
                 )
             ){
                 if($is_argument !== false){
@@ -758,6 +768,10 @@ class Variable
                 (
                     $set_depth === $set_depth_modifier ||
                     $set_depth_modifier === false
+                ) &&
+                (
+                    $array_depth === $array_depth_modifier ||
+                    $array_depth_modifier === false
                 )
             ){
                 if($is_modifier !== false){
@@ -773,6 +787,10 @@ class Variable
                 (
                     $set_depth === $set_depth_modifier ||
                     $set_depth_modifier === false
+                ) &&
+                (
+                    $array_depth === $array_depth_modifier ||
+                    $array_depth_modifier === false
                 )
             ){
                 if(
@@ -812,8 +830,9 @@ class Variable
                         ];
                         if(
                             $is_array === true &&
-                            $set_depth === $set_depth_modifier
-                        ){
+                            $set_depth === $set_depth_modifier &&
+                            $array_depth === $array_depth_modifier
+                         ){
                             //keep the comma
                             for($index = $is_variable + 1; $index < $nr; $index++){
                                 $input['array'][$index] = null;
@@ -828,6 +847,7 @@ class Variable
                             $argument = [];
                             $argument_nr = -1;
                             $set_depth_modifier = false;
+                            $array_depth_modifier = false;
                         } else {
                             //remove the comma
                             for($index = $is_variable + 1; $index <= $nr; $index++){
@@ -859,7 +879,6 @@ class Variable
                 $is_variable = $nr;
             }
             if($is_modifier === true){
-                breakpoint($array_depth);
                 $modifier_string .= $current;
             }
             if(
@@ -888,6 +907,13 @@ class Variable
                             $set_depth_modifier = $set_depth;
                         }
                     }
+                    if($array_depth_modifier === false){
+                        if($array_depth === 0){
+                            $array_depth_modifier = 0;
+                        } else {
+                            $array_depth_modifier = $array_depth;
+                        }
+                    }
                 }
                 elseif(
                     in_array(
@@ -907,6 +933,13 @@ class Variable
                             $set_depth_modifier = 0;
                         } else {
                             $set_depth_modifier = $set_depth;
+                        }
+                    }
+                    if($array_depth_modifier === false){
+                        if($array_depth === 0){
+                            $array_depth_modifier = 0;
+                        } else {
+                            $array_depth_modifier = $array_depth;
                         }
                     }
 //                    $argument_nr++; //already happened

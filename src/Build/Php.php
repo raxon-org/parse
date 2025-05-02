@@ -2794,6 +2794,7 @@ class Php {
                     ){
                         $try_catch = $object->config('package.raxon/parse.build.state.try_catch');
                         $separator = $object->config('package.raxon/parse.build.state.separator');
+                        d($record['array_notation']);
                         $array_notation = Php::value($object, $flags, $options, $record, $record['array_notation'], $is_set, $before, $after);
                         d($array_notation);
                         $array_notation = explode('][', substr($array_notation, 1, -1));

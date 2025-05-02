@@ -888,6 +888,7 @@ class Variable
                 $is_variable = $nr;
             }
             if($is_modifier === true){
+                d($array_depth);
                 $modifier_string .= $current;
             }
             if(

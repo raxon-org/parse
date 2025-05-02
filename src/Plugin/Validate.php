@@ -14,8 +14,8 @@ trait Validate {
 
     public function validate_argument(mixed $value, string $type, array $validation, int $argument_nr=null): void
     {
-        trace();
-        $object = $this->object();
+//        trace();
+//        $object = $this->object();
 //        d($value);
 //        d($argument_nr);
 //        d($validation);

@@ -655,9 +655,6 @@ class Token
                                     }
                                 }
                                 elseif($is_after) {
-                                    d($operator);
-                                    d($is_after);
-                                    breakpoint('found');
                                     /**
                                      * elseif($operator === '.'){
                                     //fix false positives

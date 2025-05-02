@@ -132,9 +132,6 @@ class Variable
                                             true
                                         )
                                     ){
-                                        d($input);
-                                        d($char);
-                                        d($variable_nr);
                                         $variable = [
                                             'is_assign' => true,
                                             'operator' => $char['value'],
@@ -343,8 +340,6 @@ class Variable
                                     $input['array'][$is_variable - 1] = null;
                                 }
                                 if($array_notation !== ''){
-                                    d($array_notation);
-                                    breakpoint($array_notation_array);
                                     $list = Token::value(
                                         $object,
                                         $flags,
@@ -426,8 +421,6 @@ class Variable
                         $input['array'][$is_variable - 1] = null;
                     }
                     if($array_notation !== ''){
-                        d($array_notation);
-                        breakpoint($array_notation_array);
                         $list = Token::value(
                             $object,
                             $flags,
@@ -437,7 +430,6 @@ class Variable
                                 'array' => $array_notation_array,
                             ],
                         );
-                        breakpoint($list);
                     }
                     $input['array'][$is_variable] = [
                         'type' => 'variable',
@@ -488,7 +480,6 @@ class Variable
         $argument = [];
         $argument_array = [];
         $nr = $count - 1;
-        d($input);
         foreach($input['array'] as $nr => $char) {
             if(!is_numeric($nr)){
                 // ',' in modifier causes this
@@ -684,7 +675,6 @@ class Variable
                 $is_double_quote_backslash === false
             ){
                 $array_depth--;
-                breakpoint($array_depth);
                 if($array_depth === 0){
                     $is_array = false;
                     $is_modifier = false;
@@ -889,7 +879,6 @@ class Variable
                 $is_variable = $nr;
             }
             if($is_modifier === true){
-                d($current);
                 $modifier_string .= $current;
             }
             if(

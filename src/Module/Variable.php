@@ -668,7 +668,7 @@ class Variable
                 $is_double_quote === false &&
                 $is_double_quote_backslash === false
             ){
-                $array_depth++;
+                $array_depth--;
                 if($array_depth === 0){
                     $is_array = false;
                 }

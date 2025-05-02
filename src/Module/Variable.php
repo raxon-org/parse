@@ -779,8 +779,6 @@ class Variable
                     $is_modifier !== false
                 ){
                     if($is_argument !== false){
-                        trace();
-                        breakpoint($argument_array);
                         foreach($argument_array as $argument_nr => $array){
                             if(array_key_exists('string', $array)){
                                 continue;
@@ -806,6 +804,7 @@ class Variable
                             );
                             $argument_array[$argument_nr] = $argument_value;
                         }
+                        breakpoint($argument_array);
                         $input['array'][$is_variable]['modifier'][] = [
                             'string' => $modifier_string,
                             'name' => $modifier_name,

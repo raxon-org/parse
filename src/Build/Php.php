@@ -3396,7 +3396,6 @@ class Php {
                 $previous_modifier = $modifier_value;
             }
             $value = $modifier_value;
-            breakpoint($value);
             $is_not = '';
             if(array_key_exists('is_not', $record['variable'])){
                 if($record['variable']['is_not'] === true){

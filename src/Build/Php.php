@@ -1831,7 +1831,7 @@ class Php {
                     }
                     else {
                         d($content);
-                        ddd($record);
+                        d($record);
                     }
                 }
             }

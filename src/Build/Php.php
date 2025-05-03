@@ -742,6 +742,8 @@ class Php {
                             } else {
                                 if(!array_key_exists($if_method, $content)){
                                     d(trace());
+                                    d($if_method);
+                                    d($record);
                                     ddd($content);
                                 }
                                 if(!array_key_exists($row_nr, $content[$if_method]['content'])){

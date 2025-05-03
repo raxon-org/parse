@@ -741,6 +741,7 @@ class Php {
                                 $content[$if_method][$elseif_count - 1]['content'][$row_nr][] = $record;
                             } else {
                                 if(!array_key_exists($if_method, $content)){
+                                    d($options->source);
                                     d(trace());
                                     d($if_method);
                                     d($record);

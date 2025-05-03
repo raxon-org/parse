@@ -829,7 +829,7 @@ class Php {
                                 'foreach',
                                 'for.each',
                                 'for_each',
-//                                'for'
+//                                'for' //causes bug in 404 error page
                             ],
                             true
                         ) &&

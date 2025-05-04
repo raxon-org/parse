@@ -228,6 +228,7 @@ class Parse
                 $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
             }
             $rootNode = $this->local(0);
+            d($rootNode);
             if(
                 $rootNode &&
                 is_object($rootNode)

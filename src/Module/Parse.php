@@ -321,19 +321,6 @@ class Parse
                     $object->config('package.raxon/parse.object.this.parentNode'),
                     $input
                 );
-                $key = 'this';
-                $data->set($key . '.#depth', $depth);
-                if($depth === 0){
-                    $key .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
-                    $parentNode = $this->local($depth);
-                    $data->set($key, $parentNode);
-                } else {
-                    for($index = $depth - 1; $index >= 0; $index--){
-                        $key .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
-                        $parentNode = $this->local($index);
-                        $data->set($key, $parentNode);
-                    }
-                }
                 foreach($input as $key => $value){
                     if(
                         in_array(
@@ -371,6 +358,19 @@ class Parse
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
 //                    $this->local($depth, $input);
+                    $key_parent = 'this';
+                    $data->set( $key_parent . '.#depth', $depth);
+                    if($depth === 0){
+                        $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
+                        $parentNode = $this->local($depth);
+                        $data->set($key_parent, $parentNode);
+                    } else {
+                        for($index = $depth - 1; $index >= 0; $index--){
+                            $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
+                            $parentNode = $this->local($index);
+                            $data->set($key_parent, $parentNode);
+                        }
+                    }
                     $input->{$key} = $this->compile($value, $data, $is_debug);
                     if($key === 'from'){
                         d($data->get('this'));

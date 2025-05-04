@@ -360,6 +360,7 @@ class Parse
 //                    $this->local($depth, $input);
                     $input->{$key} = $this->compile($value, $data, $is_debug);
                     if($key === 'from'){
+                        d($data->get('this'));
                         ddd($input);
                     }
                     $options->source = $old_source;

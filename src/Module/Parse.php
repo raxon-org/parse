@@ -288,6 +288,7 @@ class Parse
                     $this->local($depth, $input);
                 }
                 $options->depth = $depth;
+                $this->parse_options($options)
                 $reserved_keys = [];
                 foreach($object->config('package.raxon/parse.object.this') as $key => $value){
                     $reserved_keys[] = $value;
@@ -350,6 +351,7 @@ class Parse
 //                $temp = $this->storage();
 //                d($temp->get('script'));
                 $options->depth--;
+                $this->parse_options($options);
 //                $object->config('package.raxon/parse.build.state.this.attribute', $attribute);
 //                $object->config('package.raxon/parse.build.state.this.property', $property);
                 return $input;

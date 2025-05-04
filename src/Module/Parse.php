@@ -228,8 +228,6 @@ class Parse
                 $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
             }
             $rootNode = $this->local(0);
-            d($this->local);
-            d($rootNode);
             if(
                 $rootNode &&
                 is_object($rootNode)
@@ -242,11 +240,13 @@ class Parse
                     $key .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
                     $parentNode = $this->local($depth);
                     $data->set($key, $parentNode);
+                    d($key);
                 } else {
                     for($index = $depth - 1; $index >= 0; $index--){
                         $key .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
                         $parentNode = $this->local($index);
                         $data->set($key, $parentNode);
+                        d($key);
                     }
                 }
             }

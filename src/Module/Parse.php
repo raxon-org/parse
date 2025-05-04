@@ -135,15 +135,21 @@ class Parse
     {
         $start = microtime(true);
         if(is_array($data)){
-            $data = new Data($data);
-            $this->data($data);
+            $old = $this->data();
+            if(is_array($old)){
+                $this->data(array_merge($old, $data));
+            } elseif(is_object($old)){
+                $data = new Data(Core::object($data, Core::OBJECT));
+                $this->data(Core::object_merge($old, $data));
+            }
         }
         elseif(is_object($data)){
             if($data instanceof Data){
                 $this->data($data);
             } else {
+                $old = $this->data();
                 $data = new Data($data);
-                $this->data($data);
+                $this->data(Core::object_merge($old, $data));
             }
         } else {
             $data = $this->data();
@@ -251,7 +257,6 @@ class Parse
         } else {
             $options->hash = hash('sha256', Core::object($input, Core::OBJECT_JSON_LINE));
             if(is_array($input)){
-
                 foreach($input as $key => $value){
                     $temp_source = $options->source ?? 'source';
                     $temp_class = $options->class;

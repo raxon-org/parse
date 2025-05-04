@@ -283,11 +283,15 @@ class Parse
             elseif(is_object($input)){
                 if($depth === 0){
                     d($input);
+                    d($this->local);
+                    d($data);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.url'), $options->source ?? 'source');
                     $this->local($depth, $input);
                 } else {
                     $depth++;
                     d($input);
+                    d($this->local);
+                    d($data);
                     $this->local($depth, $input);
                 }
                 $options->depth = $depth;

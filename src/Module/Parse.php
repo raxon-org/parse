@@ -306,6 +306,18 @@ class Parse
                     $object->config('package.raxon/parse.object.this.parentNode'),
                     $input
                 );
+                $key = 'this';
+                if($depth === 0){
+                    $key .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
+                    $parentNode = $this->local($depth);
+                    $data->set($key, $parentNode);
+                } else {
+                    for($index = $depth - 1; $index >= 0; $index--){
+                        $key .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
+                        $parentNode = $this->local($index);
+                        $data->set($key, $parentNode);
+                    }
+                }
                 foreach($input as $key => $value){
                     if(
                         in_array(

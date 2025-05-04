@@ -301,6 +301,7 @@ class Parse
                         $object->config('package.raxon/parse.object.this.property')
                     )
                 );
+                d($input);
                 ddd($data->get('this'));
                 $data->set(
                     'this.' .

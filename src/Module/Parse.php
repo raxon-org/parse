@@ -273,7 +273,7 @@ class Parse
 //                    $options->source = 'internal_' . Core::uuid(); //wrong, hash should not be unique but referable
                     $options->source_root = $temp_source;
                     $options->class = Build::class_name($options->source);
-                    $this->parse_set_options($options);
+//                    $this->parse_set_options($options);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
                     $key_parent = 'this';
                     $data->set($key_parent . '.#depth', $depth);
@@ -289,7 +289,8 @@ class Parse
                         }
                     }
                     d($data->get('this'));
-                    $input[$key] = $this->compile($value, $data, $is_debug);
+                    $parse = new Parse($object, $data, $flags, $options);
+                    $input[$key] = $parse->compile($value, $data, $is_debug);
                     $options->source = $temp_source;
                     $options->class = $temp_class;
                     $this->parse_set_options($options);
@@ -360,7 +361,7 @@ class Parse
                     $options->source = 'Internal_' . ($depth + 1) . 'x' . '_' . $key . '_' . $hash;
                     $options->source_root = $old_source;
                     $options->class = Build::class_name($options->source);
-                    $this->parse_set_options($options);
+//                    $this->parse_set_options($options);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
 //                    $this->local($depth, $input);
@@ -378,7 +379,8 @@ class Parse
                         }
                     }
                     d($data->get('this'));
-                    $input->{$key} = $this->compile($value, $data, $is_debug);
+                    $parse = new Parse($object, $data, $flags, $options);
+                    $input->{$key} = $parse->compile($value, $data, $is_debug);
                     if($key === 'from'){
                         d($data->get('this'));
                         ddd($input);

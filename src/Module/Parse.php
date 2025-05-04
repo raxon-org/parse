@@ -326,7 +326,7 @@ class Parse
                             true
                         )
                     ){
-                        d('key continue' . $key);
+                        d('key continue' . $key . ' -> ' . (string) $value);
                         continue;
                     }
                     $old_source = $options->source ?? 'source';

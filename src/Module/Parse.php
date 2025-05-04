@@ -308,6 +308,7 @@ class Parse
                     $input
                 );
                 $key = 'this';
+                $data->set($key . '.#depth', $depth);
                 if($depth === 0){
                     $key .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
                     $parentNode = $this->local($depth);

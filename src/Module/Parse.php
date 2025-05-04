@@ -356,6 +356,7 @@ class Parse
                     } else {
                         $hash = hash('sha256', $key . '_' . Core::object($value, Core::JSON_LINE));
                     }
+                    $parse_options = (object) [];
                     $parse_options->source = 'Internal_' . ($depth + 1) . 'x' . '_' . $key . '_' . $hash;
                     $parse_options->source_root = $options->source ?? 'source';
                     $parse_options->class = Build::class_name($parse_options->source);

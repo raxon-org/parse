@@ -302,7 +302,7 @@ class Parse
                     )
                 );
                 d($input);
-                ddd($data->get('this'));
+                d($data->get('this'));
                 $data->set(
                     'this.' .
                     $object->config('package.raxon/parse.object.this.parentNode'),

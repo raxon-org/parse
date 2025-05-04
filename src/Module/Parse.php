@@ -343,6 +343,7 @@ class Parse
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
 //                    $this->local($depth, $input);
+                    ddd($data);
                     $input->{$key} = $this->compile($value, $data, $is_debug);
                     $options->source = $old_source;
                     if($old_class){

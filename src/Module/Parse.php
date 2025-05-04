@@ -217,6 +217,9 @@ class Parse
             $attribute = $data->get('this.' . $object->config('package.raxon/parse.object.this.attribute'));
             $property = $data->get('this.' . $object->config('package.raxon/parse.object.this.property'));
             $parentProperty = $data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty'));
+            if($depth === null){
+                $depth = 0;
+            }
             $data->set('this', $this->local($depth));
             if($url !== null){
                 $data->set('this.' . $object->config('package.raxon/parse.object.this.url'), $url);

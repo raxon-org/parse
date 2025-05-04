@@ -258,8 +258,8 @@ class Parse
             $options->hash = hash('sha256', Core::object($input, Core::OBJECT_JSON_LINE));
             if(is_array($input)){
                 foreach($input as $key => $value){
-                    $temp_source = $options->source ?? 'source';
-                    $temp_class = $options->class;
+//                    $temp_source = $options->source ?? 'source';
+//                    $temp_class = $options->class;
                     if(is_scalar($value) || is_null($value)){
                         if(is_string($value)){
                             $hash = 'scalar_' . hash('sha256', $key . '_' . '{"scalar": "' . $value . '"}');
@@ -269,10 +269,11 @@ class Parse
                     } else {
                         $hash = hash('sha256', $key . '_' . Core::object($value, Core::JSON_LINE));
                     }
-                    $options->source = 'Internal_' . $hash;
+                    $parse_options = (object) [];
+                    $parse_options->source = 'Internal_' . $hash;
 //                    $options->source = 'internal_' . Core::uuid(); //wrong, hash should not be unique but referable
-                    $options->source_root = $temp_source;
-                    $options->class = Build::class_name($options->source);
+                    $parse_options->source_root = $options->source ?? 'source';
+                    $parse_options->class = Build::class_name($parse_options->source);
 //                    $this->parse_set_options($options);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
                     $key_parent = 'this';
@@ -292,8 +293,6 @@ class Parse
                     d($options);
                     $parse = new Parse($object, $data, $flags, $options);
                     $input[$key] = $parse->compile($value, $data, $is_debug);
-                    $options->source = $temp_source;
-                    $options->class = $temp_class;
                     $this->parse_set_options($options);
                 }
                 $data->set('this.' . $object->config('package.raxon/parse.object.this.key', null));
@@ -340,8 +339,6 @@ class Parse
                         d('key continue' . $key . ' -> ' . (string) $value);
                         continue;
                     }
-                    $old_source = $options->source ?? 'source';
-                    $old_class = $options->class ?? null;
                     $source = $options->source;
                     for($i = 0; $i <= $depth; $i++){
                         if($i === 0){
@@ -359,9 +356,9 @@ class Parse
                     } else {
                         $hash = hash('sha256', $key . '_' . Core::object($value, Core::JSON_LINE));
                     }
-                    $options->source = 'Internal_' . ($depth + 1) . 'x' . '_' . $key . '_' . $hash;
-                    $options->source_root = $old_source;
-                    $options->class = Build::class_name($options->source);
+                    $parse_options->source = 'Internal_' . ($depth + 1) . 'x' . '_' . $key . '_' . $hash;
+                    $parse_options->source_root = $options->source ?? 'source';
+                    $parse_options->class = Build::class_name($parse_options->source);
 //                    $this->parse_set_options($options);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
@@ -381,17 +378,11 @@ class Parse
                     }
                     d($data->get('this'));
                     d($options);
-                    $parse = new Parse($object, $data, $flags, $options);
+                    $parse = new Parse($object, $data, $flags, $parse_options);
                     $input->{$key} = $parse->compile($value, $data, $is_debug);
                     if($key === 'from'){
                         d($data->get('this'));
                         ddd($input);
-                    }
-                    $options->source = $old_source;
-                    if($old_class){
-                        $options->class = $old_class;
-                    } else {
-                        unset($options->class);
                     }
                     $this->parse_set_options($options);
                 }

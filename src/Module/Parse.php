@@ -289,6 +289,7 @@ class Parse
                         }
                     }
                     d($data->get('this'));
+                    d($options);
                     $parse = new Parse($object, $data, $flags, $options);
                     $input[$key] = $parse->compile($value, $data, $is_debug);
                     $options->source = $temp_source;
@@ -379,6 +380,7 @@ class Parse
                         }
                     }
                     d($data->get('this'));
+                    d($options);
                     $parse = new Parse($object, $data, $flags, $options);
                     $input->{$key} = $parse->compile($value, $data, $is_debug);
                     if($key === 'from'){

@@ -372,6 +372,7 @@ class Parse
                             $data->set($key_parent, $parentNode);
                         }
                     }
+                    d($data->get('this'));
                     $input->{$key} = $this->compile($value, $data, $is_debug);
                     if($key === 'from'){
                         d($data->get('this'));

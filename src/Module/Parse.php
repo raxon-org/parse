@@ -251,19 +251,7 @@ class Parse
         } else {
             $options->hash = hash('sha256', Core::object($input, Core::OBJECT_JSON_LINE));
             if(is_array($input)){
-                $key = 'this';
-                $data->set($key . '.#depth', $depth);
-                if($depth === 0){
-                    $key .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
-                    $parentNode = $this->local($depth);
-                    $data->set($key, $parentNode);
-                } else {
-                    for($index = $depth - 1; $index >= 0; $index--){
-                        $key .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
-                        $parentNode = $this->local($index);
-                        $data->set($key, $parentNode);
-                    }
-                }
+
                 foreach($input as $key => $value){
                     $temp_source = $options->source ?? 'source';
                     $temp_class = $options->class;
@@ -282,6 +270,19 @@ class Parse
                     $options->class = Build::class_name($options->source);
                     $this->parse_set_options($options);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
+                    $key_parent = 'this';
+                    $data->set($key_parent . '.#depth', $depth);
+                    if($depth === 0){
+                        $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
+                        $parentNode = $this->local($depth);
+                        $data->set($key_parent, $parentNode);
+                    } else {
+                        for($index = $depth - 1; $index >= 0; $index--){
+                            $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
+                            $parentNode = $this->local($index);
+                            $data->set($key_parent, $parentNode);
+                        }
+                    }
                     d($data->get('this'));
                     $input[$key] = $this->compile($value, $data, $is_debug);
                     $options->source = $temp_source;

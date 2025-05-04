@@ -240,14 +240,11 @@ class Parse
                     $key .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
                     $parentNode = $this->local($depth);
                     $data->set($key, $parentNode);
-                    d($key);
-                    d($parentNode);
                 } else {
                     for($index = $depth - 1; $index >= 0; $index--){
                         $key .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
                         $parentNode = $this->local($index);
                         $data->set($key, $parentNode);
-                        d($key);
                     }
                 }
             }
@@ -282,16 +279,10 @@ class Parse
             }
             elseif(is_object($input)){
                 if($depth === 0){
-                    d($input);
-                    d($this->local);
-                    d($data);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.url'), $options->source ?? 'source');
                     $this->local($depth, $input);
                 } else {
                     $depth++;
-                    d($input);
-                    d($this->local);
-                    d($data);
                     $this->local($depth, $input);
                 }
                 $options->depth = $depth;
@@ -309,6 +300,11 @@ class Parse
                         'this.' .
                         $object->config('package.raxon/parse.object.this.property')
                     )
+                );
+                $data->set(
+                    'this.' .
+                    $object->config('package.raxon/parse.object.this.parentNode'),
+                    $data->get('this')
                 );
                 foreach($input as $key => $value){
                     if(
@@ -346,7 +342,6 @@ class Parse
                     $this->parse_set_options($options);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
-                    d($data);
 //                    $this->local($depth, $input);
                     $input->{$key} = $this->compile($value, $data, $is_debug);
                     $options->source = $old_source;

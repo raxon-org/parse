@@ -251,6 +251,8 @@ class Parse
         } else {
             $options->hash = hash('sha256', Core::object($input, Core::OBJECT_JSON_LINE));
             if(is_array($input)){
+                $key = 'this';
+                $data->set($key . '.#depth', $depth);
                 foreach($input as $key => $value){
                     $temp_source = $options->source ?? 'source';
                     $temp_class = $options->class;

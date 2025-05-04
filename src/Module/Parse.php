@@ -165,7 +165,7 @@ class Parse
         }
         */
 
-        $depth = $options->depth ?? null; //null = init
+        $depth = $options->depth ?? 0;
         $type = strtolower(gettype($input));
         if(
             in_array(
@@ -280,8 +280,7 @@ class Parse
                 return $input;
             }
             elseif(is_object($input)){
-                if($depth === null){
-                    $depth = 0;
+                if($depth === 0){
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.url'), $options->source ?? 'source');
                     $this->local($depth, $input);
                 } else {

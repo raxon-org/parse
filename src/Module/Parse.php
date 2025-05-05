@@ -439,7 +439,7 @@ class Parse
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
                     }
-                    if($key === 'upload'){
+                    if($key === 'update'){
                         d($depth);
                         ddd($options);
                     }

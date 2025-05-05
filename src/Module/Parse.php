@@ -407,7 +407,7 @@ class Parse
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
 //                    $this->local($depth, $input);
-                    $data->set( $key_parent . '.#depth', $depth);
+//                    $data->set( $key_parent . '.#depth', $depth);
                     if($depth === 0){
                         $key_parent = 'this';
                         $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
@@ -438,6 +438,10 @@ class Parse
                     $key_parent = 'this';
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
+                    }
+                    if($key === 'upload'){
+                        d($depth);
+                        ddd($options);
                     }
                     $input->{$key} = $parse->compile($value, $parse_data, $is_debug);
                     $this->parse_set_options($options);

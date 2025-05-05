@@ -18,7 +18,8 @@
             "key": "#key",
             "url": "#url",
             "parallel": "#parallel",
-            "output": "#output"
+            "output": "#output",
+            "depth": "#depth"
           }
         },
         "plugin": {

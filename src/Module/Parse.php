@@ -281,19 +281,6 @@ class Parse
 //                    $this->parse_set_options($options);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
                     $data->set('this.#depth', $depth);
-                    if($depth === 0){
-                        $key_parent = 'this';
-                        $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
-                        $parentNode = $this->local($depth);
-                        $data->set($key_parent, $parentNode);
-                    } else {
-                        $key_parent = 'this';
-                        for($index = $depth - 1; $index >= 0; $index--){
-                            $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
-                            $parentNode = $this->local($index);
-                            $data->set($key_parent, $parentNode);
-                        }
-                    }
                     $parse_options->depth = $depth;
                     $parse_data = clone $data;
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);
@@ -301,7 +288,19 @@ class Parse
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
                     }
-                    breakpoint($key);
+                    if($depth === 0){
+                        $key_parent = 'this';
+                        $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
+                        $parentNode = $parse->local($depth);
+                        $data->set($key_parent, $parentNode);
+                    } else {
+                        $key_parent = 'this';
+                        for($index = $depth - 1; $index >= 0; $index--){
+                            $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
+                            $parentNode = $parse->local($index);
+                            $data->set($key_parent, $parentNode);
+                        }
+                    }
                     d($parse_data->get('this'));
                     $input[$key] = $parse->compile($value, $parse_data, $is_debug);
                 }

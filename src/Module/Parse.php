@@ -300,7 +300,6 @@ class Parse
             }
             elseif(is_object($input)){
                 if($depth === null){
-                    d('yes');
                     $depth = 0;
                     $depth_root = 0;
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.url'), $options->source ?? 'source');
@@ -318,11 +317,7 @@ class Parse
                     $key_parent = 'this.' . $object->config('package.raxon/parse.object.this.rootNode');
                     $data->set($key_parent, $rootNode);
                 } else {
-                    trace();
-                    d($options->depth);
-                    d($this->local);
-                    d($depth_root);
-                    dd($depth);
+                    throw new Exception('Error: rootNode not set');
                 }
                 $options->depth = $depth;
                 $this->parse_options($options);

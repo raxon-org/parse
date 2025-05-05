@@ -265,7 +265,7 @@ class Parse
                     $parse_options->class = Build::class_name($parse_options->source);
 //                    $this->parse_set_options($options);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
-                    $data->set('this.#depth', $depth);
+//                    $data->set('this.#depth', $depth);
                     $parse_options->depth = $depth;
                     $parse_data = clone $data;
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);
@@ -320,7 +320,7 @@ class Parse
                     $depth = 0;
                     $depth_root = 0;
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.url'), $options->source ?? 'source');
-                    $input->{'#depth'} = $depth;
+//                    $input->{'#depth'} = $depth;
                     $this->local($depth, $input);
                     $key_parent = 'this';
                     $key_parent .= '.' . $object->config('package.raxon/parse.object.this.rootNode');
@@ -328,7 +328,7 @@ class Parse
                 } else {
                     $depth++;
                     //where is 0
-                    $input->{'#depth'} = $depth;
+//                    $input->{'#depth'} = $depth;
                     $this->local($depth, $input);
                 }
                 /*
@@ -416,7 +416,7 @@ class Parse
                         $key_parent = 'this';
                         $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
                         $parentNode = $this->local($depth);
-                        $parentNode->{'#depth'} = $depth;
+//                        $parentNode->{'#depth'} = $depth;
                         $data->set($key_parent, $parentNode);
                         $key_parent = 'this';
                         $key_parent .= '.' . $object->config('package.raxon/parse.object.this.rootNode');
@@ -426,7 +426,7 @@ class Parse
                         for($index = $depth; $index >= 0; $index--){
                             $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
                             $parentNode = $this->local($index); //input is parentnode
-                            $parentNode->{'#depth'} = $index;
+//                            $parentNode->{'#depth'} = $index;
                             $data->set($key_parent, $parentNode);
                         }
                     }

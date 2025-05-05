@@ -408,6 +408,10 @@ class Parse
                     $parse_options->class = Build::class_name($parse_options->source);
                     $parse_options->depth = $depth;
 //                    $this->parse_set_options($options);
+                    if($key === 'copy'){
+                        trace();
+                        ddd('this');
+                    }
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
                     $this->local($depth, $input);

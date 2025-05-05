@@ -135,24 +135,16 @@ class Parse
     {
         $start = microtime(true);
         if(is_array($data)){
-            $old = $this->data();
-            if(is_array($old)){
-                $this->data(array_merge($old, $data));
-            } elseif(is_object($old)){
-                $data = new Data(Core::object($data, Core::OBJECT));
-                $this->data(Core::object_merge($old, $data));
-            }
+            $data = new Data($data);
         }
         elseif(is_object($data)){
             if($data instanceof Data){
-                $this->data($data);
+                //nothing
             } else {
-                $old = $this->data();
                 $data = new Data($data);
-                $this->data(Core::object_merge($old, $data));
             }
         } else {
-            $data = $this->data();
+            $data = new Data();
         }
         $object = $this->object();
         $flags = $this->parse_flags();
@@ -322,6 +314,9 @@ class Parse
                 ) {
                     $key_parent = 'this.' . $object->config('package.raxon/parse.object.this.rootNode');
                     $data->set($key_parent, $rootNode);
+                } else {
+                    d($depth_root);
+                    dd($depth);
                 }
                 $options->depth = $depth;
                 $this->parse_options($options);

@@ -414,7 +414,7 @@ class Parse
                         $parentNode = $this->local($depth);
                         $parentNode->{'#depth'} = $depth;
                         $data->set($key_parent, $parentNode);
-                        ddd($parentNode);
+                        d($parentNode);
                     } else {
                         $key_parent = 'this';
                         for($index = $depth; $index >= 0; $index--){

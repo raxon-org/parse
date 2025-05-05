@@ -315,6 +315,14 @@ class Parse
                     $depth++;
                     $this->local($depth, $input);
                 }
+                $rootNode = $this->local($depth_root);
+                if(
+                    $rootNode &&
+                    is_object($rootNode)
+                ) {
+                    $key_parent = 'this.' . $object->config('package.raxon/parse.object.this.rootNode');
+                    $data->set($key_parent, $rootNode);
+                }
                 $options->depth = $depth;
                 $this->parse_options($options);
                 $reserved_keys = [];

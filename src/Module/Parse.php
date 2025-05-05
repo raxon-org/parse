@@ -327,6 +327,7 @@ class Parse
                     d($input);
                     $this->local($depth, $input);
                 }
+                d($depth_root);
                 $rootNode = $this->local($depth_root);
                 if(
                     $rootNode &&

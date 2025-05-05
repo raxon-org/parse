@@ -296,12 +296,13 @@ class Parse
                     $parse_options->depth = $depth;
                     d($data->get('this'));
                     d($parse_options);
-                    $parse = new Parse($object, $data, $flags, $parse_options);
+                    $parse_data = clone $data;
+                    $parse = new Parse($object, $parse_data, $flags, $parse_options);
                     $key_parent = 'this';
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
                     }
-                    $input[$key] = $parse->compile($value, $data, $is_debug);
+                    $input[$key] = $parse->compile($value, $parse_data, $is_debug);
                     $this->parse_set_options($options);
                 }
                 $data->set('this.' . $object->config('package.raxon/parse.object.this.key', null));
@@ -388,15 +389,16 @@ class Parse
                             $data->set($key_parent, $parentNode);
                         }
                     }
+                    $parse_data = clone $data;
                     d($data->get('this'));
                     d($options);
-                    $parse = new Parse($object, $data, $flags, $parse_options);
+                    $parse = new Parse($object, $parse_data, $flags, $parse_options);
                     $key_parent = 'this';
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
                     }
                     $data->set('this.test', microtime(true));
-                    $input->{$key} = $parse->compile($value, $data, $is_debug);
+                    $input->{$key} = $parse->compile($value, $parse_data, $is_debug);
                     if($key === 'from'){
                         d($data->get('this'));
                         ddd($input);

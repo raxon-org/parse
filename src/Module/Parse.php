@@ -268,6 +268,7 @@ class Parse
                     $data->set('this.#depth', $depth);
                     $parse_options->depth = $depth;
                     $parse_data = clone $data;
+                    d($parse_data->get('this'));
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));

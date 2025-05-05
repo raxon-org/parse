@@ -367,6 +367,7 @@ class Parse
                     $input
                 );
                 $property = $data->get('this.' . $object->config('package.raxon/parse.object.this.property'));
+                breakpoint($property);
                 if($property){
                     $data->set(
                         'this.' .

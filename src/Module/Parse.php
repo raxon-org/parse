@@ -298,7 +298,7 @@ class Parse
                     d($parse_options);
                     $parse = new Parse($object, $data, $flags, $parse_options);
                     $key_parent = 'this';
-                    for($index = $depth - 1; $index >= 0; $index--){
+                    for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
                     }
                     $input[$key] = $parse->compile($value, $data, $is_debug);
@@ -392,7 +392,7 @@ class Parse
                     d($options);
                     $parse = new Parse($object, $data, $flags, $parse_options);
                     $key_parent = 'this';
-                    for($index = $depth - 1; $index >= 0; $index--){
+                    for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
                     }
                     $input->{$key} = $parse->compile($value, $data, $is_debug);

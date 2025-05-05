@@ -213,6 +213,7 @@ class Parse
 //            $input = str_replace('{{/if}}', '{{elseif(true === false && \'bugfix\' === \'' . $uuid .'\')}}{{/if}}', $input); //hack, if statements always needs at least one elseif statement (position in if_queue and $methods and $before)
             $options->hash = hash('sha256', $input);
             //url, key & attribute might be already set.
+            /*
             $url = $data->get('this.' . $object->config('package.raxon/parse.object.this.url'));
             $key = $data->get('this.' . $object->config('package.raxon/parse.object.this.key'));
             $attribute = $data->get('this.' . $object->config('package.raxon/parse.object.this.attribute'));
@@ -258,6 +259,7 @@ class Parse
                     }
                 }
             }
+            */
         } else {
             $options->hash = hash('sha256', Core::object($input, Core::OBJECT_JSON_LINE));
             if(is_array($input)){

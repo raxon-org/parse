@@ -325,6 +325,7 @@ class Parse
                     //where is 0
                     $input->{'#depth'} = $depth;
                     d($input);
+                    breakpoint($data->get('this'));
                     $this->local($depth, $input);
                 }
                 $rootNode = $this->local($depth_root);

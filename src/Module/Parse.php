@@ -410,7 +410,6 @@ class Parse
 //                    $this->parse_set_options($options);
                     if($key === 'copy'){
                         trace();
-                        ddd('this');
                     }
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);

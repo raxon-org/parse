@@ -395,7 +395,7 @@ class Parse
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
                     }
-                    $data->set('test', microtime(true));
+                    $data->set('this.test', microtime(true));
                     $input->{$key} = $parse->compile($value, $data, $is_debug);
                     if($key === 'from'){
                         d($data->get('this'));

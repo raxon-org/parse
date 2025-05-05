@@ -319,13 +319,11 @@ class Parse
                     $depth_root = 0;
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.url'), $options->source ?? 'source');
                     $input->{'#depth'} = $depth;
-                    d($input);
                     $this->local($depth, $input);
                 } else {
                     $depth++;
                     //where is 0
                     $input->{'#depth'} = $depth;
-                    d($input);
                     $this->local($depth, $input);
                 }
                 d($depth_root);
@@ -416,6 +414,7 @@ class Parse
                         $parentNode = $this->local($depth);
                         $parentNode->{'#depth'} = $depth;
                         $data->set($key_parent, $parentNode);
+                        ddd($parentNode);
                     } else {
                         $key_parent = 'this';
                         for($index = $depth; $index >= 0; $index--){

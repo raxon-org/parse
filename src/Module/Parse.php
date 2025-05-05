@@ -191,6 +191,7 @@ class Parse
                 $depth_root = 0;
             }
             $rootNode = $this->local($depth_root);
+            breakpoint($rootNode);
             if(
                 $rootNode &&
                 is_object($rootNode)

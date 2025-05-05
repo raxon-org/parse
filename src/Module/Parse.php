@@ -413,7 +413,6 @@ class Parse
                         $parse->local($index, $this->local($index));
                     }
                     $input->{$key} = $parse->compile($value, $parse_data, $is_debug);
-                    unset($input->{$object->config('package.raxon/parse.object.this.property')});
                     $this->parse_set_options($options);
                 }
 //                $temp = $this->storage();

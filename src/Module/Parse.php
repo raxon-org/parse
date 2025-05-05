@@ -442,7 +442,7 @@ class Parse
                     }
                     if($key === 'command2'){
                         d($depth);
-                        ddd($options);
+                        d($options);
                     }
                     $input->{$key} = $parse->compile($value, $parse_data, $is_debug);
                     $this->parse_set_options($options);

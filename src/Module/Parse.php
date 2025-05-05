@@ -329,6 +329,7 @@ class Parse
                 }
                 d($depth_root);
                 $rootNode = $this->local($depth_root);
+                d($rootNode);
                 if(
                     $rootNode &&
                     is_object($rootNode)

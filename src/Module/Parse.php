@@ -359,6 +359,7 @@ class Parse
                     $object->config('package.raxon/parse.object.this.parentNode'),
                     $input
                 );
+                /*
                 $data->set(
                     'this.' .
                     $object->config('package.raxon/parse.object.this.parentNode') .
@@ -369,6 +370,7 @@ class Parse
                         $object->config('package.raxon/parse.object.this.property')
                     )
                 );
+                */
                 foreach($input as $key => $value){
                     if(
                         in_array(

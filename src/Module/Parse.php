@@ -317,6 +317,7 @@ class Parse
                     $key_parent = 'this.' . $object->config('package.raxon/parse.object.this.rootNode');
                     $data->set($key_parent, $rootNode);
                 } else {
+                    trace();
                     d($options->depth);
                     d($this->local);
                     d($depth_root);

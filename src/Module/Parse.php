@@ -359,7 +359,7 @@ class Parse
                     $object->config('package.raxon/parse.object.this.parentNode'),
                     $input
                 );
-                $property = $object->config('package.raxon/parse.object.this.property');
+                $property = $data->get('this.' . $object->config('package.raxon/parse.object.this.property'));
                 if($property){
                     $data->set(
                         'this.' .

@@ -339,6 +339,7 @@ class Parse
                 ) {
                     $key_parent = 'this.' . $object->config('package.raxon/parse.object.this.rootNode');
                     $data->set($key_parent, $rootNode);
+                    ddd('happening');
                 }
                 $options->depth = $depth;
                 $this->parse_options($options);

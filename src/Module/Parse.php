@@ -290,11 +290,11 @@ class Parse
                         $data->set($key_parent, $parentNode);
                     } else {
                         $key_parent = 'this';
-                        for($index = $depth - 1; $index >= 0; $index--){
+                        for($index = $depth; $index >= 0; $index--){
                             $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
                             $parentNode = $parse->local($index);
                             if(!property_exists($parentNode, $object->config('package.raxon/parse.object.this.property'))){
-                                $i = $index;
+                                $i = $index - 1;
                                 while($i >= 0){
                                     $parentParentNode = $parse->local($i);
                                     if(property_exists($parentParentNode, $object->config('package.raxon/parse.object.this.property'))){

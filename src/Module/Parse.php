@@ -285,13 +285,16 @@ class Parse
                         $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
                         $parentNode = $parse->local($depth);
                         $data->set($key_parent, $parentNode);
+                        d($parentNode);
                     } else {
                         $key_parent = 'this';
                         for($index = $depth; $index >= 0; $index--){
                             $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
                             $parentNode = $parse->local($index);
                             $data->set($key_parent, $parentNode);
+                            d($parentNode);
                         }
+
                     }
                     $input[$key] = $parse->compile($value, $parse_data, $is_debug);
                 }

@@ -284,10 +284,13 @@ class Parse
                     $parse_options->depth = $depth;
                     $parse_data = clone $data;
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);
-                    $key_parent = 'this';
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
                     }
+                    $key_parent = 'this';
+                    $key_parent .= '.' . $object->config('package.raxon/parse.object.this.rootNode');
+                    $parentNode = $parse->local(0);
+                    $data->set($key_parent, $parentNode);
                     if($depth === 0){
                         $key_parent = 'this';
                         $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');

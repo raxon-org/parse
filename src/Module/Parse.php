@@ -309,6 +309,7 @@ class Parse
                             $data->set($key_parent, $parentNode);
                         }
                     }
+                    d($parse_data->get('this'));
                     $input[$key] = $parse->compile($value, $parse_data, $is_debug);
                 }
                 $data->set('this.' . $object->config('package.raxon/parse.object.this.key', null));

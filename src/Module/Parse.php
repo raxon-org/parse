@@ -297,8 +297,6 @@ class Parse
                         }
                     }
                     $parse_options->depth = $depth;
-                    d($data->get('this'));
-                    d($parse_options);
                     $parse_data = clone $data;
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);
                     $key_parent = 'this';
@@ -342,7 +340,6 @@ class Parse
                     $object->config('package.raxon/parse.object.this.parentNode'),
                     $input
                 );
-                d($reserved_keys);
                 foreach($input as $key => $value){
                     if(
                         in_array(
@@ -394,8 +391,6 @@ class Parse
                         }
                     }
                     $parse_data = clone $data;
-                    d($data->get('this'));
-                    d($options);
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);
                     $key_parent = 'this';
                     for($index = $depth; $index >= 0; $index--){
@@ -403,10 +398,6 @@ class Parse
                     }
                     $data->set('this.test', microtime(true));
                     $input->{$key} = $parse->compile($value, $parse_data, $is_debug);
-                    if($key === 'from'){
-                        d($data->get('this'));
-                        ddd($input);
-                    }
                     $this->parse_set_options($options);
                 }
 //                $temp = $this->storage();

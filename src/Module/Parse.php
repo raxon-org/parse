@@ -327,6 +327,7 @@ class Parse
                     $depth = 0;
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.url'), $options->source ?? 'source');
                     $this->local($depth, $input);
+                    ddd($input);
                 } else {
                     $depth++;
                     $this->local($depth, $input);

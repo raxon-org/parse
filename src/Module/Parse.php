@@ -320,12 +320,16 @@ class Parse
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.url'), $options->source ?? 'source');
                     $input->{'#depth'} = $depth;
                     $this->local($depth, $input);
+                    $key_parent = 'this';
+                    $key_parent .= '.' . $object->config('package.raxon/parse.object.this.rootNode');
+                    $data->set($key_parent, $input);
                 } else {
                     $depth++;
                     //where is 0
                     $input->{'#depth'} = $depth;
                     $this->local($depth, $input);
                 }
+                /*
                 $rootNode = $this->local($depth_root);
                 if(
                     $rootNode &&
@@ -336,6 +340,7 @@ class Parse
                 } else {
                     throw new Exception('Error: rootNode not set');
                 }
+                */
                 $options->depth = $depth;
                 $this->parse_options($options);
                 $reserved_keys = [];
@@ -423,6 +428,7 @@ class Parse
                             $data->set($key_parent, $parentNode);
                         }
                     }
+                    /*
                     $rootNode = $this->local($depth_root);
                     if(
                         $rootNode &&
@@ -433,6 +439,7 @@ class Parse
                     } else {
                         ddd($depth_root);
                     }
+                    */
                     $parse_data = clone $data;
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);
                     $key_parent = 'this';

@@ -154,7 +154,6 @@ class Parse
         } else {
             $data = $this->data();
         }
-        d($input);
         $object = $this->object();
         $flags = $this->parse_flags();
         $options = $this->parse_options();
@@ -171,7 +170,6 @@ class Parse
             ddd($options);
         }
         */
-        d($options);
         $depth = $options->depth ?? null;
         $type = strtolower(gettype($input));
         if(
@@ -316,7 +314,6 @@ class Parse
                     $this->local($depth, $input);
                 } else {
                     $depth++;
-                    breakpoint($depth);
                     $this->local($depth, $input);
                 }
                 $options->depth = $depth;
@@ -348,7 +345,6 @@ class Parse
                             true
                         )
                     ){
-                        d('key continue' . $key . ' -> ' . (string) $value);
                         continue;
                     }
                     $source = $options->source;

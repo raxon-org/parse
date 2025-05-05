@@ -279,7 +279,7 @@ class Parse
                     $parse_options->class = Build::class_name($parse_options->source);
 //                    $this->parse_set_options($options);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
-                    $data->set($key_parent . '.#depth', $depth);
+                    $data->set('this.#depth', $depth);
                     if($depth === 0){
                         $key_parent = 'this';
                         $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');

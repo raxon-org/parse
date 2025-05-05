@@ -291,8 +291,6 @@ class Parse
                         $parentNode = $parse->local($depth);
                         $data->set($key_parent, $parentNode);
                         $key_parent = 'this';
-
-
                         $key_parent .= '.' . $object->config('package.raxon/parse.object.this.rootNode');
                         $data->set($key_parent, $parentNode);
                     } else {

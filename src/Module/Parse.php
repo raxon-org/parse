@@ -291,6 +291,16 @@ class Parse
                         for($index = $depth; $index >= 0; $index--){
                             $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
                             $parentNode = $parse->local($index);
+                            if(!property_exists('#property', $parentNode)){
+                                $i = $index - 1;
+                                while($i >= 0){
+                                    $parentParentNode = $parse->local($i);
+                                    if(property_exists($parentParentNode, '#property')){
+                                        $parentNode->{'#property'} = $parentParentNode->{'#property'};
+                                        break;
+                                    }
+                                }
+                            }
                             $data->set($key_parent, $parentNode);
                             d($depth);
                             d($parentNode);

@@ -279,13 +279,14 @@ class Parse
                     $parse_options->class = Build::class_name($parse_options->source);
 //                    $this->parse_set_options($options);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
-                    $key_parent = 'this';
                     $data->set($key_parent . '.#depth', $depth);
                     if($depth === 0){
+                        $key_parent = 'this';
                         $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
                         $parentNode = $this->local($depth);
                         $data->set($key_parent, $parentNode);
                     } else {
+                        $key_parent = 'this';
                         for($index = $depth - 1; $index >= 0; $index--){
                             $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
                             $parentNode = $this->local($index);
@@ -296,6 +297,10 @@ class Parse
                     d($data->get('this'));
                     d($parse_options);
                     $parse = new Parse($object, $data, $flags, $parse_options);
+                    $key_parent = 'this';
+                    for($index = $depth - 1; $index >= 0; $index--){
+                        $parse->local($index, $this->local($index));
+                    }
                     $input[$key] = $parse->compile($value, $data, $is_debug);
                     $this->parse_set_options($options);
                 }
@@ -386,6 +391,10 @@ class Parse
                     d($data->get('this'));
                     d($options);
                     $parse = new Parse($object, $data, $flags, $parse_options);
+                    $key_parent = 'this';
+                    for($index = $depth - 1; $index >= 0; $index--){
+                        $parse->local($index, $this->local($index));
+                    }
                     $input->{$key} = $parse->compile($value, $data, $is_debug);
                     if($key === 'from'){
                         d($data->get('this'));

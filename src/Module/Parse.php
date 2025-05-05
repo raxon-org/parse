@@ -425,6 +425,7 @@ class Parse
                             $data->set($key_parent, $parentNode);
                         }
                     }
+                    d($depth_root);
                     $rootNode = $this->local($depth_root);
                     if(
                         $rootNode &&

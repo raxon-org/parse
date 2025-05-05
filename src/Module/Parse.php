@@ -325,6 +325,7 @@ class Parse
                     $depth++;
                     //where is 0
                     $input->{'#depth'} = $depth;
+                    d($input);
                     $this->local($depth, $input);
                 }
                 $rootNode = $this->local($depth_root);

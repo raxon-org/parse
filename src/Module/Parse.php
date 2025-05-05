@@ -302,6 +302,7 @@ class Parse
                 if($depth === null){
                     d('yes');
                     $depth = 0;
+                    $depth_root = 0;
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.url'), $options->source ?? 'source');
                     $this->local($depth, $input);
                 } else {

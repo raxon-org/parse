@@ -280,7 +280,7 @@ class Parse
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
                     }
-                    $rootNode = $this->local($depth_root);
+                    $rootNode = $parse->local($depth_root);
                     if(
                         $rootNode &&
                         is_object($rootNode)
@@ -314,14 +314,6 @@ class Parse
                 } else {
                     $depth++;
                     $this->local($depth, $input);
-                }
-                $rootNode = $this->local($depth_root);
-                if(
-                    $rootNode &&
-                    is_object($rootNode)
-                ) {
-                    $key_parent = 'this.' . $object->config('package.raxon/parse.object.this.rootNode');
-                    $data->set($key_parent, $rootNode);
                 }
                 $options->depth = $depth;
                 $this->parse_options($options);
@@ -393,13 +385,20 @@ class Parse
                             $data->set($key_parent, $parentNode);
                         }
                     }
+                    $rootNode = $this->local($depth_root);
+                    if(
+                        $rootNode &&
+                        is_object($rootNode)
+                    ) {
+                        $key_parent = 'this.' . $object->config('package.raxon/parse.object.this.rootNode');
+                        $data->set($key_parent, $rootNode);
+                    }
                     $parse_data = clone $data;
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);
                     $key_parent = 'this';
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
                     }
-                    $data->set('this.test', microtime(true));
                     $input->{$key} = $parse->compile($value, $parse_data, $is_debug);
                     $this->parse_set_options($options);
                 }

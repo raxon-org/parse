@@ -292,9 +292,10 @@ class Parse
                             $data->set($key_parent, $parentNode);
                         }
                     }
+                    $parse_options->depth = $depth;
                     d($data->get('this'));
-                    d($options);
-                    $parse = new Parse($object, $data, $flags, $options);
+                    d($parse_options);
+                    $parse = new Parse($object, $data, $flags, $parse_options);
                     $input[$key] = $parse->compile($value, $data, $is_debug);
                     $this->parse_set_options($options);
                 }
@@ -363,6 +364,7 @@ class Parse
                     $parse_options->source = 'Internal_' . ($depth + 1) . 'x' . '_' . $key . '_' . $hash;
                     $parse_options->source_root = $options->source ?? 'source';
                     $parse_options->class = Build::class_name($parse_options->source);
+                    $parse_options->depth = $depth;
 //                    $this->parse_set_options($options);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);

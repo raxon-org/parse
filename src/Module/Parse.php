@@ -326,9 +326,7 @@ class Parse
                     $input->{'#depth'} = $depth;
                     $this->local($depth, $input);
                 }
-                d($depth_root);
                 $rootNode = $this->local($depth_root);
-                d($rootNode);
                 if(
                     $rootNode &&
                     is_object($rootNode)

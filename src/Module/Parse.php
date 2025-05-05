@@ -400,6 +400,7 @@ class Parse
                         for($index = $depth; $index >= 0; $index--){
                             $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
                             $parentNode = $this->local($index);
+                            $parentNode->{'#depth'} = $index;
                             d($parentNode);
                             $data->set($key_parent, $parentNode);
                         }

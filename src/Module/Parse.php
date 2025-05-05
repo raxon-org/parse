@@ -440,11 +440,6 @@ class Parse
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
                     }
-                    if($key === 'command2'){
-                        d($depth);
-                        d($options);
-                        ddd($parse->local($depth));
-                    }
                     $input->{$key} = $parse->compile($value, $parse_data, $is_debug);
                     $this->parse_set_options($options);
                 }

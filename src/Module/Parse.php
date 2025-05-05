@@ -302,9 +302,8 @@ class Parse
                         $parse->local($index, $this->local($index));
                     }
                     breakpoint($key);
-                    d($parse_data);
+                    d($parse_data->get('this'));
                     $input[$key] = $parse->compile($value, $parse_data, $is_debug);
-                    $this->parse_set_options($options);
                 }
                 $data->set('this.' . $object->config('package.raxon/parse.object.this.key', null));
                 return $input;

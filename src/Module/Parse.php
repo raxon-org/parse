@@ -190,7 +190,7 @@ class Parse
             if($depth_root === null){
                 $depth_root = 0;
             }
-            $rootNode = $this->local($depth_root);
+            $rootNode = $this->local();
             breakpoint($rootNode);
             if(
                 $rootNode &&

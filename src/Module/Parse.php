@@ -275,6 +275,7 @@ class Parse
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
                     }
+                    /*
                     $rootNode = $parse->local($depth_root);
                     if(
                         $rootNode &&
@@ -283,10 +284,14 @@ class Parse
                         $key_parent = 'this.' . $object->config('package.raxon/parse.object.this.rootNode');
                         $data->set($key_parent, $rootNode);
                     }
+                    */
                     if($depth === 0){
                         $key_parent = 'this';
                         $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
                         $parentNode = $parse->local($depth);
+                        $data->set($key_parent, $parentNode);
+                        $key_parent = 'this';
+                        $key_parent .= '.' . $object->config('package.raxon/parse.object.this.rootNode');
                         $data->set($key_parent, $parentNode);
                     } else {
                         $key_parent = 'this';
@@ -323,6 +328,7 @@ class Parse
                     $key_parent = 'this';
                     $key_parent .= '.' . $object->config('package.raxon/parse.object.this.rootNode');
                     $data->set($key_parent, $input);
+                    d($input);
                 } else {
                     $depth++;
                     //where is 0

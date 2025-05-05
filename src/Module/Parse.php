@@ -317,7 +317,6 @@ class Parse
                             $data->set($key_parent, $parentNode);
                         }
                     }
-                    d($parse_data->get('this'));
                     $input[$key] = $parse->compile($value, $parse_data, $is_debug);
                 }
                 $data->set('this.' . $object->config('package.raxon/parse.object.this.key', null));
@@ -328,13 +327,10 @@ class Parse
                     $depth = 0;
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.url'), $options->source ?? 'source');
                     $this->local($depth, $input);
-                    ddd($input);
                 } else {
                     $depth++;
                     $this->local($depth, $input);
                 }
-                d($depth);
-                d($this->local);
                 $rootNode = $this->local($depth_root);
                 if(
                     $rootNode &&

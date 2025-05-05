@@ -268,7 +268,6 @@ class Parse
                     $data->set('this.#depth', $depth);
                     $parse_options->depth = $depth;
                     $parse_data = clone $data;
-                    d($parse_data->get('this'));
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
@@ -434,7 +433,6 @@ class Parse
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
                     }
-                    d($parse_data->get('this'));
                     $input->{$key} = $parse->compile($value, $parse_data, $is_debug);
                     $this->parse_set_options($options);
                 }

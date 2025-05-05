@@ -405,7 +405,6 @@ class Parse
                     $parse_data = clone $data;
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);
                     $key_parent = 'this';
-                    ddd($this->local);
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
                     }

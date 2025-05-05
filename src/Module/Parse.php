@@ -191,22 +191,6 @@ class Parse
             /**
              * always parse the document (can have comment)
              */
-            /*
-            if(
-                (
-                    !str_contains($input, '{{') &&
-                    !str_contains($input, '}}')
-                ) ||
-                (
-                    !str_contains($input, '/*')
-                ) ||
-                (
-                    !str_contains($input, '//')
-                )
-            ){
-                return $input;
-            }
-            */
 //            $uuid = Core::uuid();
 //            $object->config('package.raxon.parse.bugfix.uuid', $uuid);
 //            $input = str_replace('{{/if}}', '{{elseif(true === false && \'bugfix\' === \'' . $uuid .'\')}}{{/if}}', $input); //hack, if statements always needs at least one elseif statement (position in if_queue and $methods and $before)

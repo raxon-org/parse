@@ -309,6 +309,7 @@ class Parse
                     $this->local($depth, $input);
                 } else {
                     $depth++;
+                    breakpoint($depth);
                     $this->local($depth, $input);
                 }
                 $options->depth = $depth;

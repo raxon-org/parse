@@ -292,6 +292,7 @@ class Parse
                             $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
                             $parentNode = $parse->local($index);
                             $data->set($key_parent, $parentNode);
+                            d($depth);
                             d($parentNode);
                         }
 

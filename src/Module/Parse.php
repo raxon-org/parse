@@ -401,14 +401,15 @@ class Parse
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
 //                    $this->local($depth, $input);
-                    $key_parent = 'this';
                     $data->set( $key_parent . '.#depth', $depth);
                     if($depth === 0){
+                        $key_parent = 'this';
                         $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
                         $parentNode = $this->local($depth);
                         $parentNode->{'#depth'} = $depth;
                         $data->set($key_parent, $parentNode);
                     } else {
+                        $key_parent = 'this';
                         for($index = $depth; $index >= 0; $index--){
                             $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
                             $parentNode = $this->local($index);

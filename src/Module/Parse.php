@@ -339,6 +339,7 @@ class Parse
                     $object->config('package.raxon/parse.object.this.parentNode'),
                     $input
                 );
+                d($reserved_keys);
                 foreach($input as $key => $value){
                     if(
                         in_array(

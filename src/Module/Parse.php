@@ -154,7 +154,7 @@ class Parse
         } else {
             $data = $this->data();
         }
-        d($data);
+        d($input);
         $object = $this->object();
         $flags = $this->parse_flags();
         $options = $this->parse_options();

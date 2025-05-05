@@ -396,6 +396,8 @@ class Parse
                     ) {
                         $key_parent = 'this.' . $object->config('package.raxon/parse.object.this.rootNode');
                         $data->set($key_parent, $rootNode);
+                    } else {
+                        ddd($depth_root);
                     }
                     $parse_data = clone $data;
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);

@@ -422,11 +422,9 @@ class Parse
                             $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
                             $parentNode = $this->local($index); //input is parentnode
                             $parentNode->{'#depth'} = $index;
-                            d($index);
                             $data->set($key_parent, $parentNode);
                         }
                     }
-                    d($depth_root);
                     $rootNode = $this->local($depth_root);
                     if(
                         $rootNode &&

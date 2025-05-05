@@ -171,6 +171,7 @@ class Parse
         }
         */
         $depth = $options->depth ?? null;
+        $depth_root = $depth;
         $type = strtolower(gettype($input));
         if(
             in_array(
@@ -210,7 +211,7 @@ class Parse
 //            $object->config('package.raxon.parse.bugfix.uuid', $uuid);
 //            $input = str_replace('{{/if}}', '{{elseif(true === false && \'bugfix\' === \'' . $uuid .'\')}}{{/if}}', $input); //hack, if statements always needs at least one elseif statement (position in if_queue and $methods and $before)
             $options->hash = hash('sha256', $input);
-            $rootNode = $this->local(0);
+            $rootNode = $this->local($depth_root);
             if(
                 $rootNode &&
                 is_object($rootNode)
@@ -295,7 +296,7 @@ class Parse
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
                     }
-                    $rootNode = $this->local(0);
+                    $rootNode = $this->local($depth_root);
                     if(
                         $rootNode &&
                         is_object($rootNode)
@@ -334,7 +335,7 @@ class Parse
                 }
                 d($depth);
                 d($this->local);
-                $rootNode = $this->local(0);
+                $rootNode = $this->local($depth_root);
                 if(
                     $rootNode &&
                     is_object($rootNode)

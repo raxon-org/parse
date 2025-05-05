@@ -265,8 +265,6 @@ class Parse
                     $parse_options->class = Build::class_name($parse_options->source);
 //                    $this->parse_set_options($options);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
-                    $data->set('this.' . $object->config('package.raxon/parse.object.this.parentNode') . '.' . $object->config('package.raxon/parse.object.this.key'), $key);
-                    $data->set('this.' . $object->config('package.raxon/parse.object.this.rootNode') . '.' . $object->config('package.raxon/parse.object.this.key'), $key);
                     $data->set('this.#depth', $depth);
                     $parse_options->depth = $depth;
                     $parse_data = clone $data;
@@ -298,8 +296,6 @@ class Parse
                     $input[$key] = $parse->compile($value, $parse_data, $is_debug);
                 }
                 $data->set('this.' . $object->config('package.raxon/parse.object.this.key', null));
-                $data->set('this.' . $object->config('package.raxon/parse.object.this.parentNode') . '.' . $object->config('package.raxon/parse.object.this.key', null));
-                $data->set('this.' . $object->config('package.raxon/parse.object.this.rootNode') . '.' . $object->config('package.raxon/parse.object.this.key', null));
 
                 return $input;
             }
@@ -345,6 +341,16 @@ class Parse
                     $object->config('package.raxon/parse.object.this.parentNode'),
                     $input
                 );
+                $data->set(
+                    'this.' .
+                    $object->config('package.raxon/parse.object.this.parentNode') .
+                    '.' .
+                    $object->config('package.raxon/parse.object.this.property'),
+                    $data->get(
+                        'this.' .
+                        $object->config('package.raxon/parse.object.this.property')
+                    )
+                );
                 foreach($input as $key => $value){
                     if(
                         in_array(
@@ -379,8 +385,6 @@ class Parse
                     $parse_options->depth = $depth;
 //                    $this->parse_set_options($options);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
-                    $data->set('this.' . $object->config('package.raxon/parse.object.this.parentNode') . '.' . $object->config('package.raxon/parse.object.this.property'), $key);
-                    $data->set('this.' . $object->config('package.raxon/parse.object.this.rootNode') . '.' . $object->config('package.raxon/parse.object.this.property'), $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
 //                    $this->local($depth, $input);
                     $key_parent = 'this';
@@ -393,6 +397,8 @@ class Parse
                         for($index = $depth - 1; $index >= 0; $index--){
                             $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
                             $parentNode = $this->local($index);
+                            $parentNode->{'#property'} = $key;
+                            $parentNode->{'#attribute'} = $key;
                             $data->set($key_parent, $parentNode);
                         }
                     }

@@ -664,7 +664,7 @@ class Php {
                                 throw new Exception('Not implemented, add as text...');
                             }
                         }
-                        $data[] = '$content[] = \'' . str_replace('\', '\\\'', implode('', $text)) . ';';
+                        $data[] = '$content[] = \'' . str_replace('\'', '\\\'', implode('', $text)) . ';';
                         $is_literal = false;
                         continue;
                     }

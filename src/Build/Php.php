@@ -654,11 +654,11 @@ class Php {
                     ){
                         $text = [];
                         foreach($marker_data as $marker_record){
-                            if(array_key_exists('text', $record)){
-                                $text[] = $record['text'];
+                            if(array_key_exists('text', $marker_record)){
+                                $text[] = $marker_record['text'];
                             }
-                            elseif(array_key_exists('tag', $record)){
-                                $text[] = $record['tag'];
+                            elseif(array_key_exists('tag', $marker_record)){
+                                $text[] = $marker_record['tag'];
                             } else {
                                 throw new Exception('Not implemented, add as text...');
                             }

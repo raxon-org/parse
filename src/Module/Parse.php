@@ -365,6 +365,10 @@ class Parse
                     $object->config('package.raxon/parse.object.this.parentNode'),
                     $input
                 );
+                d($data->get(
+                    'this.' .
+                    $object->config('package.raxon/parse.object.this.property')
+                ));
                 /*
                 $property = $data->get('this.' . $object->config('package.raxon/parse.object.this.property'));
                 breakpoint($property);

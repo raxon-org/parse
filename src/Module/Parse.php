@@ -27,10 +27,19 @@ class Parse
      * @throws ObjectException
      * @throws Exception
      */
-    public function __construct(App $object){
+    public function __construct(App $object, Data $data, $flags=null, $options=null){
         $this->object($object);
-        $this->data(new Data());
+        $this->data($data);
+        if($flags === null){
+            $flags = (object) [];
+        }
+        if($options === null){
+            $options = (object) [];
+        }
+        $this->parse_flags($flags);
+        $this->parse_options($options);
         //move to install (config)
+        $this->config();
     }
 
     /**
@@ -122,7 +131,7 @@ class Parse
      * @throws ObjectException
      * @throws TemplateException
      */
-    public function compile(mixed $input, array|object $data=null, object $options, $is_debug=false): mixed
+    public function compile(mixed $input, array|object $data=null, $is_debug=false): mixed
     {
         $start = microtime(true);
         if(is_array($data)){
@@ -137,9 +146,9 @@ class Parse
         } else {
             $data = new Data();
         }
-        $this->parse_options($options);
         $object = $this->object();
-        $this->config();
+        $flags = $this->parse_flags();
+        $options = $this->parse_options();
         if(!property_exists($options, 'source')) {
             throw new Exception('Error: source not set in options');
         }

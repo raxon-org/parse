@@ -15,7 +15,7 @@ trait Is_Empty {
     protected function is_empty(): bool
     {
         $attribute = func_get_args();
-        ddd($attribute);
+        d($attribute);
         foreach($attribute as $is_empty){
             if(!empty($is_empty)){
                 return false;

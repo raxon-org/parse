@@ -650,7 +650,16 @@ class Parse
         d(trace(true));
         d($type);
         d($data->get($type));
-        $object->data($type, $data->get($type));
+        $read = $object->data($type);
+        if($read === null){
+            $object->data($type, $data->get($type));
+        }
+        if(is_array($read)){
+            $object->data($type, array_merge($read, $data->get($type)));
+        }
+        elseif(is_object($read)){
+            $object->data($type, Core::object_merge($read, $data->get($type)));
+        }
         return $data->get($type);
     }
 }

@@ -647,6 +647,7 @@ class Parse
     {
         $data = $parse->data();
         d($data);
+        d(trace(true));
         $object->data($type, $data->get($type));
         return $data->get($type);
     }

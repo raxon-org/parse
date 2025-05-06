@@ -666,6 +666,7 @@ class Php {
                         }
                         $data[] = '$content[] = ' . implode('', $text) . ';';
                         $is_literal = false;
+                        continue;
                     }
                     elseif(
                         $marker_name === 'raw' &&

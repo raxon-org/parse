@@ -27,7 +27,7 @@ trait Parse_String {
                 $data = new Data($data);
             }
         }
-        $options = $parse->parse_options();
+        $options = $parse->options();
         $old_source = $options->source ?? null;
         if(is_scalar($mixed) || is_null($mixed)){
             if(is_string($mixed)){
@@ -39,7 +39,7 @@ trait Parse_String {
             $hash = hash('sha256', Core::object($mixed, Core::JSON_LINE));
         }
         $options->source = 'Internal_' . $hash;
-        $parse->parse_options($options);
+        $parse->options($options);
         if(!empty($parseData)){
             $result = $parse->compile($mixed, $data);
         } else {
@@ -50,7 +50,7 @@ trait Parse_String {
         } else {
             unset($options->source);
         }
-        $parse->parse_options($options);
+        $parse->options($options);
         return $result;
     }
 }

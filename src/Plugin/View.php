@@ -48,12 +48,12 @@ trait View {
         } else {
             $data = new Data($data);
         }
-        $options = $parse->parse_options();
+        $options = $parse->options();
         $view_options = (object) [];
         $view_options->source = $url;
-        $parse->parse_options($view_options);
+        $parse->options($view_options);
         $read = $parse->compile($read, $data);
-        $parse->parse_options($options);
+        $parse->options($options);
         $data_script = $data->data('script');
         $script = $storage->data('script');
 //        d($data_script);

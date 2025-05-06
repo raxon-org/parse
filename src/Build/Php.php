@@ -635,6 +635,9 @@ class Php {
                         $object->config('package.raxon/parse.build.state.remove_newline_next', true);
                         continue;
                     }
+                    elseif($marker_name === 'literal'){
+                        ddd($tags);
+                    }
                     elseif($marker_name === 'raw'){
                         $marker_data = [];
                         $marker_data[$record['line']] = [];

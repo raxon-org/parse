@@ -30,6 +30,7 @@ class Parse
     public function __construct(App $object){
         $this->object($object);
         $this->data(new Data());
+        $this->parse_options((object) []);
     }
 
     /**

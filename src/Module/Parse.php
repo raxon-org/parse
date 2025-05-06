@@ -646,6 +646,7 @@ class Parse
     public static function readback($object, $parse, $type=null): mixed
     {
         $data = $parse->data();
+        d($data);
         $object->data($type, $data->get($type));
         return $data->get($type);
     }

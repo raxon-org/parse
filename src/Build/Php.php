@@ -652,8 +652,18 @@ class Php {
                         array_key_exists('is_close', $record['marker']) &&
                         $record['marker']['is_close'] === true
                     ){
-
-                        ddd($marker_data);
+                        $text = [];
+                        foreach($marker_data as $marker_record){
+                            if(array_key_exists('text', $record)){
+                                $text[] = $record['text'];
+                            }
+                            elseif(array_key_exists('tag', $record)){
+                                $text[] = $record['tag'];
+                            } else {
+                                throw new Exception('Not implemented, add as text...');
+                            }
+                        }
+                        ddd($text);
                         d($is_literal);
                         ddd($nr);
                     }

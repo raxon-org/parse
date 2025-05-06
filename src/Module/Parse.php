@@ -369,7 +369,13 @@ class Parse
                     'this.' .
                     $object->config('package.raxon/parse.object.this.property')
                 );
-                d($property);
+                $data->set(
+                    'this.' .
+                    $object->config('package.raxon/parse.object.this.parentNode') .
+                    '.' .
+                    $object->config('package.raxon/parse.object.this.property'),
+                    $property
+                );
                 /*
                 $property = $data->get('this.' . $object->config('package.raxon/parse.object.this.property'));
                 breakpoint($property);

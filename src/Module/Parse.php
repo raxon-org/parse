@@ -369,13 +369,15 @@ class Parse
                     'this.' .
                     $object->config('package.raxon/parse.object.this.property')
                 );
-                $data->set(
-                    'this.' .
-                    $object->config('package.raxon/parse.object.this.parentNode') .
-                    '.' .
-                    $object->config('package.raxon/parse.object.this.property'),
-                    $property
-                );
+                if($property){
+                    $data->set(
+                        'this.' .
+                        $object->config('package.raxon/parse.object.this.parentNode') .
+                        '.' .
+                        $object->config('package.raxon/parse.object.this.property'),
+                        $property
+                    );
+                }
                 /*
                 $property = $data->get('this.' . $object->config('package.raxon/parse.object.this.property'));
                 breakpoint($property);
@@ -469,11 +471,20 @@ class Parse
 //                d($temp->get('script'));
                 $options->depth--;
                 $this->parse_options($options);
-                $data->set(
-                    'this.' .
-                    $object->config('package.raxon/parse.object.this.property'),
-                    $property
-                );
+                if($property){
+                    $data->set(
+                        'this.' .
+                        $object->config('package.raxon/parse.object.this.property'),
+                        $property
+                    );
+                    $data->set(
+                        'this.' .
+                        $object->config('package.raxon/parse.object.this.parentNode') .
+                        '.' .
+                        $object->config('package.raxon/parse.object.this.property'),
+                        $property
+                    );
+                }
 //                $object->config('package.raxon/parse.build.state.this.attribute', $attribute);
 //                $object->config('package.raxon/parse.build.state.this.property', $property);
                 return $input;

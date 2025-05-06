@@ -36,8 +36,8 @@ class Parse
         if($options === null){
             $options = (object) [];
         }
-        $this->parse_flags($flags);
-        $this->parse_options($options);
+        $this->flags($flags);
+        $this->options($options);
         //move to install (config)
         $this->config();
     }
@@ -57,7 +57,7 @@ class Parse
                 'ramdisk' => true
             ]
         );
-        $options = $this->parse_options();
+        $options = $this->options();
         $force = false;
         if(property_exists($options,'force')){
             $parse = false;
@@ -147,8 +147,8 @@ class Parse
             $data = new Data();
         }
         $object = $this->object();
-        $flags = $this->parse_flags();
-        $options = $this->parse_options();
+        $flags = $this->flags();
+        $options = $this->options();
         if(!property_exists($options, 'source')) {
             throw new Exception('Error: source not set in options');
         }
@@ -344,7 +344,7 @@ class Parse
                 }
                 */
                 $options->depth = $depth;
-                $this->parse_options($options);
+                $this->options($options);
                 $reserved_keys = [];
                 foreach($object->config('package.raxon/parse.object.this') as $key => $value){
                     $reserved_keys[] = $value;
@@ -470,7 +470,7 @@ class Parse
 //                $temp = $this->storage();
 //                d($temp->get('script'));
                 $options->depth--;
-                $this->parse_options($options);
+                $this->options($options);
                 if($property){
                     $data->set(
                         'this.' .

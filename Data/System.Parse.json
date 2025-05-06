@@ -33,7 +33,9 @@
             "object",
             "require",
             "string",
-            "unset"
+            "unset",
+            "flags",
+            "options"
           ],
           "block": [
             "block.*",

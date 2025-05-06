@@ -68,38 +68,38 @@ trait Basic {
         return $this->data;
     }
 
-    public function parse_options(object $options=null): ?object
+    public function options(object $options=null): ?object
     {
         if($options !== null){
-            $this->parse_set_options($options);
+            $this->set_options($options);
         }
-        return $this->parse_get_options();
+        return $this->get_options();
     }
 
-    private function parse_set_options(object $options): void
+    private function set_options(object $options): void
     {
         $this->options = $options;
     }
 
-    private function parse_get_options(): ?object
+    private function get_options(): ?object
     {
         return $this->options;
     }
 
-    public function parse_flags(object $flags=null): ?object
+    public function flags(object $flags=null): ?object
     {
         if($flags !== null){
-            $this->parse_set_flags($flags);
+            $this->set_flags($flags);
         }
-        return $this->parse_get_flags();
+        return $this->get_flags();
     }
 
-    private function parse_set_flags(object $flags): void
+    private function set_flags(object $flags): void
     {
         $this->flags = $flags;
     }
 
-    private function parse_get_flags(): ?object
+    private function get_flags(): ?object
     {
         return $this->flags;
     }

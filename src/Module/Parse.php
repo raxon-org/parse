@@ -465,7 +465,7 @@ class Parse
                         $parse->local($index, $this->local($index));
                     }
                     $input->{$key} = $parse->compile($value, $parse_data, $is_debug);
-                    $this->parse_set_options($options);
+                    $this->options($options);
                 }
 //                $temp = $this->storage();
 //                d($temp->get('script'));

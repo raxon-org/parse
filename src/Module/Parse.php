@@ -146,7 +146,7 @@ class Parse
         } else {
             $data = new Data();
         }
-        $this->data($data);
+        $this->data(Core::object_merge($this->data(), $data));
         $object = $this->object();
         $flags = $this->flags();
         $options = $this->options();

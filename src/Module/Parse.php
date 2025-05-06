@@ -29,7 +29,7 @@ class Parse
      */
     public function __construct(App $object, Data $data, $flags=null, $options=null){
         $this->object($object);
-        $this->data($data);
+//        $this->data(new Data());
         if($flags === null){
             $flags = (object) [];
         }
@@ -146,6 +146,7 @@ class Parse
         } else {
             $data = new Data();
         }
+        $this->data($data);
         $object = $this->object();
         $flags = $this->flags();
         $options = $this->options();

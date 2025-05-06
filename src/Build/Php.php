@@ -265,6 +265,7 @@ class Php {
         $block_depth = 0;
         $capture_depth = 0;
         $content = [];
+        $is_literal = false;
         foreach ($tags as $row_nr => $list) {
             foreach ($list as $nr => &$record) {
                 $object->config('package.raxon/parse.build.state.tag', $record);
@@ -274,7 +275,8 @@ class Php {
                 }
                 if(
                     array_key_exists('method', $record) &&
-                    array_key_exists('name', $record['method'])
+                    array_key_exists('name', $record['method']) &&
+                    $is_literal === false
                 ){
                     if(
                         $record['method']['name'] === 'if' &&
@@ -627,7 +629,8 @@ class Php {
                                 'rax',
                                 'r3m'
                             ], true
-                        )
+                        ) &&
+                        $is_literal === false
                     ){
                         if($marker_name==='r3m'){
                             ddd(trace(true));
@@ -635,11 +638,27 @@ class Php {
                         $object->config('package.raxon/parse.build.state.remove_newline_next', true);
                         continue;
                     }
-                    elseif($marker_name === 'literal'){
-                        $is_literal = true;
-                        ddd($record);
+                    elseif(
+                        $marker_name === 'literal' &&
+                        array_key_exists('is_close', $record['marker']) &&
+                        $record['marker']['is_close'] === false
+                    ){
+                        $is_literal = $nr;
+                        continue;
                     }
-                    elseif($marker_name === 'raw'){
+                    elseif(
+                        $marker_name === 'literal' &&
+                        array_key_exists('is_close', $record['marker']) &&
+                        $record['marker']['is_close'] === true
+                    ){
+                        d($tags);
+                        d($is_literal);
+                        ddd($nr);
+                    }
+                    elseif(
+                        $marker_name === 'raw' &&
+                        $is_literal === false
+                    ){
                         $marker_data = [];
                         $marker_data[$record['line']] = [];
                         $marker_data[$record['line']][] = $record['marker']['value']['array'][2] ?? [];
@@ -652,13 +671,17 @@ class Php {
 //                        $method = Php::method($object, $flags, $options, $marker_data, $before, $after) . ';';
 //                        $data[] = $method;
                     }
-                    elseif($marker_name === 'else'){
+                    elseif(
+                        $marker_name === 'else' &&
+                        $is_literal === false
+                    ){
                         if($if_depth === 1) {
                             $if_method = 'else';
                             continue;
                         }
                     }
                     elseif(
+                        $is_literal === false &&
                         $marker_name === 'if' &&
                         array_key_exists('is_close', $record['marker']) &&
                         $record['marker']['is_close'] === true &&
@@ -760,6 +783,7 @@ class Php {
                         continue;
                     }
                     elseif(
+                        $is_literal === false &&
                         $marker_name === 'for' &&
                         array_key_exists('is_close', $record['marker']) &&
                         $record['marker']['is_close'] === true &&
@@ -827,6 +851,7 @@ class Php {
                         continue;
                     }
                     elseif(
+                        $is_literal === false &&
                         in_array(
                             $marker_name,
                             [
@@ -915,6 +940,7 @@ class Php {
                         continue;
                     }
                     elseif(
+                        $is_literal === false &&
                         $marker_name === 'while' &&
                         array_key_exists('is_close', $record['marker']) &&
                         $record['marker']['is_close'] === true &&
@@ -982,6 +1008,7 @@ class Php {
                         continue;
                     }
                     elseif(
+                        $is_literal === false &&
                         $marker_name === 'script' &&
                         array_key_exists('is_close', $record['marker']) &&
                         $record['marker']['is_close'] === true &&
@@ -1081,6 +1108,7 @@ class Php {
                         continue;
                     }
                     elseif(
+                        $is_literal === false &&
                         $marker_name === 'link' &&
                         array_key_exists('is_close', $record['marker']) &&
                         $record['marker']['is_close'] === true &&
@@ -1180,6 +1208,7 @@ class Php {
                         continue;
                     }
                     elseif(
+                        $is_literal === false &&
                         $marker_name === 'block' &&
                         array_key_exists('is_close', $record['marker']) &&
                         $record['marker']['is_close'] === true &&
@@ -1283,6 +1312,7 @@ class Php {
                         continue;
                     }
                     elseif(
+                        $is_literal === false &&
                         in_array(
                             $marker_name,
                             [
@@ -1399,7 +1429,10 @@ class Php {
                     $record['block_depth'] = $block_depth;
                     $record['capture_depth'] = $capture_depth;
                 }
-                if($record['if_depth'] >= 1){
+                if(
+                    $is_literal === false &&
+                    $record['if_depth'] >= 1
+                ){
                     if(in_array($if_method, ['if', 'else'], true)){
                         if(!array_key_exists($if_method, $content)){
                             $content[$if_method] = [];
@@ -1428,7 +1461,10 @@ class Php {
                         $content[$if_method][$elseif_count-1]['content'][$row_nr][] = $record;
                     }
                 }
-                elseif($record['for_depth'] >= 1){
+                elseif(
+                    $record['for_depth'] >= 1 &&
+                    $is_literal === false
+                ){
                     if(!array_key_exists('for', $content)){
                         $content['for'] = [];
                     }
@@ -1440,7 +1476,10 @@ class Php {
                     }
                     $content['for']['content'][$row_nr][] = $record;
                 }
-                elseif($record['foreach_depth'] >= 1){
+                elseif(
+                    $record['foreach_depth'] >= 1 &&
+                    $is_literal === false
+                ){
                     if(!array_key_exists('foreach', $content)){
                         $content['foreach'] = [];
                     }
@@ -1452,7 +1491,10 @@ class Php {
                     }
                     $content['foreach']['content'][$row_nr][] = $record;
                 }
-                elseif($record['while_depth'] >= 1){
+                elseif(
+                    $record['while_depth'] >= 1 &&
+                    $is_literal === false
+                ){
                     if(!array_key_exists('while', $content)){
                         $content['while'] = [];
                     }
@@ -1464,7 +1506,10 @@ class Php {
                     }
                     $content['while']['content'][$row_nr][] = $record;
                 }
-                elseif($record['script_depth'] >= 1){
+                elseif(
+                    $record['script_depth'] >= 1 &&
+                    $is_literal === false
+                ){
                     if(!array_key_exists('script', $content)){
                         $content['script'] = [];
                     }
@@ -1476,7 +1521,10 @@ class Php {
                     }
                     $content['script']['content'][$row_nr][] = $record;
                 }
-                elseif($record['link_depth'] >= 1){
+                elseif(
+                    $record['link_depth'] >= 1 &&
+                    $is_literal === false
+                ){
                     if(!array_key_exists('link', $content)){
                         $content['link'] = [];
                     }
@@ -1488,7 +1536,10 @@ class Php {
                     }
                     $content['link']['content'][$row_nr][] = $record;
                 }
-                elseif($record['block_depth'] >= 1){
+                elseif(
+                    $record['block_depth'] >= 1 &&
+                    $is_literal === false
+                ){
                     if(!array_key_exists('block', $content)){
                         $content['block'] = [];
                     }
@@ -1500,7 +1551,10 @@ class Php {
                     }
                     $content['block']['content'][$row_nr][] = $record;
                 }
-                elseif($record['capture_depth'] >= 1){
+                elseif(
+                    $record['capture_depth'] >= 1 &&
+                    $is_literal === false
+                ){
                     if(!array_key_exists('capture', $content)){
                         $content['capture'] = [];
                     }
@@ -1514,6 +1568,7 @@ class Php {
                 }
                 else {
                     if(
+                        $is_literal === false &&
                         array_key_exists('text', $record)
                     ){
                         if(empty($record['text'])){
@@ -1648,7 +1703,10 @@ class Php {
                             }
                         }
                     }
-                    elseif(array_key_exists('variable', $record)){
+                    elseif(
+                        $is_literal === false &&
+                        array_key_exists('variable', $record)
+                    ){
                         if(
                             array_key_exists('is_assign', $record['variable']) &&
                             $record['variable']['is_assign'] === true
@@ -1675,6 +1733,7 @@ class Php {
                         }
                     }
                     elseif(
+                        $is_literal === false &&
                         array_key_exists('method', $record)
                     ){
                         $method = Php::method($object, $flags, $options, $record, $before, $after);

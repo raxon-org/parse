@@ -16,12 +16,12 @@ use Raxon\App as Framework;
 
 use Raxon\Module\Data;
 
-trait Options {
+trait Plugin_Options {
 
     /**
      * @throws Exception
      */
-    protected function options(string $type=''): mixed
+    protected function plugin_options(string $type=''): mixed
     {
         $this->object();
         switch($type){

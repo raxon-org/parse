@@ -644,6 +644,7 @@ class Php {
                         $record['marker']['is_close'] === false
                     ){
                         $is_literal = $nr;
+                        $marker_data = [];
                         continue;
                     }
                     elseif(
@@ -651,7 +652,8 @@ class Php {
                         array_key_exists('is_close', $record['marker']) &&
                         $record['marker']['is_close'] === true
                     ){
-                        d($tags);
+
+                        ddd($marker_data);
                         d($is_literal);
                         ddd($nr);
                     }
@@ -1892,9 +1894,12 @@ class Php {
                             $list[$nr + 1] = Php::remove_newline_next($object, $flags, $options, $next);
                         }
                     }
-                    else {
+                    elseif($is_literal !== false) {
+                        $marker_data[] = $record;
+                    } else {
                         d($content);
                         d($record);
+
                     }
                 }
             }

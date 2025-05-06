@@ -30,7 +30,7 @@ class Parse
     public function __construct(App $object){
         $this->object($object);
         $this->data(new Data());
-        $this->parse_options((object) []);
+        //move to install (config)
     }
 
     /**
@@ -122,7 +122,7 @@ class Parse
      * @throws ObjectException
      * @throws TemplateException
      */
-    public function compile(mixed $input, array|object $data=null, object $options=null, $is_debug=false): mixed
+    public function compile(mixed $input, array|object $data=null, object $options, $is_debug=false): mixed
     {
         $start = microtime(true);
         if(is_array($data)){
@@ -137,22 +137,13 @@ class Parse
         } else {
             $data = new Data();
         }
-        if($options === null){
-            $options = (object) [];
-        }
-        if(!property_exists($options, 'source')) {
-            if(is_scalar($input) || is_null($input)){
-                $options->source = 'Internal_' . hash('sha256', $input);
-            } else {
-                $options->source = 'Internal_' . hash('sha256', Core::object($input, Core::OBJECT_JSON_LINE));
-            }
-        }
-        $options->class = Build::class_name($options->source);
-        $flags = (object) [];
         $this->parse_options($options);
         $object = $this->object();
-        //needs options set...
         $this->config();
+        if(!property_exists($options, 'source')) {
+            throw new Exception('Error: source not set in options');
+        }
+        $options->class = Build::class_name($options->source);
         if($is_debug){
             $object->config('package.raxon/parse.build.state.input.debug', true);
         }
@@ -183,6 +174,9 @@ class Parse
             /**
              * always parse the document (can have comment)
              */
+//            $uuid = Core::uuid();
+//            $object->config('package.raxon.parse.bugfix.uuid', $uuid);
+//            $input = str_replace('{{/if}}', '{{elseif(true === false && \'bugfix\' === \'' . $uuid .'\')}}{{/if}}', $input); //hack, if statements always needs at least one elseif statement (position in if_queue and $methods and $before)
             $options->hash = hash('sha256', $input);
             $rootNode = $this->local(0);
             if(
@@ -192,6 +186,54 @@ class Parse
                 $key_parent = 'this.' . $object->config('package.raxon/parse.object.this.rootNode');
                 $data->set($key_parent, $rootNode);
             }
+            //url, key & attribute might be already set.
+            /*
+            $url = $data->get('this.' . $object->config('package.raxon/parse.object.this.url'));
+            $key = $data->get('this.' . $object->config('package.raxon/parse.object.this.key'));
+            $attribute = $data->get('this.' . $object->config('package.raxon/parse.object.this.attribute'));
+            $property = $data->get('this.' . $object->config('package.raxon/parse.object.this.property'));
+            $parentProperty = $data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty'));
+            if($depth === null){
+                $depth = 0;
+            }
+            $data->set('this', $this->local($depth));
+            if($url !== null){
+                $data->set('this.' . $object->config('package.raxon/parse.object.this.url'), $url);
+            }
+            if($attribute !== null){
+                $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $attribute);
+            }
+            if($property !== null){
+                $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $property);
+            }
+            if($parentProperty !== null){
+                $data->set('this.' . $object->config('package.raxon/parse.object.this.parentProperty'), $parentProperty);
+            }
+            if($key !== null){
+                $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
+            }
+            $rootNode = $this->local(0);
+            if(
+                $rootNode &&
+                is_object($rootNode)
+            ){
+                $key = 'this.' . $object->config('package.raxon/parse.object.this.rootNode');
+                $data->set($key, $rootNode);
+                $key = 'this';
+                $data->set($key, Core::object_merge($data->get($key), $this->local($depth)));
+                if($depth === 0){
+                    $key .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
+                    $parentNode = $this->local($depth);
+                    $data->set($key, $parentNode);
+                } else {
+                    for($index = $depth - 1; $index >= 0; $index--){
+                        $key .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
+                        $parentNode = $this->local($index);
+                        $data->set($key, $parentNode);
+                    }
+                }
+            }
+            */
         } else {
             $options->hash = hash('sha256', Core::object($input, Core::OBJECT_JSON_LINE));
             if(is_array($input)){
@@ -217,7 +259,7 @@ class Parse
 //                    $data->set('this.#depth', $depth);
                     $parse_options->depth = $depth;
                     $parse_data = clone $data;
-                    $parse = new Parse($object);
+                    $parse = new Parse($object, $parse_data, $flags, $parse_options);
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
                     }
@@ -258,9 +300,10 @@ class Parse
                             $data->set($key_parent, $parentNode);
                         }
                     }
-                    $input[$key] = $parse->compile($value, $parse_data, $parse_options, $is_debug);
+                    $input[$key] = $parse->compile($value, $parse_data, $is_debug);
                 }
                 $data->set('this.' . $object->config('package.raxon/parse.object.this.key', null));
+
                 return $input;
             }
             elseif(is_object($input)){
@@ -268,14 +311,29 @@ class Parse
                     $depth = 0;
                     $depth_root = 0;
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.url'), $options->source ?? 'source');
+//                    $input->{'#depth'} = $depth;
                     $this->local($depth, $input);
                     $key_parent = 'this';
                     $key_parent .= '.' . $object->config('package.raxon/parse.object.this.rootNode');
                     $data->set($key_parent, $input);
                 } else {
                     $depth++;
+                    //where is 0
+//                    $input->{'#depth'} = $depth;
                     $this->local($depth, $input);
                 }
+                /*
+                $rootNode = $this->local($depth_root);
+                if(
+                    $rootNode &&
+                    is_object($rootNode)
+                ) {
+                    $key_parent = 'this.' . $object->config('package.raxon/parse.object.this.rootNode');
+                    $data->set($key_parent, $rootNode);
+                } else {
+                    throw new Exception('Error: rootNode not set');
+                }
+                */
                 $options->depth = $depth;
                 $this->parse_options($options);
                 $reserved_keys = [];
@@ -311,6 +369,19 @@ class Parse
                         $property
                     );
                 }
+                /*
+                $property = $data->get('this.' . $object->config('package.raxon/parse.object.this.property'));
+                breakpoint($property);
+                if($property){
+                    $data->set(
+                        'this.' .
+                        $object->config('package.raxon/parse.object.this.parentNode') .
+                        '.' .
+                        $object->config('package.raxon/parse.object.this.property'),
+                        $property
+                    );
+                }
+                */
                 foreach($input as $key => $value){
                     if(
                         in_array(
@@ -366,13 +437,25 @@ class Parse
                             $data->set($key_parent, $parentNode);
                         }
                     }
+                    /*
+                    $rootNode = $this->local($depth_root);
+                    if(
+                        $rootNode &&
+                        is_object($rootNode)
+                    ) {
+                        $key_parent = 'this.' . $object->config('package.raxon/parse.object.this.rootNode');
+                        $data->set($key_parent, $rootNode);
+                    } else {
+                        ddd($depth_root);
+                    }
+                    */
                     $parse_data = clone $data;
-                    $parse = new Parse($object);
+                    $parse = new Parse($object, $parse_data, $flags, $parse_options);
                     $key_parent = 'this';
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
                     }
-                    $input->{$key} = $parse->compile($value, $parse_data, $parse_options, $is_debug);
+                    $input->{$key} = $parse->compile($value, $parse_data, $is_debug);
                     $this->parse_set_options($options);
                 }
 //                $temp = $this->storage();
@@ -518,7 +601,6 @@ class Parse
 //            d($data->get('script'));
 //            d($url_php);
 //            trace();
-            //move $data to $this->data($data) ?
             $main = new $run($object, $this, $data, $flags, $options);
             $result = $main->run();
 //            d($url_php);

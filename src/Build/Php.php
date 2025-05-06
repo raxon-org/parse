@@ -636,7 +636,8 @@ class Php {
                         continue;
                     }
                     elseif($marker_name === 'literal'){
-                        ddd($tags);
+                        $is_literal = true;
+                        ddd($record);
                     }
                     elseif($marker_name === 'raw'){
                         $marker_data = [];

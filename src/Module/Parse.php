@@ -460,11 +460,11 @@ class Parse
                     */
                     $parse_data = clone $data;
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);
-                    $key_parent = 'this';
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
                     }
                     $input->{$key} = $parse->compile($value, $parse_data, $is_debug);
+                    $data->set('this.' . $key, $input->{$key});
                     $this->options($options);
                 }
 //                $temp = $this->storage();

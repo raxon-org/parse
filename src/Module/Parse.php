@@ -586,7 +586,7 @@ class Parse
                     $object->config('extension.php')
                 ;
             }
-            d($token);
+//            d($token);
             d($url_php);
             $document = Build::create($object, $flags, $options, $token);
             File::write($url_php, implode(PHP_EOL, $document));

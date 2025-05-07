@@ -253,9 +253,7 @@ class Php {
         }
         $data = [];
         $if_depth = 0;
-        $if_length = 0;
         $elseif_count = 0;
-        $else = false;
         $if_method = 'if';
         $for_depth = 0;
         $foreach_depth = 0;
@@ -778,6 +776,7 @@ class Php {
                             $content['if'] = [];
                             $content['elseif'] = [];
                             $content['else'] = [];
+                            $if_method = 'if';
                         } else {
                             if($if_method === 'elseif'){
                                 if(!array_key_exists($row_nr, $content[$if_method][$elseif_count - 1]['content'])){

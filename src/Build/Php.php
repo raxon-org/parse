@@ -710,6 +710,9 @@ class Php {
                             $if_before = [];
                             $if_after = [];
                             $if_data = [];
+                            if(!array_key_exists('statement', $content['if'])){
+                                ddd($content);
+                            }
                             $if_data[] = Php::method($object, $flags, $options, $content['if']['statement'], $before, $after) . '{';
                             if(!empty($before)){
                                 foreach($before as $line){

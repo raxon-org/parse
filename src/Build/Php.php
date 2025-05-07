@@ -773,6 +773,7 @@ class Php {
                                 $data[] = $line;
                             }
                             $content[$if_method] = [];
+                            d($if_method);
                             d($content);
                         } else {
                             if($if_method === 'elseif'){

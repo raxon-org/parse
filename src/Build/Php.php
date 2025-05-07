@@ -775,8 +775,6 @@ class Php {
                             $content['if'] = [];
                             $content['elseif'] = [];
                             $content['else'] = [];
-                            d($if_method);
-                            d($content);
                         } else {
                             if($if_method === 'elseif'){
                                 if(!array_key_exists($row_nr, $content[$if_method][$elseif_count - 1]['content'])){

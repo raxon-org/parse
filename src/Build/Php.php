@@ -755,7 +755,10 @@ class Php {
                                     }
                                 }
                             }
-                            if(array_key_exists('else', $content)){
+                            if(
+                                array_key_exists('else', $content) &&
+                                array_key_exists('content', $content['else'])
+                            ){
                                 $object->config('package.raxon/parse.build.state.remove_newline_next', true);
                                 $if_content = Php::document_tag($object, $flags, $options, $content['else']['content']);
                                 $if_data[] = 'else {';

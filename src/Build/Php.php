@@ -772,7 +772,9 @@ class Php {
                             foreach($if_after as $line){
                                 $data[] = $line;
                             }
-                            $content[$if_method] = [];
+                            $content['if'] = [];
+                            $content['elseif'] = [];
+                            $content['else'] = [];
                             d($if_method);
                             d($content);
                         } else {

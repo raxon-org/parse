@@ -572,7 +572,7 @@ class Parse
             ;
             Dir::create($dir, Dir::CHMOD);
             $token = Token::tokenize($object, $flags, $options, $input);
-            d($token);
+//            d($token);
             if($is_debug){
 //                d($token);
             }
@@ -586,6 +586,8 @@ class Parse
                     $object->config('extension.php')
                 ;
             }
+            d($token);
+            d($url_php);
             $document = Build::create($object, $flags, $options, $token);
             File::write($url_php, implode(PHP_EOL, $document));
             File::permission(

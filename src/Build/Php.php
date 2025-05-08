@@ -3085,6 +3085,7 @@ class Php {
                         $after[] = '$data->set(\'' . $record['name'] . '\', ' . $uuid_variable . ');';
                     }
                 }
+                return $value;
             }
             elseif(
                 array_key_exists('value', $record) &&

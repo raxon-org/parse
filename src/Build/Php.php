@@ -4088,8 +4088,6 @@ class Php {
                         $item_validator = $item  . ';';
                         $result_validator[] = $item_validator;
                         if($separator !== null){
-                            d(trace(true));
-                            d($separator);
                             $item .= $separator;
                         } else {
                             $item .= ';';

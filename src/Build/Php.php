@@ -2816,7 +2816,11 @@ class Php {
                                 $locate_exception
                             );
                         } else {
-                            dd($record);
+                            $record['line'] = $record['line'] ?? 'unknown';
+                            if(!array_key_exists('colum', $record)){
+                                d(trace(true));
+                            }
+                            $record['column']['start'] = $record['column']['start'] ?? 'unknown';
                             throw new LocateException(
                                 'Plugin not found (' .
                                 str_replace('_', '.', $name) .

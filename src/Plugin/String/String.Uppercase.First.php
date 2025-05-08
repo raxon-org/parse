@@ -8,11 +8,12 @@ trait String_Uppercase_First {
         //php 8.4
         d($string);
         if(function_exists('mb_ucfirst')){
-            return mb_ucfirst($string);
+            $result =  mb_ucfirst($string);
         } else {
-            return ucfirst($string);
+            $result = ucfirst($string);
         }
-
+        d($result);
+        return $result;
     }
 
 }

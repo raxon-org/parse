@@ -2854,6 +2854,7 @@ class Php {
         $skip = 0;
         $input = Php::value_set($object, $flags, $options, $input, $is_set);
         $input = Variable::modifier($object, $flags, $options, $input, $tag);
+        d($input);
         foreach ($input['array'] as $nr => $record) {
             if($record === null){
                 continue;

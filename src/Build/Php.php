@@ -632,6 +632,7 @@ class Php {
                         $is_literal === false
                     ){
                         if($marker_name==='r3m'){
+                            d($options->source);
                             ddd(trace(true));
                         }
                         $object->config('package.raxon/parse.build.state.remove_newline_next', true);

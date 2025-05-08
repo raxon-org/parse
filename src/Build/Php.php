@@ -2922,8 +2922,134 @@ class Php {
                         } else {
                             $before[] = $uuid_variable . ' = $data->get(\'' . $record['name'] . '\');';
                             $before[] = '$data->set(\'' . substr($uuid_variable, 1) . '\', ' . $uuid_variable . ');';
-                            $value .= $uuid_variable;
+
+                            //add modifier
+                            if(array_key_exists('modifier', $record)){
+                                $before = [];
+                                $after = [];
+                                $previous_modifier = $uuid_variable;
+                                $modifier_value = $previous_modifier;
+                                foreach($record['modifier'] as $modifier_nr => $modifier){
+                                    $plugin = Php::plugin($object, $flags, $options, $record, str_replace('.', '_', $modifier['name']));
+                                    $modifier_value = $plugin . '(' . PHP_EOL;
+                                    $modifier_value .= $previous_modifier . ',' . PHP_EOL;
+                                    $is_argument = false;
+                                    if(array_key_exists('argument', $modifier)){
+                                        foreach($modifier['argument'] as $argument_nr => $argument){
+                                            $argument = Php::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
+                                            if($argument !== ''){
+                                                $modifier_value .= $argument . ',' . PHP_EOL;
+                                                $is_argument = true;
+                                            }
+                                        }
+                                        if($is_argument === true){
+                                            $modifier_value = mb_substr($modifier_value, 0, -2) . PHP_EOL;
+                                        } else {
+                                            $modifier_value = mb_substr($modifier_value, 0, -2);
+                                        }
+                                    }
+                                    $modifier_value .= ')';
+                                    $previous_modifier = $modifier_value;
+                                }
+                                ddd($modifier_value);
+                                $value = $modifier_value;
+                                /*
+                                $is_not = '';
+                                if(array_key_exists('is_not', $record['variable'])){
+                                    if($record['variable']['is_not'] === true){
+                                        $is_not = ' !! ';
+                                    }
+                                    elseif($record['variable']['is_not'] === false){
+                                        $is_not = ' !';
+                                    }
+                                }
+                                if(
+                                    array_key_exists('cast', $record['variable']) &&
+                                    $record['variable']['cast'] !== false
+                                ){
+                                    if($record['variable']['cast'] === 'clone'){
+                                        $value = 'clone ' . $value;
+                                    } else {
+                                        $value = '(' . $record['variable']['cast'] . ') ' . $value;
+                                    }
+                                }
+                                $separator = $object->config('package.raxon/parse.build.state.separator');
+                                $data = [];
+                                $data[] = 'try {';
+                                foreach($before as $line){
+                                    $data[] = str_replace($separator, ';', $line);
+                                }
+                                $before = [];
+                                $data[] = $variable_uuid . ' = ' . $is_not . $value . ';';
+                                if(
+                                    array_key_exists('is_multiline', $record) &&
+                                    $record['is_multiline'] === true
+                                ){
+                                    $data[] = 'if(' . $variable_uuid .' === null){';
+//                $data[] = 'trace();';
+//                $data[] = 'ddd($data);';
+                                    $source_root = $options->source_root ?? null;
+                                    if($source_root){
+                                        $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) . '" on line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.' . PHP_EOL . 'Source-root: ' . $source_root . '.' . PHP_EOL . 'You can use modifier "default" to surpress it \');';
+                                    } else {
+                                        $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) . '" on line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.' . PHP_EOL . 'You can use modifier "default" to surpress it \');';
+                                    }
+
+                                    $data[] = '}';
+                                } else {
+                                    $data[] = 'if(' . $variable_uuid .' === null){';
+//                $data[] = 'trace();';
+//                $data[] = 'ddd($data);';
+                                    $source_root = $options->source_root ?? null;
+                                    if($source_root){
+                                        $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) . '" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: '. $source . '.'. PHP_EOL . 'Source-root: ' . $source_root . '.' . PHP_EOL . 'You can use modifier "default" to surpress it \');';
+                                    } else {
+                                        $data[] = 'throw new TemplateException(\'Null-pointer exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) . '" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: '. $source . '.'. PHP_EOL . 'You can use modifier "default" to surpress it \');';
+                                    }
+
+                                    $data[] = '}';
+                                }
+//            $data[] = 'd(' . $variable_uuid . ');';
+                                $data[] = 'elseif(is_scalar('. $variable_uuid. ')){';
+                                if(property_exists($options, 'variable')){
+                                    $data[] = $options->variable . '[] = ' . $variable_uuid . ';';
+                                } else {
+                                    $data[] = '$content[] = ' . $variable_uuid . ';';
+                                }
+                                $data[] = '}';
+                                $data[] = 'elseif(is_array(' . $variable_uuid. ')){';
+                                if (
+                                    array_key_exists('is_multiline', $record) &&
+                                    $record['is_multiline'] === true
+                                ){
+                                    $data[] = 'throw new TemplateException(\'Array to string conversion exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) .'" on line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.\');';
+                                } else {
+                                    $data[] = 'throw new TemplateException(\'Array to string conversion exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) .'" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.\');';
+                                }
+                                $data[] = '}';
+                                $data[] = 'elseif(is_object(' . $variable_uuid . ')){';
+                                if (
+                                    array_key_exists('is_multiline', $record) &&
+                                    $record['is_multiline'] === true
+                                ){
+                                    $data[] = 'throw new TemplateException(\'Object to string conversion exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) .'" on line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '.\');';
+                                } else {
+                                    $data[] = 'throw new TemplateException(\'Object to string conversion exception: "$' . $variable_name . str_replace(['\\','\''], ['\\\\', '\\\''], $method_value) .'" on line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '.\');';
+                                }
+                                $data[] = '}';
+                                foreach($after as $line){
+                                    $data[] = $line;
+                                }
+                                $after = [];
+                                $data[] = '} catch (Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception) {'; //catch
+                                $data[] = 'throw $exception;';
+                                $data[] = '}';
+                                $object->config('package.raxon/parse.build.state.remove_newline_next', true);
+                                return $data;
+                                */
+                            }
                         }
+                        $value .= $uuid_variable;
                     }
                     if(
                         array_key_exists('is_reference', $record) &&

@@ -2854,7 +2854,6 @@ class Php {
         $skip = 0;
         $input = Php::value_set($object, $flags, $options, $input, $is_set);
         $input = Variable::modifier($object, $flags, $options, $input, $tag);
-        d($input);
         foreach ($input['array'] as $nr => $record) {
             if($record === null){
                 continue;
@@ -2918,12 +2917,36 @@ class Php {
                         $try_catch = $object->config('package.raxon/parse.build.state.try_catch');
                         $separator = $object->config('package.raxon/parse.build.state.separator');
                         if ($try_catch === false) {
-                            $value .= '$data->get(\'' . $record['name'] . '\')';
+                            $previous_modifier = '$data->get(\'' . $record['name'] . '\')';
                         } else {
                             $before[] = $uuid_variable . ' = $data->get(\'' . $record['name'] . '\');';
                             $before[] = '$data->set(\'' . substr($uuid_variable, 1) . '\', ' . $uuid_variable . ');';
-                            $value .= $uuid_variable;
+                            $previous_modifier = $uuid_variable;
                         }
+                        $modifier_value = '';
+                        foreach($record['variable']['modifier'] as $nr => $modifier){
+                            $plugin = Php::plugin($object, $flags, $options, $record, str_replace('.', '_', $modifier['name']));
+                            $modifier_value = $plugin . '(';
+                            $modifier_value .= $previous_modifier .', ';
+                            if(array_key_exists('argument', $modifier)){
+                                $is_argument = false;
+                                foreach($modifier['argument'] as $argument_nr => $argument){
+                                    $argument = Php::value($object, $flags, $options, $record, $argument, $is_set);
+                                    if($argument !== ''){
+                                        $modifier_value .= $argument . ', ';
+                                        $is_argument = true;
+                                    }
+                                }
+                                if($is_argument === true){
+                                    $modifier_value = mb_substr($modifier_value, 0, -2);
+                                } else {
+                                    $modifier_value = mb_substr($modifier_value, 0, -1);
+                                }
+                            }
+                            $modifier_value .=  ')';
+                            $previous_modifier = $modifier_value;
+                        }
+                        $value .= $modifier_value;
                     }
                     if(
                         array_key_exists('is_reference', $record) &&

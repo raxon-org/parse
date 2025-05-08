@@ -1732,7 +1732,6 @@ class Php {
                             array_key_exists('is_assign', $record['variable']) &&
                             $record['variable']['is_assign'] === true
                         ){
-                            d($record);
                             $variable = Php::variable_assign($object, $flags, $options, $record);
                             if($variable){
                                 $data[] = $variable;

@@ -1734,7 +1734,12 @@ class Php {
                         ){
                             $variable = Php::variable_assign($object, $flags, $options, $record);
                             if($variable){
-                                $data[] = $variable;
+                                $separator = $object->config('package.raxon/parse.build.state.separator');
+                                if($separator === null){
+                                    $data[] = $variable;
+                                } else {
+                                    $data[] = str_replace($separator, ';', $variable);
+                                }
                             }
                             $next = $list[$nr + 1] ?? null;
                             if($next){
@@ -1748,7 +1753,12 @@ class Php {
                             $variable = Php::variable_define($object, $flags, $options, $record);
                             if($variable){
                                 foreach($variable as $line){
-                                    $data[] = $line;
+                                    $separator = $object->config('package.raxon/parse.build.state.separator');
+                                    if($separator === null){
+                                        $data[] = $line;
+                                    } else {
+                                        $data[] = str_replace($separator, ';', $line);
+                                    }
                                 }
                             }
                         }

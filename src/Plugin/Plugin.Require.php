@@ -156,17 +156,14 @@ trait Plugin_require {
             dd($object->config('package.raxon/parse'));
             return $compile;
         } else {
-            $source = $data->data('raxon.org.parse.view.source.url');
-            $data->data('raxon.org.parse.view.source.url', $url);
-            $data->data('raxon.org.parse.view.source.mtime', $mtime);
+            $source = $object->config('package.raxon/parse.build.state.source');
             $flags = App::flags($object);
             $options = (object) [];
             $options->source = $url;
 //            d($data->data());
             $parser = new Parse($object, $data, $flags, $options);
             $compile = $parser->compile($read, $data);
-            $data->data('raxon.org.parse.view.source.url', $source);
-            dd($object->config('package.raxon/parse'));
+            $object->config('package.raxon/parse.build.state.source', $source);
             return $compile;
         }
     }

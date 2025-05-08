@@ -2816,13 +2816,14 @@ class Php {
                                 $locate_exception
                             );
                         } else {
+                            dd($record);
                             throw new LocateException(
                                 'Plugin not found (' .
                                 str_replace('_', '.', $name) .
                                 ') exception: "' .
                                 str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) .
                                 '" on line: ' .
-                                $record['line']  .
+                                $record['line'] .
                                 ', column: ' .
                                 $record['column']['start'] .
                                 ' in source: '.

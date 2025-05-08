@@ -153,6 +153,7 @@ trait Plugin_require {
                 }
                 $data->data('link', array_merge($link, $data_link));
             }
+            dd($object->config('package.raxon/parse'));
             return $compile;
         } else {
             $source = $data->data('raxon.org.parse.view.source.url');
@@ -165,6 +166,7 @@ trait Plugin_require {
             $parser = new Parse($object, $data, $flags, $options);
             $compile = $parser->compile($read, $data);
             $data->data('raxon.org.parse.view.source.url', $source);
+            dd($object->config('package.raxon/parse'));
             return $compile;
         }
     }

@@ -2924,29 +2924,33 @@ class Php {
                             $previous_modifier = $uuid_variable;
                         }
                         $modifier_value = '';
-                        foreach($record['variable']['modifier'] as $nr => $modifier){
-                            $plugin = Php::plugin($object, $flags, $options, $record, str_replace('.', '_', $modifier['name']));
-                            $modifier_value = $plugin . '(';
-                            $modifier_value .= $previous_modifier .', ';
-                            if(array_key_exists('argument', $modifier)){
-                                $is_argument = false;
-                                foreach($modifier['argument'] as $argument_nr => $argument){
-                                    $argument = Php::value($object, $flags, $options, $record, $argument, $is_set);
-                                    if($argument !== ''){
-                                        $modifier_value .= $argument . ', ';
-                                        $is_argument = true;
+                        if(array_key_exists('modifier', $record) && !empty($record['modifier'])){
+                            foreach($record['modifier'] as $nr => $modifier){
+                                $plugin = Php::plugin($object, $flags, $options, $record, str_replace('.', '_', $modifier['name']));
+                                $modifier_value = $plugin . '(';
+                                $modifier_value .= $previous_modifier .', ';
+                                if(array_key_exists('argument', $modifier)){
+                                    $is_argument = false;
+                                    foreach($modifier['argument'] as $argument_nr => $argument){
+                                        $argument = Php::value($object, $flags, $options, $record, $argument, $is_set);
+                                        if($argument !== ''){
+                                            $modifier_value .= $argument . ', ';
+                                            $is_argument = true;
+                                        }
+                                    }
+                                    if($is_argument === true){
+                                        $modifier_value = mb_substr($modifier_value, 0, -2);
+                                    } else {
+                                        $modifier_value = mb_substr($modifier_value, 0, -1);
                                     }
                                 }
-                                if($is_argument === true){
-                                    $modifier_value = mb_substr($modifier_value, 0, -2);
-                                } else {
-                                    $modifier_value = mb_substr($modifier_value, 0, -1);
-                                }
+                                $modifier_value .=  ')';
+                                $previous_modifier = $modifier_value;
                             }
-                            $modifier_value .=  ')';
-                            $previous_modifier = $modifier_value;
+                            $value .= $modifier_value;
+                        } else {
+                            $value .= $previous_modifier;
                         }
-                        $value .= $modifier_value;
                     }
                     if(
                         array_key_exists('is_reference', $record) &&

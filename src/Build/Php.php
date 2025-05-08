@@ -2918,12 +2918,40 @@ class Php {
                         $try_catch = $object->config('package.raxon/parse.build.state.try_catch');
                         $separator = $object->config('package.raxon/parse.build.state.separator');
                         if ($try_catch === false) {
-                            $value .= '$data->get(\'' . $record['name'] . '\')';
+                            if(array_key_exists('modifier', $record)) {
+                                $before = [];
+                                $after = [];
+                                $previous_modifier = '$data->get(\'' . $record['name'] . '\')';
+                                $modifier_value = $previous_modifier;
+                                foreach ($record['modifier'] as $modifier_nr => $modifier) {
+                                    $plugin = Php::plugin($object, $flags, $options, $record, str_replace('.', '_', $modifier['name']));
+                                    $modifier_value = $plugin . '(' . PHP_EOL;
+                                    $modifier_value .= $previous_modifier . ',' . PHP_EOL;
+                                    $is_argument = false;
+                                    if (array_key_exists('argument', $modifier)) {
+                                        foreach ($modifier['argument'] as $argument_nr => $argument) {
+                                            $argument = Php::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
+                                            if ($argument !== '') {
+                                                $modifier_value .= $argument . ',' . PHP_EOL;
+                                                $is_argument = true;
+                                            }
+                                        }
+                                        if ($is_argument === true) {
+                                            $modifier_value = mb_substr($modifier_value, 0, -2) . PHP_EOL;
+                                        } else {
+                                            $modifier_value = mb_substr($modifier_value, 0, -2);
+                                        }
+                                    }
+                                    $modifier_value .= ')';
+                                    $previous_modifier = $modifier_value;
+                                }
+                                $value .= $previous_modifier;
+                            } else {
+                                $value .= '$data->get(\'' . $record['name'] . '\')';
+                            }
                         } else {
                             $before[] = $uuid_variable . ' = $data->get(\'' . $record['name'] . '\');';
                             $before[] = '$data->set(\'' . substr($uuid_variable, 1) . '\', ' . $uuid_variable . ');';
-
-                            //add modifier
                             if(array_key_exists('modifier', $record)){
                                 $before = [];
                                 $after = [];
@@ -2951,28 +2979,8 @@ class Php {
                                     $modifier_value .= ')';
                                     $previous_modifier = $modifier_value;
                                 }
-                                ddd($modifier_value);
-                                $value = $modifier_value;
+                                $value .= $modifier_value;
                                 /*
-                                $is_not = '';
-                                if(array_key_exists('is_not', $record['variable'])){
-                                    if($record['variable']['is_not'] === true){
-                                        $is_not = ' !! ';
-                                    }
-                                    elseif($record['variable']['is_not'] === false){
-                                        $is_not = ' !';
-                                    }
-                                }
-                                if(
-                                    array_key_exists('cast', $record['variable']) &&
-                                    $record['variable']['cast'] !== false
-                                ){
-                                    if($record['variable']['cast'] === 'clone'){
-                                        $value = 'clone ' . $value;
-                                    } else {
-                                        $value = '(' . $record['variable']['cast'] . ') ' . $value;
-                                    }
-                                }
                                 $separator = $object->config('package.raxon/parse.build.state.separator');
                                 $data = [];
                                 $data[] = 'try {';
@@ -3049,7 +3057,26 @@ class Php {
                                 */
                             }
                         }
-                        $value .= $uuid_variable;
+                    }
+                    $is_not = '';
+                    if(array_key_exists('is_not', $record)){
+                        if($record['is_not'] === true){
+                            $is_not = ' !! ';
+                        }
+                        elseif($record['is_not'] === false){
+                            $is_not = ' !';
+                        }
+                        $value = $is_not . ' ' . $value;
+                    }
+                    if(
+                        array_key_exists('cast', $record) &&
+                        $record['cast'] !== false
+                    ){
+                        if($record['cast'] === 'clone'){
+                            $value = 'clone ' . $value;
+                        } else {
+                            $value = '(' . $record['variable']['cast'] . ') ' . $value;
+                        }
                     }
                     if(
                         array_key_exists('is_reference', $record) &&

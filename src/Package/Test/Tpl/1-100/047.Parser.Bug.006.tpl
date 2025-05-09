@@ -1,5 +1,5 @@
 {{$require.language = 'en'}}
-{{$require.page = 'test_test'}}
+{{$request.page = 'test_test'}}
 {{$url =
 config('controller.dir.data') +
 'MarkDown' +

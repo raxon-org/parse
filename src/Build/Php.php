@@ -251,6 +251,7 @@ class Php {
         if(!property_exists($options, 'source') || empty($options->source)){
             throw new Exception('Document tag: source not found in options' . PHP_EOL);
         }
+        d($tags);
         $data = [];
         $if_depth = 0;
         $elseif_count = 0;

@@ -925,6 +925,8 @@ class Token
                                 }
                             } else {
                                 if($operator){
+                                    d($after);
+                                    breakpoint($after_array);
                                     $list = Token::value(
                                         $object,
                                         $flags,

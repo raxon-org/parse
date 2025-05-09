@@ -140,6 +140,8 @@ class Variable
                                         $input['array'][$variable_nr]['variable'] = $variable;
                                     }
                                 } else {
+                                    d($after);
+                                    breakpoint($after_array);
                                     $list = Token::value(
                                         $object,
                                         $flags,

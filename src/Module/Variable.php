@@ -739,8 +739,6 @@ class Variable
                     $argument_nr = -1;
                 }
                 elseif($is_modifier !== false){
-                    d($is_variable);
-                    ddd($input);
                     $input['array'][$is_variable]['modifier'][] = [
                         'string' => $modifier_string,
                         'name' => $modifier_name,
@@ -825,9 +823,6 @@ class Variable
                             );
                             $argument_array[$argument_nr] = $argument_value;
                         }
-                        d($modifier_string);
-                        d($modifier_name);
-                        ddd($argument_array);
                         $input['array'][$is_variable]['modifier'][] = [
                             'string' => $modifier_string,
                             'name' => $modifier_name,

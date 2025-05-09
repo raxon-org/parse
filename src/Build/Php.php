@@ -639,6 +639,7 @@ class Php {
                         continue;
                     }
                     elseif(
+                        $block_depth === 0 &&
                         $marker_name === 'literal' &&
                         array_key_exists('is_close', $record['marker']) &&
                         $record['marker']['is_close'] === false
@@ -648,6 +649,7 @@ class Php {
                         continue;
                     }
                     elseif(
+                        $block_depth === 0 &&
                         $marker_name === 'literal' &&
                         array_key_exists('is_close', $record['marker']) &&
                         $record['marker']['is_close'] === true

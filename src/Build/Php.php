@@ -251,7 +251,6 @@ class Php {
         if(!property_exists($options, 'source') || empty($options->source)){
             throw new Exception('Document tag: source not found in options' . PHP_EOL);
         }
-        d($tags);
         $data = [];
         $if_depth = 0;
         $elseif_count = 0;
@@ -1740,7 +1739,6 @@ class Php {
                             array_key_exists('is_assign', $record['variable']) &&
                             $record['variable']['is_assign'] === true
                         ){
-                            d($record);
                             $variable = Php::variable_assign($object, $flags, $options, $record);
                             if($variable){
                                 $separator = $object->config('package.raxon/parse.build.state.separator');
@@ -3056,8 +3054,6 @@ class Php {
                         $value .=  $record['value'];
                         break;
                     default:
-                        d($input);
-                        trace();
                         $next = $input['array'][$nr + 1] ?? null;
                         $right = null;
                         if($next){

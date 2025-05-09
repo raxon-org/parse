@@ -1261,6 +1261,7 @@ class Php {
                             $options->variable = Core::uuid_variable();
                             $object->config('package.raxon/parse.build.state.remove_newline_next', true);
                             $block_content = PHP::document_tag($object, $flags, $options, $content[$category]['content']);
+                            d($block_content);
                             $variable_argument = [
                                 'type' => 'variable',
                                 'tag' => $options->variable,

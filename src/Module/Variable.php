@@ -1010,10 +1010,6 @@ class Variable
                     );
                     $argument_array[$argument_nr] = $argument_value;
                 }
-                if($modifier_name === 'string.replace'){
-                    d($input);
-                    ddd($argument_array);
-                }
                 $input['array'][$is_variable]['modifier'][] = [
                     'string' => $modifier_string,
                     'name' => $modifier_name,

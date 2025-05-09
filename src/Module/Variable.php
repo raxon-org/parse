@@ -1012,7 +1012,7 @@ class Variable
                 }
                 d($modifier_string);
                 d($modifier_name);
-                ddd($argument_array);
+                breakpoint($argument_array);
                 $input['array'][$is_variable]['modifier'][] = [
                     'string' => $modifier_string,
                     'name' => $modifier_name,
@@ -1024,7 +1024,7 @@ class Variable
             }
             elseif($is_modifier !== false){
                 d($modifier_string);
-                ddd($modifier_name);
+                breakpoint($modifier_name);
                 $input['array'][$is_variable]['modifier'][] = [
                     'string' => $modifier_string,
                     'name' => $modifier_name,

@@ -3126,7 +3126,6 @@ class Php {
                                 ddd($next);
                             }
                             $skip++;
-                            d($record);
                             $value = Php::value_calculate($object, $flags, $options, $record['value'], $value, $right);
                         }
                         break;

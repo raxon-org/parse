@@ -3136,7 +3136,7 @@ class Php {
                 array_key_exists('type', $record) &&
                 $record['type'] === 'method'
             ){
-                if(empty($reord['tag'])){
+                if(empty($record['tag'])){
                     $record['tag'] = $tag['tag'] ?? 'unknown';
                     $record['line'] = $tag['line'] ?? 'unknown';
                 }

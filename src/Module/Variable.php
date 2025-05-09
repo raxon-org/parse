@@ -858,6 +858,8 @@ class Variable
                         }
                     }
                     elseif($is_modifier !== false){
+                        d($modifier_string);
+                        breakpoint($modifier_name);
                         $input['array'][$is_variable]['modifier'][] = [
                             'string' => $modifier_string,
                             'name' => $modifier_name,

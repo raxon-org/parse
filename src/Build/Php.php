@@ -3055,6 +3055,7 @@ class Php {
                         break;
                     default:
                         d($input);
+                        trace();
                         $next = $input['array'][$nr + 1] ?? null;
                         $right = null;
                         if($next){

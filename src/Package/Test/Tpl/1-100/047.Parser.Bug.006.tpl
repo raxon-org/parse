@@ -1,11 +1,12 @@
 {{$require.language = 'en'}}
 {{$request.page = 'test_test'}}
+{{$require.page = $request.page|string.replace:'_': '.'}}
 {{$url =
 config('controller.dir.data') +
 'MarkDown' +
 '/' +
 $require.language +
 '/' +
-$request.page|string.replace:'_': '.' +
+$require.page +
 '.md'}}
 {{dd($url)}}

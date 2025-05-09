@@ -882,7 +882,6 @@ class Token
                                             ],
                                             $record
                                         );
-                                        breakpoint($operator);
                                         $variable = [
                                             'is_define' => true,
                                             'is_not' => $is_not,
@@ -925,7 +924,6 @@ class Token
                                 }
                             } else {
                                 if($operator){
-                                    d($after);
                                     $list = Token::value(
                                         $object,
                                         $flags,
@@ -936,7 +934,6 @@ class Token
                                         ],
                                         $record
                                     );
-                                    breakpoint($list);
                                     $variable_target = Token::variable_name($object, $flags, $options, $variable_name);
                                     $variable_explode = explode($variable_target, $variable_name, 2);
                                     $cast = Token::cast_get($object, $flags, $options, $variable_explode[0]);

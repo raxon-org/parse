@@ -3257,6 +3257,7 @@ class Php {
                             d($array_key);
                             $value .= Php::value($object, $flags, $options, $record, $array_key, $is_set_array, $before, $after);
                         }
+                        d($value);
                         $array_key = ['array' => []];
                         $array_value_value = ['array' => []];
                         $value .= ',';
@@ -3272,7 +3273,7 @@ class Php {
                             $key_set = true;
                         }
                         $value .= ' => ';
-                        $array_key = ['array' => []];
+                        $array_key['array'] = [];
                     } else {
                         if($is_key === true){
                             $array_key['array'][] = $array_value;

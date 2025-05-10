@@ -3212,6 +3212,7 @@ class Php {
                 $array_key = ['array' => []];
                 $array_value_value = ['array' => []];
                 $key_set = false;
+                $is_key = false;
                 foreach($record['array'] as $array_nr => $array_value){
                     if(
                         array_key_exists('value', $array_value) &&

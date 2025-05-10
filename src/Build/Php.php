@@ -3264,6 +3264,7 @@ class Php {
                         $array_value_value = ['array' => []];
                         $value .= ',';
                         $key_set = false;
+                        $is_key = true;
                     }
                     elseif(
                         array_key_exists('value', $array_value) &&

@@ -3039,7 +3039,9 @@ class Php {
                     case 'xor':
                     case '=>':
                     case 'as':
-                        ddd($input);
+                        if($record['value'] == '=>'){
+                            ddd($input);
+                        }
                         $value .= ' ' . $record['value'] .  ' ';
                         break;
                     case '[':

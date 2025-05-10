@@ -3208,6 +3208,7 @@ class Php {
                 array_key_exists('type', $record) &&
                 $record['type'] === 'array'
             ){
+                ddd($record);
                 $array_key = ['array' => []];
                 $array_value_value = ['array' => []];
                 $key_set = false;
@@ -3267,6 +3268,7 @@ class Php {
                             $key_set = true;
                         }
                         $value .= ' => ';
+                        d($value);
                     } else {
                         if($is_key === true){
                             $array_key['array'][] = $array_value;

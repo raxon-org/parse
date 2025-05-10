@@ -3214,7 +3214,6 @@ class Php {
                 $key_set = false;
                 $is_key = false;
                 foreach($record['array'] as $array_nr => $array_value){
-                    d($array_value);
                     if(
                         array_key_exists('value', $array_value) &&
                         $array_value['value'] === '['
@@ -3233,11 +3232,9 @@ class Php {
                             $key_set === true &&
                             array_key_exists(0, $array_value_value['array'])
                         ){
-                            d($array_value_value);
                             $value .= Php::value($object, $flags, $options, $record, $array_value_value, $is_set_array, $before, $after);
                         }
                         elseif(array_key_exists(0, $array_key['array'])){
-                            d($array_key);
                             $value .= Php::value($object, $flags, $options, $record, $array_key, $is_set_array, $before, $after);
                         }
                         $array_key = ['array' => []];
@@ -3252,14 +3249,11 @@ class Php {
                             $key_set === true &&
                             array_key_exists(0, $array_value_value['array'])
                         ){
-                            d($array_value_value);
                             $value .= Php::value($object, $flags, $options, $record, $array_value_value, $is_set_array, $before, $after);
                         }
                         elseif(array_key_exists(0, $array_key['array'])){
-                            d($array_key);
                             $value .= Php::value($object, $flags, $options, $record, $array_key, $is_set_array, $before, $after);
                         }
-                        d($value);
                         $array_key = ['array' => []];
                         $array_value_value = ['array' => []];
                         $value .= ',';
@@ -3278,8 +3272,6 @@ class Php {
                         $value .= ' => ';
                         $array_key['array'] = [];
                     } else {
-                        d($array_value);
-                        d($is_key);
                         if($is_key === true){
                             $array_key['array'][] = $array_value;
                         } else {
@@ -3287,8 +3279,6 @@ class Php {
                         }
                     }
                 }
-                d($array_key);
-                ddd($array_value_value);
 //                $value .= Php::value($object, $flags, $options, $record, $record, $is_set_array, $before, $after);
                 //remove next newline
                 $object->config('package.raxon/parse.build.state.remove_newline_next', true);

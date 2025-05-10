@@ -3208,12 +3208,13 @@ class Php {
                 array_key_exists('type', $record) &&
                 $record['type'] === 'array'
             ){
-                d($record);
+//                d($record);
                 $array_key = ['array' => []];
                 $array_value_value = ['array' => []];
                 $key_set = false;
                 $is_key = false;
                 foreach($record['array'] as $array_nr => $array_value){
+                    d($array_value);
                     if(
                         array_key_exists('value', $array_value) &&
                         $array_value['value'] === '['

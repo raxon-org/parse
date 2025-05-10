@@ -3283,6 +3283,8 @@ class Php {
                         }
                     }
                 }
+                d($array_key);
+                ddd($array_value_value);
 //                $value .= Php::value($object, $flags, $options, $record, $record, $is_set_array, $before, $after);
                 //remove next newline
                 $object->config('package.raxon/parse.build.state.remove_newline_next', true);

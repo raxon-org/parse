@@ -3273,6 +3273,8 @@ class Php {
                         }
                         $value .= ' => ';
                         d($value);
+                        d($array_key);
+                        d($array_value_value);
                     } else {
                         if($is_key === true){
                             $array_key['array'][] = $array_value;

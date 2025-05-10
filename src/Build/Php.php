@@ -3208,7 +3208,7 @@ class Php {
                 array_key_exists('type', $record) &&
                 $record['type'] === 'array'
             ){
-                ddd($record);
+                d($record);
                 $array_key = ['array' => []];
                 $array_value_value = ['array' => []];
                 $key_set = false;
@@ -3231,9 +3231,11 @@ class Php {
                             $key_set === true &&
                             array_key_exists(0, $array_value_value['array'])
                         ){
+                            d($array_value_value);
                             $value .= Php::value($object, $flags, $options, $record, $array_value_value, $is_set_array, $before, $after);
                         }
                         elseif(array_key_exists(0, $array_key['array'])){
+                            d($array_key);
                             $value .= Php::value($object, $flags, $options, $record, $array_key, $is_set_array, $before, $after);
                         }
                         $array_key = ['array' => []];
@@ -3248,9 +3250,11 @@ class Php {
                             $key_set === true &&
                             array_key_exists(0, $array_value_value['array'])
                         ){
+                            d($array_value_value);
                             $value .= Php::value($object, $flags, $options, $record, $array_value_value, $is_set_array, $before, $after);
                         }
                         elseif(array_key_exists(0, $array_key['array'])){
+                            d($array_key);
                             $value .= Php::value($object, $flags, $options, $record, $array_key, $is_set_array, $before, $after);
                         }
                         $array_key = ['array' => []];

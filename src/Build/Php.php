@@ -3272,9 +3272,7 @@ class Php {
                             $key_set = true;
                         }
                         $value .= ' => ';
-                        d($value);
-                        d($array_key);
-                        d($array_value_value);
+                        $array_key = ['array' => []];
                     } else {
                         if($is_key === true){
                             $array_key['array'][] = $array_value;

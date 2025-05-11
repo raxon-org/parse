@@ -18,6 +18,9 @@ trait String_Replace {
             $data = $this->data();
             $data->data($attribute, $count);
         } else {
+            d($search);
+            d($replace);
+            d($subject);
             $subject = str_replace($search, $replace, $subject);
         }
         return $subject;

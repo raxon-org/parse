@@ -1620,6 +1620,7 @@ class Php {
                             $text = str_replace('\\&', $ampersand_uuid, $text);
                             $text = str_replace('&quot;', $double_quote_uuid, $text);
                             $text = str_replace('&apos;', $single_quote_uuid, $text);
+                            d($record);
                             $token = Token::tokenize($object, $flags, $options, substr($text, 1, -1));
                             $token = Php::document_tag_prepare($object, $flags, $options, $token);
                             $embed = Php::document_tag($object, $flags, $options, $token);

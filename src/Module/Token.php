@@ -1739,9 +1739,6 @@ class Token
             $input = Method::define($object, $flags, $options, $input, $tag);
 //            d($input);
             $input = Variable::define($object, $flags, $options, $input);
-            if($object->config('debug') === 'module'){
-                ddd($input);
-            }
 //breakpoint($input);
             $input = Variable::modifier($object, $flags, $options, $input, $tag);
             $input = Variable::assign($object, $flags, $options, $input);

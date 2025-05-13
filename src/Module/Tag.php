@@ -524,9 +524,6 @@ class Tag
             ){
                 $tag = '{{';
                 $text = mb_substr($text, 0, -1);
-                if($object->config('debug') === 'module'){
-                    d($tag);
-                }
             }
             elseif(
                 $tag !== false &&
@@ -538,9 +535,6 @@ class Tag
                 $is_double_quoted === false &&
                 $is_double_quoted_backslash === false
             ){
-                if($object->config('debug') === 'module'){
-                    d($tag);
-                }
                 /* is done in curly_open
                 if(mb_strlen($text) > 0){
                     $text = mb_substr($text, 0, -1);

@@ -3559,7 +3559,8 @@ class Php {
             }
         }
         if(array_key_exists('modifier', $record['variable'])){
-            ddd($record);
+            trace();
+            d($record);
             $before = [];
             $after = [];
             $previous_modifier = '$data->data(\'' . $variable_name . '\')' . $method_value;

@@ -74,11 +74,11 @@ class Token
                 File::delete($cache_url);
             }
         }
-        if($object->config('debug') === 'module'){
-            ddd($tags);
-        }
         if($tags === false){
             $tags = Tag::define($object, $flags, $options, $input);
+            if($object->config('debug') === 'module'){
+                ddd($tags);
+            }
             $tags = Tag::remove($object, $flags, $options, $tags);
             $tags = Token::abstract_syntax_tree($object, $flags, $options, $tags);
             $is_new = true;

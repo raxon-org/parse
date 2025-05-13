@@ -518,6 +518,9 @@ class Tag
             ){
                 $tag = '{{';
                 $text = mb_substr($text, 0, -1);
+                if($object->config('debug') === 'module'){
+                    d($tag);
+                }
             }
             elseif(
                 $tag !== false &&

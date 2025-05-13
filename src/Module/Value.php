@@ -103,6 +103,7 @@ class Value
                 continue;
             }
             $previous = Token::item($input, $nr - 1);
+            $previous_previous = Token::item($input, $nr - 2);
             if(
                 !is_array($char) &&
                 in_array(
@@ -257,8 +258,15 @@ class Value
                     $is_single_quoted = $nr;
                 }
                 elseif(
-                    $char['value'] === '\'' &&
-                    $previous !== '\\' &&
+                    (
+                        $char['value'] === '\'' &&
+                        $previous !== '\\'
+                    ) ||
+                    (
+                        $char['value'] === '\'' &&
+                        $previous === '\\' &&
+                        $previous_previous === '\\'
+                    ) &&
                     $is_single_quoted !== false &&
                     $is_double_quoted === false &&
                     $is_single_quoted_backslash === false

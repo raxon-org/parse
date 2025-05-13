@@ -322,9 +322,15 @@ class Token
                                     $char === '\'' &&
                                     $is_single_quoted === true &&
                                     $previous !== '\\'
-
                                 ){
                                     $is_single_quoted = false;
+                                }
+                                elseif(
+                                    $char === '\'' &&
+                                    $is_single_quoted === true &&
+                                    $previous === '\\'
+                                ){
+                                    ddd('found');
                                 }
                                 elseif(
                                     $char === '"' &&

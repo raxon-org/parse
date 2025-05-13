@@ -348,7 +348,7 @@ class Token
                                     $previous === '\\' &&
                                     $previous_previous === '\\'
                                 ){
-                                    ddd('found');
+                                    $object->config('debug', 'module');
                                     $is_single_quoted = false;
                                 }
                                 elseif(

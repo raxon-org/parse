@@ -936,7 +936,7 @@ class Php {
                                 }
                                 $inline_before = [];
                             }
-                            d($content[$category]);
+//                            d($content[$category]);
                             $foreach_content = PHP::document_tag($object, $flags, $options, $content[$category]['content']);
                             $separator = $object->config('package.raxon/parse.build.state.separator');
                             foreach($foreach_content as $line){
@@ -1759,7 +1759,7 @@ class Php {
                             array_key_exists('is_define', $record['variable']) &&
                             $record['variable']['is_define'] === true
                         ){
-                            d($record);
+//                            d($record);
                             $variable = Php::variable_define($object, $flags, $options, $record);
                             if($variable){
                                 foreach($variable as $line){
@@ -3561,8 +3561,6 @@ class Php {
             }
         }
         if(array_key_exists('modifier', $record['variable'])){
-            trace();
-            d($record);
             $before = [];
             $after = [];
             $previous_modifier = '$data->data(\'' . $variable_name . '\')' . $method_value;

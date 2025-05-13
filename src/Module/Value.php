@@ -258,15 +258,8 @@ class Value
                     $is_single_quoted = $nr;
                 }
                 elseif(
-                    (
-                        $char['value'] === '\'' &&
-                        $previous !== '\\'
-                    ) ||
-                    (
-                        $char['value'] === '\'' &&
-                        $previous === '\\' &&
-                        $previous_previous === '\\'
-                    ) &&
+                    $char['value'] === '\'' &&
+                    $previous !== '\\' &&
                     $is_single_quoted !== false &&
                     $is_double_quoted === false &&
                     $is_single_quoted_backslash === false
@@ -310,6 +303,55 @@ class Value
                         $input['array'][$i] = null;
                     }
                     $is_single_quoted = false;
+                }
+                elseif(
+                    $char['value'] === '\'' &&
+                    $previous === '\\' &&
+                    $previous_previous === '\\' &&
+                    $is_single_quoted !== false &&
+                    $is_double_quoted === false &&
+                    $is_single_quoted_backslash === false
+                ){
+                    $value = '';
+                    for($i = $is_single_quoted + 1; $i < $nr; $i++){
+                        $item = $input['array'][$i];
+                        if(is_array($item)){
+                            if(array_key_exists('value', $item)){
+                                $value .= $item['value'];
+                            }
+                            elseif(
+                                array_key_exists('type', $item) &&
+                                $item['type'] === 'method') {
+                                $value .= $item['method']['name'];
+                                $value .= '(';
+                                foreach($item['method']['argument'] as $argument){
+                                    $value .= $argument['string'];
+                                }
+                                $value .= ')';
+                            }
+                            elseif(
+                                array_key_exists('type', $item) &&
+                                $item['type'] === 'variable'
+                            ){
+                                $value .= '$data->get(\'' . $item['name'] . '\')';
+                            } else {
+                                dd($item);
+                            }
+                        } else {
+                            $value .= $item;
+                        }
+                    }
+                    $value = Value::basic($object, $flags, $options, $value);
+                    $input['array'][$is_single_quoted] = $value;
+                    //maybe with value (whitespace we need double quote (\t\s))
+                    $value_current = $value['execute'] ?? $value['value'];
+                    $input['array'][$is_single_quoted]['value'] = '\'' . $value_current . '\'';
+                    $input['array'][$is_single_quoted]['is_single_quoted'] = true;
+                    for ($i = $is_single_quoted + 1; $i <= $nr; $i++) {
+                        $input['array'][$i] = null;
+                    }
+                    $is_single_quoted = false;
+                    ddd($input);
                 }
                 elseif(
                     $value === 0 ||

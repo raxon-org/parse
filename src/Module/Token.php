@@ -79,7 +79,7 @@ class Token
             if($object->config('debug') === 'module'){
                 d($input);
                 d($options);
-                ddd($tags);
+                d($tags);
             }
             $tags = Tag::remove($object, $flags, $options, $tags);
             $tags = Token::abstract_syntax_tree($object, $flags, $options, $tags);

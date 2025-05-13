@@ -163,7 +163,13 @@ class Value
             ){
                 if(
                     $char['value'] === '"' &&
-                    $previous !== '\\' &&
+                    (
+                        $previous !== '\\' ||
+                        (
+                            $previous === '\\' &&
+                            $previous_previous === '\\'
+                        )
+                    ) &&
                     $is_double_quoted === false &&
                     $is_single_quoted === false &&
                     $is_double_quoted_backslash === false
@@ -172,7 +178,13 @@ class Value
                 }
                 elseif(
                     $char['value'] === '"' &&
-                    $previous !== '\\' &&
+                    (
+                        $previous !== '\\' ||
+                        (
+                            $previous === '\\' &&
+                            $previous_previous === '\\'
+                        )
+                    ) &&
                     $is_double_quoted !== false &&
                     $is_single_quoted === false &&
                     $is_double_quoted_backslash === false
@@ -250,7 +262,13 @@ class Value
                 }
                 elseif(
                     $char['value'] === '\'' &&
-                    $previous !== '\\' &&
+                    (
+                        $previous !== '\\' ||
+                        (
+                            $previous === '\\' &&
+                            $previous_previous === '\\'
+                        )
+                    ) &&
                     $is_single_quoted === false &&
                     $is_double_quoted === false &&
                     $is_single_quoted_backslash === false
@@ -259,7 +277,13 @@ class Value
                 }
                 elseif(
                     $char['value'] === '\'' &&
-                    $previous !== '\\' &&
+                    (
+                        $previous !== '\\' ||
+                        (
+                            $previous === '\\' &&
+                            $previous_previous === '\\'
+                        )
+                    ) &&
                     $is_single_quoted !== false &&
                     $is_double_quoted === false &&
                     $is_single_quoted_backslash === false
@@ -303,57 +327,7 @@ class Value
                         $input['array'][$i] = null;
                     }
                     $is_single_quoted = false;
-                }
-                elseif(
-                    $char['value'] === '\'' &&
-                    $previous === '\\' &&
-                    $previous_previous === '\\' &&
-                    $is_single_quoted !== false &&
-                    $is_double_quoted === false &&
-                    $is_single_quoted_backslash === false
-                ){
-                    $value = '';
-                    for($i = $is_single_quoted + 1; $i < $nr; $i++){
-                        $item = $input['array'][$i];
-                        if(is_array($item)){
-                            if(array_key_exists('value', $item)){
-                                $value .= $item['value'];
-                            }
-                            elseif(
-                                array_key_exists('type', $item) &&
-                                $item['type'] === 'method') {
-                                $value .= $item['method']['name'];
-                                $value .= '(';
-                                foreach($item['method']['argument'] as $argument){
-                                    $value .= $argument['string'];
-                                }
-                                $value .= ')';
-                            }
-                            elseif(
-                                array_key_exists('type', $item) &&
-                                $item['type'] === 'variable'
-                            ){
-                                $value .= '$data->get(\'' . $item['name'] . '\')';
-                            } else {
-                                dd($item);
-                            }
-                        } else {
-                            $value .= $item;
-                        }
-                    }
-                    $value = Value::basic($object, $flags, $options, $value);
-                    $input['array'][$is_single_quoted] = $value;
-                    //maybe with value (whitespace we need double quote (\t\s))
-                    $value_current = $value['execute'] ?? $value['value'];
-                    $input['array'][$is_single_quoted]['value'] = '\'' . $value_current . '\'';
-                    $input['array'][$is_single_quoted]['is_single_quoted'] = true;
-                    for ($i = $is_single_quoted + 1; $i <= $nr; $i++) {
-                        $input['array'][$i] = null;
-                    }
-                    $is_single_quoted = false;
-                    ddd($input);
-                }
-                elseif(
+                } elseif(
                     $value === 0 ||
                     $value === '0' ||
                     $value
@@ -657,13 +631,20 @@ class Value
                 continue;
             }
             $previous = Token::item($input, $nr - 1);
+            $previous_previous = Token::item($input, $nr - 2);
             if(
                 is_array($char) &&
                 array_key_exists('value', $char) &&
                 $char['value'] === '\'' &&
                 $is_single_quote === false &&
                 $is_double_quote === false &&
-                $previous !== '\\'
+                (
+                    $previous !== '\\' ||
+                    (
+                        $previous === '\\' &&
+                        $previous_previous === '\\'
+                    )
+                )
             ){
                 $is_single_quote = true;
                 if($array_depth > 0){
@@ -677,7 +658,13 @@ class Value
                 $char['value'] === '\'' &&
                 $is_single_quote === true &&
                 $is_double_quote === false &&
-                $previous !== '\\'
+                (
+                    $previous !== '\\' ||
+                    (
+                        $previous === '\\' &&
+                        $previous_previous === '\\'
+                    )
+                )
             ){
                 $is_single_quote = false;
                 if($array_depth > 0){
@@ -691,7 +678,13 @@ class Value
                 $char['value'] === '"' &&
                 $is_single_quote === false &&
                 $is_double_quote === false &&
-                $previous !== '\\'
+                (
+                    $previous !== '\\' ||
+                    (
+                        $previous === '\\' &&
+                        $previous_previous === '\\'
+                    )
+                )
             ){
                 $is_double_quote = true;
                 if($array_depth > 0){
@@ -705,7 +698,13 @@ class Value
                 $char['value'] === '"' &&
                 $is_single_quote === false &&
                 $is_double_quote === true &&
-                $previous !== '\\'
+                (
+                    $previous !== '\\' ||
+                    (
+                        $previous === '\\' &&
+                        $previous_previous === '\\'
+                    )
+                )
             ){
                 $is_double_quote = false;
                 if($array_depth > 0){
@@ -807,6 +806,7 @@ class Value
                 continue;
             }
             $previous = Token::item($input, $nr - 1);
+            $previous_previous = Token::item($input, $nr - 2);
             $next = Token::item($input, $nr + 1);
             $current = Token::item($input, $nr);
             if($with_backslash){
@@ -831,7 +831,13 @@ class Value
             } else {
                 if(
                     $current === '"' &&
-                    $previous !== '\\' &&
+                    (
+                        $previous !== '\\' ||
+                        (
+                            $previous === '\\' &&
+                            $previous_previous === '\\'
+                        )
+                    ) &&
                     $is_double_quote === false
                 ){
                     $is_double_quote = true;
@@ -839,7 +845,13 @@ class Value
                 }
                 elseif(
                     $current === '"' &&
-                    $previous !== '\\' &&
+                    (
+                        $previous !== '\\' ||
+                        (
+                            $previous === '\\' &&
+                            $previous_previous === '\\'
+                        )
+                    ) &&
                     $is_double_quote === true
                 ){
                     $string_depth--;

@@ -1758,6 +1758,7 @@ class Php {
                             array_key_exists('is_define', $record['variable']) &&
                             $record['variable']['is_define'] === true
                         ){
+                            d($record);
                             $variable = Php::variable_define($object, $flags, $options, $record);
                             if($variable){
                                 foreach($variable as $line){

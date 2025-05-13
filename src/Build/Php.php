@@ -1620,7 +1620,7 @@ class Php {
                             $text = str_replace('\\&', $ampersand_uuid, $text);
                             $text = str_replace('&quot;', $double_quote_uuid, $text);
                             $text = str_replace('&apos;', $single_quote_uuid, $text);
-                            if(str_contains($text, ' /Modules/')){
+                            if(str_contains($text, '/Modules/')){
                                 ddd($text);
                             }
                             $token = Token::tokenize($object, $flags, $options, substr($text, 1, -1));

@@ -1621,14 +1621,13 @@ class Php {
                             $text = str_replace('&quot;', $double_quote_uuid, $text);
                             $text = str_replace('&apos;', $single_quote_uuid, $text);
                             if(str_contains($text, '/Modules/')){
-                                ddd($text);
+                                $object->config('debug', 'module');
                             }
                             $token = Token::tokenize($object, $flags, $options, substr($text, 1, -1));
                             $token = Php::document_tag_prepare($object, $flags, $options, $token);
                             d($token);
                             $embed = Php::document_tag($object, $flags, $options, $token);
-                            d($embed);
-                            if($record['text'] === '"/Modules/{{($module|string.replace:\'\\\':\':\')}}"'){
+                            if($object->config('debug') === 'module'){
                                 ddd($embed);
                             }
 

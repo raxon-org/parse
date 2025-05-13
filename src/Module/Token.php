@@ -1731,9 +1731,6 @@ class Token
         if($cache->has($hash)){
             $input = $cache->get($hash);
         } else {
-            if($object->config('debug') === 'module'){
-                ddd($input);
-            }
 //            d($input);
             $input = Symbol::define($object, $flags, $options, $input);
 //            $input = Token::remove_comment($object, $flags, $options, $input);

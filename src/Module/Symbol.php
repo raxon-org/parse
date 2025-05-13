@@ -70,6 +70,9 @@ class Symbol
             ){
                 $string = '';
                 for($i = $is_single_quote; $i <= $nr; $i++){
+                    if(is_array($input['array'][$i])){
+                        ddd($input);
+                    }
                     $string .= $input['array'][$i];
                     $input['array'][$i] = null;
                 }

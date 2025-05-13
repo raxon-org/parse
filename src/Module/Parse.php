@@ -247,7 +247,11 @@ class Parse
         } else {
             $options->hash = hash('sha256', Core::object($input, Core::OBJECT_JSON_LINE));
             if(is_array($input)){
+                if($depth === null){
+                    $depth = 0;
+                }
                 foreach($input as $key => $value){
+
 //                    $temp_source = $options->source ?? 'source';
 //                    $temp_class = $options->class;
                     if(is_scalar($value) || is_null($value)){

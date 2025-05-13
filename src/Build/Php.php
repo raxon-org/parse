@@ -936,6 +936,7 @@ class Php {
                                 }
                                 $inline_before = [];
                             }
+                            d($content[$category]);
                             $foreach_content = PHP::document_tag($object, $flags, $options, $content[$category]['content']);
                             $separator = $object->config('package.raxon/parse.build.state.separator');
                             foreach($foreach_content as $line){

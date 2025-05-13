@@ -251,7 +251,6 @@ class Parse
                     $depth = 0;
                 }
                 foreach($input as $key => $value){
-
 //                    $temp_source = $options->source ?? 'source';
 //                    $temp_class = $options->class;
                     if(is_scalar($value) || is_null($value)){
@@ -271,7 +270,6 @@ class Parse
 //                    $this->parse_set_options($options);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
 //                    $data->set('this.#depth', $depth);
-                    d($depth);
                     $parse_options->depth = $depth;
                     $parse_data = clone $data;
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);

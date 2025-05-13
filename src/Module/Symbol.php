@@ -45,6 +45,7 @@ class Symbol
             } else {
                 $previous = Token::item($input, $previous_nr);
             }
+            $previous_previous = Token::item($input, $nr - 2);
             $next = Token::item($input, $nr + 1);
             $next_next = Token::item($input, $nr + 2);
             if($skip > 0){
@@ -66,7 +67,13 @@ class Symbol
             }
             elseif(
                 $char === '\'' &&
-                $previous !== '\\' &&
+                (
+                    $previous !== '\\' ||
+                    (
+                        $previous === '\\' &&
+                        $previous_previous === '\\'
+                    )
+                ) &&
                 $is_single_quote !== false &&
                 $is_double_quote === false &&
                 $is_double_quote_backslash === false

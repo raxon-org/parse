@@ -458,6 +458,7 @@ class Variable
             return $input;
         }
         $count = count($input['array']);
+        d($input);
         $set_depth = 0;
         $set_depth_modifier = false;
         $set_depth_argument = 0;

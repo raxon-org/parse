@@ -348,6 +348,7 @@ class Token
                                     $previous === '\\' &&
                                     $previous_previous === '\\'
                                 ){
+                                    ddd('found');
                                     $is_single_quoted = false;
                                 }
                                 elseif(

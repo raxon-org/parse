@@ -458,7 +458,6 @@ class Variable
             return $input;
         }
         $count = count($input['array']);
-        d($input);
         $set_depth = 0;
         $set_depth_modifier = false;
         $set_depth_argument = 0;
@@ -547,7 +546,6 @@ class Variable
                             ddd($set_depth_argument);
                         }
                     }
-                    d($argument_array);
                     foreach($argument_array as $argument_nr => $array){
                         $argument_value = Cast::define(
                             $object,
@@ -558,7 +556,6 @@ class Variable
                                 'array' => $array
                             ]
                         );
-                        ddd($argument_value);
                         $argument_value = Token::value(
                             $object,
                             $flags,
@@ -566,12 +563,11 @@ class Variable
                             $argument_value,
                             $tag
                         );
-                        d($argument_value);
                         $argument_array[$argument_nr] = $argument_value;
                     }
-                    d($modifier_name);
-                    d($modifier_string);
-                    d($argument_array);
+//                    d($modifier_name);
+//                    d($modifier_string);
+//                    d($argument_array);
                     $input['array'][$is_variable]['modifier'][] = [
                         'string' => $modifier_string,
                         'name' => $modifier_name,

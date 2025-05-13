@@ -1337,8 +1337,6 @@ class Token
                 }
             }
         }
-        trace();
-        d($tags);
         return $tags;
     }
 

@@ -3572,7 +3572,6 @@ class Php {
                 $is_argument = false;
                 if(array_key_exists('argument', $modifier)){
                     foreach($modifier['argument'] as $argument_nr => $argument){
-                        d($argument);
                         $argument = Php::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
                         if($argument !== ''){
                             $modifier_value .= $argument . ',' . PHP_EOL;

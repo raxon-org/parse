@@ -267,6 +267,7 @@ class Parse
 //                    $this->parse_set_options($options);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
 //                    $data->set('this.#depth', $depth);
+                    ddd($depth);
                     $parse_options->depth = $depth;
                     $parse_data = clone $data;
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);

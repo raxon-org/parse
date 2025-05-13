@@ -1460,6 +1460,19 @@ class Token
             ){
                 $previous = $previous['value'];
             }
+            $previous_previous = $input['array'][$nr - 2] ?? null;
+            if(
+                is_array($previous_previous) &&
+                array_key_exists('execute',  $previous_previous)
+            ){
+                $previous_previous = $previous_previous['execute'];
+            }
+            elseif(
+                is_array($previous_previous) &&
+                array_key_exists('value',  $previous_previous)
+            ){
+                $previous_previous = $previous_previous['value'];
+            }
             if(
                 (
                     (
@@ -1495,6 +1508,22 @@ class Token
                     (
                         is_array($char) &&
                         array_key_exists('value', $char) &&
+                        $char['value'] === '\''
+                    ) ||
+                    $char == '\''
+                ) &&
+                $is_single_quote === true &&
+                $is_double_quote === false &&
+                $previous === '\\' &&
+                $previous_previous === '\\'
+            ){
+                $is_single_quote = false;
+            }
+            elseif(
+                (
+                    (
+                        is_array($char) &&
+                        array_key_exists('value', $char) &&
                         $char['value'] === '"'
                     ) ||
                     $char == '"'
@@ -1517,6 +1546,22 @@ class Token
                 $is_single_quote === false &&
                 $is_double_quote === true &&
                 $previous !== '\\'
+            ){
+                $is_double_quote = false;
+            }
+            elseif(
+                (
+                    (
+                        is_array($char) &&
+                        array_key_exists('value', $char) &&
+                        $char['value'] === '"'
+                    ) ||
+                    $char == '"'
+                ) &&
+                $is_single_quote === false &&
+                $is_double_quote === true &&
+                $previous === '\\' &&
+                $previous_previous === '\\'
             ){
                 $is_double_quote = false;
             }

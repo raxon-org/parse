@@ -764,8 +764,8 @@ class Variable
                     $argument_nr = -1;
                 }
                 elseif($is_modifier !== false){
-                    d($modifier_string);
-                    d($modifier_name);
+//                    d($modifier_string);
+//                    d($modifier_name);
                     $input['array'][$is_variable]['modifier'][] = [
                         'string' => $modifier_string,
                         'name' => $modifier_name,

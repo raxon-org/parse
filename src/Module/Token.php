@@ -1483,7 +1483,13 @@ class Token
                 ) &&
                 $is_single_quote === false &&
                 $is_double_quote === false &&
-                $previous !== '\\'
+                (
+                    $previous !== '\\' ||
+                    (
+                        $previous === '\\' &&
+                        $previous_previous === '\\'
+                    )
+                )
             ){
                 $is_single_quote = true;
             }
@@ -1498,23 +1504,13 @@ class Token
                 ) &&
                 $is_single_quote === true &&
                 $is_double_quote === false &&
-                $previous !== '\\'
-            ){
-                $is_single_quote = false;
-            }
-            elseif(
                 (
+                    $previous !== '\\' ||
                     (
-                        is_array($char) &&
-                        array_key_exists('value', $char) &&
-                        $char['value'] === '\''
-                    ) ||
-                    $char == '\''
-                ) &&
-                $is_single_quote === true &&
-                $is_double_quote === false &&
-                $previous === '\\' &&
-                $previous_previous === '\\'
+                        $previous === '\\' &&
+                        $previous_previous === '\\'
+                    )
+                )
             ){
                 $is_single_quote = false;
             }
@@ -1529,7 +1525,13 @@ class Token
                 ) &&
                 $is_single_quote === false &&
                 $is_double_quote === false &&
-                $previous !== '\\'
+                (
+                    $previous !== '\\' ||
+                    (
+                        $previous === '\\' &&
+                        $previous_previous === '\\'
+                    )
+                )
             ){
                 $is_double_quote = true;
             }
@@ -1544,23 +1546,13 @@ class Token
                 ) &&
                 $is_single_quote === false &&
                 $is_double_quote === true &&
-                $previous !== '\\'
-            ){
-                $is_double_quote = false;
-            }
-            elseif(
                 (
+                    $previous !== '\\' ||
                     (
-                        is_array($char) &&
-                        array_key_exists('value', $char) &&
-                        $char['value'] === '"'
-                    ) ||
-                    $char == '"'
-                ) &&
-                $is_single_quote === false &&
-                $is_double_quote === true &&
-                $previous === '\\' &&
-                $previous_previous === '\\'
+                        $previous === '\\' &&
+                        $previous_previous === '\\'
+                    )
+                )
             ){
                 $is_double_quote = false;
             }

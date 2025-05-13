@@ -557,6 +557,7 @@ class Variable
                                 'array' => $array
                             ]
                         );
+                        d($argument_value);
                         $argument_value = Token::value(
                             $object,
                             $flags,
@@ -564,6 +565,7 @@ class Variable
                             $argument_value,
                             $tag
                         );
+                        d($argument_value);
                         $argument_array[$argument_nr] = $argument_value;
                     }
                     $input['array'][$is_variable]['modifier'][] = [

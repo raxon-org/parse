@@ -568,6 +568,9 @@ class Variable
                         d($argument_value);
                         $argument_array[$argument_nr] = $argument_value;
                     }
+                    d($modifier_name);
+                    d($modifier_string);
+                    d($argument_array);
                     $input['array'][$is_variable]['modifier'][] = [
                         'string' => $modifier_string,
                         'name' => $modifier_name,
@@ -738,6 +741,9 @@ class Variable
                         );
                         $argument_array[$argument_nr] = $argument_value;
                     }
+                    d($modifier_string);
+                    d($modifier_name);
+                    d($argument_array);
                     $input['array'][$is_variable]['modifier'][] = [
                         'string' => $modifier_string,
                         'name' => $modifier_name,
@@ -761,6 +767,8 @@ class Variable
                     $argument_nr = -1;
                 }
                 elseif($is_modifier !== false){
+                    d($modifier_string);
+                    d($modifier_name);
                     $input['array'][$is_variable]['modifier'][] = [
                         'string' => $modifier_string,
                         'name' => $modifier_name,
@@ -845,6 +853,9 @@ class Variable
                             );
                             $argument_array[$argument_nr] = $argument_value;
                         }
+                        d($modifier_string);
+                        d($modifier_name);
+                        d($argument_array);
                         $input['array'][$is_variable]['modifier'][] = [
                             'string' => $modifier_string,
                             'name' => $modifier_name,

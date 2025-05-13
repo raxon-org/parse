@@ -77,6 +77,8 @@ class Token
         if($tags === false){
             $tags = Tag::define($object, $flags, $options, $input);
             if($object->config('debug') === 'module'){
+                d($input);
+                d($options);
                 ddd($tags);
             }
             $tags = Tag::remove($object, $flags, $options, $tags);

@@ -296,6 +296,23 @@ class Token
                                 } else {
                                     $previous = null;
                                 }
+                                if(array_key_exists($i - 2, $data)){
+                                    $previous_previous = $data[$i - 2];
+                                    if(
+                                        is_array($data[$i - 2]) &&
+                                        array_key_exists('execute', $data[$i - 2])
+                                    ){
+                                        $previous_previous = $data[$i - 2]['execute'];
+                                    }
+                                    elseif(
+                                        is_array($data[$i - 2]) &&
+                                        array_key_exists('value', $data[$i - 2])
+                                    ){
+                                        $previous_previous = $data[$i - 2]['value'];
+                                    }
+                                } else {
+                                    $previous_previous = null;
+                                }
                                 if(array_key_exists($i + 1, $data)){
                                     $next = $data[$i + 1];
                                     if(
@@ -328,7 +345,8 @@ class Token
                                 elseif(
                                     $char === '\'' &&
                                     $is_single_quoted === true &&
-                                    $previous === '\\'
+                                    $previous === '\\' &&
+                                    $previous_previous === '\\'
                                 ){
                                     ddd('found');
                                 }

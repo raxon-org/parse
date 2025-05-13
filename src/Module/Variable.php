@@ -140,8 +140,6 @@ class Variable
                                         $input['array'][$variable_nr]['variable'] = $variable;
                                     }
                                 } else {
-                                    d($after);
-                                    d($after_array);
                                     $list = Token::value(
                                         $object,
                                         $flags,
@@ -151,7 +149,6 @@ class Variable
                                             'array' => $after_array,
                                         ]
                                     );
-                                    d($list);
                                     $variable = [
                                         'is_assign' => true,
                                         'operator' => $char['value'],
@@ -489,6 +486,7 @@ class Variable
                 continue;
             }
             $previous = Token::item($input, $nr - 1);
+            $previous_previous = Token::item($input, $nr - 2);
             $next = Token::item($input, $nr + 1);
             $current = Token::item($input, $nr);
             if($current === '('){
@@ -548,6 +546,7 @@ class Variable
                             ddd($set_depth_argument);
                         }
                     }
+                    d($argument_array);
                     foreach($argument_array as $argument_nr => $array){
                         $argument_value = Cast::define(
                             $object,
@@ -631,6 +630,15 @@ class Variable
                 $is_single_quote = false;
             }
             elseif(
+                $current === '\'' &&
+                $previous === '\\' &&
+                $previous_previous === '\\' &&
+                $is_single_quote === true &&
+                $is_double_quote === false
+            ){
+                $is_single_quote = false;
+            }
+            elseif(
                 $current === '"' &&
                 $previous !== '\\' &&
                 $is_single_quote === false &&
@@ -641,6 +649,15 @@ class Variable
             elseif(
                 $current === '"' &&
                 $previous !== '\\' &&
+                $is_single_quote === false &&
+                $is_double_quote === true
+            ){
+                $is_double_quote = false;
+            }
+            elseif(
+                $current === '"' &&
+                $previous === '\\' &&
+                $previous_previous === '\\' &&
                 $is_single_quote === false &&
                 $is_double_quote === true
             ){

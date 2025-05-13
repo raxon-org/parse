@@ -331,45 +331,52 @@ class Token
                                 if(
                                     $char === '\'' &&
                                     $is_single_quoted === false &&
-                                    $previous !== '\\'
+                                    (
+                                        $previous !== '\\' ||
+                                        (
+                                            $previous === '\\' &&
+                                            $previous_previous === '\\'
+                                        )
+                                    )
                                 ){
                                     $is_single_quoted = true;
                                 }
                                 elseif(
                                     $char === '\'' &&
                                     $is_single_quoted === true &&
-                                    $previous !== '\\'
+                                    (
+                                        $previous !== '\\' ||
+                                        (
+                                            $previous === '\\' &&
+                                            $previous_previous === '\\'
+                                        )
+                                    )
                                 ){
-                                    $is_single_quoted = false;
-                                }
-                                elseif(
-                                    $char === '\'' &&
-                                    $is_single_quoted === true &&
-                                    $previous === '\\' &&
-                                    $previous_previous === '\\'
-                                ){
-                                    $object->config('debug', 'module');
                                     $is_single_quoted = false;
                                 }
                                 elseif(
                                     $char === '"' &&
                                     $is_double_quoted === false &&
-                                    $previous !== '\\'
+                                    (
+                                        $previous !== '\\' ||
+                                        (
+                                            $previous === '\\' &&
+                                            $previous_previous === '\\'
+                                        )
+                                    )
                                 ){
                                     $is_double_quoted = true;
                                 }
                                 elseif(
                                     $char === '"' &&
                                     $is_double_quoted === true &&
-                                    $previous !== '\\'
-                                ){
-                                    $is_double_quoted = false;
-                                }
-                                elseif(
-                                    $char === '"' &&
-                                    $is_double_quoted === true &&
-                                    $previous === '\\' &&
-                                    $previous_previous === '\\'
+                                    (
+                                        $previous !== '\\' ||
+                                        (
+                                            $previous === '\\' &&
+                                            $previous_previous === '\\'
+                                        )
+                                    )
                                 ){
                                     $is_double_quoted = false;
                                 }

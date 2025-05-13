@@ -140,6 +140,8 @@ class Variable
                                         $input['array'][$variable_nr]['variable'] = $variable;
                                     }
                                 } else {
+                                    d($after);
+                                    d($after_array);
                                     $list = Token::value(
                                         $object,
                                         $flags,
@@ -149,6 +151,7 @@ class Variable
                                             'array' => $after_array,
                                         ]
                                     );
+                                    d($list);
                                     $variable = [
                                         'is_assign' => true,
                                         'operator' => $char['value'],

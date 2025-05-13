@@ -9,6 +9,9 @@ use Raxon\Module\File;
 use Exception;
 class Symbol
 {
+    /**
+     * @throws Exception
+     */
     public static function define(App $object, $flags, $options, $input=[]): array
     {
         if(!is_array($input)){
@@ -71,9 +74,15 @@ class Symbol
                 $string = '';
                 for($i = $is_single_quote; $i <= $nr; $i++){
                     if(is_array($input['array'][$i])){
-                        ddd($input);
+                        if(array_key_exists('value', $input['array'][$i])){
+                            $string .= $input['array'][$i]['value'];
+                        } else {
+                            throw new Exception('Not implemented, no value');
+                        }
+                    } else {
+                        $string .= $input['array'][$i];
                     }
-                    $string .= $input['array'][$i];
+
                     $input['array'][$i] = null;
                 }
                 $input['array'][$is_single_quote] = [

@@ -348,7 +348,7 @@ class Token
                                     $previous === '\\' &&
                                     $previous_previous === '\\'
                                 ){
-                                    ddd('found');
+                                    $is_single_quoted = false;
                                 }
                                 elseif(
                                     $char === '"' &&
@@ -361,6 +361,14 @@ class Token
                                     $char === '"' &&
                                     $is_double_quoted === true &&
                                     $previous !== '\\'
+                                ){
+                                    $is_double_quoted = false;
+                                }
+                                elseif(
+                                    $char === '"' &&
+                                    $is_double_quoted === true &&
+                                    $previous === '\\' &&
+                                    $previous_previous === '\\'
                                 ){
                                     $is_double_quoted = false;
                                 }

@@ -54,6 +54,7 @@ class Tag
                 }
             }
             if(
+                $tag === false &&
                 $char === '\'' &&
                 $is_single_quoted === false &&
                 $is_double_quoted === false &&
@@ -113,6 +114,7 @@ class Tag
                 $is_single_quoted = true;
             }
             elseif(
+                $tag === false &&
                 $char === '\'' &&
                 $is_single_quoted === true &&
                 $is_double_quoted === false &&
@@ -175,6 +177,7 @@ class Tag
                 $is_single_quoted = false;
             }
             elseif(
+                $tag === false &&
                 $char === '"' &&
                 $is_single_quoted === false &&
                 $is_double_quoted === false &&
@@ -234,6 +237,7 @@ class Tag
                 $is_double_quoted = true;
             }
             elseif(
+                $tag === false &&
                 $char === '"' &&
                 $is_single_quoted === false &&
                 $is_double_quoted === true &&
@@ -296,6 +300,7 @@ class Tag
                 $is_double_quoted = false;
             }
             elseif(
+                $tag === false &&
                 $char === '"' &&
                 $is_single_quoted === false &&
                 $is_double_quoted_backslash === false &&
@@ -355,6 +360,7 @@ class Tag
                 $is_double_quoted_backslash = true;
             }
             elseif(
+                $tag === false &&
                 $char === '"' &&
                 $is_single_quoted === false &&
                 $is_double_quoted_backslash === true &&

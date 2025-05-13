@@ -1731,6 +1731,9 @@ class Token
         if($cache->has($hash)){
             $input = $cache->get($hash);
         } else {
+            if($object->config('debug') === 'module'){
+                ddd($input);
+            }
 //            d($input);
             $input = Symbol::define($object, $flags, $options, $input);
 //            $input = Token::remove_comment($object, $flags, $options, $input);
@@ -1740,7 +1743,7 @@ class Token
 //            d($input);
             $input = Variable::define($object, $flags, $options, $input);
             if($object->config('debug') === 'module'){
-                ddD($input);
+                ddd($input);
             }
 //breakpoint($input);
             $input = Variable::modifier($object, $flags, $options, $input, $tag);

@@ -1604,7 +1604,11 @@ class Php {
                         $is_literal === false &&
                         array_key_exists('text', $record)
                     ){
-                        if(empty($record['text'])){
+                        if(
+                            empty($record['text']) &&
+                            $record['text'] !== '0' &&
+                            $record['text'] !== 0
+                        ){
                             continue;
                         }
                         if($remove_newline_next === true){

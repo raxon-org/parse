@@ -250,6 +250,9 @@ class Parse
                 if($depth === null){
                     $depth = 0;
                 }
+                //when parser array goes compiling then json stringify the state of the array to compile it one time instead of every single cell.
+                //we could even keep this working this way, because it stays the same in the array (except the key)
+                /*
                 foreach($input as $key => $value){
 //                    $temp_source = $options->source ?? 'source';
 //                    $temp_class = $options->class;
@@ -276,16 +279,6 @@ class Parse
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
                     }
-                    /*
-                    $rootNode = $parse->local($depth_root);
-                    if(
-                        $rootNode &&
-                        is_object($rootNode)
-                    ) {
-                        $key_parent = 'this.' . $object->config('package.raxon/parse.object.this.rootNode');
-                        $data->set($key_parent, $rootNode);
-                    }
-                    */
                     if($depth === 0){
                         $key_parent = 'this';
                         $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
@@ -315,6 +308,9 @@ class Parse
                     }
                     $input[$key] = $parse->compile($value, $parse_data, $is_debug);
                 }
+                */
+                ddd(($input));
+
                 $data->set('this.' . $object->config('package.raxon/parse.object.this.key', null));
 
                 return $input;

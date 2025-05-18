@@ -251,6 +251,7 @@ class Parse
                     $depth = 0;
                 } else {
                     $depth++;
+                    $this->local($depth, $input);
                 }
                 //when parser array goes compiling then json stringify the state of the array to compile it one time instead of every single cell.
                 //we could even keep this working this way, because it stays the same in the array (except the key)

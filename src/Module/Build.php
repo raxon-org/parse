@@ -17,7 +17,6 @@ class Build {
     public static function create(App $object, $flags, $options, $tags=[]): array
     {
         $source = $object->config('package.raxon/parse.build.state.source.list') ?? [];
-        ddd($source);
         $source[] = $options->source ?? null;
         $object->config('package.raxon/parse.build.state.source.list', $source);
         $options->class = $options->class ?? Build::class_name($options->source);

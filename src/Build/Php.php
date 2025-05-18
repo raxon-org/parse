@@ -96,7 +96,7 @@ class Php {
         $document[] = ' * @note compiled by ' . $object->config('framework.name') . ' ' . $object->config('framework.version');
         $document[] = ' * @url ' . $object->config('framework.url');
         $document[] = ' * @source ' . $source;
-        $source = $object->config('package.raxon/parse.build.state.source');
+        $source = $object->config('package.raxon/parse.build.state.source.list');
         foreach($source as $url){
             $document[] = ' * @source ' . $url;
         }

@@ -310,6 +310,50 @@ class Parse
                 }
                 */
                 $json = Core::object($input, Core::OBJECT_JSON_LINE);
+                $hash = hash('sha256', $json);
+                $parse_options = (object) [];
+                $parse_options->source = 'Internal_' . $hash;
+//                    $options->source = 'internal_' . Core::uuid(); //wrong, hash should not be unique but referable
+                $parse_options->source_root = $options->source ?? 'source';
+                $parse_options->class = Build::class_name($parse_options->source);
+//                    $this->parse_set_options($options);
+//                $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
+//                    $data->set('this.#depth', $depth);
+                $parse_options->depth = $depth;
+                $parse_data = clone $data;
+                $parse = new Parse($object, $parse_data, $flags, $parse_options);
+                for($index = $depth; $index >= 0; $index--){
+                    $parse->local($index, $this->local($index));
+                }
+                if($depth === 0){
+                    $key_parent = 'this';
+                    $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
+                    $parentNode = $parse->local($depth);
+                    $data->set($key_parent, $parentNode);
+                    $key_parent = 'this';
+                    $key_parent .= '.' . $object->config('package.raxon/parse.object.this.rootNode');
+                    $data->set($key_parent, $parentNode);
+                } else {
+                    $key_parent = 'this';
+                    for($index = $depth; $index >= 0; $index--){
+                        $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
+                        $parentNode = $parse->local($index);
+                        if(!property_exists($parentNode, $object->config('package.raxon/parse.object.this.property'))){
+                            $i = $index - 1;
+                            while($i >= 0){
+                                $parentParentNode = $parse->local($i);
+                                if(property_exists($parentParentNode, $object->config('package.raxon/parse.object.this.property'))){
+                                    $parentNode->{$object->config('package.raxon/parse.object.this.property')} = $parentParentNode->{$object->config('package.raxon/parse.object.this.property')};
+                                    break;
+                                }
+                                $i--;
+                            }
+                        }
+                        $data->set($key_parent, $parentNode);
+                    }
+                }
+                $parse_data = clone $data;
+                $json = $parse->compile($json, $parse_data, $is_debug);
                 d($json);
 
                 ddd(($input));

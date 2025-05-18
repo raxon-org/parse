@@ -1,0 +1,1 @@
+<input type="text" value="0" name="seed"><span class="seed-text"></span><br />

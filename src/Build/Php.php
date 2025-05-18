@@ -96,6 +96,9 @@ class Php {
         $document[] = ' * @note compiled by ' . $object->config('framework.name') . ' ' . $object->config('framework.version');
         $document[] = ' * @url ' . $object->config('framework.url');
         $document[] = ' * @source ' . $source;
+        if(property_exists($options, 'source_root')){
+            $document[] = ' * @source-root ' . $options->source_root;
+        }
         $document[] = ' */';
         $document[] = '';
         $document[] = 'namespace Package\Raxon\Parse;';

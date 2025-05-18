@@ -250,7 +250,6 @@ class Value
                             $value .= $item;
                         }
                     }
-                    d($value);
                     $value = Value::basic($object, $flags, $options, $value);
                     $input['array'][$is_double_quoted] = $value;
                     $input['array'][$is_double_quoted]['value'] = '\"' . $value['execute'] . '\"';

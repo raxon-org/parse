@@ -2834,6 +2834,7 @@ class Php {
                         } else {
                             $record['line'] = $record['line'] ?? 'unknown';
                             if(!array_key_exists('colum', $record)){
+                                d($record);
                                 d(trace(true));
                             }
                             $record['column']['start'] = $record['column']['start'] ?? 'unknown';

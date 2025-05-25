@@ -1,18 +1,15 @@
 <?php
 namespace Package\Raxon\Parse\Service;
 
+use Exception;
+use Plugin;
 use Raxon\App;
-
+use Raxon\Exception\LocateException;
+use Raxon\Exception\TemplateException;
 use Raxon\Module\Autoload;
 use Raxon\Module\Core;
 use Raxon\Module\File;
-
-use Plugin;
-use Exception;
 use ReflectionClass;
-
-use Raxon\Exception\LocateException;
-use Raxon\Exception\TemplateException;
 
 class Build
 {

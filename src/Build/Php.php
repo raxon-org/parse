@@ -48,6 +48,7 @@ class Php {
             $use_class[] = 'Raxon\Exception\TemplateException';
             $use_class[] = 'Raxon\Exception\LocateException';
             $use_class[] = 'Raxon\Module\Data';
+            $use_class[] = 'Raxon\Module\Core';
             $use_class[] = 'Raxon\Parse\Module\Parse';
         }
         $object->config('package.raxon/parse.build.use.class', $use_class);

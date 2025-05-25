@@ -57,7 +57,12 @@ class Parse
                 'rank' => 1,
                 '#class' => 'Account.Role',
                 'uuid' => Core::uuid(),
-                'permission' => []
+                'permission' => [
+                    (object) [
+                        'name' => 'System:Parse:record',
+                        '#class' => 'Account.Permission'
+                    ]
+                ]
             ];
         }
         $parse = $node->record(

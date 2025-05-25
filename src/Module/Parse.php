@@ -51,10 +51,19 @@ class Parse
         $object = $this->object();
         $node = new Node($object);
         $role = $node->role_system();
+        if($role === false){
+            $role = (object) [
+                'name' => 'ROLE_SYSTEM',
+                'rank' => 1,
+                '#class' => 'Account.Role',
+                'uuid' => Core::uuid(),
+                'permission' => []
+            ];
+        }
         ddd($role);
         $parse = $node->record(
             Parse::NODE,
-            $node->role_system(),
+            $role,
             [
                 'ramdisk' => true
             ]

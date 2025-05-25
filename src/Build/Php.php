@@ -37,6 +37,7 @@ class Php {
     public static function document_default(App $object, $flags, $options): void
     {
         $use_class = $object->config('package.raxon/parse.build.use.class');
+        ddd($use_class);
         if(empty($use_class)) {
             $use_class = [];
             $use_class[] = 'Error';

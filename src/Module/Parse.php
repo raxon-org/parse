@@ -106,7 +106,7 @@ class Parse
             $response = $node->import(Parse::NODE, $node->role_system(), $options);
             $parse = $node->record(
                 Parse::NODE,
-                $node->role_system(),
+                $role,
                 [
                     'ramdisk' => true
                 ]

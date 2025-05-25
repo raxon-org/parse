@@ -50,6 +50,8 @@ class Parse
     {
         $object = $this->object();
         $node = new Node($object);
+        $role = $node->role_system();
+        ddd($role);
         $parse = $node->record(
             Parse::NODE,
             $node->role_system(),

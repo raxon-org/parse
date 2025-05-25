@@ -35,6 +35,36 @@ class Parse
         'options'
     ];
 
+    const USE_CLASS = [
+        'Error',
+        'ErrorException',
+        'Exception',
+        'ParseError',
+        'Plugin',
+        'Raxon\\App',
+        'Raxon\\Exception\\LocateException',
+        'Raxon\\Exception\\TemplateException',
+        'Raxon\\Module\\Data',
+        'Raxon\\Module\\Core',
+        'Raxon\\Parse\\Module\\Parse',
+        'ReflectionClass'
+    ];
+
+    const USE_TRAIT = [
+        'Plugin\\Basic',
+        'Plugin\\Parse',
+        'Plugin\\Value'
+    ];
+
+    const RUN_THROW = [
+        'Exception',
+        'Error',
+        'ErrorException',
+        'ParseError',
+        'Raxon\\Exception\\LocateException',
+        'Raxon\\Exception\\TemplateException'
+    ];
+
 
     use Plugin\Basic;
 
@@ -73,6 +103,9 @@ class Parse
             $default = (object) [];
             $object->config(Parse::CONFIG, $default);
             $object->config(Parse::CONFIG . '.plugin.rename', Parse::PLUGIN_RENAME);
+            $object->config(Parse::CONFIG . '.build.use.class', Parse::USE_CLASS);
+            $object->config(Parse::CONFIG . '.build.use.trait', Parse::USE_TRAIT);
+            $object->config(Parse::CONFIG . '.build.run.throw', Parse::RUN_THROW);
             $object->config(Parse::CONFIG . '.time.start', microtime(true));
             $object->config(Parse::CONFIG . '.build.builder', 'Build');
             return;

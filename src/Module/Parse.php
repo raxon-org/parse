@@ -72,6 +72,10 @@ class Parse
                         'name' => 'System:Parse:list',
                         '#class' => 'Account.Permission'
                     ],
+                    (object) [
+                        'name' => 'System:Parse:create',
+                        '#class' => 'Account.Permission'
+                    ],
                 ]
             ];
         }

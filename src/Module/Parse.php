@@ -60,7 +60,6 @@ class Parse
                 'permission' => []
             ];
         }
-        ddd($role);
         $parse = $node->record(
             Parse::NODE,
             $role,

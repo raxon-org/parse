@@ -61,7 +61,11 @@ class Parse
                     (object) [
                         'name' => 'System:Parse:record',
                         '#class' => 'Account.Permission'
-                    ]
+                    ],
+                    (object) [
+                        'name' => 'System:Parse:import',
+                        '#class' => 'Account.Permission'
+                    ],
                 ]
             ];
         }

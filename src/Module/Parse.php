@@ -103,7 +103,7 @@ class Parse
                     'patch' => true
                 ];
             }
-            $response = $node->import(Parse::NODE, $node->role_system(), $options);
+            $response = $node->import(Parse::NODE, $role, $options);
             $parse = $node->record(
                 Parse::NODE,
                 $role,

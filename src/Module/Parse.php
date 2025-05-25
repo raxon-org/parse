@@ -51,7 +51,9 @@ class Parse
         $object = $this->object();
         $node = new Node($object);
         $role = $node->role_system();
+        $is_new = false;
         if($role === false){
+            $is_new = true;
             $role = (object) [
                 'name' => 'ROLE_SYSTEM',
                 'rank' => 1,
@@ -101,7 +103,13 @@ class Parse
                     'url' => $url,
                     'force' => true
                 ];
-            } else {
+            }
+            elseif($is_new){
+                $options = (object) [
+                    'url' => $url,
+                ];
+            }
+            else {
                 $options = (object) [
                     'url' => $url,
                     'patch' => true

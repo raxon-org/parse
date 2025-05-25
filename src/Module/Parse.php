@@ -55,8 +55,9 @@ class Parse
         if($role === false){
             $url = $object->config('project.dir.vendor') . 'raxon/parse/Data/System.Parse' . $object->config('extension.json');
             $parse = $object->data_read($url);
-            d($url);
-            ddd($parse);
+            if($parse){
+                $default = $parse->data('System.Parse.0');
+            }
             $default = (object) [];
             $object->config(Parse::CONFIG, $default);
             $object->config(Parse::CONFIG . '.time.start', microtime(true));

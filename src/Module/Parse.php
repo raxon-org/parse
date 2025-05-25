@@ -53,6 +53,12 @@ class Parse
         $role = $node->role_system();
         $is_new = false;
         if($role === false){
+            $default = (object) [];
+            $object->config(Parse::CONFIG, $default);
+            $object->config(Parse::CONFIG . '.time.start', microtime(true));
+            $object->config(Parse::CONFIG . '.build.builder', 'Build');
+            return;
+            /*
             $is_new = true;
             $role = (object) [
                 'name' => 'ROLE_SYSTEM',
@@ -78,6 +84,7 @@ class Parse
                     ],
                 ]
             ];
+            */
         }
         $parse = $node->record(
             Parse::NODE,
@@ -132,6 +139,7 @@ class Parse
                 ]
             );
         }
+        ddd($parse);
         $object->config(Parse::CONFIG, $parse['node']);
         $object->config(Parse::CONFIG . '.time.start', microtime(true));
         $object->config(Parse::CONFIG . '.build.builder', 'Build');

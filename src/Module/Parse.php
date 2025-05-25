@@ -53,7 +53,7 @@ class Parse
         $role = $node->role_system();
         $is_new = false;
         if($role === false){
-            $url = $object->config('framework.dir.vendor') . 'raxon/parse/Data/System.Parse' . $object->config('extension.json');
+            $url = $object->config('project.dir.vendor') . 'raxon/parse/Data/System.Parse' . $object->config('extension.json');
             $parse = $object->data_read($url);
             d($url);
             ddd($parse);

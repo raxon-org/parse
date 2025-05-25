@@ -20,6 +20,21 @@ class Parse
     const NODE = 'System.Parse';
     const CONFIG = 'package.raxon/parse';
 
+    const PLUGIN_RENAME = [
+        'constant',
+        'default',
+        'echo',
+        'exit',
+        'data',
+        'float',
+        'object',
+        'require',
+        'string',
+        'unset',
+        'flags',
+        'options'
+    ];
+
 
     use Plugin\Basic;
 
@@ -53,14 +68,11 @@ class Parse
         $role = $node->role_system();
         $is_new = false;
         if($role === false){
-            $url = $object->config('project.dir.vendor') . 'raxon/parse/Data/System.Parse' . $object->config('extension.json');
-            $parse = $object->data_read($url);
+//            $url = $object->config('project.dir.vendor') . 'raxon/parse/Data/System.Parse' . $object->config('extension.json');
+//            $parse = $object->data_read($url);
             $default = (object) [];
             $object->config(Parse::CONFIG, $default);
-            if($parse){
-                $object->config(Parse::CONFIG . '.plugin.rename', $parse->data());
-                ddd($object->config(Parse::CONFIG . '.plugin.rename'));
-            }
+            $object->config(Parse::CONFIG . '.plugin.rename', Parse::PLUGIN_RENAME);
             $object->config(Parse::CONFIG . '.time.start', microtime(true));
             $object->config(Parse::CONFIG . '.build.builder', 'Build');
             return;

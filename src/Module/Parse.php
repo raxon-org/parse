@@ -698,7 +698,6 @@ class Parse
                 $is_cache_url = true;
             }
         }
-        d($url_php);
         $options->namespace = $options->namespace ?? 'Package\Raxon\Parse';
         if($is_cache_url === false){
             $dir = $object->config('ramdisk.url') .

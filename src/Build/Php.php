@@ -19,6 +19,7 @@ use Raxon\Module\Cli;
 use Raxon\Module\Core;
 use Raxon\Module\File;
 
+use Raxon\Parse\Module\Parse;
 use Raxon\Parse\Module\Token;
 
 use Raxon\Parse\Module\Validator;
@@ -37,40 +38,22 @@ class Php {
     public static function document_default(App $object, $flags, $options): void
     {
         $use_class = $object->config('package.raxon/parse.build.use.class');
-        ddd($use_class);
         if(empty($use_class)) {
-            $use_class = [];
-            $use_class[] = 'Error';
-            $use_class[] = 'ErrorException';
-            $use_class[] = 'Exception';
-            $use_class[] = 'ParseError';
-            $use_class[] = 'Plugin';
-            $use_class[] = 'Raxon\App';
-            $use_class[] = 'Raxon\Exception\TemplateException';
-            $use_class[] = 'Raxon\Exception\LocateException';
-            $use_class[] = 'Raxon\Module\Data';
-            $use_class[] = 'Raxon\Module\Core';
-            $use_class[] = 'Raxon\Parse\Module\Parse';
+            $use_class = Parse::USE_CLASS;
         }
         $object->config('package.raxon/parse.build.use.class', $use_class);
         $use_trait = $object->config('package.raxon/parse.build.use.trait');
         if(empty($use_trait)){
-            $use_trait = [];
-            $use_trait[] = 'Plugin\Basic';
-            $use_trait[] = 'Plugin\Parse';
-            $use_trait[] = 'Plugin\Value';
+            $use_trait = Parse::USE_TRAIT;
         }
         $object->config('package.raxon/parse.build.use.trait', $use_trait);
         $object->config('package.raxon/parse.build.state.echo', true);
         $object->config('package.raxon/parse.build.state.indent', 2);
-        $object->config('package.raxon/parse.build.run.throw', [
-            'Error',
-            'ErrorException',
-            'Exception',
-            'Raxon\Exception\TemplateException',
-            'Raxon\Exception\LocateException',
-            'ParseError',
-        ]);
+        $run_throw = $object->config('package.raxon/parse.build.run.throw');
+        if(empty($run_throw)){
+            $run_throw = Parse::RUN_THROW;
+        }
+        $object->config('package.raxon/parse.build.run.throw', $run_throw);
     }
 
     public static function document_tag_prepare(App $object, $flags, $options, $tags=[]): array

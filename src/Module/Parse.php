@@ -55,11 +55,12 @@ class Parse
         if($role === false){
             $url = $object->config('project.dir.vendor') . 'raxon/parse/Data/System.Parse' . $object->config('extension.json');
             $parse = $object->data_read($url);
-            if($parse){
-                $default = $parse->data('System.Parse.0');
-            }
             $default = (object) [];
             $object->config(Parse::CONFIG, $default);
+            if($parse){
+                $object->config(Parse::CONFIG . '.plugin.rename', $parse->data());
+                ddd($object->config(Parse::CONFIG . '.plugin.rename'));
+            }
             $object->config(Parse::CONFIG . '.time.start', microtime(true));
             $object->config(Parse::CONFIG . '.build.builder', 'Build');
             return;

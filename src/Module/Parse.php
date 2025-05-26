@@ -65,6 +65,19 @@ class Parse
         'Raxon\\Exception\\TemplateException'
     ];
 
+    const OBJECT_THIS = [
+        'parentNode' => '#parentNode',
+        'rootNode'=> '#rootNode',
+        'parentProperty'=> '#parentProperty',
+        'property'=> '#property',
+        'attribute' => '#attribute',
+        'key' => '#key',
+        'url' => '#url',
+        'parallel' => '#parallel',
+        'output' => '#output',
+        'depth' => '#depth'
+    ];
+
 
     use Plugin\Basic;
 
@@ -106,6 +119,7 @@ class Parse
             $object->config(Parse::CONFIG . '.build.use.class', Parse::USE_CLASS);
             $object->config(Parse::CONFIG . '.build.use.trait', Parse::USE_TRAIT);
             $object->config(Parse::CONFIG . '.build.run.throw', Parse::RUN_THROW);
+            $object->config(Parse::CONFIG . '.object.this', (object) Parse::OBJECT_THIS);
             $object->config(Parse::CONFIG . '.time.start', microtime(true));
             $object->config(Parse::CONFIG . '.build.builder', 'Build');
             return;

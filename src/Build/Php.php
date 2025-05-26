@@ -2801,6 +2801,7 @@ class Php {
                     $autoload = $object->data(App::AUTOLOAD_RAXON);
                     $autoload->addPrefix('Plugin', $object->config('controller.dir.plugin'));
                     $autoload->addPrefix('Plugin', $object->config('project.dir.plugin'));
+                    ddd($autoload);
                     $location = $autoload->locate($use_plugin, false,  Autoload::MODE_LOCATION);
                     $exist = false;
                     $locate_exception = [];

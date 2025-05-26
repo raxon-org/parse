@@ -190,7 +190,6 @@ class Parse
                 ]
             );
         }
-        ddd($parse);
         $object->config(Parse::CONFIG, $parse['node']);
         $object->config(Parse::CONFIG . '.time.start', microtime(true));
         $object->config(Parse::CONFIG . '.build.builder', 'Build');

@@ -109,7 +109,19 @@ class Parse
         $object = $this->object();
         $node = new Node($object);
         $role = $node->role_system();
-        $is_new = false;
+
+        $default = (object) [];
+        $object->config(Parse::CONFIG, $default);
+        $object->config(Parse::CONFIG . '.plugin.rename', Parse::PLUGIN_RENAME);
+        $object->config(Parse::CONFIG . '.build.use.class', Parse::USE_CLASS);
+        $object->config(Parse::CONFIG . '.build.use.trait', Parse::USE_TRAIT);
+        $object->config(Parse::CONFIG . '.build.run.throw', Parse::RUN_THROW);
+        $object->config(Parse::CONFIG . '.object.this', (object) Parse::OBJECT_THIS);
+        $object->config(Parse::CONFIG . '.time.start', microtime(true));
+        $object->config(Parse::CONFIG . '.build.builder', 'Build');
+        return;
+
+
         if($role === false){
 //            $url = $object->config('project.dir.vendor') . 'raxon/parse/Data/System.Parse' . $object->config('extension.json');
 //            $parse = $object->data_read($url);

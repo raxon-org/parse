@@ -196,6 +196,7 @@ class Parse
                 ];
             }
             $response = $node->import(Parse::NODE, $role, $options);
+            ddd($response);
             $parse = $node->record(
                 Parse::NODE,
                 $role,

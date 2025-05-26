@@ -203,6 +203,7 @@ class Parse
                     'ramdisk' => true
                 ]
             );
+            ddd($parse);
         }
         $object->config(Parse::CONFIG, $parse['node']);
         $object->config(Parse::CONFIG . '.time.start', microtime(true));

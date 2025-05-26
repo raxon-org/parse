@@ -183,13 +183,7 @@ class Parse
                     'url' => $url,
                     'force' => true
                 ];
-            }
-            elseif($is_new){
-                $options = (object) [
-                    'url' => $url,
-                ];
-            }
-            else {
+            } else {
                 $options = (object) [
                     'url' => $url,
                     'patch' => true

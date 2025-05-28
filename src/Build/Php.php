@@ -2833,7 +2833,6 @@ class Php {
                                 $locate_exception
                             );
                         } else {
-                            ddd($record);
                             $record['line'] = $record['line'] ?? 'unknown';
                             $record['column']['start'] = $record['column']['start'] ?? 'unknown';
                             throw new LocateException(

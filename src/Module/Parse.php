@@ -95,8 +95,17 @@ class Parse
             $options = (object) [];
         }
         ddd(get_class_methods($this));
-        $this->flags($flags);
-        $this->options($options);
+        if(!method_exists($this, 'flags')){
+            $this->parse_flags($flags);
+        } else {
+            $this->flags($flags);
+        }
+        if(!method_exists($this, 'options')) {
+            $this->parse_options($options);
+        } else {
+            $this->options($options);
+        }
+
         //move to install (config)
         $this->config();
     }

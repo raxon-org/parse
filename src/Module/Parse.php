@@ -94,7 +94,6 @@ class Parse
         if($options === null){
             $options = (object) [];
         }
-        ddd(get_class_methods($this));
         $this->flags($flags);
         $this->options($options);
         //move to install (config)

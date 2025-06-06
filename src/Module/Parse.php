@@ -94,7 +94,6 @@ class Parse
         if($options === null){
             $options = (object) [];
         }
-        ddd(get_class_methods($this));
         if(!method_exists($this, 'flags')){
             $this->parse_flags($flags);
         } else {

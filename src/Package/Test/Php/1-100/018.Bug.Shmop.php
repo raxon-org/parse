@@ -35,7 +35,7 @@ for($i = 0; $i < $parts; $i++){
     $shmop = shmop_open($offset + $i, 'c', 0600, $part_size);
     $memory_data = $split[$i] . "\0";
     if($shmop){
-        shmop_write($shmop, $memory_data);
+        shmop_write($shmop, $memory_data, 0);
     }
     $duration_write = microtime(true) - $start;
     echo 'Memory write time: ' . time_format($duration_write, '', true) . ' ' . size_format(($part_size * ($i + 1)) / $duration_write) . '/sec' . PHP_EOL;

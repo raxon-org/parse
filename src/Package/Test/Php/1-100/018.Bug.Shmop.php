@@ -26,7 +26,7 @@ $size = filesize($url);
 $read = file_get_contents($url);
 $duration_read = microtime(true) - $start;
 echo 'File read time: ' . time_format($duration_read, '') . '; size: ' . size_format($size) . PHP_EOL;
-$part_size = (1024 * 1024) * 8;
+$part_size = (1024 * 1024) * 4;
 $parts = ceil($size / $part_size);
 $split = mb_str_split($read, $part_size);
 $offset = 100;

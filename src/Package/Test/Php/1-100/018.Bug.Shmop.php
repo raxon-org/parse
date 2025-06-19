@@ -32,7 +32,7 @@ $split = mb_str_split($read, $part_size);
 $offset = 100;
 $start= microtime(true);
 for($i = 0; $i < $parts; $i++){
-    $shmop = shmop_open($offset + $i, 'n', 0600, $part_size);
+    $shmop = shmop_open($offset + $i, 'c', 0600, $part_size);
     $memory_data = $split[$i] . "\0";
     if($shmop){
         shmop_write($shmop, $memory_data);

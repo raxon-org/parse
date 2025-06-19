@@ -53,7 +53,7 @@ try {
     $size = File::size($url);
     $read = File::read($url);
     $duration_read = microtime(true) - $start;
-    echo Time::format($duration_read, '') . PHP_EOL;
+    echo 'File read time: ' . Time::format($duration_read, '') . PHP_EOL;
     $part_size = (1024 * 1024) * 4;
     $parts = ceil($size / $part_size);
     $split = mb_str_split($read, $part_size);
@@ -66,7 +66,7 @@ try {
             SharedMemory::write($shmop, $memory_data);
         }
         $duration_write = microtime(true) - $start;
-        echo Time::format($duration_write, '') . File::size_format($part_size / $duration_write) . '/sec' . PHP_EOL;
+        echo 'Memory write time: ' . Time::format($duration_write, '') . ' ' . File::size_format($part_size / $duration_write) . '/sec' . PHP_EOL;
     }
 
 

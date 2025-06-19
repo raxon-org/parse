@@ -11,6 +11,7 @@ use Raxon\App;
 use Raxon\Config;
 use Raxon\Module\Dir;
 use Raxon\Module\File;
+use Raxon\Module\SharedMemory;
 use Raxon\Module\Time;
 
 use Raxon\Exception\LocateException;
@@ -40,9 +41,27 @@ try {
     $count = count($chars);
 
     $words = [];
-    for($i = 0; $i < 1000000; $i++){
+    for($i = 0; $i < 10000000; $i++){
         $words[] = random_word($chars, $count);
     }
+    $write = implode(' ', $words);
+    $url = '/mnt/Disk2/Test/data.txt';
+    $size = File::write($url, $write);
+    ddd(File::size_format($size));
+
+
+
+    $parts = ceil($size / $part_size);
+    $split = mb_str_split($read, $part_size);
+    for($i = 0; $i < $parts; $i++){
+        $shmop = SharedMemory::open($offset + $i, 'n', 0600, $part_size);
+        $memory_data = $split[$i] . "\0";
+        if($shmop){
+            SharedMemory::write($shmop, $memory_data);
+        }
+    }
+
+
     $duration = microtime(true) - $app->config('time.start');
     echo Time::format($duration,'') . PHP_EOL;
 //    ddd($words);

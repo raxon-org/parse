@@ -66,12 +66,25 @@ try {
             SharedMemory::write($shmop, $memory_data);
         }
         $duration_write = microtime(true) - $start;
-        echo 'Memory write time: ' . Time::format($duration_write, '') . ' ' . File::size_format($part_size / $duration_write) . '/sec' . PHP_EOL;
+        echo 'Memory write time: ' . Time::format($duration_write, '', true) . ' ' . File::size_format($part_size / $duration_write) . '/sec' . PHP_EOL;
     }
-
-
+    $start= microtime(true);
+    for($i = 0; $i < $parts; $i++){
+        $shmop = SharedMemory::open($offset + $i, 'a', 0, 0);
+        if($shmop){
+            $memory_data = SharedMemory::read($shmop, 0, $part_size);
+            $explode = explode("\0", $memory_data);
+            if(array_key_exists(1, $explode)){
+                $read[$i] = $explode[0];
+            } else {
+                $read[$i] = $memory_data;
+            }
+        }
+        $duration_write = microtime(true) - $start;
+        echo 'Memory read time: ' . Time::format($duration_write, '', true) . ' ' . File::size_format($part_size / $duration_write) . '/sec' . PHP_EOL;
+    }
     $duration = microtime(true) - $app->config('time.start');
-    echo Time::format($duration,'') . PHP_EOL;
+    echo 'Total duration: ' . Time::format($duration,'', true) . PHP_EOL;
 //    ddd($words);
 } catch (Exception | LocateException | ObjectException $exception) {
     echo $exception;

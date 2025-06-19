@@ -44,8 +44,8 @@ try {
         $words[] = random_word($chars, $count);
     }
     $duration = microtime(true) - $app->config('time.start');
-    Time::format($duration,'');
-    ddd($words);
+    echo Time::format($duration,'') . PHP_EOL;
+//    ddd($words);
 } catch (Exception | LocateException | ObjectException $exception) {
     echo $exception;
 }

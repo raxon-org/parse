@@ -37,28 +37,36 @@ try {
     );
     $app = new App($autoload, $config);
 
+    /*
     $chars = chars();
     $count = count($chars);
-
     $words = [];
     for($i = 0; $i < 100000000; $i++){
         $words[] = random_word($chars, $count);
     }
     $write = implode(' ', $words);
+    */
     $url = '/mnt/Disk2/Test/data.txt';
-    $size = File::write($url, $write);
-    ddd(File::size_format($size));
-
-
-
+//    $size = File::write($url, $write);
+//    ddd(File::size_format($size));
+    $start = microtime(true);
+    $size = File::size($url);
+    $read = File::read($url);
+    $duration_read = microtime(true) - $start;
+    echo Time::format($duration_read, '') . PHP_EOL;
+    $part_size = (1024 * 1024) * 4;
     $parts = ceil($size / $part_size);
     $split = mb_str_split($read, $part_size);
+    $offset = 100;
+    $start= microtime(true);
     for($i = 0; $i < $parts; $i++){
         $shmop = SharedMemory::open($offset + $i, 'n', 0600, $part_size);
         $memory_data = $split[$i] . "\0";
         if($shmop){
             SharedMemory::write($shmop, $memory_data);
         }
+        $duration_write = microtime(true) - $start;
+        echo Time::format($duration_write, '') . File::size_format($part_size / $duration_write) . '/sec' . PHP_EOL;
     }
 
 

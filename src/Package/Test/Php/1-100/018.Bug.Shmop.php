@@ -39,9 +39,13 @@ for($i = 0; $i < $parts; $i++){
     if($shmop){
         shmop_write($shmop, $memory_data, 0);
     }
-    $duration_write = microtime(true) - $start;
-    echo 'Memory write time: ' . time_format($duration_write, '', true) . ' ' . size_format(($part_size * ($i + 1)) / $duration_write) . '/sec' . PHP_EOL;
+    if($i % 100 == 0){
+        $duration_write = microtime(true) - $start;
+        echo 'Memory write time: ' . time_format($duration_write, '', true) . ' ' . size_format(($part_size * ($i + 1)) / $duration_write) . '/sec' . PHP_EOL;
+    }
 }
+$duration_write = microtime(true) - $start;
+echo 'Memory write time: ' . time_format($duration_write, '', true) . ' ' . size_format(($part_size * ($i + 1)) / $duration_write) . '/sec' . PHP_EOL;
 $start= microtime(true);
 $read = [];
 for($i = 0; $i < $parts; $i++){
@@ -55,9 +59,13 @@ for($i = 0; $i < $parts; $i++){
             $read[$i] = $memory_data;
         }
     }
-    $duration_write = microtime(true) - $start;
-    echo 'Memory read time: ' . time_format($duration_write, '', true) . ' ' . size_format(($part_size * ($i + 1)) / $duration_write) . '/sec' . PHP_EOL;
+    if($i % 100 === 0){
+        $duration_write = microtime(true) - $start;
+        echo 'Memory read time: ' . time_format($duration_write, '', true) . ' ' . size_format(($part_size * ($i + 1)) / $duration_write) . '/sec' . PHP_EOL;
+    }
 }
+$duration_write = microtime(true) - $start;
+echo 'Memory read time: ' . time_format($duration_write, '', true) . ' ' . size_format(($part_size * ($i + 1)) / $duration_write) . '/sec' . PHP_EOL;
 $duration = microtime(true) - $begin;
 echo 'Total duration: ' . time_format($duration,'', true) . PHP_EOL;
 

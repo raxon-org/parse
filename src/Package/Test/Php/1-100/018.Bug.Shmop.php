@@ -42,12 +42,12 @@ try {
     for($i = 0; $i < (100000000); $i++){
         $words[] = random_word($chars, $count);
     }
-    $write = implode(' ', $words);
-    $write .= implode(' ', $words);
-    $write .= implode(' ', $words);
-
+//    $write = implode(' ', $words);
+//    $write .= implode(' ', $words);
+//    $write .= implode(' ', $words);
+//
     $url = '/mnt/Disk2/Test/data.txt';
-    $size = File::write($url, $write);
+//    $size = File::write($url, $write);
 //    ddd(File::size_format($size));
     $start = microtime(true);
     $size = File::size($url);
@@ -66,7 +66,7 @@ try {
             SharedMemory::write($shmop, $memory_data);
         }
         $duration_write = microtime(true) - $start;
-        echo 'Memory write time: ' . Time::format($duration_write, '', true) . ' ' . File::size_format($part_size / $duration_write) . '/sec' . PHP_EOL;
+        echo 'Memory write time: ' . Time::format($duration_write, '', true) . ' ' . File::size_format(($part_size * ($i + 1)) / $duration_write) . '/sec' . PHP_EOL;
     }
     $start= microtime(true);
     $read = [];
@@ -82,7 +82,7 @@ try {
             }
         }
         $duration_write = microtime(true) - $start;
-        echo 'Memory read time: ' . Time::format($duration_write, '', true) . ' ' . File::size_format($part_size / $duration_write) . '/sec' . PHP_EOL;
+        echo 'Memory read time: ' . Time::format($duration_write, '', true) . ' ' . File::size_format(($part_size * ($i + 1)) / $duration_write) . '/sec' . PHP_EOL;
     }
     $duration = microtime(true) - $app->config('time.start');
     echo 'Total duration: ' . Time::format($duration,'', true) . PHP_EOL;

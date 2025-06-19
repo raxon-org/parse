@@ -41,7 +41,7 @@ try {
     $word = '';
     for($i=0; $i < $wordlength; $i++){
         $letter = rand(0, $count - 1);
-        $word = $chars[$letter];
+        $word .= $chars[$letter];
     }
     ddd($word);
 

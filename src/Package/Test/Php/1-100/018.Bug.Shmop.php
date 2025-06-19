@@ -36,9 +36,14 @@ try {
     $app = new App($autoload, $config);
 
     $chars = chars();
-
+    $count = count($chars);
     $wordlength = rand(2, 25);
-    ddd($wordlength);
+    $word = '';
+    for($i=0; $i < $wordlength; $i++){
+        $letter = rand(0, $count - 1);
+        $word = $chars[$letter];
+    }
+    ddd($word);
 
 
 

@@ -7,6 +7,7 @@
  *     -    all
  */
 
+/*
 $chars = chars();
 $count = count($chars);
 $words = [];
@@ -17,10 +18,11 @@ for($i = 0; $i < (100000000); $i++){
     $write = implode(' ', $words);
     $write .= implode(' ', $words);
     $write .= implode(' ', $words);
-//
+*/
+
 $begin = microtime(true);
 $url = '/mnt/Disk2/Test/data.txt';
-    $size = file_put_contents($url, $write);
+//    $size = file_put_contents($url, $write);
 $start = microtime(true);
 $size = filesize($url);
 $read = file_get_contents($url);

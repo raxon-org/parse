@@ -40,7 +40,7 @@ try {
     $count = count($chars);
 
     $words = [];
-    for($i = 0; $i < 1000; $i++){
+    for($i = 0; $i < 1000000; $i++){
         $words[] = random_word($chars, $count);
     }
     $duration = microtime(true) - $app->config('time.start');

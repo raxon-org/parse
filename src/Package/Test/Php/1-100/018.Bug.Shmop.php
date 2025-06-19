@@ -11,6 +11,7 @@ use Raxon\App;
 use Raxon\Config;
 use Raxon\Module\Dir;
 use Raxon\Module\File;
+use Raxon\Module\Time;
 
 use Raxon\Exception\LocateException;
 use Raxon\Exception\ObjectException;
@@ -42,6 +43,8 @@ try {
     for($i = 0; $i < 1000; $i++){
         $words[] = random_word($chars, $count);
     }
+    $duration = microtime(true) - $app->config('time.start');
+    Time::format($duration,'');
     ddd($words);
 } catch (Exception | LocateException | ObjectException $exception) {
     echo $exception;

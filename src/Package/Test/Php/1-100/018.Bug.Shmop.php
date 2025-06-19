@@ -37,21 +37,24 @@ try {
 
     $chars = chars();
     $count = count($chars);
+
+    $words = [];
+    for($i = 0; $i < 1000; $i++){
+        $words[] = random_word($chars, $count);
+    }
+    ddd($words);
+} catch (Exception | LocateException | ObjectException $exception) {
+    echo $exception;
+}
+
+function random_word($chars, $count){
     $wordlength = rand(2, 25);
     $word = '';
     for($i=0; $i < $wordlength; $i++){
         $letter = rand(0, $count - 1);
         $word .= $chars[$letter];
     }
-    ddd($word);
-
-
-
-
-
-
-} catch (Exception | LocateException | ObjectException $exception) {
-    echo $exception;
+    return $word;
 }
 
 function chars(): array

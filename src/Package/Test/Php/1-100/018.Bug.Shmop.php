@@ -69,6 +69,7 @@ try {
         echo 'Memory write time: ' . Time::format($duration_write, '', true) . ' ' . File::size_format($part_size / $duration_write) . '/sec' . PHP_EOL;
     }
     $start= microtime(true);
+    $read = [];
     for($i = 0; $i < $parts; $i++){
         $shmop = SharedMemory::open($offset + $i, 'a', 0, 0);
         if($shmop){

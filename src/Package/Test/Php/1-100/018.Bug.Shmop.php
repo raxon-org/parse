@@ -36,18 +36,16 @@ try {
         ]
     );
     $app = new App($autoload, $config);
-
-    /*
     $chars = chars();
     $count = count($chars);
     $words = [];
-    for($i = 0; $i < 100000000; $i++){
+    for($i = 0; $i < (100000000 * 4); $i++){
         $words[] = random_word($chars, $count);
     }
     $write = implode(' ', $words);
-    */
+
     $url = '/mnt/Disk2/Test/data.txt';
-//    $size = File::write($url, $write);
+    $size = File::write($url, $write);
 //    ddd(File::size_format($size));
     $start = microtime(true);
     $size = File::size($url);

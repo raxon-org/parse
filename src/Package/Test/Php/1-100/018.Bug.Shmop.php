@@ -36,12 +36,14 @@ try {
         ]
     );
     $app = new App($autoload, $config);
+    /*
     $chars = chars();
     $count = count($chars);
     $words = [];
     for($i = 0; $i < (100000000); $i++){
         $words[] = random_word($chars, $count);
     }
+    */
 //    $write = implode(' ', $words);
 //    $write .= implode(' ', $words);
 //    $write .= implode(' ', $words);

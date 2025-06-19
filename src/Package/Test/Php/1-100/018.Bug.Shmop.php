@@ -52,10 +52,10 @@ try {
 //    $size = File::write($url, $write);
 //    ddd(File::size_format($size));
     $start = microtime(true);
-    $size = File::size($url);
-    $read = File::read($url);
+    $size = filesize($url);
+    $read = file_get_contents($url);
     $duration_read = microtime(true) - $start;
-    echo 'File read time: ' . Time::format($duration_read, '') . PHP_EOL;
+    echo 'File read time: ' . time_format($duration_read, '') . PHP_EOL;
     $part_size = (1024 * 1024) * 4;
     $parts = ceil($size / $part_size);
     $split = mb_str_split($read, $part_size);
@@ -68,7 +68,7 @@ try {
             SharedMemory::write($shmop, $memory_data);
         }
         $duration_write = microtime(true) - $start;
-        echo 'Memory write time: ' . Time::format($duration_write, '', true) . ' ' . File::size_format(($part_size * ($i + 1)) / $duration_write) . '/sec' . PHP_EOL;
+        echo 'Memory write time: ' . time_format($duration_write, '', true) . ' ' . size_format(($part_size * ($i + 1)) / $duration_write) . '/sec' . PHP_EOL;
     }
     $start= microtime(true);
     $read = [];
@@ -84,13 +84,107 @@ try {
             }
         }
         $duration_write = microtime(true) - $start;
-        echo 'Memory read time: ' . Time::format($duration_write, '', true) . ' ' . File::size_format(($part_size * ($i + 1)) / $duration_write) . '/sec' . PHP_EOL;
+        echo 'Memory read time: ' . time_format($duration_write, '', true) . ' ' . size_format(($part_size * ($i + 1)) / $duration_write) . '/sec' . PHP_EOL;
     }
     $duration = microtime(true) - $app->config('time.start');
-    echo 'Total duration: ' . Time::format($duration,'', true) . PHP_EOL;
+    echo 'Total duration: ' . time_format($duration,'', true) . PHP_EOL;
 //    ddd($words);
 } catch (Exception | LocateException | ObjectException $exception) {
     echo $exception;
+}
+
+function size_format(float|int $size=0): string
+{
+    if($size < 1024){
+        return '0 B';
+    }
+    elseif($size < 1024 * 1024){
+        return round($size / 1024, 2) . ' KB';
+    }
+    elseif($size < 1024 * 1024 * 1024){
+        return round($size / 1024 / 1024, 2) . ' MB';
+    }
+    elseif($size < 1024 * 1024 * 1024 * 1024){
+        return round($size / 1024 / 1024 / 1024, 2) . ' GB';
+    }
+    elseif($size < 1024 * 1024 * 1024 * 1024 * 1024){
+        return round($size / 1024 / 1024 / 1024 / 1024, 2) . ' TB';
+    }
+    elseif($size < 1024 * 1024 * 1024 * 1024 * 1024 * 1024){
+        return round($size / 1024 / 1024 / 1024 / 1024 / 1024, 2) . ' PB';
+    } else {
+        return round($size / 1024 / 1024 / 1024 / 1024 / 1024 / 1024, 2) . ' EB';
+    }
+
+}
+
+function time_format(int $seconds=0, string $string='in', $compact=false): string
+{
+    $days = floor($seconds / (3600 * 24));
+    $hours = floor(($seconds / 3600) % 24);
+    $minutes = floor(($seconds / 60) % 60);
+    $seconds = $seconds % 60;
+    if($days > 0){
+        if($compact){
+            $string .= $days . ' ' . Time::D . ' ';
+        } else {
+            if($days === 1){
+                $string .= $days . ' ' . Time::DAY . ' ' . Time::_AND_ . ' ';
+            } else {
+                $string .= $days . ' ' . Time::DAYS . ' ' . Time::_AND_ . ' ';
+            }
+        }
+    }
+    if($hours > 0){
+        if($compact){
+            $string .= $hours . ' ' . Time::H . ' ';
+        } else {
+            if($hours === 1){
+                $string .= $hours . ' ' . Time::HOUR . ' ' . Time::_AND_ . ' ';
+            } else {
+                $string .= $hours . ' ' . Time::HOURS . ' ' . Time::_AND_ . ' ';
+            }
+        }
+    }
+    if ($minutes > 0){
+        if($compact){
+            $string .= $minutes . ' ' . Time::MIN . ' ';
+        } else {
+            if($minutes === 1){
+                $string .= $minutes . ' ' . Time::MINUTE . ' ' . Time::_AND_ . ' ';
+            } else {
+                $string .= $minutes . ' ' . Time::MINUTES . ' ' . Time::_AND_ . ' ';
+            }
+        }
+
+    }
+    if($seconds < 1){
+        if($days === 0 && $hours === 0 && $minutes === 0){
+            if($compact){
+                $string = round($seconds, 3) * 1000 . ' ' . Time::MSEC;
+            } else {
+                $string = Time::ALMOST_THERE;
+            }
+        } else {
+            if($compact){
+                $string .= $seconds . ' ' . Time::SEC;
+            } else {
+                $string .= $seconds . ' ' . Time::SECONDS;
+            }
+        }
+
+    } else {
+        if($compact){
+            $string .= $seconds . ' ' . Time::SEC;
+        } else {
+            if($seconds === 1){
+                $string .= $seconds . ' ' . Time::SECOND;
+            } else {
+                $string .= $seconds . ' ' . Time::SECONDS;
+            }
+        }
+    }
+    return $string;
 }
 
 function random_word($chars, $count){

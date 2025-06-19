@@ -1,97 +1,63 @@
 <?php
 /**
  * @author          Remco van der Velde
- * @since           2020-10-27
+ * @since           2025-06-19
  * @version         1.0
  * @changeLog
  *     -    all
  */
-
-use Raxon\App;
-use Raxon\Config;
-use Raxon\Module\Dir;
-use Raxon\Module\File;
-use Raxon\Module\SharedMemory;
-use Raxon\Module\Time;
-
-use Raxon\Exception\LocateException;
-use Raxon\Exception\ObjectException;
-use Raxon\Exception\FileMoveException;
-
-$dir = __DIR__;
-$dir_vendor =
-    DIRECTORY_SEPARATOR .
-    'Application' .
-    DIRECTORY_SEPARATOR .
-    'vendor' .
-    DIRECTORY_SEPARATOR;
-
-$autoload = $dir_vendor . 'autoload.php';
-$autoload = require $autoload;
-try {
-    $config = new Config(
-        [
-            'dir.vendor' => $dir_vendor,
-            'time.start' => microtime(true),
-        ]
-    );
-    $app = new App($autoload, $config);
-    /*
-    $chars = chars();
-    $count = count($chars);
-    $words = [];
-    for($i = 0; $i < (100000000); $i++){
-        $words[] = random_word($chars, $count);
-    }
-    */
+/*
+$chars = chars();
+$count = count($chars);
+$words = [];
+for($i = 0; $i < (100000000); $i++){
+    $words[] = random_word($chars, $count);
+}
+*/
 //    $write = implode(' ', $words);
 //    $write .= implode(' ', $words);
 //    $write .= implode(' ', $words);
 //
-    $url = '/mnt/Disk2/Test/data.txt';
-//    $size = File::write($url, $write);
-//    ddd(File::size_format($size));
-    $start = microtime(true);
-    $size = filesize($url);
-    $read = file_get_contents($url);
-    $duration_read = microtime(true) - $start;
-    echo 'File read time: ' . time_format($duration_read, '') . PHP_EOL;
-    $part_size = (1024 * 1024) * 4;
-    $parts = ceil($size / $part_size);
-    $split = mb_str_split($read, $part_size);
-    $offset = 100;
-    $start= microtime(true);
-    for($i = 0; $i < $parts; $i++){
-        $shmop = SharedMemory::open($offset + $i, 'n', 0600, $part_size);
-        $memory_data = $split[$i] . "\0";
-        if($shmop){
-            SharedMemory::write($shmop, $memory_data);
-        }
-        $duration_write = microtime(true) - $start;
-        echo 'Memory write time: ' . time_format($duration_write, '', true) . ' ' . size_format(($part_size * ($i + 1)) / $duration_write) . '/sec' . PHP_EOL;
+$begin = microtime(true);
+$url = '/mnt/Disk2/Test/data.txt';
+//    $size = file_put_contents($url, $write);
+$start = microtime(true);
+$size = filesize($url);
+$read = file_get_contents($url);
+$duration_read = microtime(true) - $start;
+echo 'File read time: ' . time_format($duration_read, '') . '; size: ' . size_format($size) . PHP_EOL;
+$part_size = (1024 * 1024) * 4;
+$parts = ceil($size / $part_size);
+$split = mb_str_split($read, $part_size);
+$offset = 100;
+$start= microtime(true);
+for($i = 0; $i < $parts; $i++){
+    $shmop = shmop_open($offset + $i, 'n', 0600, $part_size);
+    $memory_data = $split[$i] . "\0";
+    if($shmop){
+        shmop_write($shmop, $memory_data);
     }
-    $start= microtime(true);
-    $read = [];
-    for($i = 0; $i < $parts; $i++){
-        $shmop = SharedMemory::open($offset + $i, 'a', 0, 0);
-        if($shmop){
-            $memory_data = SharedMemory::read($shmop, 0, $part_size);
-            $explode = explode("\0", $memory_data);
-            if(array_key_exists(1, $explode)){
-                $read[$i] = $explode[0];
-            } else {
-                $read[$i] = $memory_data;
-            }
-        }
-        $duration_write = microtime(true) - $start;
-        echo 'Memory read time: ' . time_format($duration_write, '', true) . ' ' . size_format(($part_size * ($i + 1)) / $duration_write) . '/sec' . PHP_EOL;
-    }
-    $duration = microtime(true) - $app->config('time.start');
-    echo 'Total duration: ' . time_format($duration,'', true) . PHP_EOL;
-//    ddd($words);
-} catch (Exception | LocateException | ObjectException $exception) {
-    echo $exception;
+    $duration_write = microtime(true) - $start;
+    echo 'Memory write time: ' . time_format($duration_write, '', true) . ' ' . size_format(($part_size * ($i + 1)) / $duration_write) . '/sec' . PHP_EOL;
 }
+$start= microtime(true);
+$read = [];
+for($i = 0; $i < $parts; $i++){
+    $shmop = shmop_open($offset + $i, 'a', 0, 0);
+    if($shmop){
+        $memory_data = shmop_read($shmop, 0, $part_size);
+        $explode = explode("\0", $memory_data);
+        if(array_key_exists(1, $explode)){
+            $read[$i] = $explode[0];
+        } else {
+            $read[$i] = $memory_data;
+        }
+    }
+    $duration_write = microtime(true) - $start;
+    echo 'Memory read time: ' . time_format($duration_write, '', true) . ' ' . size_format(($part_size * ($i + 1)) / $duration_write) . '/sec' . PHP_EOL;
+}
+$duration = microtime(true) - $begin;
+echo 'Total duration: ' . time_format($duration,'', true) . PHP_EOL;
 
 function size_format(float|int $size=0): string
 {
@@ -126,34 +92,34 @@ function time_format(int $seconds=0, string $string='in', $compact=false): strin
     $seconds = $seconds % 60;
     if($days > 0){
         if($compact){
-            $string .= $days . ' ' . Time::D . ' ';
+            $string .= $days . ' ' . 'd' . ' ';
         } else {
             if($days === 1){
-                $string .= $days . ' ' . Time::DAY . ' ' . Time::_AND_ . ' ';
+                $string .= $days . ' ' . 'day' . ' ' . 'and' . ' ';
             } else {
-                $string .= $days . ' ' . Time::DAYS . ' ' . Time::_AND_ . ' ';
+                $string .= $days . ' ' . 'days' . ' ' . 'and' . ' ';
             }
         }
     }
     if($hours > 0){
         if($compact){
-            $string .= $hours . ' ' . Time::H . ' ';
+            $string .= $hours . ' ' . 'h' . ' ';
         } else {
             if($hours === 1){
-                $string .= $hours . ' ' . Time::HOUR . ' ' . Time::_AND_ . ' ';
+                $string .= $hours . ' ' . 'hour' . ' ' . 'and' . ' ';
             } else {
-                $string .= $hours . ' ' . Time::HOURS . ' ' . Time::_AND_ . ' ';
+                $string .= $hours . ' ' . 'hours' . ' ' . 'and' . ' ';
             }
         }
     }
     if ($minutes > 0){
         if($compact){
-            $string .= $minutes . ' ' . Time::MIN . ' ';
+            $string .= $minutes . ' ' . 'min' . ' ';
         } else {
             if($minutes === 1){
-                $string .= $minutes . ' ' . Time::MINUTE . ' ' . Time::_AND_ . ' ';
+                $string .= $minutes . ' ' . 'minute' . ' ' . 'and' . ' ';
             } else {
-                $string .= $minutes . ' ' . Time::MINUTES . ' ' . Time::_AND_ . ' ';
+                $string .= $minutes . ' ' . 'minutes' . ' ' . 'and' . ' ';
             }
         }
 
@@ -161,26 +127,26 @@ function time_format(int $seconds=0, string $string='in', $compact=false): strin
     if($seconds < 1){
         if($days === 0 && $hours === 0 && $minutes === 0){
             if($compact){
-                $string = round($seconds, 3) * 1000 . ' ' . Time::MSEC;
+                $string = round($seconds, 3) * 1000 . ' ' . 'msec';
             } else {
-                $string = Time::ALMOST_THERE;
+                $string = 'almost there';
             }
         } else {
             if($compact){
-                $string .= $seconds . ' ' . Time::SEC;
+                $string .= $seconds . ' ' . 'sec';
             } else {
-                $string .= $seconds . ' ' . Time::SECONDS;
+                $string .= $seconds . ' ' . 'seconds';
             }
         }
 
     } else {
         if($compact){
-            $string .= $seconds . ' ' . Time::SEC;
+            $string .= $seconds . ' ' . 'sec';
         } else {
             if($seconds === 1){
-                $string .= $seconds . ' ' . Time::SECOND;
+                $string .= $seconds . ' ' . 'second';
             } else {
-                $string .= $seconds . ' ' . Time::SECONDS;
+                $string .= $seconds . ' ' . 'seconds';
             }
         }
     }

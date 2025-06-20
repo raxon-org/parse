@@ -28,13 +28,12 @@ $size = filesize($url);
 $read = file_get_contents($url);
 $duration_read = microtime(true) - $start;
 echo 'File read time: ' . time_format($duration_read, '') . '; size: ' . size_format($size) . PHP_EOL;
-$part_size = (1024 * 1024) * 8;
+$part_size = (1024 * 1024) * 512;
 $parts = ceil($size / $part_size);
 $split = mb_str_split($read, $part_size);
 $offset = 100;
 $start= microtime(true);
 for($i = 0; $i < $parts; $i++){
-    var_dump(size_format($part_size));
     $shmop = shmop_open($offset + $i, 'c', 0600, $part_size);
     $memory_data = $split[$i] . "\0";
     if($shmop){

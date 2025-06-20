@@ -98,6 +98,7 @@ function time_format(float|int $seconds=0, string $string='in', $compact=false):
     $explode = explode('.', $seconds);
     $msec = $explode[1] ?? 0;
     $seconds = $seconds % 60;
+    ddd($seconds);
     if($days > 0){
         if($compact){
             $string .= $days . ' ' . 'd' . ' ';

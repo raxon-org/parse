@@ -96,6 +96,7 @@ function time_format(int $seconds=0, string $string='in', $compact=false): strin
     $hours = floor(($seconds / 3600) % 24);
     $minutes = floor(($seconds / 60) % 60);
     $seconds = $seconds % 60;
+    ddd($seconds);
     if($days > 0){
         if($compact){
             $string .= $days . ' ' . 'd' . ' ';

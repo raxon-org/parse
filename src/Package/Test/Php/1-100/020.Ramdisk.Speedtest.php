@@ -19,22 +19,19 @@ for($i = 0; $i < (100000000); $i++){
     $write .= implode(' ', $words);
     $write .= implode(' ', $words);
 */
-
-use Raxon\Module\File;
-
 $begin = microtime(true);
 $url = '/mnt/Disk2/Test/data.txt';
 //$size = file_put_contents($url, $write);
 $start = microtime(true);
 $size = filesize($url);
 $ramdisk = '/tmp/raxon/org/data.txt';
-File::copy($url, $ramdisk);
-$duration_read = microtime(true) - $start;
-echo 'Ramdisk write time: ' . time_format($duration_read, '') . '; size: ' . size_format($size) . PHP_EOL;
-$start = microtime(true);
-$read = File::read($ramdisk);
+copy($url, $ramdisk);
 $duration_write = microtime(true) - $start;
-echo 'Ramdisk read time: ' . time_format($duration_write, '', true) . ' ' . size_format($size) . PHP_EOL;
+echo 'Ramdisk write time: ' . time_format($duration_write, '') . '; size: ' . size_format($size) . PHP_EOL;
+$start = microtime(true);
+$read = file_get_contents($ramdisk);
+$duration_read = microtime(true) - $start;
+echo 'Ramdisk read time: ' . time_format($duration_read, '', true) . ' ' . size_format($size) . PHP_EOL;
 $duration = microtime(true) - $begin;
 echo 'Total duration: ' . time_format($duration,'', true) . PHP_EOL;
 

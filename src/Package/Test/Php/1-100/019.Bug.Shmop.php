@@ -135,26 +135,26 @@ function time_format(float|int $seconds=0, string $string='in', $compact=false):
     if($seconds < 1){
         if($days === 0 && $hours === 0 && $minutes === 0){
             if($compact){
-                $string = round($msec, 3) * 1000 . ' ' . 'msec';
+                $string = substr($msec, 0, 3) * 1000 . ' ' . 'msec';
             } else {
                 $string = 'almost there';
             }
         } else {
             if($compact){
-                $string .= $seconds . '.' . round($msec, 3) . ' sec';
+                $string .= $seconds . '.' . substr($msec, 0, 3) . ' sec';
             } else {
-                $string .= $seconds . '.' . round($msec, 3) .  ' seconds';
+                $string .= $seconds . '.' . substr($msec, 0, 3) .  ' seconds';
             }
         }
 
     } else {
         if($compact){
-            $string .= $seconds . '.' . round($msec, 3) . ' sec';
+            $string .= $seconds . '.' . substr($msec, 0, 3) . ' sec';
         } else {
             if($seconds === 1){
-                $string .= $seconds . '.' . round($msec, 3) . ' second';
+                $string .= $seconds . '.' . substr($msec, 0,3) . ' second';
             } else {
-                $string .= $seconds . '.' . round($msec, 3) . ' seconds';
+                $string .= $seconds . '.' . substr($msec, 0, 3) . ' seconds';
             }
         }
     }

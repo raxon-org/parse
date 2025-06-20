@@ -27,11 +27,11 @@ $size = filesize($url);
 $ramdisk = '/tmp/raxon/org/data.txt';
 copy($url, $ramdisk);
 $duration_write = microtime(true) - $start;
-echo 'Ramdisk write time: ' . time_format($duration_write, '') . '; size: ' . size_format($size) . PHP_EOL;
+echo 'Ramdisk write time: ' . time_format($duration_write, '') . '; size: ' . size_format(($size/$duration_write) * 100) . ' /sec'. PHP_EOL;
 $start = microtime(true);
 $read = file_get_contents($ramdisk);
 $duration_read = microtime(true) - $start;
-echo 'Ramdisk read time: ' . time_format($duration_read, '', true) . ' ' . size_format($size) . PHP_EOL;
+echo 'Ramdisk read time: ' . time_format($duration_read, '', true) . ' ' . size_format(($size/$duration_read) * 100) . ' /sec' . PHP_EOL;
 $duration = microtime(true) - $begin;
 echo 'Total duration: ' . time_format($duration,'', true) . PHP_EOL;
 

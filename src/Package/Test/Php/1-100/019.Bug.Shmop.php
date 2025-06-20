@@ -34,7 +34,7 @@ $split = mb_str_split($read, $part_size);
 $offset = 100;
 $start= microtime(true);
 for($i = 0; $i < $parts; $i++){
-    ddd(size_format($part_size));
+    var_dump(size_format($part_size));
     $shmop = shmop_open($offset + $i, 'c', 0600, $part_size);
     $memory_data = $split[$i] . "\0";
     if($shmop){

@@ -90,7 +90,7 @@ function size_format(float|int $size=0): string
 
 }
 
-function time_format(int $seconds=0, string $string='in', $compact=false): string
+function time_format(float|int $seconds=0, string $string='in', $compact=false): string
 {
     $days = floor($seconds / (3600 * 24));
     $hours = floor(($seconds / 3600) % 24);

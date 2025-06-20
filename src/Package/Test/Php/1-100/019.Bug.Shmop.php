@@ -95,6 +95,7 @@ function time_format(int $seconds=0, string $string='in', $compact=false): strin
     $days = floor($seconds / (3600 * 24));
     $hours = floor(($seconds / 3600) % 24);
     $minutes = floor(($seconds / 60) % 60);
+    $explode = explode('.', $seconds);
     $seconds = $seconds % 60;
     var_dump($seconds);
     die;
@@ -135,26 +136,26 @@ function time_format(int $seconds=0, string $string='in', $compact=false): strin
     if($seconds < 1){
         if($days === 0 && $hours === 0 && $minutes === 0){
             if($compact){
-                $string = round($seconds, 3) * 1000 . ' ' . 'msec';
+                $string = round($explode[1], 3) * 1000 . ' ' . 'msec';
             } else {
                 $string = 'almost there';
             }
         } else {
             if($compact){
-                $string .= $seconds . ' ' . 'sec';
+                $string .= $seconds . '.' . round($explode[1], 3) . ' sec';
             } else {
-                $string .= $seconds . ' ' . 'seconds';
+                $string .= $seconds . '.' . round($explode[1], 3) .  ' seconds';
             }
         }
 
     } else {
         if($compact){
-            $string .= $seconds . ' ' . 'sec';
+            $string .= $seconds . '.' . round($explode[1], 3) . ' sec';
         } else {
             if($seconds === 1){
-                $string .= $seconds . ' ' . 'second';
+                $string .= $seconds . '.' . round($explode[1], 3) . ' second';
             } else {
-                $string .= $seconds . ' ' . 'seconds';
+                $string .= $seconds . '.' . round($explode[1], 3) . ' seconds';
             }
         }
     }

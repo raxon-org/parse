@@ -1,7 +1,7 @@
 <?php
 /**
  * @author          Remco van der Velde
- * @since           2020-10-27
+ * @since           2025-06-21
  * @version         1.0
  * @changeLog
  *     -    all
@@ -9,12 +9,9 @@
 
 use Raxon\App;
 use Raxon\Config;
-use Raxon\Module\Dir;
-use Raxon\Module\File;
 
 use Raxon\Exception\LocateException;
 use Raxon\Exception\ObjectException;
-use Raxon\Exception\FileMoveException;
 
 $dir = __DIR__;
 $dir_vendor =

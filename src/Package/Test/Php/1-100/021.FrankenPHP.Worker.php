@@ -35,13 +35,24 @@ try {
     );
     $app = new App($autoload, $config);
 
-    while (frankenphp_handle_request()) {
-        // Handle each request with the already booted application
-        $response = $app->request();
-        var_dump($response);
+    $handler = static function () use ($app) {
+        // Called when a request is received,
+        // superglobals, php://input and the like are reset
+        var_dump($_GET);
+        var_dump($_POST);
+        var_dump($_COOKIE);
+        var_dump($_FILES);
+        var_dump($_SERVER);
+        var_dump($app->request());
+    };
+    $count = 0;
+    $max = 5;
+    while (frankenphp_handle_request($handler)) {
+        $count++;
+        if($count >= $max){
+            break;
+        }
     }
-
-
 } catch (Exception | LocateException | ObjectException $exception) {
     echo $exception;
 }

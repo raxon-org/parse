@@ -12,7 +12,7 @@ namespace Plugin;
 
 trait Language {
 
-    protected function language(string $attribute=null): ?string
+    protected function language(string|null $attribute=null): ?string
     {
         $object = $this->object();
         if($attribute === null){

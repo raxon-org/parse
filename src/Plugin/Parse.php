@@ -7,7 +7,7 @@ trait Parse {
 
     protected Parser $parse;
 
-    public function parse(Parser $parse=null): ?Parser
+    public function parse(Parser|null $parse=null): ?Parser
     {
         if($parse !== null){
             $this->setParse($parse);

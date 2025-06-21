@@ -14,7 +14,7 @@ trait Basic {
     protected array $local = [];
     protected array $limit = [];
 
-    public function object(App $object=null): ?App
+    public function object(App|null $object=null): ?App
     {
         if($object !== null){
             $this->setObject($object);
@@ -32,7 +32,7 @@ trait Basic {
         return $this->object;
     }
 
-    public function data(Data $data=null): ?Data
+    public function data(Data|null $data=null): ?Data
     {
         if($data !== null){
             $this->setData($data);
@@ -50,7 +50,7 @@ trait Basic {
         return $this->data;
     }
 
-    public function storage(Data $data=null): ?Data
+    public function storage(Data|null $data=null): ?Data
     {
         if($data !== null){
             $this->setStorage($data);
@@ -68,7 +68,7 @@ trait Basic {
         return $this->data;
     }
 
-    public function options(object $options=null): ?object
+    public function options(object|null $options=null): ?object
     {
         if($options !== null){
             $this->set_options($options);
@@ -86,7 +86,7 @@ trait Basic {
         return $this->options;
     }
 
-    public function flags(object $flags=null): ?object
+    public function flags(object|null $flags=null): ?object
     {
         if($flags !== null){
             $this->set_flags($flags);
@@ -123,7 +123,7 @@ trait Basic {
         return $this->object();
     }
 
-    public function limit(array $limit=null): ?array
+    public function limit(array|null $limit=null): ?array
     {
         if($limit !== null){
             $this->limit = $limit;

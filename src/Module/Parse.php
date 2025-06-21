@@ -246,7 +246,7 @@ class Parse
      * @throws ObjectException
      * @throws TemplateException
      */
-    public function compile(mixed $input, array|object $data=null, $is_debug=false): mixed
+    public function compile(mixed $input, array|object|null $data=null, $is_debug=false): mixed
     {
         $start = microtime(true);
         if(is_array($data)){

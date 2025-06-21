@@ -12,7 +12,7 @@ namespace Plugin;
 
 trait Validate {
 
-    public function validate_argument(mixed $value, string $type, array $validation, int $argument_nr=null): void
+    public function validate_argument(mixed $value, string $type, array $validation, int|null $argument_nr=null): void
     {
 //        trace();
 //        $object = $this->object();

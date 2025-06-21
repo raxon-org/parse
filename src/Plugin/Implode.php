@@ -12,7 +12,7 @@ namespace Plugin;
 
 trait Implode {
 
-    protected function implode(string $glue, array $array=null): string
+    protected function implode(string $glue, array|null $array=null): string
     {
         return implode($glue, $array);
     }

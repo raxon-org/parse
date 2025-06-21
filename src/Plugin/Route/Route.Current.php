@@ -7,7 +7,7 @@ use Raxon\Parse\Attribute\Argument;
 trait Route_Current {
 
     #[Argument(apply: "literal", count: 1)]
-    protected function route_current(string $attribute=null): mixed
+    protected function route_current(string|null $attribute=null): mixed
     {
         $object = $this->object();
         if($attribute !== null){

@@ -5,7 +5,7 @@ use Raxon\Config;
 
 trait Route_Prefix {
 
-    protected function route_prefix(string $prefix=null): ?string
+    protected function route_prefix(string|null $prefix=null): ?string
     {
         $object = $this->object();
         if($prefix !== null){

@@ -9,7 +9,7 @@ trait File_Append {
     /**
      * @throws FileAppendException
      */
-    public function file_append(string $url=null, string $append=''): bool|int
+    public function file_append(string|null $url=null, string $append=''): bool|int
     {
         return File::append($url, $append);
     }

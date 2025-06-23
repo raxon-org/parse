@@ -15,7 +15,7 @@ use Raxon\Module\File;
 
 trait File_Put {
 
-    public function file_put(string $url=null, string $content='', array $options=[]): bool | int
+    public function file_put(string|null $url=null, string $content='', array $options=[]): bool | int
     {
         try {
             $options['flags'] = $options['flags'] ?? LOCK_EX;

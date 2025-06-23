@@ -9,7 +9,7 @@ trait File_Move {
     /**
      * @throws FileMoveException
      */
-    public function file_move(string $source=null, string $destination=null, bool $overwrite=false): bool
+    public function file_move(string|null $source=null, string|null $destination=null, bool $overwrite=false): bool
     {
         return File::move($source, $destination, $overwrite);
     }

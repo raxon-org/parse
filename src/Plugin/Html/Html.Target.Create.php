@@ -3,7 +3,7 @@ namespace Plugin;
 
 trait Html_Target_Create {
 
-    protected function html_target_create(string $target=null, $options=[]): string
+    protected function html_target_create(string|null $target=null, $options=[]): string
     {
         $result = $target;
         foreach($options as $key => $value){

@@ -10,7 +10,7 @@ trait Parse_String {
     /**
      * @throws Exception
      */
-    protected function parse_string(mixed $mixed, array|object $data = null): mixed
+    protected function parse_string(mixed $mixed, array|object|null $data = null): mixed
     {
         $parse = $this->parse();
 

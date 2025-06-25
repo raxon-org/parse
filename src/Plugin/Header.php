@@ -14,7 +14,7 @@ use Raxon\Module\Handler;
 
 trait Header {
 
-    public function header(string $string='', int|string $http_response_code=null, bool $replace=true): void
+    public function header(string $string='', int|string|null $http_response_code=null, bool $replace=true): void
     {
         Handler::header($string, $http_response_code, $replace);
     }

@@ -18,7 +18,7 @@ trait Parameter {
     /**
      * @throws Exception
      */
-    protected function parameter(string $name='', int $offset=null): mixed
+    protected function parameter(string $name='', int|null $offset=null): mixed
     {
         $object = $this->object();
         return Framework::parameter($object, $name, $offset);

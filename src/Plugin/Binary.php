@@ -20,7 +20,7 @@ trait Binary
     /**
      * @throws Exception
      */
-    protected function binary(string $fallback = null): ?string
+    protected function binary(string|null $fallback = null): ?string
     {
         $object = $this->object();
         return Core::binary($object) ?? $fallback;

@@ -12,7 +12,7 @@ namespace Plugin;
 
 trait Trace {
 
-    public function trace(int $length=null): void
+    public function trace(int|null $length=null): void
     {
         trace($length);
     }

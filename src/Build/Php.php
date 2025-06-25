@@ -1778,12 +1778,12 @@ class Php {
                             $separator = $object->config('package.raxon/parse.build.state.separator');
                             $data[] = 'try {';
                             foreach($before as $line){
-                                if($separator){
-                                    $data[] = str_replace($separator, ';', $line);
-                                } else {
+                                if($separator === null){
                                     $data[] = $line;
+                                } else {
+                                    $data[] = str_replace($separator, ';', $line);
                                 }
-                            };
+                            }
                             $before = [];
                             $data[] = '} catch (Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception) {';
                             if (

@@ -2509,8 +2509,8 @@ class Php {
                     $attributes = $method->getAttributes();
                     foreach($attributes as $attribute_nr => $attribute){
                         $instance = $attribute->newInstance();
-                        $instance->class = get_class($instance);
-                        if($instance->class === 'Raxon\\Parse\\Attribute\\Argument'){
+                        $class = get_class($instance);
+                        if($class === 'Raxon\\Parse\\Attribute\\Argument'){
                             $argument_attribute = $instance;
                         }
                         $attributes[$attribute_nr] = $instance;

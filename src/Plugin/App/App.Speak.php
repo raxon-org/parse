@@ -23,7 +23,7 @@ trait App_Speak {
     /**
      * @throws Exception
      */
-    protected function app_speak($speak='', $options=[])
+    protected function app_speak(string $speak='', array $options=[]): object
     {
         $app = $this->object();
         $options = Core::object($options, Core::ARRAY);

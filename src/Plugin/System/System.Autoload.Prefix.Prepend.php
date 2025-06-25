@@ -17,7 +17,7 @@ use Raxon\Module\Autoload;
 
 trait System_Autoload_Prefix_Prepend {
 
-    protected function system_autoload_prefix_prepend($prefix='', $directory='', $extension=''): void
+    protected function system_autoload_prefix_prepend(string $prefix='', string|array $directory='', string $extension=''): void
     {
         $prefix = str_replace(':', '\\', $prefix);
         $object = $this->object();

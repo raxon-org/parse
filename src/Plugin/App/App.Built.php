@@ -14,7 +14,7 @@ use Raxon\Config;
 
 trait App_Built {
 
-    protected function app_built()
+    protected function app_built(): ?string
     {
         $object = $this->object();
         return $object->config(Config::DATA_FRAMEWORK_BUILT);

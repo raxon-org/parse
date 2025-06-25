@@ -12,7 +12,7 @@ namespace Plugin;
 
 trait Server_Token {
 
-    public function server_token($value, $options=[]): ?string
+    public function server_token(): ?string
     {
         if(array_key_exists('HTTP_AUTHORIZATION', $_SERVER)){
             $explode = explode('Bearer ', $_SERVER['HTTP_AUTHORIZATION'], 2);

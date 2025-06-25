@@ -14,7 +14,7 @@ use Raxon\Module\File;
 
 trait Is_Upload {
 
-    protected function is_upload(string $url=null): bool
+    protected function is_upload(string|null $url=null): bool
     {
         return File::is_upload($url);
     }

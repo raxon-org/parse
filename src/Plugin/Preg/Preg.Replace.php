@@ -6,7 +6,7 @@ use Raxon\Parse\Attribute\Argument;
 trait Preg_Replace {
 
     #[Argument(apply: "literal", count: 1, index:4)]
-    protected function preg_replace(array|string $pattern=null, array|string $replacement=null, array|string $subject=null, int $limit=-1, int $count=null): null|string|array
+    protected function preg_replace(array|string|null $pattern=null, array|string|null $replacement=null, array|string|null $subject=null, int $limit=-1, string|null $count=null): null|string|array
     {
         if($count !== null){
             $count = trim($count, '\'"');

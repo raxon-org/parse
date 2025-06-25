@@ -14,7 +14,7 @@ use Raxon\Module\File;
 
 trait Is_File {
 
-    protected function is_file(string $url=null): bool
+    protected function is_file(string|null $url=null): bool
     {
         return File::is($url);
     }

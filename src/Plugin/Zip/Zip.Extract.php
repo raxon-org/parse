@@ -26,7 +26,7 @@ trait Zip_Extract {
      * @throws FileWriteException
      * @throws Exception
      */
-    public function zip_extract(string $source, $target=null, $options): ?string
+    public function zip_extract(string $source, string|null $target=null, object|null $options=null): ?string
     {
         $object = $this->object();
         if(empty($target)){
@@ -41,10 +41,12 @@ trait Zip_Extract {
         ){
             if(
                 (
+                    is_object($options) &&
                     property_exists($options, 'force') &&
                     $options->force === true
                 ) ||
                 (
+                    is_object($options) &&
                     property_exists($options, 'patch') &&
                     $options->patch === true
                 )

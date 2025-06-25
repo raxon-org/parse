@@ -15,7 +15,7 @@ trait Ramdisk_Mount {
      * @throws ObjectException
      * @throws Exception
      */
-    protected function ramdisk_mount($size='1G', $url='', $name=''): void
+    protected function ramdisk_mount(string $size='1G', string $url='', string $name=''): void
     {
         $object = $this->object();
         $id = posix_geteuid();

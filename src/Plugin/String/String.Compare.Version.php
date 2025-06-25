@@ -3,7 +3,7 @@ namespace Plugin;
 
 trait String_Compare_Version {
 
-    protected function string_compare_version(string $version1, string $version2, string $operator=null): bool|int
+    protected function string_compare_version(string $version1, string $version2, string|null $operator=null): bool|int
     {
         if($operator === null){
             $result = version_compare($version1, $version2);

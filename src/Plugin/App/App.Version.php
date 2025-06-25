@@ -14,7 +14,7 @@ use Raxon\Config;
 
 trait App_Version {
 
-    protected function app_version()
+    protected function app_version(): ?string
     {
         $object = $this->object();
         return $object->config(Config::DATA_FRAMEWORK_VERSION);

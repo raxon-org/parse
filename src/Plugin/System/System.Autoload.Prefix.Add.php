@@ -17,7 +17,7 @@ use Raxon\Module\Autoload;
 
 trait System_Autoload_Prefix_Add {
 
-    protected function system_autoload_prefix_add($prefix='', $directory='', $extension=''): void
+    protected function system_autoload_prefix_add(string $prefix='', array|string $directory='', string $extension=''): void
     {
         $prefix = str_replace(':', '\\', $prefix);
         $object = $this->object();

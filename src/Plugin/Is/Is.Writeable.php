@@ -14,7 +14,7 @@ use Raxon\Module\File;
 
 trait Is_Writeable {
 
-    protected function is_writeable(string $url=null): bool
+    protected function is_writeable(string|null $url=null): bool
     {
         return File::is_writeable($url);
     }

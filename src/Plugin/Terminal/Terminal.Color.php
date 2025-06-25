@@ -13,7 +13,7 @@ namespace Plugin;
 
 trait Terminal_Color {
 
-    protected function terminal_color($color, $background=null): string
+    protected function terminal_color(mixed $color, mixed $background=null): string
     {
         $result = '';
         $reset = false;

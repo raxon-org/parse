@@ -3,7 +3,7 @@ namespace Plugin;
 
 trait String_Substring {
 
-    protected function string_substring(string $string, int $offset=0, int $length=null, string $encoding=null): string
+    protected function string_substring(string $string, int $offset=0, int|null $length=null, string|null $encoding=null): string
     {
         if(
             $length===null &&

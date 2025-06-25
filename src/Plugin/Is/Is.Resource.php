@@ -14,7 +14,7 @@ use Raxon\Module\File;
 
 trait Is_Resource {
 
-    protected function is_resource(string $url=null): bool
+    protected function is_resource(string|null $url=null): bool
     {
         return File::is_resource($url);
     }

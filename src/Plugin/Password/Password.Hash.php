@@ -7,7 +7,7 @@ use ErrorException;
 trait Password_Hash {
 
 
-    protected function password_hash(string $password, int $cost=13, array $options=null): array
+    protected function password_hash(string $password, int $cost=13, array|null $options=null): array
     {
         $result = '';
         if(is_int($cost)){

@@ -3,7 +3,7 @@ namespace Plugin\Property;
 
 trait Property_List {
 
-    protected function property_list(object $object): bool|string
+    protected function property_list(object $object, array $allowed=[]): array
     {
         $result = [];
         if(is_object($object)){

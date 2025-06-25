@@ -3,7 +3,7 @@ namespace Plugin;
 
 trait String_Substring_Compare_Count_Case_Insensitive {
 
-    protected function string_substring_count_case_insensitive(string $haystack='', string $needle='', $offset=0, $length=null): string
+    protected function string_substring_count_case_insensitive(string $haystack='', string $needle='', int $offset=0, int|null $length=null): string
     {
         $haystack = strtolower($haystack);
         $needle = strtolower($needle);

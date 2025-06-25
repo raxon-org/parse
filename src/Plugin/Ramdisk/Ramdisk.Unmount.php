@@ -15,7 +15,7 @@ trait Ramdisk_Unmount {
      * @throws ObjectException
      * @throws Exception
      */
-    protected function ramdisk_unmount(string $url=null): void
+    protected function ramdisk_unmount(string|null $url=null): void
     {
         $object = $this->object();
         $object->config('ramdisk.is.disabled', true);

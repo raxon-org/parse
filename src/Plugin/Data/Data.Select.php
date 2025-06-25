@@ -11,7 +11,7 @@ trait Data_Select {
      * @throws FileWriteException
      * @throws ObjectException
      */
-    protected function data_select(string $url, string $select=null): mixed
+    protected function data_select(string $url, string|null $select=null): mixed
     {
         $parse = $this->parse();
         $data = $this->data();

@@ -14,7 +14,7 @@ use Raxon\Module\File;
 
 trait Is_Readable {
 
-    protected function is_readable(string $url=null): bool
+    protected function is_readable(string|null $url=null): bool
     {
         return File::is_readable($url);
     }

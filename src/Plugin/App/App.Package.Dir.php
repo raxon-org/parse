@@ -22,7 +22,7 @@ trait App_Package_Dir {
     /**
      * @throws Exception
      */
-    protected function app_package_dir($prefix='', $package=''): string
+    protected function app_package_dir(string $prefix='', string $package=''): string
     {
         $object = $this->object();
         if(empty($prefix)){

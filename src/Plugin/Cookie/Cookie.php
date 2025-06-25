@@ -6,7 +6,7 @@ use Raxon\Parse\Attribute\Argument;
 trait Cookie {
 
     #[Argument(apply: "literal", count: 1)]
-    protected function cookie(string $attribute, mixed $value=null, int $duration=null): mixed
+    protected function cookie(string $attribute, mixed $value=null, int|null $duration=null): mixed
     {
         $object = $this->object();
         if(

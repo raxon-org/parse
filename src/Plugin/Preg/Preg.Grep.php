@@ -3,7 +3,7 @@ namespace Plugin;
 
 trait Preg_Grep {
 
-    protected function preg_grep(string $pattern=null, array $input=[], int|string  $flags=0): bool|array
+    protected function preg_grep(string|null $pattern=null, array $input=[], int|string  $flags=0): bool|array
     {
         if(is_string($flags)){
             $flags = constant($flags);

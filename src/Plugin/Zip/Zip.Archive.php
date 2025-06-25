@@ -24,7 +24,7 @@ trait Zip_Archive {
      * @throws FileWriteException
      * @throws Exception
      */
-    public function zip_archive(string $source, string $target=null): ?string
+    public function zip_archive(string $source, string|null $target=null): ?string
     {
         $object = $this->object();
         $parse = $this->parse();

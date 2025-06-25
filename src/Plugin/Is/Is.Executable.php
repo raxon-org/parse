@@ -12,7 +12,7 @@ namespace Plugin;
 
 trait Is_Executable {
 
-    protected function is_executable(string $url=null): bool
+    protected function is_executable(string|null $url=null): bool
     {
         return is_executable($url);
     }

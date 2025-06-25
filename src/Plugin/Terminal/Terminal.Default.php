@@ -5,7 +5,7 @@ use Raxon\Module\Cli;
 
 trait Terminal_Default {
 
-    protected function terminal_default($color, $background=null): string
+    protected function terminal_default(): string
     {
         return Cli::default();
     }

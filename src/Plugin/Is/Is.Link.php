@@ -14,7 +14,7 @@ use Raxon\Module\File;
 
 trait Is_Link {
 
-    protected function is_link(string $link=null): bool
+    protected function is_link(string|null $link=null): bool
     {
         return File::is_link($link);
     }

@@ -10,7 +10,7 @@ trait Data_Filter {
     /**
      * @throws Exception
      */
-    protected function data_filter(array $list=null, array $where=[]): mixed
+    protected function data_filter(array|null $list=null, array $where=[]): mixed
     {
         return Filter::list($list)->where($where);
     }

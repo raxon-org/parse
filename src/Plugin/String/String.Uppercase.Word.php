@@ -3,7 +3,7 @@ namespace Plugin;
 
 trait String_Uppercase_Word {
 
-    protected function string_uppercase_word(string $string, string $delimiter=null): string
+    protected function string_uppercase_word(string $string, string|null $delimiter=null): string
     {
         if(empty($delimiter)){
             $result = ucwords($string);

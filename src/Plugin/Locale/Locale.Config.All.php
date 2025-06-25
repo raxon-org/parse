@@ -3,7 +3,7 @@ namespace Plugin;
 
 trait Locale_Config_All {
 
-    protected function locale_config_All(): array
+    protected function locale_config_all(): array
     {
         return localeconv();
     }

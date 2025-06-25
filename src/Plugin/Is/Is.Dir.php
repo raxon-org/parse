@@ -14,7 +14,7 @@ use Raxon\Module\Dir;
 
 trait Is_Dir {
 
-    protected function is_dir(string $url=null): bool
+    protected function is_dir(string|null $url=null): bool
     {
         return Dir::is($url);
     }

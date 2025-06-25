@@ -12,7 +12,7 @@ namespace Plugin;
 
 trait Is_Debug {
 
-    protected function is_debug(boolean $is_debug=null): bool
+    protected function is_debug(bool|null $is_debug=null): bool
     {
         $object = $this->object();
         if($is_debug === null){

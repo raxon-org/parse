@@ -6,7 +6,7 @@ use Raxon\Parse\Attribute\Argument;
 trait Block_Html {
 
     #[Argument(apply: "literal", count: 1, index:1)]
-    protected function block_html($value=null, string $name=''): string
+    protected function block_html(string|null $value=null, string $name=''): string
     {
         $data = $this->storage();
         $search = [" ", "\t", "\n", "\r", "\r\n"];

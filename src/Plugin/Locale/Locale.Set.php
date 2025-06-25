@@ -3,7 +3,7 @@ namespace Plugin;
 
 trait Locale_Set {
 
-    protected function locale_set(int | string $category, $locale=[]): bool | string
+    protected function locale_set(int|string $category, array|int|string $locale=[]): bool | string
     {
         if(is_string($category)){
             $category = constant($category);

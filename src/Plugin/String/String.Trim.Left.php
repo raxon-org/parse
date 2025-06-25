@@ -3,7 +3,7 @@ namespace Plugin;
 
 trait String_Trim_Left {
 
-    protected function string_trim_left(string $string='', string $mask=null): string
+    protected function string_trim_left(string $string='', string|null $mask=null): string
     {
         if($mask === null){
             $mask = " \t\n\r\0\x0B";

@@ -908,20 +908,32 @@ class Php {
                             }
                             if(!empty($before)){
                                 foreach($before as $line){
-                                    $foreach_before[] = str_replace($separator, ';', $line);
+                                    if($separator === null){
+                                        $foreach_before[] = $line;
+                                    } else {
+                                        $foreach_before[] = str_replace($separator, ';', $line);
+                                    }
                                 }
                                 $before = [];
                             }
                             if(!empty($after)){
                                 foreach($after as $line){
-                                    $foreach_after[] = str_replace($separator, ';', $line);
+                                    if($seperaror === null){
+                                        $foreach_after[] = $line;
+                                    } else {
+                                        $foreach_after[] = str_replace($separator, ';', $line);
+                                    }
                                 }
                                 $before = [];
                             }
                             $object->config('package.raxon/parse.build.state.remove_newline_next', true);
                             if(!empty($inline_before)){
                                 foreach($inline_before as $line){
-                                    $foreach_data[] = str_replace($separator, ';', $line);
+                                    if($separator === null){
+                                        $foreach_data[] = $line;
+                                    } else {
+                                        $foreach_data[] = str_replace($separator, ';', $line);
+                                    }
                                 }
                                 $inline_before = [];
                             }
@@ -929,11 +941,19 @@ class Php {
                             $foreach_content = PHP::document_tag($object, $flags, $options, $content[$category]['content']);
                             $separator = $object->config('package.raxon/parse.build.state.separator');
                             foreach($foreach_content as $line){
-                                $foreach_data[] = str_replace($separator,';', $line);
+                                if($separator === null){
+                                    $foreach_data[] = $line;
+                                } else {
+                                    $foreach_data[] = str_replace($separator, ';', $line);
+                                }
                             }
                             if(!empty($inline_after)){
                                 foreach($inline_after as $line){
-                                    $foreach_data[] = str_replace($separator, ';', $line);
+                                    if($separator === null){
+                                        $foreach_data[] = $line;
+                                    } else {
+                                        $foreach_data[] = str_replace($separator, ';', $line);
+                                    }
                                 }
                                 $inline_after = [];
                             }
@@ -3609,7 +3629,11 @@ class Php {
             $data = [];
             $data[] = 'try {';
             foreach($before as $line){
-                $data[] = str_replace($separator, ';', $line);
+                if($separator === null){
+                    $data[] = $line;
+                } else {
+                    $data[] = str_replace($separator, ';', $line);
+                }
             }
             $before = [];
             $data[] = $variable_uuid . ' = ' . $is_not . $value . ';';
@@ -3712,7 +3736,11 @@ class Php {
                 $root_uuid = Core::uuid_variable();
                 $separator = $object->config('package.raxon/parse.build.state.separator');
                 foreach($before as $line){
-                    $data[] = str_replace($separator, ';', $line);
+                    if($separator === null){
+                        $data[] = $line;
+                    } else {
+                        $data[] = str_replace($separator, ';', $line);
+                    }
                 }
                 $before = [];
                 $data[] = $root_uuid . ' = $data->get(\'' . $record['variable']['name'] . '\');';
@@ -4088,7 +4116,11 @@ class Php {
                     $separator = $object->config('package.raxon/parse.build.state.separator');
                     $result[] = 'try {';
                     foreach($before_value as $before_record){
-                        $result[] = str_replace($separator, ';', $before_record);
+                        if($separator === null){
+                            $result[] = $before_record;
+                        } else {
+                            $result[] = str_replace($separator, ';', $before_record);
+                        }
                     }
                 }
                 switch($operator){

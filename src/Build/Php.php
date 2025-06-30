@@ -2466,6 +2466,7 @@ class Php {
                 $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
                 $method_value .= ')';
                 if(str_contains($plugin,'implode')){
+                    d($method_value);
                     ddd($record);
                 }
                 return $method_value;

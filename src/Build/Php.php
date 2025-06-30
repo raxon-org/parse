@@ -654,6 +654,7 @@ class Php {
                                 throw new Exception('Not implemented, add as text...');
                             }
                         }
+                        d($text);
                         //need content variable
                         if(property_exists($options, 'variable')){
                             $data[] = $options->variable . '[] = \'' . str_replace([ '\\', '\''], ['\\\\', '\\\''], implode('', $text)) . '\';';

@@ -2460,11 +2460,14 @@ class Php {
             } else {
                 $plugin = Php::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
                 if(str_contains($plugin,'implode')){
-                    ddd($record);
+                    d($record);
                 }
                 $method_value = $plugin . '(';
                 $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
                 $method_value .= ')';
+                if(str_contains($plugin,'implode')){
+                    ddd($record);
+                }
                 return $method_value;
             }
         }

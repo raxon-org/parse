@@ -18,14 +18,17 @@ trait App_Controller_Host {
     /**
      * @throws Exception
      */
-    protected function app_controller_host(string $host): string
+    protected function app_controller_host(string | object $host): string
     {
-        $explode = explode('.', $host);
-        foreach($explode as $nr => $value){
-            $explode[$nr] = ucfirst($value);
-        }
-        $host = implode('.', $explode);
-        return $host;
-
+        if(is_object($host){
+            ddd($host);
+        }) else {
+            $explode = explode('.', $host);
+            foreach($explode as $nr => $value){
+                $explode[$nr] = ucfirst($value);
+            }
+            $host = implode('.', $explode);
+            return $host;
+        }    
     }
 }

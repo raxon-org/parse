@@ -3326,6 +3326,7 @@ class Php {
                 $record['type'] === 'whitespace'
             ){
                 $value .= $record['value'];
+                ddd($value);
             }
             elseif(array_key_exists('type', $record) &&
                 $record['type'] === 'symbol'

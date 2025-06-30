@@ -622,8 +622,7 @@ class Parse
                         $parse->local($index, $this->local($index));
                     }
                     $input->{$key} = $parse->compile($value, $parse_data);
-                    $data->set('this.' . $key, $input->{$key});
-                    d($key);
+                    $data->set('this.' . $key, $input->{$key});                    
                     $this->options($options);
                 }
 //                $temp = $this->storage();

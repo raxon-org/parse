@@ -2013,7 +2013,7 @@ class Php {
             $text = str_replace($single_quote_uuid, '\'', $text);
             $text = str_replace($backslash_uuid, '\\\\', $text);    
             $text = str_replace($variable_uuid, '$', $text);    
-            return$text;
+            return $text;
         }
         return false;
     }

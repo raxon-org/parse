@@ -20,9 +20,9 @@ trait App_Controller_Host {
      */
     protected function app_controller_host(string | object $host): string
     {
-        if(is_object($host){
+        if(is_object($host)){
             ddd($host);
-        }) else {
+        } else {
             $explode = explode('.', $host);
             foreach($explode as $nr => $value){
                 $explode[$nr] = ucfirst($value);

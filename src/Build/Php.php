@@ -3327,6 +3327,11 @@ class Php {
             ){
                 $value .= $record['value'];
             }
+            elseif(array_key_exists('type', $record) &&
+                $record['type'] === 'symbol'
+            ){
+                $value .= $record['value'];
+            }
             else {
                 d('not implemented');
                 ddd($record);

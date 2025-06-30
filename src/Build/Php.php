@@ -2459,6 +2459,9 @@ class Php {
                 return $method_value;
             } else {
                 $plugin = Php::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
+                if($plugin === 'implode'){
+                    ddd($record);
+                }
                 $method_value = $plugin . '(';
                 $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
                 $method_value .= ')';
@@ -3325,8 +3328,7 @@ class Php {
             elseif(array_key_exists('type', $record) &&
                 $record['type'] === 'whitespace'
             ){
-                $value .= $record['value'];
-                ddd($value);
+                $value .= $record['value'];                
             }
             elseif(array_key_exists('type', $record) &&
                 $record['type'] === 'symbol'

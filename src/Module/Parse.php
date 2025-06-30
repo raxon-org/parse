@@ -621,8 +621,9 @@ class Parse
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
                     }
-                    $input->{$key} = $parse->compile($value, $parse_data, $is_debug);
+                    $input->{$key} = $parse->compile($value, $parse_data);
                     $data->set('this.' . $key, $input->{$key});
+                    d($key);
                     $this->options($options);
                 }
 //                $temp = $this->storage();

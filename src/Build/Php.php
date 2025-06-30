@@ -3220,7 +3220,14 @@ class Php {
                     $record['is_raw'] === true
                 ) {
                     $value .= $record['value'];
-                } else {
+                }
+                elseif(array_key_exists('type', $record) &&
+                    $record['type'] === 'symbol'
+                ){
+                    $value .= $record['value'];
+                }
+                else {
+                    $value .= $record['value'];
                     d('not implemented');
                     ddd($record);
                 }

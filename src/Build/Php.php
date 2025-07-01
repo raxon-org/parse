@@ -2008,12 +2008,12 @@ class Php {
             $text = str_replace('\\&', $ampersand_uuid, $text);
             $text = str_replace('&quot;', $double_quote_uuid, $text);
             $text = str_replace('&apos;', $single_quote_uuid, $text);
-            $text = str_replace('\\', $backslash_uuid, $text);
+            // $text = str_replace('\\', $backslash_uuid, $text);
             // $text = str_replace('$', $variable_uuid, $text);
             $text = str_replace($ampersand_uuid, '&', $text);
             $text = str_replace($double_quote_uuid, '"', $text);
             $text = str_replace($single_quote_uuid, '\'', $text);
-            $text = str_replace($backslash_uuid, '\\\\', $text);    
+            // $text = str_replace($backslash_uuid, '\\\\', $text);    
             // $text = str_replace($variable_uuid, '$', $text);    
             return $text;
         }

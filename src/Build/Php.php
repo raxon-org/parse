@@ -657,10 +657,11 @@ class Php {
                         d($text);
                         //need content variable
                         if(property_exists($options, 'variable')){
-                            $data[] = $options->variable . '[] = \'' . str_replace([ '\\', '\''], ['\\\\', '\\\''], implode('', $text)) . '\';';
+                            $data[] = $options->variable . '[] = \'' . str_replace(['\''], ['\\\''], implode('', $text)) . '\';';
                         } else {
-                            $data[] = '$content[] = \'' . str_replace(['\\','\''], ['\\\\','\\\''], implode('', $text)) . '\';';
+                            $data[] = '$content[] = \'' . str_replace(['\''], ['\\\''], implode('', $text)) . '\';';
                         }
+                        d($data);
                         $is_literal = false;
                         continue;
                     }

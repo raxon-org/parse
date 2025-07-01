@@ -2458,18 +2458,10 @@ class Php {
                 }
                 return $method_value;
             } else {
-                $plugin = Php::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
-                if(str_contains($plugin,'implode')){
-                    d($record);
-                }
+                $plugin = Php::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));                
                 $method_value = $plugin . '(';
                 $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
-                $method_value .= ')';
-                if(str_contains($plugin,'implode')){
-                    d($before);
-                    d($method_value);
-                    ddd($record);
-                }
+                $method_value .= ')';                
                 return $method_value;
             }
         }

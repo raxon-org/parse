@@ -2603,6 +2603,7 @@ class Php {
 
                     foreach ($argument as $argument_nr => $argument_record) {
                         $value = Php::value($object, $flags, $options, $record, $argument_record, $is_set, $before,$after);
+                        d($value);
                         $uuid_variable = Core::uuid_variable();
                         $before[] = $uuid_variable . ' = ' . $value . ';';
                         if($attributes){
@@ -2639,7 +2640,7 @@ class Php {
                     $argument_attribute->count === '*'
                 ){
                     //all arguments are literal
-                    $argument = '\'' . str_replace(['\\','\''], ['\\\\', '\\\''], trim($argument['string'])) . '\'';
+                    $argument = '\'' . str_replace(['\''], ['\\\''], trim($argument['string'])) . '\'';
                 }
                 elseif(
                     property_exists($argument_attribute, 'apply') &&
@@ -2653,7 +2654,7 @@ class Php {
                     )
                 ){
                     //we have multiple indexes
-                    $argument = '\'' . str_replace(['\\','\''], ['\\\\', '\\\''], trim($argument['string'])) . '\'';
+                    $argument = '\'' . str_replace(['\''], ['\\\''], trim($argument['string'])) . '\'';
                 }
                 elseif (
                     property_exists($argument_attribute, 'apply') &&

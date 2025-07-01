@@ -654,14 +654,16 @@ class Php {
                                 throw new Exception('Not implemented, add as text...');
                             }
                         }
-                        d($text);
+                        $text_text = implode('', $text);
+                        if(substr($text_text, -1, 1) === '\\' && substr($text_text, -2, 2) !== '\\') {
+                            $text_text .= '\\';
+                        }
                         //need content variable
                         if(property_exists($options, 'variable')){
-                            $data[] = $options->variable . '[] = \'' . str_replace(['\''], ['\\\''], implode('', $text)) . '\';';
+                            $data[] = $options->variable . '[] = \'' . str_replace(['\''], ['\\\''], $text_text) . '\';';
                         } else {
-                            $data[] = '$content[] = \'' . str_replace(['\''], ['\\\''], implode('', $text)) . '\';';
-                        }
-                        d($data);
+                            $data[] = '$content[] = \'' . str_replace(['\''], ['\\\''], $text_text) . '\';';
+                        }                        
                         $is_literal = false;
                         continue;
                     }

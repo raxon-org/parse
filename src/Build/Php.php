@@ -2333,9 +2333,7 @@ class Php {
                     if($argument_count === 1){
                         foreach($record['method']['argument'] as $nr => $argument){
                             $object->config('package.raxon/parse.build.state.try_catch', false);
-                            $value = Php::value($object, $flags, $options, $record, $argument, $is_set, $before_while, $after_while);
-                            d($before_while);
-                            d($value);
+                            $value = Php::value($object, $flags, $options, $record, $argument, $is_set, $before_while, $after_while);                            
                             if(mb_strtolower($value) === 'null'){
                                 $value = '';
                             }
@@ -2665,7 +2663,7 @@ class Php {
                     $argument_attribute->index === $nr
                 ){
                     //we have a single index
-                    $argument = '\'' . str_replace(['\\','\''], ['\\\\', '\\\''], trim($argument['string'])) . '\'';
+                    $argument = '\'' . str_replace(['\''], ['\\\''], trim($argument['string'])) . '\'';
                 } else {
                     if(array_key_exists($nr, $argument_is_reference)){
                         $argument['array'][0]['is_reference'] = true;

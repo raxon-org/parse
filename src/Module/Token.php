@@ -22,6 +22,23 @@ class Token
             }
             return $input;
         }
+        $list = mb_str_split($input, 1);
+        $is_collect = false;
+        foreach($list as $nr => $char){
+            $next = $list[$nr + 1] ?? null;
+            if($char === '{' && $next === '{'){
+                $is_collect = true;
+                $tag = [];
+                continue;
+            }
+            if($char === '}' && $next === '}'){
+                breakpoint($tag);
+                $is_collect = false;
+            }
+            if($is_collect){
+                $tag[] = $char;
+            }
+        }
         ddd($input);
     }
 

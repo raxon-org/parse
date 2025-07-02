@@ -22,73 +22,12 @@ class Token
             }
             return $input;
         }
-        $list = mb_str_split($input, 1);
-        $is_collect = false;
-        $re_apply = false;
-        $skip = 0;
-        $is_literal = false;
-        $literal = [];
-        $tag = [];
-        foreach($list as $nr => $char){
-            if($skip > 0){
-                $skip--;
-                continue;
-            }
-            $next = $list[$nr + 1] ?? null;
-            if($is_literal !== false){
-                $literal[] = $char;
-            }
-            if($char === '{' && $next === '{'){
-                $is_collect = $nr;
-                $tag = [];
-                if($is_literal){
-                    $literal[] = $next;
-                }
-                $skip++;
-                continue;
-            }
-            if($char === '}' && $next === '}'){
-                $tag_string = trim(implode('', $tag));                
-                if($tag_string === 'literal'){
-                    $is_literal = $is_collect;
-                }
-                elseif($tag_string === '/literal'){
-                    array_pop($literal);
-                    array_pop($literal);
-                    array_pop($literal);
-                    array_pop($literal);
-                    array_pop($literal);
-                    array_pop($literal);
-                    array_pop($literal);
-                    array_pop($literal);
-                    array_pop($literal);
-                    array_pop($literal);
-                    array_pop($literal);
-                    $uuid = Core::uuid();
-                    $const = 'literal.'. $uuid;
-                    $object->data($const, implode('', $literal));
-                    $input_temp = substr($input, 0, $is_literal) . '{{$'. $const . '}}' . substr($input, $nr + 2);
-                    breakpoint($tag_string);
-                    breakpoint(implode('', $literal));
-                    breakpoint($input_temp);
-                    $re_apply = true;
-                    $is_literal = false;
-                    $literal = [];
-                    break;                    
-                }
-                $is_collect = false;
-                $skip++;
-                continue;
-            }
-            if($is_collect !== false){
-                $tag[] = $char;
-            }
+        $explode = explode('{{/literal}}', $input, 2);
+        if(!array_key_exists(1, $explode)){
+            return $input;
+        } else {
+            dd($explode);
         }
-        if($re_apply === true){
-            d($object->data('literal'));            
-            $input = Token::literal_apply($object, $flags, $options, $input);
-            breakpoint($input);
-        }        
         return $input;
     }
 

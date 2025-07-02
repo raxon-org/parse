@@ -52,6 +52,7 @@ class Token
                     $is_literal = true;
                 }
                 elseif($tag === '/literal'){
+                    $literal[] = $next;
                     ddd(implode('', $literal));
                     $is_literal = false;
                 }

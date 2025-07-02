@@ -730,8 +730,7 @@ class Parse
             Dir::create($dir, Dir::CHMOD);
             if($is_debug){
                 $input = Token::literal_apply($object, $flags, $options, $input);
-                d($object->data('literal'));
-                ddd($input);
+                d($object->data('literal'));                
             }
             
             $token = Token::tokenize($object, $flags, $options, $input);            

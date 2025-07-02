@@ -1208,8 +1208,7 @@ class Token
                                                 $array_notation = '';
                                                 $array_notation_array = [];
                                                 $has_variable_name = false;
-                                            } else {
-                                                dd($modifier_array);
+                                            } else {                                                
                                                 $variable = [
                                                     'is_define' => true,
                                                     'is_not' => $is_not,

@@ -63,13 +63,12 @@ class Token
                     array_pop($literal);
                     array_pop($literal);
                     array_pop($literal);
-                    $input = substr($input, 0, $is_literal) . '{{literal-1}}' . substr($input, $nr + 2);
-
-                    
-                    d($is_literal);
-                    d($input);
-                    ddd(implode('', $literal));
+                    $uuid = Core::uuid();
+                    $const = 'literal-'. $uuid;
+                    $object->data('literal.' . $const, implode('', $literal));
+                    $input = substr($input, 0, $is_literal) . '{{'. $const . '}}' . substr($input, $nr + 2);
                     $is_literal = false;
+                    $literal = [];
                 }
                 $is_collect = false;
                 $skip++;
@@ -79,7 +78,9 @@ class Token
                 $tag[] = $char;
             }
         }
-        ddd($input);
+        d($input);
+        ddd($object->data('literal'));
+        return $input;
     }
 
     /**

@@ -67,10 +67,10 @@ class Token
                     $uuid = Core::uuid();
                     $const = 'literal.'. $uuid;
                     $object->data($const, implode('', $literal));
-                    $input = substr($input, 0, $is_literal) . '{{$'. $const . '}}' . substr($input, $nr + 2);
+                    $input_temp = substr($input, 0, $is_literal) . '{{$'. $const . '}}' . substr($input, $nr + 2);
                     breakpoint($tag_string);
                     breakpoint(implode('', $literal));
-                    breakpoint($input);
+                    breakpoint($input_temp);
                     $re_apply = true;
                     $is_literal = false;
                     $literal = [];

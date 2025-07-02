@@ -67,7 +67,7 @@ class Token
                     $uuid = Core::uuid();
                     $const = 'literal-'. $uuid;
                     $object->data('literal.' . $const, implode('', $literal));
-                    $input = substr($input, 0, $is_literal) . '{{'. $const . '}}' . substr($input, $nr + 2);
+                    $input = substr($input, 0, $is_literal) . '{{$'. $const . '}}' . substr($input, $nr + 2);
                     $re_apply = true;
                     break;
                     // $is_literal = false;
@@ -85,7 +85,7 @@ class Token
             $input = Token::literal_apply($object, $flags, $options, $input);
         }
         d($input);
-        breakpoint($object->data('literal'));
+        d($object->data('literal'));
         return $input;
     }
 

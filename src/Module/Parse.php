@@ -728,6 +728,10 @@ class Parse
                 $object->config('ds')
             ;
             Dir::create($dir, Dir::CHMOD);
+            if($is_debug){
+                $input = Token::literal_apply($object, $flags, $options, $input);
+            }
+            
             $token = Token::tokenize($object, $flags, $options, $input);            
             if($is_debug){
                ddd($token);
@@ -793,6 +797,9 @@ class Parse
                     ]
                 ];
                 echo Core::object($output, Core::OBJECT_JSON) . PHP_EOL;
+            }
+            if($is_debug){
+                ddd($result);
             }
             return Parse::result($result);
         }

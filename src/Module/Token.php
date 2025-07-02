@@ -14,6 +14,17 @@ use Exception;
 class Token
 {
 
+    public static function literal_apply(App $object,$flags, $options,  $input=''): mixed
+    {
+        if(is_array($input)){
+            foreach($input as $nr => $record){
+                $input[$nr] = Token::literal_apply($object, $flags, $options, $record);
+            }
+            return $input;
+        }
+        ddd($input);
+    }
+
     /**
      * @throws Exception
      */

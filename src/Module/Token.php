@@ -14,7 +14,7 @@ use Exception;
 class Token
 {
 
-    public static function literal_apply(App $object,$flags, $options,  $input=''): mixed
+    public static function literal_apply(App $object, $flags, $options, $input=''): mixed
     {
         if(is_array($input)){
             foreach($input as $nr => $record){
@@ -68,6 +68,7 @@ class Token
                     $const = 'literal.'. $uuid;
                     $object->data($const, implode('', $literal));
                     $input = substr($input, 0, $is_literal) . '{{$'. $const . '}}' . substr($input, $nr + 2);
+                    breakpoint($input);
                     $re_apply = true;
                     $is_literal = false;
                     $literal = [];

@@ -63,7 +63,7 @@ class Token
                     array_pop($literal);
                     array_pop($literal);
                     array_pop($literal);
-                    $input = substr($input, 0, $is_literal) . 'literal-1' . substr($input, $nr + 1);
+                    $input = substr($input, 0, $is_literal) . '{{literal-1}}' . substr($input, $nr + 2);
 
                     
                     d($is_literal);

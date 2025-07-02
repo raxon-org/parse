@@ -36,7 +36,8 @@ class Token
                     '{{literal}}' . $literal . '{{/literal}}',
                     $variable,
                     $input
-                );                
+                ); 
+                $input = Token::literal_apply($object, $flags, $options, $input);               
             }            
         }
         return $input;

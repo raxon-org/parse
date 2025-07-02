@@ -48,7 +48,7 @@ class Token
                     $is_literal = true;
                 }
                 elseif($tag === '/literal'){
-                    ddd($literal);
+                    ddd(implode('', $literal));
                     $is_literal = false;
                 }
                 $is_collect = false;

@@ -24,6 +24,7 @@ class Token
         }
         $list = mb_str_split($input, 1);
         $is_collect = false;
+        $re_apply = false;
         $skip = 0;
         $is_literal = false;
         $literal = [];
@@ -67,8 +68,10 @@ class Token
                     $const = 'literal-'. $uuid;
                     $object->data('literal.' . $const, implode('', $literal));
                     $input = substr($input, 0, $is_literal) . '{{'. $const . '}}' . substr($input, $nr + 2);
-                    $is_literal = false;
-                    $literal = [];
+                    $re_apply = true;
+                    break;
+                    // $is_literal = false;
+                    // $literal = [];
                 }
                 $is_collect = false;
                 $skip++;
@@ -78,8 +81,11 @@ class Token
                 $tag[] = $char;
             }
         }
+        if($re_apply){
+            $input = Token::literal_apply($object, $flags, $options, $input);
+        }
         d($input);
-        ddd($object->data('literal'));
+        breakpoint($object->data('literal'));
         return $input;
     }
 

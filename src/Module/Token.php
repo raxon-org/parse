@@ -48,7 +48,7 @@ class Token
                 continue;
             }
             if($char === '}' && $next === '}'){
-                $tag_string = trim(implode('', $tag));
+                $tag_string = trim(implode('', $tag));                
                 if($tag_string === 'literal'){
                     $is_literal = $is_collect;
                 }
@@ -82,10 +82,10 @@ class Token
             }
         }
         if($re_apply === true){
+            d($object->data('literal'));
+            ddd($input);
             $input = Token::literal_apply($object, $flags, $options, $input);
-        }
-        d($input);
-        d($object->data('literal'));
+        }        
         return $input;
     }
 

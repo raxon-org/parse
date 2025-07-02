@@ -66,7 +66,7 @@ class Token
                     array_pop($literal);
                     $uuid = Core::uuid();
                     $const = 'literal-'. $uuid;
-                    $object->data('literal.' . $const, implode('', $literal));
+                    $object->data($const, implode('', $literal));
                     $input = substr($input, 0, $is_literal) . '{{$'. $const . '}}' . substr($input, $nr + 2);
                     $re_apply = true;
                     $is_literal = false;
@@ -85,7 +85,7 @@ class Token
             $input = Token::literal_apply($object, $flags, $options, $input);
         }
         d($input);
-        d($object->data('literal'));
+        d($object->data());
         return $input;
     }
 

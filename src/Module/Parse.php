@@ -728,9 +728,9 @@ class Parse
                 $object->config('ds')
             ;
             Dir::create($dir, Dir::CHMOD);
-            $token = Token::tokenize($object, $flags, $options, $input);
+            $token = Token::tokenize($object, $flags, $options, $input);            
             if($is_debug){
-//                d($token);
+               ddd($token);
             }
             $url_json = $dir . $options->class . $object->config('extension.json');
             File::write($url_json, Core::object($token, Core::OBJECT_JSON));

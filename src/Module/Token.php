@@ -34,11 +34,11 @@ class Token
                 continue;
             }
             $next = $list[$nr + 1] ?? null;
-            if($is_literal){
+            if($is_literal !== false){
                 $literal[] = $char;
             }
             if($char === '{' && $next === '{'){
-                $is_collect = true;
+                $is_collect = $nr;
                 $tag = [];
                 if($is_literal){
                     $literal[] = $next;
@@ -47,11 +47,11 @@ class Token
                 continue;
             }
             if($char === '}' && $next === '}'){
-                $tag = implode('', $tag);
-                if($tag === 'literal'){
-                    $is_literal = true;
+                $tag_string = trim(implode('', $tag));
+                if($tag_string === 'literal'){
+                    $is_literal = $is_collect;
                 }
-                elseif($tag === '/literal'){
+                elseif($tag_string === '/literal'){
                     array_pop($literal);
                     array_pop($literal);
                     array_pop($literal);
@@ -63,6 +63,7 @@ class Token
                     array_pop($literal);
                     array_pop($literal);
                     array_pop($literal);
+                    d($is_literal);
                     ddd(implode('', $literal));
                     $is_literal = false;
                 }
@@ -70,7 +71,7 @@ class Token
                 $skip++;
                 continue;
             }
-            if($is_collect){
+            if($is_collect !== false){
                 $tag[] = $char;
             }
         }

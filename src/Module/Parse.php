@@ -798,10 +798,7 @@ class Parse
                     ]
                 ];
                 echo Core::object($output, Core::OBJECT_JSON) . PHP_EOL;
-            }
-            if($is_debug){
-                ddd($result);
-            }
+            }            
             return Parse::result($result);
         }
         return null;

@@ -26,7 +26,8 @@ class Token
         if(!array_key_exists(1, $explode)){
             return $input;
         } else {
-            dd($explode);
+            $temp = explode('{{literal}}', $explode[0], 2);
+            dd($$temp);
         }
         return $input;
     }

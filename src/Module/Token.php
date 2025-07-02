@@ -82,9 +82,9 @@ class Token
             }
         }
         if($re_apply === true){
-            d($object->data('literal'));
-            ddd($input);
+            d($object->data('literal'));            
             $input = Token::literal_apply($object, $flags, $options, $input);
+            breakpoint($input);
         }        
         return $input;
     }

@@ -31,14 +31,13 @@ class Token
                 $literal = $temp[1];
                 $uuid = Core::uuid();
                 $variable = '{{$literal.' . $uuid . '}}';
+                $object->data('literal.' . $uuid, $literal);
                 $input = str_replace(
                     '{{literal}}' . $literal . '{{/literal}}',
                     $variable,
                     $input
-                );
-                ddd($input);
-            }
-            dd($temp);
+                );                
+            }            
         }
         return $input;
     }

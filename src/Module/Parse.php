@@ -730,12 +730,12 @@ class Parse
             Dir::create($dir, Dir::CHMOD);
             if($is_debug){
                 $input = Token::literal_apply($object, $flags, $options, $input);
-                d($object->data('literal'));                
+                // d($object->data('literal'));                
             }
             
             $token = Token::tokenize($object, $flags, $options, $input);            
             if($is_debug){
-               ddd($token);
+            //    ddd($token);
             }
             $url_json = $dir . $options->class . $object->config('extension.json');
             File::write($url_json, Core::object($token, Core::OBJECT_JSON));

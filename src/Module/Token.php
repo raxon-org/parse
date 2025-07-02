@@ -27,6 +27,15 @@ class Token
             return $input;
         } else {
             $temp = explode('{{literal}}', $explode[0], 2);
+            if(array_key_exists(1, $temp)){
+                $literal = $temp[1];
+                $input = str_replace(
+                    '{{literal}}' . $literal . '{{/literal}}',
+                    '',
+                    $input
+                );
+                ddd($input);
+            }
             dd($temp);
         }
         return $input;

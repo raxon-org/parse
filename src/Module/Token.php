@@ -69,9 +69,9 @@ class Token
                     $object->data('literal.' . $const, implode('', $literal));
                     $input = substr($input, 0, $is_literal) . '{{$'. $const . '}}' . substr($input, $nr + 2);
                     $re_apply = true;
-                    break;
-                    // $is_literal = false;
-                    // $literal = [];
+                    $is_literal = false;
+                    $literal = [];
+                    break;                    
                 }
                 $is_collect = false;
                 $skip++;

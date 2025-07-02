@@ -52,7 +52,17 @@ class Token
                     $is_literal = true;
                 }
                 elseif($tag === '/literal'){
-                    $literal[] = $next;
+                    array_pop($literal);
+                    array_pop($literal);
+                    array_pop($literal);
+                    array_pop($literal);
+                    array_pop($literal);
+                    array_pop($literal);
+                    array_pop($literal);
+                    array_pop($literal);
+                    array_pop($literal);
+                    array_pop($literal);
+                    array_pop($literal);
                     ddd(implode('', $literal));
                     $is_literal = false;
                 }

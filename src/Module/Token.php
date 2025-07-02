@@ -81,7 +81,7 @@ class Token
                 $tag[] = $char;
             }
         }
-        if($re_apply){
+        if($re_apply === true){
             $input = Token::literal_apply($object, $flags, $options, $input);
         }
         d($input);

@@ -25,12 +25,17 @@ class Token
         $list = mb_str_split($input, 1);
         $is_collect = false;
         $skip = 0;
+        $is_literal = false;
+        $literal = [];
         foreach($list as $nr => $char){
             if($skip > 0){
                 $skip--;
                 continue;
             }
             $next = $list[$nr + 1] ?? null;
+            if($is_literal){
+                $literal[] = $char;
+            }
             if($char === '{' && $next === '{'){
                 $is_collect = true;
                 $tag = [];
@@ -38,7 +43,14 @@ class Token
                 continue;
             }
             if($char === '}' && $next === '}'){
-                breakpoint(implode($tag));
+                $tag = implode('', $tag);
+                if($tag === 'literal'){
+                    $is_literal = true;
+                }
+                elseif($tag === '/literal'){
+                    ddd($literal);
+                    $is_literal = false;
+                }
                 $is_collect = false;
             }
             if($is_collect){

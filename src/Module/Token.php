@@ -68,7 +68,8 @@ class Token
                     $const = 'literal.'. $uuid;
                     $object->data($const, implode('', $literal));
                     $input = substr($input, 0, $is_literal) . '{{$'. $const . '}}' . substr($input, $nr + 2);
-                    breakpoint($literal);
+                    breakpoint($tag_string);
+                    breakpoint(implode('', $literal));
                     breakpoint($input);
                     $re_apply = true;
                     $is_literal = false;

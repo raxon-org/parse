@@ -67,6 +67,8 @@ class Token
                     $is_literal = false;
                 }
                 $is_collect = false;
+                $skip++;
+                continue;
             }
             if($is_collect){
                 $tag[] = $char;

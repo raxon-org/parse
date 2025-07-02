@@ -27,7 +27,7 @@ class Token
             return $input;
         } else {
             $temp = explode('{{literal}}', $explode[0], 2);
-            dd($$temp);
+            dd($temp);
         }
         return $input;
     }

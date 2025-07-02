@@ -27,6 +27,7 @@ class Token
         $skip = 0;
         $is_literal = false;
         $literal = [];
+        $tag = [];
         foreach($list as $nr => $char){
             if($skip > 0){
                 $skip--;
@@ -39,6 +40,9 @@ class Token
             if($char === '{' && $next === '{'){
                 $is_collect = true;
                 $tag = [];
+                if($is_literal){
+                    $literal[] = $next;
+                }
                 $skip++;
                 continue;
             }

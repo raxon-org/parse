@@ -2461,6 +2461,7 @@ class Php {
                 }
                 return $method_value;
             } else {
+                d($record);
                 $plugin = Php::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));                
                 $method_value = $plugin . '(';
                 $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);

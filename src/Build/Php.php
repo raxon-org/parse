@@ -922,7 +922,7 @@ class Php {
                             }
                             if(!empty($after)){
                                 foreach($after as $line){
-                                    if($seperaror === null){
+                                    if($separator === null){
                                         $foreach_after[] = $line;
                                     } else {
                                         $foreach_after[] = str_replace($separator, ';', $line);
@@ -2832,8 +2832,14 @@ class Php {
                     //this one breakpoint is wrong, it should not contain controller
                     $autoload = $object->data(App::AUTOLOAD_RAXON);
                     //maybe prepend here
-                    $autoload->addPrefix('Plugin', $object->config('controller.dir.plugin'));
-                    $autoload->addPrefix('Plugin', $object->config('project.dir.plugin'));
+                    $controller_dir_plugin = $object->config('controller.dir.plugin');
+                    if($controller_dir_plugin){
+                        $autoload->addPrefix('Plugin', $controller_dir_plugin);
+                    }
+                    $project_dir_plugin = $object->config('project.dir.plugin');
+                    if($project_dir_plugin){
+                        $autoload->addPrefix('Plugin', $project_dir_plugin);
+                    }                    
                     $location = $autoload->locate($use_plugin, false,  Autoload::MODE_LOCATION);
                     $exist = false;
                     $locate_exception = [];

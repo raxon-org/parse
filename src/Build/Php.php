@@ -1797,6 +1797,7 @@ class Php {
                         $is_literal === false &&
                         array_key_exists('method', $record)
                     ){
+                        d($record);
                         $method = Php::method($object, $flags, $options, $record, $before, $after);
                         if(!empty($before)){
                             $separator = $object->config('package.raxon/parse.build.state.separator');

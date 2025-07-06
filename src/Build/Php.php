@@ -3191,7 +3191,9 @@ class Php {
                                         }                                    
                                     }
                                     $collect[] = $next;
-                                }                                                                                                                
+                                }
+                                d($set_depth);
+                                ddd($collect);                                                                                                                
                             } else {
                                 ddd($next);
                             }                            

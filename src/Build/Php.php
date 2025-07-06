@@ -3179,6 +3179,7 @@ class Php {
                             ){                                
                                 $is_collect = true;
                                 $set_depth++;
+                                continue;
                             }
                             elseif(
                                 $is_collect === true && 
@@ -3191,6 +3192,7 @@ class Php {
                                     ddd($collect);
                                     $collect = [];
                                 }
+                                continue;
                             }
                             else {
                                 ddd($next);

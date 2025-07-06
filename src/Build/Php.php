@@ -3191,15 +3191,12 @@ class Php {
                                     }
                                     $collect[] = $next;
                                 }                                                                                                                
-                            }
-                            else
-                            else {
+                            } else {
                                 ddd($next);
-                            }
-                            if($is_collect === false){
-                                $skip++;
-                                $value = Php::value_calculate($object, $flags, $options, $record['value'], $value, $right);
                             }                            
+                            $skip++;
+                            $value = Php::value_calculate($object, $flags, $options, $record['value'], $value, $right);
+                                                        
                         }
                         break;
                 }

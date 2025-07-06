@@ -3186,11 +3186,15 @@ class Php {
                                     ){                                                                                                
                                         $set_depth--;
                                         if($set_depth === 0){                                            
-                                            ddd($collect);
+                                            $collect[] = $next;
+                                            break;
                                         }                                    
                                     }
                                     $collect[] = $next;
                                 }
+                                $right = Php::value($object, $flags, $options, $tag, $collect, $is_set_right, $before, $after);
+                                d($right);
+                                d($is_set_right);
                                 d($set_depth);
                                 ddd($collect);                                                                                                                
                             } else {

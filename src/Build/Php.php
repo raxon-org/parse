@@ -3095,11 +3095,18 @@ class Php {
                     default:
                         $next = $input['array'][$nr + 1] ?? null;
                         $right = null;
+                        $set_depth = 0;
+                        $is_collect = false;
+                        $collect = [];
                         if($next){
-                            if(array_key_exists('is_single_quoted', $next)){
+                            if(
+                                $is_collect === false && 
+                                array_key_exists('is_single_quoted', $next)
+                            ){
                                 $right = $next['value'];
                             }
                             elseif(
+                                $is_collect === false && 
                                 array_key_exists('type', $next) &&
                                 $next['type'] === 'variable'
                             ){
@@ -3109,6 +3116,7 @@ class Php {
                                 $right = $uuid_variable;
                             }
                             elseif(
+                                $is_collect === false && 
                                 array_key_exists('type', $next) &&
                                 $next['type'] === 'method'
                             ){
@@ -3118,6 +3126,7 @@ class Php {
                                 $right = $uuid_variable;
                             }
                             elseif(
+                                $is_collect === false && 
                                 array_key_exists('type', $next) &&
                                 in_array(
                                     $next['type'],
@@ -3131,6 +3140,7 @@ class Php {
                                 $right = $next['execute'];
                             }
                             elseif(
+                                $is_collect === false && 
                                 array_key_exists('type', $next) &&
                                 in_array(
                                     $next['type'],
@@ -3143,6 +3153,7 @@ class Php {
                                 $right = $next['value'];
                             }
                             elseif(
+                                $is_collect === false && 
                                 array_key_exists('type', $next) &&
                                 in_array(
                                     $next['type'],
@@ -3159,6 +3170,26 @@ class Php {
                                     $right = $next['value'];
                                 } else {
                                     $right = $next['value'];
+                                }
+                            }
+                            elseif(
+                                $is_collect === false && 
+                                array_key_exists('value', $next) &&
+                                $next['value'] === '('
+                            ){                                
+                                $is_collect = true;
+                                $set_depth++;
+                            }
+                            elseif(
+                                $is_collect === true && 
+                                array_key_exists('value', $next) &&
+                                $next['value'] === ')'
+                            ){                                                                                                
+                                $set_depth--;
+                                if($set_depth === 0){
+                                    $is_collect = false;
+                                    ddd($collect);
+                                    $collect = [];
                                 }
                             }
                             else {

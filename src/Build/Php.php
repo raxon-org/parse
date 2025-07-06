@@ -3390,7 +3390,16 @@ class Php {
             ){
                 $value .= $record['value'];
             }
-            else {
+            elseif(
+                    array_key_exists('type', $record) &&
+                    $record['type'] === 'set'
+            ){
+                $set = [
+                    'string' => $record['value'],
+                    'array' => $record['array']
+                ];
+                $value .= Php::value($object, $flags, $options, $tag, $set, $is_set_right, $before, $after);                                                                                                                                               
+            } else {
                 d('not implemented');
                 ddd($record);
             }

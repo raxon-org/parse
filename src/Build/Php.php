@@ -2910,7 +2910,7 @@ class Php {
         $source = $options->source ?? '';
         $value = '';
         $skip = 0;
-        $input = Php::value_set($object, $flags, $options, $input, $is_set);
+        $input = Php::value_set($object, $flags, $options, $input, $is_set, $count);
         $input = Variable::modifier($object, $flags, $options, $input, $tag);
         foreach ($input['array'] as $nr => $record) {
             if($record === null){
@@ -3094,19 +3094,14 @@ class Php {
                         break;
                     default:
                         $next = $input['array'][$nr + 1] ?? null;
-                        $right = null;
-                        $set_depth = 0;
-                        $is_collect = false;
-                        $collect = [];
+                        $right = null;                        
                         if($next){
-                            if(
-                                $is_collect === false && 
+                            if(                                
                                 array_key_exists('is_single_quoted', $next)
                             ){
                                 $right = $next['value'];
                             }
-                            elseif(
-                                $is_collect === false && 
+                            elseif(                                
                                 array_key_exists('type', $next) &&
                                 $next['type'] === 'variable'
                             ){
@@ -3115,8 +3110,7 @@ class Php {
                                 $before[] = '$data->set(\'' . substr($uuid_variable, 1) . '\', ' . $uuid_variable . ');';
                                 $right = $uuid_variable;
                             }
-                            elseif(
-                                $is_collect === false && 
+                            elseif(                                
                                 array_key_exists('type', $next) &&
                                 $next['type'] === 'method'
                             ){
@@ -3125,8 +3119,7 @@ class Php {
                                 $before[] = $uuid_variable . ' = ' . Php::method($object, $flags, $options, $next, $before, $after) . ';';
                                 $right = $uuid_variable;
                             }
-                            elseif(
-                                $is_collect === false && 
+                            elseif(                                
                                 array_key_exists('type', $next) &&
                                 in_array(
                                     $next['type'],
@@ -3139,8 +3132,7 @@ class Php {
                             ){
                                 $right = $next['execute'];
                             }
-                            elseif(
-                                $is_collect === false && 
+                            elseif(                                
                                 array_key_exists('type', $next) &&
                                 in_array(
                                     $next['type'],
@@ -3152,8 +3144,7 @@ class Php {
                             ){
                                 $right = $next['value'];
                             }
-                            elseif(
-                                $is_collect === false && 
+                            elseif(                                
                                 array_key_exists('type', $next) &&
                                 in_array(
                                     $next['type'],
@@ -3172,25 +3163,36 @@ class Php {
                                     $right = $next['value'];
                                 }
                             }
-                            elseif(
-                                $is_collect === false && 
+                            elseif(                                
                                 array_key_exists('value', $next) &&
                                 $next['value'] === '('
-                            ){                                
-                                $is_collect = true;                                
+                            ){           
+                                $set_depth = 1;              
+                                $collect = [];       
+                                for($i = $nr+1; $i < $count - 1; $i++){
+                                    $next = $input['array'][$i] ?? null;
+                                    if($next === null){
+                                        break;
+                                    }
+                                    elseif(                                       
+                                        array_key_exists('value', $next) &&
+                                        $next['value'] === '('
+                                    ){                                                                                                
+                                        $set_depth++;                                                        
+                                    }
+                                    elseif(                                       
+                                        array_key_exists('value', $next) &&
+                                        $next['value'] === ')'
+                                    ){                                                                                                
+                                        $set_depth--;
+                                        if($set_depth === 0){                                            
+                                            ddd($collect);
+                                        }                                    
+                                    }
+                                    $collect[] = $next;
+                                }                                                                                                                
                             }
-                            elseif(
-                                $is_collect === true && 
-                                array_key_exists('value', $next) &&
-                                $next['value'] === ')'
-                            ){                                                                                                
-                                $set_depth--;
-                                if($set_depth === 0){
-                                    $is_collect = false;
-                                    ddd($collect);
-                                    $collect = [];
-                                }                                
-                            }
+                            else
                             else {
                                 ddd($next);
                             }
@@ -3381,7 +3383,7 @@ class Php {
         return $value;
     }
 
-    public static function value_set(App $object, $flags, $options, $input, &$is_set=false): array
+    public static function value_set(App $object, $flags, $options, $input, &$is_set=false, &$count=0): array
     {
 //        d($input);
         if(!array_key_exists('array', $input)){

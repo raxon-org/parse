@@ -3182,15 +3182,14 @@ class Php {
                                         $next['value'] === '('
                                     ){                                                                                                
                                         $set_depth++;                                                        
+                                        continue;
                                     }
                                     elseif(                                       
                                         array_key_exists('value', $next) &&
                                         $next['value'] === ')'
                                     ){                                                                                                
                                         $set_depth--;
-                                        if($set_depth === 0){                                            
-                                            $collect['string'] .= $next['tag'] ?? $next['execute'] ?? $next['value'] ?? '';
-                                            $collect['array'][] = $next;
+                                        if($set_depth === 0){                                                                                        
                                             break;
                                         }                                    
                                     }

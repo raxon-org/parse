@@ -2909,8 +2909,7 @@ class Php {
     {
         $source = $options->source ?? '';
         $value = '';
-        $skip = 0;
-        d($input);
+        $skip = 0;        
         $input = Php::value_set($object, $flags, $options, $input, $is_set, $count);
         $input = Variable::modifier($object, $flags, $options, $input, $tag);
         foreach ($input['array'] as $nr => $record) {
@@ -3169,7 +3168,10 @@ class Php {
                                 $next['value'] === '('
                             ){           
                                 $set_depth = 0;              
-                                $collect = [];                                       
+                                $collect = [
+                                    'string' => '',
+                                    'array' => [],
+                                ];                                       
                                 for($i = $nr+1; $i <= $count - 1; $i++){
                                     $next = $input['array'][$i] ?? null;
                                     if($next === null){
@@ -3191,7 +3193,8 @@ class Php {
                                             break;
                                         }                                    
                                     }
-                                    $collect[] = $next;
+                                    $collect['string'] .= $next['tag'] ?? $next['execute'] ?? $next['value'] ?? '';
+                                    $collect['array'][] = $next;
                                 }
                                 $right = Php::value($object, $flags, $options, $tag, $collect, $is_set_right, $before, $after);
                                 d($right);

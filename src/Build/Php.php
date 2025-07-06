@@ -3196,11 +3196,7 @@ class Php {
                                     $collect['string'] .= $next['tag'] ?? $next['execute'] ?? $next['value'] ?? '';
                                     $collect['array'][] = $next;
                                 }
-                                $right = Php::value($object, $flags, $options, $tag, $collect, $is_set_right, $before, $after);
-                                d($right);
-                                d($is_set_right);
-                                d($set_depth);
-                                ddd($collect);                                                                                                                
+                                $right = Php::value($object, $flags, $options, $tag, $collect, $is_set_right, $before, $after);                                                                                                                                               
                             } else {
                                 ddd($next);
                             }                            

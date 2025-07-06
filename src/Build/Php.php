@@ -3168,8 +3168,9 @@ class Php {
                                 $next['value'] === '('
                             ){           
                                 $set_depth = 1;              
-                                $collect = [];       
-                                for($i = $nr+1; $i < $count - 1; $i++){
+                                $collect = [];  
+                                $collect[] = $next;     
+                                for($i = $nr+1; $i <= $count - 1; $i++){
                                     $next = $input['array'][$i] ?? null;
                                     if($next === null){
                                         break;

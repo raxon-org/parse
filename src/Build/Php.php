@@ -2116,8 +2116,7 @@ class Php {
                 else {
                     $method_value = $record['method']['name']  . '(';
                 }
-                if($record['method']['name'] === 'for'){
-                    ddd($record);
+                if($record['method']['name'] === 'for'){                    
                     $method_value = [];
                     $is_argument = false;
                     $argument_count = count($record['method']['argument']);
@@ -2145,6 +2144,7 @@ class Php {
                         }
                         $method_value[2] = str_replace($separator_uuid, ',', $method_value[2]);
                         $method_value[2] = substr($method_value[2], 0, -1);
+                        ddd($method_value);
                         $before[] = str_replace($separator_uuid, ';', $method_value[0]);
                         foreach($before_for as $line){
                             $before[] = str_replace($separator_uuid, ';', $line);

@@ -3177,9 +3177,7 @@ class Php {
                                 array_key_exists('value', $next) &&
                                 $next['value'] === '('
                             ){                                
-                                $is_collect = true;
-                                $set_depth++;
-                                continue;
+                                $is_collect = true;                                
                             }
                             elseif(
                                 $is_collect === true && 
@@ -3191,14 +3189,15 @@ class Php {
                                     $is_collect = false;
                                     ddd($collect);
                                     $collect = [];
-                                }
-                                continue;
+                                }                                
                             }
                             else {
                                 ddd($next);
                             }
-                            $skip++;
-                            $value = Php::value_calculate($object, $flags, $options, $record['value'], $value, $right);
+                            if($is_collect === false){
+                                $skip++;
+                                $value = Php::value_calculate($object, $flags, $options, $record['value'], $value, $right);
+                            }                            
                         }
                         break;
                 }

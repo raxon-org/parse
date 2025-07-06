@@ -2131,7 +2131,9 @@ class Php {
                             if($nr > 0){
                                 $object->config('package.raxon/parse.build.state.try_catch', false);
                             }
+                            d($argument);
                             $value = Php::value($object, $flags, $options, $record, $argument, $is_set, $before_for, $after_for);
+                            d($value);
                             if(mb_strtolower($value) === 'null'){
                                 $value = '';
                             }

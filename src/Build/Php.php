@@ -3167,9 +3167,8 @@ class Php {
                                 array_key_exists('value', $next) &&
                                 $next['value'] === '('
                             ){           
-                                $set_depth = 1;              
-                                $collect = [];  
-                                $collect[] = $next;     
+                                $set_depth = 0;              
+                                $collect = [];                                       
                                 for($i = $nr+1; $i <= $count - 1; $i++){
                                     $next = $input['array'][$i] ?? null;
                                     if($next === null){

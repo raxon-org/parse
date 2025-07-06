@@ -3171,7 +3171,8 @@ class Php {
                                 $collect = [
                                     'string' => '',
                                     'array' => [],
-                                ];                                       
+                                ];
+                                $set_count = 0;                                       
                                 for($i = $nr+1; $i <= $count - 1; $i++){
                                     $next = $input['array'][$i] ?? null;
                                     if($next === null){
@@ -3182,6 +3183,7 @@ class Php {
                                         $next['value'] === '('
                                     ){                                                                                                
                                         $set_depth++;                                                        
+                                        $set_count++;
                                         continue;
                                     }
                                     elseif(                                       
@@ -3189,20 +3191,22 @@ class Php {
                                         $next['value'] === ')'
                                     ){                                                                                                
                                         $set_depth--;
-                                        if($set_depth === 0){                                                                                        
+                                        if($set_depth === 0){     
+                                            $set_count++;                                                                                   
                                             break;
                                         }                                    
                                     }
                                     $collect['string'] .= $next['tag'] ?? $next['execute'] ?? $next['value'] ?? '';
                                     $collect['array'][] = $next;
+                                    $set_count++;
                                 }
                                 $right = Php::value($object, $flags, $options, $tag, $collect, $is_set_right, $before, $after);                                                                                                                                               
+                                $skip += $set_count;
                             } else {
                                 ddd($next);
                             }                            
                             $skip++;
-                            $value = Php::value_calculate($object, $flags, $options, $record['value'], $value, $right);
-                                                        
+                            $value = Php::value_calculate($object, $flags, $options, $record['value'], $value, $right);                                                        
                         }
                         break;
                 }

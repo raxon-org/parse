@@ -2910,6 +2910,7 @@ class Php {
         $source = $options->source ?? '';
         $value = '';
         $skip = 0;
+        d($input);
         $input = Php::value_set($object, $flags, $options, $input, $is_set, $count);
         $input = Variable::modifier($object, $flags, $options, $input, $tag);
         foreach ($input['array'] as $nr => $record) {

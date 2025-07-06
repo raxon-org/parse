@@ -3189,7 +3189,8 @@ class Php {
                                     ){                                                                                                
                                         $set_depth--;
                                         if($set_depth === 0){                                            
-                                            $collect[] = $next;
+                                            $collect['string'] .= $next['tag'] ?? $next['execute'] ?? $next['value'] ?? '';
+                                            $collect['array'][] = $next;
                                             break;
                                         }                                    
                                     }

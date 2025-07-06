@@ -2117,6 +2117,7 @@ class Php {
                     $method_value = $record['method']['name']  . '(';
                 }
                 if($record['method']['name'] === 'for'){
+                    ddd($record);
                     $method_value = [];
                     $is_argument = false;
                     $argument_count = count($record['method']['argument']);

@@ -851,7 +851,9 @@ class Php {
                                 $for_data[] = $line;
                             }
                             $for_data[] = '}';
-
+                            d($for_before);
+                            d($for_data);
+                            d($for_after);
                             foreach($for_before as $line){
                                 $data[] = $line;
                             }

@@ -21,6 +21,8 @@ trait Dd {
         if($options['trace'] === true){
             $source = $object->config('package.raxon/parse.build.state.source.url');
             $tag = $object->config('package.raxon/parse.build.state.tag');
+            d($source);
+            d($tag);
             if($source && $tag){
                 if(
                     is_object($tag) &&

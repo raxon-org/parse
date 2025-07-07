@@ -257,21 +257,7 @@ class Variable
                     if($current === '['){
                         $is_array_notation = true;
                         $array_depth++;
-                    }
-                    elseif(
-                        in_array(
-                            $current,
-                            [
-                                ' ',
-                                "\t",
-                                "\n",
-                                "\r"
-                            ],
-                            true
-                        )
-                    ){
-                        $is_array_notation = false;
-                    }
+                    }                    
                     if($is_array_notation === true){
                         $array_notation .= $current;
                         $array_notation_array[] = $current;

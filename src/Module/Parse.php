@@ -549,6 +549,7 @@ class Parse
                     );
                 }
                 */
+                d($input);
                 foreach($input as $key => $value){
                     if(
                         in_array(

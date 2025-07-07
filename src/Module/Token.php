@@ -792,8 +792,7 @@ class Token
                                                 $array_notation_array[] = $char;
                                                 $is_patched = true;
                                             }
-                                            if($next !== '['){
-                                                d($next);
+                                            if($next !== '['){                                                
                                                 //need to check on ] with depth = 1
                                                 $is_array_notation = false;
                                             }

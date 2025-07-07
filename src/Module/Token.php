@@ -793,6 +793,7 @@ class Token
                                                 $is_patched = true;
                                             }
                                             if($next !== '['){
+                                                d($next);
                                                 //need to check on ] with depth = 1
                                                 $is_array_notation = false;
                                             }

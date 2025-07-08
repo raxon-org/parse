@@ -1749,9 +1749,7 @@ class Php {
                             } else {
                                 $data[] = '$content[] =  "' . str_replace(['\\\\', '"'], ['\\\\\\\\','\"'], $text) . '";';
 //                                $data[] = '$content[] =  \'' . str_replace(['\\', '\''], ['\\\\', '\\\''], $text) . '\';';
-                            }
-                            d($text);
-                            d($data);
+                            }                            
                         }
                     }
                     elseif(

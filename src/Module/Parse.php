@@ -623,6 +623,7 @@ class Parse
                         $parse->local($index, $this->local($index));
                     }
                     d($value);
+                    d(Core::object($value, Core::JSON));
                     $input->{$key} = $parse->compile($value, $parse_data);
                     $data->set('this.' . $key, $input->{$key});                    
                     $this->options($options);

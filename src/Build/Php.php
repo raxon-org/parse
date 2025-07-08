@@ -1746,28 +1746,35 @@ class Php {
                             $text = Php::text($object, $flags, $options, $record);
                             //single quote to double quote transform
                             $text = str_replace(
-                                    [
-                                        '\\',
-                                        '"',  
-                                        '\\/',
-                                        '\\n',
-                                        '\\t',
-                                        '\\r',                              
-                                        '\\v', 
-                                        '\\0', 
-                                    ],
-                                    [
-                                        '\\\\',
-                                        '\"',
-                                        '\/',
-                                        '\n',
-                                        '\t',
-                                        '\r',
-                                        '\v',
-                                        '\0'
-                                    ],
-                                    $text
-                                );                                
+                                [
+                                    '\\',
+                                    '"',                               
+                                ],
+                                [
+                                    '\\\\',
+                                    '\"',                                    
+                                ],
+                                $text
+                            );    
+                            $text = str_replace(
+                                [
+                                    '\\/',
+                                    '\\n',
+                                    '\\t',
+                                    '\\r',                              
+                                    '\\v', 
+                                    '\\0',
+                                ],
+                                [
+                                    '\/',
+                                    '\n',
+                                    '\t',
+                                    '\r',
+                                    '\v',
+                                    '\0'
+                                ],
+                                $text
+                            );
                             if(property_exists($options, 'variable')){
                                 d($text);                                                            
                                 $data[] = $options->variable . '[] =  "' . $text . '";';

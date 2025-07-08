@@ -247,8 +247,7 @@ class Parse
      * @throws TemplateException
      */
     public function compile(mixed $input, array|object|null $data=null, $is_debug=false): mixed
-    {
-        d($input);
+    {        
         $start = microtime(true);
         if(is_array($data)){
             $data = new Data($data);
@@ -424,10 +423,7 @@ class Parse
                     }
                     $input[$key] = $parse->compile($value, $parse_data, $is_debug);
                 }
-                */
-                d($input);
-                d(Core::object($input, Core::JSON));
-                d(Core::object($input, Core::OBJECT_JSON_LINE));
+                */                
                 $json = Core::object($input, Core::OBJECT_JSON_LINE);
                 $hash = hash('sha256', $json);
                 $parse_options = (object) [];
@@ -777,7 +773,7 @@ class Parse
 //            trace();
             $main = new $run($object, $this, $data, $flags, $options);
             $result = $main->run();
-            d($result);
+            //d($result);
 //            d($url_php);
 //            d($data->get('script'));
 //            d($this->data()->get('script'));

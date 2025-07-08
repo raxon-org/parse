@@ -783,6 +783,7 @@ class Parse
 //            trace();
             $main = new $run($object, $this, $data, $flags, $options);
             $result = $main->run();
+            d($result);
 //            d($url_php);
 //            d($data->get('script'));
 //            d($this->data()->get('script'));

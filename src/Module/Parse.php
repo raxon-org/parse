@@ -425,6 +425,8 @@ class Parse
                 }
                 */
                 d($input);
+                d(Core::object($input, Core::JSON));
+                d(Core::object($input, Core::OBJECT_JSON_LINE));
                 $json = Core::object($input, Core::OBJECT_JSON_LINE);
                 $hash = hash('sha256', $json);
                 $parse_options = (object) [];

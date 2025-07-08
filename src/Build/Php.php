@@ -1750,6 +1750,8 @@ class Php {
                                 $data[] = '$content[] =  "' . str_replace(['"'], ['\"'], $text) . '";';
 //                                $data[] = '$content[] =  \'' . str_replace(['\\', '\''], ['\\\\', '\\\''], $text) . '\';';
                             }
+                            d($text);
+                            d($data);
                         }
                     }
                     elseif(
@@ -2008,13 +2010,13 @@ class Php {
             $variable_uuid = Core::uuid_variable();
             $text = str_replace('\\&', $ampersand_uuid, $text);
             $text = str_replace('&quot;', $double_quote_uuid, $text);
-            $text = str_replace('&apos;', $single_quote_uuid, $text);
-            // $text = str_replace('\\', $backslash_uuid, $text);
+            $text = str_replace('&apos;', $single_quote_uuid, $text);            
+            //$text = str_replace('\\', $backslash_uuid, $text);
             // $text = str_replace('$', $variable_uuid, $text);
             $text = str_replace($ampersand_uuid, '&', $text);
             $text = str_replace($double_quote_uuid, '"', $text);
             $text = str_replace($single_quote_uuid, '\'', $text);
-            // $text = str_replace($backslash_uuid, '\\\\', $text);    
+            //$text = str_replace($backslash_uuid, '\\\\', $text);    
             // $text = str_replace($variable_uuid, '$', $text);    
             return $text;
         }

@@ -552,8 +552,7 @@ class Parse
                         $property
                     );
                 }
-                */
-                d($input);
+                */                
                 foreach($input as $key => $value){
                     if(
                         in_array(
@@ -625,11 +624,7 @@ class Parse
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
-                    }
-                    d($value);
-                    if(!is_scalar($value)){
-                        d(Core::object($value, Core::JSON));
-                    }                    
+                    }                               
                     $input->{$key} = $parse->compile($value, $parse_data);
                     $data->set('this.' . $key, $input->{$key});                    
                     $this->options($options);

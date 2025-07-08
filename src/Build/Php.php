@@ -1744,10 +1744,33 @@ class Php {
                         }
                         else {
                             $text = Php::text($object, $flags, $options, $record);
+                            //single quote to double quote transform
+                            $text = str_replace(
+                                    [
+                                        '\\',
+                                        '"',  
+                                        '\\n',
+                                        '\\t',
+                                        '\\r',                              
+                                        '\\v', 
+                                        '\\0', 
+                                    ],
+                                    [
+                                        '\\\\',
+                                        '\"',
+                                        '\n',
+                                        '\t',
+                                        '\r',
+                                        '\v',
+                                        '\0'
+                                    ],
+                                    $text
+                                );                                
                             if(property_exists($options, 'variable')){
-                                $data[] = $options->variable . '[] =  "' . str_replace(['\\\\', '"'], ['\\\\\\\\', '\"'], $text) . '";';
+                                d($text);                                                            
+                                $data[] = $options->variable . '[] =  "' . $text . '";';
                             } else {
-                                $data[] = '$content[] =  "' . str_replace(['\\\\', '"'], ['\\\\\\\\','\"'], $text) . '";';
+                                $data[] = '$content[] =  "' . $text . '";';
 //                                $data[] = '$content[] =  \'' . str_replace(['\\', '\''], ['\\\\', '\\\''], $text) . '\';';
                             }                            
                         }

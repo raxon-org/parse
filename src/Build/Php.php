@@ -1747,7 +1747,7 @@ class Php {
                             if(property_exists($options, 'variable')){
                                 $data[] = $options->variable . '[] =  "' . str_replace(['"'], ['\"'], $text) . '";';
                             } else {
-                                $data[] = '$content[] =  "' . str_replace(['"'], ['\"'], $text) . '";';
+                                $data[] = '$content[] =  "' . str_replace(['\\\\', '"'], ['\\\\\\\\','\"'], $text) . '";';
 //                                $data[] = '$content[] =  \'' . str_replace(['\\', '\''], ['\\\\', '\\\''], $text) . '\';';
                             }
                             d($text);

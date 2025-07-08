@@ -248,6 +248,7 @@ class Parse
      */
     public function compile(mixed $input, array|object|null $data=null, $is_debug=false): mixed
     {
+        d($input);
         $start = microtime(true);
         if(is_array($data)){
             $data = new Data($data);

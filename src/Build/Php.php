@@ -1775,8 +1775,7 @@ class Php {
                                 ],
                                 $text
                             );
-                            if(property_exists($options, 'variable')){
-                                d($text);                                                            
+                            if(property_exists($options, 'variable')){                                                                                          
                                 $data[] = $options->variable . '[] =  "' . $text . '";';
                             } else {
                                 $data[] = '$content[] =  "' . $text . '";';

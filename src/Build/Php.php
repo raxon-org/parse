@@ -3299,6 +3299,7 @@ class Php {
                     array_key_exists('is_raw', $record) &&
                     $record['is_raw'] === true
                 ) {
+                    d($record);
                     $value .= $record['value'];
                 }
                 elseif(

@@ -436,6 +436,7 @@ class Parse
 //                    $data->set('this.#depth', $depth);
                 $parse_options->depth = $depth;
                 $parse_data = clone $data;
+                //need the limit from this parser...
                 $parse = new Parse($object, $parse_data, $flags, $parse_options);
                 for($index = $depth; $index >= 0; $index--){
                     $parse->local($index, $this->local($index));
@@ -469,6 +470,7 @@ class Parse
                 }
                 $parse_data = clone $data;                
                 $json = $parse->compile($json, $parse_data, $is_debug);                
+                d($json);
                 $input = Core::object($json, Core::OBJECT);
                 $data->set('this.' . $object->config('package.raxon/parse.object.this.key', null));
                 return $input;
@@ -617,6 +619,7 @@ class Parse
                     }
                     */
                     $parse_data = clone $data;
+                    //need the limit from this parser...
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));

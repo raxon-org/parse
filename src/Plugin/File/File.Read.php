@@ -8,6 +8,10 @@ trait File_Read {
     public function file_read(string|null $url=null, array $options=[]): array | string
     {
         $object = $this->object();
+        $url = str_replace('\\/', '/', $url, $count);
+        if($count > 0){
+            trace();
+        }
         if(File::exist($url)){
             $mtime = File::mtime($url);
             $require_disabled = $object->config('require.disabled');
@@ -33,8 +37,7 @@ trait File_Read {
                     $object->config('require.mtime', $require_mtime);
                 }
             }
-        }
-        //$url = str_replace('\\/', '/', $url);
+        }        
         d('file.read: '.  $url);
         $read = File::read($url, $options);
         d($read);

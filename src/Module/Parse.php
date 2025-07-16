@@ -271,8 +271,7 @@ class Parse
         $options->class = Build::class_name($options->source);
         if($is_debug){
             $object->config('package.raxon/parse.build.state.input.debug', true);
-        }
-        d($input);
+        }        
         /*
         if($object->config('package.raxon/parse.build.state.input.debug') === true){
             d($input);

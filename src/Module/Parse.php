@@ -621,11 +621,11 @@ class Parse
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
                     }
-                    if($key === 'content'){
+                    if($key === 'content' && !str_contains($value, '{{view(')){
                         d($value);
                     }                               
                     $input->{$key} = $parse->compile($value, $parse_data);
-                    if($key === 'content'){
+                    if($key === 'content'  && !str_contains($value, 'body')){
                         ddd($input);
                     }
                     $data->set('this.' . $key, $input->{$key});                    

@@ -551,6 +551,7 @@ class Method
                 }
             }
         }
+        d($input);
         return $input;
     }
 }

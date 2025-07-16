@@ -426,6 +426,36 @@ class Parse
                 */                                            
                 $json = Core::object($input, Core::OBJECT_JSON_LINE);
                 $json = str_replace(['\\/'],['/'], $json);
+                $json = str_replace(
+                    [
+                        '\\',
+                        '"',                               
+                    ],
+                    [
+                        '\\\\',
+                        '\"',                                    
+                    ],
+                    $json
+                );    
+                $json = str_replace(
+                    [
+                        '\\\\/',
+                        '\\\\n',
+                        '\\\\t',
+                        '\\\\r',                              
+                        '\\\\v', 
+                        '\\\\0',
+                    ],
+                    [
+                        '\/',
+                        '\n',
+                        '\t',
+                        '\r',
+                        '\v',
+                        '\0'
+                    ],
+                    $json
+                );
                 $hash = hash('sha256', $json);
                 $parse_options = (object) [];
                 $parse_options->source = 'Internal_' . $hash;

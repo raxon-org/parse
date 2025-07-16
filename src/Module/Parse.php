@@ -468,7 +468,9 @@ class Parse
                     }
                 }
                 $parse_data = clone $data;
+                d($json);
                 $json = $parse->compile($json, $parse_data, $is_debug);
+                d($json);
                 $input = Core::object($json, Core::OBJECT);
                 $data->set('this.' . $object->config('package.raxon/parse.object.this.key', null));
                 return $input;

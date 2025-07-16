@@ -621,7 +621,7 @@ class Parse
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
                     }
-                    if($key === 'content' && !str_contains($value, '{{view(')){
+                    if($key === 'content' && is_string($value) && !str_contains($value, '{{view(')){
                         d($value);
                     }                               
                     $input->{$key} = $parse->compile($value, $parse_data);

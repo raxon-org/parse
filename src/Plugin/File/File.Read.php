@@ -36,6 +36,7 @@ trait File_Read {
         }
         d('file.read: '.  $url);
         $read = File::read($url, $options);
+        d($read);
         return $read;
     }
 

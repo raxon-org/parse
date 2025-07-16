@@ -2629,6 +2629,7 @@ class Php {
                     foreach ($argument as $argument_nr => $argument_record) {
                         $value = Php::value($object, $flags, $options, $record, $argument_record, $is_set, $before,$after);                        
                         $uuid_variable = Core::uuid_variable();
+                        d($value);
                         $before[] = $uuid_variable . ' = ' . $value . ';';
                         if($attributes){
                             //need use_trait (config)

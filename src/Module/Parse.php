@@ -625,7 +625,7 @@ class Parse
                         d($value);
                     }                               
                     $input->{$key} = $parse->compile($value, $parse_data);
-                    if($key === 'content'  && !str_contains($value, 'body')){
+                    if($key === 'content'  && !is_object($value)){
                         ddd($input);
                     }
                     $data->set('this.' . $key, $input->{$key});                    

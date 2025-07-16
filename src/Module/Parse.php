@@ -620,14 +620,12 @@ class Parse
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
-                    }
-                    if($key === 'content' && is_string($value) && !str_contains($value, '{{view(')){
-                        d($value);
-                    }                               
+                    }                                    
                     $input->{$key} = $parse->compile($value, $parse_data);
-                    if($key === 'content'  && !is_object($value)){
+                    if(property_exists($input, 'role') && $input->role === 'user'){
+                        d($value);
                         ddd($input);
-                    }
+                    }                    
                     $data->set('this.' . $key, $input->{$key});                    
                     $this->options($options);
                 }

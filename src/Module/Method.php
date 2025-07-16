@@ -228,8 +228,7 @@ class Method
                                 $options,
                                 $argument_value,
                                 $tag
-                            );
-                            d($argument_value);
+                            );                            
                             $argument_list[$argument_nr] = $argument_value;
                             $argument_array = [];
                             $argument = '';

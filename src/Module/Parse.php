@@ -428,12 +428,10 @@ class Parse
                 $json = str_replace(['\\/'],['/'], $json);
                 $json = str_replace(
                     [
-                        '\\',
-                        '"',                               
+                        '\\',                                                    
                     ],
                     [
-                        '\\\\',
-                        '\"',                                    
+                        '\\\\',                                                           
                     ],
                     $json
                 );    

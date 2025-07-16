@@ -229,6 +229,7 @@ class Method
                                 $argument_value,
                                 $tag
                             );
+                            d($argument_value);
                             $argument_list[$argument_nr] = $argument_value;
                             $argument_array = [];
                             $argument = '';
@@ -550,8 +551,7 @@ class Method
                     $separator = $old_separator;
                 }
             }
-        }
-        d($input);
+        }        
         return $input;
     }
 }

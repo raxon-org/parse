@@ -1654,6 +1654,8 @@ class Php {
                                 }
                                 if($is_raw !== true) {
                                     $data[] = $options->variable . '[] = \'"\';';
+                                } else {
+                                    ddd($data);
                                 }
                             }
                             $object->config('delete', 'package.raxon/parse.build.state.is_raw');

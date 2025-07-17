@@ -1789,7 +1789,8 @@ class Php {
                             }                            
                             if(property_exists($options, 'variable')){                                  
                                 $data[] = $options->variable . '[] =  "' . $text . '";';
-                            } else {                                                                                                                                                        
+                            } else {     
+                                d($text);                                                                                                                                                   
                                 $data[] = '$content[] =  "' . $text . '";';
 //                                $data[] = '$content[] =  \'' . str_replace(['\\', '\''], ['\\\\', '\\\''], $text) . '\';';
                             }                            

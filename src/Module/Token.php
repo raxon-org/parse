@@ -108,7 +108,7 @@ class Token
             $tags = Tag::remove($object, $flags, $options, $tags);            
             $tags = Token::abstract_syntax_tree($object, $flags, $options, $tags);
             trace();
-            breakpoint($options);
+            d($options);
             d($tags);            
             $is_new = true;
         }

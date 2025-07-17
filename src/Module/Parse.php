@@ -831,4 +831,22 @@ class Parse
         }
         return $data->get($type);
     }
+
+    public function limit($limit=null): ?array
+    {
+        if($limit !== null){
+            $this->setLimit($limit);
+        }
+        return $this->getLimit();
+    }
+
+    public function setLimit($limit=null): void
+    {
+        $this->limit= $limit;
+    }
+
+    private function getLimit(): ?array
+    {
+        return $this->limit;
+    }
 }

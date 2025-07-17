@@ -243,8 +243,9 @@ class Tag
                 $is_double_quoted === true &&
                 $is_double_quoted_backslash === false &&
                 $previous !== '\\'
-            ){                
+            ){            
                 if($text !== ''){
+                    $text .= $char;
                     $explode = explode("\n", $text);
                     $count = count($explode);
                     $explode_tag = explode("\n", $tag);
@@ -283,8 +284,8 @@ class Tag
                             'line' => $line,
                             'length' => $length_start,
                             'column' => [
-                                'start' => $column[$line] - $length_start,
-                                'end' => $column[$line]
+                                'start' => $column[$line] - $length_start - mb_strlen($explode_tag[0]),
+                                'end' => $column[$line] - mb_strlen($explode_tag[0])
                             ]
                         ];
                         if(empty($tag_list[$line])){
@@ -292,19 +293,8 @@ class Tag
                         }
                         $tag_list[$line][] = $record;
                     }
-                    $record = [
-                        'text' => $char,
-                        'line' => $line,
-                        'length' => 1,
-                        'column' => [
-                            'start' => $column[$line],
-                            'end' => $column[$line] + 1
-                        ]
-                    ];
-                    $tag_list[$line][] = $record;
                     $text = '';
                     $is_double_quoted = false;
-                    $column[$line]++;
                     continue;
                 }
                 $is_double_quoted = false;

@@ -523,6 +523,7 @@ class Tag
                 // $is_double_quoted_backslash === false
             ){
                 $tag = '{{';                
+                d($text);
                 $text = mb_substr($text, 0, -1);
                 d($input);
                 d($is_double_quoted);

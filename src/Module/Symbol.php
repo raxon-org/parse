@@ -154,7 +154,7 @@ class Symbol
                 $is_single_quote === false
             ){
                 $is_double_quote_backslash = $nr;   
-                ddd($input[$previous_nr]);             
+                ddd($input);             
                 continue;
             }
             elseif(

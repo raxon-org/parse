@@ -526,6 +526,18 @@ class Tag
                 $text = mb_substr($text, 0, -1);                
             }
             elseif(
+                $tag === false &&
+                $char === '{' &&
+                $previous === '{' &&
+                $is_comment === false &&
+                $is_single_quoted === false && 
+                $is_double_quoted === true &&
+                $is_double_quoted_backslash === false
+            ){
+                $tag = '{{';                                
+                $text = mb_substr($text, 0, -1);                
+            }
+            elseif(
                 $tag !== false &&
                 $char === '}' &&
                 $previous === '}' &&

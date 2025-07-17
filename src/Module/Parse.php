@@ -423,7 +423,8 @@ class Parse
                     }
                     $input[$key] = $parse->compile($value, $parse_data, $is_debug);
                 }
-                */                                            
+                */            
+                d($input);                                
                 $json = Core::object($input, Core::OBJECT_JSON_LINE);
                 d($json);
                 //$json = str_replace(['\\/'],['/'], $json);

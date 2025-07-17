@@ -524,6 +524,7 @@ class Tag
             ){
                 $tag = '{{';
                 $text = mb_substr($text, 0, -1);
+                d($input);
                 d($text);
             }
             elseif(

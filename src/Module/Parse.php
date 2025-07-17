@@ -623,7 +623,8 @@ class Parse
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
-                    }                                                        
+                    }
+                    d($value);                                                        
                     $input->{$key} = $parse->compile($value, $parse_data);                    
                     $data->set('this.' . $key, $input->{$key});                    
                     $this->options($options);

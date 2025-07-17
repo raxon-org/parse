@@ -676,8 +676,7 @@ class Php {
                         $marker_data[$record['line']][] = $record['marker']['value']['array'][2] ?? [];
                         $object->config('package.raxon/parse.build.state.is_raw', true);
 
-                        ddd($data);
-
+                        array_pop($data);
                         $marker_data = Php::document_tag($object, $flags, $options, $marker_data);                        
                         foreach($marker_data as $line){
                             $data[] = $line;                            
@@ -1616,6 +1615,11 @@ class Php {
                         $is_literal === false &&
                         array_key_exists('text', $record)
                     ){
+                        $is_raw = $object->config('package.raxon/parse.build.state.is_raw'); 
+                        if($is_raw){
+                            d($record);
+                            ddd($data);
+                        }
                         if(
                             empty($record['text']) &&
                             $record['text'] !== '0' &&

@@ -264,6 +264,14 @@ class Token
         foreach($tags as $line => $tag){
             foreach($tag as $nr => $record){
                 if(
+                    array_key_exists('text', $record) && 
+                    property_exists($options, 'json') &&
+                    $options->json === true
+                ){
+                    d(json_decode($record['text']));
+                    dd($record);
+                }
+                elseif(
                     array_key_exists('tag', $record)
                 ){
                     $content = trim(mb_substr($record['tag'], 2, -2));

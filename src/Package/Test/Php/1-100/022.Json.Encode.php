@@ -6,4 +6,7 @@ $array = [
   ]
 ];
 
+$json = json_encode($array);
+
 var_dump($array);
+var_dump($json);

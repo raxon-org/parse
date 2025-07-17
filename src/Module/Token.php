@@ -1757,16 +1757,12 @@ class Token
         $hash = hash('sha256', $input['string']);
         if($cache->has($hash)){
             $input = $cache->get($hash);
-        } else {
-           d($input);
-            $input = Symbol::define($object, $flags, $options, $input);
-            d($input);
+        } else {           
+            $input = Symbol::define($object, $flags, $options, $input);            
 //            $input = Token::remove_comment($object, $flags, $options, $input);
 //            breakpoint($input);
-            $input = Cast::define($object, $flags, $options, $input);
-            d($input);
-            $input = Method::define($object, $flags, $options, $input, $tag);
-            d($input);
+            $input = Cast::define($object, $flags, $options, $input);            
+            $input = Method::define($object, $flags, $options, $input, $tag);            
 //            d($input);
             $input = Variable::define($object, $flags, $options, $input);
 //breakpoint($input);

@@ -219,7 +219,7 @@ class Value
                         }
                     }
                     $value = Value::basic($object, $flags, $options, $value);
-                    d($options);
+                    breakpoint($options);
                     d($value);
                     $input['array'][$is_double_quoted] = $value;
                     $input['array'][$is_double_quoted]['value'] = '"' . $value['execute'] . '"';
@@ -253,7 +253,7 @@ class Value
                         }
                     }
                     $value = Value::basic($object, $flags, $options, $value);
-                    d($options);
+                    breakpoint($options);
                     d($value);
                     $input['array'][$is_double_quoted] = $value;
                     $input['array'][$is_double_quoted]['value'] = '\"' . $value['execute'] . '\"';

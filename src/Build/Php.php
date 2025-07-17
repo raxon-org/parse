@@ -674,12 +674,12 @@ class Php {
                         $marker_data = [];
                         $marker_data[$record['line']] = [];
                         $marker_data[$record['line']][] = $record['marker']['value']['array'][2] ?? [];
+                        $object->config('package.raxon/parse.build.state.is_raw', true);
                         $marker_data = Php::document_tag($object, $flags, $options, $marker_data);                        
                         foreach($marker_data as $line){
                             $data[] = $line;
                             ddd($data);
-                        }
-                        $object->config('package.raxon/parse.build.state.is_raw', true);
+                        }                        
                         continue;
 //                        $method = Php::method($object, $flags, $options, $marker_data, $before, $after) . ';';
 //                        $data[] = $method;

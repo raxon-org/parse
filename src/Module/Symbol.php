@@ -165,8 +165,7 @@ class Symbol
                 $previous === '\\' &&
                 $is_single_quote === false &&
                 $is_double_quote_backslash !== false
-            ){
-                breakpoint('yes');
+            ){                
                 $string = '';
                 for($i = $is_double_quote_backslash; $i <= $nr; $i++){
                     $string .= $input['array'][$i];

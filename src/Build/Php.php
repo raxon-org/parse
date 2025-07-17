@@ -1779,7 +1779,9 @@ class Php {
                                 $text
                             );
                             $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
-                            d('israw:' . $is_raw);
+                            if($is_raw){
+                                ddd('found');
+                            }                            
                             if(property_exists($options, 'variable')){                                  
                                 $data[] = $options->variable . '[] =  "' . $text . '";';
                             } else {                                                                                                                                                        

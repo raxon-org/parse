@@ -151,7 +151,8 @@ class Symbol
             elseif(
                 $char === '"' &&
                 $previous === '\\' &&
-                $is_single_quote === false
+                $is_single_quote === false &&
+                $is_double_quote_backslash === false
             ){
                 $is_double_quote_backslash = $nr;   
                 $input['array'][$previous_nr] = null;

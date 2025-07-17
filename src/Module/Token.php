@@ -268,7 +268,7 @@ class Token
                     property_exists($options, 'json') &&
                     $options->json === true
                 ){
-                    d(json_decode($record['text']));
+                    d(substr(json_decode('"' . $record['text'] . '"'), 1, -1));
                     dd($record);
                 }
                 elseif(

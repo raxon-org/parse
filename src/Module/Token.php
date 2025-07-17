@@ -1307,8 +1307,7 @@ class Token
                         $method_hash = hash('sha256', 'method.' . $record['tag']);
                         if($cache->has($method_hash)){
                             $list = $cache->get($method_hash);
-                        } else {
-                            d($record);
+                        } else {                            
                             $tag_array = mb_str_split($record['tag'], 1);
                             $list = Token::value(
                                 $object,
@@ -1319,8 +1318,7 @@ class Token
                                     'array' => $tag_array
                                 ],
                                 $tag
-                            );
-                            d($list);
+                            );                            
                         }
                         if(
                             array_key_exists(0, $list['array']) &&

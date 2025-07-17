@@ -631,8 +631,7 @@ class Parse
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
-                    }
-                    d($value);                                                        
+                    }                                                             
                     $input->{$key} = $parse->compile($value, $parse_data);                    
                     $data->set('this.' . $key, $input->{$key});                    
                     $this->options($options);
@@ -743,8 +742,8 @@ class Parse
             $input = Token::literal_apply($object, $flags, $options, $input);            
             $token = Token::tokenize($object, $flags, $options, $input);                        
             if($is_debug){
-                d($input);
-                d($token);
+                // d($input);
+                // d($token);
             }            
             $url_json = $dir . $options->class . $object->config('extension.json');
             File::write($url_json, Core::object($token, Core::OBJECT_JSON));
@@ -756,12 +755,8 @@ class Parse
                     $object->config('extension.php')
                 ;
             }
-            trace();
-            breakpoint($options);
-//            d($token);
-//            d($url_php);
             $document = Build::create($object, $flags, $options, $token);
-            d($url_php);
+            // d($url_php);
             File::write($url_php, implode(PHP_EOL, $document));
             File::permission(
                 $object,

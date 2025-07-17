@@ -734,7 +734,8 @@ class Parse
             $input = Token::literal_apply($object, $flags, $options, $input);            
             $token = Token::tokenize($object, $flags, $options, $input);                        
             if($is_debug){
-               ddd($token);
+                d($input);
+                ddd($token);
             }
             $url_json = $dir . $options->class . $object->config('extension.json');
             File::write($url_json, Core::object($token, Core::OBJECT_JSON));

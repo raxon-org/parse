@@ -1643,7 +1643,7 @@ class Php {
                             $token = Php::document_tag_prepare($object, $flags, $options, $token);
                             $embed = Php::document_tag($object, $flags, $options, $token);
                             $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
-                            d($is_raw);
+                            d('israw:' . $is_raw);
 //                            d($embed);
                             if(property_exists($options, 'variable')){
                                 if($is_raw !== true){
@@ -1779,12 +1779,11 @@ class Php {
                                 ],
                                 $text
                             );
+                            $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
+                            d('israw:' . $is_raw);
                             if(property_exists($options, 'variable')){                                  
                                 $data[] = $options->variable . '[] =  "' . $text . '";';
-                            } else {
-                                $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
-                                d($is_raw);                                                                                        
-                                d($text);
+                            } else {                                                                                                                                                        
                                 $data[] = '$content[] =  "' . $text . '";';
 //                                $data[] = '$content[] =  \'' . str_replace(['\\', '\''], ['\\\\', '\\\''], $text) . '\';';
                             }                            

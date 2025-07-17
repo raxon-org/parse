@@ -1655,11 +1655,9 @@ class Php {
                                     $data[] = $line;
                                 }
                                 if($is_raw !== true) {
-                                    $data[] = $options->variable . '[] = \'"\';';
-                                    ddd($data);
+                                    $data[] = $options->variable . '[] = \'"\';';                                    
                                 }
-                            }
-                            d($data);
+                            }                            
                             $object->config('delete', 'package.raxon/parse.build.state.is_raw');
                             if($variable_old){
                                 $data[] = $variable_old . '[] = implode(\'\', ' . $options->variable . ');';

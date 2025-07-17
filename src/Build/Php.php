@@ -1789,8 +1789,7 @@ class Php {
                             }                            
                             if(property_exists($options, 'variable')){                                  
                                 $data[] = $options->variable . '[] =  "' . $text . '";';
-                            } else {     
-                                d($text);                                                                                                                                                   
+                            } else {                                                                                                                                                                                        
                                 $data[] = '$content[] =  "' . $text . '";';
 //                                $data[] = '$content[] =  \'' . str_replace(['\\', '\''], ['\\\\', '\\\''], $text) . '\';';
                             }                            
@@ -2010,6 +2009,7 @@ class Php {
                 }
             }
         }
+        d($data);
         return $data;
     }
 

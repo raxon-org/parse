@@ -671,11 +671,12 @@ class Php {
                         $marker_name === 'raw' &&
                         $is_literal === false
                     ){
-                        ddd($record);
+                        d($record);
                         $marker_data = [];
                         $marker_data[$record['line']] = [];
                         $marker_data[$record['line']][] = $record['marker']['value']['array'][2] ?? [];
                         $marker_data = Php::document_tag($object, $flags, $options, $marker_data);
+                        ddd($marker_data);
                         foreach($marker_data as $line){
                             $data[] = $line;
                         }

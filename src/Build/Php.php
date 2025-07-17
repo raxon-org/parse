@@ -1625,7 +1625,8 @@ class Php {
                         }
                         if(
                             substr($record['text'], 0, 1) === '"' &&
-                            substr($record['text'], -1) === '"'
+                            substr($record['text'], -1) === '"' &&
+                            mb_strlen($record['text']) > 1
                         ){
                             $variable_old = $options->variable ?? null;
                             $options->variable = Core::uuid_variable();

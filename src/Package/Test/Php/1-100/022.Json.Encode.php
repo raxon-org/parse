@@ -50,7 +50,7 @@ try {
     ];
     $data = new Data($app->data());    
     $parse = new Parse($app, $data, App::flags($app), $options);
-    $output = $parse->compile($json, $data);
+    $output = $parse->compile($json, $data, true);
     ddd($output);
 } catch (Exception | LocateException | ObjectException $exception) {
     echo $exception;

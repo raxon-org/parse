@@ -423,10 +423,8 @@ class Parse
                     }
                     $input[$key] = $parse->compile($value, $parse_data, $is_debug);
                 }
-                */            
-                d($input);                                
-                $json = Core::object($input, Core::OBJECT_JSON_LINE);
-                d($json);
+                */                            
+                $json = Core::object($input, Core::OBJECT_JSON_LINE);                
                 //$json = str_replace(['\\/'],['/'], $json);
                 $hash = hash('sha256', $json);
                 $parse_options = (object) [];
@@ -471,11 +469,9 @@ class Parse
                         $data->set($key_parent, $parentNode);
                     }
                 }
-                $parse_data = clone $data;                           
-                d($json);
+                $parse_data = clone $data;                                           
                 $json = $parse->compile($json, $parse_data, $is_debug);                                
-                $input = Core::object($json, Core::OBJECT);
-                d($input);
+                $input = Core::object($json, Core::OBJECT);                
                 $data->set('this.' . $object->config('package.raxon/parse.object.this.key', null));
                 return $input;
             }
@@ -738,7 +734,7 @@ class Parse
             $input = Token::literal_apply($object, $flags, $options, $input);            
             $token = Token::tokenize($object, $flags, $options, $input);                        
             if($is_debug){
-            //    ddd($token);
+               ddd($token);
             }
             $url_json = $dir . $options->class . $object->config('extension.json');
             File::write($url_json, Core::object($token, Core::OBJECT_JSON));

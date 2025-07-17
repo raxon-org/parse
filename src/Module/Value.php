@@ -594,7 +594,7 @@ class Value
                         ];
                     } else {
                         d($input);
-                        d($options);
+                        breakpoint($options);
                         return [
                             'type' => 'string',
                             'value' => $input,
@@ -604,7 +604,7 @@ class Value
                     }
                 } else {
                     d($input);
-                    d($options);
+                    breakpoint($options);
                     return [
                         'type' => 'string',
                         'value' => $input,

@@ -268,8 +268,14 @@ class Token
                     property_exists($options, 'json') &&
                     $options->json === true
                 ){
-                    d(substr(json_decode('"' . $record['text'] . '"'), 1, -1));
-                    dd($record);
+                    $split = mb_str_split($record['text'], 1);
+                    foreach($split as $split_nr => $char){
+                        $next = $split[$split_nr] ?? null;
+                        if($char ==='\\' && $next === '/'){
+                            $split[$split_nr] = null;
+                        }
+                    }
+                    $tags[$line][$nr]['text'] = implode('', $split);
                 }
                 elseif(
                     array_key_exists('tag', $record)

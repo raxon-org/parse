@@ -680,6 +680,7 @@ class Php {
                             $data[] = $line;
                             ddd($data);
                         }                        
+                        $object->config('delete', 'package.raxon/parse.build.state.is_raw');
                         continue;
 //                        $method = Php::method($object, $flags, $options, $marker_data, $before, $after) . ';';
 //                        $data[] = $method;
@@ -1642,9 +1643,7 @@ class Php {
                             $token = Token::tokenize($object, $flags, $options, substr($text, 1, -1));
                             $token = Php::document_tag_prepare($object, $flags, $options, $token);
                             $embed = Php::document_tag($object, $flags, $options, $token);
-                            $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
-                            d('israw:' . $is_raw);
-//                            d($embed);
+                            $is_raw = $object->config('package.raxon/parse.build.state.is_raw');                            
                             if(property_exists($options, 'variable')){
                                 if($is_raw !== true){
                                     $data[] = $options->variable . '[] = \'"\';';
@@ -1659,7 +1658,7 @@ class Php {
                                     $data[] = $options->variable . '[] = \'"\';';                                    
                                 }
                             }                            
-                            $object->config('delete', 'package.raxon/parse.build.state.is_raw');
+                            // $object->config('delete', 'package.raxon/parse.build.state.is_raw');
                             if($variable_old){
                                 $data[] = $variable_old . '[] = implode(\'\', ' . $options->variable . ');';
                                 $options->variable = $variable_old;

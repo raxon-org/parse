@@ -297,8 +297,8 @@ class Tag
                         'line' => $line,
                         'length' => 1,
                         'column' => [
-                            'start' => $column[$line] - 1 - mb_strlen($explode_tag[0]),
-                            'end' => $column[$line] - mb_strlen($explode_tag[0])
+                            'start' => $column[$line],
+                            'end' => $column[$line] + $record['length']
                         ]
                     ];
                     $tag_list[$line][] = $record;

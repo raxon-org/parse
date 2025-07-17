@@ -1777,6 +1777,9 @@ class Php {
                                 ],
                                 $text
                             );
+                            if(property_exists($options, 'json') && $options->json === true){
+                                ddd($text);
+                            }
                             d($text);
                             if(property_exists($options, 'variable')){                                                                                          
                                 $data[] = $options->variable . '[] =  "' . $text . '";';

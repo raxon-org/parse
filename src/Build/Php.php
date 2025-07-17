@@ -670,8 +670,7 @@ class Php {
                     elseif(
                         $marker_name === 'raw' &&
                         $is_literal === false
-                    ){
-                        d($record);
+                    ){                        
                         $marker_data = [];
                         $marker_data[$record['line']] = [];
                         $marker_data[$record['line']][] = $record['marker']['value']['array'][2] ?? [];

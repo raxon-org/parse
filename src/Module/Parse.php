@@ -432,6 +432,10 @@ class Parse
 //                    $options->source = 'internal_' . Core::uuid(); //wrong, hash should not be unique but referable
                 $parse_options->source_root = $options->source ?? 'source';
                 $parse_options->class = Build::class_name($parse_options->source);
+                /*
+                json setting needs to be triggered because of \/ in path names for example
+                */
+                $parse_options->json = true;
 //                    $this->parse_set_options($options);
 //                $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
 //                    $data->set('this.#depth', $depth);
@@ -469,10 +473,8 @@ class Parse
                         $data->set($key_parent, $parentNode);
                     }
                 }
-                $parse_data = clone $data;                  
-                d($json);                                         
-                $json = $parse->compile($json, $parse_data, $is_debug);  
-                d($json);                              
+                $parse_data = clone $data;                                                  
+                $json = $parse->compile($json, $parse_data, $is_debug);                  
                 $input = Core::object($json, Core::OBJECT);                
                 $data->set('this.' . $object->config('package.raxon/parse.object.this.key', null));
                 return $input;

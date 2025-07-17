@@ -244,6 +244,7 @@ class Tag
                 $is_double_quoted_backslash === false &&
                 $previous !== '\\'
             ){
+                ddd($text);
                 if($text !== ''){
                     $text .= $char;
                     $explode = explode("\n", $text);
@@ -306,7 +307,7 @@ class Tag
                 $is_double_quoted_backslash === false &&
                 $previous === '\\'
             ){
-                if($text !== ''){
+                if($text !== ''){                    
                     $text = substr($text, 0, -1);
                     $explode = explode("\n", $text);
                     $count = count($explode);

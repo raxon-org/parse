@@ -1993,7 +1993,7 @@ class Php {
                         $marker_data[] = $record;
                     } else {
                         d($content);
-                        d($record);
+                        d($record)  ;
 
                     }
                 }

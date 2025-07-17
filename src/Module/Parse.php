@@ -367,29 +367,27 @@ class Parse
                 }
                 //when parser array goes compiling then json stringify the state of the array to compile it one time instead of every single cell.
                 //we could even keep this working this way, because it stays the same in the array (except the key)
-                /*
-                foreach($input as $key => $value){
-//                    $temp_source = $options->source ?? 'source';
-//                    $temp_class = $options->class;
-                    if(is_scalar($value) || is_null($value)){
-                        if(is_string($value)){
-                            $hash = 'scalar_' . hash('sha256', $key . '_' . '{"scalar": "' . $value . '"}');
-                        } else {
-                            $hash = 'scalar_' . hash('sha256', $key . '_' . '{"scalar": ' . $value . '}');
-                        }
-                    } else {
-                        $hash = hash('sha256', $key . '_' . Core::object($value, Core::JSON_LINE));
-                    }
+                /*                
+                */    
+                
+                if(
+                    property_exists($options, 'array_fast') &&
+                    $options->array_fast === true
+                ){
+                    $json = Core::object($input, Core::OBJECT_JSON_LINE);                
+                    //$json = str_replace(['\\/'],['/'], $json);
+                    $hash = hash('sha256', $json);
                     $parse_options = (object) [];
                     $parse_options->source = 'Internal_' . $hash;
-//                    $options->source = 'internal_' . Core::uuid(); //wrong, hash should not be unique but referable
+    //                    $options->source = 'internal_' . Core::uuid(); //wrong, hash should not be unique but referable
                     $parse_options->source_root = $options->source ?? 'source';
                     $parse_options->class = Build::class_name($parse_options->source);
-//                    $this->parse_set_options($options);
-                    $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
-//                    $data->set('this.#depth', $depth);
+    //                    $this->parse_set_options($options);
+    //                $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
+    //                    $data->set('this.#depth', $depth);
                     $parse_options->depth = $depth;
                     $parse_data = clone $data;
+                    //need the limit from this parser...
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
@@ -421,57 +419,66 @@ class Parse
                             $data->set($key_parent, $parentNode);
                         }
                     }
-                    $input[$key] = $parse->compile($value, $parse_data, $is_debug);
-                }
-                */                            
-                $json = Core::object($input, Core::OBJECT_JSON_LINE);                
-                //$json = str_replace(['\\/'],['/'], $json);
-                $hash = hash('sha256', $json);
-                $parse_options = (object) [];
-                $parse_options->source = 'Internal_' . $hash;
-//                    $options->source = 'internal_' . Core::uuid(); //wrong, hash should not be unique but referable
-                $parse_options->source_root = $options->source ?? 'source';
-                $parse_options->class = Build::class_name($parse_options->source);
-//                    $this->parse_set_options($options);
-//                $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
-//                    $data->set('this.#depth', $depth);
-                $parse_options->depth = $depth;
-                $parse_data = clone $data;
-                //need the limit from this parser...
-                $parse = new Parse($object, $parse_data, $flags, $parse_options);
-                for($index = $depth; $index >= 0; $index--){
-                    $parse->local($index, $this->local($index));
-                }
-                if($depth === 0){
-                    $key_parent = 'this';
-                    $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
-                    $parentNode = $parse->local($depth);
-                    $data->set($key_parent, $parentNode);
-                    $key_parent = 'this';
-                    $key_parent .= '.' . $object->config('package.raxon/parse.object.this.rootNode');
-                    $data->set($key_parent, $parentNode);
+                    $parse_data = clone $data;                                  
+                    $json = $parse->compile($json, $parse_data, $is_debug);                                               
+                    $input = Core::object($json, Core::OBJECT);                                    
                 } else {
-                    $key_parent = 'this';
-                    for($index = $depth; $index >= 0; $index--){
-                        $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
-                        $parentNode = $parse->local($index);
-                        if(!property_exists($parentNode, $object->config('package.raxon/parse.object.this.property'))){
-                            $i = $index - 1;
-                            while($i >= 0){
-                                $parentParentNode = $parse->local($i);
-                                if(property_exists($parentParentNode, $object->config('package.raxon/parse.object.this.property'))){
-                                    $parentNode->{$object->config('package.raxon/parse.object.this.property')} = $parentParentNode->{$object->config('package.raxon/parse.object.this.property')};
-                                    break;
+                    foreach($input as $key => $value){
+    //                    $temp_source = $options->source ?? 'source';
+    //                    $temp_class = $options->class;
+                        if(is_scalar($value) || is_null($value)){
+                            if(is_string($value)){
+                                $hash = 'scalar_' . hash('sha256', $key . '_' . '{"scalar": "' . $value . '"}');
+                            } else {
+                                $hash = 'scalar_' . hash('sha256', $key . '_' . '{"scalar": ' . $value . '}');
+                            }
+                        } else {
+                            $hash = hash('sha256', $key . '_' . Core::object($value, Core::JSON_LINE));
+                        }
+                        $parse_options = (object) [];
+                        $parse_options->source = 'Internal_' . $hash;
+    //                    $options->source = 'internal_' . Core::uuid(); //wrong, hash should not be unique but referable
+                        $parse_options->source_root = $options->source ?? 'source';
+                        $parse_options->class = Build::class_name($parse_options->source);
+    //                    $this->parse_set_options($options);
+                        $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
+    //                    $data->set('this.#depth', $depth);
+                        $parse_options->depth = $depth;
+                        $parse_data = clone $data;
+                        $parse = new Parse($object, $parse_data, $flags, $parse_options);
+                        for($index = $depth; $index >= 0; $index--){
+                            $parse->local($index, $this->local($index));
+                        }
+                        if($depth === 0){
+                            $key_parent = 'this';
+                            $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
+                            $parentNode = $parse->local($depth);
+                            $data->set($key_parent, $parentNode);
+                            $key_parent = 'this';
+                            $key_parent .= '.' . $object->config('package.raxon/parse.object.this.rootNode');
+                            $data->set($key_parent, $parentNode);
+                        } else {
+                            $key_parent = 'this';
+                            for($index = $depth; $index >= 0; $index--){
+                                $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
+                                $parentNode = $parse->local($index);
+                                if(!property_exists($parentNode, $object->config('package.raxon/parse.object.this.property'))){
+                                    $i = $index - 1;
+                                    while($i >= 0){
+                                        $parentParentNode = $parse->local($i);
+                                        if(property_exists($parentParentNode, $object->config('package.raxon/parse.object.this.property'))){
+                                            $parentNode->{$object->config('package.raxon/parse.object.this.property')} = $parentParentNode->{$object->config('package.raxon/parse.object.this.property')};
+                                            break;
+                                        }
+                                        $i--;
+                                    }
                                 }
-                                $i--;
+                                $data->set($key_parent, $parentNode);
                             }
                         }
-                        $data->set($key_parent, $parentNode);
+                        $input[$key] = $parse->compile($value, $parse_data, $is_debug);
                     }
                 }
-                $parse_data = clone $data;                                  
-                $json = $parse->compile($json, $parse_data, $is_debug);                                               
-                $input = Core::object($json, Core::OBJECT);                
                 $data->set('this.' . $object->config('package.raxon/parse.object.this.key', null));
                 return $input;
             }

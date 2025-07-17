@@ -675,8 +675,7 @@ class Php {
                         $marker_data = [];
                         $marker_data[$record['line']] = [];
                         $marker_data[$record['line']][] = $record['marker']['value']['array'][2] ?? [];
-                        $marker_data = Php::document_tag($object, $flags, $options, $marker_data);
-                        ddd($marker_data);
+                        $marker_data = Php::document_tag($object, $flags, $options, $marker_data);                        
                         foreach($marker_data as $line){
                             $data[] = $line;
                         }
@@ -1659,6 +1658,7 @@ class Php {
                                     $data[] = $options->variable . '[] = \'"\';';
                                 }
                             }
+                            d($data);
                             $object->config('delete', 'package.raxon/parse.build.state.is_raw');
                             if($variable_old){
                                 $data[] = $variable_old . '[] = implode(\'\', ' . $options->variable . ');';

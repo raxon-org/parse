@@ -1625,8 +1625,7 @@ class Php {
                         }
                         if(
                             substr($record['text'], 0, 1) === '"' &&
-                            substr($record['text'], -1) === '"' &&
-                            mb_strlen($record['text']) > 1
+                            substr($record['text'], -1) === '"'
                         ){
                             $variable_old = $options->variable ?? null;
                             $options->variable = Core::uuid_variable();
@@ -1744,7 +1743,7 @@ class Php {
                             */
                         }
                         else {
-                            $text = Php::text($object, $flags, $options, $record);                            
+                            $text = Php::text($object, $flags, $options, $record);
                             //single quote to double quote transform
                             $text = str_replace(
                                 [
@@ -2630,7 +2629,6 @@ class Php {
                     foreach ($argument as $argument_nr => $argument_record) {
                         $value = Php::value($object, $flags, $options, $record, $argument_record, $is_set, $before,$after);                        
                         $uuid_variable = Core::uuid_variable();
-                        d($value);
                         $before[] = $uuid_variable . ' = ' . $value . ';';
                         if($attributes){
                             //need use_trait (config)
@@ -3300,7 +3298,6 @@ class Php {
                     array_key_exists('is_raw', $record) &&
                     $record['is_raw'] === true
                 ) {
-                    d($record);
                     $value .= $record['value'];
                 }
                 elseif(
@@ -3317,7 +3314,7 @@ class Php {
                         'string' => $record['value'],
                         'array' => $record['array']
                     ];
-                    $value .=  '(' . Php::value($object, $flags, $options, $tag, $set, $is_set_right, $before, $after) . ')';
+                    $value .= Php::value($object, $flags, $options, $tag, $set, $is_set_right, $before, $after);                                                                                                                                               
                 } else {
                     $value .= $record['value'];
                     d('not implemented');

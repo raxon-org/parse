@@ -1293,7 +1293,7 @@ class Token
                         if($cache->has($method_hash)){
                             $list = $cache->get($method_hash);
                         } else {
-                            breakpoint($record);
+                            d($record);
                             $tag_array = mb_str_split($record['tag'], 1);
                             $list = Token::value(
                                 $object,

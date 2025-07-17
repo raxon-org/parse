@@ -271,7 +271,7 @@ class Token
                     $split = mb_str_split($record['text'], 1);
                     foreach($split as $split_nr => $char){
                         $next = $split[$split_nr] ?? null;
-                        if($char ==='\\' && $next === '/'){
+                        if($char ==='\\' && $next === '//'){
                             $split[$split_nr] = null;
                         }
                     }

@@ -275,6 +275,7 @@ class Token
                             $split[$split_nr] = null;
                         }
                     }
+                    breakpoint($split);
                     $tags[$line][$nr]['text'] = implode('', $split);
                 }
                 elseif(

@@ -1646,6 +1646,7 @@ class Php {
                                 if($is_raw !== true){
                                     $data[] = $options->variable . '[] = \'"\';';
                                 } else {
+                                    d($token);
                                     d($embed);
                                     // $data[] = $options->variable . '[] = \'\';';
                                 }

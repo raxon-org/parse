@@ -228,7 +228,6 @@ class Token
 
     public static function cast_get(App $object, $flags, $options, $content=''): bool | string
     {
-
         $explode = explode(')', $content, 2);
         $explode_explode = explode('(', $explode[0], 2);
         $cast = trim($explode_explode[1] ?? '');
@@ -259,8 +258,7 @@ class Token
         if(!is_array($tags)){
             return $tags;
         }
-        $cache = $object->get(App::CACHE);
-        d($tags);
+        $cache = $object->get(App::CACHE);        
         foreach($tags as $line => $tag){
             foreach($tag as $nr => $record){
                 if(

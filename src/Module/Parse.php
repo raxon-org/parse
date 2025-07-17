@@ -587,6 +587,7 @@ class Parse
                     $parse_options->source_root = $options->source ?? 'source';
                     $parse_options->class = Build::class_name($parse_options->source);
                     $parse_options->depth = $depth;
+                    $parse_options->json = $options->json ?? false;
 //                    $this->parse_set_options($options);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);

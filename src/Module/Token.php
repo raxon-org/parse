@@ -271,11 +271,11 @@ class Token
                     $split = mb_str_split($record['text'], 1);
                     foreach($split as $split_nr => $char){
                         $next = $split[$split_nr + 1] ?? null;
+                        //fix \/ to / in json mode
                         if($char ==='\\' && $next === '/'){
                             $split[$split_nr] = null;
                         }
-                    }
-                    breakpoint($split);
+                    }                    
                     $tags[$line][$nr]['text'] = implode('', $split);
                 }
                 elseif(

@@ -268,6 +268,9 @@ class Parse
         if(!property_exists($options, 'source')) {
             throw new Exception('Error: source not set in options');
         }
+        if(File::extension($options->source) === 'json'){
+            $options->json = true;
+        }
         $options->class = Build::class_name($options->source);
         if($is_debug){
             $object->config('package.raxon/parse.build.state.input.debug', true);

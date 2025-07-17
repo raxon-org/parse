@@ -678,6 +678,7 @@ class Php {
                         foreach($marker_data as $line){
                             $data[] = $line;
                         }
+                        d($marker_data);
                         $object->config('package.raxon/parse.build.state.is_raw', true);
                         continue;
 //                        $method = Php::method($object, $flags, $options, $marker_data, $before, $after) . ';';

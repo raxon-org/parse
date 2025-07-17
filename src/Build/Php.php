@@ -1707,15 +1707,20 @@ class Php {
                             $token = Token::tokenize($object, $flags, $options, substr($text, 2, -2));
                             $token = Php::document_tag_prepare($object, $flags, $options, $token);
                             $embed = Php::document_tag($object, $flags, $options, $token);
+                            $is_raw = $object->config('package.raxon/parse.build.state.is_raw');     
                             if(property_exists($options, 'variable')){
-                                $data[] = $options->variable . '[] = \'\\"\';';
+                                if($is_raw !== true){
+                                    $data[] = $options->variable . '[] = \'\\"\';';
+                                }                            
                                 foreach($embed as $line){
                                     $line = str_replace($double_quote_uuid, '"', $line);
                                     $line = str_replace($single_quote_uuid, '\'', $line);
                                     $line = str_replace($ampersand_uuid, '&', $line);
                                     $data[] = $line;
                                 }
-                                $data[] = $options->variable . '[] = \'\\"\';';
+                                if($is_raw !== true){
+                                    $data[] = $options->variable . '[] = \'\\"\';';
+                                }                                
                             }
                             if($variable_old){
                                 $data[] = $variable_old . '[] = implode(\'\', ' . $options->variable . ');';
@@ -1779,7 +1784,7 @@ class Php {
                                 $text
                             );
                             $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
-                            if($is_raw){
+                            if($is_raw === true){
                                 ddd('found');
                             }                            
                             if(property_exists($options, 'variable')){                                  

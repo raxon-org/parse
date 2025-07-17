@@ -522,12 +522,8 @@ class Tag
                 $is_double_quoted === false &&
                 $is_double_quoted_backslash === false
             ){
-                $tag = '{{';                
-                d($text);
-                $text = mb_substr($text, 0, -1);
-                d($input);
-                d($is_double_quoted);
-                d($text);
+                $tag = '{{';                                
+                $text = mb_substr($text, 0, -1);                
             }
             elseif(
                 $tag !== false &&
@@ -539,9 +535,7 @@ class Tag
                 $is_double_quoted === false &&
                 $is_double_quoted_backslash === false
             ){                
-                $tag .= $char;
-                d($tag);
-                d($text);
+                $tag .= $char;                
                 $column[$line]++;
                 if($text !== ''){
                     $explode = explode("\n", $text);
@@ -730,6 +724,7 @@ class Tag
                 $tag_list[$line][] = $record;
             }
         }
+        d($tag_list);
         return $tag_list;
     }
 

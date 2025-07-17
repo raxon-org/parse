@@ -253,8 +253,7 @@ class Php {
         $capture_depth = 0;
         $content = [];
         $is_literal = false;
-        $marker_data = [];
-        d($tags);
+        $marker_data = [];        
         foreach ($tags as $row_nr => $list) {
             foreach ($list as $nr => &$record) {
                 $object->config('package.raxon/parse.build.state.tag', $record);
@@ -1642,8 +1641,7 @@ class Php {
                             $token = Token::tokenize($object, $flags, $options, substr($text, 1, -1));
                             $token = Php::document_tag_prepare($object, $flags, $options, $token);
                             $embed = Php::document_tag($object, $flags, $options, $token);
-                            $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
-                            d($embed);
+                            $is_raw = $object->config('package.raxon/parse.build.state.is_raw');                            
                             if(property_exists($options, 'variable')){
                                 if($is_raw !== true){
                                     $data[] = $options->variable . '[] = \'"\';';

@@ -301,6 +301,7 @@ class Tag
                             'end' => $column[$line] - mb_strlen($explode_tag[0])
                         ]
                     ];
+                    $tag_list[$line][] = $record;
                     $text = '';
                     $is_double_quoted = false;
                     continue;

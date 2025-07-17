@@ -1641,6 +1641,7 @@ class Php {
                             $token = Token::tokenize($object, $flags, $options, substr($text, 1, -1));
                             $token = Php::document_tag_prepare($object, $flags, $options, $token);
                             $embed = Php::document_tag($object, $flags, $options, $token);
+                            d($embed);
                             $is_raw = $object->config('package.raxon/parse.build.state.is_raw');                            
                             if(property_exists($options, 'variable')){
                                 if($is_raw !== true){

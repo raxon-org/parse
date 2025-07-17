@@ -1656,6 +1656,7 @@ class Php {
                                 }
                                 if($is_raw !== true) {
                                     $data[] = $options->variable . '[] = \'"\';';
+                                    ddd($data);
                                 }
                             }
                             d($data);

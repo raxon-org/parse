@@ -675,6 +675,9 @@ class Php {
                         $marker_data[$record['line']] = [];
                         $marker_data[$record['line']][] = $record['marker']['value']['array'][2] ?? [];
                         $object->config('package.raxon/parse.build.state.is_raw', true);
+
+                        ddd($data);
+
                         $marker_data = Php::document_tag($object, $flags, $options, $marker_data);                        
                         foreach($marker_data as $line){
                             $data[] = $line;                            
@@ -1781,24 +1784,12 @@ class Php {
                                     '\0'
                                 ],
                                 $text
-                            );
-                            $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
-                            if($is_raw === true){
-                                if(property_exists($options, 'variable')){                                  
-                                    $data[] = $options->variable . '[] =  "' . $text . '";';
-                                } else {                                                                                                                                                                                        
-                                    $data[] = '$content[] =  "' . $text . '";';
-                                }   
-                                ddd($data);
-                                $object->config('delete', 'package.raxon/parse.build.state.is_raw');
-                            } else {
-                                if(property_exists($options, 'variable')){                                  
-                                    $data[] = $options->variable . '[] =  "' . $text . '";';
-                                } else {                                                                                                                                                                                        
-                                    $data[] = '$content[] =  "' . $text . '";';
-                                }   
-                            }                
-                                                     
+                            );                            
+                            if(property_exists($options, 'variable')){                                  
+                                $data[] = $options->variable . '[] =  "' . $text . '";';
+                            } else {                                                                                                                                                                                        
+                                $data[] = '$content[] =  "' . $text . '";';
+                            }                                                                                             
                         }
                     }
                     elseif(

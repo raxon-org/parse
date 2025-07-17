@@ -675,6 +675,143 @@ class Tag
                 $column[$line]--;
             }
             elseif(
+                $tag !== false &&
+                $char === '}' &&
+                $previous === '}' &&
+                $is_comment === false &&
+                $curly_count === 0 &&
+                $is_single_quoted === false &&
+                $is_double_quoted === true &&
+                $is_double_quoted_backslash === false
+            ){                
+                $tag .= $char;                
+                $column[$line]++;
+                if($text !== ''){
+                    $explode = explode("\n", $text);
+                    $count = count($explode);
+                    $explode_tag = explode("\n", $tag);
+                    if($count > 1){
+                        $length_start = mb_strlen($explode[0]);
+                        $record = [
+                            'text' => $text,
+                            'is_multiline' => true,
+                            'line' => [
+                                'start' => $line - $count + 1,
+                                'end' => $line
+                            ],
+                            'length' => [
+                                'start' => $length_start,
+                                'end' => mb_strlen($explode[$count - 1])
+                            ],
+                            'column' => [
+                                ($line - $count + 1) => [
+                                    'start' => $column[$line - $count + 1] - $length_start,
+                                    'end' => $column[$line - $count + 1]
+                                ],
+                                $line => [
+                                    'start' => $column[$line] - mb_strlen($explode[$count - 1]) - mb_strlen($explode_tag[0]),
+                                    'end' => $column[$line] - mb_strlen($explode_tag[0])
+                                ]
+                            ]
+                        ];
+                        if(empty($tag_list[$line - $count + 1])){
+                            $tag_list[$line - $count + 1] = [];
+                        }
+                        $tag_list[$line - $count + 1][] = $record;
+                    } else {
+                        $length_start = mb_strlen($explode[0]);
+                        $record = [
+                            'text' => $text,
+                            'line' => $line,
+                            'length' => $length_start,
+                            'column' => [
+                                'start' => $column[$line] - $length_start - mb_strlen($explode_tag[0]),
+                                'end' => $column[$line] - mb_strlen($explode_tag[0])
+                            ]
+                        ];
+                        if(empty($tag_list[$line])){
+                            $tag_list[$line] = [];
+                        }
+                        $tag_list[$line][] = $record;
+                    }
+                }
+                $text = '';
+                $explode = explode("\n", $tag);
+                $count = count($explode);
+                if($count > 1){
+                    $content = trim(mb_substr($tag, 2, -2));
+                    $length_start = mb_strlen($explode[0]);
+                    $record = [
+                        'tag' => $tag,
+                        'is_multiline' => true,
+                        'line' => [
+                            'start' => $line - $count + 1,
+                            'end' => $line
+                        ],
+                        'length' => [
+                            'start' => $length_start,
+                            'end' => mb_strlen($explode[$count - 1])
+                        ],
+                        'column' => [
+                            ($line - $count + 1) => [
+                                'start' => $column[$line - $count + 1] - $length_start,
+                                'end' => $column[$line - $count + 1]
+                            ],
+                            $line => [
+                                'start' => $column[$line] - mb_strlen($explode[$count - 1]),
+                                'end' => $column[$line]
+                            ]
+                        ]
+                    ];
+                    if(empty($tag_list[$line - $count + 1])){
+                        $tag_list[$line - $count + 1] = [];
+                    }
+                    $tag_list[$line - $count + 1][] = $record;
+                } else {
+                    $length_start = mb_strlen($explode[0]);
+                    $record = [
+                        'tag' => $tag,
+                        'line' => $line,
+                        'length' => $length_start,
+                        'column' => [
+                            'start' => $column[$line] - $length_start,
+                            'end' => $column[$line]
+                        ]
+                    ];
+                    $content = trim(mb_substr($tag, 2, -2));
+                    if(mb_strtoupper(mb_substr($content, 0, 5)) === 'RAX}}'){
+                        $record['is_header'] = true;
+                        $record['content'] = $content;
+                    }
+                    elseif(mb_strtoupper(mb_substr($content, 0, 5)) === 'RAX}}'){
+                        $record['is_header'] = true;
+                        $record['content'] = $content;
+                    }
+                    elseif(
+                        mb_strtoupper($content) === 'LITERAL' ||
+                        $is_literal === true
+                    ){
+                        $is_literal = true;
+                        $record['is_literal'] = true;
+                        $record['is_literal_start'] = true;
+                    }
+                    elseif(
+                        mb_strtoupper($content) === '/LITERAL' ||
+                        $is_literal === true
+                    ){
+                        $is_literal = false;
+                        $record['is_literal'] = true;
+                        $record['is_literal_end'] = true;
+                    }
+                    if(empty($tag_list[$line])){
+                        $tag_list[$line] = [];
+                    }
+                    $tag_list[$line][] = $record;
+                }
+                $tag = false;
+                $column[$line]--;
+            }
+            elseif(
                 $tag &&
                 $is_comment === false
             ){

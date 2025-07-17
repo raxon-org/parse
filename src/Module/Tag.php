@@ -304,6 +304,7 @@ class Tag
                     $tag_list[$line][] = $record;
                     $text = '';
                     $is_double_quoted = false;
+                    $column[$line]++;
                     continue;
                 }
                 $is_double_quoted = false;

@@ -49,7 +49,7 @@ try {
         'source' => 'internal_test'
     ];
     $data = new Data($app->data());    
-    $parse = new Parse($$app, $data, App::flags($app), $options);
+    $parse = new Parse($app, $data, App::flags($app), $options);
     $output = $parse->compile($json, $data);
     ddd($output);
 } catch (Exception | LocateException | ObjectException $exception) {

@@ -1646,7 +1646,7 @@ class Php {
                                 if($is_raw !== true){
                                     $data[] = $options->variable . '[] = \'"\';';
                                 } else {
-                                    $data[] = $options->variable . '[] = \'\';';
+                                    // $data[] = $options->variable . '[] = \'\';';
                                 }
                                 foreach($embed as $line){
                                     $line = str_replace($double_quote_uuid, '"', $line);
@@ -1657,8 +1657,8 @@ class Php {
                                 if($is_raw !== true) {
                                     $data[] = $options->variable . '[] = \'"\';';
                                 } else {
-                                    $data[] = $options->variable . '[] = \'\';';
-                                    ddd($data);
+                                    // $data[] = $options->variable . '[] = \'\';';
+                                    // ddd($data);
                                 }
                             }
                             $object->config('delete', 'package.raxon/parse.build.state.is_raw');

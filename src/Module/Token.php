@@ -260,6 +260,7 @@ class Token
             return $tags;
         }
         $cache = $object->get(App::CACHE);
+        d($tags);
         foreach($tags as $line => $tag){
             foreach($tag as $nr => $record){
                 if(

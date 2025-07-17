@@ -1744,6 +1744,7 @@ class Php {
                         }
                         else {
                             $text = Php::text($object, $flags, $options, $record);
+                            breakpoint($text);
                             //single quote to double quote transform
                             $text = str_replace(
                                 [

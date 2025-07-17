@@ -1694,7 +1694,7 @@ class Php {
                         elseif(
                             substr($record['text'], 0, 2) === '\\"' &&
                             substr($record['text'], -2) === '\\"' &&
-                            mb_strlen($record['text'] > 2)
+                            mb_strlen($record['text']) > 2
                         ){
                             $variable_old = $options->variable ?? null;
                             $options->variable = Core::uuid_variable();

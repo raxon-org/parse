@@ -219,6 +219,8 @@ class Value
                         }
                     }
                     $value = Value::basic($object, $flags, $options, $value);
+                    d($options);
+                    d($value);
                     $input['array'][$is_double_quoted] = $value;
                     $input['array'][$is_double_quoted]['value'] = '"' . $value['execute'] . '"';
                     $input['array'][$is_double_quoted]['is_double_quoted'] = true;
@@ -251,6 +253,8 @@ class Value
                         }
                     }
                     $value = Value::basic($object, $flags, $options, $value);
+                    d($options);
+                    d($value);
                     $input['array'][$is_double_quoted] = $value;
                     $input['array'][$is_double_quoted]['value'] = '\"' . $value['execute'] . '\"';
                     $input['array'][$is_double_quoted]['is_double_quoted'] = true;

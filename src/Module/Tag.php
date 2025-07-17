@@ -298,7 +298,7 @@ class Tag
                         'length' => 1,
                         'column' => [
                             'start' => $column[$line],
-                            'end' => $column[$line] + $record['length']
+                            'end' => $column[$line] + 1
                         ]
                     ];
                     $tag_list[$line][] = $record;

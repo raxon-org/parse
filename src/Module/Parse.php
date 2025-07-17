@@ -268,9 +268,6 @@ class Parse
         if(!property_exists($options, 'source')) {
             throw new Exception('Error: source not set in options');
         }
-        if(File::extension($options->source) === 'json'){
-            $options->json = true;
-        }
         $options->class = Build::class_name($options->source);
         if($is_debug){
             $object->config('package.raxon/parse.build.state.input.debug', true);
@@ -435,10 +432,6 @@ class Parse
 //                    $options->source = 'internal_' . Core::uuid(); //wrong, hash should not be unique but referable
                 $parse_options->source_root = $options->source ?? 'source';
                 $parse_options->class = Build::class_name($parse_options->source);
-                /*
-                json setting needs to be triggered because of \/ in path names for example
-                */
-                $parse_options->json = true;
 //                    $this->parse_set_options($options);
 //                $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
 //                    $data->set('this.#depth', $depth);
@@ -476,8 +469,10 @@ class Parse
                         $data->set($key_parent, $parentNode);
                     }
                 }
-                $parse_data = clone $data;                                                  
-                $json = $parse->compile($json, $parse_data, $is_debug);                  
+                $parse_data = clone $data;                  
+                d($json);                                         
+                $json = $parse->compile($json, $parse_data, $is_debug);  
+                d($json);                              
                 $input = Core::object($json, Core::OBJECT);                
                 $data->set('this.' . $object->config('package.raxon/parse.object.this.key', null));
                 return $input;
@@ -590,7 +585,6 @@ class Parse
                     $parse_options->source_root = $options->source ?? 'source';
                     $parse_options->class = Build::class_name($parse_options->source);
                     $parse_options->depth = $depth;
-                    $parse_options->json = $options->json ?? false;
 //                    $this->parse_set_options($options);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
@@ -631,7 +625,8 @@ class Parse
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
-                    }                                                             
+                    }
+                    d($value);                                                        
                     $input->{$key} = $parse->compile($value, $parse_data);                    
                     $data->set('this.' . $key, $input->{$key});                    
                     $this->options($options);
@@ -742,9 +737,10 @@ class Parse
             $input = Token::literal_apply($object, $flags, $options, $input);            
             $token = Token::tokenize($object, $flags, $options, $input);                        
             if($is_debug){
-                // d($input);
-                // d($token);
-            }            
+                d($input);
+                d($token);
+            }
+            d($token);
             $url_json = $dir . $options->class . $object->config('extension.json');
             File::write($url_json, Core::object($token, Core::OBJECT_JSON));
             if($cache_url){
@@ -755,8 +751,10 @@ class Parse
                     $object->config('extension.php')
                 ;
             }
+//            d($token);
+//            d($url_php);
             $document = Build::create($object, $flags, $options, $token);
-            // d($url_php);
+            d($url_php);
             File::write($url_php, implode(PHP_EOL, $document));
             File::permission(
                 $object,

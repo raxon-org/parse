@@ -496,7 +496,7 @@ class Method
                                 $options,
                                 $argument_value,
                                 $tag
-                            );                            
+                            );
                             $argument_list[$argument_nr] = $argument_value;
                             $argument_array = [];
                             $argument = '';

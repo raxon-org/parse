@@ -227,6 +227,7 @@ class Token
 
     public static function cast_get(App $object, $flags, $options, $content=''): bool | string
     {
+
         $explode = explode(')', $content, 2);
         $explode_explode = explode('(', $explode[0], 2);
         $cast = trim($explode_explode[1] ?? '');
@@ -257,25 +258,10 @@ class Token
         if(!is_array($tags)){
             return $tags;
         }
-        $cache = $object->get(App::CACHE);        
+        $cache = $object->get(App::CACHE);
         foreach($tags as $line => $tag){
             foreach($tag as $nr => $record){
                 if(
-                    array_key_exists('text', $record) && 
-                    property_exists($options, 'json') &&
-                    $options->json === true
-                ){
-                    $split = mb_str_split($record['text'], 1);
-                    foreach($split as $split_nr => $char){
-                        $next = $split[$split_nr + 1] ?? null;
-                        //fix \/ to / in json mode
-                        if($char ==='\\' && $next === '/'){
-                            $split[$split_nr] = null;
-                        }
-                    }                    
-                    $tags[$line][$nr]['text'] = implode('', $split);
-                }
-                elseif(
                     array_key_exists('tag', $record)
                 ){
                     $content = trim(mb_substr($record['tag'], 2, -2));
@@ -1304,7 +1290,7 @@ class Token
                         $method_hash = hash('sha256', 'method.' . $record['tag']);
                         if($cache->has($method_hash)){
                             $list = $cache->get($method_hash);
-                        } else {                            
+                        } else {
                             $tag_array = mb_str_split($record['tag'], 1);
                             $list = Token::value(
                                 $object,
@@ -1315,7 +1301,7 @@ class Token
                                     'array' => $tag_array
                                 ],
                                 $tag
-                            );                            
+                            );
                         }
                         if(
                             array_key_exists(0, $list['array']) &&
@@ -1769,12 +1755,13 @@ class Token
         $hash = hash('sha256', $input['string']);
         if($cache->has($hash)){
             $input = $cache->get($hash);
-        } else {           
-            $input = Symbol::define($object, $flags, $options, $input);            
+        } else {
+//            d($input);
+            $input = Symbol::define($object, $flags, $options, $input);
 //            $input = Token::remove_comment($object, $flags, $options, $input);
 //            breakpoint($input);
-            $input = Cast::define($object, $flags, $options, $input);            
-            $input = Method::define($object, $flags, $options, $input, $tag);            
+            $input = Cast::define($object, $flags, $options, $input);
+            $input = Method::define($object, $flags, $options, $input, $tag);
 //            d($input);
             $input = Variable::define($object, $flags, $options, $input);
 //breakpoint($input);

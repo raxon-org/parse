@@ -253,7 +253,7 @@ class Php {
         $capture_depth = 0;
         $content = [];
         $is_literal = false;
-        $marker_data = [];        
+        $marker_data = [];
         foreach ($tags as $row_nr => $list) {
             foreach ($list as $nr => &$record) {
                 $object->config('package.raxon/parse.build.state.tag', $record);
@@ -678,7 +678,6 @@ class Php {
                         foreach($marker_data as $line){
                             $data[] = $line;
                         }
-                        d($marker_data);
                         $object->config('package.raxon/parse.build.state.is_raw', true);
                         continue;
 //                        $method = Php::method($object, $flags, $options, $marker_data, $before, $after) . ';';
@@ -1641,16 +1640,12 @@ class Php {
                             $text = str_replace('&apos;', $single_quote_uuid, $text);
                             $token = Token::tokenize($object, $flags, $options, substr($text, 1, -1));
                             $token = Php::document_tag_prepare($object, $flags, $options, $token);
-                            $embed = Php::document_tag($object, $flags, $options, $token);                            
-                            $is_raw = $object->config('package.raxon/parse.build.state.is_raw');                            
+                            $embed = Php::document_tag($object, $flags, $options, $token);
+                            $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
+//                            d($embed);
                             if(property_exists($options, 'variable')){
                                 if($is_raw !== true){
                                     $data[] = $options->variable . '[] = \'"\';';
-                                } else {
-                                    d($text);
-                                    d($token);
-                                    d($embed);
-                                    // $data[] = $options->variable . '[] = \'\';';
                                 }
                                 foreach($embed as $line){
                                     $line = str_replace($double_quote_uuid, '"', $line);
@@ -1660,9 +1655,6 @@ class Php {
                                 }
                                 if($is_raw !== true) {
                                     $data[] = $options->variable . '[] = \'"\';';
-                                } else {
-                                    // $data[] = $options->variable . '[] = \'\';';
-                                    // ddd($data);
                                 }
                             }
                             $object->config('delete', 'package.raxon/parse.build.state.is_raw');
@@ -1713,26 +1705,16 @@ class Php {
                             $token = Token::tokenize($object, $flags, $options, substr($text, 2, -2));
                             $token = Php::document_tag_prepare($object, $flags, $options, $token);
                             $embed = Php::document_tag($object, $flags, $options, $token);
-                            $is_raw = $object->config('package.raxon/parse.build.state.is_raw');                            
                             if(property_exists($options, 'variable')){
-                                if($is_raw !== true){
-                                    $data[] = $options->variable . '[] = \'\\"\';';
-                                } else {
-                                    d($text);
-                                    d($token);
-                                    ddd($embed);
-                                }
+                                $data[] = $options->variable . '[] = \'\\"\';';
                                 foreach($embed as $line){
                                     $line = str_replace($double_quote_uuid, '"', $line);
                                     $line = str_replace($single_quote_uuid, '\'', $line);
                                     $line = str_replace($ampersand_uuid, '&', $line);
                                     $data[] = $line;
                                 }
-                                if($is_raw !== true){
-                                    $data[] = $options->variable . '[] = \'\\"\';';
-                                }
+                                $data[] = $options->variable . '[] = \'\\"\';';
                             }
-                            $object->config('delete', 'package.raxon/parse.build.state.is_raw');
                             if($variable_old){
                                 $data[] = $variable_old . '[] = implode(\'\', ' . $options->variable . ');';
                                 $options->variable = $variable_old;
@@ -1793,13 +1775,13 @@ class Php {
                                     '\0'
                                 ],
                                 $text
-                            );                            
+                            );
                             if(property_exists($options, 'variable')){                                                                                          
                                 $data[] = $options->variable . '[] =  "' . $text . '";';
                             } else {
                                 $data[] = '$content[] =  "' . $text . '";';
 //                                $data[] = '$content[] =  \'' . str_replace(['\\', '\''], ['\\\\', '\\\''], $text) . '\';';
-                            }                                
+                            }                            
                         }
                     }
                     elseif(
@@ -2010,7 +1992,7 @@ class Php {
                         $marker_data[] = $record;
                     } else {
                         d($content);
-                        d($record)  ;
+                        d($record);
 
                     }
                 }

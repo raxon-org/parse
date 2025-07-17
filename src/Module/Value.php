@@ -201,7 +201,6 @@ class Value
                                 $value .= $item['method']['name'];
                                 $value .= '(';
                                 foreach($item['method']['argument'] as $argument){
-                                    d($argument);
                                     $value .= $argument['string'];
                                 }
                                 $value .= ')';
@@ -220,8 +219,6 @@ class Value
                         }
                     }
                     $value = Value::basic($object, $flags, $options, $value);
-                    breakpoint($options);
-                    d($value);
                     $input['array'][$is_double_quoted] = $value;
                     $input['array'][$is_double_quoted]['value'] = '"' . $value['execute'] . '"';
                     $input['array'][$is_double_quoted]['is_double_quoted'] = true;
@@ -254,8 +251,6 @@ class Value
                         }
                     }
                     $value = Value::basic($object, $flags, $options, $value);
-                    breakpoint($options);
-                    d($value);
                     $input['array'][$is_double_quoted] = $value;
                     $input['array'][$is_double_quoted]['value'] = '\"' . $value['execute'] . '\"';
                     $input['array'][$is_double_quoted]['is_double_quoted'] = true;
@@ -597,7 +592,7 @@ class Value
                             'value' => $input,
                             'execute' => $collect + 0,
                         ];
-                    } else {                        
+                    } else {
                         return [
                             'type' => 'string',
                             'value' => $input,
@@ -605,7 +600,7 @@ class Value
                             'is_raw' => true
                         ];
                     }
-                } else {                    
+                } else {
                     return [
                         'type' => 'string',
                         'value' => $input,

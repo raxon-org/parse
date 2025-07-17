@@ -1784,14 +1784,20 @@ class Php {
                             );
                             $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
                             if($is_raw === true){
-                                ddd('found');
-                            }                            
-                            if(property_exists($options, 'variable')){                                  
-                                $data[] = $options->variable . '[] =  "' . $text . '";';
-                            } else {                                                                                                                                                                                        
-                                $data[] = '$content[] =  "' . $text . '";';
-//                                $data[] = '$content[] =  \'' . str_replace(['\\', '\''], ['\\\\', '\\\''], $text) . '\';';
-                            }                            
+                                if(property_exists($options, 'variable')){                                  
+                                    $data[] = $options->variable . '[] = ' . $text . ';';
+                                } else {                                                                                                                                                                                        
+                                    $data[] = '$content[] =  ' . $text . ';';
+                                }
+                                $object->config('delete', 'package.raxon/parse.build.state.is_raw');
+                            } else {
+                                if(property_exists($options, 'variable')){                                  
+                                    $data[] = $options->variable . '[] =  "' . $text . '";';
+                                } else {                                                                                                                                                                                        
+                                    $data[] = '$content[] =  "' . $text . '";';
+                                }   
+                            }                
+                                                     
                         }
                     }
                     elseif(

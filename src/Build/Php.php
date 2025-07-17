@@ -1779,9 +1779,11 @@ class Php {
                                 ],
                                 $text
                             );
-                            if(property_exists($options, 'variable')){                                                                                          
+                            if(property_exists($options, 'variable')){                                  
                                 $data[] = $options->variable . '[] =  "' . $text . '";';
                             } else {
+                                $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
+                                d($is_raw);                                                                                        
                                 d($text);
                                 $data[] = '$content[] =  "' . $text . '";';
 //                                $data[] = '$content[] =  \'' . str_replace(['\\', '\''], ['\\\\', '\\\''], $text) . '\';';

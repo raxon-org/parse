@@ -1640,13 +1640,13 @@ class Php {
                             $text = str_replace('&apos;', $single_quote_uuid, $text);
                             $token = Token::tokenize($object, $flags, $options, substr($text, 1, -1));
                             $token = Php::document_tag_prepare($object, $flags, $options, $token);
-                            $embed = Php::document_tag($object, $flags, $options, $token);
-                            d($embed);
+                            $embed = Php::document_tag($object, $flags, $options, $token);                            
                             $is_raw = $object->config('package.raxon/parse.build.state.is_raw');                            
                             if(property_exists($options, 'variable')){
                                 if($is_raw !== true){
                                     $data[] = $options->variable . '[] = \'"\';';
                                 } else {
+                                    d($embed);
                                     // $data[] = $options->variable . '[] = \'\';';
                                 }
                                 foreach($embed as $line){

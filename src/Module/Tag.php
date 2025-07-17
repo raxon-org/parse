@@ -522,14 +522,8 @@ class Tag
                 // $is_double_quoted === false &&
                 // $is_double_quoted_backslash === false
             ){
-                $tag = '{{';
-                d($text);
-                if($is_double_quoted){
-                    $text = mb_substr($text, 0, -2);
-                } else {
-                    $text = mb_substr($text, 0, -1);
-                }
-                
+                $tag = '{{';                
+                $text = mb_substr($text, 0, -1);
                 d($input);
                 d($is_double_quoted);
                 d($text);

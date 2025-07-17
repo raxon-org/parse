@@ -518,9 +518,9 @@ class Tag
                 $char === '{' &&
                 $previous === '{' &&
                 $is_comment === false &&
-                $is_single_quoted === false &&
-                $is_double_quoted === false &&
-                $is_double_quoted_backslash === false
+                $is_single_quoted === false 
+                // $is_double_quoted === false &&
+                // $is_double_quoted_backslash === false
             ){
                 $tag = '{{';
                 $text = mb_substr($text, 0, -1);
@@ -531,15 +531,10 @@ class Tag
                 $previous === '}' &&
                 $is_comment === false &&
                 $curly_count === 0 &&
-                $is_single_quoted === false &&
-                $is_double_quoted === false &&
-                $is_double_quoted_backslash === false
-            ){
-                /* is done in curly_open
-                if(mb_strlen($text) > 0){
-                    $text = mb_substr($text, 0, -1);
-                }
-                */
+                $is_single_quoted === false
+                // $is_double_quoted === false &&
+                // $is_double_quoted_backslash === false
+            ){                
                 $tag .= $char;
                 $column[$line]++;
                 if($text !== ''){

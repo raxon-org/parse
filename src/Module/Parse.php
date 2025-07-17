@@ -753,7 +753,7 @@ class Parse
                     $object->config('extension.php')
                 ;
             }
-            d($options);
+            breakpoint($options);
 //            d($token);
 //            d($url_php);
             $document = Build::create($object, $flags, $options, $token);

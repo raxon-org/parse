@@ -540,6 +540,8 @@ class Tag
                 // $is_double_quoted_backslash === false
             ){                
                 $tag .= $char;
+                d($tag);
+                d($text);
                 $column[$line]++;
                 if($text !== ''){
                     $explode = explode("\n", $text);

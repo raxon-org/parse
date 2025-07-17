@@ -472,6 +472,7 @@ class Parse
                     }
                 }
                 $parse_data = clone $data;                           
+                d($json);
                 $json = $parse->compile($json, $parse_data, $is_debug);                                
                 $input = Core::object($json, Core::OBJECT);
                 d($input);

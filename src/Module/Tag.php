@@ -244,7 +244,7 @@ class Tag
                 $is_double_quoted_backslash === false &&
                 $previous !== '\\'
             ){
-                ddd($text);
+                d($text);
                 if($text !== ''){
                     $text .= $char;
                     $explode = explode("\n", $text);

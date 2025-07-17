@@ -424,9 +424,9 @@ class Parse
                     $input[$key] = $parse->compile($value, $parse_data, $is_debug);
                 }
                 */            
-                // d($input);                                
+                d($input);                                
                 $json = Core::object($input, Core::OBJECT_JSON_LINE);
-                // d($json);
+                d($json);
                 //$json = str_replace(['\\/'],['/'], $json);
                 $hash = hash('sha256', $json);
                 $parse_options = (object) [];
@@ -474,7 +474,7 @@ class Parse
                 $parse_data = clone $data;                           
                 $json = $parse->compile($json, $parse_data, $is_debug);                                
                 $input = Core::object($json, Core::OBJECT);
-                // d($input);
+                d($input);
                 $data->set('this.' . $object->config('package.raxon/parse.object.this.key', null));
                 return $input;
             }

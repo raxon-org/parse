@@ -671,6 +671,7 @@ class Php {
                         $marker_name === 'raw' &&
                         $is_literal === false
                     ){
+                        ddd($record);
                         $marker_data = [];
                         $marker_data[$record['line']] = [];
                         $marker_data[$record['line']][] = $record['marker']['value']['array'][2] ?? [];

@@ -497,7 +497,7 @@ class Method
                                 $argument_value,
                                 $tag
                             );
-                            d($argiment_value);
+                            d($argument_value);
                             $argument_list[$argument_nr] = $argument_value;
                             $argument_array = [];
                             $argument = '';

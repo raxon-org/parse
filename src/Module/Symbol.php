@@ -153,7 +153,8 @@ class Symbol
                 $previous === '\\' &&
                 $is_single_quote === false
             ){
-                $is_double_quote_backslash = $nr;                
+                $is_double_quote_backslash = $nr;   
+                ddd($input[$previous_nr]);             
                 continue;
             }
             elseif(

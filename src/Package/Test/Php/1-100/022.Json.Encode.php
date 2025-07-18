@@ -40,7 +40,7 @@ try {
     $array = [  
         (object) [
             'role' => 'user',
-            'content' => "file.read(\"/mnt/Vps3/Mount/Shared/Plugin/Host/Host.Domain.php\")}}" 
+            'content' => "{{file.read(\"/mnt/Vps3/Mount/Shared/Plugin/Host/Host.Domain.php\")}}" 
         ]
     ];
     $json = json_encode($array);

@@ -444,7 +444,8 @@ class Parse
     //                    $this->parse_set_options($options);
                         $parse_data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
     //                    $data->set('this.#depth', $depth);
-                        $parse_options->depth = $depth;                        
+                        $parse_options->depth = $depth; 
+                        d($parse_data->get('literal'));                       
                         $parse = new Parse($object, $parse_data, $flags, $parse_options);
                         for($index = $depth; $index >= 0; $index--){
                             $parse->local($index, $this->local($index));

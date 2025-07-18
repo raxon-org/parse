@@ -30,7 +30,8 @@ class Token
             if(array_key_exists(1, $temp)){
                 $literal = $temp[1];
                 $uuid = str_replace('-', '_', Core::uuid());
-                $variable_assign = '{{$literal.' . $uuid . ' = \''. $literal .'\'}}';
+                $assign = str_replace('\'', '\\\'', $literal);
+                $variable_assign = '{{$literal.' . $uuid . ' = \''. $assign .'\'}}';
                 $variable_define = '{{$literal.' . $uuid . '}}';
                 // $object->data('literal.' . $uuid, $literal);
                 $input = str_replace(

@@ -117,7 +117,8 @@ class Symbol
                     )
                 ) &&
                 $is_single_quote === false &&
-                $is_double_quote === false
+                $is_double_quote === false &&
+                $is_double_quote_backslash === false
             ){
                 $is_double_quote = $nr;
                 continue;
@@ -132,7 +133,8 @@ class Symbol
                     )
                 ) &&
                 $is_single_quote === false &&
-                $is_double_quote !== false
+                $is_double_quote !== false &&
+                $is_double_quote_backslash === false
             ){
                 $string = '';
                 for($i = $is_double_quote; $i <= $nr; $i++){
@@ -151,9 +153,11 @@ class Symbol
             elseif(
                 $char === '"' &&
                 $previous === '\\' &&
-                $is_single_quote === false
+                $is_single_quote === false &&
+                $is_double_quote_backslash === false
             ){
-                $is_double_quote_backslash = $nr;
+                $is_double_quote_backslash = $nr;                   
+                $input['array'][$previous_nr] = null;
                 continue;
             }
             elseif(
@@ -161,7 +165,7 @@ class Symbol
                 $previous === '\\' &&
                 $is_single_quote === false &&
                 $is_double_quote_backslash !== false
-            ){
+            ){                
                 $string = '';
                 for($i = $is_double_quote_backslash; $i <= $nr; $i++){
                     $string .= $input['array'][$i];
@@ -268,6 +272,7 @@ class Symbol
                         case '/*':
                         case '*/':
                         case '//':
+                        case '\\"':
                             $input['array'][$previous_nr] = [
                                 'type' => 'symbol',
                                 'value' => $symbol,

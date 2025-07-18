@@ -420,8 +420,11 @@ class Parse
                         }
                     }
                     $parse_data = clone $data;
-                    foreach($object->data('literal') as $key => $value){
-                        $parse_data->set('literal.' . $key, $value);
+                    $literal = $object->data('literal');
+                    if(is_array($literal) || is_object($literal)){
+                        foreach($literal as $key => $value){
+                            $parse_data->set('literal.' . $key, $value);
+                        }               
                     }                                  
                     $json = $parse->compile($json, $parse_data, $is_debug);                                               
                     $input = Core::object($json, Core::OBJECT);                                    
@@ -447,7 +450,8 @@ class Parse
     //                    $this->parse_set_options($options);
                         $parse_data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
     //                    $data->set('this.#depth', $depth);
-                        $parse_options->depth = $depth;                                                
+                        $parse_options->depth = $depth; 
+                        d($parse_data->get('literal'));                       
                         $parse = new Parse($object, $parse_data, $flags, $parse_options);
                         for($index = $depth; $index >= 0; $index--){
                             $parse->local($index, $this->local($index));
@@ -479,9 +483,12 @@ class Parse
                                 $parse_data->set($key_parent, $parentNode);
                             }
                         }
-                        foreach($object->data('literal') as $key => $value){
-                            $parse_data->set('literal.' . $key, $value);
-                        }                                  
+                        $literal = $object->data('literal');
+                        if(is_array($literal) || is_object($literal)){
+                            foreach($literal as $key => $value){
+                                $parse_data->set('literal.' . $key, $value);
+                            }               
+                        }
                         $input[$key] = $parse->compile($value, $parse_data, $is_debug);
                     }
                 }
@@ -636,7 +643,13 @@ class Parse
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
-                    }                                                                            
+                    }   
+                    $literal = $object->data('literal');
+                    if(is_array($literal) || is_object($literal)){
+                        foreach($literal as $key => $value){
+                            $parse_data->set('literal.' . $key, $value);
+                        }               
+                    }                                                                         
                     $input->{$key} = $parse->compile($value, $parse_data);                    
                     $data->set('this.' . $key, $input->{$key});                    
                     $this->options($options);

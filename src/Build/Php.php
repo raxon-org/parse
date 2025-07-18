@@ -1797,6 +1797,14 @@ class Php {
                                 property_exists($options, 'extension') &&
                                 $options->extension === 'json'
                             ){
+                                $split = mb_str_split($text, 1);
+                                foreach($split as $split_nr => $char){
+                                    $next = $split[$split_nr + 1] ?? null;
+                                    if($char === '\\' && $next === '/'){
+                                        $split[$split_nr] = null;
+                                    }
+                                }
+                                $text = implode('', $split);
                                 d($text);
                             }
                             if(property_exists($options, 'variable')){                                  

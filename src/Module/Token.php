@@ -29,7 +29,7 @@ class Token
             $temp = explode('{{literal}}', $explode[0], 2);
             if(array_key_exists(1, $temp)){
                 $literal = $temp[1];
-                $uuid = str_replace('-', '_', Core::uuid());
+                $uuid = substr(Core::uuid_variable(), 1);
                 $assign = str_replace('\'', '\\\'', $literal);                
                 $variable_assign = '{{$literal.' . $uuid . ' = \''. $assign .'\'}}';
                 $variable_define = '{{$literal.' . $uuid . '|default:\'Error getting literal\'}}';

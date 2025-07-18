@@ -593,6 +593,7 @@ class Value
                             'execute' => $collect + 0,
                         ];
                     } else {
+                        d($input);
                         return [
                             'type' => 'string',
                             'value' => $input,
@@ -601,6 +602,7 @@ class Value
                         ];
                     }
                 } else {
+                    d($input);
                     return [
                         'type' => 'string',
                         'value' => $input,

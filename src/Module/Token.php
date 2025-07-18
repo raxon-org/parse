@@ -14,11 +14,11 @@ use Exception;
 class Token
 {
 
-    public static function literal_apply(App $object, $flags, $options, $input=''): mixed
+    public static function literal_apply(App $object, Data $data, $flags, $options, $input=''): mixed
     {
         if(is_array($input)){
             foreach($input as $nr => $record){
-                $input[$nr] = Token::literal_apply($object, $flags, $options, $record);
+                $input[$nr] = Token::literal_apply($object, $data, $flags, $options, $record);
             }
             return $input;
         }
@@ -31,13 +31,13 @@ class Token
                 $literal = $temp[1];
                 $uuid = str_replace('-', '_', Core::uuid());
                 $variable = '{{$literal.' . $uuid . '}}';
-                $object->data('literal.' . $uuid, $literal);
+                $data->data('literal.' . $uuid, $literal);
                 $input = str_replace(
                     '{{literal}}' . $literal . '{{/literal}}',
                     $variable,
                     $input
                 ); 
-                $input = Token::literal_apply($object, $flags, $options, $input);               
+                $input = Token::literal_apply($object, $data, $flags, $options, $input);               
             }            
         }
         return $input;

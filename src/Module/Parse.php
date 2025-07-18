@@ -268,6 +268,7 @@ class Parse
         if(!property_exists($options, 'source')) {
             throw new Exception('Error: source not set in options');
         }
+        $options->extension = File::extension($options->source);
         $options->class = Build::class_name($options->source);
         if($is_debug){
             $object->config('package.raxon/parse.build.state.input.debug', true);
@@ -381,6 +382,7 @@ class Parse
                     $parse_options->source = 'Internal_' . $hash;
     //                    $options->source = 'internal_' . Core::uuid(); //wrong, hash should not be unique but referable
                     $parse_options->source_root = $options->source ?? 'source';
+                    $parse_options->extension = $options->extension;
                     $parse_options->class = Build::class_name($parse_options->source);
     //                    $this->parse_set_options($options);
     //                $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
@@ -440,6 +442,7 @@ class Parse
                         $parse_options->source = 'Internal_' . $hash;
     //                    $options->source = 'internal_' . Core::uuid(); //wrong, hash should not be unique but referable
                         $parse_options->source_root = $options->source ?? 'source';
+                        $parse_options->extension = $options->extension;
                         $parse_options->class = Build::class_name($parse_options->source);
     //                    $this->parse_set_options($options);
                         $parse_data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
@@ -588,6 +591,7 @@ class Parse
                     $parse_options = (object) [];
                     $parse_options->source = 'Internal_' . ($depth + 1) . 'x' . '_' . $key . '_' . $hash;
                     $parse_options->source_root = $options->source ?? 'source';
+                    $parse_options->extension = $options->extension;
                     $parse_options->class = Build::class_name($parse_options->source);
                     $parse_options->depth = $depth;
 //                    $this->parse_set_options($options);

@@ -1791,7 +1791,13 @@ class Php {
                                     '\0'
                                 ],
                                 $text
-                            );                            
+                            );   
+                            if(
+                                property_exists($options, 'extension') &&
+                                $options->extension === 'json'
+                            ){
+                                d($text);
+                            }
                             if(property_exists($options, 'variable')){                                  
                                 $data[] = $options->variable . '[] =  "' . $text . '";';
                             } else {                                                                                                                                                                                        

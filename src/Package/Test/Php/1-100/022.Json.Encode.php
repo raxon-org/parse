@@ -46,8 +46,8 @@ try {
     $json = json_encode($array);
 
     $options = (object) [
-        'source' => 'internal_test',
-        'json' => true
+        'source' => 'internal_test.json',
+        'extension' => File::extension('internal_test.json')
     ];
     $data = new Data($app->data());    
     $parse = new Parse($app, $data, App::flags($app), $options);

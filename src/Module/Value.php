@@ -592,8 +592,7 @@ class Value
                             'value' => $input,
                             'execute' => $collect + 0,
                         ];
-                    } else {
-                        d($input);
+                    } else {                        
                         return [
                             'type' => 'string',
                             'value' => $input,
@@ -601,8 +600,7 @@ class Value
                             'is_raw' => true
                         ];
                     }
-                } else {
-                    d($input);
+                } else {                    
                     return [
                         'type' => 'string',
                         'value' => $input,

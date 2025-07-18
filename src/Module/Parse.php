@@ -442,7 +442,7 @@ class Parse
                         $parse_options->source_root = $options->source ?? 'source';
                         $parse_options->class = Build::class_name($parse_options->source);
     //                    $this->parse_set_options($options);
-                        $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
+                        $parse_data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
     //                    $data->set('this.#depth', $depth);
                         $parse_options->depth = $depth;                        
                         $parse = new Parse($object, $parse_data, $flags, $parse_options);
@@ -453,10 +453,10 @@ class Parse
                             $key_parent = 'this';
                             $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
                             $parentNode = $parse->local($depth);
-                            $data->set($key_parent, $parentNode);
+                            $parse_data->set($key_parent, $parentNode);
                             $key_parent = 'this';
                             $key_parent .= '.' . $object->config('package.raxon/parse.object.this.rootNode');
-                            $data->set($key_parent, $parentNode);
+                            $parse_data->set($key_parent, $parentNode);
                         } else {
                             $key_parent = 'this';
                             for($index = $depth; $index >= 0; $index--){
@@ -473,7 +473,7 @@ class Parse
                                         $i--;
                                     }
                                 }
-                                $data->set($key_parent, $parentNode);
+                                $parse_data->set($key_parent, $parentNode);
                             }
                         }
                         $input[$key] = $parse->compile($value, $parse_data, $is_debug);

@@ -29,20 +29,17 @@ class Token
             $temp = explode('{{literal}}', $explode[0], 2);
             if(array_key_exists(1, $temp)){
                 $literal = $temp[1];
-                $uuid = substr(Core::uuid_variable(), 1);
-                $assign = str_replace('\'', '\\\'', $literal);                
+                $uuid = str_replace('-', '_', Core::uuid());
+                $variable = '{{$literal.' . $uuid . '}}';
                 $object->data('literal.' . $uuid, $literal);
-                // $variable_assign = '{{$literal.' . substr($uuid, 0, 5) . ' = \''. $assign .'\'}}';
-                $variable_define = '{{$literal.' . $uuid . '|default:\'Error getting literal\'}}';                
                 $input = str_replace(
                     '{{literal}}' . $literal . '{{/literal}}',
-                    $variable_define,
+                    $variable,
                     $input
                 ); 
                 $input = Token::literal_apply($object, $flags, $options, $input);               
             }            
         }
-        d($input);
         return $input;
     }
 

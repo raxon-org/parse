@@ -36,7 +36,7 @@ class Token
                 // $object->data('literal.' . $uuid, $literal);
                 $input = str_replace(
                     '{{literal}}' . $literal . '{{/literal}}',
-                    $variable_assign . PHP_EOL . $variable_define . PHP_EOL . 'dd($data);',
+                    $variable_assign . PHP_EOL . $variable_define . PHP_EOL . '{{dd($data)}};',
                     $input
                 ); 
                 $input = Token::literal_apply($object, $flags, $options, $input);               

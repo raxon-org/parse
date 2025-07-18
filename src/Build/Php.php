@@ -1804,8 +1804,7 @@ class Php {
                                         $split[$split_nr] = null;
                                     }
                                 }
-                                $text = implode('', $split);
-                                d($text);
+                                $text = implode('', $split);                                
                             }
                             if(property_exists($options, 'variable')){                                  
                                 $data[] = $options->variable . '[] =  "' . $text . '";';

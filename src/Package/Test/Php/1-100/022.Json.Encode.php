@@ -44,10 +44,10 @@ try {
         ]
     ];
     $json = json_encode($array);
-
+    $source = 'internal_test.json';
     $options = (object) [
-        'source' => 'internal_test.json',
-        'extension' => File::extension('internal_test.json')
+        'source' => $source,
+        'extension' => File::extension($source)
     ];
     $data = new Data($app->data());    
     $parse = new Parse($app, $data, App::flags($app), $options);

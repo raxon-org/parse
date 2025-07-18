@@ -31,12 +31,12 @@ class Token
                 $literal = $temp[1];
                 $uuid = substr(Core::uuid_variable(), 1);
                 $assign = str_replace('\'', '\\\'', $literal);                
-                $variable_assign = '{{$literal.' . substr($uuid, 0, 5) . ' = \''. $assign .'\'}}';
-                $variable_define = '{{$literal.' . substr($uuid, 0, 5) . '|default:\'Error getting literal\'}}';
-                // $object->data('literal.' . $uuid, $literal);
+                $object->data('literal.' . $uuid, $literal);
+                // $variable_assign = '{{$literal.' . substr($uuid, 0, 5) . ' = \''. $assign .'\'}}';
+                $variable_define = '{{$literal.' . $uuid . '|default:\'Error getting literal\'}}';                
                 $input = str_replace(
                     '{{literal}}' . $literal . '{{/literal}}',
-                    $variable_assign . PHP_EOL . $variable_define,
+                    $variable_define,
                     $input
                 ); 
                 $input = Token::literal_apply($object, $flags, $options, $input);               

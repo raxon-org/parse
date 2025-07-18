@@ -31,8 +31,8 @@ class Token
                 $literal = $temp[1];
                 $uuid = substr(Core::uuid_variable(), 1);
                 $assign = str_replace('\'', '\\\'', $literal);                
-                $variable_assign = '{{$literal.' . $uuid . ' = \''. $assign .'\'}}';
-                $variable_define = '{{$literal.' . $uuid . '|default:\'Error getting literal\'}}';
+                $variable_assign = '{{$literal.' . substr($uuid, 0, 5) . ' = \''. $assign .'\'}}';
+                $variable_define = '{{$literal.' . substr($uuid, 0, 5) . '|default:\'Error getting literal\'}}';
                 // $object->data('literal.' . $uuid, $literal);
                 $input = str_replace(
                     '{{literal}}' . $literal . '{{/literal}}',

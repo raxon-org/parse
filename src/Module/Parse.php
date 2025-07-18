@@ -423,6 +423,7 @@ class Parse
                     $json = $parse->compile($json, $parse_data, $is_debug);                                               
                     $input = Core::object($json, Core::OBJECT);                                    
                 } else {
+                    $parse_data = clone $data;
                     foreach($input as $key => $value){
     //                    $temp_source = $options->source ?? 'source';
     //                    $temp_class = $options->class;
@@ -443,8 +444,7 @@ class Parse
     //                    $this->parse_set_options($options);
                         $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
     //                    $data->set('this.#depth', $depth);
-                        $parse_options->depth = $depth;
-                        $parse_data = clone $data;
+                        $parse_options->depth = $depth;                        
                         $parse = new Parse($object, $parse_data, $flags, $parse_options);
                         for($index = $depth; $index >= 0; $index--){
                             $parse->local($index, $this->local($index));

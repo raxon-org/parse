@@ -42,6 +42,7 @@ class Token
                 $input = Token::literal_apply($object, $flags, $options, $input);               
             }            
         }
+        d($input);
         return $input;
     }
 

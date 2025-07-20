@@ -3347,7 +3347,7 @@ class Php {
                         'string' => $record['value'],
                         'array' => $record['array']
                     ];
-                    $value .= Php::value($object, $flags, $options, $tag, $set, $is_set_right, $before, $after);                                                                                                                                               
+                    $value .= '(' . Php::value($object, $flags, $options, $tag, $set, $is_set_right, $before, $after) . ')';
                 } else {
                     $value .= $record['value'];
                     d('not implemented');

@@ -11,9 +11,7 @@ trait Route_Get {
     protected function route_get(string|object $name='', array $options=[]): bool | string
     {
         $object = $this->object();
-        if(is_object($name)){
-            ddd($name);
-        }        
+        d($name);      
         return $object->route()::find($object, $name, $options);
     }
 }

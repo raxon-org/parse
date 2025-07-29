@@ -12,7 +12,19 @@ trait Route_Get {
     {
         $object = $this->object();        
         $find = $object->route()::find($object, $name, $options);
-        if($find === false || $find === ''){
+        if(
+            (
+                $find === false || $find === ''
+            ) &&
+            !in_array(
+                $name, 
+                [
+                    'index-main'
+                ], 
+                true
+            )
+        ){
+            d($find);
             d($name);
             trace();
             die('here');

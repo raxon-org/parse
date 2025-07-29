@@ -17,5 +17,6 @@ trait Route_Get {
             trace();
             die('here');
         }
+        return $find;
     }
 }

@@ -11,24 +11,6 @@ trait Route_Get {
     protected function route_get(string|object $name='', array $options=[]): bool | string
     {
         $object = $this->object();        
-        $find = $object->route()::find($object, $name, $options);
-        if(
-            (
-                $find === false || $find === ''
-            ) &&
-            !in_array(
-                $name, 
-                [
-                    'index-main'
-                ], 
-                true
-            )
-        ){
-            d($find);
-            d($name);
-            trace();
-            die('here');
-        }
-        return $find;
+        return $object->route()::find($object, $name, $options);
     }
 }

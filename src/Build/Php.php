@@ -2549,6 +2549,7 @@ class Php {
             }
             $use_class[$use_class_nr] .= '::';
         }
+        d($use_class);
         return $use_class;
     }
 

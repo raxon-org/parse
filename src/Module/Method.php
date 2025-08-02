@@ -265,10 +265,7 @@ class Method
                             'end' => 0
                         ];
                         if($is_variable_method === true){
-                            $call_type = '::';
-                            d($class ?? null);
-                            d($input['array']);
-                            ddd($name);
+                            $call_type = '::';                            
                             $explode = explode($call_type, $name, 2);
                             if(array_key_exists(1, $explode)){
                                 $input['array'][$is_method]['method']['name'] = $explode[1];
@@ -305,6 +302,7 @@ class Method
                                 }
                             }
                             $input['array'][$is_method]['tag'] .= ')';
+                            d($input['array'][$is_method]);
                         }
                         elseif($is_class_method === true){
                             $input['array'][$is_method]['method']['is_class_method'] = true;

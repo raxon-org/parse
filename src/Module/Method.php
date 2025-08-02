@@ -179,7 +179,7 @@ class Method
                             }
                         }
                         d($class ?? null);
-                        ddd($name);
+                        d($name);
                         $has_name = true;
                     }
                 }

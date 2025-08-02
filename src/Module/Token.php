@@ -31,7 +31,20 @@ class Token
                 $literal = $temp[1];
                 $uuid = str_replace('-', '_', Core::uuid());
                 $variable = '{{$literal.' . $uuid . '}}';
-                $data->data('literal.' . $uuid, $literal);
+                $define = '{{$literal.' . $uuid . ' = \'' . str_replace([
+                    '\'',
+                    '\\'
+                ],[
+                    '\\\'',
+                    '\\\\'
+
+                ], $literal) . '\'}}';
+                // $data->data('literal.' . $uuid, $literal);
+                $input = str_replace(
+                    '{{literal}}',
+                    '{{literal}}',
+                    $input
+                );
                 $input = str_replace(
                     '{{literal}}' . $literal . '{{/literal}}',
                     $variable,

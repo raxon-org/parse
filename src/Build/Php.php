@@ -3315,9 +3315,7 @@ class Php {
                 array_key_exists('type', $record) &&
                 $record['type'] === 'variable_method'
             ){                
-                $value .= Php::variable_method($object, $flags, $options, $record, $before, $after);
-                d($record);
-                ddd($value);
+                $value .= Php::variable_method($object, $flags, $options, $record, $before, $after);                
             }
             elseif(
                 array_key_exists('type', $record) &&

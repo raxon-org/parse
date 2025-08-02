@@ -2538,11 +2538,7 @@ class Php {
      * @throws Exception
      */
     public static function variable_method(App $object, $flags, $options, $record = [], &$before=[], &$after=[], &$inline_before=[], &$inline_after=[]): bool | string
-    {
-        $is_echo = $object->config('package.raxon/parse.build.state.echo');
-        $ltrim = $object->config('package.raxon/parse.build.state.ltrim');
-        $skip_space = $ltrim * 4;
-        $skip = 0;        
+    {               
         if(
             array_key_exists('type', $record) &&
             $record['type'] === 'variable_method' &&

@@ -2544,8 +2544,15 @@ class Php {
         $skip_space = $ltrim * 4;
         $skip = 0;        
         if(
-            array_key_exists('type', $record['method']) &&
-            $record['method']['type'] === 'variable_method'
+            array_key_exists('type', $record) &&
+            $record['type'] === 'variable_method' &&
+            array_key_exists('variable', $record) &&
+            is_array($record['variable']) &&
+            array_key_exists('tag', $record['variable']) &&
+            array_key_exists('method', $record) &&
+            is_array($record['method']) &&
+            array_key_exists('call_type', $record['method']) &&
+            array_key_exists('name', $record['method'])
         ){            
             $method_value = $record['variable']['tag'] .
                 $record['method']['call_type'] .

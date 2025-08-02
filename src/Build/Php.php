@@ -2104,6 +2104,9 @@ class Php {
             } else {
                 $class_static = Php::class_static($object);
                 $class = $record['method']['class'];
+                d($record);
+                d($class);
+                d($class_static);
                 if(
                     !in_array(
                         $class,

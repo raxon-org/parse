@@ -32,7 +32,8 @@ class Parse
         'string',
         'unset',
         'flags',
-        'options'
+        'options',
+        'use' //use_class, use_trait is based on the name (automated)
     ];
 
     const USE_CLASS = [

@@ -89,12 +89,10 @@ class Method
                                 }
                                 elseif($input['array'][$i]['value'] === '$'){
                                     $is_variable_method = true;
-                                    $name .= $input['array'][$i]['value'];
-                                    d($name);
+                                    $name .= $input['array'][$i]['value'];                                    
                                 } else {
                                     $name .= $input['array'][$i]['value'];
                                 }
-
                             }
                             elseif(
                                 array_key_exists('value', $input['array'][$i]) &&
@@ -268,6 +266,7 @@ class Method
                         ];
                         if($is_variable_method === true){
                             $call_type = '::';
+                            d($class ?? null);
                             d($input['array']);
                             ddd($name);
                             $explode = explode($call_type, $name, 2);

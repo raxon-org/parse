@@ -3284,6 +3284,18 @@ class Php {
                 }
                 $value .= Php::method($object, $flags, $options, $record, $before, $after);
             }
+             elseif(
+                array_key_exists('type', $record) &&
+                $record['type'] === 'variable_method'
+            ){
+                if(empty($record['tag'])){
+                    $record['tag'] = $tag['tag'] ?? 'unknown';
+                    $record['line'] = $tag['line'] ?? 'unknown';
+                }
+                d($record);
+                $value .= Php::method($object, $flags, $options, $record, $before, $after);
+                ddd($value);
+            }
             elseif(
                 array_key_exists('type', $record) &&
                 $record['type'] === 'string'

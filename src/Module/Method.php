@@ -175,9 +175,7 @@ class Method
                                 $class = $explode[0];
                                 $name = $explode[1];
                             }
-                        }
-                        d($class ?? null);
-                        d($name);
+                        }                        
                         $has_name = true;
                     }
                 }
@@ -301,8 +299,7 @@ class Method
                                     $input['array'][$is_method]['tag'] .= ', ';
                                 }
                             }
-                            $input['array'][$is_method]['tag'] .= ')';
-                            d($input['array'][$is_method]);
+                            $input['array'][$is_method]['tag'] .= ')';                            
                         }
                         elseif($is_class_method === true){
                             $input['array'][$is_method]['method']['is_class_method'] = true;

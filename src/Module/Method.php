@@ -90,6 +90,7 @@ class Method
                                 elseif($input['array'][$i]['value'] === '$'){
                                     $is_variable_method = true;
                                     $name .= $input['array'][$i]['value'];
+                                    d($name);
                                 } else {
                                     $name .= $input['array'][$i]['value'];
                                 }

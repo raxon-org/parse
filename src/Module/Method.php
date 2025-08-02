@@ -281,12 +281,21 @@ class Method
                             }
                             $input['array'][$is_method]['type'] = 'variable_method';
                             $input['array'][$is_method]['method']['call_type'] = $call_type;
-                            $input['array'][$is_method]['variable'] = [
-                                'type' => 'variable',
-                                'tag' => $explode[0],
-                                'name' => mb_substr($explode[0], 1),
-                                'is_reference' => false
-                            ];
+                            if($call_type === '->' && $class !== null){
+                                $input['array'][$is_method]['variable'] = [
+                                    'type' => 'variable',
+                                    'tag' => $class,
+                                    'name' => mb_substr($class, 1),
+                                    'is_reference' => false
+                                ];
+                            } else {
+                                $input['array'][$is_method]['variable'] = [
+                                    'type' => 'variable',
+                                    'tag' => $explode[0],
+                                    'name' => mb_substr($explode[0], 1),
+                                    'is_reference' => false
+                                ];
+                            }                    
                             $input['array'][$is_method]['tag'] = $name .'(';
                             $argument_count = count($argument_list);
                             foreach($argument_list as $argument_nr => $argument){

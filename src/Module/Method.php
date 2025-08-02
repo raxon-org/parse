@@ -178,7 +178,7 @@ class Method
                                 $name = $explode[1];
                             }
                         }
-                        d($class);
+                        d($class ?? null);
                         ddd($name);
                         $has_name = true;
                     }

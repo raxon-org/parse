@@ -10,7 +10,7 @@
  */
 namespace Plugin;
 
-trait Plugin_default {
+trait Plugin_Default {
 
     function plugin_default(mixed $value, mixed $default=null){
         if(

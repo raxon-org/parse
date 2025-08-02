@@ -13,7 +13,7 @@ namespace Plugin;
 use Error;
 use Raxon\Exception\TemplateException;
 
-trait Plugin_constant {
+trait Plugin_Constant {
 
     /**
      * @throws TemplateException

@@ -14,7 +14,7 @@ use Raxon\Module\Core;
 
 use Raxon\Exception\ObjectException;
 
-trait Plugin_object {
+trait Plugin_Object {
 
     /**
      * @throws ObjectException

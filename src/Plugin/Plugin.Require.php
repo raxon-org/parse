@@ -21,7 +21,7 @@ use Raxon\Parse\Module\Parse;
 
 use Exception;
 
-trait Plugin_require {
+trait Plugin_Require {
 
     /**
      * @throws Exception

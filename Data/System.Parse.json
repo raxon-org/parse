@@ -35,7 +35,8 @@
             "string",
             "unset",
             "flags",
-            "options"
+            "options",
+            "use"
           ],
           "block": [
             "block.*",

@@ -1,7 +1,7 @@
 <?php
 namespace Plugin;
 
-trait Plugin_data {
+trait Plugin_Data {
 
     protected function plugin_data(string|null $attribute=null, mixed $value=null): mixed
     {

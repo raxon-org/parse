@@ -11,7 +11,7 @@
 namespace Plugin;
 
 use Raxon\Config;
-use Raxon\module\Sort;
+use Raxon\Module\Sort;
 
 trait App_Module_Sort {
 

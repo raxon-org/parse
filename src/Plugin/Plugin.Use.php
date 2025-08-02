@@ -10,11 +10,13 @@
  */
 namespace Plugin;
 
-trait Plugin_Echo {
+trait Plugin_Use {
 
-    protected function plugin_echo(mixed $value=''): string
+    public function plugin_use(string $use, string | null $as = null): void
     {
-        return (string) $value;
+        $object = $this->object();
+        d($as);
+        ddd($use);
     }
 
 }

@@ -265,6 +265,7 @@ class Method
                         ];
                         if($is_variable_method === true){
                             $call_type = '::';
+                            d($input['array'][$is_method]);
                             ddd($name);
                             $explode = explode($call_type, $name, 2);
                             if(array_key_exists(1, $explode)){

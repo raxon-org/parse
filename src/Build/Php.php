@@ -665,6 +665,7 @@ class Php {
                         } else {
                             $data[] = '$content[] = \'' . str_replace(['\''], ['\\\''], $text_text) . '\';';
                         }                        
+                        ddd($data);
                         $is_literal = false;
                         continue;
                     }

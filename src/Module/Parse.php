@@ -47,7 +47,11 @@ class Parse
         'Raxon\\Exception\\TemplateException',
         'Raxon\\Module\\Data',
         'Raxon\\Module\\Core',
-        'Raxon\\Module',
+        'Raxon\\Module\\Sort',
+        'Raxon\\Module\\Filter',
+        'Raxon\\Module\\File',
+        'Raxon\\Module\\Database',
+        'Raxon\\Module\\Dir',
         'Raxon\\Parse\\Module\\Parse',
         'ReflectionClass'
     ];

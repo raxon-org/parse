@@ -2104,12 +2104,10 @@ class Php {
             } else {
                 $class_static = Php::class_static($object);
                 $class = $record['method']['class'];
-                d($record);
-                d($class);
-                d($class_static);
+                $call_type = $record['method']['call_type'] ?? '::';                
                 if(
                     !in_array(
-                        $class,
+                        $class . $call_type,
                         $class_static,
                         true
                     )

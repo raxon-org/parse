@@ -664,8 +664,7 @@ class Php {
                             $data[] = $options->variable . '[] = \'' . str_replace(['\''], ['\\\''], $text_text) . '\';';
                         } else {
                             $data[] = '$content[] = \'' . str_replace(['\''], ['\\\''], $text_text) . '\';';
-                        }                        
-                        ddd($data);
+                        }                                                
                         $is_literal = false;
                         continue;
                     }

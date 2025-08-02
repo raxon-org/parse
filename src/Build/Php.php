@@ -3313,6 +3313,7 @@ class Php {
                 $record['type'] === 'variable_method'
             ){                
                 $value .= Php::variable_method($object, $flags, $options, $record, $before, $after);
+                d($record);
                 ddd($value);
             }
             elseif(

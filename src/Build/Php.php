@@ -2537,6 +2537,456 @@ class Php {
     /**
      * @throws Exception
      */
+    public static function variable_method(App $object, $flags, $options, $record = [], &$before=[], &$after=[], &$inline_before=[], &$inline_after=[]): bool | string
+    {
+        $is_echo = $object->config('package.raxon/parse.build.state.echo');
+        $ltrim = $object->config('package.raxon/parse.build.state.ltrim');
+        $skip_space = $ltrim * 4;
+        $skip = 0;
+        ddd($record);
+        if(
+            array_key_exists('is_class_method', $record['method']) &&
+            $record['method']['is_class_method'] === true
+        ){
+            $explode = explode(':', $record['method']['class']);
+            if(array_key_exists(1, $explode)){
+                $class = '\\' . implode('\\', $explode);
+            } else {
+                $class_static = Php::class_static($object);
+                $class = $record['method']['class'];
+                $call_type = $record['method']['call_type'] ?? '::';                
+                if(
+                    !in_array(
+                        $class . $call_type,
+                        $class_static,
+                        true
+                    )
+                ) {
+                    throw new Exception('Invalid class: ' . $class . ', available classes: ' . PHP_EOL . implode(PHP_EOL, $class_static));
+                }
+            }
+            $method_value = $class .
+                $record['method']['call_type'] .
+                str_replace('.', '_', $record['method']['name']) .
+                '(';
+            $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
+            $method_value .= ')';
+            return $method_value;
+        } else {
+            if (
+                in_array(
+                    $record['method']['name'],
+                    [
+                        'if',
+                        'elseif',
+                        'else_if',
+                        'else.if',
+                        'for',
+                        'foreach',
+                        'for_each',
+                        'for.each',
+                        'break',
+                        'continue',
+                        'while',
+                    ],
+                    true
+                )
+            ){
+                if(
+                    in_array(
+                        $record['method']['name'],
+                        [
+                            'else_if',
+                            'else.if'
+                        ], true
+                    )
+                ){
+                    $method_value = 'elseif(';
+                }
+                elseif(
+                    in_array(
+                        $record['method']['name'],
+                        [
+                            'break',
+                            'continue'
+                        ],
+                        true
+                    )
+                ){
+                    $method_value = $record['method']['name'];
+                    if(
+                        array_key_exists('argument', $record['method']) &&
+                        array_key_exists(0, $record['method']['argument']) &&
+                        array_key_exists('array', $record['method']['argument'][0]) &&
+                        array_key_exists(0, $record['method']['argument'][0]['array']) &&
+                        array_key_exists('type', $record['method']['argument'][0]['array'][0]) &&
+                        $record['method']['argument'][0]['array'][0]['type'] === 'integer'
+                    ){
+                        $method_value .= ' ' . $record['method']['argument'][0]['array'][0]['value'];
+                    }
+                }
+                else {
+                    $method_value = $record['method']['name']  . '(';
+                }
+                if($record['method']['name'] === 'for'){                    
+                    $method_value = [];
+                    $is_argument = false;
+                    $argument_count = count($record['method']['argument']);
+                    $try_catch = $object->config('package.raxon/parse.build.state.try_catch');
+                    $separator_uuid = Core::uuid();
+                    $separator = $object->config('package.raxon/parse.build.state.separator');
+                    $object->config('package.raxon/parse.build.state.separator', $separator_uuid);
+                    $before_for = [];
+                    $after_for = [];
+                    if($argument_count === 3){
+                        foreach($record['method']['argument'] as $nr => $argument){
+                            if($nr > 0){
+                                $object->config('package.raxon/parse.build.state.try_catch', false);
+                            }                            
+                            $value = Php::value($object, $flags, $options, $record, $argument, $is_set, $before_for, $after_for);                            
+                            if(mb_strtolower($value) === 'null'){
+                                $value = '';
+                            }
+                            $method_value[] = $value;
+                        }
+                        if($separator === null){
+                            $object->config('delete', 'package.raxon/parse.build.state.separator');
+                        } else {
+                            $object->config('package.raxon/parse.build.state.separator', $separator);
+                        }
+                        $method_value[2] = str_replace($separator_uuid, ',', $method_value[2]);
+                        $method_value[2] = substr($method_value[2], 0, -1);                        
+                        $before[] = str_replace($separator_uuid, ';', $method_value[0]);
+                        foreach($before_for as $line){
+                            $before[] = str_replace($separator_uuid, ';', $line);
+                        }
+                        foreach($after_for as $line){
+                            $after[] = str_replace($separator_uuid, ';', $line);
+                        }
+                        $method_value[0] = null;
+                        $is_argument = true;
+                    }
+                    if($try_catch === null){
+                        $object->config('delete', 'package.raxon/parse.build.state.try_catch');
+                    } else {
+                        $object->config('package.raxon/parse.build.state.try_catch', $try_catch);
+                    }
+                    if($is_argument === false) {
+                        if (
+                            array_key_exists('is_multiline', $record) &&
+                            $record['is_multiline'] === true
+                        ) {
+                            throw new TemplateException(
+                                $record['tag'] .
+                                PHP_EOL .
+                                'Invalid argument for {{for()}}' .
+                                PHP_EOL .
+                                'On line: ' .
+                                $record['line']['start'] .
+                                ', column: ' .
+                                $record['column'][$record['line']['start']]['start'] .
+                                ' in source: ' .
+                                $options->source .
+                                '.'
+                            );
+                        } else {
+                            throw new TemplateException(
+                                $record['tag'] .
+                                PHP_EOL .
+                                'Invalid argument for {{for()}}' .
+                                PHP_EOL .
+                                'On line: ' .
+                                $record['line'] .
+                                ', column: ' .
+                                $record['column']['start'] .
+                                ' in source: ' .
+                                $options->source .
+                                '.'
+                            );
+                        }
+                    }
+                    $method_value = 'for(' . implode(';', $method_value);
+                    if($separator === null){
+                        $object->config('delete', 'package.raxon/parse.build.state.separator');
+                    } else {
+                        $object->config('package.raxon/parse.build.state.separator', $separator);
+                    }
+
+                }
+                elseif(
+                    in_array(
+                        $record['method']['name'],
+                        [
+                            'foreach',
+                            'for_each',
+                            'for.each'
+                        ],
+                        true
+                    )
+                ){
+                    $method_value = [];
+                    $is_argument = false;
+                    $argument_count = count($record['method']['argument']);
+                    $try_catch = $object->config('package.raxon/parse.build.state.try_catch');
+                    $separator_uuid = Core::uuid();
+                    $separator = $object->config('package.raxon/parse.build.state.separator');
+                    $object->config('package.raxon/parse.build.state.separator', $separator_uuid);
+                    $before_foreach = [];
+                    $after_foreach = [];
+                    if($argument_count === 1){
+                        foreach($record['method']['argument'] as $nr => $argument){
+//                            $object->config('package.raxon/parse.build.state.try_catch', false);
+                            $argument_input = [];
+                            $argument_input['string'] = $argument['array'][0]['tag'] ?? $argument['array'][0]['value'] ?? $argument['array'][0]['execute'] ?? null;
+                            $argument_input['array'][] = $argument['array'][0];
+                            $value = Php::value($object, $flags, $options, $record, $argument_input, $is_set, $before_foreach, $after_foreach);
+                            if(
+                                array_key_exists(2, $argument['array']) &&
+                                array_key_exists(4, $argument['array'])
+                            ){
+                                $argument_input = [];
+                                $argument_input['string'] = $argument['array'][2]['tag'] ?? $argument['array'][2]['value'] ?? $argument['array'][2]['execute'] ?? null;
+                                $argument_input['array'][] = $argument['array'][2];
+                                $foreach_value = Php::value($object, $flags, $options, $record, $argument_input, $is_set, $before_foreach_key, $after_foreach_key);
+                                $explode = explode(' = $data->get(', substr($before_foreach_key[0], 0, -2));
+//                                d($foreach_value);
+//                                d($explode);
+                                $inline_before[] = '$data->set(' . $explode[1] . ', ' . $explode[0] . ');';
+                                $value .= ' as ' . $foreach_value;
+                                $argument_input = [];
+                                $argument_input['string'] = $argument['array'][4]['tag'] ?? $argument['array'][4]['value'] ?? $argument['array'][4]['execute'] ?? null;
+                                $argument_input['array'][] = $argument['array'][4];
+                                $foreach_value = Php::value($object, $flags, $options, $record, $argument_input, $is_set, $before_foreach_value, $after_foreach_value);
+                                $explode = explode(' = $data->get(', substr($before_foreach_value[0], 0, -2));
+                                $inline_before[] = '$data->set(' . $explode[1] . ', ' . $explode[0] . ');';
+                                $value .= ' => ' . $foreach_value;
+                            }
+                            elseif(array_key_exists(2, $argument['array'])){
+                                $argument_input = [];
+                                $argument_input['string'] = $argument['array'][2]['tag'] ?? $argument['array'][2]['value'] ?? $argument['array'][2]['execute'] ?? null;
+                                $argument_input['array'][] = $argument['array'][2];
+                                $foreach_value = Php::value($object, $flags, $options, $record, $argument_input, $is_set, $before_foreach_value, $after_foreach_value);
+                                $inline_before[] = str_replace($foreach_value . ' = $data->get(', '$data->set(', substr($before_foreach_value[0], 0, -2)) . ', ' . $foreach_value . ');';
+                                $value .= ' as ' . $foreach_value;
+                            }
+                            if(mb_strtolower($value) === 'null'){
+                                $value = '';
+                            }
+                            $method_value[] = $value;
+                        }
+                        if($separator === null){
+                            $object->config('delete', 'package.raxon/parse.build.state.separator');
+                        } else {
+                            $object->config('package.raxon/parse.build.state.separator', $separator);
+                        }
+                        foreach($before_foreach as $line){
+                            $before[] = str_replace($separator_uuid, ';', $line);
+                        }
+                        foreach($after_foreach as $line){
+                            $after[] = str_replace($separator_uuid, ';', $line);
+                        }
+//                        $method_value[0] = null;
+                        $is_argument = true;
+                    }
+                    if($try_catch === null){
+                        $object->config('delete', 'package.raxon/parse.build.state.try_catch');
+                    } else {
+                        $object->config('package.raxon/parse.build.state.try_catch', $try_catch);
+                    }
+                    if($is_argument === false) {
+                        if (
+                            array_key_exists('is_multiline', $record) &&
+                            $record['is_multiline'] === true
+                        ) {
+                            throw new TemplateException(
+                                $record['tag'] .
+                                PHP_EOL .
+                                'Invalid argument for {{for.each()}}' .
+                                PHP_EOL .
+                                'On line: ' .
+                                $record['line']['start'] .
+                                ', column: ' .
+                                $record['column'][$record['line']['start']]['start'] .
+                                ' in source: ' .
+                                $options->source .
+                                '.'
+                            );
+                        } else {
+                            throw new TemplateException(
+                                $record['tag'] .
+                                PHP_EOL .
+                                'Invalid argument for {{for.each()}}' .
+                                PHP_EOL .
+                                'On line: ' .
+                                $record['line'] .
+                                ', column: ' .
+                                $record['column']['start'] .
+                                ' in source: ' .
+                                $options->source .
+                                '.'
+                            );
+                        }
+                    }
+                    if(array_key_exists(0, $method_value)
+                    ){
+                        $method_value = 'foreach(' . $method_value[0];
+                    }
+                    if($separator === null){
+                        $object->config('delete', 'package.raxon/parse.build.state.separator');
+                    } else {
+                        $object->config('package.raxon/parse.build.state.separator', $separator);
+                    }
+                }
+                elseif($record['method']['name'] === 'while'){
+                    $method_value = [];
+                    $is_argument = false;
+                    $argument_count = count($record['method']['argument']);
+                    $try_catch = $object->config('package.raxon/parse.build.state.try_catch');
+                    $separator_uuid = Core::uuid();
+                    $separator = $object->config('package.raxon/parse.build.state.separator');
+                    $object->config('package.raxon/parse.build.state.separator', $separator_uuid);
+                    $before_while = [];
+                    $after_while = [];
+                    if($argument_count === 1){
+                        foreach($record['method']['argument'] as $nr => $argument){
+                            $object->config('package.raxon/parse.build.state.try_catch', false);
+                            $value = Php::value($object, $flags, $options, $record, $argument, $is_set, $before_while, $after_while);                            
+                            if(mb_strtolower($value) === 'null'){
+                                $value = '';
+                            }
+                            $method_value[] = $value;
+                        }
+                        if($separator === null){
+                            $object->config('delete', 'package.raxon/parse.build.state.separator');
+                        } else {
+                            $object->config('package.raxon/parse.build.state.separator', $separator);
+                        }
+                        foreach($before_while as $line){
+                            $before[] = str_replace($separator_uuid, ';', $line);
+                        }
+                        foreach($after_while as $line){
+                            $after[] = str_replace($separator_uuid, ';', $line);
+                        }
+                        $is_argument = true;
+                    } else {
+                        if (
+                            array_key_exists('is_multiline', $record) &&
+                            $record['is_multiline'] === true
+                        ) {
+                            throw new TemplateException(
+                                $record['tag'] .
+                                PHP_EOL .
+                                'Invalid argument count for {{while()}}, expected: 1, but got: ' . $argument_count .
+                                PHP_EOL .
+                                'On line: ' .
+                                $record['line']['start'] .
+                                ', column: ' .
+                                $record['column'][$record['line']['start']]['start'] .
+                                ' in source: ' .
+                                $options->source .
+                                '.'
+                            );
+                        } else {
+                            throw new TemplateException(
+                                $record['tag'] .
+                                PHP_EOL .
+                                'Invalid argument count for {{while()}}, expected: 1, but got: ' . $argument_count .
+                                PHP_EOL .
+                                'On line: ' .
+                                $record['line'] .
+                                ', column: ' .
+                                $record['column']['start'] .
+                                ' in source: ' .
+                                $options->source .
+                                '.'
+                            );
+                        }
+                    }
+                    if($try_catch === null){
+                        $object->config('delete', 'package.raxon/parse.build.state.try_catch');
+                    } else {
+                        $object->config('package.raxon/parse.build.state.try_catch', $try_catch);
+                    }
+                    if($is_argument === false) {
+                        if (
+                            array_key_exists('is_multiline', $record) &&
+                            $record['is_multiline'] === true
+                        ) {
+                            throw new TemplateException(
+                                $record['tag'] .
+                                PHP_EOL .
+                                'Invalid argument for {{while()}}' .
+                                PHP_EOL .
+                                'On line: ' .
+                                $record['line']['start'] .
+                                ', column: ' .
+                                $record['column'][$record['line']['start']]['start'] .
+                                ' in source: ' .
+                                $options->source .
+                                '.'
+                            );
+                        } else {
+                            throw new TemplateException(
+                                $record['tag'] .
+                                PHP_EOL .
+                                'Invalid argument for {{while()}}' .
+                                PHP_EOL .
+                                'On line: ' .
+                                $record['line'] .
+                                ', column: ' .
+                                $record['column']['start'] .
+                                ' in source: ' .
+                                $options->source .
+                                '.'
+                            );
+                        }
+                    }
+                    $method_value = 'while(' . $method_value[0];
+                    if($separator === null){
+                        $object->config('delete', 'package.raxon/parse.build.state.separator');
+                    } else {
+                        $object->config('package.raxon/parse.build.state.separator', $separator);
+                    }
+                }
+                elseif(
+                    !in_array(
+                        $record['method']['name'],
+                        [
+                            'break',
+                            'continue'
+                        ],
+                        true
+                    )
+                ) {
+                    $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
+                }
+                if(
+                    !in_array(
+                        $record['method']['name'],
+                        [
+                            'break',
+                            'continue'
+                        ],
+                        true
+                    )
+                ) {
+                    $method_value .= ')';
+                }
+                return $method_value;
+            } else {
+                $plugin = Php::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));                
+                $method_value = $plugin . '(';
+                $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
+                $method_value .= ')';                
+                return $method_value;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @throws Exception
+     */
     public static function class_static(App $object): array
     {
         $use_class = $object->config('package.raxon/parse.build.use.class');
@@ -3287,14 +3737,8 @@ class Php {
              elseif(
                 array_key_exists('type', $record) &&
                 $record['type'] === 'variable_method'
-            ){
-                ddd($record);
-                if(empty($record['tag'])){
-                    $record['tag'] = $tag['tag'] ?? 'unknown';
-                    $record['line'] = $tag['line'] ?? 'unknown';
-                }
-                
-                $value .= Php::method($object, $flags, $options, $record, $before, $after);
+            ){                
+                $value .= Php::variable_method($object, $flags, $options, $record, $before, $after);
                 ddd($value);
             }
             elseif(

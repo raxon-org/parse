@@ -2550,7 +2550,7 @@ class Php {
             array_key_exists('call_type', $record['method']) &&
             array_key_exists('name', $record['method'])
         ){            
-            $method_value = $record['variable']['tag'] .
+            $method_value = '$data->get(\'' . $record['variable']['name'] . '\')' . 
                 $record['method']['call_type'] .
                 str_replace('.', '_', $record['method']['name']) .
                 '(';

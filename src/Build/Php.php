@@ -3288,11 +3288,12 @@ class Php {
                 array_key_exists('type', $record) &&
                 $record['type'] === 'variable_method'
             ){
+                ddd($record);
                 if(empty($record['tag'])){
                     $record['tag'] = $tag['tag'] ?? 'unknown';
                     $record['line'] = $tag['line'] ?? 'unknown';
                 }
-                d($record);
+                
                 $value .= Php::method($object, $flags, $options, $record, $before, $after);
                 ddd($value);
             }

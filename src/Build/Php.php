@@ -2540,7 +2540,7 @@ class Php {
     {
         $use_class = $object->config('package.raxon/parse.build.use.class');
         foreach($use_class as $use_class_nr => $use_class_record){
-            $explode = explode('as', $use_class_record);
+            $explode = explode(' as ', $use_class_record);
             if(array_key_exists(1, $explode)){
                 $use_class[$use_class_nr] = trim($explode[1]);
             } else {

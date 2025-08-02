@@ -2789,6 +2789,10 @@ class Php {
         } else {
             $plugin = $name_lowercase;
         }
+        if($plugin === 'use'){
+            d($name_lowercase);
+            ddd($plugin_rename);
+        }
         $plugin = str_replace('.', '_', $plugin);
         $plugin = str_replace('-', '_', $plugin);
         $backslash_double = Core::uuid();

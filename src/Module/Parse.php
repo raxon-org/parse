@@ -47,6 +47,7 @@ class Parse
         'Raxon\\Exception\\TemplateException',
         'Raxon\\Module\\Data',
         'Raxon\\Module\\Core',
+        'Raxon\\Module\\',
         'Raxon\\Parse\\Module\\Parse',
         'ReflectionClass'
     ];

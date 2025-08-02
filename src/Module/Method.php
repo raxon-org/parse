@@ -178,6 +178,8 @@ class Method
                                 $name = $explode[1];
                             }
                         }
+                        d($class);
+                        ddd($name);
                         $has_name = true;
                     }
                 }

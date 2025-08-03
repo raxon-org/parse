@@ -3241,7 +3241,7 @@ class Php {
                             ){                                
                                 $value .= $record['value'] . $next['value'];
                                 $skip++;
-                                continue;                                
+                                break;                                                               
                             }
                             elseif(                                
                                 array_key_exists('type', $next) &&

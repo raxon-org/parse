@@ -40,7 +40,7 @@ class Token
                     '\\\\'
 
                 ], $literal) . '\'}}';
-                ddd($define);
+                d($define);
                 // $data->data('literal.' . $uuid, $literal);
                 $input = str_replace(
                     '{{literal}}',

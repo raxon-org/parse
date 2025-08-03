@@ -8,6 +8,7 @@ use Raxon\Exception\ObjectException;
 use Raxon\Module\Core;
 use Raxon\Module\Data;
 use Raxon\Module\Dir;
+use Raxon\Module\Escape;
 use Raxon\Module\File;
 
 use Exception;
@@ -31,14 +32,7 @@ class Token
                 $literal = $temp[1];
                 $uuid = str_replace('-', '_', Core::uuid());
                 $variable = '{{$literal.' . $uuid . '}}';                
-                $define = '{{$literal.' . $uuid . ' = \'' . str_replace([
-                    '\\',
-                    '\''               
-                ],[
-                    '\\\\',
-                    '\\\''                    
-
-                ], $literal) . '\'}}';                
+                $define = '{{$literal.' . $uuid . ' = \'' . Escape::single_quote($literal) . '\'}}';                
                 // $data->data('literal.' . $uuid, $literal);
                 $input = str_replace(
                     '{{literal}}',

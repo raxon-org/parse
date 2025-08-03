@@ -17,6 +17,7 @@ use Raxon\Exception\TemplateException;
 use Raxon\Module\Autoload;
 use Raxon\Module\Cli;
 use Raxon\Module\Core;
+use Raxon\Module\Escape;
 use Raxon\Module\File;
 
 use Raxon\Parse\Module\Parse;
@@ -1763,6 +1764,8 @@ class Php {
                         else {
                             $text = Php::text($object, $flags, $options, $record);
                             //single quote to double quote transform
+                            $text = Escape::double_quote($text);
+                            /*
                             $text = str_replace(
                                 [
                                     '\\',
@@ -1794,7 +1797,8 @@ class Php {
                                     '\0'
                                 ],
                                 $text
-                            );   
+                            );
+                            */   
                             if(
                                 property_exists($options, 'extension') &&
                                 $options->extension === 'json'

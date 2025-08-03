@@ -396,7 +396,9 @@ class Token
                                 ){
                                     $is_single_quoted = false;
                                     d($nr);
-                                    d($data);
+                                    if($nr === 0){
+                                        d($data);
+                                    }                                    
                                 }
                                 elseif(
                                     $char === '"' &&

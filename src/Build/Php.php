@@ -3234,6 +3234,12 @@ class Php {
                             ){
                                 $right = $next['value'];
                             }
+                            elseif(
+                                array_key_exists('type', $next) && 
+                                $next['type'] === 'symbol'
+                            ){
+                                $right = $next['value'];
+                            }
                             elseif(                                
                                 array_key_exists('type', $next) &&
                                 in_array(

@@ -3238,9 +3238,10 @@ class Php {
                             elseif(
                                 array_key_exists('type', $next) && 
                                 $next['type'] === 'symbol'
-                            ){
-                                $right = $next['value'];
-                                $is_debug = true;
+                            ){                                
+                                $value .= $record['value'] . $next['value'];
+                                $skip++;
+                                continue;                                
                             }
                             elseif(                                
                                 array_key_exists('type', $next) &&

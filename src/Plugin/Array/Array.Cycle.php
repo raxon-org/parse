@@ -13,10 +13,10 @@ namespace Plugin;
 
 use Raxon\Parse\Attribute\Argument;
 
-trait Array_Cycles {
+trait Array_Cycle {
 
     #[Argument(apply: "literal", count: 1)]
-    protected function array_cycles(string $name='', array $arguments=[]): array
+    protected function array_cycle(string $name='', array $arguments=[]): array
     {
         $name = trim($name, '\'"');
         if(substr($name, 0, 1) === '$'){

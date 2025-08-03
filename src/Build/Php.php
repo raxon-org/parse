@@ -3293,6 +3293,7 @@ class Php {
                                 $right = Php::value($object, $flags, $options, $tag, $collect, $is_set_right, $before, $after);                                                                                                                                               
                                 $skip += $set_count;
                             } else {
+                                d($record);
                                 ddd($next);
                             }                            
                             $skip++;

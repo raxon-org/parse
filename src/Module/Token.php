@@ -32,10 +32,10 @@ class Token
                 $uuid = str_replace('-', '_', Core::uuid());
                 $variable = '{{$literal.' . $uuid . '}}';
                 $define = '{{$literal.' . $uuid . ' = \'' . str_replace([
-                    '\'',
+                    // '\'',
                     '\\'
                 ],[
-                    '\\\'',
+                    // '\\\'',
                     '\\\\'
 
                 ], $literal) . '\'}}';

@@ -3306,8 +3306,13 @@ class Php {
                                 ddd($next);
                             }                            
                             $skip++;
+                            if($is_debug){
+                                d($value);
+                            }
                             $value = Php::value_calculate($object, $flags, $options, $record['value'], $value, $right);
                             if($is_debug){
+                                d($record);
+                                d($right);
                                 ddd($value);
                             }                                                        
 

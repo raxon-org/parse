@@ -33,11 +33,11 @@ class Token
                 $variable = '{{$literal.' . $uuid . '}}';
                 d($literal);
                 $define = '{{$literal.' . $uuid . ' = \'' . str_replace([
-                    '\'',
-                    '\\'
+                    '\\',
+                    '\''               
                 ],[
-                    '\\\'',
-                    '\\\\'
+                    '\\\\',
+                    '\\\''                    
 
                 ], $literal) . '\'}}';
                 d($define);

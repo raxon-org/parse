@@ -36,7 +36,7 @@ class Token
                 // $data->data('literal.' . $uuid, $literal);
                 $input = str_replace(
                     '{{literal}}',
-                    $define . "\n" . '{{literal}}',
+                    $define . '{{literal}}',
                     $input
                 );
                 $input = str_replace(

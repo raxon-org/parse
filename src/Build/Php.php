@@ -3239,8 +3239,8 @@ class Php {
                                 array_key_exists('type', $next) && 
                                 $next['type'] === 'symbol'
                             ){                                
-                                $value .= $record['value'] . $next['value'];
-                                $skip++;
+                                // $value .= $record['value'] . $next['value'];
+                                // $skip++;
                                 $is_debug = true;
                                 break;                                                               
                             }

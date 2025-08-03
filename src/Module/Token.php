@@ -31,6 +31,7 @@ class Token
                 $literal = $temp[1];
                 $uuid = str_replace('-', '_', Core::uuid());
                 $variable = '{{$literal.' . $uuid . '}}';
+                d($literal);
                 $define = '{{$literal.' . $uuid . ' = \'' . str_replace([
                     '\'',
                     '\\'
@@ -39,6 +40,7 @@ class Token
                     '\\\\'
 
                 ], $literal) . '\'}}';
+                ddd($define);
                 // $data->data('literal.' . $uuid, $literal);
                 $input = str_replace(
                     '{{literal}}',
@@ -321,55 +323,67 @@ class Token
                             $curly_depth_variable = false;
                             for($i=0; $i < $length; $i++){
                                 $char = $data[$i];
-                                if(array_key_exists($i - 1, $data)){
-                                    $previous = $data[$i - 1];
+                                $previous = $data[$i - 1] ?? null;
+                                $previous_2x = $data[$i - 2] ?? null;
+                                $previous_3x = $data[$i - 3] ?? null;
+                                $next = $data[$i + 1] ?? null;
+
+                                if($previous !== null){
                                     if(
-                                        is_array($data[$i - 1]) &&
-                                        array_key_exists('execute', $data[$i - 1])
+                                        is_array($previous) &&
+                                        array_key_exists('execute', $previous)
                                     ){
-                                        $previous = $data[$i - 1]['execute'];
+                                        $previous = $previous['execute'];
                                     }
                                     elseif(
-                                        is_array($data[$i - 1]) &&
-                                        array_key_exists('value', $data[$i - 1])
+                                        is_array($previous) &&
+                                        array_key_exists('value', $previous)
                                     ){
-                                        $previous = $data[$i - 1]['value'];
+                                        $previous = $previous['value'];
                                     }
-                                } else {
-                                    $previous = null;
                                 }
-                                if(array_key_exists($i - 2, $data)){
-                                    $previous_previous = $data[$i - 2];
+                                if($previous_2x !== null){
                                     if(
-                                        is_array($data[$i - 2]) &&
-                                        array_key_exists('execute', $data[$i - 2])
+                                        is_array($previous_2x) &&
+                                        array_key_exists('execute', $previous_2x)
                                     ){
-                                        $previous_previous = $data[$i - 2]['execute'];
+                                        $previous_2x = $previous_2x['execute'];
                                     }
                                     elseif(
-                                        is_array($data[$i - 2]) &&
-                                        array_key_exists('value', $data[$i - 2])
+                                        is_array($previous_2x) &&
+                                        array_key_exists('value', $previous_2x)
                                     ){
-                                        $previous_previous = $data[$i - 2]['value'];
+                                        $previous_2x = $previous_2x['value'];
                                     }
-                                } else {
-                                    $previous_previous = null;
                                 }
-                                if(array_key_exists($i + 1, $data)){
-                                    $next = $data[$i + 1];
+                                if($previous_3x !== null){
                                     if(
-                                        is_array($data[$i + 1]) &&
-                                        array_key_exists('execute', $data[$i + 1])){
-                                        $next = $data[$i - 1]['execute'];
+                                        is_array($previous_3x) &&
+                                        array_key_exists('execute', $previous_3x)
+                                    ){
+                                        $previous_3x = $previous_3x['execute'];
                                     }
                                     elseif(
-                                        is_array($data[$i + 1]) &&
-                                        array_key_exists('value', $data[$i + 1])){
-                                        $next = $data[$i - 1]['value'];
+                                        is_array($previous_3x) &&
+                                        array_key_exists('value', $previous_3x)
+                                    ){
+                                        $previous_3x = $previous_3x['value'];
                                     }
-                                } else {
-                                    $next = null;
                                 }
+                                if($next !== null){
+                                    if(
+                                        is_array($next) &&
+                                        array_key_exists('execute', $next)
+                                    ){
+                                        $next = $next['execute'];
+                                    }
+                                    elseif(
+                                        is_array($next) &&
+                                        array_key_exists('value', $next)
+                                    ){
+                                        $next = $next['value'];
+                                    }
+                                }                                        
                                 if(
                                     $char === '\'' &&
                                     $is_single_quoted === false &&
@@ -377,7 +391,7 @@ class Token
                                         $previous !== '\\' ||
                                         (
                                             $previous === '\\' &&
-                                            $previous_previous === '\\'
+                                            $previous_2x === '\\'
                                         )
                                     )
                                 ){
@@ -390,14 +404,18 @@ class Token
                                         $previous !== '\\' ||
                                         (
                                             $previous === '\\' &&
-                                            $previous_previous === '\\'
+                                            $previous_2x === '\\'
                                         )
                                     )
                                 ){
                                     $is_single_quoted = false;
-                                    d($nr);
-                                    if($nr === 0){
-                                        d($data);
+                                    if($previous === '\\' && $previous_2x === '\\'){                                                                                                                    
+                                        d($nr);
+                                        if($nr === 0){
+                                            d($previous_3x);
+                                            d($next);
+                                           ddd($data);
+                                        }                                    
                                     }                                    
                                 }
                                 elseif(
@@ -407,7 +425,7 @@ class Token
                                         $previous !== '\\' ||
                                         (
                                             $previous === '\\' &&
-                                            $previous_previous === '\\'
+                                            $previous_2x === '\\'
                                         )
                                     )
                                 ){
@@ -420,7 +438,7 @@ class Token
                                         $previous !== '\\' ||
                                         (
                                             $previous === '\\' &&
-                                            $previous_previous === '\\'
+                                            $previous_2x === '\\'
                                         )
                                     )
                                 ){

@@ -271,8 +271,7 @@ class Token
         if(!is_array($tags)){
             return $tags;
         }
-        $cache = $object->get(App::CACHE);
-        d($tags);
+        $cache = $object->get(App::CACHE);        
         foreach($tags as $line => $tag){
             foreach($tag as $nr => $record){
                 if(

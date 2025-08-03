@@ -3241,6 +3241,7 @@ class Php {
                             ){                                
                                 $value .= $record['value'] . $next['value'];
                                 $skip++;
+                                $is_debug = true;
                                 break;                                                               
                             }
                             elseif(                                
@@ -3310,13 +3311,7 @@ class Php {
                             if($is_debug){
                                 d($value);
                             }
-                            $value = Php::value_calculate($object, $flags, $options, $record['value'], $value, $right);
-                            if($is_debug){
-                                d($record);
-                                d($right);
-                                ddd($value);
-                            }                                                        
-
+                            $value = Php::value_calculate($object, $flags, $options, $record['value'], $value, $right);                                                                                    
                         }
                         break;
                 }
@@ -3521,6 +3516,9 @@ class Php {
                 d('not implemented');
                 ddd($record);
             }
+        }
+        if($is_debug){                                
+            ddd($value);
         }
         return $value;
     }

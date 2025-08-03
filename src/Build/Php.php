@@ -2997,6 +2997,7 @@ class Php {
      */
     public static function value(App $object, $flags, $options, $tag, $input, &$is_set=false, &$before=[], &$after=[]): string
     {
+        $is_debug = false;
         $source = $options->source ?? '';
         $value = '';
         $skip = 0;        
@@ -3239,6 +3240,7 @@ class Php {
                                 $next['type'] === 'symbol'
                             ){
                                 $right = $next['value'];
+                                $is_debug = true;
                             }
                             elseif(                                
                                 array_key_exists('type', $next) &&
@@ -3304,7 +3306,11 @@ class Php {
                                 ddd($next);
                             }                            
                             $skip++;
-                            $value = Php::value_calculate($object, $flags, $options, $record['value'], $value, $right);                                                        
+                            $value = Php::value_calculate($object, $flags, $options, $record['value'], $value, $right);
+                            if($is_debug){
+                                ddd($value);
+                            }                                                        
+
                         }
                         break;
                 }

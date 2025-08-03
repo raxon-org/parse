@@ -1387,6 +1387,7 @@ class Token
                 }
             }
         }
+        d($tags);
         return $tags;
     }
 

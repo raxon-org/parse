@@ -319,6 +319,7 @@ class Value
                         }
                     }
                     $value = Value::basic($object, $flags, $options, $value);
+                    d($value);
                     $input['array'][$is_single_quoted] = $value;
                     //maybe with value (whitespace we need double quote (\t\s))
                     $value_current = $value['execute'] ?? $value['value'];

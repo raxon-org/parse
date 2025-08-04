@@ -31,8 +31,11 @@ class Token
             if(array_key_exists(1, $temp)){
                 $literal = $temp[1];
                 $uuid = str_replace('-', '_', Core::uuid());
-                $variable = '{{$literal.' . $uuid . '}}';         
-                d($literal);       
+                $variable = '{{$literal.' . $uuid . '}}';   
+                $count = $object->config('literal.count') ?? 1;                     
+                if($count > 1){
+                    ddd($literal);
+                }
                 $define = '{{$literal.' . $uuid . ' = \'' . Escape::single_quote($literal) . '\'}}';                
                 // $data->data('literal.' . $uuid, $literal);
                 $input = str_replace(
@@ -44,8 +47,9 @@ class Token
                     '{{literal}}' . $literal . '{{/literal}}',
                     $variable,
                     $input
-                ); 
+                );                 
                 $input = Token::literal_apply($object, $data, $flags, $options, $input);               
+                $object->config('literal.count', $count++);
             }            
         }
         return $input;

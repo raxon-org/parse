@@ -54,18 +54,7 @@ class Tag
                 }
             }
             if(                
-                $char === '\'' &&
-                $nr  > 905
-            ){
-                d($tag);
-                d($char);
-                d($previous);
-                d($next);
-                d($next_next);
-                d($next_next_next);
-                ddd($nr);
-            }
-
+                $char === '\''                       
             if(
                 $tag === false &&
                 $char === '\'' &&
@@ -126,6 +115,15 @@ class Tag
                     }
                     $text = '';
                 }
+                $is_single_quoted = true;
+            }
+            elseif(
+                $char === '\'' &&
+                $is_single_quoted === false &&
+                $is_double_quoted === false &&
+                $is_double_quoted_backslash === false &&
+                $previous !== '\\'
+            ){
                 $is_single_quoted = true;
             }
             elseif(
@@ -192,6 +190,15 @@ class Tag
                     d($nr);
                     continue;
                 }
+                $is_single_quoted = false;
+            }
+            elseif(
+                $char === '\'' &&
+                $is_single_quoted === true &&
+                $is_double_quoted === false &&
+                $is_double_quoted_backslash === false &&
+                $previous !== '\\'
+            ){
                 $is_single_quoted = false;
             }           
             elseif(

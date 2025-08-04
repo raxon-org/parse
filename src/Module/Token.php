@@ -1210,12 +1210,14 @@ class Token
                                                     'array_notation' => $array_notation_list
                                                 ];
                                             } else {
+                                                /*
                                                 if(array_key_exists('string', $list) && str_contains($list['string'], 'dir.read')){
                                                     d(trace());
                                                     d($tags);
                                                     d($record);
                                                     ddd($list);
                                                 }
+                                                */
                                                 
                                                 $variable = [
                                                     'is_assign' => true,

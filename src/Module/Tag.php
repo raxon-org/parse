@@ -60,9 +60,7 @@ class Tag
                 $is_double_quoted === false &&
                 $is_double_quoted_backslash === false &&
                 $previous !== '\\'
-            ){
-                d($nr);
-                d($text);
+            ){                
                 if($text !== ''){                    
                     $explode = explode("\n", $text);
                     $count = count($explode);
@@ -131,9 +129,7 @@ class Tag
                 $is_double_quoted === false &&
                 $is_double_quoted_backslash === false &&
                 $previous !== '\\'
-            ){
-                d($nr);
-                d($text);
+            ){                
                 if($text !== ''){
                     $text .= $char;
                     $explode = explode("\n", $text);
@@ -493,10 +489,7 @@ class Tag
                 $is_double_quoted_backslash === false
             ){
                 $is_comment = true;
-                $is_comment_multiline = true;
-                d($previous);
-                d($nr);
-                //ddd($split);
+                $is_comment_multiline = true;                                
             }
             elseif(
                 $char === '*' &&

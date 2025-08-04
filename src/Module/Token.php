@@ -22,8 +22,7 @@ class Token
                 $input[$nr] = Token::literal_apply($object, $data, $flags, $options, $record);
             }
             return $input;
-        }
-        
+        }        
         $explode = explode('{{/literal}}', $input, 2);
         if(!array_key_exists(1, $explode)){
             return $input;

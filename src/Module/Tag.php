@@ -55,6 +55,13 @@ class Tag
             }
             if(
                 $tag === false &&
+                $char === '\''
+            ){
+                d($nr);
+            }
+
+            if(
+                $tag === false &&
                 $char === '\'' &&
                 $is_single_quoted === false &&
                 $is_double_quoted === false &&
@@ -180,16 +187,7 @@ class Tag
                     continue;
                 }
                 $is_single_quoted = false;
-            }
-            elseif(                
-                $char === '\''
-            ){
-                d($tag);
-                d($is_single_quoted);
-                d($is_double_quoted);
-                d($is_double_quoted_backslash);
-                d($previous);
-            }
+            }           
             elseif(
                 $tag === false &&
                 $char === '"' &&

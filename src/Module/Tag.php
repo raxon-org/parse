@@ -52,9 +52,7 @@ class Tag
                 ){
                     $is_comment = false;
                 }
-            }
-            if(                
-                $char === '\''                       
+            }                       
             if(
                 $tag === false &&
                 $char === '\'' &&

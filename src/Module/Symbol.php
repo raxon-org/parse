@@ -187,14 +187,12 @@ class Symbol
                         $is_single_quote === false &&
                         $is_double_quote === false &&
                         $is_double_quote_backslash === false
-                    )
-                    /* disabled @ 2025-08-04
+                    )                    
                      ||
                     (
                         $char === '\'' &&
                         $is_single_quote !== false
-                    )
-                    */    
+                    )                    
                 )
                 &&
                 in_array(

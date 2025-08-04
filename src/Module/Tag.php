@@ -39,6 +39,7 @@ class Tag
                 $skip--;
                 continue;
             }
+            d($tag);
             $previous = $split[$nr - 1] ?? null;
             $next = $split[$nr + 1] ?? null;
             $next_next = $split[$nr + 2] ?? null;

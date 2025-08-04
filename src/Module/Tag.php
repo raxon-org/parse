@@ -485,7 +485,7 @@ class Tag
                 $is_comment_multiline = true;
                 d($previous);
                 d($nr);
-                ddd($split);
+                //ddd($split);
             }
             elseif(
                 $char === '*' &&

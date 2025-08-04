@@ -54,10 +54,16 @@ class Tag
                 }
             }
             if(                
-                $char === '\''
+                $char === '\'' &&
+                $nr  > 905
             ){
-                // d($tag);
-                // d($nr);
+                d($tag);
+                d($char);
+                d($previous);
+                d($next);
+                d($next_next);
+                d($next_next_next);
+                ddd($nr);
             }
 
             if(

@@ -4333,6 +4333,7 @@ class Php {
                 switch($operator){
                     case '=' :
                         d($value);
+                        d($record);
                         $item = '$data->set(' .
                             '\'' .
                             str_replace('\'', '\\\'', $variable_name) .

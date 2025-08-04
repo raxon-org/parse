@@ -53,10 +53,10 @@ class Tag
                     $is_comment = false;
                 }
             }
-            if(
-                $tag === false &&
+            if(                
                 $char === '\''
             ){
+                d($tag);
                 d($nr);
             }
 

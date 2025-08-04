@@ -56,8 +56,8 @@ class Tag
             if(                
                 $char === '\''
             ){
-                d($tag);
-                d($nr);
+                // d($tag);
+                // d($nr);
             }
 
             if(

@@ -471,6 +471,8 @@ class Tag
             ){
                 $is_comment = true;
                 $is_comment_multiline = true;
+                d($nr);
+                ddd($split);
             }
             elseif(
                 $char === '*' &&

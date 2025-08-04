@@ -4336,9 +4336,7 @@ class Php {
                     }
                 }
                 switch($operator){
-                    case '=' :
-                        d($value);
-                        trace();
+                    case '=' :                        
                         $item = '$data->set(' .
                             '\'' .
                             str_replace('\'', '\\\'', $variable_name) .

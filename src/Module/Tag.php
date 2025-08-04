@@ -61,9 +61,9 @@ class Tag
                 $is_double_quoted_backslash === false &&
                 $previous !== '\\'
             ){
-                if($text !== ''){
-                    d($nr);
-                    d($text);
+                d($nr);
+                d($text);
+                if($text !== ''){                    
                     $explode = explode("\n", $text);
                     $count = count($explode);
                     $explode_tag = explode("\n", $tag);
@@ -123,6 +123,8 @@ class Tag
                 $is_double_quoted_backslash === false &&
                 $previous !== '\\'
             ){
+                d($nr);
+                d($text);
                 if($text !== ''){
                     $text .= $char;
                     $explode = explode("\n", $text);

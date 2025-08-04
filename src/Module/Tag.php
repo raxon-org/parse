@@ -172,6 +172,7 @@ class Tag
                     }
                     $text = '';
                     $is_single_quoted = false;
+                    d($nr);
                     continue;
                 }
                 $is_single_quoted = false;

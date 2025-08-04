@@ -254,8 +254,7 @@ class Php {
         $capture_depth = 0;
         $content = [];
         $is_literal = false;
-        $marker_data = [];
-        d($tags);
+        $marker_data = [];        
         foreach ($tags as $row_nr => $list) {
             foreach ($list as $nr => &$record) {
                 $object->config('package.raxon/parse.build.state.tag', $record);
@@ -660,6 +659,7 @@ class Php {
                         if(substr($text_text, -1, 1) === '\\' && substr($text_text, -2, 2) !== '\\') {
                             $text_text .= '\\';
                         }
+                        d($text);
                         //need content variable
                         if(property_exists($options, 'variable')){
                             $data[] = $options->variable . '[] = \'' . str_replace(['\''], ['\\\''], $text_text) . '\';';

@@ -23,6 +23,7 @@ class Token
             }
             return $input;
         }
+        
         $explode = explode('{{/literal}}', $input, 2);
         if(!array_key_exists(1, $explode)){
             return $input;

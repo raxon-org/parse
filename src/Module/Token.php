@@ -1212,6 +1212,7 @@ class Token
                                             } else {
                                                 if(array_key_exists('string', $list) && str_contains($list['string'], 'dir.read')){
                                                     d(trace());
+                                                    d($tags);
                                                     d($record);
                                                     ddd($list);
                                                 }

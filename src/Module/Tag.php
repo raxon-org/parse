@@ -180,8 +180,7 @@ class Tag
                         $tag_list[$line][] = $record;
                     }
                     $text = '';
-                    $is_single_quoted = false;
-                    d($nr);
+                    $is_single_quoted = false;                    
                     continue;
                 }
                 $is_single_quoted = false;

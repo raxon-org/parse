@@ -288,8 +288,7 @@ class Value
                     $is_double_quoted === false &&
                     $is_single_quoted_backslash === false
                 ){
-                    $value = '';
-                    d($input);
+                    $value = '';                    
                     for($i = $is_single_quoted + 1; $i < $nr; $i++){
                         $item = $input['array'][$i];
                         if(is_array($item)){
@@ -318,8 +317,7 @@ class Value
                             $value .= $item;
                         }
                     }
-                    $value = Value::basic($object, $flags, $options, $value);
-                    d($value);
+                    $value = Value::basic($object, $flags, $options, $value);                    
                     $input['array'][$is_single_quoted] = $value;
                     //maybe with value (whitespace we need double quote (\t\s))
                     $value_current = $value['execute'] ?? $value['value'];

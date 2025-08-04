@@ -181,6 +181,15 @@ class Tag
                 }
                 $is_single_quoted = false;
             }
+            elseif(                
+                $char === '\''
+            ){
+                d($tag);
+                d($is_single_quoted);
+                d($is_double_quoted);
+                d($is_double_quoted_backslash);
+                d($previous);
+            }
             elseif(
                 $tag === false &&
                 $char === '"' &&

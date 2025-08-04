@@ -62,6 +62,8 @@ class Tag
                 $previous !== '\\'
             ){
                 if($text !== ''){
+                    d($nr);
+                    d($text);
                     $explode = explode("\n", $text);
                     $count = count($explode);
                     $explode_tag = explode("\n", $tag);

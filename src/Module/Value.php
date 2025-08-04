@@ -289,6 +289,7 @@ class Value
                     $is_single_quoted_backslash === false
                 ){
                     $value = '';
+                    d($input);
                     for($i = $is_single_quoted + 1; $i < $nr; $i++){
                         $item = $input['array'][$i];
                         if(is_array($item)){

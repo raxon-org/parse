@@ -734,8 +734,7 @@ class Tag
                     $tag_list[$line] = [];
                 }
                 $tag_list[$line][] = $record;
-            }
-            d($record);
+            }            
         }        
         return $tag_list;
     }

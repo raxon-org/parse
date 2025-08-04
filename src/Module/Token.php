@@ -36,7 +36,8 @@ class Token
                 if($count > 1){
                     ddd($literal);
                 }
-                $define = '{{$literal.' . $uuid . ' = \'' . Escape::single_quote($literal) . '\'}}';                
+                $define = '{{$literal.' . $uuid . ' = \'' . Escape::single_quote($literal) . '\'}}';     
+                d($define);           
                 // $data->data('literal.' . $uuid, $literal);
                 $input = str_replace(
                     '{{literal}}',

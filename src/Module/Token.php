@@ -32,12 +32,8 @@ class Token
                 $literal = $temp[1];
                 $uuid = str_replace('-', '_', Core::uuid());
                 $variable = '{{$literal.' . $uuid . '}}';   
-                $count = $object->config('literal.count') ?? 1;                     
-                if($count > 1){
-                    ddd($literal);
-                }
-                $define = '{{$literal.' . $uuid . ' = \'' . Escape::single_quote($literal) . '\'}}';     
-                $define .= '{{d($literal)}}'; //debugging
+                $count = $object->config('literal.count') ?? 1;                                     
+                $define = '{{$literal.' . $uuid . ' = \'' . Escape::single_quote($literal) . '\'}}';                     
                 // d($define);           
                 // $data->data('literal.' . $uuid, $literal);
                 $input = str_replace(

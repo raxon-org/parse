@@ -476,6 +476,7 @@ class Tag
             ){
                 $is_comment = true;
                 $is_comment_multiline = true;
+                d($previous);
                 d($nr);
                 ddd($split);
             }

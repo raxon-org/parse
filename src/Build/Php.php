@@ -659,6 +659,7 @@ class Php {
                         if(substr($text_text, -1, 1) === '\\' && substr($text_text, -2, 2) !== '\\') {
                             $text_text .= '\\';
                         }                        
+                        d('yes');
                         //need content variable
                         if(property_exists($options, 'variable')){
                             $data[] = $options->variable . '[] = \'' . str_replace(['\''], ['\\\''], $text_text) . '\';';

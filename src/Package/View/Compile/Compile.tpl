@@ -3,7 +3,7 @@
 is.array($response) ||
 is.object($response)
 )}}
-{{$response|json.encode:JSON_PRETTY_PRINT}}
+{{$response|>json.encode:JSON_PRETTY_PRINT}}
 {{else}}
-{{$response|default:''}}
+{{$response|>default:''}}
 {{/if}}

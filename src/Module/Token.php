@@ -33,7 +33,8 @@ class Token
                 $uuid = str_replace('-', '_', Core::uuid());
                 $variable = '{{$literal.' . $uuid . '}}';   
                 $count = $object->config('literal.count') ?? 1;                                     
-                $define = '{{$literal.' . $uuid . ' = \'' . Escape::single_quote($literal) . '\'}}';                     
+                $define = '{{$literal.' . $uuid . ' = \'' . Escape::single_quote($literal) . '\'}}';   
+                d($uuid);                  
                 // d($define);           
                 // $data->data('literal.' . $uuid, $literal);
                 $input = str_replace(

@@ -4279,12 +4279,12 @@ class Php {
                 }
             }
         } else {
-            /*
-            if(str_contains($record['variable']['value']['string'], 'dir.read')){
+            
+            if(str_contains($record['variable']['value']['string'], '{ address }')){
                 d(trace());
                 ddd($record);
             }
-            */
+        
             $value = Php::value($object, $flags, $options, $record, $record['variable']['value'],$is_set, $before, $after);
         }
         if(array_key_exists('modifier', $record['variable'])){

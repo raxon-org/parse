@@ -4285,7 +4285,7 @@ class Php {
                 ddd($record);
             }
         
-            $value = Php::value($object, $flags, $options, $record, $record['variable']['value'],$is_set, $before, $after);
+            $value = Php::value($object, $flags, $options, $record, $record['variable']['value'], $is_set, $before, $after);
         }
         if(array_key_exists('modifier', $record['variable'])){
             d($value);
@@ -4347,6 +4347,7 @@ class Php {
                             $value .
                             ')'
                         ;
+                        d($item);
                         $item_validator = $item  . ';';
                         $result_validator[] = $item_validator;
                         if($separator !== null){

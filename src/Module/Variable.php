@@ -465,8 +465,7 @@ class Variable
         $argument_nr = -1;
         $argument = [];
         $argument_array = [];
-        $nr = $count - 1;
-        d($input);
+        $nr = $count - 1;        
         foreach($input['array'] as $nr => $char) {
             if(!is_numeric($nr)){
                 // ',' in modifier causes this

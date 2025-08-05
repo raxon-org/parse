@@ -382,6 +382,15 @@ class Method
                                 ){
                                     break;
                                 }
+                                elseif(
+                                    array_key_exists('value', $input['array'][$i]) &&
+                                    $input['array'][$i]['value'] === '|>' &&
+                                    $previous !== '|' &&                                    
+                                    $is_single_quote === false &&
+                                    $is_double_quote === false
+                                ){
+                                    break;
+                                }
                             } else {
                                 if(
                                     !in_array(

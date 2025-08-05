@@ -484,7 +484,7 @@ class Token
                                 if(
                                     $variable_name !== '' &&
                                     $char === '|' &&
-                                    $next !== '|' &&
+                                    $next === '>' &&
                                     $previous !== '|' &&
                                     $set_depth === 0 &&
                                     $array_depth === 0 &&
@@ -1103,7 +1103,7 @@ class Token
                                             if(
                                                 is_array($list_value) &&
                                                 array_key_exists('value', $list_value) &&
-                                                $list_value['value'] === '|'
+                                                $list_value['value'] === '|>'
                                             ){
                                                 $argument_value = [];
                                                 foreach($argument as $argument_nr => $argument_value_value){
@@ -1159,8 +1159,7 @@ class Token
                                                 'name' => $modifier_name,
                                                 'argument' => $argument_value
                                             ];
-                                        }
-                                        dd($modifier_array);
+                                        }                                        
                                         $variable = [
                                             'is_define' => true,
                                             'is_not' => $is_not,
@@ -1369,7 +1368,7 @@ class Token
                                         !in_array(
                                             $current,
                                             [
-                                                '|'
+                                                '|>'
                                             ],
                                             true
                                         )
@@ -1386,7 +1385,7 @@ class Token
                                         !in_array(
                                             $current,
                                             [
-                                                '|'
+                                                '|>'
                                             ],
                                             true
                                         )

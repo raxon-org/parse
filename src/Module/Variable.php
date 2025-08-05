@@ -697,7 +697,7 @@ class Variable
             elseif(
                 $current === '|' &&
                 $previous !== '|' &&
-                $next !== '|' &&
+                $next === '>' &&
                 $is_single_quote === false &&
                 $is_double_quote === false &&
                 $is_double_quote_backslash === false &&
@@ -729,10 +729,7 @@ class Variable
                             $tag
                         );
                         $argument_array[$argument_nr] = $argument_value;
-                    }
-                    d($modifier_string);
-                    d($modifier_name);
-                    d($argument_array);
+                    }                    
                     $input['array'][$is_variable]['modifier'][] = [
                         'string' => $modifier_string,
                         'name' => $modifier_name,
@@ -916,7 +913,7 @@ class Variable
                             "\n",
                             "\r",
                             ':',
-                            '|',
+                            '|>',
                         ],
                         true
                     )

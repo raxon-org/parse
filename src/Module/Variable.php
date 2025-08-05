@@ -912,7 +912,7 @@ class Variable
                             "\n",
                             "\r",
                             ':',
-                            '|',
+                            '|>',
                         ],
                         true
                     )

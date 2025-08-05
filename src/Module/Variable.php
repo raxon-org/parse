@@ -695,9 +695,8 @@ class Variable
                 }
             }
             elseif(
-                $current === '|' &&
-                $previous !== '|' &&
-                $next === '>' &&
+                $current === '>' &&
+                $previous === '|' &&                
                 $is_single_quote === false &&
                 $is_double_quote === false &&
                 $is_double_quote_backslash === false &&

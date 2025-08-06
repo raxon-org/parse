@@ -3002,6 +3002,7 @@ class Php {
      */
     public static function value(App $object, $flags, $options, $tag, $input, &$is_set=false, &$before=[], &$after=[]): string
     {
+        d($input);
         $is_debug = false;
         $source = $options->source ?? '';
         $value = '';

@@ -38,7 +38,7 @@ class Token
                 d($input);
                 $input = $assign . $variable . str_replace(
                     $literal . '{{/literal}}',
-                    $variable,
+                    '',
                     $input
                 );                  
                 ddd($input);

@@ -17,6 +17,7 @@ trait Php_Namespace_Host {
     protected function php_namespace_host(mixed $host): string
     {
         $object = $this->object();
+        ddd($host);
         $explode = explode('.', $host);
         foreach($explode as $nr => $value){
             $explode[$nr] = ucfirst($value);

@@ -119,7 +119,13 @@ class Tag
                 $is_single_quoted === false &&
                 $is_double_quoted === false &&
                 $is_double_quoted_backslash === false &&
-                $previous !== '\\'
+                (
+                    $previous !== '\\' ||
+                    (
+                        $previous === '\\' && 
+                        $previous_2x === '\\'
+                    )
+                )
             ){
                 $is_single_quoted = true;
             }
@@ -129,7 +135,13 @@ class Tag
                 $is_single_quoted === true &&
                 $is_double_quoted === false &&
                 $is_double_quoted_backslash === false &&
-                $previous !== '\\'
+                (
+                    $previous !== '\\' ||
+                    (
+                        $previous === '\\' && 
+                        $previous_2x === '\\'
+                    )
+                )
             ){                
                 if($text !== ''){
                     $text .= $char;
@@ -207,7 +219,13 @@ class Tag
                 $is_single_quoted === false &&
                 $is_double_quoted === false &&
                 $is_double_quoted_backslash === false &&
-                $previous !== '\\'
+                (
+                    $previous !== '\\' ||
+                    (
+                        $previous === '\\' && 
+                        $previous_2x === '\\'
+                    )
+                )
             ){
                 if($text !== ''){
                     $explode = explode("\n", $text);
@@ -267,7 +285,13 @@ class Tag
                 $is_single_quoted === false &&
                 $is_double_quoted === true &&
                 $is_double_quoted_backslash === false &&
-                $previous !== '\\'
+                (
+                    $previous !== '\\' ||
+                    (
+                        $previous === '\\' && 
+                        $previous_2x === '\\'
+                    )
+                )
             ){            
                 if($text !== ''){
                     $text .= $char;

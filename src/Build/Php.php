@@ -1826,8 +1826,13 @@ class Php {
                         if(
                             array_key_exists('is_assign', $record['variable']) &&
                             $record['variable']['is_assign'] === true
-                        ){   
-                            d($record);
+                        ){  
+                            if(str_contains($record['tag'], 'namespace Domain')){
+                                d($record);
+                                trace();
+                                ddd('end');
+                            } 
+                            
                             $variable = Php::variable_assign($object, $flags, $options, $record);
                             d($variable);
                             if($variable){

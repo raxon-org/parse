@@ -61,7 +61,7 @@ dd($assign);
             }            
         }    
         d($input);
-        d($count)
+        d($count);
         return $input;
     }
 

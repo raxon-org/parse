@@ -4363,6 +4363,7 @@ class Php {
                             ){
                                 $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '\' . PHP_EOL . (string) $exception, 0, $exception);';
                             } else {
+                                d($record);
                                 $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\' . PHP_EOL . (string) $exception, 0, $exception);';
                             }
                             $result[] = '}';

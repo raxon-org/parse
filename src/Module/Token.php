@@ -403,15 +403,7 @@ class Token
                                         )
                                     )
                                 ){
-                                    $is_single_quoted = false;
-                                    if($previous === '\\' && $previous_2x === '\\'){                                                                                                                    
-                                        d($nr);
-                                        if($nr === 0){
-                                            d($previous_3x);
-                                            d($next);
-                                           ddd($data);
-                                        }                                    
-                                    }                                    
+                                    $is_single_quoted = false;                                                              
                                 }
                                 elseif(
                                     $char === '"' &&

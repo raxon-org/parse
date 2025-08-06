@@ -4347,7 +4347,8 @@ class Php {
                             '\', ' .
                             $value .
                             ')'
-                        ;                        
+                        ;          
+                        d($value);              
                         $item_validator = $item  . ';';
                         $result_validator[] = $item_validator;
                         if($separator !== null){

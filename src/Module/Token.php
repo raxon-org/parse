@@ -37,12 +37,10 @@ class Token
                 $assign = '{{$literal.' . $uuid . ' = \'' . Escape::single_quote($literal) . '\'}}';                     
                 // d($define);           
                 // $data->data('literal.' . $uuid, $literal);
-                $input = 
-                    '{{literal}}' . 
+                $input =                     
                     "\n" . 
                     $assign . 
-                    "\n" . 
-                    '{{literal}}' .
+                    "\n" .                     
                     $explode[1]
                 ;
                 $input = str_replace(

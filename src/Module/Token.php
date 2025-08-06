@@ -1249,16 +1249,15 @@ class Token
                                                 $array_notation = '';
                                                 $array_notation_array = [];
                                                 $has_variable_name = false;
-                                            } else { 
-                                                d($list);
-                                                // this should be an assign because it has an operator                                               
+                                            } else {                                                 
                                                 $variable = [
-                                                    'is_define' => true,
+                                                    'is_assign' => true,
                                                     'is_not' => $is_not,
                                                     'operator' => $operator,
                                                     'name' => mb_substr($variable_target, 1),
                                                     'modifier' => $modifier_array,
-                                                    'cast' => $cast
+                                                    'cast' => $cast,
+                                                    'value' => $list,
                                                 ];
                                             }
                                         }

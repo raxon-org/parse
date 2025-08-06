@@ -23,6 +23,7 @@ class Token
             }
             return $input;
         }        
+        $count = false;
         $explode = explode('{{/literal}}', $input, 2);
         if(!array_key_exists(1, $explode)){
             return $input;
@@ -45,12 +46,14 @@ class Token
                     '{{literal}}' . $literal . '{{/literal}}',
                     $variable,
                     $input
-                );                 
+                );  
+                d($input);               
                 $input = Token::literal_apply($object, $data, $flags, $options, $input);               
                 $object->config('literal.count', $count++);
             }            
         }    
         d($input);
+        d($count);
         return $input;
     }
 

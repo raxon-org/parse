@@ -40,6 +40,11 @@ class Token
                     $variable,
                     $input
                 );  
+                $input = str_replace(
+                    '{{literal}}' . $variable,
+                    $variable,
+                    $input
+                );
                 ddd($input);               
                 $input = Token::literal_apply($object, $data, $flags, $options, $input);               
                 $object->config('literal.count', $count++);

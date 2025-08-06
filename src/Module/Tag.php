@@ -41,9 +41,10 @@ class Tag
                 continue;
             }            
             $previous = $split[$nr - 1] ?? null;
+            $previous_2x = $split[$nr - 2] ?? null;
             $next = $split[$nr + 1] ?? null;
-            $next_next = $split[$nr + 2] ?? null;
-            $next_next_next = $split[$nr + 3] ?? null;
+            $next_2x = $split[$nr + 2] ?? null;
+            $next_3x = $split[$nr + 3] ?? null;
             if($char === "\n"){
                 $line++;
                 $column[$line] = 1;
@@ -191,7 +192,13 @@ class Tag
                 $is_single_quoted === true &&
                 $is_double_quoted === false &&
                 $is_double_quoted_backslash === false &&
-                $previous !== '\\'
+                (
+                    $previous !== '\\' ||
+                    (
+                        $previous === '\\' && 
+                        $previous_2x === '\\'
+                    )
+                )                
             ){
                 $is_single_quoted = false;
             }           
@@ -505,7 +512,7 @@ class Tag
                     $skip++;
                     if(
                         in_array(
-                            $next_next ,
+                            $next_2x ,
                             [
                                 "\n"
                             ],
@@ -520,7 +527,7 @@ class Tag
                     $skip++;
                     if(
                         in_array(
-                            $next_next ,
+                            $next_2x ,
                             [
                                 "\n"
                             ],
@@ -700,11 +707,7 @@ class Tag
                 $tag &&
                 $is_comment === false
             ){
-                $tag .= $char;
-                d($is_double_quoted);
-                d($is_single_quoted);
-                d($is_double_quoted_backslash);
-                breakpoint($tag);                
+                $tag .= $char;                      
             }
             elseif($is_comment === false){
                 $text .= $char;

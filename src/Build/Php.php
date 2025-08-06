@@ -4358,8 +4358,14 @@ class Php {
                             }
                             $result[] = '} catch(Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception){';
                             if(
-                                array_key_exists('is_multiline', $record) &&
-                                $record['is_multiline'] === true
+                                (
+                                    array_key_exists('is_multiline', $record) &&
+                                    $record['is_multiline'] === true
+                                ) ||
+                                (
+                                    array_key_exists('line', $record) &&
+                                    is_array($record['line'])
+                                )                                                            
                             ){
                                 $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '\' . PHP_EOL . (string) $exception, 0, $exception);';
                             } else {

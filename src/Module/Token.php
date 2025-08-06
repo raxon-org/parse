@@ -36,7 +36,7 @@ class Token
                 $count = $object->config('literal.count') ?? 1;                                     
                 $assign = '{{$literal.' . $uuid . ' = \'' . Escape::single_quote($literal) . '\'}}';                     
                 d($input);
-                $input = $assign . $variable . $explode[1];
+                $input = $temp[0] . $assign . $variable . $explode[1];
 ddd($input);
 
 

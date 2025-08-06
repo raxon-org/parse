@@ -35,11 +35,13 @@ class Token
                 $variable = '{{$literal.' . $uuid . '}}';   
                 $count = $object->config('literal.count') ?? 1;                                     
                 $assign = '{{$literal.' . $uuid . ' = \'' . Escape::single_quote($literal) . '\'}}';                     
+                d($input);
                 $input = $assign . str_replace(
                     $literal . '{{/literal}}',
                     $variable,
                     $input
                 );  
+                ddd($input);
                 $input = str_replace(
                     '{{literal}}' . $variable,
                     $variable,

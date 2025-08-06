@@ -50,6 +50,7 @@ class Token
                 $object->config('literal.count', $count++);
             }            
         }    
+        d($input);
         return $input;
     }
 

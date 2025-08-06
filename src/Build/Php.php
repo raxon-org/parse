@@ -3163,6 +3163,7 @@ class Php {
                         ')',
                         '!',
                         '=',
+                        '|',
                     ],
                     true
                 )
@@ -3191,6 +3192,7 @@ class Php {
                     case ')':
                     case '!':
                     case '=':
+                    case '|':
                         $value .=  $record['value'];
                         break;
                     default:

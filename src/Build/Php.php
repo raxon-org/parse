@@ -3002,7 +3002,6 @@ class Php {
      */
     public static function value(App $object, $flags, $options, $tag, $input, &$is_set=false, &$before=[], &$after=[]): string
     {
-        d($input);
         $is_debug = false;
         $source = $options->source ?? '';
         $value = '';
@@ -4288,6 +4287,7 @@ class Php {
         } else {
             d($record);
             $value = Php::value($object, $flags, $options, $record, $record['variable']['value'], $is_set, $before, $after);
+            trace();
             d($value);
         }
         if(

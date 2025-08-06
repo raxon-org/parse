@@ -14,6 +14,7 @@ class Tag
         if(!is_string($input)){
             return [];
         }
+        d($input);
         $length = mb_strlen($input);
         $start = microtime(true);
         $split = mb_str_split($input, 1);

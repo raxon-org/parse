@@ -38,7 +38,7 @@ class Token
                 // $data->data('literal.' . $uuid, $literal);
                 $input = str_replace(
                     '{{literal}}',
-                    $assign . '{{literal}}',
+                    "\n" . $assign . "\n" . '{{literal}}',
                     $input
                 );
                 $input = str_replace(
@@ -1238,7 +1238,8 @@ class Token
                                                 $array_notation = '';
                                                 $array_notation_array = [];
                                                 $has_variable_name = false;
-                                            } else {                                                 
+                                            } else {    
+                                                // d('multiline');                                             
                                                 $variable = [
                                                     'is_assign' => true,
                                                     'is_not' => $is_not,

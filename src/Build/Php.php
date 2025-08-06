@@ -3042,9 +3042,12 @@ class Php {
                     $record['line'] = $tag['line'] ?? 'unknown';
                     $record['length'] = $tag['length'] ?? 'unknown';
                     $record['column'] = $tag['column'] ?? ['start' => 'unknown', 'end' => 'unknown'];
-                    //add is_multiline
-                    d($tag);
-                    d($record);
+                    if(
+                        array_key_exists('is_multiline', $tag) && 
+                        $tag['is_multiline'] === true
+                    ){
+                        $record['is_multiline'] = true;
+                    }                    
                     $value .= Php::variable_assign($object, $flags, $options, $record, $before, $after);
                     //remove next newline
                     $next = $input['array'][$nr + 1] ?? null;

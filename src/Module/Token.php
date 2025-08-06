@@ -33,14 +33,14 @@ class Token
                 $uuid = str_replace('-', '_', Core::uuid());
                 $variable = '{{$literal.' . $uuid . '}}';   
                 $count = $object->config('literal.count') ?? 1;                                     
-                $define = '{{$literal.' . $uuid . ' = \'' . Escape::single_quote($literal) . '\'}}';   
-                d($define);
+                $assign = '{{$literal.' . $uuid . ' = \'' . Escape::single_quote($literal) . '\'}}';   
+                d($assign);
                 d($uuid);                  
                 // d($define);           
                 // $data->data('literal.' . $uuid, $literal);
                 $input = str_replace(
                     '{{literal}}',
-                    $define . "\n" . '{{literal}}',
+                    $assign . "\n" . '{{literal}}',
                     $input
                 );
                 $input = str_replace(
@@ -1249,7 +1249,9 @@ class Token
                                                 $array_notation = '';
                                                 $array_notation_array = [];
                                                 $has_variable_name = false;
-                                            } else {                                                
+                                            } else { 
+                                                d($list);
+                                                // this should be an assign because it has an operator                                               
                                                 $variable = [
                                                     'is_define' => true,
                                                     'is_not' => $is_not,

@@ -4281,8 +4281,10 @@ class Php {
         } else {
             $value = Php::value($object, $flags, $options, $record, $record['variable']['value'], $is_set, $before, $after);
         }
-        if(array_key_exists('modifier', $record['variable'])){
-            ddd($record);            
+        if(
+            array_key_exists('modifier', $record['variable']) && 
+            !empty($record['variable']['modifier'])
+        ){                       
             $previous_modifier = '$data->data(\'' . $record['variable']['name'] . '\')';
             $modifier_value = '';
             foreach($record['variable']['modifier'] as $nr => $modifier){

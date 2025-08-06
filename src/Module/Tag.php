@@ -701,7 +701,10 @@ class Tag
                 $is_comment === false
             ){
                 $tag .= $char;
-                d($tag);
+                d($is_double_quoted);
+                d($is_single_quoted);
+                d($is_double_quoted_backslash);
+                breakpoint($tag);                
             }
             elseif($is_comment === false){
                 $text .= $char;

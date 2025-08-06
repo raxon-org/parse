@@ -33,14 +33,12 @@ class Token
                 $uuid = str_replace('-', '_', Core::uuid());
                 $variable = '{{$literal.' . $uuid . '}}';   
                 $count = $object->config('literal.count') ?? 1;                                     
-                $assign = '{{$literal.' . $uuid . ' = \'' . Escape::single_quote($literal) . '\'}}';   
-                d($assign);
-                d($uuid);                  
+                $assign = '{{$literal.' . $uuid . ' = \'' . Escape::single_quote($literal) . '\'}}';                     
                 // d($define);           
                 // $data->data('literal.' . $uuid, $literal);
                 $input = str_replace(
                     '{{literal}}',
-                    $assign . "\n" . '{{literal}}',
+                    $assign . '{{literal}}',
                     $input
                 );
                 $input = str_replace(
@@ -51,8 +49,7 @@ class Token
                 $input = Token::literal_apply($object, $data, $flags, $options, $input);               
                 $object->config('literal.count', $count++);
             }            
-        }
-        d($input);
+        }    
         return $input;
     }
 

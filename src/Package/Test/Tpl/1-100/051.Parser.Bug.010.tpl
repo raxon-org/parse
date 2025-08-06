@@ -32,4 +32,3 @@ class File
     }
 }
 {{/literal}}
-{{dd($literal)}}

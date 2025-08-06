@@ -701,6 +701,7 @@ class Tag
                 $is_comment === false
             ){
                 $tag .= $char;
+                d($tag);
             }
             elseif($is_comment === false){
                 $text .= $char;

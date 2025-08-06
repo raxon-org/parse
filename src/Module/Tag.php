@@ -548,8 +548,7 @@ class Tag
                 $is_double_quoted === false &&
                 $is_double_quoted_backslash === false
             ){
-                $tag = '{{';   
-                d($nr);                             
+                $tag = '{{';                                            
                 $text = mb_substr($text, 0, -1);                
             }
             elseif(
@@ -561,8 +560,7 @@ class Tag
                 $is_double_quoted === true &&
                 $is_double_quoted_backslash === false
             ){
-                $tag = '{{';                                
-                d($nr);
+                $tag = '{{';                                                
                 $text = mb_substr($text, 0, -1);                
             }
             elseif(
@@ -574,8 +572,7 @@ class Tag
                 $is_single_quoted === false &&
                 // $is_double_quoted === false &&
                 $is_double_quoted_backslash === false
-            ){         
-                d($nr);       
+            ){                            
                 $tag .= $char;                
                 $column[$line]++;
                 if($text !== ''){
@@ -764,8 +761,7 @@ class Tag
                 }
                 $tag_list[$line][] = $record;
             }            
-        }
-        $nr = $nr ?? null;            
+        }             
         return $tag_list;
     }
 

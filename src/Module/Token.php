@@ -36,19 +36,22 @@ class Token
                 $count = $object->config('literal.count') ?? 1;                                     
                 $assign = '{{$literal.' . $uuid . ' = \'' . Escape::single_quote($literal) . '\'}}';                     
                 d($input);
-                $input = $assign . $variable . str_replace(
+                $input = $assign . $variable . $explode[1];
+ddd($input);
+
+
+                $input = $assign . str_replace(
                     $literal . '{{/literal}}',
-                    '',
+                    $variable,
                     $input
-                );                  
+                );  
                 ddd($input);
                 $input = str_replace(
                     '{{literal}}' . $variable,
                     $variable,
                     $input
-                );                                                            
+                );                                            
                 $input = Token::literal_apply($object, $data, $flags, $options, $input);                               
-                ddd($input);
                 $object->config('literal.count', $count++);
             }            
         }            

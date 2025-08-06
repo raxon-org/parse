@@ -540,7 +540,8 @@ class Tag
                 $is_double_quoted === false &&
                 $is_double_quoted_backslash === false
             ){
-                $tag = '{{';                                
+                $tag = '{{';   
+                d($nr);                             
                 $text = mb_substr($text, 0, -1);                
             }
             elseif(
@@ -553,6 +554,7 @@ class Tag
                 $is_double_quoted_backslash === false
             ){
                 $tag = '{{';                                
+                d($nr);
                 $text = mb_substr($text, 0, -1);                
             }
             elseif(
@@ -564,7 +566,8 @@ class Tag
                 $is_single_quoted === false &&
                 // $is_double_quoted === false &&
                 $is_double_quoted_backslash === false
-            ){                
+            ){         
+                d($nr);       
                 $tag .= $char;                
                 $column[$line]++;
                 if($text !== ''){

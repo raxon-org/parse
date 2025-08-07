@@ -10,7 +10,7 @@
  */
 namespace Plugin;
 
-use Raxon\MOdule\Core;
+use Raxon\Module\Core;
 
 trait Is_Empty_Object {
 

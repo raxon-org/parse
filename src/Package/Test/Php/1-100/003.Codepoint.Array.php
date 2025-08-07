@@ -32,7 +32,7 @@ try {
         ]
     );
     $app = new App($autoload, $config);
-    $list = Core::array_codepoint();
+    $list = Core::array_codepoint($app);
     d($list);
 } catch (Exception|LocateException|ObjectException $exception) {
     echo $exception;

@@ -277,6 +277,7 @@ class Token
                             //we have a variable assign or define
                             $length = mb_strlen($content);
                             $data = mb_str_split($content, 1);
+                            d($data);
                             $operator = false;
                             $variable = [];
                             $variable_name = '';

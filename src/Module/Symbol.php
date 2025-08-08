@@ -138,10 +138,21 @@ class Symbol
             ){
                 $string = '';
                 for($i = $is_double_quote; $i <= $nr; $i++){
-                    if(is_array($input['array'][$i])){
-                        ddd($input['array'][$i]);
+                    if(
+                        is_array($input['array'][$i]) && 
+                        array_key_exists('execute', $input['array'][$i])
+                    ){
+                        $string .= $input['array'][$i]['execute'];                        
                     }
-                    $string .= $input['array'][$i];
+                    elseif(
+                        is_array($input['array'][$i]) && 
+                        array_key_exists('value', $input['array'][$i])
+                    ){
+                        $string .= $input['array'][$i]['value'];                        
+                    } else {
+                        $string .= $input['array'][$i];
+                    }
+                    
                     $input['array'][$i] = null;
                 }
                 $input['array'][$is_double_quote] = [

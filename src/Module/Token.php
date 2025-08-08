@@ -1791,11 +1791,13 @@ class Token
 //            breakpoint($input);
             $input = Cast::define($object, $flags, $options, $input);
             $input = Method::define($object, $flags, $options, $input, $tag);
-//            d($input);
+           d($input);
             $input = Variable::define($object, $flags, $options, $input);
 //breakpoint($input);
             $input = Variable::modifier($object, $flags, $options, $input, $tag);
+            d($input);
             $input = Variable::assign($object, $flags, $options, $input);
+            d($input);
             $input = Value::define($object, $flags, $options, $input);
             $input = Value::float($object, $flags, $options, $input);
 //            $input = Value::double_quoted_string($object, $flags, $options, $input, false);

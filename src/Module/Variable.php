@@ -19,6 +19,7 @@ class Variable
         if(array_key_exists('array', $input) === false){
             return $input;
         }
+        trace();
         d($input);
         $variable_nr = false;
         $count = count($input['array']);

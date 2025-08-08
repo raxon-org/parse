@@ -407,6 +407,7 @@ class Token
                                     )
                                 ){
                                     $is_double_quoted = true;
+                                    d($previous);
                                     d($nr);
                                 }
                                 elseif(
@@ -421,6 +422,7 @@ class Token
                                     )
                                 ){
                                     $is_double_quoted = false;
+                                    d($previous);
                                     d($nr);
                                 }
                                 elseif(

@@ -153,7 +153,7 @@ class Symbol
                         $string .= $input['array'][$i];
                     }
                     
-                    $input['array'][$i] = null;
+                    // $input['array'][$i] = null;
                 }
                 if(str_contains($string, 'server.url')){
                     d($string);

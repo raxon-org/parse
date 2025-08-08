@@ -174,8 +174,8 @@ class Symbol
                 $is_single_quote === false &&
                 $is_double_quote_backslash === false
             ){
-                $is_double_quote_backslash = $nr;                   
-                $input['array'][$previous_nr] = null;
+                $is_double_quote_backslash = $previous_nr;                   
+                // $input['array'][$previous_nr] = null;
                 continue;
             }
             elseif(

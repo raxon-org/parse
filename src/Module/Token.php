@@ -1020,8 +1020,7 @@ class Token
                                             'array' => $after_array,
                                         ],
                                         $record
-                                    );
-                                    d($list);
+                                    );                                    
                                     $variable_target = Token::variable_name($object, $flags, $options, $variable_name);
                                     $variable_explode = explode($variable_target, $variable_name, 2);
                                     $cast = Token::cast_get($object, $flags, $options, $variable_explode[0]);

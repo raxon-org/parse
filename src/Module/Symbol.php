@@ -155,6 +155,10 @@ class Symbol
                     
                     $input['array'][$i] = null;
                 }
+                if(str_contains($string, 'server.url')){
+                    d($string);
+                    ddd($input);
+                }
                 $input['array'][$is_double_quote] = [
                     'type' => 'string',
                     'value' => $string,

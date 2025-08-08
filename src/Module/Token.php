@@ -276,8 +276,7 @@ class Token
                         } else {
                             //we have a variable assign or define
                             $length = mb_strlen($content);
-                            $data = mb_str_split($content, 1);
-                            d($data);
+                            $data = mb_str_split($content, 1);                            
                             $operator = false;
                             $variable = [];
                             $variable_name = '';
@@ -408,6 +407,7 @@ class Token
                                     )
                                 ){
                                     $is_double_quoted = true;
+                                    d($nr);
                                 }
                                 elseif(
                                     $char === '"' &&
@@ -421,6 +421,7 @@ class Token
                                     )
                                 ){
                                     $is_double_quoted = false;
+                                    d($nr);
                                 }
                                 elseif(
                                     $char === '(' &&
@@ -456,6 +457,7 @@ class Token
                                     $is_double_quoted === false
                                 ){
                                     $curly_depth++;
+                                    d($nr);
                                 }
                                 elseif(
                                     $char === '}' &&
@@ -463,6 +465,7 @@ class Token
                                     $is_double_quoted === false
                                 ){
                                     $curly_depth--;
+                                    d($nr);
                                 }
                                 if(
                                     $variable_name !== '' &&

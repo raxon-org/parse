@@ -458,16 +458,14 @@ class Token
                                     $is_single_quoted === false &&
                                     $is_double_quoted === false
                                 ){
-                                    $curly_depth++;
-                                    d($nr);
+                                    $curly_depth++;                                    
                                 }
                                 elseif(
                                     $char === '}' &&
                                     $is_single_quoted === false &&
                                     $is_double_quoted === false
                                 ){
-                                    $curly_depth--;
-                                    d($nr);
+                                    $curly_depth--;                                    
                                 }
                                 if(
                                     $variable_name !== '' &&
@@ -1011,6 +1009,8 @@ class Token
                                 }
                             } else {
                                 if($operator){
+                                    d($after);
+                                    d($after_array);
                                     $list = Token::value(
                                         $object,
                                         $flags,
@@ -1201,7 +1201,7 @@ class Token
                                                     ddd($list);
                                                 }
                                                 */
-                                                
+                                                d($list);
                                                 $variable = [
                                                     'is_assign' => true,
                                                     'is_not' => $is_not,

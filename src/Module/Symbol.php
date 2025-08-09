@@ -151,9 +151,8 @@ class Symbol
                         $string .= $input['array'][$i]['value'];                        
                     } else {
                         $string .= $input['array'][$i];
-                    }
-                    
-                    // $input['array'][$i] = null;
+                    }                    
+                    $input['array'][$i] = null;
                 }                
                 $input['array'][$is_double_quote] = [
                     'type' => 'string',

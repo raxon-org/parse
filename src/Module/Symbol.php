@@ -191,8 +191,7 @@ class Symbol
                     'is_double_quoted' => true,
                     'is_backslash' => true
                 ];
-                $is_double_quote_backslash = false;
-                ddd($input);
+                $is_double_quote_backslash = false;                
                 continue;
             }
             if(

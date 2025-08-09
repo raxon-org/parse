@@ -137,8 +137,7 @@ class Symbol
                 $is_double_quote_backslash === false
             ){
                 $string = '';
-                for($i = $is_double_quote; $i <= $nr; $i++){
-                    d($input['array'][$i]);
+                for($i = $is_double_quote; $i <= $nr; $i++){                    
                     if(
                         is_array($input['array'][$i]) && 
                         array_key_exists('execute', $input['array'][$i])
@@ -182,6 +181,7 @@ class Symbol
             ){                
                 $string = '';
                 for($i = $is_double_quote_backslash; $i <= $nr; $i++){
+                    d($input['array'][$i]);
                     $string .= $input['array'][$i];
                     $input['array'][$i] = null;
                 }

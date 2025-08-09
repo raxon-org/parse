@@ -138,6 +138,7 @@ class Symbol
             ){
                 $string = '';
                 for($i = $is_double_quote; $i <= $nr; $i++){
+                    d($input['array'][$i]);
                     if(
                         is_array($input['array'][$i]) && 
                         array_key_exists('execute', $input['array'][$i])

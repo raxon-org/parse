@@ -180,8 +180,7 @@ class Symbol
                 $is_double_quote_backslash !== false
             ){                
                 $string = '';
-                for($i = $is_double_quote_backslash; $i <= $nr; $i++){
-                    d($input['array'][$i]);
+                for($i = $is_double_quote_backslash; $i <= $nr; $i++){                    
                     $string .= $input['array'][$i];
                     $input['array'][$i] = null;
                 }
@@ -193,6 +192,7 @@ class Symbol
                     'is_backslash' => true
                 ];
                 $is_double_quote_backslash = false;
+                ddd($input);
                 continue;
             }
             if(

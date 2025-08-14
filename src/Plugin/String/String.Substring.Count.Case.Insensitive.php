@@ -1,7 +1,7 @@
 <?php
 namespace Plugin;
 
-trait String_Substring_Compare_Count_Case_Insensitive {
+trait String_Substring_Count_Case_Insensitive {
 
     protected function string_substring_count_case_insensitive(string $haystack='', string $needle='', int $offset=0, int|null $length=null): string
     {

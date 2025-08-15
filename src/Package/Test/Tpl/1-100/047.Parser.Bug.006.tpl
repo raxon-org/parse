@@ -1,3 +1,3 @@
 {{$module = 'test'}}
-"/Modules/{{$module|string.replace:'\\':':'}}"
+"/Modules/{{$module|>string.replace:'\\':':'}}"
 {{dd($url)}}

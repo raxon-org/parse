@@ -13,9 +13,15 @@ trait Block_Markdown {
         $data = $this->data();
         $object = $this->object();                
         $parser = new Module\Markdown();
-        $value = $parser->parse($object, $value, $config);  
-        ddd($name);      
-        if($name === null){
+        $value = $parser->parse($object, $value, $config);          
+        if(
+            in_array(
+                $name, 
+                [
+                    'null',
+                    ''
+                ])
+        ){
             $content = $data->data('#content');
             $content[] = $value;
             $data->data('#content', $content);

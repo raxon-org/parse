@@ -19,7 +19,9 @@ trait Block_Markdown {
                 $name, 
                 [
                     'null', //literal null
-                    ''
+                    '',
+                    '\'\'',
+                    '""'
                 ])
         ){
             $content = $data->data('#content');

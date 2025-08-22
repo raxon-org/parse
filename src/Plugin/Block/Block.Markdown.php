@@ -3,13 +3,17 @@ namespace Plugin;
 
 use Raxon\Parse\Attribute\Argument;
 
+use Package\Raxon\Markdown\Module as Module;
+
 trait Block_Markdown {
 
     #[Argument(apply: "literal", count: 1, index:1)]
     protected function block_markdown(string|null $value=null, string $name=''): string
     {
         $data = $this->data();
-        ddd($value);        
+        $object = $this->object();
+        $parser = new Module\Markdown();
+        $value = $parser->parse($object, $value);
         $name = trim($name,'\'"');
         if(empty($name)){
             $content = $data->data('#content');

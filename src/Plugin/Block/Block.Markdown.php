@@ -16,6 +16,9 @@ trait Block_Markdown {
             $config = $name;
             $name = '';
         }
+        d($value);
+        d($config);
+        ddd($name);
         $parser = new Module\Markdown();
         $value = $parser->parse($object, $value, $config);
         $name = trim($name,'\'"');

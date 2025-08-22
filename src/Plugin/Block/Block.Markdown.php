@@ -18,7 +18,7 @@ trait Block_Markdown {
             in_array(
                 $name, 
                 [
-                    'null',
+                    'null', //literal null
                     ''
                 ])
         ){

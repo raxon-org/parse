@@ -1,0 +1,27 @@
+<?php
+namespace Plugin;
+
+use Raxon\Parse\Attribute\Argument;
+
+trait Block_Md {
+
+    #[Argument(apply: "literal", count: 1, index:1)]
+    protected function block_html(string|null $value=null, string $name=''): string
+    {
+        $data = $this->data();
+        ddd($value);        
+        $name = trim($name,'\'"');
+        if(empty($name)){
+            $content = $data->data('#content');
+            $content[] = $value;
+            $data->data('#content', $content);
+            return $value;
+        } else {
+            if(substr($name, 0, 1) === '$'){
+                $name = substr($name, 1);
+            }
+            $data->data($name, $value);
+        }
+        return '';
+    }
+}

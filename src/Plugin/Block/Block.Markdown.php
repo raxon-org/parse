@@ -13,7 +13,9 @@ trait Block_Markdown {
         $data = $this->data();
         $object = $this->object();
         $parser = new Module\Markdown();
-        $value = $parser->parse($object, $value);
+        $value = $parser->parse($object, $value, [
+            'html_input' => 'allow'
+        ]);
         $name = trim($name,'\'"');
         if(empty($name)){
             $content = $data->data('#content');

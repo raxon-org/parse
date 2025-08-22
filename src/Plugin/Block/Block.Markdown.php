@@ -3,10 +3,10 @@ namespace Plugin;
 
 use Raxon\Parse\Attribute\Argument;
 
-trait Block_Md {
+trait Block_Markdown {
 
     #[Argument(apply: "literal", count: 1, index:1)]
-    protected function block_html(string|null $value=null, string $name=''): string
+    protected function block_markdown(string|null $value=null, string $name=''): string
     {
         $data = $this->data();
         ddd($value);        

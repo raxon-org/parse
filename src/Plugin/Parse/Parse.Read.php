@@ -19,7 +19,7 @@ trait Parse_Read {
             $object = $this->object();
             $data = $this->data();
             $object_data = clone $object->data();
-            $object->data(Core::object_merge($object->data(), $data));  
+            $object->data(Core::object_merge($object->data(), $data->data()));  
             d($data);
             d($object->data('request'));          
             if($cache){

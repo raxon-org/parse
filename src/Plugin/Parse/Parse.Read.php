@@ -18,13 +18,14 @@ trait Parse_Read {
         if(File::exist($url)){
             $object = $this->object();
             $data = $this->data();
-            d($data);
-            d($object->data());
+            $object_data = $object->data();
+            $object->data($data);            
             if($cache){
                 $read = $object->compile_read($url, sha1($url));
             } else {
                 $read = $object->compile_read($url);
             }
+            $object->data($object_data);
             if($read){
                 try {
                     /**

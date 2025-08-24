@@ -13,7 +13,7 @@ trait Parse_Read {
     /**
      * @throws Exception
      */
-    protected function parse_read(string $url, bool $cache=true, array $options=[]): mixed
+    protected function parse_read(string $url, bool $cache=true, object|null $options=null): mixed
     {
         if(File::exist($url)){
             $object = $this->object();

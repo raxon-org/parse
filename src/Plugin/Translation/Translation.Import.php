@@ -9,8 +9,7 @@ trait Translation_Import {
     protected function translation_import(): void
     {
         $object = $this->object();
-        $url = $object->config('controller.dir.data') . $object->config('dictionary.translation') . $object->config('ds');
-        d($url);
+        $url = $object->config('controller.dir.data') . $object->config('dictionary.translation') . $object->config('ds');        
         $dir = new Dir();
         $read = $dir->read($url);
         if($read){

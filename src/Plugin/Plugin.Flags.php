@@ -12,6 +12,7 @@ namespace Plugin;
 
 use Exception;
 use Raxon\App as Framework;
+use Raxon\Module\Data;
 
 trait Plugin_Flags {
 
@@ -20,7 +21,17 @@ trait Plugin_Flags {
      */
     protected function plugin_flags($type=''): array|object
     {
-        $this->object();
-        return Framework::flags($this->object($type));
+        $this->object();         
+        switch($type){
+            case '':
+            case 'default':
+                return Framework::flags($this->object());
+            case 'command':
+                return Framework::flags($this->object(), $type);
+            default:
+                $options = Framework::flags($this->object());
+                $data = new Data($options);
+                return $data->get($type);
+        }        
     }
 }

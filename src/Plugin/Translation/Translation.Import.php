@@ -10,6 +10,7 @@ trait Translation_Import {
     {
         $object = $this->object();
         $url = $object->config('controller.dir.data') . $object->config('dictionary.translation') . $object->config('ds');
+        d($url);
         $dir = new Dir();
         $read = $dir->read($url);
         if($read){

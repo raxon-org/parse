@@ -26,8 +26,7 @@ trait Parse_Read {
                 $read = $object->compile_read($url, sha1($url));
             } else {
                 $read = $object->compile_read($url);
-            }
-            $object->data($object_data);
+            }            
             if($read){
                 try {
                     /**
@@ -48,6 +47,7 @@ trait Parse_Read {
                     $data->data(Core::object_merge($data->data(), $read->data()));
                 } catch (ObjectException $e) {
                 }
+                $object->data($object_data);
                 return $read->data();
             }
         } else {

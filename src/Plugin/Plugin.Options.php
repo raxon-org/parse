@@ -26,9 +26,9 @@ trait Plugin_Options {
         $this->object();
         switch($type){
             case '':
-            case 'default':
+            case '#default':
                 return Framework::options($this->object());
-            case 'command':
+            case '#command':
                 return Framework::options($this->object(), $type);
             default:
                 $options = Framework::options($this->object());

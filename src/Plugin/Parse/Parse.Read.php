@@ -39,11 +39,17 @@ trait Parse_Read {
                     $script = $data->data('script') ?? [];
                     $script_merge_read = $read->data('script') ?? [];
                     $script_merge = $object->data('script') ?? [];
-                    $read->data('script', array_merge($script, $script_merge_read, $script_merge));
+                    $sript = array_merge($script, $script_merge_read, $script_merge);
+                    if(!empty($script)){
+                        $read->data('script', $script);
+                    }                    
                     $link = $data->data('link') ?? [];
                     $link_merge_read = $read->data('link') ?? [];
                     $link_merge = $object->data('link') ?? [];
-                    $read->data('link', array_merge($link, $link_merge_read, $link_merge));
+                    $link = array_merge($link, $link_merge_read, $link_merge);
+                    if(!empty($link)){
+                        $read->data('link', $link);
+                    }                    
                     $data->data(Core::object_merge($data->data(), $read->data()));
                 } catch (ObjectException $e) {
                 }

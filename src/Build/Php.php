@@ -731,6 +731,9 @@ class Php {
                                 $before = [];
                             }
                             $object->config('package.raxon/parse.build.state.remove_newline_next', true);
+                            if(!array_key_exists('content', $content['if'])){
+                                ddd($content);
+                            }
                             $if_content = PHP::document_tag($object, $flags, $options, $content['if']['content']);
                             foreach($if_content as $line){
                                 $if_data[] = $line;

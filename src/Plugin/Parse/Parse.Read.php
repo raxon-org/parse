@@ -20,6 +20,7 @@ trait Parse_Read {
             $data = $this->data();
             $object_data = clone $object->data();
             $object->data(Core::object_merge($object->data(), $data));  
+            d($data);
             d($object->data('request'));          
             if($cache){
                 $read = $object->compile_read($url, sha1($url));

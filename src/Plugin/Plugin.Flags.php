@@ -18,9 +18,9 @@ trait Plugin_Flags {
     /**
      * @throws Exception
      */
-    protected function plugin_flags(): array|object
+    protected function plugin_flags($type=''): array|object
     {
         $this->object();
-        return Framework::flags($this->object());
+        return Framework::flags($this->object($type));
     }
 }

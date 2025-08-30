@@ -15,8 +15,7 @@ trait Server_Url {
     public function server_url(string $name): ?string
     {
         $object = $this->object();
-        $name = str_replace('.', '-', $name);     
-        ddd($object->config('server.url'));   
+        $name = str_replace('.', '-', $name);              
         $url = $object->config('server.url.' . $name . '.' . $object->config('framework.environment'));
         if(
             $url &&

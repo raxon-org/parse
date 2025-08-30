@@ -34,9 +34,7 @@ trait Script {
         if(empty($list)){
             $list = [];
         }
-        $value = implode(PHP_EOL, $value);
-        d($name);
-        d($value);
+        $value = implode(PHP_EOL, $value);        
         $list[] = $value;
         $data->set($name, $list);
     }

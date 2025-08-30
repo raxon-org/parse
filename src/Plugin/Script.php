@@ -36,6 +36,7 @@ trait Script {
         }
         $value = implode(PHP_EOL, $value);        
         $list[] = $value;
+        d($name);
         $data->set($name, $list);
     }
 }

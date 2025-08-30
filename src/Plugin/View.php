@@ -28,7 +28,8 @@ trait View {
             d($data);
             die();
         }
-        $url = Controller::locate($this->object(), $template);
+        $object = $this->object();
+        $url = Controller::locate($object, $template);
         $read = File::read($url);
         $mtime = File::mtime($url);
         $parse = $this->parse();
@@ -83,6 +84,8 @@ trait View {
             $storage->data('link', array_merge($link, $data_link));
         };
         $this->storage($storage);
+        $object->data('script', array_merge($object->data('script'), $storage->data('script')));
+        $object->data('link', array_merge($object->data('link'), $storage->data('link')));
         return $read;
     }
 

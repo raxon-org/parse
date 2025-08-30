@@ -84,8 +84,12 @@ trait View {
             $storage->data('link', array_merge($link, $data_link));
         };
         $this->storage($storage);
-        $object->data('script', array_merge($object->data('script'), $storage->data('script')));
-        $object->data('link', array_merge($object->data('link'), $storage->data('link')));
+        $object_script = $object->data('script') ?? [];
+        $object_link = $object->data('link') ?? [];
+        $storage_script = $storage->data('script') ?? [];
+        $storage_link = $storage->data('link') ?? [];
+        $object->data('script', array_merge($object_script, $storage_script));
+        $object->data('link', array_merge($object_link, $storage_link));        
         return $read;
     }
 

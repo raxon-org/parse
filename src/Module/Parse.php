@@ -828,10 +828,8 @@ class Parse
      */
     public static function readback($object, $parse, $type=null): mixed
     {
-        $data = $parse->data();
-        d($data);
-        $read = $object->data($type);
-        d($read);
+        $data = $parse->data();        
+        $read = $object->data($type);        
         if($read === null){
             $object->data($type, $data->get($type));
         }
@@ -841,7 +839,7 @@ class Parse
         elseif(is_object($read)){
             $object->data($type, Core::object_merge($read, $data->get($type)));
         }
-        return $data->get($type);
+        return $object->get($type);
     }
 
     public function limit($limit=null): ?array

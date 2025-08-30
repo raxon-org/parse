@@ -37,7 +37,7 @@ trait Parse_Read {
                     $script = $data->data('script') ?? [];
                     $script_merge_read = $read->data('script') ?? [];
                     $script_merge = $object->data('script') ?? [];
-                    $sript = array_merge($script, $script_merge_read, $script_merge);
+                    $script = array_merge($script, $script_merge_read, $script_merge);
                     if(!empty($script)){
                         $read->data('script', $script);
                     }                    

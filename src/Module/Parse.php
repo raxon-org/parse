@@ -789,33 +789,8 @@ class Parse
             $post_require = microtime(true);
             $run_options = clone $options;
             $run = $options->namespace . '\\' . $options->class;
-//            d($data);
-//            d($data->get('script'));
-//            d($url_php);
-//            trace();
-
-
-d($object->data('script'));
-d($data->data('script'));
-
-
             $main = new $run($object, $this, $data, $flags, $options);
             $result = $main->run();
-            //d($result);
-            // d($data->get('script'));
-
-            // $data_script = $data->get('script') ?? [];
-            // $object_script = $object->get('script') ?? [];
-            // $object->set('script', array_merge($object_script, $data_script));
-
-            // $data_link = $data->get('link') ?? [];
-            // $object_link = $object->get('link') ?? [];
-            // $data->set('link', array_merge($object_link, $data_link));
-
-            // d($object->get('script'));
-//            d($url_php);
-//            d($data->get('script'));
-//            d($this->data()->get('script'));
             if(property_exists($options, 'duration')){
                 $microtime = microtime(true);
                 $duration_require = round(($post_require - $pre_require) * 1000, 2) . ' ms';

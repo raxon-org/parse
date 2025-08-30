@@ -6,6 +6,7 @@ trait Script {
     public function script(mixed $script, $name='script'): void
     {
         $value = [];
+        $object = $this->object();
         $data = $this->data();
         switch($name){
             case 'ready':
@@ -35,9 +36,16 @@ trait Script {
             $list = [];
         }
         $value = implode(PHP_EOL, $value);        
-        $list[] = $value;
-        d($name);
-        d($data->get($name));
+        $list[] = $value;        
         $data->set($name, $list);
+        $list = $object->get($name);
+        if(!is_array($list)){
+            $list = [];
+        }
+        if(empty($list)){
+            $list = [];
+        }
+        $list[] = $value;
+        $object->set($name, $list);
     }
 }

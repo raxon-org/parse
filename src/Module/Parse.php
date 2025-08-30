@@ -797,6 +797,7 @@ class Parse
             $result = $main->run();
             //d($result);
             d($data->get('script'));
+            d($object->get('script'));
 //            d($url_php);
 //            d($data->get('script'));
 //            d($this->data()->get('script'));

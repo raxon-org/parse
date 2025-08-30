@@ -800,11 +800,11 @@ class Parse
 
             $data_script = $data->get('script') ?? [];
             $object_script = $object->get('script') ?? [];
-            $data->set('script', array_merge($object_script, $data_script));
+            $object->set('script', array_merge($object_script, $data_script));
 
             $data_link = $data->get('link') ?? [];
             $object_link = $object->get('link') ?? [];
-            $data->set('link', array_merge($object_link, $data_link));
+            $object->set('link', array_merge($object_link, $data_link));
 
             d($object->get('script'));
 //            d($url_php);

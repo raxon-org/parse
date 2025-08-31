@@ -37,15 +37,6 @@ trait Script {
         }
         $value = implode(PHP_EOL, $value);        
         $list[] = $value;        
-        $data->set($name, $list);
-        $list = $object->get($name);
-        if(!is_array($list)){
-            $list = [];
-        }
-        if(empty($list)){
-            $list = [];
-        }
-        $list[] = $value;
-        $object->set($name, $list);
+        $data->set($name, $list);        
     }
 }

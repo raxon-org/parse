@@ -190,7 +190,8 @@ trait Value {
         return $variable1 ?? $variable2;
     }
 
-    protected function value_child(array|object $root, int|string|null  ...$children=null){
+    protected function value_child(array|object $root, int|string|null  ...$children=null): mixed
+    {
         while(true){
             $child = array_shift($children);
             if($child === null){

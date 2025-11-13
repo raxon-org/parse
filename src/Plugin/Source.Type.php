@@ -8,13 +8,13 @@
  * @changeLog
  *    - all
  */
-namespace Plugin;
+namespace Raxon\Parse\Plugin;
 
 use Raxon\Module\File;
 
-trait Source {
+trait Source_Type {
 
-    protected function type(string $url=''): string
+    protected function source_type(string $url=''): string
     {
         $options = [];
         $options['url'] = $url;

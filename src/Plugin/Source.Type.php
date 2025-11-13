@@ -12,9 +12,9 @@ namespace Plugin;
 
 use Raxon\Module\File;
 
-trait Source_Type {
+trait Source {
 
-    protected function source_type(string $url=''): string
+    protected function type(string $url=''): string
     {
         $options = [];
         $options['url'] = $url;

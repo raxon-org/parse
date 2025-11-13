@@ -38,6 +38,8 @@ trait Source_Type {
                     return 'image/gif';
                 case 'webp' :
                     return 'image/webp';
+                case 'mp4':
+                    return 'video/mp4';
                 default:
                     return '';
             }

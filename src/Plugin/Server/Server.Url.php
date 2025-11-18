@@ -17,9 +17,6 @@ trait Server_Url {
         $object = $this->object();
         $name = str_replace('.', '-', $name);              
         $url = $object->config('server.url.' . $name . '.' . $object->config('framework.environment'));
-        d($name);
-        d($object->config('framework.environment'));
-        ddd($url);
         if(
             $url &&
             substr($url, -1, 1) !== '/'

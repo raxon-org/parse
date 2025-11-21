@@ -36,6 +36,7 @@ try {
     $app = new App($autoload, $config);
 
     batch([
+        '/mnt/Vps3/Mount/Audio/',
         '/mnt/Disk2/Media/Music/',
         '/mnt/Disk2/Media/Voice/',
     ]);

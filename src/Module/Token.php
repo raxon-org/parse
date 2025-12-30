@@ -16,7 +16,21 @@ class Token
 {
     public static function literal_single_quote(App $object, Data $data, $flags, $options, $input=''): mixed
     {
-        d($input);
+        $data = mb_str_split($input, 1);
+        $is_single_quoted = false;
+        foreach($data as $nr => $char){
+            if($is_single_quoted === false && $char === '\''){
+                $is_single_quoted = true;
+                $text = '';
+            }
+            elseif($is_single_quoted === true && $char === '\''){
+                d($text);
+                $is_single_quoted = false;
+            }
+            if($is_single_quoted === true){
+                $text .= $char;
+            }
+        }
         return $input;
     }
 

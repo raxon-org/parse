@@ -21,6 +21,7 @@ class Token
         foreach($data as $nr => $char){
             if($is_single_quoted === true && $char === '\''){
                 $text.= $char;
+                d($input);
                 d($text);
                 $is_single_quoted = false;
                 continue;

@@ -616,15 +616,10 @@ class Php {
                             $marker_name,
                             [
                                 'rax',
-                                'r3m'
                             ], true
                         ) &&
                         $is_literal === false
                     ){
-                        if($marker_name==='r3m'){
-                            d($options->source);
-                            ddd(trace(true));
-                        }
                         $object->config('package.raxon/parse.build.state.remove_newline_next', true);
                         continue;
                     }
@@ -635,6 +630,7 @@ class Php {
                         $record['marker']['is_close'] === false
                     ){
                         $is_literal = $nr;
+                        d($record);
                         $marker_data = [];
                         continue;
                     }

@@ -56,6 +56,8 @@ class Token
         $uuid_start = $object->config('literal.single.quote.start');
         $uuid_end = $object->config('literal.single.quote.end');
         if(is_string($input)){
+            d($uuid_start);
+            d($uuid_end);
             $input = str_replace($uuid_start, '{{literal}}', $input);
             $input = str_replace($uuid_end, '{{/literal}}', $input);
         }

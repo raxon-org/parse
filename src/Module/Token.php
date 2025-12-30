@@ -14,27 +14,39 @@ use Raxon\Module\File;
 use Exception;
 class Token
 {
-    public static function literal_single_quote(App $object, Data $data, $flags, $options, $input=''): mixed
+    public static function literal_single_quote_apply(App $object, Data $data, $flags, $options, $input=''): mixed
     {
         $data = mb_str_split($input, 1);
         $is_single_quoted = false;
         foreach($data as $nr => $char){
-            if($is_single_quoted === true && $char === '\''){
+            if($is_single_quoted !== false && $char === '\''){
                 $text.= $char;
-                d($input);
-                d($text);
+                $uuid_start = Core::uuid();
+                $uuid_end = Core::uuid();
+                $object->config('literal.single.quote.start', $uuid_start);
+                $object->config('literal.single.quote.end', $uuid_end);
+                $text = str_replace('{{literal}}', $uuid_start, $text);
+                $text = str_replace('{{/literal}}', $uuid_end, $text);
+                for($i = $is_single_quoted; $i < $nr; $i++){
+                    $data[$i] = null;
+                }
+                $data[$nr] = $text;
                 $is_single_quoted = false;
                 continue;
             }
             if($is_single_quoted === false && $char === '\''){
-                $is_single_quoted = true;
+                $is_single_quoted = $nr;
                 $text = $char;
                 continue;
             }
 
-            if($is_single_quoted === true){
+            if($is_single_quoted !== false){
                 $text .= $char;
             }
+        }
+        $input = '';
+        foreach($data as $nr => $char){
+            $input .= $char;
         }
         return $input;
     }

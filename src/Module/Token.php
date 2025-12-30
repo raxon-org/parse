@@ -51,6 +51,18 @@ class Token
         return $input;
     }
 
+    public static function literal_single_quote_restore(App $object, Data $data, $flags, $options, $input=''): mixed
+    {
+        $uuid_start = $object->config('literal.single.quote.start');
+        $uuid_end = $object->config('literal.single.quote.end');
+        if(is_string($input)){
+            $input = str_replace($uuid_start, '{{literal}}', $input);
+            $input = str_replace($uuid_end, '{{/literal}}', $input);
+        }
+        $object->config('delete', 'literal.single.quote');
+        return $input;
+    }
+
 
     public static function literal_apply(App $object, Data $data, $flags, $options, $input=''): mixed
     {

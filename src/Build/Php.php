@@ -1649,8 +1649,6 @@ class Php {
                             $text = str_replace('\\&', $ampersand_uuid, $text);
                             $text = str_replace('&quot;', $double_quote_uuid, $text);
                             $text = str_replace('&apos;', $single_quote_uuid, $text);
-                            d($object->config('package.raxon/parse'));
-                            breakpoint($text);
                             $token = Token::tokenize($object, $flags, $options, substr($text, 1, -1));
                             $token = Php::document_tag_prepare($object, $flags, $options, $token);
                             $embed = Php::document_tag($object, $flags, $options, $token);
@@ -1762,7 +1760,6 @@ class Php {
                             */
                         }
                         else {
-                            d($record);
                             $text = Php::text($object, $flags, $options, $record);
                             //single quote to double quote transform
                             $text = Escape::double_quote($text);
@@ -1813,6 +1810,8 @@ class Php {
                                 }
                                 $text = implode('', $split);                                
                             }
+                            d($object->config('package.raxon/parse'));
+                            breakpoint($text);
                             if(property_exists($options, 'variable')){                                  
                                 $data[] = $options->variable . '[] =  "' . $text . '";';
                             } else {                                                                                                                                                                                        

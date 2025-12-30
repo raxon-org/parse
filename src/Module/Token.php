@@ -19,14 +19,18 @@ class Token
         $data = mb_str_split($input, 1);
         $is_single_quoted = false;
         foreach($data as $nr => $char){
-            if($is_single_quoted === false && $char === '\''){
-                $is_single_quoted = true;
-                $text = '';
-            }
-            elseif($is_single_quoted === true && $char === '\''){
+            if($is_single_quoted === true && $char === '\''){
+                $text.= $char;
                 d($text);
                 $is_single_quoted = false;
+                continue;
             }
+            if($is_single_quoted === false && $char === '\''){
+                $is_single_quoted = true;
+                $text = $char;
+                continue;
+            }
+
             if($is_single_quoted === true){
                 $text .= $char;
             }

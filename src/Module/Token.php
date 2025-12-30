@@ -14,6 +14,12 @@ use Raxon\Module\File;
 use Exception;
 class Token
 {
+    public static function literal_single_quote(App $object, Data $data, $flags, $options, $input=''): mixed
+    {
+        ddd($input);
+        return $input;
+    }
+
 
     public static function literal_apply(App $object, Data $data, $flags, $options, $input=''): mixed
     {

@@ -1810,8 +1810,6 @@ class Php {
                                 }
                                 $text = implode('', $split);                                
                             }
-                            d($object->config('package.raxon/parse'));
-                            breakpoint($text);
                             if(property_exists($options, 'variable')){                                  
                                 $data[] = $options->variable . '[] =  "' . $text . '";';
                             } else {                                                                                                                                                                                        

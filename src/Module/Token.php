@@ -18,13 +18,19 @@ class Token
     {
         $data = mb_str_split($input, 1);
         $is_single_quoted = false;
+        $uuid_start = $object->config('literal.single.quote.start');
+        $uuid_end = $object->config('literal.single.quote.end');
+        if(!$uuid_start){
+            $uuid_start = Core::uuid();
+            $object->config('literal.single.quote.start', $uuid_start);
+        }
+        if(!$uuid_end){
+            $uuid_end = Core::uuid();
+            $object->config('literal.single.quote.end', $uuid_end);
+        }
         foreach($data as $nr => $char){
             if($is_single_quoted !== false && $char === '\''){
                 $text.= $char;
-                $uuid_start = Core::uuid();
-                $uuid_end = Core::uuid();
-                $object->config('literal.single.quote.start', $uuid_start);
-                $object->config('literal.single.quote.end', $uuid_end);
                 $text = str_replace('{{literal}}', $uuid_start, $text);
                 $text = str_replace('{{/literal}}', $uuid_end, $text);
                 for($i = $is_single_quoted; $i < $nr; $i++){

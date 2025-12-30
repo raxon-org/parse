@@ -16,7 +16,7 @@ class Token
 {
     public static function literal_single_quote(App $object, Data $data, $flags, $options, $input=''): mixed
     {
-        ddd($input);
+        d($input);
         return $input;
     }
 

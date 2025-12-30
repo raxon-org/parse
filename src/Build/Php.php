@@ -640,6 +640,7 @@ class Php {
                         $record['marker']['is_close'] === true
                     ){
                         $text = [];
+                        d($marker_data);
                         foreach($marker_data as $marker_record){
                             if(array_key_exists('text', $marker_record)){
                                 $text[] = $marker_record['text'];

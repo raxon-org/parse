@@ -748,7 +748,7 @@ class Parse
                 $object->config('ds')
             ;
             Dir::create($dir, Dir::CHMOD);
-            $input = Token::literal_single_quote($object, $data, $flags, $options, $input);
+            $input = Token::literal_single_quote_apply($object, $data, $flags, $options, $input);
             $input = Token::literal_apply($object, $data, $flags, $options, $input);            
             $token = Token::tokenize($object, $flags, $options, $input);                      
             if($is_debug){

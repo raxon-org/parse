@@ -630,7 +630,6 @@ class Php {
                         $record['marker']['is_close'] === false
                     ){
                         $is_literal = $nr;
-                        d($record);
                         $marker_data = [];
                         continue;
                     }

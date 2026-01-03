@@ -28,6 +28,7 @@ class Token
             $uuid_end = Core::uuid();
             $object->config('literal.single.quote.end', $uuid_end);
         }
+        $text = false;
         foreach($data as $nr => $char){
             $previous = $data[$nr - 1] ?? null;
             if($is_single_quoted !== false && $char === '\'' && $previous !== '\\'){
@@ -39,6 +40,7 @@ class Token
                 }
                 $data[$nr] = $text;
                 $is_single_quoted = false;
+                $text = false;
                 continue;
             }
             if($is_single_quoted === false && $char === '\'' && $previous !== '\\'){
@@ -47,7 +49,7 @@ class Token
                 continue;
             }
 
-            if($is_single_quoted !== false){
+            if($is_single_quoted !== false && $text !== false){
                 $text .= $char;
             }
 

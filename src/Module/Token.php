@@ -52,8 +52,7 @@ class Token
             }
 
         }
-        $input = implode('', $data);
-        return $input;
+        return implode('', $data);
     }
 
     public static function literal_single_quote_restore(App $object, Data $data, $flags, $options, $input=''): mixed

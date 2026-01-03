@@ -29,7 +29,8 @@ class Token
             $object->config('literal.single.quote.end', $uuid_end);
         }
         foreach($data as $nr => $char){
-            if($is_single_quoted !== false && $char === '\''){
+            $previous = $data[$nr - 1] ?? null;
+            if($is_single_quoted !== false && $char === '\'' && $previous !== '\\'){
                 $text.= $char;
                 $text = str_replace('{{literal}}', $uuid_start, $text);
                 $text = str_replace('{{/literal}}', $uuid_end, $text);
@@ -40,7 +41,7 @@ class Token
                 $is_single_quoted = false;
                 continue;
             }
-            if($is_single_quoted === false && $char === '\''){
+            if($is_single_quoted === false && $char === '\'' && $previous !== '\\'){
                 $is_single_quoted = $nr;
                 $text = $char;
                 continue;
@@ -49,6 +50,7 @@ class Token
             if($is_single_quoted !== false){
                 $text .= $char;
             }
+
         }
         $input = '';
         foreach($data as $nr => $char){

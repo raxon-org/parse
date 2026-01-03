@@ -53,7 +53,6 @@ class Token
 
         }
         $input = '';
-        d($data);
         foreach($data as $nr => $char){
             $input .= $char;
         }

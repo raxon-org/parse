@@ -52,10 +52,7 @@ class Token
             }
 
         }
-        $input = '';
-        foreach($data as $nr => $char){
-            $input .= $char;
-        }
+        $input = implode('', $data);
         return $input;
     }
 

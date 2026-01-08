@@ -1245,7 +1245,7 @@ class Token
                                                     'array_notation' => $array_notation_list
                                                 ];
                                             } else {                                               
-                                                // d($list);
+                                                 d($list);
                                                 $variable = [
                                                     'is_assign' => true,
                                                     'is_not' => $is_not,

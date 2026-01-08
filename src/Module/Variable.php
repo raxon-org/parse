@@ -25,7 +25,6 @@ class Variable
         $count = count($input['array']);
         $array_depth = 0;
         $set_depth = 0;
-        d($input);
         foreach($input['array'] as $nr => $char) {
             if (!is_numeric($nr)) {
                 // ',' in modifier causes this

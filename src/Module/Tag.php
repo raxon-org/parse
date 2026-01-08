@@ -55,14 +55,6 @@ class Tag
                 }
             }
             if(
-                $tag !== false &&
-                $char === '\'' &&
-                $previous !== '\\'
-            ){
-                d($tag);
-                breakpoint($is_single_quoted);
-            }
-            if(
                 $tag === false &&
                 $char === '\'' &&
                 $is_single_quoted === false &&
@@ -593,6 +585,14 @@ class Tag
             ){
                 $tag = '{{';                                                
                 $text = mb_substr($text, 0, -1);                
+            }
+            if(
+                $tag !== false &&
+                $char === '\'' &&
+                $previous !== '\\'
+            ){
+                d($tag);
+                breakpoint($is_single_quoted);
             }
             elseif(
                 $tag !== false &&

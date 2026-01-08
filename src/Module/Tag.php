@@ -54,8 +54,12 @@ class Tag
                     $is_comment = false;
                 }
             }
-            if($tag !== false && $char === '\''){
-                breakpoint($tag);
+            if(
+                $tag !== false &&
+                $char === '\'' &&
+                $previous !== '\\'
+            ){
+                breakpoint($is_single_quoted);
             }
             if(
                 $tag === false &&

@@ -1280,7 +1280,8 @@ class Token
                                                 $array_notation = '';
                                                 $array_notation_array = [];
                                                 $has_variable_name = false;
-                                            } else {    
+                                            } else {
+                                                d($list);
                                                 // d('multiline');                                             
                                                 $variable = [
                                                     'is_assign' => true,

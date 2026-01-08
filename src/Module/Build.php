@@ -21,6 +21,8 @@ class Build {
         $object->config('package.raxon/parse.build.state.source.list', $source);
         $options->class = $options->class ?? Build::class_name($options->source);
         Php::document_default($object, $flags, $options);
+        d($tags);
+        breakpoint('here');
         $tags = Php::document_tag_prepare($object, $flags, $options, $tags);
         d($tags);
         $data = Php::document_tag($object, $flags, $options, $tags);

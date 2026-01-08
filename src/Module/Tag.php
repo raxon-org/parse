@@ -128,6 +128,7 @@ class Tag
                 )
             ){
                 $is_single_quoted = true;
+                d($tag);
             }
             elseif(
                 $tag === false &&
@@ -585,14 +586,6 @@ class Tag
             ){
                 $tag = '{{';                                                
                 $text = mb_substr($text, 0, -1);                
-            }
-            elseif(
-                $tag !== false &&
-                $char === '\'' &&
-                $previous !== '\\'
-            ){
-                $tag .= $char;
-                breakpoint($is_single_quoted);
             }
             elseif(
                 $tag !== false &&

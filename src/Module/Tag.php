@@ -591,6 +591,7 @@ class Tag
                 $char === '\'' &&
                 $previous !== '\\'
             ){
+                $tag .= $char;
                 breakpoint($is_single_quoted);
             }
             elseif(
@@ -605,8 +606,6 @@ class Tag
             ){                            
                 $tag .= $char;                
                 $column[$line]++;
-                d($is_single_quoted);
-                breakpoint($tag);
                 if($text !== ''){
                     $explode = explode("\n", $text);
                     $count = count($explode);

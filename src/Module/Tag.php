@@ -55,7 +55,7 @@ class Tag
                 }
             }
             if(
-                $tag === false &&
+//                $tag === false &&
                 $char === '\'' &&
                 $is_single_quoted === false &&
                 $is_double_quoted === false &&
@@ -131,7 +131,7 @@ class Tag
                 d($tag);
             }
             elseif(
-                $tag === false &&
+//                $tag === false &&
                 $char === '\'' &&
                 $is_single_quoted === true &&
                 $is_double_quoted === false &&

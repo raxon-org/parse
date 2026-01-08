@@ -325,6 +325,7 @@ class Token
                         unset($tags[$line][$nr]);
                     }
                     $hash = hash('sha256', 'tag.' . $content);
+                    d($record['tag']);
                     d($content);
                     $is_variable_tag = Token::is_variable_tag($object, $flags, $options, $content);
                     if($is_variable_tag === true){

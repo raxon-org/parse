@@ -85,6 +85,7 @@ class Token
             $temp = explode('{{literal}}', $explode[0], 2);
             if(array_key_exists(1, $temp)){
                 $literal = $temp[1];
+                d($literal);
                 $uuid = str_replace('-', '_', Core::uuid());
                 $variable = '{{$literal.' . $uuid . '}}';   
                 $count = $object->config('literal.count') ?? 1;                                     

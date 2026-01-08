@@ -4056,7 +4056,7 @@ class Php {
      * @throws TemplateException
      */
     public static function variable_assign(App $object, $flags, $options, $record = []): bool | string
-    {
+    {``
         if(!array_key_exists('variable', $record)){
             return false;
         }

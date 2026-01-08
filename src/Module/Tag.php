@@ -59,6 +59,7 @@ class Tag
                 $char === '\'' &&
                 $previous !== '\\'
             ){
+                d($tag);
                 breakpoint($is_single_quoted);
             }
             if(

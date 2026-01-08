@@ -598,6 +598,8 @@ class Tag
             ){                            
                 $tag .= $char;                
                 $column[$line]++;
+                d($is_single_quoted);
+                breakpoint($tag);
                 if($text !== ''){
                     $explode = explode("\n", $text);
                     $count = count($explode);

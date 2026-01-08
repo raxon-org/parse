@@ -89,7 +89,6 @@ class Token
                 $variable = '{{$literal.' . $uuid . '}}';   
                 $count = $object->config('literal.count') ?? 1;                                     
                 $assign = '{{$literal.' . $uuid . ' = \'' . Escape::single_quote($literal) . '\'}}';
-                breakpoint($assign);
                 $input = $temp[0] . $assign . $variable . $explode[1];
                 $input = Token::literal_apply($object, $data, $flags, $options, $input);                                               
                 $object->config('literal.count', $count++);

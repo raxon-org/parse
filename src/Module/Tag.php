@@ -53,7 +53,10 @@ class Tag
                 ){
                     $is_comment = false;
                 }
-            }                       
+            }
+            if($tag !== false && $char === '\''){
+                breakpoint($tag);
+            }
             if(
                 $tag === false &&
                 $char === '\'' &&

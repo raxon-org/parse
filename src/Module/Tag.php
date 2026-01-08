@@ -586,7 +586,7 @@ class Tag
                 $tag = '{{';                                                
                 $text = mb_substr($text, 0, -1);                
             }
-            if(
+            elseif(
                 $tag !== false &&
                 $char === '\'' &&
                 $previous !== '\\'

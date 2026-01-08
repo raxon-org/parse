@@ -1824,7 +1824,7 @@ class Php {
                             array_key_exists('is_assign', $record['variable']) &&
                             $record['variable']['is_assign'] === true
                         ){  
-                            // d($record);                                                    
+                             d($record);
                             $variable = Php::variable_assign($object, $flags, $options, $record);                            
                             if($variable){
                                 $separator = $object->config('package.raxon/parse.build.state.separator');

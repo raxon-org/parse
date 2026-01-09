@@ -254,7 +254,8 @@ class Php {
         $capture_depth = 0;
         $content = [];
         $is_literal = false;
-        $marker_data = [];        
+        $marker_data = [];
+        d($tags);
         foreach ($tags as $row_nr => $list) {
             foreach ($list as $nr => &$record) {
                 $object->config('package.raxon/parse.build.state.tag', $record);

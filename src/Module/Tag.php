@@ -64,8 +64,8 @@ class Tag
 //                $tag === false &&
                 $char === '\'' &&
                 $is_single_quoted === false &&
-                $is_double_quoted === false &&
-                $is_double_quoted_backslash === false &&
+//                $is_double_quoted === false &&
+//                $is_double_quoted_backslash === false &&
                 $previous !== '\\'
             ){                
                 if($text !== ''){                    
@@ -123,8 +123,8 @@ class Tag
             elseif(
                 $char === '\'' &&
                 $is_single_quoted === false &&
-                $is_double_quoted === false &&
-                $is_double_quoted_backslash === false &&
+//                $is_double_quoted === false &&
+//                $is_double_quoted_backslash === false &&
                 (
                     $previous !== '\\' ||
                     (
@@ -140,8 +140,8 @@ class Tag
 //                $tag === false &&
                 $char === '\'' &&
                 $is_single_quoted === true &&
-                $is_double_quoted === false &&
-                $is_double_quoted_backslash === false &&
+//                $is_double_quoted === false &&
+//                $is_double_quoted_backslash === false &&
                 (
                     $previous !== '\\' ||
                     (
@@ -208,8 +208,8 @@ class Tag
             elseif(
                 $char === '\'' &&
                 $is_single_quoted === true &&
-                $is_double_quoted === false &&
-                $is_double_quoted_backslash === false &&
+//                $is_double_quoted === false &&
+//                $is_double_quoted_backslash === false &&
                 (
                     $previous !== '\\' ||
                     (

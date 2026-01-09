@@ -313,7 +313,6 @@ class Token
             return $tags;
         }
         $cache = $object->get(App::CACHE);
-        d($tags);
         foreach($tags as $line => $tag){
             foreach($tag as $nr => $record){
                 if(
@@ -324,8 +323,6 @@ class Token
                         unset($tags[$line][$nr]);
                     }
                     $hash = hash('sha256', 'tag.' . $content);
-                    d($record);
-                    d($content);
                     $is_variable_tag = Token::is_variable_tag($object, $flags, $options, $content);
                     if($is_variable_tag === true){
                         if($cache->has($hash)){
@@ -535,142 +532,8 @@ class Token
                                     $is_after = true;
                                     $after .= $char;
                                     $after_array[] = $char;
-//                                    $is_modifier = true;
                                     continue;
                                 }
-                                /*
-                                elseif(
-                                    !in_array(
-                                        $modifier_name, [
-                                            false,
-                                            ''
-                                        ],
-                                        true
-                                    )
-                                ){
-                                    if(
-                                        in_array(
-                                            $char,
-                                            [
-                                                " ",
-                                                "\t",
-                                                "\n",
-                                                "\r"
-                                            ],
-                                            true
-                                        ) &&
-                                        $is_single_quoted === false &&
-                                        $is_double_quoted === false
-                                    ){
-                                        $modifier_string .= $char;
-                                        //nothing
-                                    } else {
-                                        if(
-                                            $char === ':' &&
-                                            $set_depth === 0 &&
-                                            $is_single_quoted === false &&
-                                            $is_double_quoted === false &&
-                                            $curly_depth === $curly_depth_variable
-                                        ){
-                                            $modifier_string .= $char;
-                                            d($argument);
-                                            $argument_list[] = Token::value(
-                                                $object,
-                                                $flags,
-                                                $options,
-                                                [
-                                                    'string' => $argument,
-                                                    'array' => $argument_array
-                                                ]
-                                            );
-                                            $argument = '';
-                                            $argument_array = [];
-                                        }
-                                        elseif(
-                                            $char === '|' &&
-                                            $next !== '|' &&
-                                            $previous !== '|' &&
-                                            $set_depth === 0 &&
-                                            $curly_depth === $curly_depth_variable &&
-                                            $is_single_quoted === false &&
-                                            $is_double_quoted === false
-                                        ){
-                                            $modifier_string .= $char;
-                                            $argument_list[] = Token::value(
-                                                $object,
-                                                $flags,
-                                                $options,
-                                                [
-                                                    'string' => $argument,
-                                                    'array' => $argument_array
-                                                ]
-                                            );
-                                            $argument = '';
-                                            $argument_array = [];
-                                            $modifier_list[] = [
-                                                'string' => $modifier_string,
-                                                'name' => $modifier_name,
-                                                'argument' => $argument_list
-                                            ];
-                                            $modifier_name = false;
-                                            $argument_list = [];
-                                        } else {
-                                            if(
-                                                $char === ',' &&
-                                                $is_single_quoted === false &&
-                                                $is_double_quoted === false &&
-                                                $curly_depth === $curly_depth_variable
-                                            ){
-                                                break;
-                                            }
-                                            $modifier_string .= $char;
-                                            $argument .= $char;
-                                            $argument_array[] = $char;
-                                        }
-                                    }
-                                    continue;
-                                }
-                                elseif($is_modifier){
-                                    if(
-                                        $char === ':' &&
-                                        $is_single_quoted === false &&
-                                        $is_double_quoted === false &&
-                                        $curly_depth === $curly_depth_variable
-                                    ){
-                                        $modifier_string .= $char;
-                                        if($modifier !== ''){
-                                            if($modifier_name === false){
-                                                $modifier_name = $modifier;
-                                                $modifier_string = $modifier . $char;
-                                                $modifier = '';
-                                                $modifier_array = [];
-                                            }
-                                        }
-                                    }
-                                    elseif(
-                                        in_array(
-                                            $char,
-                                            [
-                                                " ",
-                                                "\t",
-                                                "\n",
-                                                "\r"
-                                            ],
-                                            true
-                                        ) &&
-                                        $is_single_quoted === false &&
-                                        $is_double_quoted === false
-                                    ){
-                                        $modifier_string .= $char;
-                                        //nothing
-                                    } else {
-                                        $modifier .= $char;
-                                        $modifier_array[] = $char;
-                                        $modifier_string .= $char;
-                                    }
-                                    continue;
-                                }
-                                */
                                 elseif(
                                     !$operator &&
                                     $array_depth_variable === $array_depth &&
@@ -700,7 +563,6 @@ class Token
                                 }
                                 if($operator === '.' && $is_after === true){
                                     //fix false positives
-//                                    $variable_name .= $operator . $char;
                                     $after .= $operator;
                                     $after_array[] = $operator;
                                     $operator = false;
@@ -847,11 +709,6 @@ class Token
                                     }
                                     else {
                                         if($has_variable_name === false){
-//                                            $array_notation .= $variable_name;
-//                                            $explode = mb_str_split($variable_name, 1);
-//                                            foreach($explode as $explode_nr => $explode_value){
-//                                                $array_notation_array[] = $explode_value;
-//                                            }
                                             $has_variable_name = true;
                                         }
                                         $is_patched = false;
@@ -887,82 +744,7 @@ class Token
                                     }
                                 }
                             }
-                            /*
-                            if($argument !== ''){
-                                $argument_hash = hash('sha256', 'argument.' . $argument);
-                                if($cache->has($argument_hash)){
-                                    $argument_value = $cache->get($argument_hash);
-                                } else {
-                                    $argument_value = Token::value(
-                                        $object,
-                                        $flags,
-                                        $options,
-                                        [
-                                            'string' => $argument,
-                                            'array' => $argument_array
-                                        ]
-                                    );
-
-                                    $cache->set($argument_hash, $argument_value);
-                                }
-                                $argument_list[] = $argument_value;
-                                $argument = '';
-                                $argument_array = [];
-                            }
-                            if($modifier_name){
-                                $modifier_list[] = [
-                                    'string' => $modifier_string,
-                                    'name' => $modifier_name,
-                                    'argument' => $argument_list
-                                ];
-                                $modifier_name = false;
-                                $modifier_string = '';
-                                $argument_list = [];
-                            }
-                            */
                             if($after === ''){
-                                /*
-                                if(array_key_exists(0, $modifier_list)){
-                                    $variable_target = Token::variable_name($object, $flags, $options, $variable_name);
-                                    $variable_explode = explode($variable_target, $variable_name, 2);
-                                    $cast = Token::cast_get($object, $flags, $options, $variable_explode[0]);
-                                    $is_not_count = mb_substr_count($variable_explode[0], '!');
-                                    $is_not = null;
-                                    if(
-                                        in_array(
-                                            $is_not_count,
-                                            [
-                                                2,
-                                                4
-                                            ],
-                                            true
-                                        )
-                                    ){
-                                        $is_not = true;
-                                    }
-                                    elseif(
-                                        in_array(
-                                            $is_not_count,
-                                            [
-                                                1,
-                                                3,
-                                            ],
-                                            true
-                                        )
-                                    ){
-                                        $is_not = false;
-                                    }
-                                    $variable = [
-                                        'is_define' => true,
-                                        'is_not' => $is_not,
-                                        'name' => mb_substr($variable_target, 1),
-                                        'modifier' => $modifier_list,
-                                        'cast' => $cast
-                                    ];
-                                    d($variable_name);
-                                    breakpoint($variable);
-                                }
-                                */
                                 if(
                                     in_array(
                                         $operator,
@@ -1062,8 +844,6 @@ class Token
                                 }
                             } else {
                                 if($operator){
-                                    // d($after);
-                                    // d($after_array);
                                     $list = Token::value(
                                         $object,
                                         $flags,
@@ -1073,8 +853,7 @@ class Token
                                             'array' => $after_array,
                                         ],
                                         $record
-                                    );  
-                                     d($list);
+                                    );
                                     $variable_target = Token::variable_name($object, $flags, $options, $variable_name);
                                     $variable_explode = explode($variable_target, $variable_name, 2);
                                     $cast = Token::cast_get($object, $flags, $options, $variable_explode[0]);
@@ -1237,8 +1016,6 @@ class Token
                                                         'array' => $array_notation_array,
                                                     ],
                                                 );
-                                                d($list);
-
                                                 $variable = [
                                                     'is_assign' => true,
                                                     'is_not' => $is_not,
@@ -1248,8 +1025,7 @@ class Token
                                                     'cast' => $cast,
                                                     'array_notation' => $array_notation_list
                                                 ];
-                                            } else {                                               
-                                                 d($list);
+                                            } else {
                                                 $variable = [
                                                     'is_assign' => true,
                                                     'is_not' => $is_not,
@@ -1259,7 +1035,6 @@ class Token
                                                     'cast' => $cast
                                                 ];
                                             }
-
                                         } else {
                                             if($array_notation !== ''){
                                                 d($array_notation);
@@ -1283,8 +1058,6 @@ class Token
                                                 $array_notation_array = [];
                                                 $has_variable_name = false;
                                             } else {
-                                                d($list);
-                                                // d('multiline');                                             
                                                 $variable = [
                                                     'is_assign' => true,
                                                     'is_not' => $is_not,
@@ -1449,7 +1222,6 @@ class Token
                 }
             }
         }
-        // d($tags);
         return $tags;
     }
 
@@ -1515,32 +1287,6 @@ class Token
                     ]];
                     return $input;
                 }
-                /*
-                elseif(
-                    mb_substr($value, 0, 1) === '\'' &&
-                    mb_substr($value, -1) === '\''
-                ){
-                    $input['array'] = [[
-                        'value' => $value,
-                        'execute' => mb_substr($value, 1, -1),
-                        'type' => 'string',
-                        'is_single_quoted' => true
-                    ]];
-                    return $input;
-                }
-                elseif(
-                    mb_substr($value, 0, 1) === '"' &&
-                    mb_substr($value, -1) === '"'
-                ){
-                    $input['array'] = [[
-                        'value' => $value,
-                        'execute' => mb_substr($value, 1, -1),
-                        'type' => 'string',
-                        'is_double_quoted' => true
-                    ]];
-                    return $input;
-                }
-                */
                 return Token::value_split($object, $flags, $options, $input, $tag);
         }
     }
@@ -1699,18 +1445,6 @@ class Token
             ){
                 $is_double_quote_backslash = false;
             }
-            /*
-            elseif(
-                $is_single_quote === false &&
-                $is_double_quote === false &&
-                $is_double_quote_backslash === false &&
-                is_array($char) &&
-                array_key_exists('value', $char) &&
-                $char['value'] === '//'
-            ){
-                $is_single_comment = true;
-            }
-            */
             elseif(
                 is_array($char) &&
                 array_key_exists('value', $char) &&
@@ -1807,11 +1541,6 @@ class Token
             ){
                 unset($input['array'][$nr]);
             }
-            /*
-            if($is_single_comment){
-                unset($input['array'][$nr]);
-            }
-            */
         }
         //re-index from 0
         $input['array'] = array_values($input['array']);
@@ -1836,16 +1565,11 @@ class Token
         } else {            
             $input = Symbol::define($object, $flags, $options, $input);            
 //            $input = Token::remove_comment($object, $flags, $options, $input);
-//            breakpoint($input);
             $input = Cast::define($object, $flags, $options, $input);
             $input = Method::define($object, $flags, $options, $input, $tag);
-        //    d($input);
             $input = Variable::define($object, $flags, $options, $input);
-//breakpoint($input);
             $input = Variable::modifier($object, $flags, $options, $input, $tag);
-            // d($input);
             $input = Variable::assign($object, $flags, $options, $input);
-            // d($input);
             $input = Value::define($object, $flags, $options, $input);
             $input = Value::float($object, $flags, $options, $input);
 //            $input = Value::double_quoted_string($object, $flags, $options, $input, false);
@@ -1902,5 +1626,4 @@ class Token
         }
         return $item;
     }
-
 }

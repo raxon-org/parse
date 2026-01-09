@@ -255,7 +255,6 @@ class Php {
         $content = [];
         $is_literal = false;
         $marker_data = [];
-        d($tags);
         foreach ($tags as $row_nr => $list) {
             foreach ($list as $nr => &$record) {
                 $object->config('package.raxon/parse.build.state.tag', $record);
@@ -1824,8 +1823,7 @@ class Php {
                         if(
                             array_key_exists('is_assign', $record['variable']) &&
                             $record['variable']['is_assign'] === true
-                        ){  
-                             d($record);
+                        ){
                             $variable = Php::variable_assign($object, $flags, $options, $record);                            
                             if($variable){
                                 $separator = $object->config('package.raxon/parse.build.state.separator');

@@ -54,18 +54,12 @@ class Tag
                     $is_comment = false;
                 }
             }
-            if($char === '\''){
-                d($char);
-                d($is_single_quoted);
-                d($is_double_quoted);
-                d($previous);
-            }
             if(
 //                $tag === false &&
                 $char === '\'' &&
                 $is_single_quoted === false &&
-//                $is_double_quoted === false &&
-//                $is_double_quoted_backslash === false &&
+//                $is_double_quoted === false &&                //needs to be off
+//                $is_double_quoted_backslash === false &&      //needs to be off
                 $previous !== '\\'
             ){                
                 if($text !== ''){                    
@@ -123,8 +117,8 @@ class Tag
             elseif(
                 $char === '\'' &&
                 $is_single_quoted === false &&
-//                $is_double_quoted === false &&
-//                $is_double_quoted_backslash === false &&
+//                $is_double_quoted === false &&            //needs to be off
+//                $is_double_quoted_backslash === false &&  //needs to be off
                 (
                     $previous !== '\\' ||
                     (
@@ -140,8 +134,8 @@ class Tag
 //                $tag === false &&
                 $char === '\'' &&
                 $is_single_quoted === true &&
-//                $is_double_quoted === false &&
-//                $is_double_quoted_backslash === false &&
+//                $is_double_quoted === false &&            //needs to be off
+//                $is_double_quoted_backslash === false &&  //needs to be off
                 (
                     $previous !== '\\' ||
                     (
@@ -208,8 +202,8 @@ class Tag
             elseif(
                 $char === '\'' &&
                 $is_single_quoted === true &&
-//                $is_double_quoted === false &&
-//                $is_double_quoted_backslash === false &&
+//                $is_double_quoted === false &&            //needs to be off
+//                $is_double_quoted_backslash === false &&  //needs to be off
                 (
                     $previous !== '\\' ||
                     (

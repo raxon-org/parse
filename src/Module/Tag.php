@@ -54,6 +54,10 @@ class Tag
                     $is_comment = false;
                 }
             }
+            d($char);
+            d($is_single_quoted);
+            d($is_double_quoted);
+            d($previous);
             if(
 //                $tag === false &&
                 $char === '\'' &&

@@ -189,7 +189,6 @@ class Variable
                                 $input['array'][$variable_nr]['variable'] = $variable;
                             }
                         } else {
-                            d($after);
                             $list = Token::value(
                                 $object,
                                 $flags,
@@ -232,13 +231,10 @@ class Variable
         if(array_key_exists('array', $input) === false){
             return $input;
         }
-//        trace();
-//        d($input['array']);
         $count = count($input['array']);
         $is_variable = false;
         $has_name = false;
         $name = '';
-//        breakpoint($input);
         $array_depth = 0;
         foreach($input['array'] as $nr => $char){
             if(!is_numeric($nr)){

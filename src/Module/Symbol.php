@@ -180,7 +180,11 @@ class Symbol
                 $is_double_quote_backslash !== false
             ){                
                 $string = '';
-                for($i = $is_double_quote_backslash; $i <= $nr; $i++){                    
+                for($i = $is_double_quote_backslash; $i <= $nr; $i++){
+                    if(is_array($input['array'][$i])){
+                        d('found');
+                        ddd($input['array'][$i]);
+                    }
                     $string .= $input['array'][$i];
                     $input['array'][$i] = null;
                 }

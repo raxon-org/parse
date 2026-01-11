@@ -182,10 +182,14 @@ class Symbol
                 $string = '';
                 for($i = $is_double_quote_backslash; $i <= $nr; $i++){
                     if(is_array($input['array'][$i])){
-                        d('found');
-                        ddd($input['array'][$i]);
+                        if(array_key_exists('value', $input['array'][$i])){
+                            $string .= $input['array'][$i]['value'];
+                        } else {
+                            throw new Exception('Not implemented, no value');
+                        }
+                    } else {
+                        $string .= $input['array'][$i];
                     }
-                    $string .= $input['array'][$i];
                     $input['array'][$i] = null;
                 }
                 $input['array'][$is_double_quote_backslash] = [

@@ -1,0 +1,1 @@
+        let url = "{{literal}}{{server.url('{{/literal}}{{options('backend.host')}}{{literal}}')}}{//literal}}User/Current/";

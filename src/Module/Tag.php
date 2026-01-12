@@ -34,7 +34,6 @@ class Tag
         $previous = false;
         $text = '';
         $skip = 0;
-        d($input);
         foreach($split as $nr => $char){
             if($skip > 0){
                 $skip--;
@@ -787,7 +786,6 @@ class Tag
                 $tag_list[$line][] = $record;
             }            
         }
-        d($tag_list);
         return $tag_list;
     }
 

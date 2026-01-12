@@ -34,6 +34,7 @@ class Tag
         $previous = false;
         $text = '';
         $skip = 0;
+        d($input);
         foreach($split as $nr => $char){
             if($skip > 0){
                 $skip--;

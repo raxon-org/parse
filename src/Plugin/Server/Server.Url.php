@@ -22,6 +22,8 @@ trait Server_Url {
             substr($url, -1, 1) !== '/'
         ){
             $url .= '/';
+        } else {
+            $url = '/';
         }
         return $url;
     }

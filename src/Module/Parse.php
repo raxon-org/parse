@@ -663,6 +663,7 @@ class Parse
                         $property
                     );
                 }
+                unset($input->{$object->config('package.raxon/parse.object.this.property')});
 //                $object->config('package.raxon/parse.build.state.this.attribute', $attribute);
 //                $object->config('package.raxon/parse.build.state.this.property', $property);
                 return $input;

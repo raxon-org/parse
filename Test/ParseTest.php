@@ -7,13 +7,21 @@ use Raxon\Module\Data;
 
 // Example test case
 
-test('parse', function () {
+test(
+    /**
+     * @throws \Raxon\Exception\ObjectException
+     * @throws \Raxon\Exception\TemplateException
+     */
+    'parse', function () {
     $app = App::instance([
         'risky' => true
     ]);
     $data = new Data($app->data());
-    $parse = new Parse($app, $data, App::flags($app), App::options($app));
-    $string = '{{config(\'project.dir.vendor\')}}';
+    $flags = App::flags($app);
+    $options = App::options($app);
+    $options->source = __DIR__ . '/Template/Config.1.tpl';
+    $parse = new Parse($app, $data, $flags , $options);
+    $string = File::read($options->source) ?? '';
     $compile = $parse->compile($string);
     expect($compile)->toContain("Application");
     expect($compile)->toContain("/vendor/");

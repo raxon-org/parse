@@ -1,1 +1,1 @@
-{{config(\'project.dir.vendor\')}}
+{{config('project.dir.vendor')}}

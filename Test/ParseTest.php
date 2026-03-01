@@ -14,9 +14,7 @@ test(
      * @throws \Raxon\Exception\TemplateException
      */
     'parse', function () {
-    $app = App::instance([
-        'risky' => true
-    ]);
+    $app = App::instance();
     $data = new Data($app->data());
     $flags = App::flags($app);
     $options = App::options($app);

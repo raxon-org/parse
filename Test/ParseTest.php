@@ -1,6 +1,6 @@
 <?php
 
-use Package\Raxon\Parse\Service\Parse;
+use Raxon\Parse\Module\Parse;
 use Raxon\App;
 use Raxon\Module\Data;
 

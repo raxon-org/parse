@@ -23,7 +23,6 @@ test(
     $options->source = $app->config('project.dir.vendor') . 'raxon/parse/Test/Template/Config.1.tpl';
     $parse = new Parse($app, $data, $flags , $options);
     $string = File::read($options->source) ?? '';
-    d($string);
     $compile = $parse->compile($string);
     expect($compile)->toContain("Application");
     expect($compile)->toContain("/vendor/");

@@ -20,7 +20,7 @@ test(
     $data = new Data($app->data());
     $flags = App::flags($app);
     $options = App::options($app);
-    $options->source = $app->config('framework.dir.vendor') . 'raxon/parse/Test/Template/Config.1.tpl';
+    $options->source = $app->config('project.dir.vendor') . 'raxon/parse/Test/Template/Config.1.tpl';
     $parse = new Parse($app, $data, $flags , $options);
     $string = File::read($options->source) ?? '';
     d($string);

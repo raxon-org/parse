@@ -1,5 +1,7 @@
 <?php
 
+use Raxon\Exception\ObjectException;
+use Raxon\Exception\TemplateException;
 use Raxon\Parse\Module\Parse;
 use Raxon\App;
 use Raxon\Module\Data;
@@ -10,8 +12,8 @@ use Raxon\Module\File;
 
 test(
     /**
-     * @throws \Raxon\Exception\ObjectException
-     * @throws \Raxon\Exception\TemplateException
+     * @throws ObjectException
+     * @throws TemplateException
      */
     'parse', function () {
     $app = App::instance();

@@ -2718,6 +2718,7 @@ class Php {
                     ddd($before);
                 }
                 if (array_key_exists(0, $argument)) {
+                    d($argument);
                     $argument = $name . '(' . implode(', ', $argument) . ')';
                 } else {
                     $argument = $name . '()';

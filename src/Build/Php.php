@@ -3666,6 +3666,8 @@ class Php {
                 $value = '$this->value_equal(' . $left . ', ' . $right . ')';
                 break;
             case '===':
+                trace();
+                breakpoint('yes');
                 $value = '$this->value_identical(' . $left . ', ' . $right . ')';
                 break;
             case '!=':

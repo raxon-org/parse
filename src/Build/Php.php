@@ -2123,6 +2123,7 @@ class Php {
                 '(';
             $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
             $method_value .= ')';
+            d($method_value);
             return $method_value;
         } else {
             if (

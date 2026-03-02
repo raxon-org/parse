@@ -2096,6 +2096,7 @@ class Php {
         $ltrim = $object->config('package.raxon/parse.build.state.ltrim');
         $skip_space = $ltrim * 4;
         $skip = 0;
+        d($record);
         if(
             array_key_exists('is_class_method', $record['method']) &&
             $record['method']['is_class_method'] === true
@@ -2594,7 +2595,6 @@ class Php {
         $is_argument = false;
         $argument_value = '';
         $previous_count = 0;
-        d($record);
         $use_trait = $object->config('package.raxon/parse.build.use.trait');
         $use_trait_function = $object->config('package.raxon/parse.build.use.trait_function');
         $argument_is_reference = [];

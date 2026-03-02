@@ -26,6 +26,9 @@ trait Script {
                 $value[] = $script;
                 $value[] = '</script>';
             break;
+            case 'source':
+                $value[] = $script;
+            break;
         }
         $name = 'script';
         $list = $data->get($name);

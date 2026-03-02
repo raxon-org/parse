@@ -2594,6 +2594,7 @@ class Php {
         $is_argument = false;
         $argument_value = '';
         $previous_count = 0;
+        d($record);
         $use_trait = $object->config('package.raxon/parse.build.use.trait');
         $use_trait_function = $object->config('package.raxon/parse.build.use.trait_function');
         $argument_is_reference = [];

@@ -1887,7 +1887,6 @@ class Php {
                                     $options->source .
                                     '.\');';
                             } else {
-                                ddd($record);
                                 $data[] = 'throw new TemplateException(\'Method argument error (' .
                                     str_replace(['\\','\''], ['\\\\', '\\\''],  $record['tag']) .
                                     ')\' . PHP_EOL . (string) $exception . PHP_EOL . \'On line: ' .

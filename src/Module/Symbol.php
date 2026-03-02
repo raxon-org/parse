@@ -195,7 +195,8 @@ class Symbol
                 $input['array'][$is_double_quote_backslash] = [
                     'type' => 'string',
                     'value' => $string,
-                    'execute' => '"' . substr($string, 2, -2) . '"', // was: substr($string, 2, -2),
+//                    'execute' => '"' . substr($string, 2, -2) . '"', // was: substr($string, 2, -2),
+                    'execute' => substr($string, 2, -2), // was: above
                     'is_double_quoted' => true,
                     'is_backslash' => true
                 ];

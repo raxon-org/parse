@@ -2524,6 +2524,8 @@ class Php {
                 ) {
                     $method_value .= ')';
                 }
+                d($before);
+                d($after);
                 d($method_value);
                 return $method_value;
             } else {

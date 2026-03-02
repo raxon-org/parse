@@ -3330,6 +3330,7 @@ class Php {
                             if($is_debug){
                                 d($value);
                             }
+                            d($value);
                             $value = Php::value_calculate($object, $flags, $options, $record['value'], $value, $right);
                             d($value);
                         }

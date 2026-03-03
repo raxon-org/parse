@@ -3000,11 +3000,26 @@ class Php {
         return '$this->' . mb_strtolower($plugin);
     }
 
+    public static function value(App $object, $flags, $options, $tag, $input, &$is_set=false, &$before=[], &$after=[]): string
+    {
+        $is_debug = false;
+        $source = $options->source ?? '';
+        $value = '';
+        $skip = 0;
+        d($input);
+        $input = Php::value_set($object, $flags, $options, $input, $is_set, $count);
+        d($is_set);
+        d($count);
+        d($input);
+        $input = Variable::modifier($object, $flags, $options, $input, $tag);
+        d($input);
+    }
+
     /**
      * @throws Exception
      * @throws LocateException
      */
-    public static function value(App $object, $flags, $options, $tag, $input, &$is_set=false, &$before=[], &$after=[]): string
+    public static function value_old(App $object, $flags, $options, $tag, $input, &$is_set=false, &$before=[], &$after=[]): string
     {
         $is_debug = false;
         $source = $options->source ?? '';

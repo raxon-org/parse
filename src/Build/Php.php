@@ -711,7 +711,6 @@ class Php {
                             if(!array_key_exists('statement', $content['if'])){
                                 ddd($content);
                             }
-                            d($content);
                             $if_data[] = Php::method($object, $flags, $options, $content['if']['statement'], $before, $after) . '{';
                             if(!empty($before)){
                                 foreach($before as $line){

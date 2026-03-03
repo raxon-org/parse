@@ -3173,8 +3173,47 @@ class Php {
                         case ' === ':
                             $left = Php::value_left($object, $flags, $options, $value_array, $before, $after);
                             $right = Php::value_right($object, $flags, $options, $input, $nr + 1, $tag, $before, $after);
-                            d($right);
-                            ddd($left);
+                            $result = $left['value'] . '$this->>value_identical(' . $left['left'] . ',' . $right['right'] . ')' . $right['value'];
+                        break;
+                        case ' == ':
+                            $left = Php::value_left($object, $flags, $options, $value_array, $before, $after);
+                            $right = Php::value_right($object, $flags, $options, $input, $nr + 1, $tag, $before, $after);
+                            $result = $left['value'] . '$this->>value_equal(' . $left['left'] . ',' . $right['right'] . ')' . $right['value'];
+                        break;
+                        case ' !== ':
+                            $left = Php::value_left($object, $flags, $options, $value_array, $before, $after);
+                            $right = Php::value_right($object, $flags, $options, $input, $nr + 1, $tag, $before, $after);
+                            $result = $left['value'] . '$this->>value_not_identical(' . $left['left'] . ',' . $right['right'] . ')' . $right['value'];
+                        break;
+                        case ' != ':
+                            $left = Php::value_left($object, $flags, $options, $value_array, $before, $after);
+                            $right = Php::value_right($object, $flags, $options, $input, $nr + 1, $tag, $before, $after);
+                            $result = $left['value'] . '$this->>value_not_equal(' . $left['left'] . ',' . $right['right'] . ')' . $right['value'];
+                        break;
+                        case ' >= ':
+                            $left = Php::value_left($object, $flags, $options, $value_array, $before, $after);
+                            $right = Php::value_right($object, $flags, $options, $input, $nr + 1, $tag, $before, $after);
+                            $result = $left['value'] . '$this->>value_greater_equal(' . $left['left'] . ',' . $right['right'] . ')' . $right['value'];
+                        break;
+                        case ' >> ':
+                            $left = Php::value_left($object, $flags, $options, $value_array, $before, $after);
+                            $right = Php::value_right($object, $flags, $options, $input, $nr + 1, $tag, $before, $after);
+                            $result = $left['value'] . '$this->>value_greater_greater(' . $left['left'] . ',' . $right['right'] . ')' . $right['value'];
+                        break;
+                        case ' <= ':
+                            $left = Php::value_left($object, $flags, $options, $value_array, $before, $after);
+                            $right = Php::value_right($object, $flags, $options, $input, $nr + 1, $tag, $before, $after);
+                            $result = $left['value'] . '$this->>value_smaller_equal(' . $left['left'] . ',' . $right['right'] . ')' . $right['value'];
+                        break;
+                        case ' << ':
+                            $left = Php::value_left($object, $flags, $options, $value_array, $before, $after);
+                            $right = Php::value_right($object, $flags, $options, $input, $nr + 1, $tag, $before, $after);
+                            $result = $left['value'] . '$this->>value_smaller_smaller(' . $left['left'] . ',' . $right['right'] . ')' . $right['value'];
+                        break;
+                        case ' xor ':
+                            $left = Php::value_left($object, $flags, $options, $value_array, $before, $after);
+                            $right = Php::value_right($object, $flags, $options, $input, $nr + 1, $tag, $before, $after);
+                            $result = $left['value'] . '$this->>value_xor(' . $left['left'] . ',' . $right['right'] . ')' . $right['value'];
                         break;
                     }
                 break;

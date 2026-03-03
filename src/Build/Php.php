@@ -3119,7 +3119,6 @@ class Php {
             if (!array_key_exists('type', $record)) {
                 continue;
             }
-            d($record['type']);
             switch ($record['type']) {
                 case 'method':
                     if (empty($record['tag'])) {
@@ -3147,8 +3146,10 @@ class Php {
                 break;
                 case 'boolean':
                 case 'null':
-                case 'symbol':
                     $result = $record['value'];
+                break;
+                case 'symbol':
+                    $result = Php::value_symbol($object, $flags, $options, $result, $tag, $before, $after);
                 break;
                 case 'set':
                     $set = [
@@ -3170,6 +3171,24 @@ class Php {
         }
         breakpoint($value);;
         return $value;
+    }
+
+    public static function value_symbol(App $object, $flags, $options, $record, &$before=[], &$after=[]): string
+    {
+        $result = $record['value'];
+        switch($result){
+            case '??':
+            case '&&':
+            case 'and' :
+            case '||':
+            case 'or':
+            case 'xor':
+            case '=>':
+            case 'as':
+                $result = ' '. $result .' ';
+            break;
+        }
+        return $result;
     }
 
     /**

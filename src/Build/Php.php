@@ -2500,14 +2500,7 @@ class Php {
                         $object->config('package.raxon/parse.build.state.separator', $separator);
                     }
                 }
-                elseif($record['method']['name'] === 'if'){
-                    d($record);
-                    $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
-                    breakpoint($method_value);
-                    $method_value .= ')';
-                }
-                /*
-                if(
+                elseif(
                     !in_array(
                         $record['method']['name'],
                         [
@@ -2516,35 +2509,16 @@ class Php {
                         ],
                         true
                     )
-                ) {
+                ){
                     $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
-                }
-                */
-                /*
-                if(
-                    !in_array(
-                        $record['method']['name'],
-                        [
-                            'break',
-                            'continue'
-                        ],
-                        true
-                    )
-                ) {
                     $method_value .= ')';
                 }
-                */
-                d($before);
-                d($after);
-                d($record);
-                d($method_value);
                 return $method_value;
             } else {
                 $plugin = Php::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));                
                 $method_value = $plugin . '(';
                 $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
                 $method_value .= ')';
-                d($method_value);
                 return $method_value;
             }
         }

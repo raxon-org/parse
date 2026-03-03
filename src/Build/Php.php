@@ -3337,7 +3337,6 @@ class Php {
                                 d($value);
                             }
                             //value explode on && || xor and only last part...
-                            breakpoint($record);
                             d($value);
                             $value = Php::value_calculate($object, $flags, $options, $record['value'], $value, $right);
                             d($value);

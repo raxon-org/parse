@@ -2178,7 +2178,6 @@ class Php {
                     }
                 } else {
                     $method_value = $record['method']['name']  . '(';
-                    breakpoint($method_value);
                 }
                 if($record['method']['name'] === 'for'){                    
                     $method_value = [];
@@ -2500,7 +2499,7 @@ class Php {
                         $object->config('package.raxon/parse.build.state.separator', $separator);
                     }
                 }
-                elseif(
+                if(
                     !in_array(
                         $record['method']['name'],
                         [
@@ -2510,7 +2509,6 @@ class Php {
                         true
                     )
                 ) {
-                    d($record);
                     $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
                 }
                 if(

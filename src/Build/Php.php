@@ -3174,6 +3174,8 @@ class Php {
                             $left = Php::value_left($object, $flags, $options, $value_array, $before, $after);
                             $right = Php::value_right($object, $flags, $options, $input, $nr + 1, $tag, $before, $after);
                             $result = implode('', $left['value']) . '$this->>value_identical(' . implode('', $left['left']) . ',' . implode('', $right['right']) . ')' . implode('', $right['value']);
+                            d($value);
+                            ddd($result);
                         break;
                         case ' == ':
                             $left = Php::value_left($object, $flags, $options, $value_array, $before, $after);

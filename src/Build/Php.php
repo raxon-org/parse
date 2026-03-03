@@ -3202,7 +3202,7 @@ class Php {
         return $value;
     }
 
-    public static function value_right(App $object, $flags, $options, $input, $nr, &$before=[], &$after=[]): string
+    public static function value_right(App $object, $flags, $options, $input, $nr, &$before=[], &$after=[]): array
     {
         $skip = 0;
         $count = count($input['array']);;

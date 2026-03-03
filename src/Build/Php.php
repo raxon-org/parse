@@ -3207,15 +3207,19 @@ class Php {
         $set_depth = 0;
         $count = count($input['array']);;
         $right = [
-            'right' => [],
-            'value' => []
+            'right' => [
+                'array' => []
+            ],
+            'value' => [
+                'array' => []
+            ]
         ];
         for($i=$nr; $i < $count; $i++){
             $record = $input['array'][$i] ?? null;
             if($record === null){
                 continue;
             }
-            $right['right'][] = $record;
+            $right['right']['array'[] = $record;
             if(
                 array_key_exists('type', $record) &&
                 $record['type'] === 'symbol' &&
@@ -3231,19 +3235,20 @@ class Php {
                 $set_depth--;
                 if($set_depth === 0){
                     for($j = $i + 1; $j < $count; $j++){
-                        $right['value'][] = $input['array'][$j] ?? null;
+                        $right['value']['array'][] = $input['array'][$j] ?? null;
                     }
                     break;
                 }
             }
             if($set_depth === 0){
                 for($j = $i + 1; $j < $count; $j++){
-                    $right['value'][] = $input['array'][$j] ?? null;
+                    $right['value']['array'][] = $input['array'][$j] ?? null;
                 }
                 break;
             }
         }
-        $right['right'] = Php::value($object, $flags, $options, $tag, $right['right'], $is_set, $before, $after);
+        $value = Php::value($object, $flags, $options, $tag, $right['right'], $is_set, $before, $after);
+        d($value);
         return $right;
     }
 

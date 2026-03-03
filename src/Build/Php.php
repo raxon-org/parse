@@ -2823,7 +2823,7 @@ class Php {
                     ddd($before);
                 } else {
                     $argument = Php::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
-                    ddd($argument);
+                    d($argument);
 
 //                    $uuid_variable = Core::uuid_variable();
 //                    $before[] = $uuid_variable . ' = ' . $argument . ';';

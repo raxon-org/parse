@@ -3122,10 +3122,9 @@ class Php {
         $value = '';
         $value_array = [];
         $skip = 0;
-        d($input);
+        // value_set does not work and is not needed
 //        $input = Php::value_set($object, $flags, $options, $input, $is_set, $count);
         $input = Variable::modifier($object, $flags, $options, $input, $tag);
-        d($input);
         $result = '';
         foreach ($input['array'] as $nr => $record) {
             if ($record === null) {
@@ -3254,7 +3253,6 @@ class Php {
             $value .= $result;
             $value_array[] = $result;
         }
-        d($value);;
         return $value;
     }
 

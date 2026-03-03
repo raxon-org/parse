@@ -3168,6 +3168,12 @@ class Php {
                 break;
                 case 'symbol':
                     $result = Php::value_symbol($object, $flags, $options, $record, $before, $after);
+                    switch($result){
+                        case '===':
+                            $left = Php::value_left($object, $flags, $options, $value, $before, $after);
+                            ddd($left);
+                        break;
+                    }
                 break;
                 case 'set':
                     $set = [
@@ -3191,6 +3197,11 @@ class Php {
         return $value;
     }
 
+    public static function value_left (App $object, $flags, $options, $value, &$before=[], &$after=[]): string
+    {
+        ddd($value);
+    }
+
     public static function value_symbol(App $object, $flags, $options, $record, &$before=[], &$after=[]): string
     {
         $result = $record['value'];
@@ -3203,11 +3214,11 @@ class Php {
             case 'xor':
             case '=>':
             case 'as':
-                $result = ' '. $result .' ';
-            break;
             case '===':
-                $explode = explode('===', $result);
-                d($explode);
+            case '==':
+            case '!==':
+            case '!=':
+                $result = ' '. $result .' ';
             break;
         }
         return $result;

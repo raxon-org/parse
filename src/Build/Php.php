@@ -3210,12 +3210,13 @@ class Php {
             'value' => []
         ];
         foreach($value_reverse as $nr => $part) {
-            $left['left'][] = $part;
             if ($nr === 0 && $part !== ')') {
+                $left['left'][] = $part;
                 array_shift($value_reverse);
                 $left['value'] = array_reverse($value_reverse);
                 break;
             }
+            $left['left'][] = $part;
             if ($part === ')') {
                 $set_depth++;
             }
@@ -3227,6 +3228,7 @@ class Php {
                         $left['value'][] = $value_reverse[$i];
                     }
                     $left['value'] = array_reverse($left['value']);
+                    break;
                 }
             }
         }

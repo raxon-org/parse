@@ -3008,7 +3008,8 @@ class Php {
         $is_debug = false;
         $source = $options->source ?? '';
         $value = '';
-        $skip = 0;        
+        $skip = 0;
+        d($input);
         $input = Php::value_set($object, $flags, $options, $input, $is_set, $count);
         $input = Variable::modifier($object, $flags, $options, $input, $tag);
         foreach ($input['array'] as $nr => $record) {
@@ -3330,6 +3331,7 @@ class Php {
                             if($is_debug){
                                 d($value);
                             }
+                            //value explode on && || xor and only last part...
                             d($value);
                             $value = Php::value_calculate($object, $flags, $options, $record['value'], $value, $right);
                             d($value);

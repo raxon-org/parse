@@ -3174,6 +3174,7 @@ class Php {
                     switch($result){
                         case ' === ':
                             $left = Php::value_left($object, $flags, $options, $value_array, $before, $after);
+                            $right = Php::value_right($object, $flags, $options, $input, $nr + 1, $before, $after);
                             ddd($left);
                         break;
                     }
@@ -3199,6 +3200,21 @@ class Php {
         }
         d($value);;
         return $value;
+    }
+
+    public static function value_right(App $object, $flags, $options, $input, $nr, &$before=[], &$after=[]): string
+    {
+        $skip = 0;
+        $count = count($input['array']);;
+        $right = [];
+        for($i=$nr; $i < $count; $i++){
+            $record = $input['array'][$i] ?? null;
+            d($record);
+            if($record === null){
+                continue;
+            }
+        }
+        return $right;
     }
 
     public static function value_left (App $object, $flags, $options, $value, &$before=[], &$after=[]): array

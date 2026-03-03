@@ -2179,7 +2179,6 @@ class Php {
                     }
                 } else {
                     $method_value = $record['method']['name']  . '(';
-                    $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
                 }
                 if($record['method']['name'] === 'for'){                    
                     $method_value = [];
@@ -2501,6 +2500,10 @@ class Php {
                         $object->config('package.raxon/parse.build.state.separator', $separator);
                     }
                 }
+                elseif($record['method']['name'] === 'if'){
+                    $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
+                    $method_value .= ')';
+                }
                 /*
                 if(
                     !in_array(
@@ -2515,6 +2518,7 @@ class Php {
                     $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
                 }
                 */
+                /*
                 if(
                     !in_array(
                         $record['method']['name'],
@@ -2527,6 +2531,7 @@ class Php {
                 ) {
                     $method_value .= ')';
                 }
+                */
                 d($before);
                 d($after);
                 d($record);

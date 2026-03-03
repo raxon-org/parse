@@ -3149,7 +3149,7 @@ class Php {
                     $result = $record['value'];
                 break;
                 case 'symbol':
-                    $result = Php::value_symbol($object, $flags, $options, $result, $tag, $before, $after);
+                    $result = Php::value_symbol($object, $flags, $options, $record, $before, $after);
                 break;
                 case 'set':
                     $set = [

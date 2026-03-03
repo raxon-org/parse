@@ -3168,7 +3168,7 @@ class Php {
                 case 'symbol':
                     $result = Php::value_symbol($object, $flags, $options, $record, $before, $after);
                     switch($result){
-                        case '===':
+                        case ' === ':
                             $left = Php::value_left($object, $flags, $options, $value, $before, $after);
                             ddd($left);
                         break;

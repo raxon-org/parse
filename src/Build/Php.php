@@ -2757,9 +2757,7 @@ class Php {
                 }
             }
         }
-        d($record['method']['argument']);
         foreach($record['method']['argument'] as $nr => $argument) {
-            d($argument);
             if(
                 array_key_exists('array', $argument) &&
                 is_array($argument['array']) &&

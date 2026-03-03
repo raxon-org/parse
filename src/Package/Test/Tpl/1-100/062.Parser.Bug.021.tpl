@@ -7,8 +7,9 @@
 is.array($exception.location)
 ) &&
 (
-config('framework.environment') === 'development'
-)
+config('framework.environment')
+) === 'development'
+
 )}}
 ############################## YES
 {{/if}}

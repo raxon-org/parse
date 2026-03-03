@@ -3156,12 +3156,133 @@ class Php {
                     ];
                     $result = '(' . Php::value($object, $flags, $options, $tag, $set, $is_set_result, $before, $after) . ')';
                 break;
+                case 'string':
+                    $result = Php::value_string($object, $flags, $options, $record, $before, $after);
+                break;
+                case 'array':
+                    $result = Php::value_array($object, $flags, $options, $record, $before, $after);
+                break;
                 default:
                     throw new Exception('Unknown value type: ' . $record['type']);
             }
             $value .= $result;
         }
         return $value;
+    }
+
+    /**
+     * @throws TemplateException
+     * @throws LocateException
+     */
+    public static function value_array(App $object, $flags, $options, $record, &$before=[], &$after=[]): string
+    {
+        $array_key = ['array' => []];
+        $array_value_value = ['array' => []];
+        $key_set = false;
+        $is_key = false;
+        $result = '';
+        foreach($record['array'] as $array_nr => $array_value){
+            if(
+                array_key_exists('value', $array_value) &&
+                $array_value['value'] === '['
+            ){
+                $result .= '[';
+                $array_key = ['array' => []];
+                $array_value_value = ['array' => []];
+                $is_key = true;
+                $key_set = false;
+            }
+            elseif(
+                array_key_exists('value', $array_value) &&
+                $array_value['value'] === ']'
+            ){
+                if(
+                    $key_set === true &&
+                    array_key_exists(0, $array_value_value['array'])
+                ){
+                    $result .= Php::value($object, $flags, $options, $record, $array_value_value, $is_set_array, $before, $after);
+                }
+                elseif(array_key_exists(0, $array_key['array'])){
+                    $result .= Php::value($object, $flags, $options, $record, $array_key, $is_set_array, $before, $after);
+                }
+                $array_key = ['array' => []];
+                $array_value_value = ['array' => []];
+                $result .= ']';
+            }
+            elseif(
+                array_key_exists('value', $array_value) &&
+                $array_value['value'] === ','
+            ){
+                if(
+                    $key_set === true &&
+                    array_key_exists(0, $array_value_value['array'])
+                ){
+                    $result .= Php::value($object, $flags, $options, $record, $array_value_value, $is_set_array, $before, $after);
+                }
+                elseif(array_key_exists(0, $array_key['array'])){
+                    $result .= Php::value($object, $flags, $options, $record, $array_key, $is_set_array, $before, $after);
+                }
+                $array_key = ['array' => []];
+                $array_value_value = ['array' => []];
+                $result .= ',';
+                $key_set = false;
+                $is_key = true;
+            }
+            elseif(
+                array_key_exists('value', $array_value) &&
+                $array_value['value'] === '=>'
+            ){
+                $is_key = false;
+                if(array_key_exists(0, $array_key['array'])){
+                    $result .= Php::value($object, $flags, $options, $record, $array_key, $is_set_array, $before, $after);
+                    $key_set = true;
+                }
+                $result .= ' => ';
+                $array_key['array'] = [];
+            } else {
+                if($is_key === true){
+                    $array_key['array'][] = $array_value;
+                } else {
+                    $array_value_value['array'][] = $array_value;
+                }
+            }
+        }
+        return $result;
+    }
+
+    public static function value_string(App $object, $flags, $options, $record, &$before=[], &$after=[]): string
+    {
+        $result = '';
+        if(
+            array_key_exists('is_double_quoted', $record) &&
+            $record['is_double_quoted'] === true
+        ){
+            $variable_old = $options->variable ?? null;
+            $options->variable = Core::uuid_variable();
+            $before[] = $options->variable . ' = [];';
+            $token = Token::tokenize($object, $flags, $options, $record['execute']);
+            $token = Php::document_tag_prepare($object, $flags, $options, $token);
+            $embed = Php::document_tag($object, $flags, $options, $token);
+            if(property_exists($options, 'variable')){
+                foreach($embed as $line){
+                    $before[] = $line;
+                }
+            }
+            $before[] = $options->variable . ' = implode(\'\', ' . $options->variable . ');';
+            $result = '"' . $options->variable . '"';
+            if($variable_old) {
+                $options->variable = $variable_old;
+            } else {
+                unset($options->variable);
+            }
+        }
+        elseif(
+            array_key_exists('is_raw', $record) &&
+            $record['is_raw'] === true
+        ) {
+            $result = $record['value'];
+        }
+        return $result;
     }
 
     /**

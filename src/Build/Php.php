@@ -3227,7 +3227,6 @@ class Php {
                     for($i = $nr + 1; $i < $count; $i++){
                         $left['value'][] = $value_reverse[$i];
                     }
-                    $left['value'] = array_reverse($left['value']);
                     break;
                 }
             }

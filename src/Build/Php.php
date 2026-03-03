@@ -3173,6 +3173,7 @@ class Php {
                         case ' === ':
                             $left = Php::value_left($object, $flags, $options, $value_array, $before, $after);
                             $right = Php::value_right($object, $flags, $options, $input, $nr + 1, $before, $after);
+                            d($right);
                             ddd($left);
                         break;
                     }

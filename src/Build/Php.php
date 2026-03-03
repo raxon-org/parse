@@ -3119,6 +3119,7 @@ class Php {
             if (!array_key_exists('type', $record)) {
                 continue;
             }
+            d($record['type']);
             switch ($record['type']) {
                 case 'method':
                     if (empty($record['tag'])) {
@@ -3167,6 +3168,7 @@ class Php {
             }
             $value .= $result;
         }
+        breakpoint($value);;
         return $value;
     }
 

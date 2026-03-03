@@ -3288,7 +3288,7 @@ class Php {
             array_key_exists('is_single_quoted', $record) &&
             $record['is_single_quoted'] === true
         ){
-            $result = $record['execute'];
+            $result = $record['value'];
         }
         return $result;
     }

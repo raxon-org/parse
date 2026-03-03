@@ -2502,6 +2502,7 @@ class Php {
                 }
                 elseif($record['method']['name'] === 'if'){
                     $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
+                    ddd($method_value);
                     $method_value .= ')';
                 }
                 /*

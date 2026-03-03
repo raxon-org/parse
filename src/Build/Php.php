@@ -2835,6 +2835,7 @@ class Php {
                 ){
                     //all arguments are literal
                     $argument = '\'' . str_replace(['\''], ['\\\''], trim($argument['string'])) . '\'';
+                    d($argument);
                 }
                 elseif(
                     property_exists($argument_attribute, 'apply') &&
@@ -2849,6 +2850,7 @@ class Php {
                 ){
                     //we have multiple indexes
                     $argument = '\'' . str_replace(['\''], ['\\\''], trim($argument['string'])) . '\'';
+                    d($argument);
                 }
                 elseif (
                     property_exists($argument_attribute, 'apply') &&
@@ -2859,11 +2861,12 @@ class Php {
                 ){
                     //we have a single index
                     $argument = '\'' . str_replace(['\''], ['\\\''], trim($argument['string'])) . '\'';
+                    d($argument);
                 } else {
+                    d($argument);
                     if(array_key_exists($nr, $argument_is_reference)){
                         $argument['array'][0]['is_reference'] = true;
                     }
-                    breakpoint($argument);
                     $argument = Php::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
                     $uuid_variable = Core::uuid_variable();
                     $before[] = $uuid_variable . ' = ' . $argument . ';';

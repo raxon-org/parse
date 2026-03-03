@@ -3231,6 +3231,7 @@ class Php {
                 }
             }
         }
+        $left['left'] = array_reverse($left['left']);
         $left['value'] = array_reverse($left['value']);
         return $left;
     }

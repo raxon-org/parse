@@ -3207,7 +3207,8 @@ class Php {
             break;
             case '===':
                 $explode = explode('===', $result);
-                ddd($explode);
+                d($explode);
+            break;
         }
         return $result;
     }

@@ -3219,7 +3219,7 @@ class Php {
             if($record === null){
                 continue;
             }
-            $right['right']['array'[] = $record;
+            $right['right']['array'][] = $record;
             if(
                 array_key_exists('type', $record) &&
                 $record['type'] === 'symbol' &&
@@ -3248,7 +3248,7 @@ class Php {
             }
         }
         $value = Php::value($object, $flags, $options, $tag, $right['right'], $is_set, $before, $after);
-        d($value);
+        ddd($value);
         return $right;
     }
 

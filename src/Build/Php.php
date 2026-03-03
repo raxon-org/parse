@@ -2827,6 +2827,7 @@ class Php {
                         $argument = $name . '()';
                     }
                 } else {
+                    d($argument);
                     $argument = Php::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
                     d($argument);
 //                    $uuid_variable = Core::uuid_variable();

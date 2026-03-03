@@ -3197,6 +3197,34 @@ class Php {
                             $value = $result;
                             return $value;
                         break;
+                        case ' + ':
+                            $left = Php::value_left($object, $flags, $options, $value_array, $before, $after);
+                            $right = Php::value_right($object, $flags, $options, $input, $nr + 1, $tag, $before, $after);
+                            $result = implode('', $left['value']) . '$this->value_plus(' . implode('', $left['left']) . ',' . implode('', $right['right']) . ')' . implode('', $right['value']);
+                            $value = $result;
+                            return $value;
+                        break;
+                        case ' - ':
+                            $left = Php::value_left($object, $flags, $options, $value_array, $before, $after);
+                            $right = Php::value_right($object, $flags, $options, $input, $nr + 1, $tag, $before, $after);
+                            $result = implode('', $left['value']) . '$this->value_min(' . implode('', $left['left']) . ',' . implode('', $right['right']) . ')' . implode('', $right['value']);
+                            $value = $result;
+                            return $value;
+                        break;
+                        case ' / ':
+                            $left = Php::value_left($object, $flags, $options, $value_array, $before, $after);
+                            $right = Php::value_right($object, $flags, $options, $input, $nr + 1, $tag, $before, $after);
+                            $result = implode('', $left['value']) . '$this->value_divide' . implode('', $left['left']) . ',' . implode('', $right['right']) . ')' . implode('', $right['value']);
+                            $value = $result;
+                            return $value;
+                        break;
+                        case ' * ':
+                            $left = Php::value_left($object, $flags, $options, $value_array, $before, $after);
+                            $right = Php::value_right($object, $flags, $options, $input, $nr + 1, $tag, $before, $after);
+                            $result = implode('', $left['value']) . '$this->value_multiply(' . implode('', $left['left']) . ',' . implode('', $right['right']) . ')' . implode('', $right['value']);
+                            $value = $result;
+                            return $value;
+                        break;
                     }
                 break;
                 case 'set':

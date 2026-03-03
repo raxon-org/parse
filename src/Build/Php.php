@@ -3205,13 +3205,43 @@ class Php {
     public static function value_right(App $object, $flags, $options, $input, $nr, &$before=[], &$after=[]): array
     {
         $skip = 0;
+        $set_depth = 0;
         $count = count($input['array']);;
-        $right = [];
+        $right = [
+            'right' => [],
+            'value' => []
+        ];
         for($i=$nr; $i < $count; $i++){
             $record = $input['array'][$i] ?? null;
-            d($record);
             if($record === null){
                 continue;
+            }
+            $right['right'][] = $record;
+            if(
+                array_key_exists('type', $record) &&
+                $record['type'] === 'symbol' &&
+                $record['value'] === '('
+            ){
+                $set_depth++;
+            }
+            elseif(
+                array_key_exists('type', $record) &&
+                $record['type'] === 'symbol' &&
+                $record['value'] === ')'
+            ){
+                $set_depth--;
+                if($set_depth === 0){
+                    for($j = $i + 1; $j < $count; $j++){
+                        $right['value'][] = $input['array'][$j] ?? null;
+                    }
+                    break;
+                }
+            }
+            if($set_depth === 0){
+                for($j = $i + 1; $j < $count; $j++){
+                    $right['value'][] = $input['array'][$j] ?? null;
+                }
+                break;
             }
         }
         return $right;

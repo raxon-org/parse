@@ -2095,7 +2095,7 @@ class Php {
         $ltrim = $object->config('package.raxon/parse.build.state.ltrim');
         $skip_space = $ltrim * 4;
         $skip = 0;
-        d($record);
+//        d($record);
         if(
             array_key_exists('is_class_method', $record['method']) &&
             $record['method']['is_class_method'] === true

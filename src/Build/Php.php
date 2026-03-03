@@ -3357,6 +3357,10 @@ class Php {
             case '==':
             case '!==':
             case '!=':
+            case '+':
+            case '-':
+            case '/':
+            case '*':
                 $result = ' '. $result .' ';
             break;
         }

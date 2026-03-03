@@ -2542,6 +2542,96 @@ class Php {
     }
 
     /**
+     * @throws TemplateException
+     * @throws LocateException
+     */
+    public static function variable($object, $flags, $options, $record, $tag, &$before=[], &$after=[]): string
+    {
+        $result = '';
+        if(
+            array_key_exists('variable', $record) &&
+            array_key_exists('is_assign', $record['variable']) &&
+            $record['variable']['is_assign'] === true
+        ){
+            $record['line'] = $tag['line'] ?? 'unknown';
+            $record['length'] = $tag['length'] ?? 'unknown';
+            $record['column'] = $tag['column'] ?? ['start' => 'unknown', 'end' => 'unknown'];
+            if(
+                array_key_exists('is_multiline', $tag) &&
+                $tag['is_multiline'] === true
+            ){
+                $record['is_multiline'] = true;
+            }
+            $result = Php::variable_assign($object, $flags, $options, $record, $before, $after);
+            $object->config('package.raxon/parse.build.state.remove.next.newline', true);
+        } else {
+            $uuid_variable = Core::uuid_variable();
+            if(
+                array_key_exists('array_notation', $record) &&
+                !empty($record['array_notation'])
+            ){
+                $try_catch = $object->config('package.raxon/parse.build.state.try_catch');
+                $separator = $object->config('package.raxon/parse.build.state.separator');
+                $array_notation = Php::value($object, $flags, $options, $record, $record['array_notation'], $is_set, $before, $after);
+                $array_notation = explode('][', substr($array_notation, 1, -1));
+                $separator = $object->config('package.raxon/parse.build.state.separator');
+                if($try_catch === false){
+                    $result = '$this->value_child($data->get(\'' . $record['name'] . '\')' . ', ' . implode(', ', $array_notation) . ')';
+                } else {
+                    $before[] = $uuid_variable . ' = $data->get(\'' . $record['name'] . '\');';
+                    $before[] = $uuid_variable . ' = $this->value_child(' . $uuid_variable . ', ' . implode(', ', $array_notation) . ');';
+                    $result = $uuid_variable;
+                }
+            } else {
+                $try_catch = $object->config('package.raxon/parse.build.state.try_catch');
+                $separator = $object->config('package.raxon/parse.build.state.separator');
+                if ($try_catch === false) {
+                    $previous_modifier = '$data->get(\'' . $record['name'] . '\')';
+                } else {
+                    $before[] = $uuid_variable . ' = $data->get(\'' . $record['name'] . '\');';
+                    $before[] = '$data->set(\'' . substr($uuid_variable, 1) . '\', ' . $uuid_variable . ');';
+                    $previous_modifier = $uuid_variable;
+                }
+                $modifier_value = '';
+                if(array_key_exists('modifier', $record) && !empty($record['modifier'])){
+                    foreach($record['modifier'] as $nr => $modifier){
+                        $plugin = Php::plugin($object, $flags, $options, $record, str_replace('.', '_', $modifier['name']));
+                        $modifier_value = $plugin . '(';
+                        $modifier_value .= $previous_modifier .', ';
+                        if(array_key_exists('argument', $modifier)){
+                            $is_argument = false;
+                            foreach($modifier['argument'] as $argument_nr => $argument){
+                                $argument = Php::value($object, $flags, $options, $record, $argument, $is_set);
+                                if($argument !== ''){
+                                    $modifier_value .= $argument . ', ';
+                                    $is_argument = true;
+                                }
+                            }
+                            if($is_argument === true){
+                                $modifier_value = mb_substr($modifier_value, 0, -2);
+                            } else {
+                                $modifier_value = mb_substr($modifier_value, 0, -1);
+                            }
+                        }
+                        $modifier_value .=  ')';
+                        $previous_modifier = $modifier_value;
+                    }
+                    $result = $modifier_value;
+                } else {
+                    $result = $previous_modifier;
+                }
+            }
+            if(
+                array_key_exists('is_reference', $record) &&
+                $record['is_reference'] === true
+            ){
+                $after[] = '$data->set(\'' . $record['name'] . '\', ' . $uuid_variable . ');';
+            }
+        }
+        return $result;
+    }
+
+    /**
      * @throws Exception
      */
     public static function variable_method(App $object, $flags, $options, $record = [], &$before=[], &$after=[], &$inline_before=[], &$inline_after=[]): bool | string
@@ -3000,6 +3090,11 @@ class Php {
         return '$this->' . mb_strtolower($plugin);
     }
 
+    /**
+     * @throws LocateException
+     * @throws TemplateException
+     * @throws Exception
+     */
     public static function value(App $object, $flags, $options, $tag, $input, &$is_set=false, &$before=[], &$after=[]): string
     {
         $is_debug = false;
@@ -3012,7 +3107,60 @@ class Php {
         d($count);
         d($input);
         $input = Variable::modifier($object, $flags, $options, $input, $tag);
-        ddd($input);
+        $result = '';
+        foreach ($input['array'] as $nr => $record) {
+            if ($record === null) {
+                continue;
+            }
+            if ($skip > 0) {
+                $skip--;
+                continue;
+            }
+            if (!array_key_exists('type', $record)) {
+                continue;
+            }
+            switch ($record['type']) {
+                case 'method':
+                    if (empty($record['tag'])) {
+                        $record['tag'] = $tag['tag'] ?? 'unknown';
+                        $record['line'] = $tag['line'] ?? 'unknown';
+                    }
+                    $result = Php::method($object, $flags, $options, $record, $before, $after);
+                break;
+                case 'variable_method':
+                    $result = Php::variable_method($object, $flags, $options, $record, $before, $after);
+                break;
+                case 'variable':
+                    $result = Php::variable($object, $flags, $options, $record, $tag, $before, $after);
+                    if ($object->config('package.raxon/parse.build.state.remove.next.newline') === true) {
+                        $next = $input['array'][$nr + 1] ?? null;
+                        if ($next) {
+                            $input['array'][$nr + 1] = Php::remove_newline_next($object, $flags, $options, $next);
+                        }
+                        $object->config('delete', 'package.raxon/parse.build.state.remove.next.newline');
+                    }
+                break;
+                case 'integer':
+                case 'float':
+                    $result = $record['execute'];
+                break;
+                case 'boolean':
+                case 'null':
+                case 'symbol':
+                    $result = $record['value'];
+                break;
+                case 'set':
+                    $set = [
+                        'string' => $record['value'],
+                        'array' => $record['array']
+                    ];
+                    $result = '(' . Php::value($object, $flags, $options, $tag, $set, $is_set_result, $before, $after) . ')';
+                break;
+                default:
+                    throw new Exception('Unknown value type: ' . $record['type']);
+            }
+            $value .= $result;
+        }
         return $value;
     }
 

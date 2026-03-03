@@ -3016,6 +3016,7 @@ class Php {
         d($count);
         d($input);
         $input = Variable::modifier($object, $flags, $options, $input, $tag);
+        d($input);
         foreach ($input['array'] as $nr => $record) {
             if($record === null){
                 continue;

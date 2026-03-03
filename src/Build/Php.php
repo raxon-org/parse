@@ -2757,6 +2757,7 @@ class Php {
                 }
             }
         }
+        d($record['method']['argument']);
         foreach($record['method']['argument'] as $nr => $argument) {
             if(
                 array_key_exists('array', $argument) &&
@@ -2821,7 +2822,6 @@ class Php {
                     ddd($before);
                 }
                 if (array_key_exists(0, $argument)) {
-                    d($argument);
                     $argument = $name . '(' . implode(', ', $argument) . ')';
                 } else {
                     $argument = $name . '()';

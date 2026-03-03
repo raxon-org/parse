@@ -2821,17 +2821,16 @@ class Php {
                         $after[$argument_nr] = null;
                     }
                     ddd($before);
+                    if (array_key_exists(0, $argument)) {
+                        $argument = $name . '(' . implode(', ', $argument) . ')';
+                    } else {
+                        $argument = $name . '()';
+                    }
                 } else {
                     $argument = Php::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
                     d($argument);
-
 //                    $uuid_variable = Core::uuid_variable();
 //                    $before[] = $uuid_variable . ' = ' . $argument . ';';
-                }
-                if (array_key_exists(0, $argument)) {
-                    $argument = $name . '(' . implode(', ', $argument) . ')';
-                } else {
-                    $argument = $name . '()';
                 }
             } else {
                 d($argument);

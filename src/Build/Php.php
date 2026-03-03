@@ -2379,8 +2379,7 @@ class Php {
                             );
                         }
                     }
-                    if(array_key_exists(0, $method_value)
-                    ){
+                    if(array_key_exists(0, $method_value)){
                         $method_value = 'foreach(' . $method_value[0];
                     }
                     if($separator === null){
@@ -2511,8 +2510,8 @@ class Php {
                     )
                 ){
                     $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
-                    $method_value .= ')';
                 }
+                $method_value .= ')';
                 return $method_value;
             } else {
                 $plugin = Php::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));                

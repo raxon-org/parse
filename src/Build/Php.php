@@ -2528,6 +2528,7 @@ class Php {
                 }
                 d($before);
                 d($after);
+                d($record);
                 d($method_value);
                 return $method_value;
             } else {

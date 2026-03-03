@@ -3121,6 +3121,7 @@ class Php {
         $is_debug = false;
         $source = $options->source ?? '';
         $value = '';
+        $value_array = [];
         $skip = 0;
         $input = Php::value_set($object, $flags, $options, $input, $is_set, $count);
         $input = Variable::modifier($object, $flags, $options, $input, $tag);
@@ -3169,7 +3170,7 @@ class Php {
                     $result = Php::value_symbol($object, $flags, $options, $record, $before, $after);
                     switch($result){
                         case ' === ':
-                            $left = Php::value_left($object, $flags, $options, $value, $before, $after);
+                            $left = Php::value_left($object, $flags, $options, $value_array, $before, $after);
                             ddd($left);
                         break;
                     }
@@ -3191,6 +3192,7 @@ class Php {
                     throw new Exception('Unknown value type: ' . $record['type']);
             }
             $value .= $result;
+            $value_array[] = $result;
         }
         d($value);;
         return $value;

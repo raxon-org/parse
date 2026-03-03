@@ -2821,6 +2821,12 @@ class Php {
                         $after[$argument_nr] = null;
                     }
                     ddd($before);
+                } else {
+                    $argument = Php::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
+                    ddd($argument);
+
+//                    $uuid_variable = Core::uuid_variable();
+//                    $before[] = $uuid_variable . ' = ' . $argument . ';';
                 }
                 if (array_key_exists(0, $argument)) {
                     $argument = $name . '(' . implode(', ', $argument) . ')';

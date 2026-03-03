@@ -2693,7 +2693,7 @@ class Php {
      */
     public static function argument(App $object, $flags, $options, $record=[], &$before=[], &$after=[]): string
     {
-        breakpoint($record);
+        d($record);
         $is_argument = false;
         $argument_value = '';
         $previous_count = 0;

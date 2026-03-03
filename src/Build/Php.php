@@ -2784,7 +2784,7 @@ class Php {
                     )
                 ) {
                     $name .= $argument['array'][2]['method']['name'];
-                    $argument = $argument['array'][2]['method']['argument'];
+                    $class_static_argument = $argument['array'][2]['method']['argument'];
                     $use_trait = $object->config('package.raxon/parse.build.use.trait');
                     $trait = 'Plugin\\Validate';
                     if(
@@ -2796,7 +2796,7 @@ class Php {
                         $object->config('package.raxon/parse.build.use.trait', $use_trait);
                     }
 
-                    foreach ($argument as $argument_nr => $argument_record) {
+                    foreach ($class_static_argument as $argument_nr => $argument_record) {
                         $value = Php::value($object, $flags, $options, $record, $argument_record, $is_set, $before,$after);                        
                         $uuid_variable = Core::uuid_variable();
                         $before[] = $uuid_variable . ' = ' . $value . ';';
@@ -2805,7 +2805,7 @@ class Php {
                             $before[] = '$this->validate_argument(' . $uuid_variable . ', \'argument\', Core::object(\'' . $attributes_transfer . '\', Core::FINALIZE), ' . $argument_nr . ');';
                         }
                         $value = $uuid_variable;
-                        $argument[$argument_nr] = $value;
+                        $class_static_argument[$argument_nr] = $value;
                         /*
                         if(
                             array_key_exists($argument_nr, $argument_is_reference) &&
@@ -2827,6 +2827,7 @@ class Php {
                     $argument = $name . '()';
                 }
             } else {
+                d($argument);
                 if(
                     property_exists($argument_attribute, 'apply') &&
                     $argument_attribute->apply === 'literal' &&

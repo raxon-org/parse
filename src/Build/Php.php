@@ -3012,7 +3012,7 @@ class Php {
         d($count);
         d($input);
         $input = Variable::modifier($object, $flags, $options, $input, $tag);
-        d($input);
+        ddd($input);
         return $value;
     }
 

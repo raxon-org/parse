@@ -3201,9 +3201,36 @@ class Php {
         return $value;
     }
 
-    public static function value_left (App $object, $flags, $options, $value, &$before=[], &$after=[]): string
+    public static function value_left (App $object, $flags, $options, $value, &$before=[], &$after=[]): array
     {
-        ddd($value);
+        $value_reverse = array_reverse($value);
+        $set_depth = 0;
+        $left = [
+            'left' => [],
+            'value' => []
+        ];
+        foreach($value_reverse as $nr => $part) {
+            $left['left'][] = $part;
+            if ($nr === 0 && $part !== ')') {
+                array_shift($value_reverse);
+                $left['value'] = array_reverse($value_reverse);
+                break;
+            }
+            if ($part === ')') {
+                $set_depth++;
+            }
+            if ($part === '(') {
+                $set_depth--;
+                if ($set_depth === 0) {
+                    $count = count($value_reverse);
+                    for($i = $nr + 1; $i < $count; $i++){
+                        $left['value'][] = $value_reverse[$i];
+                    }
+                    $left['value'] = array_reverse($left['value']);
+                }
+            }
+        }
+        return $left;
     }
 
     public static function value_symbol(App $object, $flags, $options, $record, &$before=[], &$after=[]): string

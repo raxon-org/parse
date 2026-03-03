@@ -2176,9 +2176,9 @@ class Php {
                     ){
                         $method_value .= ' ' . $record['method']['argument'][0]['array'][0]['value'];
                     }
-                }
-                else {
+                } else {
                     $method_value = $record['method']['name']  . '(';
+                    breakpoint($method_value);
                 }
                 if($record['method']['name'] === 'for'){                    
                     $method_value = [];
@@ -2534,7 +2534,8 @@ class Php {
                 $plugin = Php::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));                
                 $method_value = $plugin . '(';
                 $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
-                $method_value .= ')';                
+                $method_value .= ')';
+                d($method_value);
                 return $method_value;
             }
         }

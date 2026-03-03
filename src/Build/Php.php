@@ -3014,7 +3014,7 @@ class Php {
         $input = Php::value_set($object, $flags, $options, $input, $is_set, $count);
         d($is_set);
         d($count);
-        breakpoint($input);
+        d($input);
         $input = Variable::modifier($object, $flags, $options, $input, $tag);
         foreach ($input['array'] as $nr => $record) {
             if($record === null){

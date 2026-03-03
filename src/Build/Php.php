@@ -3248,7 +3248,9 @@ class Php {
             }
         }
         $value = Php::value($object, $flags, $options, $tag, $right['right'], $is_set, $before, $after);
-        ddd($value);
+        $right['right'] = [
+            $value
+        ];
         return $right;
     }
 

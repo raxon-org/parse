@@ -3013,6 +3013,7 @@ class Php {
         d($input);
         $input = Variable::modifier($object, $flags, $options, $input, $tag);
         d($input);
+        return $value;
     }
 
     /**

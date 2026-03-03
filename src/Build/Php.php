@@ -3243,6 +3243,7 @@ class Php {
                 break;
             }
         }
+        $right['right'] = Php::value($object, $flags, $options, $input['tag'], $right['right'], $is_set, $before, $after);
         return $right;
     }
 

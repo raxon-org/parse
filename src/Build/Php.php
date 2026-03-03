@@ -3213,7 +3213,7 @@ class Php {
             if ($nr === 0 && $part !== ')') {
                 $left['left'][] = $part;
                 array_shift($value_reverse);
-                $left['value'] = array_reverse($value_reverse);
+                $left['value'] = $value_reverse;
                 break;
             }
             $left['left'][] = $part;
@@ -3231,6 +3231,7 @@ class Php {
                 }
             }
         }
+        $left['value'] = array_reverse($left['value']);
         return $left;
     }
 

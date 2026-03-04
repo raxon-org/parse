@@ -3132,6 +3132,7 @@ class Php {
         }
         $value_array = Php::value_activate_symbol($object, $flags, $options, $value_array, $before, $after);
         d($value_array);
+        return implode('', $value_array);
         /*
         switch($result){
             case ' === ':
@@ -3217,7 +3218,7 @@ class Php {
         return $value;
     }
 
-    private static function value_activate_symbol(App $object, $flags, $options, $value_array, &$before=[], &$after=[]): void
+    private static function value_activate_symbol(App $object, $flags, $options, $value_array, &$before=[], &$after=[]): array
     {
         foreach($value_array as $nr => $value){
             switch($value){
@@ -3229,6 +3230,7 @@ class Php {
                 break;
             }
         }
+        return $value_array;
     }
 
     /**

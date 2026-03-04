@@ -3195,74 +3195,91 @@ class Php {
 
     private static function value_activate_symbol(App $object, $flags, $options, $value_array, &$before=[], &$after=[]): array
     {
+        $is_nested = false;
         foreach($value_array as $nr => $value){
             switch($value){
                 case ' + ':
                     $value_transform = Php::value_transform($object, $flags, $options, $value_array, $nr, $before, $after);
                     $value_array = $value_transform['value'];
                     $value_array[$nr] = '$this->value_plus(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
+                    $is_nested = true;
                 break;
                 case ' - ':
                     $value_transform = Php::value_transform($object, $flags, $options, $value_array, $nr, $before, $after);
                     $value_array = $value_transform['value'];
                     $value_array[$nr] = '$this->value_minus(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
+                    $is_nested = true;
                 break;
                 case ' / ':
                     $value_transform = Php::value_transform($object, $flags, $options, $value_array, $nr, $before, $after);
                     $value_array = $value_transform['value'];
                     $value_array[$nr] = '$this->value_divide(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
+                    $is_nested = true;
                 break;
                 case ' * ':
                     $value_transform = Php::value_transform($object, $flags, $options, $value_array, $nr, $before, $after);
                     $value_array = $value_transform['value'];
                     $value_array[$nr] = '$this->value_multiply(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
+                    $is_nested = true;
                 break;
                 case ' === ':
                     $value_transform = Php::value_transform($object, $flags, $options, $value_array, $nr, $before, $after);
                     $value_array = $value_transform['value'];
                     $value_array[$nr] = '$this->value_identical(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
+                    $is_nested = true;
                 break;
                 case ' !== ':
                     $value_transform = Php::value_transform($object, $flags, $options, $value_array, $nr, $before, $after);
                     $value_array = $value_transform['value'];
                     $value_array[$nr] = '$this->value_not_identical(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
+                    $is_nested = true;
                     break;
                 case ' == ':
                     $value_transform = Php::value_transform($object, $flags, $options, $value_array, $nr, $before, $after);
                     $value_array = $value_transform['value'];
                     $value_array[$nr] = '$this->value_equal(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
+                    $is_nested = true;
                 break;
                 case ' != ':
                     $value_transform = Php::value_transform($object, $flags, $options, $value_array, $nr, $before, $after);
                     $value_array = $value_transform['value'];
                     $value_array[$nr] = '$this->value_not_equal(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
+                    $is_nested = true;
                 break;
                 case ' >> ':
                     $value_transform = Php::value_transform($object, $flags, $options, $value_array, $nr, $before, $after);
                     $value_array = $value_transform['value'];
                     $value_array[$nr] = '$this->value_greater_greater(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
+                    $is_nested = true;
                 break;
                 case ' >= ':
                     $value_transform = Php::value_transform($object, $flags, $options, $value_array, $nr, $before, $after);
                     $value_array = $value_transform['value'];
                     $value_array[$nr] = '$this->value_greater_equal(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
+                    $is_nested = true;
                     break;
                 case ' << ':
                     $value_transform = Php::value_transform($object, $flags, $options, $value_array, $nr, $before, $after);
                     $value_array = $value_transform['value'];
                     $value_array[$nr] = '$this->value_smaller_smaller(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
+                    $is_nested = true;
                     break;
                 case ' <= ':
                     $value_transform = Php::value_transform($object, $flags, $options, $value_array, $nr, $before, $after);
                     $value_array = $value_transform['value'];
                     $value_array[$nr] = '$this->value_smaller_equal(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
+                    $is_nested = true;
                     break;
                 case ' xor ':
                     $value_transform = Php::value_transform($object, $flags, $options, $value_array, $nr, $before, $after);
                     $value_array = $value_transform['value'];
                     $value_array[$nr] = '$this->value_xor(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
+                    $is_nested = true;
                     break;
             }
+        }
+        if($is_nested){
+            $value_array = Php::value_activate_symbol($object, $flags, $options, $value_array, $before, $after);
         }
         return $value_array;
     }

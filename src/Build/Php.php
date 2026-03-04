@@ -3281,10 +3281,7 @@ class Php {
                 case ' + ':
                     $value_transform = Php::value_transform($object, $flags, $options, $value_array, $nr, $before, $after);
 
-                    d($value_transform);
-
-                    //need left
-                    //need right
+                    $value_array[$nr] = '$this->value_plus(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
                     d($nr);
                     ddd($value_array);
                 break;

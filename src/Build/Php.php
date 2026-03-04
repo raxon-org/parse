@@ -3102,7 +3102,7 @@ class Php {
             if (!array_key_exists('type', $record)) {
                 continue;
             }
-            $result = Php::value_switch($object, $flags, $options, $record, $tag, $value_array, $input, $nr, $before, $after);
+            $result = Php::value_switch($object, $flags, $options, $record, $tag, $value_array, $input, $nr, $skip, $before, $after);
             d($result);
             if ($object->config('package.raxon/parse.build.state.remove.next.newline') === true) {
                 $next = $input['array'][$nr + 1] ?? null;
@@ -3122,7 +3122,7 @@ class Php {
      * @throws LocateException
      * @throws Exception
      */
-    private static function value_switch(App $object, $flags, $options, $record, $tag, $value_array, &$input, $nr, &$before=[], &$after=[]): string
+    private static function value_switch(App $object, $flags, $options, $record, $tag, $value_array, &$input, $nr, &$skip=0, &$before=[], &$after=[]): string
     {
         switch ($record['type']) {
             case 'method':
@@ -3153,68 +3153,50 @@ class Php {
                         $left = Php::value_left($object, $flags, $options, $value_array, $before, $after);
                         $right = Php::value_right($object, $flags, $options, $input, $nr + 1, $tag, $before, $after);
                         $result = implode('', $left['value']) . '$this->value_identical(' . implode('', $left['left']) . ',' . implode('', $right['right']) . ')';// . implode('', $right['value']);
-                        $value = $result;
-                        return $value;
                         break;
                     case ' == ':
                         $left = Php::value_left($object, $flags, $options, $value_array, $before, $after);
                         $right = Php::value_right($object, $flags, $options, $input, $nr + 1, $tag, $before, $after);
                         $result = implode('', $left['value']) . '$this->value_equal(' . implode('', $left['left']) . ',' . implode('', $right['right']) . ')';// . implode('', $right['value']);
-                        $value = $result;
-                        return $value;
                         break;
                     case ' !== ':
                         $left = Php::value_left($object, $flags, $options, $value_array, $before, $after);
                         $right = Php::value_right($object, $flags, $options, $input, $nr + 1, $tag, $before, $after);
                         $result = implode('', $left['value']) . '$this->value_not_identical(' . implode('', $left['left']) . ',' . implode('', $right['right']) . ')'; // . implode('', $right['value']);
-                        $value = $result;
-                        return $value;
                         break;
                     case ' != ':
                         $left = Php::value_left($object, $flags, $options, $value_array, $before, $after);
                         $right = Php::value_right($object, $flags, $options, $input, $nr + 1, $tag, $before, $after);
                         $result = implode('', $left['value']) . '$this->value_not_equal(' . implode('', $left['left']) . ',' . implode('', $right['right']) . ')'; // . implode('', $right['value']);
-                        $value = $result;
-                        return $value;
                         break;
                     case ' >= ':
                         $left = Php::value_left($object, $flags, $options, $value_array, $before, $after);
                         $right = Php::value_right($object, $flags, $options, $input, $nr + 1, $tag, $before, $after);
                         $result = implode('', $left['value']) . '$this->value_greater_equal(' . implode('', $left['left']) . ',' . implode('', $right['right']) . ')'; // . implode('', $right['value']);
-                        $value = $result;
-                        return $value;
                         break;
                     case ' >> ':
                         $left = Php::value_left($object, $flags, $options, $value_array, $before, $after);
                         $right = Php::value_right($object, $flags, $options, $input, $nr + 1, $tag, $before, $after);
                         $result = implode('', $left['value']) . '$this->value_greater_greater(' . implode('', $left['left']) . ',' . implode('', $right['right']) . ')'; // . implode('', $right['value']);
-                        $value = $result;
-                        return $value;
                         break;
                     case ' <= ':
                         $left = Php::value_left($object, $flags, $options, $value_array, $before, $after);
                         $right = Php::value_right($object, $flags, $options, $input, $nr + 1, $tag, $before, $after);
                         $result = implode('', $left['value']) . '$this->value_smaller_equal(' . implode('', $left['left']) . ',' . implode('', $right['right']) . ')'; // . implode('', $right['value']);
-                        $value = $result;
-                        return $value;
                         break;
                     case ' << ':
                         $left = Php::value_left($object, $flags, $options, $value_array, $before, $after);
                         $right = Php::value_right($object, $flags, $options, $input, $nr + 1, $tag, $before, $after);
                         $result = implode('', $left['value']) . '$this->value_smaller_smaller(' . implode('', $left['left']) . ',' . implode('', $right['right']) . ')'; // . implode('', $right['value']);
-                        $value = $result;
-                        return $value;
                         break;
                     case ' xor ':
                         $left = Php::value_left($object, $flags, $options, $value_array, $before, $after);
                         $right = Php::value_right($object, $flags, $options, $input, $nr + 1, $tag, $before, $after);
                         $result = implode('', $left['value']) . '$this->value_xor(' . implode('', $left['left']) . ',' . implode('', $right['right']) . ')'; // . implode('', $right['value']);
-                        $value = $result;
-                        return $value;
                         break;
                     case ' + ':
                         $left = Php::value_left($object, $flags, $options, $value_array, $before, $after);
-                        $right = Php::value_right($object, $flags, $options, $input, $nr + 1, $tag, $before, $after);
+                        $right = Php::value_right($object, $flags, $options, $input, $nr + 1, $tag, $skip, $before, $after);
 
                         d($left);
                         d($right);
@@ -3229,29 +3211,21 @@ class Php {
                             d($right);
                         }
                         $result = implode('', $left['value']) . '$this->value_plus(' . implode('', $left['left']) . ',' . implode('', $right['right']) . ')';// . implode('', $right['value']);
-                        $value = $result;
-                        return $value;
                         break;
                     case ' - ':
                         $left = Php::value_left($object, $flags, $options, $value_array, $before, $after);
                         $right = Php::value_right($object, $flags, $options, $input, $nr + 1, $tag, $before, $after);
                         $result = implode('', $left['value']) . '$this->value_minus(' . implode('', $left['left']) . ',' . implode('', $right['right']) . ')'; // . implode('', $right['value']);
-                        $value = $result;
-                        return $value;
                         break;
                     case ' / ':
                         $left = Php::value_left($object, $flags, $options, $value_array, $before, $after);
                         $right = Php::value_right($object, $flags, $options, $input, $nr + 1, $tag, $before, $after);
                         $result = implode('', $left['value']) . '$this->value_divide' . implode('', $left['left']) . ',' . implode('', $right['right']) . ')'; // . implode('', $right['value']);
-                        $value = $result;
-                        return $value;
                         break;
                     case ' * ':
                         $left = Php::value_left($object, $flags, $options, $value_array, $before, $after);
                         $right = Php::value_right($object, $flags, $options, $input, $nr + 1, $tag, $before, $after);
                         $result = implode('', $left['value']) . '$this->value_multiply(' . implode('', $left['left']) . ',' . implode('', $right['right']) . ')'; // . implode('', $right['value']);
-                        $value = $result;
-                        return $value;
                         break;
                 }
                 break;
@@ -3274,7 +3248,11 @@ class Php {
         return $result;
     }
 
-    public static function value_right(App $object, $flags, $options, $input, $nr, $tag, &$before=[], &$after=[]): array
+    /**
+     * @throws LocateException
+     * @throws TemplateException
+     */
+    public static function value_right(App $object, $flags, $options, $input, $nr, $tag, &$skip=0, &$before=[], &$after=[]): array
     {
         $skip = 0;
         $set_depth = 0;
@@ -3293,6 +3271,7 @@ class Php {
                 continue;
             }
             $right['right']['array'][] = $record;
+            $skip++;
             if(
                 array_key_exists('type', $record) &&
                 $record['type'] === 'symbol' &&

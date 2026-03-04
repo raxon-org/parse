@@ -50,7 +50,7 @@ class Validator
      * @throws ObjectException
      * @throws Exception
      */
-    public static function validate(App $object, $flags, $options, $string): bool | string
+    public static function validate(App $object, object $flags, object $options, string $string): bool | string
     {
         $source = $options->source ?? '';
         $dir = Validator::dir_ramdisk($object);

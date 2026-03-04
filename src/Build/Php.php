@@ -3205,6 +3205,7 @@ class Php {
             return [];
         }
         foreach($value_array as $nr => $value){
+            d($value);
             switch($value){
                 case ' + ':
                     d($value_array);

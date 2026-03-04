@@ -3199,6 +3199,7 @@ class Php {
         foreach($value_array as $nr => $value){
             switch($value){
                 case ' + ':
+                    d($value_array);
                     $value_transform = Php::value_transform($object, $flags, $options, $value_array, $nr, $before, $after);
                     d($value_transform);
                     $value_array = $value_transform['value'];

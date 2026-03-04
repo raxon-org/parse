@@ -3216,7 +3216,7 @@ class Php {
     private static function value_activate_symbol(App $object, $flags, $options, $value_array, &$before=[], &$after=[]): array
     {   d($value_array);
         foreach($value_array as $nr => $value){
-            switch($value){
+            switch(trim($value)){
                 case '+':
                     //need left
                     //need right

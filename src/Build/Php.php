@@ -3200,6 +3200,8 @@ class Php {
                         case ' + ':
                             $left = Php::value_left($object, $flags, $options, $value_array, $before, $after);
                             $right = Php::value_right($object, $flags, $options, $input, $nr + 1, $tag, $before, $after);
+                            d($left);
+                            d($right);
                             $result = implode('', $left['value']) . '$this->value_plus(' . implode('', $left['left']) . ',' . implode('', $right['right']) . ')' . implode('', $right['value']);
                             $value = $result;
                             return $value;

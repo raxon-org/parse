@@ -3267,24 +3267,21 @@ class Php {
                 unset($value[$i]);
             }
         }
-        d($left);
-        d($right);
-        ddd($value);
+        return [
+            'left' => $left,
+            'right' => $right,
+            'value' => $value,
+        ];
     }
 
     private static function value_activate_symbol(App $object, $flags, $options, $value_array, &$before=[], &$after=[]): array
-    {   d($value_array);
+    {
         foreach($value_array as $nr => $value){
             switch($value){
                 case ' + ':
-                    $value_symbol = Php::value_transform($object, $flags, $options, $value_array, $nr, $before, $after);
+                    $value_transform = Php::value_transform($object, $flags, $options, $value_array, $nr, $before, $after);
 
-
-                    $left = Php::value_left($object, $flags, $options, $value_array, $nr, $before, $after);
-                    $right = Php::value_right($object, $flags, $options, $left['value'], $nr, $before, $after);
-
-                    d($left);
-                    d($right);
+                    d($value_transform);
 
                     //need left
                     //need right

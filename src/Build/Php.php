@@ -3200,6 +3200,7 @@ class Php {
     private static function value_activate_symbol(App $object, $flags, $options, $value_array, &$before=[], &$after=[]): array
     {
         $is_nested = false;
+        d($value_array);
         foreach($value_array as $nr => $value){
             switch($value){
                 case ' + ':

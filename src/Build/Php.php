@@ -3186,6 +3186,8 @@ class Php {
                 unset($value[$i]);
             }
         }
+        $left = Php::value_activate_symbol($object, $flags, $options, $left, $before, $after);
+        $right = Php::value_activate_symbol($object, $flags, $options, $right, $before, $after);
         return [
             'left' => $left,
             'right' => $right,

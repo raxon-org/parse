@@ -3133,6 +3133,7 @@ class Php {
         $set = [];
         $left = [];
         $right = [];
+        d($value);
         for($i=$nr - 1; $i >= 0; $i--){
             $record = $value[$i] ?? null;
             if($record === null){

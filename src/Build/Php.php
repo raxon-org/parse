@@ -3352,20 +3352,21 @@ class Php {
         ];
         $set_depth = 0;
         $set = [];
-        for($i=$nr - 1; $i >= 0; $i--){
+        $count = count($value);
+        for($i=$nr + 1; $i < $count; $i++){
             $record = $value[$i] ?? null;
             if($record === null){
                 continue;
             }
             if($record === ')'){
-                $set_depth++;
-            }
-            if($record === '('){
                 $set_depth--;
                 if($set_depth === 0){
                     $right['right'] = $set;
                     break;
                 }
+            }
+            if($record === '('){
+                $set_depth++;
             }
             if($set_depth > 0){
                 unset($value[$i]);

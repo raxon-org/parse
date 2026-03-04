@@ -3202,8 +3202,7 @@ class Php {
     {
         $is_nested = false;
         if(empty($value_array)){
-            trace();
-            ddd('yes');
+            return [];
         }
         foreach($value_array as $nr => $value){
             switch($value){

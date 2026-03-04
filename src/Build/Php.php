@@ -3271,6 +3271,8 @@ class Php {
                 case ' <= ':
                     $value_transform = Php::value_transform($object, $flags, $options, $value_array, $nr, $before, $after);
                     $value_array = $value_transform['value'];
+                    d($value_transform);
+                    d($value_array);
                     $value_array[$nr] = '$this->value_smaller_equal(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
                     $is_nested = true;
                     break;

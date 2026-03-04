@@ -3204,7 +3204,11 @@ class Php {
                             d($left);
                             d($right);
 
-                            if(array_key_exists('value', $right) && !empty($right['value'])){
+                            if(
+                                array_key_exists('value', $right) &&
+                                array_key_exists('array', $right['value']) &&
+                                !empty($right['value']['array'])
+                            ){
                                 d($value_array);
                                 d($left);
                                 ddd($right);

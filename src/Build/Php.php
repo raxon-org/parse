@@ -3125,8 +3125,8 @@ class Php {
             $value .= $result;
             $value_array[] = $result;
         }
-        $value_array = Php::value_activate_symbol($object, $flags, $options, $value_array, $before, $after);
         d($value_array);
+        $value_array = Php::value_activate_symbol($object, $flags, $options, $value_array, $before, $after);
         return implode('', $value_array);
         /*
         switch($result){

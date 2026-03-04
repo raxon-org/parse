@@ -3201,10 +3201,8 @@ class Php {
                             $left = Php::value_left($object, $flags, $options, $value_array, $before, $after);
                             $right = Php::value_right($object, $flags, $options, $input, $nr + 1, $tag, $before, $after);
 
-                            if(empty($left['left'])){
-                                d($value_array);
-                                ddd($left);
-                            }
+                            d($left);
+                            d($right);
 
                             if(array_key_exists('value', $right) && !empty($right['value'])){
                                 d($value_array);

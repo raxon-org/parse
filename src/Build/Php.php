@@ -3376,6 +3376,7 @@ class Php {
                 break;
             }
         }
+        unset($value[$nr]);
         $right['value'] = $value;
         return $right;
     }
@@ -3413,6 +3414,7 @@ class Php {
                 break;
             }
         }
+        unset($value[$nr]);
         $left['value'] = $value;
         return $left;
     }

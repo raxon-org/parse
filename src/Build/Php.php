@@ -3102,7 +3102,8 @@ class Php {
             if (!array_key_exists('type', $record)) {
                 continue;
             }
-            $result = Php::value_switch($object, $flags, $options, $record, $tag, $before, $after);
+            $result = Php::value_switch($object, $flags, $options, $record, $tag, $value_array, $before, $after);
+            ddd($result);
             if ($object->config('package.raxon/parse.build.state.remove.next.newline') === true) {
                 $next = $input['array'][$nr + 1] ?? null;
                 if ($next) {
@@ -3116,7 +3117,13 @@ class Php {
         return $value;
     }
 
-    private static function value_switch(App $object, $flags, $options, $record, $tag, $before, $after){
+    /**
+     * @throws TemplateException
+     * @throws LocateException
+     * @throws Exception
+     */
+    private static function value_switch(App $object, $flags, $options, $record, $tag, $value_array, $before, $after): string
+    {
         switch ($record['type']) {
             case 'method':
                 if (empty($record['tag'])) {
@@ -3130,7 +3137,6 @@ class Php {
                 break;
             case 'variable':
                 $result = Php::variable($object, $flags, $options, $record, $tag, $before, $after);
-
                 break;
             case 'integer':
             case 'float':
@@ -3220,7 +3226,7 @@ class Php {
                         ){
                             d($value_array);
                             d($left);
-                            ddd($right);
+                            d($right);
                         }
                         $result = implode('', $left['value']) . '$this->value_plus(' . implode('', $left['left']) . ',' . implode('', $right['right']) . ')';// . implode('', $right['value']);
                         $value = $result;
@@ -3265,6 +3271,7 @@ class Php {
             default:
                 throw new Exception('Unknown value type: ' . $record['type']);
         }
+        return $result;
     }
 
     public static function value_right(App $object, $flags, $options, $input, $nr, $tag, &$before=[], &$after=[]): array

@@ -3107,7 +3107,19 @@ class Php {
             if (!array_key_exists('type', $record)) {
                 continue;
             }
-            $result = Php::value_switch($object, $flags, $options, $record, $tag, $value_array, $input, $nr, $skip, $before, $after);
+            $result = Php::value_switch(
+                $object,
+                $flags,
+                $options,
+                $record,
+                $tag,
+                $value_array,
+                $input,
+                $nr,
+                $skip,
+                $before,
+                $after
+            );
             d($result);
             if ($object->config('package.raxon/parse.build.state.remove.next.newline') === true) {
                 $next = $input['array'][$nr + 1] ?? null;

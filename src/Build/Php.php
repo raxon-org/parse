@@ -3108,10 +3108,6 @@ class Php {
                 $options,
                 $record,
                 $tag,
-                $value_array,
-                $input,
-                $nr,
-                $skip,
                 $before,
                 $after
             );
@@ -3283,6 +3279,11 @@ class Php {
                     $value_array = $value_transform['value'];
                     $value_array[$nr] = '$this->value_plus(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
                 break;
+                case ' === ':
+                    $value_transform = Php::value_transform($object, $flags, $options, $value_array, $nr, $before, $after);
+                    $value_array = $value_transform['value'];
+                    $value_array[$nr] = '$this->value_identical(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
+                    break;
             }
         }
         return $value_array;
@@ -3293,7 +3294,7 @@ class Php {
      * @throws LocateException
      * @throws Exception
      */
-    private static function value_switch(App $object, $flags, $options, $record, $tag, $value_array, &$input, $nr, &$skip=0, &$before=[], &$after=[]): string
+    private static function value_switch(App $object, $flags, $options, $record, $tag, &$before=[], &$after=[]): string
     {
         switch ($record['type']) {
             case 'method':
@@ -3483,6 +3484,10 @@ class Php {
             case 'or':
             case 'xor':
             case '=>':
+            case '>>':
+            case '<<':
+            case '>=':
+            case '<=':
             case 'as':
             case '===':
             case '==':

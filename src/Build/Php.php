@@ -2572,7 +2572,7 @@ class Php {
                     $previous_modifier = '$data->get(\'' . $record['name'] . '\')';
                 } else {
                     d($uuid_variable);
-                    d($record);
+                    d($record['name'] ?? $record);
                     $before[] = $uuid_variable . ' = $data->get(\'' . $record['name'] . '\');';
                     $before[] = '$data->set(\'' . substr($uuid_variable, 1) . '\', ' . $uuid_variable . ');';
                     $previous_modifier = $uuid_variable;

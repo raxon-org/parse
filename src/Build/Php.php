@@ -3301,9 +3301,6 @@ class Php {
         $right['right'] = [
             $value
         ];
-        $right['value'] = [
-            $value
-        ];
         return $right;
     }
 

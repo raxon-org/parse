@@ -3213,7 +3213,7 @@ class Php {
         return $value;
     }
 
-    private static function value_transform(App $object, $flags, $options, $value, $nr, $before=[], $after=[]): string
+    private static function value_transform(App $object, $flags, $options, $value, $nr, $before=[], $after=[]): array
     {
         $count = count($value);
         $set_depth = 0;

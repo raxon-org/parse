@@ -3213,11 +3213,73 @@ class Php {
         return $value;
     }
 
+    private static function value_transform(App $object, $flags, $options, $value, $nr, $before=[], $after=[]): string
+    {
+        $count = count($value);
+        $set_depth = 0;
+        $set = [];
+        $left = [];
+        $right = [];
+        for($i=$nr - 1; $i >= 0; $i--){
+            $record = $value[$i];
+            if($record === ')'){
+                $set_depth++;
+                unset($value[$i]);
+            }
+            elseif($record === '('){
+                $set_depth--;
+                if($set_depth === 0){
+                    $left = $set;
+                    unset($value[$i]);
+                    break;
+                }
+            }
+            if($set_depth === 0){
+                $left[] = $record;
+                unset($value[$i]);
+                break;
+            } else {
+                $set[] = $record;
+                unset($value[$i]);
+            }
+        }
+        $set_depth = 0;
+        for($i = $nr + 1; $i < $count; $i++){
+            $record = $value[$i];
+            if($record === '('){
+                $set_depth++;
+                unset($value[$i]);
+            }
+            elseif($record === ')'){
+                $set_depth--;
+                if($set_depth === 0){
+                    $right = $set;
+                    unset($value[$i]);
+                    break;
+                }
+            }
+            if($set_depth === 0){
+                $right[] = $record;
+                unset($value[$i]);
+                break;
+            } else {
+                $set[] = $record;
+                unset($value[$i]);
+            }
+        }
+        d($left);
+        d($right);
+        ddd($value);
+    }
+
     private static function value_activate_symbol(App $object, $flags, $options, $value_array, &$before=[], &$after=[]): array
     {   d($value_array);
         foreach($value_array as $nr => $value){
             switch($value){
                 case ' + ':
+                    $value_symbol = Php::value_transform($object, $flags, $options, $value_array, $nr, $before, $after);
+
+
                     $left = Php::value_left($object, $flags, $options, $value_array, $nr, $before, $after);
                     $right = Php::value_right($object, $flags, $options, $left['value'], $nr, $before, $after);
 
@@ -3377,7 +3439,6 @@ class Php {
                 break;
             }
         }
-        unset($value[$nr]);
         $right['value'] = $value;
         return $right;
     }

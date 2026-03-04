@@ -3102,7 +3102,7 @@ class Php {
             if (!array_key_exists('type', $record)) {
                 continue;
             }
-            $result = Php::value_switch($object, $flags, $options, $record, $tag, $value_array, $before, $after);
+            $result = Php::value_switch($object, $flags, $options, $record, $tag, $value_array, $input, $nr, $before, $after);
             d($result);
             if ($object->config('package.raxon/parse.build.state.remove.next.newline') === true) {
                 $next = $input['array'][$nr + 1] ?? null;
@@ -3122,7 +3122,7 @@ class Php {
      * @throws LocateException
      * @throws Exception
      */
-    private static function value_switch(App $object, $flags, $options, $record, $tag, $value_array, &$before=[], &$after=[]): string
+    private static function value_switch(App $object, $flags, $options, $record, $tag, $value_array, &$input, $nr, &$before=[], &$after=[]): string
     {
         switch ($record['type']) {
             case 'method':

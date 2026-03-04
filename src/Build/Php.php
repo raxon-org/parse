@@ -3221,7 +3221,7 @@ class Php {
                     //need left
                     //need right
                     d($nr);
-                    d($value_array);
+                    ddd($value_array);
                 break;
             }
         }

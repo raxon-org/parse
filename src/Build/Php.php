@@ -3206,7 +3206,7 @@ class Php {
                                 d($left);
                                 ddd($right);
                             }
-                            $result = implode('', $left['value']) . '$this->value_plus(' . implode('', $left['left']) . ',' . implode('', $right['right']) . ')' . implode('', $right['value']);
+                            $result = implode('', $left['value']) . '$this->value_plus(' . implode('', $left['left']) . ',' . implode('', $right['right']) . ')';// . implode('', $right['value']);
                             $value = $result;
                             return $value;
                         break;

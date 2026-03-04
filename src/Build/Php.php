@@ -3218,6 +3218,12 @@ class Php {
         foreach($value_array as $nr => $value){
             switch($value){
                 case ' + ':
+                    $left = Php::value_left($object, $flags, $options, $value_array, $nr, $before, $after);
+                    $right = Php::value_right($object, $flags, $options, $value_array, $nr, $before, $after);
+
+                    d($left);
+                    d($right);
+
                     //need left
                     //need right
                     d($nr);
@@ -3283,6 +3289,7 @@ class Php {
      * @throws LocateException
      * @throws TemplateException
      */
+    /*
     public static function value_right(App $object, $flags, $options, $input, $nr, $tag, &$skip=0, &$before=[], &$after=[]): array
     {
         $skip = 0;
@@ -3336,39 +3343,77 @@ class Php {
         ];
         return $right;
     }
-
-    public static function value_left (App $object, $flags, $options, $value, &$before=[], &$after=[]): array
+    */
+    public static function value_right (App $object, $flags, $options, $value, $nr, &$before=[], &$after=[]): array
     {
-        $value_reverse = array_reverse($value);
+        $right = [
+            'right' => [],
+            'value' => []
+        ];
         $set_depth = 0;
+        $set = [];
+        for($i=$nr - 1; $i >= 0; $i--){
+            $record = $value[$i] ?? null;
+            if($record === null){
+                continue;
+            }
+            if($record === ')'){
+                $set_depth++;
+            }
+            if($record === '('){
+                $set_depth--;
+                if($set_depth === 0){
+                    $right['right'] = $set;
+                    break;
+                }
+            }
+            if($set_depth > 0){
+                unset($value[$i]);
+                $set[] = $record;
+            } else {
+                unset($value[$i]);
+                $right['right'][] = $record;
+                break;
+            }
+        }
+        $right['value'] = $value;
+        return $right;
+    }
+
+
+    public static function value_left (App $object, $flags, $options, $value, $nr, &$before=[], &$after=[]): array
+    {
         $left = [
             'left' => [],
             'value' => []
         ];
-        foreach($value_reverse as $nr => $part) {
-            if ($nr === 0 && $part !== ')') {
-                $left['left'][] = $part;
-                array_shift($value_reverse);
-                $left['value'] = $value_reverse;
-                break;
+        $set_depth = 0;
+        $set = [];
+        for($i=$nr - 1; $i >= 0; $i--){
+            $record = $value[$i] ?? null;
+            if($record === null){
+                continue;
             }
-            $left['left'][] = $part;
-            if ($part === ')') {
+            if($record === ')'){
                 $set_depth++;
             }
-            if ($part === '(') {
+            if($record === '('){
                 $set_depth--;
-                if ($set_depth === 0) {
-                    $count = count($value_reverse);
-                    for($i = $nr + 1; $i < $count; $i++){
-                        $left['value'][] = $value_reverse[$i];
-                    }
+                if($set_depth === 0){
+                    $left['left'] = $set;
                     break;
                 }
             }
+            if($set_depth > 0){
+                unset($value[$i]);
+                $set[] = $record;
+            } else {
+                unset($value[$i]);
+                $left['left'][] = $record;
+                break;
+            }
         }
-        $left['left'] = array_reverse($left['left']);
-        $left['value'] = array_reverse($left['value']);
+        $left['value'] = $value;
         return $left;
     }
 

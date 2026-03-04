@@ -3145,6 +3145,7 @@ class Php {
             elseif($record === '('){
                 $set_depth--;
                 if($set_depth === 0){
+                    $set[] = $record;
                     $left = $set;
                     unset($value[$i]);
                     break;
@@ -3172,6 +3173,7 @@ class Php {
             elseif($record === ')'){
                 $set_depth--;
                 if($set_depth === 0){
+                    $set[] = $record;
                     $right = $set;
                     unset($value[$i]);
                     break;

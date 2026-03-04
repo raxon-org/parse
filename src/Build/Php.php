@@ -3122,7 +3122,7 @@ class Php {
      * @throws LocateException
      * @throws Exception
      */
-    private static function value_switch(App $object, $flags, $options, $record, $tag, $value_array, $before, $after): string
+    private static function value_switch(App $object, $flags, $options, $record, $tag, $value_array, &$before=[], &$after=[]): string
     {
         switch ($record['type']) {
             case 'method':

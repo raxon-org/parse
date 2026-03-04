@@ -3219,7 +3219,7 @@ class Php {
             switch($value){
                 case ' + ':
                     $left = Php::value_left($object, $flags, $options, $value_array, $nr, $before, $after);
-                    $right = Php::value_right($object, $flags, $options, $value_array, $nr, $before, $after);
+                    $right = Php::value_right($object, $flags, $options, $left['value'], -1, $before, $after);
 
                     d($left);
                     d($right);

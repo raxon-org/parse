@@ -3103,7 +3103,7 @@ class Php {
                 continue;
             }
             $result = Php::value_switch($object, $flags, $options, $record, $tag, $value_array, $before, $after);
-            ddd($result);
+            d($result);
             if ($object->config('package.raxon/parse.build.state.remove.next.newline') === true) {
                 $next = $input['array'][$nr + 1] ?? null;
                 if ($next) {

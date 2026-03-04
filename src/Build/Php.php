@@ -3130,6 +3130,7 @@ class Php {
             $value .= $result;
             $value_array[] = $result;
         }
+        $value_array = Php::value_activate_symbol($object, $flags, $options, $value_array, $before, $after);
         d($value_array);
         /*
         switch($result){
@@ -3214,6 +3215,20 @@ class Php {
         }
         */
         return $value;
+    }
+
+    private static function value_activate_symbol(App $object, $flags, $options, $value_array, &$before=[], &$after=[]): void
+    {
+        foreach($value_array as $nr => $value){
+            switch($value){
+                case '+':
+                    //need left
+                    //need right
+                    d($nr);
+                    d($value_array);
+                break;
+            }
+        }
     }
 
     /**

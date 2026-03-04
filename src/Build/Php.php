@@ -4135,6 +4135,8 @@ class Php {
                 $value = '$this->value_concatenate(' . $left . ', ' . $right . ')';
                 break;
             case '+':
+                d($left);
+                d($right);
                 $value = '$this->value_plus(' . $left . ', ' . $right . ')';
                 break;
             case '-':

@@ -3134,7 +3134,10 @@ class Php {
         $left = [];
         $right = [];
         for($i=$nr - 1; $i >= 0; $i--){
-            $record = $value[$i];
+            $record = $value[$i] ?? null;
+            if($record === null){
+                continue;
+            }
             if($record === ')'){
                 $set_depth++;
                 unset($value[$i]);
@@ -3158,7 +3161,10 @@ class Php {
         }
         $set_depth = 0;
         for($i = $nr + 1; $i < $count; $i++){
-            $record = $value[$i];
+            $record = $value[$i] ?? null;
+            if($record === null){
+                continue;
+            }
             if($record === '('){
                 $set_depth++;
                 unset($value[$i]);

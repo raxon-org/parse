@@ -3301,7 +3301,6 @@ class Php {
         $right['right'] = [
             $value
         ];
-        $value = Php::value($object, $flags, $options, $tag, $right['value'], $is_set, $before, $after);
         $right['value'] = [
             $value
         ];

@@ -735,6 +735,7 @@ class Php {
                             $if_data[] = '}';
                             if(array_key_exists('elseif', $content)){
                                 foreach($content['elseif'] as $elseif_nr => $elseif){
+                                    d($elseif);
                                     if(array_key_exists('statement', $elseif)){
                                         $if_data[] = Php::method($object, $flags, $options, $elseif['statement'], $before, $after) . '{';
                                         if(!empty($before)){

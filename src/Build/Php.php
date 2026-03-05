@@ -2106,9 +2106,6 @@ class Php {
         $skip_space = $ltrim * 4;
         $skip = 0;
 //        d($record);
-        if($object->config('is.debug') === true){
-            ddd($record);
-        }
         if(
             array_key_exists('is_class_method', $record['method']) &&
             $record['method']['is_class_method'] === true

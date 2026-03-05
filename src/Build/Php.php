@@ -5299,7 +5299,8 @@ class Php {
             }
             try {
                 $try_catch = $object->config('package.raxon/parse.build.state.try_catch');
-                if($try_catch !== false){                    
+                if($try_catch !== false){
+                    d($result_validator);
                     Validator::validate($object, $flags, $options, $result_validator);
                 }
             }

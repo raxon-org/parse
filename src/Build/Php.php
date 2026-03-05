@@ -736,16 +736,7 @@ class Php {
                             if(array_key_exists('elseif', $content)){
                                 foreach($content['elseif'] as $elseif_nr => $elseif){
                                     if(array_key_exists('statement', $elseif)){
-                                        if(array_key_exists(108, $if_data)){
-                                            $object->config('is.debug', true);
-                                            $if_data[] = Php::method($object, $flags, $options, $elseif['statement'], $before, $after) . '{';
-                                        } else {
-                                            $if_data[] = Php::method($object, $flags, $options, $elseif['statement'], $before, $after) . '{';
-                                        }
-                                        if(array_key_exists(109, $if_data)){
-                                            d($if_data[109]);
-                                            ddd('end');
-                                        }
+                                        $if_data[] = Php::method($object, $flags, $options, $elseif['statement'], $before, $after) . '{';
                                         if(!empty($before)){
                                             foreach($before as $line){
                                                 $if_before[] = $line;
@@ -2528,7 +2519,7 @@ class Php {
                     )
                 ){
                     if($object->config('is.debug') === true){
-                        d($record['method']['name']);
+//                        d($record['method']['name']);
                     }
                     $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
                     $method_value .= ')';
@@ -2538,7 +2529,7 @@ class Php {
                 $plugin = Php::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));                
                 $method_value = $plugin . '(';
                 if($object->config('is.debug') === true){
-                    d($record['method']['name']);
+//                    d($record['method']['name']);
                 }
                 $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
                 $method_value .= ')';

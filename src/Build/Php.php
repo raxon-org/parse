@@ -737,7 +737,10 @@ class Php {
                                 foreach($content['elseif'] as $elseif_nr => $elseif){
                                     if(array_key_exists('statement', $elseif)){
                                         $if_data[] = Php::method($object, $flags, $options, $elseif['statement'], $before, $after) . '{';
-                                        d($if_data);
+                                        if(array_key_last(109, $if_data)){
+                                            d($if_data[109]);
+                                            ddd($elseif);
+                                        }
                                         if(!empty($before)){
                                             foreach($before as $line){
                                                 $if_before[] = $line;

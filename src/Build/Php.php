@@ -862,6 +862,7 @@ class Php {
                             foreach($for_after as $line){
                                 $data[] = $line;
                             }
+                            d($data);
                             $content[$category] = [];
                         } else {
                             if(!array_key_exists($row_nr, $content[$category]['content'])){

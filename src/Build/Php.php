@@ -736,7 +736,7 @@ class Php {
                             if(array_key_exists('elseif', $content)){
                                 foreach($content['elseif'] as $elseif_nr => $elseif){
                                     if(array_key_exists('statement', $elseif)){
-                                        if(array_key_exists(109, $if_data)){
+                                        if(array_key_exists(108, $if_data)){
                                             $object->config('is.debug', true);
                                             $if_data[] = Php::method($object, $flags, $options, $elseif['statement'], $before, $after) . '{';
                                         } else {

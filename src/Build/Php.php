@@ -2164,7 +2164,7 @@ class Php {
                     )
                 ){
                     if($object->config('is.debug') === true){
-                        d($record);
+//                        d($record);
                     }
                     $method_value = 'elseif(';
                     $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);

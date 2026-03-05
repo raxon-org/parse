@@ -3381,24 +3381,24 @@ class Php {
                     $record['line'] = $tag['line'] ?? 'unknown';
                 }
                 $result = Php::method($object, $flags, $options, $record, $before, $after);
-                break;
+            break;
             case 'variable_method':
                 $result = Php::variable_method($object, $flags, $options, $record, $before, $after);
-                break;
+            break;
             case 'variable':
                 $result = Php::variable($object, $flags, $options, $record, $tag, $before, $after);
-                break;
+            break;
             case 'integer':
             case 'float':
                 $result = $record['execute'];
-                break;
+            break;
             case 'boolean':
             case 'null':
                 $result = $record['value'];
                 break;
             case 'symbol':
                 $result = Php::value_symbol($object, $flags, $options, $record, $before, $after);
-                break;
+            break;
             case 'set':
                 $set = [
                     'string' => $record['value'],
@@ -3408,10 +3408,13 @@ class Php {
                 break;
             case 'string':
                 $result = Php::value_string($object, $flags, $options, $record, $before, $after);
-                break;
+            break;
             case 'array':
                 $result = Php::value_array($object, $flags, $options, $record, $before, $after);
-                break;
+            break;
+            case 'cast':
+                ddd($record);
+            break;
             default:
                 throw new Exception('Unknown value type: ' . $record['type']);
         }

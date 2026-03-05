@@ -3413,7 +3413,7 @@ class Php {
                 $result = Php::value_array($object, $flags, $options, $record, $before, $after);
             break;
             case 'cast':
-                ddd($record);
+                $result = '(' . $record['value'] . ')';
             break;
             default:
                 throw new Exception('Unknown value type: ' . $record['type']);

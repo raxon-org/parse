@@ -2852,10 +2852,10 @@ class Php {
                     if(array_key_exists($nr, $argument_is_reference)){
                         $argument['array'][0]['is_reference'] = true;
                     }
-                    if($object->config('is.debug') === true){
-                        d($record);
-                    }
                     $argument = Php::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
+                    if($object->config('is.debug') === true){
+                        d($argument);
+                    }
                     $uuid_variable = Core::uuid_variable();
                     $before[] = $uuid_variable . ' = ' . $argument . ';';
                     if($attributes !== false){

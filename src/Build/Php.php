@@ -2743,6 +2743,9 @@ class Php {
                 }
             }
         }
+        if($object->config('is.debug') === true){
+            d(count($record['method']['argument']));
+        }
         foreach($record['method']['argument'] as $nr => $argument) {
             if(
                 array_key_exists('array', $argument) &&
@@ -2855,6 +2858,7 @@ class Php {
                     $argument = Php::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
                     if($object->config('is.debug') === true){
                         d($argument);
+                        trace();
                     }
                     $uuid_variable = Core::uuid_variable();
                     $before[] = $uuid_variable . ' = ' . $argument . ';';

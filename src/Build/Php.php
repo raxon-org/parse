@@ -3122,7 +3122,7 @@ class Php {
             $value .= $result;
             $value_array[] = $result;
         }
-        d($value_array);
+//        d($value_array);
         $value_array = Php::value_activate_symbol($object, $flags, $options, $value_array, $before, $after);
         return implode('', $value_array);
     }
@@ -3134,7 +3134,7 @@ class Php {
         $set = [];
         $left = [];
         $right = [];
-        d($value);
+//        d($value);
         for($i=$nr - 1; $i >= 0; $i--){
             $record = $value[$i] ?? null;
             if($record === null){
@@ -3210,7 +3210,7 @@ class Php {
             return $value_array;
         }
         foreach($value_array as $nr => $value){
-            d($value);
+//            d($value);
             switch($value){
                 case ' + ':
                     if(!array_key_exists($nr, $value_array)){
@@ -3255,6 +3255,24 @@ class Php {
                     $value_transform = Php::value_transform($object, $flags, $options, $value_array, $nr, $before, $after);
                     $value_array = $value_transform['value'];
                     $value_array[$nr] = '$this->value_modulo(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
+                    $is_nested = true;
+                break;
+                case ' < ':
+                    if(!array_key_exists($nr, $value_array)){
+                        return $value_array;
+                    }
+                    $value_transform = Php::value_transform($object, $flags, $options, $value_array, $nr, $before, $after);
+                    $value_array = $value_transform['value'];
+                    $value_array[$nr] = '$this->value_smaller(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
+                    $is_nested = true;
+                break;
+                case ' > ':
+                    if(!array_key_exists($nr, $value_array)){
+                        return $value_array;
+                    }
+                    $value_transform = Php::value_transform($object, $flags, $options, $value_array, $nr, $before, $after);
+                    $value_array = $value_transform['value'];
+                    $value_array[$nr] = '$this->value_greater(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
                     $is_nested = true;
                 break;
                 case ' === ':
@@ -3326,8 +3344,8 @@ class Php {
                     }
                     $value_transform = Php::value_transform($object, $flags, $options, $value_array, $nr, $before, $after);
                     $value_array = $value_transform['value'];
-                    d($value_transform);
-                    d($value_array);
+//                    d($value_transform);
+//                    d($value_array);
                     $value_array[$nr] = '$this->value_smaller_equal(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
                     $is_nested = true;
                 break;

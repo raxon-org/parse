@@ -2258,7 +2258,7 @@ class Php {
                             );
                         }
                     }
-                    $method_value = 'for(' . implode(';', $method_value);
+                    $method_value = 'for(' . implode(';', $method_value) . ')';
                     if($separator === null){
                         $object->config('delete', 'package.raxon/parse.build.state.separator');
                     } else {

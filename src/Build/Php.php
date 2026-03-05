@@ -2164,7 +2164,7 @@ class Php {
                     )
                 ){
                     if($object->config('is.debug') === true){
-                        ddd($record);
+                        d($record);
                     }
                     $method_value = 'elseif(';
                     $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
@@ -2851,6 +2851,9 @@ class Php {
                 } else {
                     if(array_key_exists($nr, $argument_is_reference)){
                         $argument['array'][0]['is_reference'] = true;
+                    }
+                    if($object->config('is.debug') === true){
+                        d($record);
                     }
                     $argument = Php::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
                     $uuid_variable = Core::uuid_variable();

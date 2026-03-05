@@ -2156,6 +2156,7 @@ class Php {
                 ){
                     $method_value = 'elseif(';
                     $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
+                    d($method_value);
                 }
                 elseif(
                     in_array(

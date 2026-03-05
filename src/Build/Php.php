@@ -2169,6 +2169,9 @@ class Php {
                     $method_value = 'elseif(';
                     $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
                     $method_value .= ')';
+                    if($object->config('is.debug') === true){
+                        d($method_value);
+                    }
                 }
                 elseif(
                     in_array(

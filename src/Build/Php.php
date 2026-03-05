@@ -3218,10 +3218,7 @@ class Php {
                         return $value_array;
                     }
                     $value_transform = Php::value_transform($object, $flags, $options, $value_array, $nr, $before, $after);
-                    d($nr);
-                    d($value_transform);
                     $value_array = $value_transform['value'];
-                    d($value_array);
                     $value_array[$nr] = '$this->value_plus(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
                     $is_nested = true;
                 break;
@@ -4345,8 +4342,6 @@ class Php {
                 $value = '$this->value_concatenate(' . $left . ', ' . $right . ')';
                 break;
             case '+':
-                d($left);
-                d($right);
                 $value = '$this->value_plus(' . $left . ', ' . $right . ')';
                 break;
             case '-':

@@ -46,7 +46,7 @@ try {
             )
         );
         $data->set('i', $this->value_plus_plus($data->data('i'))
-    ){
+    )){
         $content[] =  "yes";
     }
     ddd($content);

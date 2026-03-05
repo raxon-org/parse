@@ -3204,6 +3204,10 @@ class Php {
         if(empty($value_array)){
             return [];
         }
+        $count = count($value_array);
+        if($count < 3){
+            return $value_array;
+        }
         foreach($value_array as $nr => $value){
             d($value);
             switch($value){

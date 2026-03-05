@@ -3212,6 +3212,7 @@ class Php {
             d($value);
             switch($value){
                 case ' + ':
+                    d($nr);
                     d($value_array);
                     $value_transform = Php::value_transform($object, $flags, $options, $value_array, $nr, $before, $after);
                     d($value_transform);

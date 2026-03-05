@@ -2380,9 +2380,8 @@ class Php {
                             );
                         }
                     }
-                    d($method_value);
                     if(array_key_exists(0, $method_value)){
-                        $method_value = 'foreach(' . $method_value[0];
+                        $method_value = 'foreach(' . $method_value[0] . ')';
                     }
                     if($separator === null){
                         $object->config('delete', 'package.raxon/parse.build.state.separator');

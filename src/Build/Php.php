@@ -3129,7 +3129,8 @@ class Php {
 
     private static function value_transform(App $object, $flags, $options, $value, $nr, $before=[], $after=[]): array
     {
-        $count = count($value);
+        $keys = array_key_last($value);
+        $count = $keys + 1;
         $set_depth = 0;
         $set = [];
         $left = [];

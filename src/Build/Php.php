@@ -2172,6 +2172,7 @@ class Php {
                     if($object->config('is.debug') === true){
                         d($method_value);
                     }
+                    return $method_value;
                 }
                 elseif(
                     in_array(

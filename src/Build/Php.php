@@ -736,7 +736,12 @@ class Php {
                             if(array_key_exists('elseif', $content)){
                                 foreach($content['elseif'] as $elseif_nr => $elseif){
                                     if(array_key_exists('statement', $elseif)){
-                                        $if_data[] = Php::method($object, $flags, $options, $elseif['statement'], $before, $after) . '{';
+                                        if(array_key_exists(109, $if_data)){
+                                            $object->config('is.debug', true);
+                                            $if_data[] = Php::method($object, $flags, $options, $elseif['statement'], $before, $after) . '{';
+                                        } else {
+                                            $if_data[] = Php::method($object, $flags, $options, $elseif['statement'], $before, $after) . '{';
+                                        }
                                         if(array_key_exists(109, $if_data)){
                                             d($if_data[109]);
                                             ddd($elseif);
@@ -2158,6 +2163,9 @@ class Php {
                         ], true
                     )
                 ){
+                    if($object->config('is.debug') === true){
+                        ddd($record);
+                    }
                     $method_value = 'elseif(';
                     $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
                     $method_value .= ')';

@@ -2170,7 +2170,7 @@ class Php {
                     $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
                     $method_value .= ')';
                     if($object->config('is.debug') === true){
-                        d($method_value);
+//                        d($method_value);
                     }
                     return $method_value;
                 }
@@ -2754,9 +2754,9 @@ class Php {
             }
         }
         if($object->config('is.debug') === true){
-            d($record['method']['name']);
-            d(count($record['method']['argument']));
-            trace();
+//            d($record['method']['name']);
+//            d(count($record['method']['argument']));
+//            trace();
         }
         foreach($record['method']['argument'] as $nr => $argument) {
             if(
@@ -2869,7 +2869,7 @@ class Php {
                     }
                     $argument = Php::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
                     if($object->config('is.debug') === true){
-                        d($argument);
+//                        d($argument);
 //                        trace();
                     }
                     $uuid_variable = Core::uuid_variable();

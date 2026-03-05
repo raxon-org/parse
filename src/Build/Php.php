@@ -3394,6 +3394,7 @@ class Php {
             break;
             case 'boolean':
             case 'null':
+            case 'cast':
                 $result = $record['value'];
                 break;
             case 'symbol':
@@ -3411,9 +3412,6 @@ class Php {
             break;
             case 'array':
                 $result = Php::value_array($object, $flags, $options, $record, $before, $after);
-            break;
-            case 'cast':
-                $result = '(' . $record['value'] . ')';
             break;
             default:
                 throw new Exception('Unknown value type: ' . $record['type']);
@@ -5300,7 +5298,6 @@ class Php {
             try {
                 $try_catch = $object->config('package.raxon/parse.build.state.try_catch');
                 if($try_catch !== false){
-                    d($result_validator);
                     Validator::validate($object, $flags, $options, $result_validator);
                 }
             }

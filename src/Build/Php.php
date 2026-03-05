@@ -3217,6 +3217,7 @@ class Php {
                         return $value_array;
                     }
                     $value_transform = Php::value_transform($object, $flags, $options, $value_array, $nr, $before, $after);
+                    d($nr);
                     d($value_transform);
                     $value_array = $value_transform['value'];
                     d($value_array);

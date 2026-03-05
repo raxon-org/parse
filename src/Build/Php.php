@@ -2523,6 +2523,9 @@ class Php {
                         true
                     )
                 ){
+                    if($object->config('is.debug') === true){
+                        d($record['method']['name']);
+                    }
                     $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
                     $method_value .= ')';
                 }
@@ -2747,6 +2750,7 @@ class Php {
             }
         }
         if($object->config('is.debug') === true){
+            d($record['method']['name']);
             d(count($record['method']['argument']));
             trace();
         }

@@ -252,6 +252,7 @@ class Php {
         $link_depth = 0;
         $block_depth = 0;
         $capture_depth = 0;
+        $literal_depth = 0;
         $content = [];
         $is_literal = false;
         $marker_data = [];
@@ -629,6 +630,7 @@ class Php {
                         array_key_exists('is_close', $record['marker']) &&
                         $record['marker']['is_close'] === false
                     ){
+                        $literal_depth++;
                         $is_literal = $nr;
                         $marker_data = [];
                         continue;
@@ -639,28 +641,31 @@ class Php {
                         array_key_exists('is_close', $record['marker']) &&
                         $record['marker']['is_close'] === true
                     ){
-                        $text = [];
-                        foreach($marker_data as $marker_record){
-                            if(array_key_exists('text', $marker_record)){
-                                $text[] = $marker_record['text'];
+                        $literal_depth--;
+                        if($literal_depth === 0){
+                            $text = [];
+                            foreach($marker_data as $marker_record){
+                                if(array_key_exists('text', $marker_record)){
+                                    $text[] = $marker_record['text'];
+                                }
+                                elseif(array_key_exists('tag', $marker_record)){
+                                    $text[] = $marker_record['tag'];
+                                } else {
+                                    throw new Exception('Not implemented, add as text...');
+                                }
                             }
-                            elseif(array_key_exists('tag', $marker_record)){
-                                $text[] = $marker_record['tag'];
+                            $text_text = implode('', $text);
+                            if(substr($text_text, -1, 1) === '\\' && substr($text_text, -2, 2) !== '\\') {
+                                $text_text .= '\\';
+                            }
+                            //need content variable
+                            if(property_exists($options, 'variable')){
+                                $data[] = $options->variable . '[] = \'' . str_replace(['\''], ['\\\''], $text_text) . '\';';
                             } else {
-                                throw new Exception('Not implemented, add as text...');
+                                $data[] = '$content[] = \'' . str_replace(['\''], ['\\\''], $text_text) . '\';';
                             }
+                            $is_literal = false;
                         }
-                        $text_text = implode('', $text);
-                        if(substr($text_text, -1, 1) === '\\' && substr($text_text, -2, 2) !== '\\') {
-                            $text_text .= '\\';
-                        }                                                
-                        //need content variable
-                        if(property_exists($options, 'variable')){
-                            $data[] = $options->variable . '[] = \'' . str_replace(['\''], ['\\\''], $text_text) . '\';';
-                        } else {
-                            $data[] = '$content[] = \'' . str_replace(['\''], ['\\\''], $text_text) . '\';';
-                        }                                                
-                        $is_literal = false;
                         continue;
                     }
                     elseif(

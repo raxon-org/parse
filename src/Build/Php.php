@@ -665,6 +665,8 @@ class Php {
                                 $data[] = '$content[] = \'' . str_replace(['\''], ['\\\''], $text_text) . '\';';
                             }
                             $is_literal = false;
+                        } else {
+                            ddd($marker_data);
                         }
                         continue;
                     }

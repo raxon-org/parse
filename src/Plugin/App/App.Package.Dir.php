@@ -33,6 +33,11 @@ trait App_Package_Dir {
             $explode[$nr] = ucfirst($value);
         }
         $package = implode('/', $explode);
+        $explode = explode('-', $package);
+        foreach($explode as $nr => $value){
+            $explode[$nr] = ucfirst($value);
+        }
+        $package = implode('/', $explode);
         $package = Dir::ucfirst($package);
         if(substr($prefix, -1, 1) !== '/'){
             $prefix .= '/';

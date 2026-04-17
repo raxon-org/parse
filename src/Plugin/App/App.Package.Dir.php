@@ -43,7 +43,6 @@ trait App_Package_Dir {
             $prefix .= '/';
         }
         $result = $prefix . $package;
-        d($result);
         if(Dir::is($result)){
             return $result;
         }

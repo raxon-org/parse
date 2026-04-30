@@ -71,7 +71,7 @@ function batch($list=[]): void
                             continue;
                         }
                         File::move($file->url, $file->url . '.temp');
-                        $command = 'ffmpeg -i file:-filter:a "volume=0.5" "' .
+                        $command = 'ffmpeg -i "' .
                             str_replace(['(', ')', '"'], ['(', ')', '\\"'], $file->url) . '.temp' .
                             '" -vn -ar 44100 -ac 2 -ab 320k -f mp3 "' .
                             str_replace(['(', ')', '\''], ['(', ')', '\\"'], $file->new) .

@@ -27,8 +27,6 @@ trait Source_Type {
             $url = $options['url'];
             $extension = File::extension($url);
             $sourceType = $object->config('sourceType');
-            d($extension);
-            ddd($sourceType);
             if(in_array($extension, $sourceType, true)){
                 return  $object->config('contentType.'.$extension);
             }

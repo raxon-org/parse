@@ -1,4 +1,4 @@
-{{$options = options()}}
+{{$options = app.options()}}
 /*
 {{$codepoint = array.codepoint()}}
 {{$method = implode('', $codepoint)}}

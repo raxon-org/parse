@@ -773,7 +773,7 @@ class Parse
 //            d($url_php);
             $limit = $this->limit();
             if($limit){
-                ddd($limit);
+                $object->config('package.raxon/parse.build.state.limit', $limit);
             }
             $document = Build::create($object, $flags, $options, $token);
             // d($url_php);

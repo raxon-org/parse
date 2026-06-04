@@ -2102,6 +2102,11 @@ class Php {
         $skip_space = $ltrim * 4;
         $skip = 0;
 //        d($record);
+        $limit = $object->config('package.raxon/parse.build.state.limit');
+        if($limit){
+            d($record);
+            ddd($limit);
+        }
         if(
             array_key_exists('is_class_method', $record['method']) &&
             $record['method']['is_class_method'] === true

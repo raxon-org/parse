@@ -208,7 +208,6 @@ class Parse
                 ];
             }
             $response = $node->import(Parse::NODE, $role, $options);
-            ddd($response);
             $parse = $node->record(
                 Parse::NODE,
                 $role,
@@ -216,7 +215,6 @@ class Parse
                     'ramdisk' => true
                 ]
             );
-            ddd($parse);
         }
         $object->config(Parse::CONFIG, $parse['node']);
         $object->config(Parse::CONFIG . '.time.start', microtime(true));
@@ -397,6 +395,7 @@ class Parse
                     $parse_data = clone $data;
                     //need the limit from this parser...
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);
+                    $parse->limit($this->limit());
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
                     }
@@ -427,7 +426,8 @@ class Parse
                             $data->set($key_parent, $parentNode);
                         }
                     }
-                    $parse_data = clone $data;                                          
+                    $parse_data = clone $data;
+                    $parse->limit($this->limit());
                     $json = $parse->compile($json, $parse_data, $is_debug);                                               
                     $input = Core::object($json, Core::OBJECT);                                    
                 } else {
@@ -484,7 +484,8 @@ class Parse
                                 }
                                 $parse_data->set($key_parent, $parentNode);
                             }
-                        }                
+                        }
+                        $parse->limit($this->limit());
                         $input[$key] = $parse->compile($value, $parse_data, $is_debug);
                     }
                 }
@@ -638,6 +639,7 @@ class Parse
                     $parse_data = clone $data;
                     //need the limit from this parser...
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);
+                    $parse->limit($this->limit());
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
                     }                                                                                               
@@ -769,6 +771,10 @@ class Parse
             }
 //            d($token);
 //            d($url_php);
+            $limit = $this->limit();
+            if($limit){
+                ddd($limit);
+            }
             $document = Build::create($object, $flags, $options, $token);
             // d($url_php);
             File::write($url_php, implode(PHP_EOL, $document));

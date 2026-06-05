@@ -2138,6 +2138,7 @@ class Php {
                     break;
                 }
             }
+            ddd($is_allowed);
             if(in_array(false, $is_allowed, true)){
                 throw new Exception('Method ' . $record['method']['name'] . ' is not allowed.');
             }

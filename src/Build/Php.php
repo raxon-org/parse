@@ -2104,14 +2104,19 @@ class Php {
 //        d($record);
         $limit = $object->config('package.raxon/parse.build.state.limit');
         if($limit){
-            d(trace(10));
-            /*
-            foreach($limit['function']){
-
+            $is_allowed = false;
+            foreach($limit as $function){
+                if(
+                    strtolower($record['method']['name']) ===
+                    strtolower($function)
+                ){
+                    $is_allowed = true;
+                    break;
+                }
             }
-            */
-            d($record);
-            ddd($limit);
+            if($is_allowed === false){
+                throw new Exception('Method ' . $record['method']['name'] . ' is not allowed.');
+            }
         }
         if(
             array_key_exists('is_class_method', $record['method']) &&

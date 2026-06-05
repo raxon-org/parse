@@ -2106,6 +2106,7 @@ class Php {
         if($limit){
             $is_allowed = false;
             foreach($limit as $function){
+                ddd($record);
                 if(
                     strtolower($record['method']['name']) ===
                     strtolower($function)

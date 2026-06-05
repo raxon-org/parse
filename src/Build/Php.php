@@ -2096,11 +2096,12 @@ class Php {
         $is_allowed = [];
         $argument_nr = 0;
         if(
-            array_key_exists('method') &&
+            array_key_exists('method', $record) &&
             array_key_exists('argument', $record['method']) &&
             is_array($record['method']['argument'])
         ){
             foreach($record['method']['argument'] as $argument){
+                ddd($argument);
                 $is_allowed[$argument_nr] = Php::is_allowed($object, $flags, $options, $argument, $limit);
                 $argument_nr++;
             }
@@ -2108,7 +2109,7 @@ class Php {
         $argument_nr++;
         $is_allowed[$argument_nr] = false;
         if(
-            array_key_exists('method') &&
+            array_key_exists('method', $record) &&
             array_key_exists('name', $record['method']) &&
             is_string($record['method']['name'])
         ){

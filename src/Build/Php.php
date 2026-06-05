@@ -2108,6 +2108,7 @@ class Php {
             foreach($limit as $function){
                 foreach($record['method']['argument'] as $argument){
                     foreach($argument['array'] as $argument_array){
+                        ddd($argument_array);
                         if($argument_array['type'] === 'method' && $argument_array['name'] === $function){
                             $is_allowed = true;
                         }

@@ -2104,25 +2104,33 @@ class Php {
 //        d($record);
         $limit = $object->config('package.raxon/parse.build.state.limit');
         if($limit){
-            $is_allowed = false;
+            $is_allowed = [];
             foreach($limit as $function){
-                foreach($record['method']['argument'] as $argument){
+                foreach($record['method']['argument'] as $nr => $argument){
+                    $is_allowed[$nr] = false;
                     foreach($argument['array'] as $argument_array){
-                        ddd($argument_array);
-                        if($argument_array['type'] === 'method' && $argument_array['name'] === $function){
-                            $is_allowed = true;
+                        if(
+                            $argument_array['type'] === 'method' &&
+                            array_key_exists('method', $argument_array) &&
+                            array_key_exists('name', $argument_array['method']) &&
+                            strtolower($argument_array['method']['name']) === strtolower($function)
+                        ){
+                            $is_allowed[$nr] = true;
+                            break;
                         }
                     }
                 }
+                $nr++;
+                $is_allowed[$nr] = false;
                 if(
                     strtolower($record['method']['name']) ===
                     strtolower($function)
                 ){
-                    $is_allowed = true;
+                    $is_allowed[$nr] = true;
                     break;
                 }
             }
-            if($is_allowed === false){
+            if(in_array(false, $is_allowed, true)){
                 throw new Exception('Method ' . $record['method']['name'] . ' is not allowed.');
             }
         }

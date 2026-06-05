@@ -2106,21 +2106,29 @@ class Php {
         if($limit){
             $is_allowed = [];
             foreach($limit as $function){
-                foreach($record['method']['argument'] as $nr => $argument){
-                    $is_allowed[$nr] = false;
-                    foreach($argument['array'] as $argument_array){
-                        if(
-                            $argument_array['type'] === 'method' &&
-                            array_key_exists('method', $argument_array) &&
-                            array_key_exists('name', $argument_array['method']) &&
-                            strtolower($argument_array['method']['name']) === strtolower($function)
-                        ){
-                            $is_allowed[$nr] = true;
-                            break;
+                if(
+                    array_key_exists('method', $record) &&
+                    array_key_exists('argument', $record['method']) &&
+                    is_array($record['method']['argument'])
+                ){
+                    $argument_nr = 0;
+                    foreach($record['method']['argument'] as $nr => $argument){
+                        $is_allowed[$argument_nr] = false;
+                        foreach($argument['array'] as $argument_array){
+                            if(
+                                $argument_array['type'] === 'method' &&
+                                array_key_exists('method', $argument_array) &&
+                                array_key_exists('name', $argument_array['method']) &&
+                                strtolower($argument_array['method']['name']) === strtolower($function)
+                            ){
+                                $is_allowed[$argument_nr] = true;
+                                break;
+                            }
                         }
                     }
                 }
-                $nr++;
+                $keys = array_keys($is_allowed);
+                $nr = (int) end($keys) + 1;
                 $is_allowed[$nr] = false;
                 if(
                     strtolower($record['method']['name']) ===

@@ -2115,6 +2115,7 @@ class Php {
                     foreach($record['method']['argument'] as $nr => $argument){
                         $is_allowed[$argument_nr] = false;
                         foreach($argument['array'] as $argument_array){
+                            d($argument_array);
                             if(
                                 $argument_array['type'] === 'method' &&
                                 array_key_exists('method', $argument_array) &&

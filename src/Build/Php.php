@@ -2092,6 +2092,11 @@ class Php {
         return false;
     }
 
+    public static function is_allowed(App $object, $flags, $options, $record=[], $limit=[]){
+        d($record);
+        d($limit);
+    }
+
     /**
      * @throws Exception
      */
@@ -2115,29 +2120,14 @@ class Php {
                     foreach($record['method']['argument'] as $nr => $argument){
                         $is_allowed[$argument_nr] = false;
                         foreach($argument['array'] as $argument_array){
-                            d($argument_array);
-                            if(
-                                $argument_array['type'] === 'method' &&
-                                array_key_exists('method', $argument_array) &&
-                                array_key_exists('name', $argument_array['method']) &&
-                                strtolower($argument_array['method']['name']) === strtolower($function)
-                            ){
-                                $is_allowed[$argument_nr] = true;
-                                break;
-                            }
+                            $is_allowed[$argument_nr] = Php::is_allowed($object, $flags, $options, $argument_array, $limit);
+
                         }
                     }
                 }
                 $keys = array_keys($is_allowed);
                 $nr = (int) end($keys) + 1;
-                $is_allowed[$nr] = false;
-                if(
-                    strtolower($record['method']['name']) ===
-                    strtolower($function)
-                ){
-                    $is_allowed[$nr] = true;
-                    break;
-                }
+                $is_allowed[$nr] = Php::is_allowed($object, $flags, $options, $record, $limit);
             }
             ddd($is_allowed);
             if(in_array(false, $is_allowed, true)){

@@ -2092,9 +2092,42 @@ class Php {
         return false;
     }
 
-    public static function is_allowed(App $object, $flags, $options, $record=[], $limit=[]){
-        d($record);
-        d($limit);
+    public static function is_allowed(App $object, $flags, $options, $record=[], $limit=[], &$not_allowed_method=null){
+        $is_allowed = [];
+        $argument_nr = 0;
+        if(
+            array_key_exists('method') &&
+            array_key_exists('argument', $record['method']) &&
+            is_array($record['method']['argument'])
+        ){
+            foreach($record['method']['argument'] as $argument){
+                $is_allowed[$argument_nr] = Php::is_allowed($object, $flags, $options, $argument, $limit);
+                $argument_nr++;
+            }
+        }
+        $argument_nr++;
+        $is_allowed[$argument_nr] = false;
+        if(
+            array_key_exists('method') &&
+            array_key_exists('name', $record['method']) &&
+            is_string($record['method']['name'])
+        ){
+            foreach($limit as $limit_nr => $limit_record){
+                if(strtolower($record['method']['name']) === strtolower($limit_record)){
+                    $is_allowed[$argument_nr] = true;
+                    break;
+                }
+            }
+        }
+        if($is_allowed[$argument_nr] === false){
+            $not_allowed_method = $record['method']['name'];
+        }
+        foreach($is_allowed as $bool){
+            if($bool === false){
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -2109,28 +2142,8 @@ class Php {
 //        d($record);
         $limit = $object->config('package.raxon/parse.build.state.limit');
         if($limit){
-            $is_allowed = [];
-            foreach($limit as $function){
-                if(
-                    array_key_exists('method', $record) &&
-                    array_key_exists('argument', $record['method']) &&
-                    is_array($record['method']['argument'])
-                ){
-                    $argument_nr = 0;
-                    foreach($record['method']['argument'] as $nr => $argument){
-                        $is_allowed[$argument_nr] = false;
-                        foreach($argument['array'] as $argument_array){
-                            $is_allowed[$argument_nr] = Php::is_allowed($object, $flags, $options, $argument_array, $limit);
-
-                        }
-                    }
-                }
-                $keys = array_keys($is_allowed);
-                $nr = (int) end($keys) + 1;
-                $is_allowed[$nr] = Php::is_allowed($object, $flags, $options, $record, $limit);
-            }
-            ddd($is_allowed);
-            if(in_array(false, $is_allowed, true)){
+            $is_allowed = Php::is_allowed($object, $flags, $options, $record, $limit, $not_allowed_method);
+            if($is_allowed === false){
                 throw new Exception('Method ' . $record['method']['name'] . ' is not allowed.');
             }
         }

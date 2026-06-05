@@ -2104,6 +2104,12 @@ class Php {
 //        d($record);
         $limit = $object->config('package.raxon/parse.build.state.limit');
         if($limit){
+            d(trace(10));
+            /*
+            foreach($limit['function']){
+
+            }
+            */
             d($record);
             ddd($limit);
         }

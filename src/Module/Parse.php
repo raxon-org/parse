@@ -645,7 +645,9 @@ class Parse
                     }                                                                                               
                     $input->{$key} = $parse->compile($value, $parse_data);
                     if($key === 'author'){
-                        dd('found AUTHOR');
+                        d($value);
+                        d($input->{$key});
+                        ddd('found AUTHOR');
                     }
                     $data->set('this.' . $key, $input->{$key});                    
                     $this->options($options);

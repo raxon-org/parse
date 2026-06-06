@@ -643,7 +643,10 @@ class Parse
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
                     }                                                                                               
-                    $input->{$key} = $parse->compile($value, $parse_data);                    
+                    $input->{$key} = $parse->compile($value, $parse_data);
+                    if($key === 'author'){
+                        dd('found AUTHOR');
+                    }
                     $data->set('this.' . $key, $input->{$key});                    
                     $this->options($options);
                 }

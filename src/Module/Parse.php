@@ -636,6 +636,7 @@ class Parse
                         $parse->local($index, $this->local($index));
                     }                                                                                               
                     $input->{$key} = $parse->compile($value, $parse_data);
+                    //$parentProperty = $data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty'));
                     $data->set(
                         'this.' .
                         $object->config('package.raxon/parse.object.this.property'),
@@ -648,17 +649,21 @@ class Parse
                         $object->config('package.raxon/parse.object.this.property'),
                         $key
                     );
-                    //$parentProperty = $data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty'));
                     if(is_object($input->{$key})){
                         $data->set('this.' . $key, clone $input->{$key});
+                        $data->set('this.' . $object->config('package.raxon/parse.object.this.rootNode') . $key, clone $input->{$key});
+                        $data->set('this.' . $object->config('package.raxon/parse.object.this.parentNode') . $key, clone $input->{$key});
                     } else {
                         $data->set('this.' . $key, $input->{$key});
+                        $data->set('this.' . $object->config('package.raxon/parse.object.this.rootNode') . $key, $input->{$key});
+                        $data->set('this.' . $object->config('package.raxon/parse.object.this.parentNode') . $key, $input->{$key});
                     }
                     $this->options($options);
                 }
                 $options->depth--;
                 $this->options($options);
                 if($property){
+                    d($property);;
                     $data->set(
                         'this.' .
                         $object->config('package.raxon/parse.object.this.property'),

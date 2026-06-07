@@ -497,6 +497,7 @@ class Parse
                     $depth = 0;
                     $depth_root = 0;
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.url'), $options->source ?? 'source');
+                    $data->set('this.' . $object->config('package.raxon/parse.object.this.rootNode'), (object) []);
 //                    $input->{'#depth'} = $depth;
                     $input = $this->local($depth, $input);
                     $key_parent = 'this';

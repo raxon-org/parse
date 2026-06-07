@@ -653,6 +653,7 @@ class Parse
                         $parse->local($index, $this->local($index));
                     }                                                                                               
                     $input->{$key} = $parse->compile($value, $parse_data);
+                    /*
                     if($depth === 2){
                         d($input);
                         d($key);
@@ -660,9 +661,12 @@ class Parse
                             d($data);
                             ddd($parse_data);
                         }
-
                     }
-                    $data->set('this.' . $key, $input->{$key});                    
+                    */
+                    $data->set('this.' . $key, $input->{$key});
+                    if($data->has('this.author')){
+                        d($depth);
+                    }
                     $this->options($options);
                 }
 //                $temp = $this->storage();

@@ -669,6 +669,7 @@ class Parse
                         d($key);
                         d($input);
                         d($data->get('this'));
+                        d($parse_data->get('this'));
                     }
                     if($data->has('this.' . $object->config('package.raxon/parse.object.this.parentProperty'))){
                         d($data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty')));
@@ -690,7 +691,10 @@ class Parse
                     $parentProperty = $data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty'));
                     if($key === 'name' && $parentProperty === 'template'){
                         //test can go if it is fixed...
+                        //is the bug input  = data, because name2 shows up aswell
                         $input->name2 = $input->{$key} . ' ('. $depth .')';
+                        d($data->get('this'));
+                        d($input);
                     }
                     $data->set('this.' . $key, $input->{$key});
                     if($data->has('this.name')){

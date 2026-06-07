@@ -682,9 +682,10 @@ class Parse
                     );
                     $parentProperty = $data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty'));
                     if(is_object($input->{$key})){
-                        ddd('yes');
+                        d($key);
                         $data->set('this.' . $key, clone $input->{$key});
                     } else {
+                        d($key);
                         $data->set('this.' . $key, $input->{$key});
                     }
                     $this->options($options);

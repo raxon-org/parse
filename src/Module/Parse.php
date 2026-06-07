@@ -642,6 +642,9 @@ class Parse
                         ddd($depth_root);
                     }
                     */
+                    if($depth === 2 && $key === 'body'){
+                        ddd($data);
+                    }
                     $parse_data = clone $data;
                     //need the limit from this parser...
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);

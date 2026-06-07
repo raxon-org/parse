@@ -529,7 +529,7 @@ class Parse
                 }
 //                $attribute = $object->config('package.raxon/parse.build.state.this.attribute');
 //                $property = $object->config('package.raxon/parse.build.state.this.property');
-                /*
+
                 $data->set(
                     'this.' .
                     $object->config('package.raxon/parse.object.this.parentProperty'),
@@ -538,7 +538,7 @@ class Parse
                         $object->config('package.raxon/parse.object.this.property')
                     )
                 );
-                */
+
                 if(!$data->has('this.' . $object->config('package.raxon/parse.object.this.rootNode'))){
                     $data->set(
                         'this.' .
@@ -659,7 +659,6 @@ class Parse
                     } else {
                         $data->set('this.' . $key, $input->{$key});
                     }
-                    $data->set('this.' . $object->config('package.raxon/parse.object.this.parentProperty'), $property);
                     $this->options($options);
                 }
                 $options->depth--;

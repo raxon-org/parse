@@ -690,7 +690,7 @@ class Parse
                     $parentProperty = $data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty'));
                     if($key === 'name' && $parentProperty === 'template'){
                         //test can go if it is fixed...
-                        $input->{$key} = $input->{$key} . ' ('. $depth .')';
+                        $input->name2 = $input->{$key} . ' ('. $depth .')';
                     }
                     $data->set('this.' . $key, $input->{$key});
                     if($data->has('this.name')){

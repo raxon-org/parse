@@ -664,9 +664,13 @@ class Parse
                         }
                     }
                     */
-                    if($data->has('this.' . $object->config('package.raxon/parse.object.this.parentProperty'))){
-                        d($parentNode);
+                    if($parentNode){
                         d($depth);
+                        d($key);
+                        d($input);
+                        ddd($parentNode);
+                    }
+                    if($data->has('this.' . $object->config('package.raxon/parse.object.this.parentProperty'))){
                         d($data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty')));
                     }
                     $data->set('this.' . $key, $input->{$key});

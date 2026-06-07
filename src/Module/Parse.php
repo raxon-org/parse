@@ -687,6 +687,10 @@ class Parse
                         $key
                     );
                     */
+                    if($key === 'author'){
+                        //test can go if it is fixed...
+                        $input->{$key} = $input->{$key} . ' ('. $depth .')';
+                    }
                     $data->set('this.' . $key, $input->{$key});
                     if($data->has('this.author')){
 //                        d($parentNode);

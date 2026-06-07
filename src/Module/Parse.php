@@ -665,6 +665,7 @@ class Parse
                     */
                     $data->set('this.' . $key, $input->{$key});
                     if($data->has('this.author')){
+                        d($data->get('this'));
                         d($depth);
                     }
                     $this->options($options);

@@ -663,7 +663,6 @@ class Parse
                 $options->depth--;
                 $this->options($options);
                 if($property){
-                    d($property);;
                     $data->set(
                         'this.' .
                         $object->config('package.raxon/parse.object.this.property'),

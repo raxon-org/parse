@@ -612,6 +612,7 @@ class Parse
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
                     $this->local($depth, $input);
 //                    $data->set( $key_parent . '.#depth', $depth);
+                    $parentNode = null;
                     if($depth === 0){
                         $key_parent = 'this';
                         $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
@@ -664,11 +665,13 @@ class Parse
                     }
                     */
                     if($data->has('this.' . $object->config('package.raxon/parse.object.this.parentProperty'))){
+                        d($parentNode);
                         d($depth);
                         d($data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty')));
                     }
                     $data->set('this.' . $key, $input->{$key});
                     if($data->has('this.author')){
+                        d($parentNode);
 //                        d($data->get('this'));
                         d($depth);
                         d($data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty')));

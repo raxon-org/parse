@@ -653,10 +653,10 @@ class Parse
                         $parse->local($index, $this->local($index));
                     }                                                                                               
                     $input->{$key} = $parse->compile($value, $parse_data);
-                    if($depth === 1){
+                    if($depth === 2){
                         d($input);
                         d($key);
-                        if($key === 'author'){
+                        if($key === 'body'){
                             d($data);
                             ddd($parse_data);
                         }

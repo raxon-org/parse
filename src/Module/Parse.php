@@ -628,6 +628,11 @@ class Parse
                             $data->set($key_parent, $parentNode);
                         }
                     }
+                    $data->set(
+                        'this.' .
+                        $object->config('package.raxon/parse.object.this.property'),
+                        $key
+                    );
                     $parse_data = clone $data;
                     //need the limit from this parser...
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);
@@ -637,11 +642,8 @@ class Parse
                     }                                                                                               
                     $input->{$key} = $parse->compile($value, $parse_data);
                     //$parentProperty = $data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty'));
-                    $data->set(
-                        'this.' .
-                        $object->config('package.raxon/parse.object.this.property'),
-                        $key
-                    );
+
+
                     /** below not
                     $data->set(
                         'this.' .

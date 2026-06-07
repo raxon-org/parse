@@ -642,7 +642,7 @@ class Parse
                         ddd($depth_root);
                     }
                     */
-                    if($depth === 2 && $key === 'author'){
+                    if($depth === 1 && $key === 'author'){
                         ddd($data);
                     }
                     $parse_data = clone $data;
@@ -653,7 +653,7 @@ class Parse
                         $parse->local($index, $this->local($index));
                     }                                                                                               
                     $input->{$key} = $parse->compile($value, $parse_data);
-                    if($depth === 2){
+                    if($depth === 1){
                         d($input);
                         d($key);
                         if($key === 'author'){

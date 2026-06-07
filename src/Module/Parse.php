@@ -579,6 +579,7 @@ class Parse
                     );
                 }
                 */
+                $compile = (object) [];
                 foreach($input as $key => $value){
                     if(
                         in_array(
@@ -653,8 +654,20 @@ class Parse
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
                     }                                                                                               
-                    $compile = $parse->compile($value, $parse_data);
-                    $data->set('this.' . $key, $compile);
+                    $compile->{$key} = $parse->compile($value, $parse_data);
+                    //$parentProperty = $data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty'));
+
+
+                    /** below not
+                    $data->set(
+                        'this.' .
+                        $object->config('package.raxon/parse.object.this.parentNode') .
+                        '.' .
+                        $object->config('package.raxon/parse.object.this.property'),
+                        $key
+                    );
+                     */
+                    $data->set('this.' . $key, $compile->{$key});
                     $this->options($options);
                 }
                 $options->depth--;

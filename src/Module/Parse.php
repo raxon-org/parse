@@ -668,7 +668,6 @@ class Parse
                     if($data->has('this.' . $object->config('package.raxon/parse.object.this.parentProperty'))){
                         d($data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty')));
                     }
-                    /*
                     $data->set(
                 'this.' .
                         $object->config('package.raxon/parse.object.this.property'),
@@ -681,29 +680,11 @@ class Parse
                         $object->config('package.raxon/parse.object.this.property'),
                         $key
                     );
-                    */
                     $parentProperty = $data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty'));
-                    d($key . '.' . $parentProperty);
-                    if($key === 'name' && $parentProperty === 'template'){
-                        //test can go if it is fixed...
-                        //is the bug input  = data, because name2 shows up aswell
-                        $input->name2 = $input->{$key} . ' ('. $depth .')';
-                    }
-                    if($key === 'name2' ){
-                        trace();
-                        ddd('found name2');
-                    }
                     if(is_object($input->{$key})){
                         $data->set('this.' . $key, clone $input->{$key});
                     } else {
                         $data->set('this.' . $key, $input->{$key});
-                    }
-
-                    if($data->has('this.name2')){
-//                        d($parentNode);
-//                        d($data->get('this'));
-                        d($data->get('this'));
-                        d($data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty')));
                     }
                     $this->options($options);
                 }

@@ -651,12 +651,12 @@ class Parse
                     );
                     if(is_object($input->{$key})){
                         $data->set('this.' . $key, clone $input->{$key});
-                        $data->set('this.' . $object->config('package.raxon/parse.object.this.rootNode') . $key, clone $input->{$key});
-                        $data->set('this.' . $object->config('package.raxon/parse.object.this.parentNode') . $key, clone $input->{$key});
+                        $data->set('this.' . $object->config('package.raxon/parse.object.this.rootNode') . '.'. $key, clone $input->{$key});
+                        $data->set('this.' . $object->config('package.raxon/parse.object.this.parentNode') . '.' . $key, clone $input->{$key});
                     } else {
                         $data->set('this.' . $key, $input->{$key});
-                        $data->set('this.' . $object->config('package.raxon/parse.object.this.rootNode') . $key, $input->{$key});
-                        $data->set('this.' . $object->config('package.raxon/parse.object.this.parentNode') . $key, $input->{$key});
+                        $data->set('this.' . $object->config('package.raxon/parse.object.this.rootNode') . ' .' . $key, $input->{$key});
+                        $data->set('this.' . $object->config('package.raxon/parse.object.this.parentNode') . '.' . $key, $input->{$key});
                     }
                     $this->options($options);
                 }

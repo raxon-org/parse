@@ -697,6 +697,7 @@ class Parse
                     } else {
                         $data->set('this.' . $key, $input->{$key});
                     }
+
                     if($data->has('this.name2')){
 //                        d($parentNode);
 //                        d($data->get('this'));

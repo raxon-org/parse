@@ -647,6 +647,7 @@ class Parse
                     if($depth === 2){
                         d($input);
                         d($key);
+                        d($data);
                     }
                     $data->set('this.' . $key, $input->{$key});                    
                     $this->options($options);

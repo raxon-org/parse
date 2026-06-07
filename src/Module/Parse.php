@@ -538,6 +538,13 @@ class Parse
                     )
                 );
                 */
+                if(!$data->has('this.' . $object->config('package.raxon/parse.object.this.rootNode'))){
+                    $data->set(
+                        'this.' .
+                        $object->config('package.raxon/parse.object.this.rootNode'),
+                        (object) []
+                    );
+                }                 
                 $data->set(
                     'this.' .
                     $object->config('package.raxon/parse.object.this.parentNode'),

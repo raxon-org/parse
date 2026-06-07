@@ -669,7 +669,7 @@ class Parse
                         d($data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty')));
                     }
                     $data->set(
-                'this.' .
+                        'this.' .
                         $object->config('package.raxon/parse.object.this.property'),
                         $key
                     );
@@ -682,6 +682,7 @@ class Parse
                     );
                     $parentProperty = $data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty'));
                     if(is_object($input->{$key})){
+                        ddd('yes');
                         $data->set('this.' . $key, clone $input->{$key});
                     } else {
                         $data->set('this.' . $key, $input->{$key});

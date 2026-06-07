@@ -724,11 +724,12 @@ class Parse
                         $property
                     );
                 }
+                $data->delete('this.' . $object->config('package.raxon/parse.object.this.property'));
                 unset($input->{$object->config('package.raxon/parse.object.this.property')});
                 //might need to set $data->set('this', $input);
 //                $object->config('package.raxon/parse.build.state.this.attribute', $attribute);
 //                $object->config('package.raxon/parse.build.state.this.property', $property);
-                return clone $input;
+                return $input;
             }
         }
         $source = $options->source ?? 'source';

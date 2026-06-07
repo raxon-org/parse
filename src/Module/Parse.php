@@ -687,7 +687,8 @@ class Parse
                         $key
                     );
                     */
-                    if($key === 'author'){
+                    $parentProperty = $data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty'));
+                    if($key === 'author' && $parentProperty === 'head'){
                         //test can go if it is fixed...
                         $input->{$key} = $input->{$key} . ' ('. $depth .')';
                     }

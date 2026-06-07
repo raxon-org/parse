@@ -681,6 +681,7 @@ class Parse
                         d($key);
                         d($depth);
                         d($data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty')));
+                        d($data->set('this.' . $object->config('package.raxon/parse.object.this.property'));
                     }
                     $this->options($options);
                 }

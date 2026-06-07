@@ -628,21 +628,6 @@ class Parse
                             $data->set($key_parent, $parentNode);
                         }
                     }
-                    /*
-                    $rootNode = $this->local($depth_root);
-                    if(
-                        $rootNode &&
-                        is_object($rootNode)
-                    ) {
-                        $key_parent = 'this.' . $object->config('package.raxon/parse.object.this.rootNode');
-                        $data->set($key_parent, $rootNode);
-                    } else {
-                        ddd($depth_root);
-                    }
-                    */
-                    if($depth === 1 && $key === 'author'){
-                        d($data);
-                    }
                     $parse_data = clone $data;
                     //need the limit from this parser...
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);
@@ -651,23 +636,6 @@ class Parse
                         $parse->local($index, $this->local($index));
                     }                                                                                               
                     $input->{$key} = $parse->compile($value, $parse_data);
-                    /*
-                    if($depth === 2){
-                        d($input);
-                        d($key);
-                        if($key === 'body'){
-                            d($data);
-                            ddd($parse_data);
-                        }
-                    }
-                    */
-                    if($parentNode){
-                        d($input);
-                        d($parse_data->get('this'));
-                    }
-                    if($data->has('this.' . $object->config('package.raxon/parse.object.this.parentProperty'))){
-                        d($data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty')));
-                    }
                     $data->set(
                         'this.' .
                         $object->config('package.raxon/parse.object.this.property'),
@@ -680,18 +648,14 @@ class Parse
                         $object->config('package.raxon/parse.object.this.property'),
                         $key
                     );
-                    $parentProperty = $data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty'));
+                    //$parentProperty = $data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty'));
                     if(is_object($input->{$key})){
-                        d($key);
                         $data->set('this.' . $key, clone $input->{$key});
                     } else {
-                        d($key);
                         $data->set('this.' . $key, $input->{$key});
                     }
                     $this->options($options);
                 }
-//                $temp = $this->storage();
-//                d($temp->get('script'));
                 $options->depth--;
                 $this->options($options);
                 if($property){

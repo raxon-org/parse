@@ -506,6 +506,9 @@ class Parse
                     $depth++;
                     //where is 0
 //                    $input->{'#depth'} = $depth;
+                    if($depth === 2){
+                        d($input);
+                    }
                     $this->local($depth, $input);
                 }
                 /*

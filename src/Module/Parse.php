@@ -683,6 +683,7 @@ class Parse
                     );
                     */
                     $parentProperty = $data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty'));
+                    d($key . '.' . $parentProperty);
                     if($key === 'name' && $parentProperty === 'template'){
                         //test can go if it is fixed...
                         //is the bug input  = data, because name2 shows up aswell

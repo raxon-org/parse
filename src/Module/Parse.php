@@ -643,7 +643,7 @@ class Parse
                     }
                     */
                     if($depth === 1 && $key === 'author'){
-                        ddd($data);
+                        d($data);
                     }
                     $parse_data = clone $data;
                     //need the limit from this parser...

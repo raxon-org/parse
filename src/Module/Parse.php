@@ -589,7 +589,10 @@ class Parse
                             $source = str_replace($i . 'x_', '', $source);
                         }
                     }
-                    if(is_scalar($value) || is_null($value)){
+                    if(
+                        is_scalar($value) ||
+                        is_null($value)
+                    ){
                         if(is_string($value)){
                             $hash = 'scalar_' . hash('sha256', $key . '_' . '{"scalar": "' . $value . '"}');
                         } else {
@@ -651,7 +654,8 @@ class Parse
                         d($input);
                         d($key);
                         if($key === 'body'){
-                            ddd($data);
+                            d($data);
+                            ddd($parse_data);
                         }
 
                     }

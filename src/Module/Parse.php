@@ -668,14 +668,14 @@ class Parse
                         d($depth);
                         d($key);
                         d($input);
-                        ddd($parentNode);
+                        d($parentNode);
                     }
                     if($data->has('this.' . $object->config('package.raxon/parse.object.this.parentProperty'))){
                         d($data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty')));
                     }
                     $data->set('this.' . $key, $input->{$key});
                     if($data->has('this.author')){
-                        d($parentNode);
+//                        d($parentNode);
 //                        d($data->get('this'));
                         d($depth);
                         d($data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty')));

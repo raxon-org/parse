@@ -578,7 +578,7 @@ class Parse
                         $property
                     );
                 }
-                */                
+                */
                 foreach($input as $key => $value){
                     if(
                         in_array(
@@ -654,26 +654,10 @@ class Parse
                         $parse->local($index, $this->local($index));
                     }                                                                                               
                     $input->{$key} = $parse->compile($value, $parse_data);
-                    //$parentProperty = $data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty'));
-
-
-                    /** below not
-                    $data->set(
-                        'this.' .
-                        $object->config('package.raxon/parse.object.this.parentNode') .
-                        '.' .
-                        $object->config('package.raxon/parse.object.this.property'),
-                        $key
-                    );
-                     */
                     if(is_object($input->{$key})){
                         $data->set('this.' . $key, clone $input->{$key});
-//                        $data->set('this.' . $object->config('package.raxon/parse.object.this.rootNode') . '.'. $key, clone $input->{$key});
-//                        $data->set('this.' . $object->config('package.raxon/parse.object.this.parentNode') . '.' . $key, clone $input->{$key});
                     } else {
                         $data->set('this.' . $key, $input->{$key});
-//                        $data->set('this.' . $object->config('package.raxon/parse.object.this.rootNode') . '.' . $key, $input->{$key});
-//                        $data->set('this.' . $object->config('package.raxon/parse.object.this.parentNode') . '.' . $key, $input->{$key});
                     }
                     $this->options($options);
                 }

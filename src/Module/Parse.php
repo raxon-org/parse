@@ -642,7 +642,7 @@ class Parse
                         ddd($depth_root);
                     }
                     */
-                    if($depth === 2 && $key === 'body'){
+                    if($depth === 2 && $key === 'author'){
                         ddd($data);
                     }
                     $parse_data = clone $data;
@@ -656,7 +656,7 @@ class Parse
                     if($depth === 2){
                         d($input);
                         d($key);
-                        if($key === 'body'){
+                        if($key === 'author'){
                             d($data);
                             ddd($parse_data);
                         }

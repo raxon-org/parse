@@ -677,6 +677,8 @@ class Parse
                     if($data->has('this.author')){
 //                        d($parentNode);
 //                        d($data->get('this'));
+                        d($input);
+                        d($key);
                         d($depth);
                         d($data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty')));
                     }

@@ -688,6 +688,10 @@ class Parse
                         //is the bug input  = data, because name2 shows up aswell
                         $input->name2 = $input->{$key} . ' ('. $depth .')';
                     }
+                    if($key === 'name2' ){
+                        trace();
+                        ddd('found name2');
+                    }
                     $data->set('this.' . $key, $input->{$key});
                     if($data->has('this.name')){
 //                        d($parentNode);

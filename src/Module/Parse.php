@@ -692,11 +692,15 @@ class Parse
                         trace();
                         ddd('found name2');
                     }
-                    $data->set('this.' . $key, $input->{$key});
-                    if($data->has('this.name')){
+                    if(is_object($input->{$key})){
+                        $data->set('this.' . $key, clone $input->{$key});
+                    } else {
+                        $data->set('this.' . $key, $input->{$key});
+                    }
+                    if($data->has('this.name2')){
 //                        d($parentNode);
 //                        d($data->get('this'));
-                        d($data->get('this.name2'));
+                        d($data->get('this'));
                         d($data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty')));
                     }
                     $this->options($options);

@@ -662,10 +662,7 @@ class Parse
                     }
                     */
                     if($parentNode){
-                        d($depth);
-                        d($key);
                         d($input);
-                        d($data->get('this'));
                         d($parse_data->get('this'));
                     }
                     if($data->has('this.' . $object->config('package.raxon/parse.object.this.parentProperty'))){
@@ -690,19 +687,13 @@ class Parse
                         //test can go if it is fixed...
                         //is the bug input  = data, because name2 shows up aswell
                         $input->name2 = $input->{$key} . ' ('. $depth .')';
-                        d($data->get('this'));
-                        d($input);
                     }
                     $data->set('this.' . $key, $input->{$key});
                     if($data->has('this.name')){
 //                        d($parentNode);
 //                        d($data->get('this'));
                         d($data->get('this.name2'));
-                        d($input);
-                        d($key);
-                        d($depth);
-                        d($data->get('this.' . $object->config('package.raxon/parse.object.this.property')));
-                        d($data->get('this'));
+                        d($data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty')));
                     }
                     $this->options($options);
                 }
@@ -724,7 +715,7 @@ class Parse
                         $property
                     );
                 }
-                $data->delete('this.' . $object->config('package.raxon/parse.object.this.property'));
+                //$data->delete('this.' . $object->config('package.raxon/parse.object.this.property'));
                 unset($input->{$object->config('package.raxon/parse.object.this.property')});
                 //might need to set $data->set('this', $input);
 //                $object->config('package.raxon/parse.build.state.this.attribute', $attribute);

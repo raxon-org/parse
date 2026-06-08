@@ -562,6 +562,7 @@ class Parse
                     $object->config('package.raxon/parse.object.this.parentProperty')
                 );
                 */
+                /*
                 if($parentProperty !== null){
                     $data->set(
                         'this.' .
@@ -571,7 +572,8 @@ class Parse
                         $parentProperty
                     );
                 }
-                
+                */
+
                 /*
                 $property = $data->get(
                     'this.' .

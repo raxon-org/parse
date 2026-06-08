@@ -561,10 +561,37 @@ class Parse
                         $object->config('package.raxon/parse.object.this.parentProperty')
                     )
                 );
+
                 $property = $data->get(
                     'this.' .
                     $object->config('package.raxon/parse.object.this.property')
                 );
+                /*
+                if($property){
+
+                    $data->set(
+                        'this.' .
+                        $object->config('package.raxon/parse.object.this.parentNode') .
+                        '.' .
+                        $object->config('package.raxon/parse.object.this.property'),
+                        $property
+                    );
+
+                }
+                */
+                /*
+                $property = $data->get('this.' . $object->config('package.raxon/parse.object.this.property'));
+                breakpoint($property);
+                if($property){
+                    $data->set(
+                        'this.' .
+                        $object->config('package.raxon/parse.object.this.parentNode') .
+                        '.' .
+                        $object->config('package.raxon/parse.object.this.property'),
+                        $property
+                    );
+                }
+                */
                 foreach($input as $key => $value){
                     if(
                         in_array(
@@ -651,6 +678,15 @@ class Parse
                         $object->config('package.raxon/parse.object.this.property'),
                         $property
                     );
+                    /*
+                    $data->set(
+                        'this.' .
+                        $object->config('package.raxon/parse.object.this.parentNode') .
+                        '.' .
+                        $object->config('package.raxon/parse.object.this.property'),
+                        $property
+                    );
+                    */
                 }
                 //$data->delete('this.' . $object->config('package.raxon/parse.object.this.property'));
                 unset($input->{$object->config('package.raxon/parse.object.this.property')});

@@ -580,6 +580,7 @@ class Parse
                     );
                 }
                 */
+                $parse_data = null;
                 foreach($input as $key => $value){
                     if(
                         in_array(
@@ -647,7 +648,8 @@ class Parse
                         $object->config('package.raxon/parse.object.this.property'),
                         $key
                     );
-                    $parse_data = Core::deep_clone($data);
+                    d($data->get('this'));
+                    $parse_data = new Data($data->data());
                     //need the limit from this parser...
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);
                     $parse->limit($this->limit());

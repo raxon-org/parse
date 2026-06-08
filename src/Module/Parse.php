@@ -663,7 +663,7 @@ class Parse
                     );
                     $property = $data->get(
                         'this.' .
-                        $object->config('package.raxon/parse.object.this.property')
+                        $object->config('package.raxon/parse.object.this.parentProperty')
                     );
                     if($property !== null){
                         $data->set(

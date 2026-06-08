@@ -427,12 +427,12 @@ class Parse
                             $data->set($key_parent, $parentNode);
                         }
                     }
-                    $parse_data = clone $data;
+                    $parse_data = new Data(Core::deep_clone($data->data()));
                     $parse->limit($this->limit());
                     $json = $parse->compile($json, $parse_data, $is_debug);                                               
                     $input = Core::object($json, Core::OBJECT);                                    
                 } else {
-                    $parse_data = clone $data;
+                    $parse_data = new Data(Core::deep_clone($data->data()));
                     foreach($input as $key => $value){
     //                    $temp_source = $options->source ?? 'source';
     //                    $temp_class = $options->class;
@@ -637,6 +637,7 @@ class Parse
                     $parse_options->class = Build::class_name($parse_options->source);
                     $parse_options->depth = $depth;
 //                    $this->parse_set_options($options);
+                    //need parent property
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
                     //$data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.rootNode'), (object) []);
@@ -653,14 +654,18 @@ class Parse
                         $key_parent = 'this';
                         $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
                         $data->set($key_parent, $parentNode);
+                        $parentProperty = null;
                     } else {
                         $key_parent = 'this';
                         for($index = $depth; $index >= 0; $index--){
                             $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
                             $parentNode = $this->local($index); //input is parentNode
+                            $parentNode->{$object->config('package.raxon/parse.object.this.property')} = $data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty'));
 //                            $parentNode->{'#depth'} = $index;
+                            /*
                             if(!property_exists($parentNode, $object->config('package.raxon/parse.object.this.property'))){
                                 $i = $index - 1;
+//                                d($parentNode->{$object->config('package.raxon/parse.object.this.property')});
                                 while($i >= 0){
                                     $parentParentNode = $this->local($i);
                                     if(property_exists($parentParentNode, $object->config('package.raxon/parse.object.this.property'))){
@@ -670,6 +675,7 @@ class Parse
                                     $i--;
                                 }
                             }
+                            */
                             $data->set($key_parent, $parentNode);
 
                         }
@@ -714,7 +720,8 @@ class Parse
                     $parse->limit($this->limit());
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
-                    }                                                                                               
+                    }
+                    $data->set('this.' . $object->config('package.raxon/parse.object.this.parentProperty'), $key);
                     $compile = $parse->compile($value, $parse_data);
                     $data->set('this.' . $key, $compile);
                     $input->{$key} = $compile;

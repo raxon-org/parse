@@ -552,6 +552,14 @@ class Parse
                     $object->config('package.raxon/parse.object.this.parentNode'),
                     $input
                 );
+                $data->set(
+                    'this.' .
+                    $object->config('package.raxon/parse.object.this.parentNode') .
+                    '.' .
+                    $object->config('package.raxon/parse.object.this.property'),
+                    'this.' .
+                    $object->config('package.raxon/parse.object.this.property')
+                );
                 $parentProperty = $data->get(
                     'this.' .
                     $object->config('package.raxon/parse.object.this.parentProperty')
@@ -561,7 +569,7 @@ class Parse
                         'this.' .
                         $object->config('package.raxon/parse.object.this.parentNode') .
                         '.' .
-                        $object->config('package.raxon/parse.object.this.property'),
+                        $object->config('package.raxon/parse.object.this.parentProperty'),
                         $parentProperty
                     );
                 }

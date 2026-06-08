@@ -674,11 +674,13 @@ class Parse
 
                         }
                     }
+                    /*
                     $data->set(
                         'this.' .
                         $object->config('package.raxon/parse.object.this.property'),
                         $key
                     );
+                    */
                     /*
                     $property = $data->get(
                         'this.' .

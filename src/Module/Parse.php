@@ -655,6 +655,7 @@ class Parse
                     }                                                                                               
                     $compile = $parse->compile($value, $parse_data);
                     $data->set('this.' . $key, $compile);
+                    $input->{$key} = $compile;
                     /*
                     if(is_object($input->{$key})){
                         $data->set('this.' . $input->{$key});

@@ -638,7 +638,7 @@ class Parse
                     $parse_options->depth = $depth;
 //                    $this->parse_set_options($options);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
-                    $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
+                    //$data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.rootNode'), (object) []);
                     $input = $this->local($depth, $input);
 //                    $data->set( $key_parent . '.#depth', $depth);

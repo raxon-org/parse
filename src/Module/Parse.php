@@ -656,7 +656,9 @@ class Parse
                         $parse->local($index, $this->local($index));
                     }                                                                                               
                     $compile = $parse->compile($value, $parse_data);
-                    $data->set('this.' . $key, $compile);
+                    if($data->has('this.' . $key)){
+                        $data->set('this.' . $key, $compile);
+                    }
                     $input->{$key} = $compile;
                     /*
                     if(is_object($input->{$key})){

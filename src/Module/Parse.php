@@ -664,6 +664,7 @@ class Parse
                             if(!property_exists($parentNode, $object->config('package.raxon/parse.object.this.parentProperty'))){
                                 if($index < $depth){
                                     $parentParentNode = $this->local($index + 1);
+                                    ddd($parentParentNode);
                                     ddd($parentParentNode->{$object->config('package.raxon/parse.object.this.property')});;
                                 }
 //                                $parentNode->{$object->config('package.raxon/parse.object.this.parentProperty')} = $parentProperty;

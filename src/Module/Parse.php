@@ -251,14 +251,13 @@ class Parse
      * @throws TemplateException
      */
     public function compile(mixed $input, array|object|null $data=null, $is_debug=false): mixed
-    {        
+    {
         $start = microtime(true);
         if(is_array($data)){
             $data = new Data($data);
         }
         elseif(is_object($data)){
             if($data instanceof Data){
-                //might need a deepclone here...
                 //nothing
             } else {
                 $data = new Data($data);
@@ -277,7 +276,7 @@ class Parse
         $options->class = Build::class_name($options->source);
         if($is_debug){
             $object->config('package.raxon/parse.build.state.input.debug', true);
-        }        
+        }
         /*
         if($object->config('package.raxon/parse.build.state.input.debug') === true){
             d($input);
@@ -373,27 +372,27 @@ class Parse
                 }
                 //when parser array goes compiling then json stringify the state of the array to compile it one time instead of every single cell.
                 //we could even keep this working this way, because it stays the same in the array (except the key)
-                /*                
-                */    
-                
+                /*
+                */
+
                 if(
                     property_exists($options, 'array_fast') &&
                     $options->array_fast === true
                 ){
-                    $json = Core::object($input, Core::OBJECT_JSON_LINE);                
+                    $json = Core::object($input, Core::OBJECT_JSON_LINE);
                     //$json = str_replace(['\\/'],['/'], $json);
                     $hash = hash('sha256', $json);
                     $parse_options = (object) [];
                     $parse_options->source = 'Internal_' . $hash;
-    //                    $options->source = 'internal_' . Core::uuid(); //wrong, hash should not be unique but referable
+                    //                    $options->source = 'internal_' . Core::uuid(); //wrong, hash should not be unique but referable
                     $parse_options->source_root = $options->source ?? 'source';
                     $parse_options->extension = $options->extension;
                     $parse_options->class = Build::class_name($parse_options->source);
-    //                    $this->parse_set_options($options);
-    //                $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
-    //                    $data->set('this.#depth', $depth);
+                    //                    $this->parse_set_options($options);
+                    //                $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
+                    //                    $data->set('this.#depth', $depth);
                     $parse_options->depth = $depth;
-                    $parse_data = Core::deep_clone($data);
+                    $parse_data = new Data(Core::deep_clone($data->data()));
                     //need the limit from this parser...
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);
                     $parse->limit($this->limit());
@@ -429,13 +428,13 @@ class Parse
                     }
                     $parse_data = new Data(Core::deep_clone($data->data()));
                     $parse->limit($this->limit());
-                    $json = $parse->compile($json, $parse_data, $is_debug);                                               
-                    $input = Core::object($json, Core::OBJECT);                                    
+                    $json = $parse->compile($json, $parse_data, $is_debug);
+                    $input = Core::object($json, Core::OBJECT);
                 } else {
                     $parse_data = new Data(Core::deep_clone($data->data()));
                     foreach($input as $key => $value){
-    //                    $temp_source = $options->source ?? 'source';
-    //                    $temp_class = $options->class;
+                        //                    $temp_source = $options->source ?? 'source';
+                        //                    $temp_class = $options->class;
                         if(is_scalar($value) || is_null($value)){
                             if(is_string($value)){
                                 $hash = 'scalar_' . hash('sha256', $key . '_' . '{"scalar": "' . $value . '"}');
@@ -447,14 +446,14 @@ class Parse
                         }
                         $parse_options = (object) [];
                         $parse_options->source = 'Internal_' . $hash;
-    //                    $options->source = 'internal_' . Core::uuid(); //wrong, hash should not be unique but referable
+                        //                    $options->source = 'internal_' . Core::uuid(); //wrong, hash should not be unique but referable
                         $parse_options->source_root = $options->source ?? 'source';
                         $parse_options->extension = $options->extension;
                         $parse_options->class = Build::class_name($parse_options->source);
-    //                    $this->parse_set_options($options);
+                        //                    $this->parse_set_options($options);
                         $parse_data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
-    //                    $data->set('this.#depth', $depth);
-                        $parse_options->depth = $depth;                                              
+                        //                    $data->set('this.#depth', $depth);
+                        $parse_options->depth = $depth;
                         $parse = new Parse($object, $parse_data, $flags, $parse_options);
                         for($index = $depth; $index >= 0; $index--){
                             $parse->local($index, $this->local($index));
@@ -530,7 +529,7 @@ class Parse
                 }
 //                $attribute = $object->config('package.raxon/parse.build.state.this.attribute');
 //                $property = $object->config('package.raxon/parse.build.state.this.property');
-                /*
+
                 $data->set(
                     'this.' .
                     $object->config('package.raxon/parse.object.this.parentProperty'),
@@ -539,7 +538,6 @@ class Parse
                         $object->config('package.raxon/parse.object.this.property')
                     )
                 );
-                */
 
                 if(!$data->has('this.' . $object->config('package.raxon/parse.object.this.rootNode'))){
                     $data->set(
@@ -553,28 +551,10 @@ class Parse
                     $object->config('package.raxon/parse.object.this.parentNode'),
                     $input
                 );
-                /*
-                $parentProperty = $data->get(
-                    'this.' .
-                    $object->config('package.raxon/parse.object.this.parentProperty')
-                );
-                if($parentProperty !== null){
-                    $data->set(
-                        'this.' .
-                        $object->config('package.raxon/parse.object.this.parentNode') .
-                        '.' .
-                        $object->config('package.raxon/parse.object.this.parentProperty'),
-                        $parentProperty
-                    );
-                }
-                */
-                /*
                 $property = $data->get(
                     'this.' .
                     $object->config('package.raxon/parse.object.this.property')
                 );
-                */
-                /*
                 if($property){
                     /*
                     $data->set(
@@ -584,7 +564,7 @@ class Parse
                         $object->config('package.raxon/parse.object.this.property'),
                         $property
                     );
-
+                    */
                 }
                 /*
                 $property = $data->get('this.' . $object->config('package.raxon/parse.object.this.property'));
@@ -599,7 +579,6 @@ class Parse
                     );
                 }
                 */
-                $parse_data = null;
                 foreach($input as $key => $value){
                     if(
                         in_array(
@@ -637,9 +616,8 @@ class Parse
                     $parse_options->class = Build::class_name($parse_options->source);
                     $parse_options->depth = $depth;
 //                    $this->parse_set_options($options);
-                    //need parent property
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.property'), $key);
-                    //$data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
+                    $data->set('this.' . $object->config('package.raxon/parse.object.this.attribute'), $key);
                     $data->set('this.' . $object->config('package.raxon/parse.object.this.rootNode'), (object) []);
                     $input = $this->local($depth, $input);
 //                    $data->set( $key_parent . '.#depth', $depth);
@@ -654,76 +632,20 @@ class Parse
                         $key_parent = 'this';
                         $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
                         $data->set($key_parent, $parentNode);
-                        $parentProperty = null;
                     } else {
                         $key_parent = 'this';
                         for($index = $depth; $index >= 0; $index--){
                             $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
-                            $parentNode = $this->local($index); //input is parentNode
-                            $parentNode->{$object->config('package.raxon/parse.object.this.property')} = $key;
-                            if(!property_exists($parentNode, $object->config('package.raxon/parse.object.this.parentProperty'))){
-                                if($index < $depth){
-                                    $parentParentNode = $this->local($index + 1);
-                                    ddd($parentParentNode);
-                                    ddd($parentParentNode->{$object->config('package.raxon/parse.object.this.property')});;
-                                }
-//                                $parentNode->{$object->config('package.raxon/parse.object.this.parentProperty')} = $parentProperty;
-                            }
-//                                $object->config('package.raxon/parse.object.this.property'), $key);
-                            //$parentNode->{$object->config('package.raxon/parse.object.this.property')} = $data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty'));
+                            $parentNode = $this->local($index); //input is parentnode
 //                            $parentNode->{'#depth'} = $index;
-                            /*
-                            if(!property_exists($parentNode, $object->config('package.raxon/parse.object.this.property'))){
-                                $i = $index - 1;
-//                                d($parentNode->{$object->config('package.raxon/parse.object.this.property')});
-                                while($i >= 0){
-                                    $parentParentNode = $this->local($i);
-                                    if(property_exists($parentParentNode, $object->config('package.raxon/parse.object.this.property'))){
-                                        $parentNode->{$object->config('package.raxon/parse.object.this.property')} = $parentParentNode->{$object->config('package.raxon/parse.object.this.property')};
-                                        break;
-                                    }
-                                    $i--;
-                                }
-                            }
-                            */
                             $data->set($key_parent, $parentNode);
-
                         }
                     }
-                    /*
                     $data->set(
                         'this.' .
                         $object->config('package.raxon/parse.object.this.property'),
                         $key
                     );
-                    */
-                    /*
-                    $property = $data->get(
-                        'this.' .
-                        $object->config('package.raxon/parse.object.this.parentProperty')
-                    );
-                    if($property !== null){
-                        $data->set(
-                            'this.' .
-                            $object->config('package.raxon/parse.object.this.parentNode') .
-                            '.' .
-                            $object->config('package.raxon/parse.object.this.property'),
-                            $property
-                        );
-                    }
-                    */
-
-                    /* already done
-                    if($property){
-                        $data->set(
-                            'this.' .
-                            $object->config('package.raxon/parse.object.this.parentNode') .
-                            '.' .
-                            $object->config('package.raxon/parse.object.this.property'),
-                            $property
-                        );
-                    }
-                    */
                     $parse_data = new Data(Core::deep_clone($data->data()));
                     //need the limit from this parser...
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);
@@ -731,21 +653,12 @@ class Parse
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
                     }
-                    $compile = $parse->compile($value, $parse_data);
-                    $data->set('this.' . $key, $compile);
-                    $input->{$key} = $compile;
-                    /*
-                    if(is_object($input->{$key})){
-                        $data->set('this.' . $input->{$key});
-                    } else {
-                        $data->set('this.' . $key, $input->{$key});
-                    }
-                    */
+                    $input->{$key} = $parse->compile($value, $parse_data);
+                    $data->set('this.' . $key, $input->{$key});
                     $this->options($options);
                 }
                 $options->depth--;
                 $this->options($options);
-                /*
                 if($property){
                     $data->set(
                         'this.' .
@@ -760,11 +673,10 @@ class Parse
                         $object->config('package.raxon/parse.object.this.property'),
                         $property
                     );
-
+                    */
                 }
-                */
                 //$data->delete('this.' . $object->config('package.raxon/parse.object.this.property'));
-                //unset($input->{$object->config('package.raxon/parse.object.this.property')});
+                unset($input->{$object->config('package.raxon/parse.object.this.property')});
                 //might need to set $data->set('this', $input);
 //                $object->config('package.raxon/parse.build.state.this.attribute', $attribute);
 //                $object->config('package.raxon/parse.build.state.this.property', $property);
@@ -858,7 +770,7 @@ class Parse
             if($is_debug){
                 // d($input);
                 // d($token);
-            }            
+            }
             $url_json = $dir . $options->class . $object->config('extension.json');
             File::write($url_json, Core::object($token, Core::OBJECT_JSON));
             if($cache_url){
@@ -918,7 +830,7 @@ class Parse
                     ]
                 ];
                 echo Core::object($output, Core::OBJECT_JSON) . PHP_EOL;
-            }            
+            }
             return Parse::result($result);
         }
         return null;
@@ -929,8 +841,8 @@ class Parse
      */
     public static function readback($object, $parse, $type=null): mixed
     {
-        $data = $parse->data();        
-        $read = $object->data($type);        
+        $data = $parse->data();
+        $read = $object->data($type);
         if($read === null){
             $object->data($type, $data->get($type));
         }

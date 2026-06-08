@@ -665,6 +665,7 @@ class Parse
                     */
                     $this->options($options);
                 }
+                d($data->get('this'));
                 $options->depth--;
                 $this->options($options);
                 if($property){

@@ -650,7 +650,7 @@ class Parse
                         $key_parent = 'this';
                         for($index = $depth; $index >= 0; $index--){
                             $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
-                            $parentNode = $this->local($index); //input is parentnode
+                            $parentNode = $this->local($index); //input is parentNode
 //                            $parentNode->{'#depth'} = $index;
                             $data->set($key_parent, $parentNode);
                         }
@@ -660,6 +660,15 @@ class Parse
                         $object->config('package.raxon/parse.object.this.property'),
                         $key
                     );
+                    if($property){
+                        $data->set(
+                            'this.' .
+                            $object->config('package.raxon/parse.object.this.parentNode') .
+                            '.' .
+                            $object->config('package.raxon/parse.object.this.property'),
+                            $property
+                        );
+                    }
                     $parse_data = new Data(Core::deep_clone($data->data()));
                     //need the limit from this parser...
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);

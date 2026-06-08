@@ -648,7 +648,6 @@ class Parse
                         $object->config('package.raxon/parse.object.this.property'),
                         $key
                     );
-                    d($data->get('this'));
                     $parse_data = new Data($data->data());
                     //need the limit from this parser...
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);

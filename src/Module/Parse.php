@@ -258,6 +258,7 @@ class Parse
         }
         elseif(is_object($data)){
             if($data instanceof Data){
+                //might need a deepclone here...
                 //nothing
             } else {
                 $data = new Data($data);
@@ -392,7 +393,7 @@ class Parse
     //                $data->set('this.' . $object->config('package.raxon/parse.object.this.key'), $key);
     //                    $data->set('this.#depth', $depth);
                     $parse_options->depth = $depth;
-                    $parse_data = clone $data;
+                    $parse_data = Core::deep_clone($data);
                     //need the limit from this parser...
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);
                     $parse->limit($this->limit());

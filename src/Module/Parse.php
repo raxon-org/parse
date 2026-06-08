@@ -317,6 +317,7 @@ class Parse
                 $key_parent = 'this.' . $object->config('package.raxon/parse.object.this.rootNode');
                 $data->set($key_parent, $rootNode);
             }
+            $parentProperty = $data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty'));
             //url, key & attribute might be already set.
             /*
             $url = $data->get('this.' . $object->config('package.raxon/parse.object.this.url'));
@@ -504,11 +505,13 @@ class Parse
                     $key_parent = 'this';
                     $key_parent .= '.' . $object->config('package.raxon/parse.object.this.rootNode');
                     $data->set($key_parent, $input);
+                    $parentProperty = null;
                 } else {
                     $depth++;
                     //where is 0
 //                    $input->{'#depth'} = $depth;
                     $input = $this->local($depth, $input);
+                    $parentProperty = $data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty'));
                 }
                 /*
                 $rootNode = $this->local($depth_root);
@@ -558,6 +561,7 @@ class Parse
                     'this.' .
                     $object->config('package.raxon/parse.object.this.parentProperty')
                 );
+                */
                 if($parentProperty !== null){
                     $data->set(
                         'this.' .
@@ -567,7 +571,7 @@ class Parse
                         $parentProperty
                     );
                 }
-                */
+                
                 /*
                 $property = $data->get(
                     'this.' .
@@ -710,6 +714,7 @@ class Parse
                     */
                     $parse_data = new Data(Core::deep_clone($data->data()));
                     //need the limit from this parser...
+                    $data->set('this.' . $object->config('package.raxon/parse.object.this.parentProperty', $key));
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);
                     $parse->limit($this->limit());
                     for($index = $depth; $index >= 0; $index--){
@@ -718,8 +723,6 @@ class Parse
                     $compile = $parse->compile($value, $parse_data);
                     $data->set('this.' . $key, $compile);
                     $input->{$key} = $compile;
-                    d($data->get('this.#parentNode'));
-                    d($input);
                     /*
                     if(is_object($input->{$key})){
                         $data->set('this.' . $input->{$key});

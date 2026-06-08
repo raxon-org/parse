@@ -552,7 +552,6 @@ class Parse
                     $object->config('package.raxon/parse.object.this.parentNode'),
                     $input
                 );
-                /*
                 $data->set(
                     'this.' .
                     $object->config('package.raxon/parse.object.this.parentNode') .
@@ -563,7 +562,6 @@ class Parse
                         $object->config('package.raxon/parse.object.this.parentProperty')
                     )
                 );
-                */
                 $property = $data->get(
                     'this.' .
                     $object->config('package.raxon/parse.object.this.property')
@@ -660,6 +658,7 @@ class Parse
                         $object->config('package.raxon/parse.object.this.property'),
                         $key
                     );
+                    /* already done
                     if($property){
                         $data->set(
                             'this.' .
@@ -669,6 +668,7 @@ class Parse
                             $property
                         );
                     }
+                    */
                     $parse_data = new Data(Core::deep_clone($data->data()));
                     //need the limit from this parser...
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);

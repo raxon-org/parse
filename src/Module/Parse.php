@@ -648,7 +648,7 @@ class Parse
                         $object->config('package.raxon/parse.object.this.property'),
                         $key
                     );
-                    $parse_data = new Data($data->data());
+                    $parse_data = new Data(Core::deep_clone($data->data()));
                     //need the limit from this parser...
                     $parse = new Parse($object, $parse_data, $flags, $parse_options);
                     $parse->limit($this->limit());
@@ -656,7 +656,6 @@ class Parse
                         $parse->local($index, $this->local($index));
                     }                                                                                               
                     $compile = $parse->compile($value, $parse_data);
-                    $data = $parse_data;
                     $data->set('this.' . $key, $compile);
                     $input->{$key} = $compile;
                     /*

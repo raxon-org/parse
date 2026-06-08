@@ -660,6 +660,8 @@ class Parse
                         for($index = $depth; $index >= 0; $index--){
                             $key_parent .= '.' . $object->config('package.raxon/parse.object.this.parentNode');
                             $parentNode = $this->local($index); //input is parentNode
+                            $parentNode->{$object->config('package.raxon/parse.object.this.property')} = $key;
+//                                $object->config('package.raxon/parse.object.this.property'), $key);
                             //$parentNode->{$object->config('package.raxon/parse.object.this.property')} = $data->get('this.' . $object->config('package.raxon/parse.object.this.parentProperty'));
 //                            $parentNode->{'#depth'} = $index;
                             /*
@@ -721,11 +723,6 @@ class Parse
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
                     }
-                    $data->set(
-                        'this.' .
-                        $object->config('package.raxon/parse.object.this.parentNode') .
-                        '.' .
-                        $object->config('package.raxon/parse.object.this.property'), $key);
                     $compile = $parse->compile($value, $parse_data);
                     $data->set('this.' . $key, $compile);
                     $input->{$key} = $compile;

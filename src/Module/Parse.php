@@ -560,6 +560,7 @@ class Parse
                     $data->get(
                         'this.' .
                         $object->config('package.raxon/parse.object.this.property')
+                    )
                 );
                 $parentProperty = $data->get(
                     'this.' .

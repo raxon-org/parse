@@ -653,12 +653,15 @@ class Parse
                     for($index = $depth; $index >= 0; $index--){
                         $parse->local($index, $this->local($index));
                     }                                                                                               
-                    $input->{$key} = $parse->compile($value, $parse_data);
+                    $compile = $parse->compile($value, $parse_data);
+                    $data->set('this.' . $key, $compile);
+                    /*
                     if(is_object($input->{$key})){
-                        $data->set('this.' . $key, clone $input->{$key});
+                        $data->set('this.' . $input->{$key});
                     } else {
                         $data->set('this.' . $key, $input->{$key});
                     }
+                    */
                     $this->options($options);
                 }
                 $options->depth--;

@@ -164,13 +164,11 @@ class Value
                 if(
                     $char['value'] === '"' &&
                     (
-                        $previous !== '\\'
-                        /* disabled @2026-06-10
+                        $previous !== '\\' ||
                         (
                             $previous === '\\' &&
                             $previous_previous === '\\'
                         )
-                        */
                     ) &&
                     $is_double_quoted === false &&
                     $is_single_quoted === false &&
@@ -181,13 +179,11 @@ class Value
                 elseif(
                     $char['value'] === '"' &&
                     (
-                        $previous !== '\\'
-                        /* disabled @2026-06-10
+                        $previous !== '\\' ||
                         (
                             $previous === '\\' &&
                             $previous_previous === '\\'
                         )
-                        */
                     ) &&
                     $is_double_quoted !== false &&
                     $is_single_quoted === false &&
@@ -265,22 +261,13 @@ class Value
                     $is_double_quoted_backslash = false;
                 }
                 elseif(
-                    $char['value'] ==='\'' &&
-                    $previous == '\'' &&
-                    $previous_previous === '\\'
-                ){
-
-                }
-                elseif(
                     $char['value'] === '\'' &&
                     (
-                        $previous !== '\\'
-                        /* disabled @2026-06-10
+                        $previous !== '\\' ||
                         (
                             $previous === '\\' &&
                             $previous_previous === '\\'
                         )
-                        */
                     ) &&
                     $is_single_quoted === false &&
                     $is_double_quoted === false &&
@@ -291,13 +278,11 @@ class Value
                 elseif(
                     $char['value'] === '\'' &&
                     (
-                        $previous !== '\\'
-                        /* disabled @2026-06-10
+                        $previous !== '\\' ||
                         (
                             $previous === '\\' &&
                             $previous_previous === '\\'
                         )
-                        */
                     ) &&
                     $is_single_quoted !== false &&
                     $is_double_quoted === false &&
@@ -655,13 +640,11 @@ class Value
                 $is_single_quote === false &&
                 $is_double_quote === false &&
                 (
-                    $previous !== '\\'
-                    /* disabled @2026-06-10
+                    $previous !== '\\' ||
                     (
                         $previous === '\\' &&
                         $previous_previous === '\\'
                     )
-                    */
                 )
             ){
                 $is_single_quote = true;
@@ -677,13 +660,11 @@ class Value
                 $is_single_quote === true &&
                 $is_double_quote === false &&
                 (
-                    $previous !== '\\'
-                    /* disabled @2026-06-10
+                    $previous !== '\\' ||
                     (
                         $previous === '\\' &&
                         $previous_previous === '\\'
                     )
-                    */
                 )
             ){
                 $is_single_quote = false;
@@ -699,13 +680,11 @@ class Value
                 $is_single_quote === false &&
                 $is_double_quote === false &&
                 (
-                    $previous !== '\\'
-                    /* disabled @2026-06-10
+                    $previous !== '\\' ||
                     (
                         $previous === '\\' &&
                         $previous_previous === '\\'
                     )
-                    */
                 )
             ){
                 $is_double_quote = true;
@@ -721,13 +700,11 @@ class Value
                 $is_single_quote === false &&
                 $is_double_quote === true &&
                 (
-                    $previous !== '\\'
-                    /* disabled @2026-06-10
+                    $previous !== '\\' ||
                     (
                         $previous === '\\' &&
                         $previous_previous === '\\'
                     )
-                    */
                 )
             ){
                 $is_double_quote = false;

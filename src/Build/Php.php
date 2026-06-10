@@ -5150,7 +5150,7 @@ class Php {
                         $item_validator = $item  . ';';
                         $result_validator[] = $item_validator;
                         if($variable_name === 'li.data.dir'){
-                            ddd($result_validator);
+                            ddd($item_validator);
                         }
 
                         if($separator !== null){

@@ -280,7 +280,7 @@ class Value
                 elseif(
                     $char['value'] === '\'' &&
                     (
-                        $previous !== '\\' 
+                        $previous !== '\\'
                         /* disabled @2026-06-10
                         (
                             $previous === '\\' &&

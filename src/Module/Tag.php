@@ -60,13 +60,7 @@ class Tag
                 $is_single_quoted === false &&
 //                $is_double_quoted === false &&                //needs to be off
 //                $is_double_quoted_backslash === false &&      //needs to be off
-                (
-                    $previous !== '\\' ||
-                    (
-                        $previous !== '\'' &&
-                        $previous_2x !== '\\'
-                    )
-                )
+                $previous !== '\\'
             ){                
                 if($text !== ''){                    
                     $explode = explode("\n", $text);
@@ -128,15 +122,9 @@ class Tag
                 (
                     $previous !== '\\' ||
                     (
-                        $previous !== '\'' &&
-                        $previous_2x !== '\\'
-                    )
-                    /* @ disabled 2026-06-10
-                    (
                         $previous === '\\' && 
                         $previous_2x === '\\'
                     )
-                     */
                 )
             ){
                 $is_single_quoted = true;

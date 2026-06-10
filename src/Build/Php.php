@@ -5149,10 +5149,6 @@ class Php {
                         ;                                         
                         $item_validator = $item  . ';';
                         $result_validator[] = $item_validator;
-                        if($variable_name === 'li.data.dir'){
-                            ddd($item_validator);
-                        }
-
                         if($separator !== null){
                             $item .= $separator;
                         } else {
@@ -5386,8 +5382,6 @@ class Php {
                 }
             }
             catch(Exception $exception){
-                d($result_validator);
-                dd($exception);
                 if(
                     array_key_exists('is_multiline', $record) &&
                     $record['is_multiline'] === true

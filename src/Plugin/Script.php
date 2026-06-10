@@ -20,6 +20,7 @@ trait Script {
                 $value[] = '<script type="module">';
                 $value[] = $script;
                 $value[] = '</script>';
+                d('added module');
             break;
             case 'script':
                 $value[] = '<script type="text/javascript">';
@@ -31,13 +32,7 @@ trait Script {
             break;
         }
         $name = 'script';
-        $list = $data->get($name);
-        if(!is_array($list)){
-            $list = [];
-        }
-        if(empty($list)){
-            $list = [];
-        }
+        $list = $data->get($name) ?? [];
         $value = implode(PHP_EOL, $value);        
         $list[] = $value;        
         $data->set($name, $list);        

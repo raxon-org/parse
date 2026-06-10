@@ -265,13 +265,16 @@ class Value
                     $is_double_quoted_backslash = false;
                 }
                 elseif(
+                    $char['value'] ==='\'' &&
+                    $previous == '\'' &&
+                    $previous_previous === '\\'
+                ){
+
+                }
+                elseif(
                     $char['value'] === '\'' &&
                     (
-                        $previous !== '\\' ||
-                        (
-                            $previous !== '\'' &&
-                            $previous_previous !== '\\'
-                        )
+                        $previous !== '\\'
                         /* disabled @2026-06-10
                         (
                             $previous === '\\' &&
@@ -288,12 +291,7 @@ class Value
                 elseif(
                     $char['value'] === '\'' &&
                     (
-                        $previous !== '\\' ||
-                        (
-                            $previous !== '\'' &&
-                            $previous_previous !== '\\'
-                        )
-
+                        $previous !== '\\'
                         /* disabled @2026-06-10
                         (
                             $previous === '\\' &&

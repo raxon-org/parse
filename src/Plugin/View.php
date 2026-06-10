@@ -10,11 +10,13 @@
  */
 namespace Plugin;
 
+use Raxon\App;
 use Raxon\Module\Controller;
 use Raxon\Module\Data;
 use Raxon\Module\File;
 
 use Exception;
+use Raxon\Parse\Module\Parse;
 
 trait View {
 
@@ -34,11 +36,6 @@ trait View {
         $mtime = File::mtime($url);
         $parse = $this->parse();
         $storage = $this->storage();
-        d($object->data());
-        d($this->data());
-        d($data);
-        ddd($storage);
-
         $storage->data('raxon.org.parse.view.source.url', $url);
         $storage->data('raxon.org.parse.view.source.mtime', $mtime);
 
@@ -85,9 +82,9 @@ trait View {
             }
             $storage->data('link', array_merge($link, $data_link));
         };
-        d($object->get('script'));
-        d($storage);
-        $this->storage($storage);                
+        $this->storage($storage);
+        Parse::readback($object, $parse, App::SCRIPT);
+        Parse::readback($object, $parse, App::LINK);
         return $read;
     }
 

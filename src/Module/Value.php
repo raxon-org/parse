@@ -267,7 +267,7 @@ class Value
                 elseif(
                     $char['value'] === '\'' &&
                     (
-                        $previous !== '\\'
+                        $previous !== '\\' ||
                         (
                             $previous !== '\'' &&
                             $previous_previous !== '\\'

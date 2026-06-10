@@ -56,9 +56,7 @@ trait View {
         $read = $parse->compile($read, $data);
         $parse->options($options);
         $data_script = $data->data('script');
-        d($data_script);
         $script = $storage->data('script');
-        d($script);
         if(!empty($data_script) && empty($script)){
             $storage->data('script', $data_script);
         }
@@ -83,6 +81,8 @@ trait View {
             }
             $storage->data('link', array_merge($link, $data_link));
         };
+        d($object->get('script'));
+        d($storage);
         $this->storage($storage);                
         return $read;
     }

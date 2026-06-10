@@ -5139,7 +5139,8 @@ class Php {
                     }
                 }
                 switch($operator){
-                    case '=' :                        
+                    case '=' :
+                        d($variable_name);
                         $item = '$data->set(' .
                             '\'' .
                             str_replace('\'', '\\\'', $variable_name) .

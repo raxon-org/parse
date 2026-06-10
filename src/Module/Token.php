@@ -427,11 +427,13 @@ class Token
                                     $char === '\'' &&
                                     $is_single_quoted === false &&
                                     (
-                                        $previous !== '\\' ||
+                                        $previous !== '\\'
+                                        /* @ disabled 2026-06-11
                                         (
                                             $previous === '\\' &&
                                             $previous_2x === '\\'
                                         )
+                                         * */
                                     )
                                 ){
                                     $is_single_quoted = true;
@@ -440,11 +442,13 @@ class Token
                                     $char === '\'' &&
                                     $is_single_quoted === true &&
                                     (
-                                        $previous !== '\\' ||
+                                        $previous !== '\\'
+                                        /* @ disabled 2026-06-11
                                         (
                                             $previous === '\\' &&
                                             $previous_2x === '\\'
                                         )
+                                        */
                                     )
                                 ){
                                     $is_single_quoted = false;                                                              
@@ -453,11 +457,13 @@ class Token
                                     $char === '"' &&
                                     $is_double_quoted === false &&
                                     (
-                                        $previous !== '\\' ||
+                                        $previous !== '\\'
+                                        /* @ disabled 2026-06-11
                                         (
                                             $previous === '\\' &&
                                             $previous_2x === '\\'
                                         )
+                                         */
                                     )
                                 ){
                                     $is_double_quoted = true;                                    
@@ -466,11 +472,13 @@ class Token
                                     $char === '"' &&
                                     $is_double_quoted === true &&
                                     (
-                                        $previous !== '\\' ||
+                                        $previous !== '\\'
+                                        /* @ disabled 2026-06-11
                                         (
                                             $previous === '\\' &&
                                             $previous_2x === '\\'
                                         )
+                                        */
                                     )
                                 ){
                                     $is_double_quoted = false;                                    

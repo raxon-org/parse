@@ -5140,9 +5140,6 @@ class Php {
                 }
                 switch($operator){
                     case '=' :
-                        if($variable_name === 'li.data.dir'){
-                            dd($value);
-                        }
                         $item = '$data->set(' .
                             '\'' .
                             str_replace('\'', '\\\'', $variable_name) .
@@ -5152,6 +5149,10 @@ class Php {
                         ;                                         
                         $item_validator = $item  . ';';
                         $result_validator[] = $item_validator;
+                        if($variable_name === 'li.data.dir'){
+                            ddd($result_validator);
+                        }
+
                         if($separator !== null){
                             $item .= $separator;
                         } else {

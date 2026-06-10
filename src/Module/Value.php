@@ -263,11 +263,13 @@ class Value
                 elseif(
                     $char['value'] === '\'' &&
                     (
-                        $previous !== '\\' ||
+                        $previous !== '\\'
+                        /* disabled @2026-06-10
                         (
                             $previous === '\\' &&
                             $previous_previous === '\\'
                         )
+                        */
                     ) &&
                     $is_single_quoted === false &&
                     $is_double_quoted === false &&
@@ -278,11 +280,13 @@ class Value
                 elseif(
                     $char['value'] === '\'' &&
                     (
-                        $previous !== '\\' ||
+                        $previous !== '\\' 
+                        /* disabled @2026-06-10
                         (
                             $previous === '\\' &&
                             $previous_previous === '\\'
                         )
+                        */
                     ) &&
                     $is_single_quoted !== false &&
                     $is_double_quoted === false &&

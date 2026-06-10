@@ -5140,7 +5140,9 @@ class Php {
                 }
                 switch($operator){
                     case '=' :
-                        d($variable_name);
+                        if($variable_name === 'li.data.dir'){
+                            dd($value);
+                        }
                         $item = '$data->set(' .
                             '\'' .
                             str_replace('\'', '\\\'', $variable_name) .

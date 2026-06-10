@@ -28,13 +28,12 @@ trait View {
             d($data);
             die();
         }
-        trace();
-        d($template);
         $object = $this->object();
         $url = Controller::locate($object, $template);
         $read = File::read($url);
         $mtime = File::mtime($url);
         $parse = $this->parse();
+        ddd($parse);
         $storage = $this->storage();
 
         $storage->data('raxon.org.parse.view.source.url', $url);

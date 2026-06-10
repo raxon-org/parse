@@ -28,6 +28,8 @@ trait View {
             d($data);
             die();
         }
+        trace();
+        d($template);
         $object = $this->object();
         $url = Controller::locate($object, $template);
         $read = File::read($url);

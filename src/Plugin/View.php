@@ -56,7 +56,9 @@ trait View {
         $read = $parse->compile($read, $data);
         $parse->options($options);
         $data_script = $data->data('script');
-        $script = $storage->data('script');       
+        d($data_script);
+        $script = $storage->data('script');
+        d($script);
         if(!empty($data_script) && empty($script)){
             $storage->data('script', $data_script);
         }

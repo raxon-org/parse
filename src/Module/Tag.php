@@ -13,7 +13,7 @@ class Tag
     {
         if(!is_string($input)){
             return [];
-        }        
+        }
         $length = mb_strlen($input);
         $start = microtime(true);
         $split = mb_str_split($input, 1);
@@ -128,7 +128,6 @@ class Tag
                 )
             ){
                 $is_single_quoted = true;
-                d($tag);
             }
             elseif(
 //                $tag === false &&

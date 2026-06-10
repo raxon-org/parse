@@ -20,7 +20,6 @@ trait Script {
                 $value[] = '<script type="module">';
                 $value[] = $script;
                 $value[] = '</script>';
-                d('added module');
             break;
             case 'script':
                 $value[] = '<script type="text/javascript">';

@@ -128,6 +128,7 @@ class Tag
                 )
             ){
                 $is_single_quoted = true;
+                d($tag);
             }
             elseif(
 //                $tag === false &&

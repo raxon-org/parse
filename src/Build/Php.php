@@ -76,7 +76,7 @@ class Php {
         $document[] = ' * @package Package\Raxon\Parse';
         $document[] = ' * @license MIT';
         $document[] = ' * @version ' . $object->config('framework.version');
-        $document[] = ' * @author ' . 'Remco van der Velde (remco@universeorange.com)';
+        $document[] = ' * @author ' . 'Remco van der Velde (development@workandtravel.world)';
         $document[] = ' * @compile-date ' . date('Y-m-d H:i:s');
         $document[] = ' * @compile-time ' . round(($time - $object->config('package.raxon/parse.time.start')) * 1000, 3) . ' ms';
         $document[] = ' * @note compiled by ' . $object->config('framework.name') . ' ' . $object->config('framework.version');

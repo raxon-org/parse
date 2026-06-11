@@ -183,6 +183,7 @@ class Method
             d($is_method);
             d($has_name);
             d($name);
+            d($char);
             if(
                 $is_method !== false &&
                 $name &&

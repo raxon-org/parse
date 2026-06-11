@@ -362,6 +362,7 @@ class Symbol
                 }
             }
         }
+        d($input);       
         return $input;
     }
 }

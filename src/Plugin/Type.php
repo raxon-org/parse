@@ -14,7 +14,6 @@ trait Type {
 
     public function type(mixed $value=null): string
     {
-        ddd($value);
         return gettype($value);
     }
 

@@ -17,6 +17,7 @@ class Tag
         $length = mb_strlen($input);
         $start = microtime(true);
         $split = mb_str_split($input, 1);
+        d($split);
         $curly_count = 0;
         $line = 1;
         $column = [];

@@ -1,4 +1,4 @@
 {{$read_line =  'Video\'s'}}
 {{$read_line}}
-{{$read_line|>string.replace:'\'':'\\\''}}
+{{string.replace($read_line,'\'','\\\'')}}
 

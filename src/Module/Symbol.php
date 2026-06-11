@@ -70,6 +70,7 @@ class Symbol
                 $is_double_quote_backslash === false
             ){
                 $is_single_quote = $nr;
+                d($is_single_quote);
                 continue;
             }
             elseif(

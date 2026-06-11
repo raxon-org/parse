@@ -191,6 +191,7 @@ class Method
                 $name &&
                 $has_name === true
             ){
+                d('yes');
                 if($name === 'for'){
                     $old_separator = $separator;
                     $separator = ';';

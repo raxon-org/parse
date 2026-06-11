@@ -12,6 +12,8 @@ use Raxon\Module\Escape;
 use Raxon\Module\File;
 
 use Exception;
+
+
 class Token
 {
     public static function literal_single_quote_apply(App $object, Data $data, $flags, $options, $input=''): mixed
@@ -844,11 +846,15 @@ class Token
                                 }
                             } else {
                                 if($operator){
-                                    d($after);
-                                    d($after_array); // ')' is not an array
 
-                                    $after_array = Token::tokenize($object, $flags, $options, $after_array);
-                                    ddd($after_array);
+                                    // ')' is not an array
+                                    $list = Symbol::define($object, $flags, $options, [
+                                        'string' => $after,
+                                        'array' => $after_array,
+                                    ]);
+                                    ddd($list);
+//                                    $after_array = Token::tokenize($object, $flags, $options, $after_array);
+//                                    ddd($after_array);
 
 
                                     $list = Token::value(

@@ -1058,6 +1058,7 @@ class Token
                                                 $array_notation_array = [];
                                                 $has_variable_name = false;
                                             } else {
+                                                d($list);
                                                 $variable = [
                                                     'is_assign' => true,
                                                     'is_not' => $is_not,

@@ -661,8 +661,10 @@ class Php {
                             }
                             //need content variable
                             if(property_exists($options, 'variable')){
+                                d($text_text);
                                 $data[] = $options->variable . '[] = \'' . str_replace(['\''], ['\\\''], $text_text) . '\';';
                             } else {
+                                d($text_text);
                                 $data[] = '$content[] = \'' . str_replace(['\''], ['\\\''], $text_text) . '\';';
                             }
                             $is_literal = false;

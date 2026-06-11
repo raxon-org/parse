@@ -851,6 +851,7 @@ class Token
                                         'string' => $after,
                                         'array' => $after_array,
                                     ]);
+                                    d($list);
                                     $list = Token::value(
                                         $object,
                                         $flags,
@@ -858,6 +859,7 @@ class Token
                                         $list,
                                         $record
                                     );
+                                    d($list);
                                     $variable_target = Token::variable_name($object, $flags, $options, $variable_name);
                                     $variable_explode = explode($variable_target, $variable_name, 2);
                                     $cast = Token::cast_get($object, $flags, $options, $variable_explode[0]);

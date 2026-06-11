@@ -137,7 +137,7 @@ class Tag
 //                $is_double_quoted === false &&            //needs to be off
 //                $is_double_quoted_backslash === false &&  //needs to be off
                 (
-                    $previous !== '\\' ||
+                    $previous !== '\\' /*||
                     (
                         $previous === '\\' && 
                         $previous_2x === '\\'
@@ -146,6 +146,7 @@ class Tag
                         $previous === '\'' &&
                         $previous_2x === '\\'
                     )
+                    */
                 )
             ){                
                 if($text !== ''){
@@ -209,7 +210,7 @@ class Tag
 //                $is_double_quoted === false &&            //needs to be off
 //                $is_double_quoted_backslash === false &&  //needs to be off
                 (
-                    $previous !== '\\' ||
+                    $previous !== '\\' /* ||
                     (
                         $previous === '\\' &&
                         $previous_2x === '\\'
@@ -218,6 +219,7 @@ class Tag
                         $previous === '\'' &&
                         $previous_2x === '\\'
                     )
+                    */
                 )                
             ){
                 $is_single_quoted = false;

@@ -753,14 +753,16 @@ class Tag
                 $is_comment === false
             ){
                 $tag .= $char;
+                /*
                 d($char);
                 d($tag);
                 d($is_single_quoted);
                 d($is_double_quoted_backslash);
+                */
             }
             elseif($is_comment === false){
                 $text .= $char;
-                d($text);
+//                d($text);
             }
             if($char !== "\n") {
                 $column[$line]++;

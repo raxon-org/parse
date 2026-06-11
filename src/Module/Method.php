@@ -180,6 +180,9 @@ class Method
                     }
                 }
             }
+            d($is_method);
+            d($has_name);
+            d($name);
             if(
                 $is_method !== false &&
                 $name &&

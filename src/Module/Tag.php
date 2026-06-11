@@ -599,6 +599,7 @@ class Tag
                 $is_double_quoted_backslash === false
             ){
                 $tag .= $char;
+                d($text);
                 dd($tag);
             }
             elseif(

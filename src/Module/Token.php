@@ -1058,12 +1058,6 @@ class Token
                                                 $array_notation_array = [];
                                                 $has_variable_name = false;
                                             } else {
-                                                $list = Token::value(
-                                                    $object,
-                                                    $flags,
-                                                    $options,
-                                                    $list,
-                                                );
                                                 d($list);
                                                 $variable = [
                                                     'is_assign' => true,

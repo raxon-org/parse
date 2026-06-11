@@ -150,6 +150,7 @@ class Method
                         }
                     }
                 }
+                d($name);
                 if($name === ''){
                     $is_method = false;
                 }

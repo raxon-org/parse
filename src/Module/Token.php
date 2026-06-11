@@ -846,6 +846,11 @@ class Token
                                 if($operator){
                                     d($after);
                                     d($after_array); // ')' is not an array
+
+                                    $after_array = Token::tokenize($object, $flags, $options, $after_array);
+                                    ddd($after_array);
+
+
                                     $list = Token::value(
                                         $object,
                                         $flags,

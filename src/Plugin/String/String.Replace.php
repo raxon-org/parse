@@ -8,6 +8,10 @@ trait String_Replace {
     #[Argument(apply: "literal", count: 1, index:3)]
     protected function string_replace(array|string $subject='', array|string $search='', array|string $replace='', string|null $attribute=null): array|string
     {
+        d($subject);
+        d($search);
+        d($replace);
+        d($attribute);
         if(!empty($attribute)){
             $attribute = trim($attribute, '\'"');
             if(substr($attribute, 0, 1) == '$'){

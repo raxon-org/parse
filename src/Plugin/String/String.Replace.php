@@ -12,6 +12,7 @@ trait String_Replace {
         d($search);
         d($replace);
         d($attribute);
+        d('nice');
         if(!empty($attribute)){
             $attribute = trim($attribute, '\'"');
             if(substr($attribute, 0, 1) == '$'){

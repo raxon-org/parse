@@ -846,25 +846,16 @@ class Token
                                 }
                             } else {
                                 if($operator){
-
-                                    // ')' is not an array
+                                    // ')' is not an array so we redefine it
                                     $list = Symbol::define($object, $flags, $options, [
                                         'string' => $after,
                                         'array' => $after_array,
                                     ]);
-                                    ddd($list);
-//                                    $after_array = Token::tokenize($object, $flags, $options, $after_array);
-//                                    ddd($after_array);
-
-
                                     $list = Token::value(
                                         $object,
                                         $flags,
                                         $options,
-                                        [
-                                            'string' => $after,
-                                            'array' => $after_array,
-                                        ],
+                                        $list,
                                         $record
                                     );
                                     $variable_target = Token::variable_name($object, $flags, $options, $variable_name);

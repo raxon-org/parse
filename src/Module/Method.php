@@ -213,6 +213,7 @@ class Method
                     $char['value'] === ')'
                 ){
                     $set_depth--;
+                    d($set_depth);
                     if($set_depth !== 0){
                         $argument_array[] = $char;
                         $argument .= $char['value'];

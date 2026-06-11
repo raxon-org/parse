@@ -207,7 +207,11 @@ class Tag
                 (
                     $previous !== '\\' ||
                     (
-                        $previous === '\\' && 
+                        $previous === '\\' &&
+                        $previous_2x === '\\'
+                    ) ||
+                    (
+                        $previous === '\'' &&
                         $previous_2x === '\\'
                     )
                 )                

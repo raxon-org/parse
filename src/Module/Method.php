@@ -151,6 +151,7 @@ class Method
                     }
                 }
                 d($name);
+                d($has_name);
                 if($name === ''){
                     $is_method = false;
                 }

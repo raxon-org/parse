@@ -1,2 +1,2 @@
-{{$read_line =  (int) "5"}}
-{{type($read_line)}}
+{{$read_line =  'Video\'s'}}
+{{$read_line|>string.replace:'\'':'\\\''}}

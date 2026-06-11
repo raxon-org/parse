@@ -141,6 +141,10 @@ class Tag
                     (
                         $previous === '\\' && 
                         $previous_2x === '\\'
+                    ) &&
+                    (
+                        $previous === '\'' &&
+                        $previous_2x === '\\'
                     )
                 )
             ){                

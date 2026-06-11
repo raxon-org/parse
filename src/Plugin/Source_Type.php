@@ -23,12 +23,13 @@ trait Source_Type {
         $object = $this->object();
         $options = [];
         $options['url'] = $url;
+        $extension = '';
         if(!empty($options['url'])){
             $url = $options['url'];
             $extension = File::extension($url);
             $sourceType = $object->config('sourceType');
             if(in_array($extension, $sourceType, true)){
-                return  $object->config('contentType.'.$extension);
+                return  $object->config('contentType.' . $extension);
             }
         }
         throw new Exception('Source type not found or configured. Extension: ' . $extension);

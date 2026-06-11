@@ -218,6 +218,7 @@ class Method
                         $argument_array[] = $char;
                         $argument .= $char['value'];
                     } else{
+                        d($argument_array);
                         if(array_key_exists(0, $argument_array)){
                             $argument_value = Cast::define(
                                 $object,

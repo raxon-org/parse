@@ -355,6 +355,8 @@ class Symbol
                         break;
                     }
                 } else {
+                    d($nr);
+                    d($char);
                     $input['array'][$nr] = [
                         'type' => 'symbol',
                         'value' => $char,
@@ -362,7 +364,7 @@ class Symbol
                 }
             }
         }
-        d($input);       
+        d($input);
         return $input;
     }
 }

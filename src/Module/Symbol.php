@@ -86,6 +86,7 @@ class Symbol
                 $is_double_quote === false &&
                 $is_double_quote_backslash === false
             ){
+                d($is_single_quote);
                 $string = '';
                 for($i = $is_single_quote; $i <= $nr; $i++){
                     if(is_array($input['array'][$i])){

@@ -8,7 +8,7 @@
  * @changeLog
  *    - all
  */
-namespace Raxon\Parse\Plugin;
+namespace Plugin;
 
 trait Type {
 

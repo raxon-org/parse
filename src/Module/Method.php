@@ -208,6 +208,10 @@ class Method
                         $argument .= $char['value'];
                     }
                 }
+                elseif(is_string($char) && $char === ')'){
+                    trace();
+                    ddd($set_depth);
+                }
                 elseif(
                     is_array($char) &&
                     array_key_exists('value', $char) &&

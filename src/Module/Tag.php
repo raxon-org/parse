@@ -66,7 +66,7 @@ class Tag
                     (
                         $previous === '\\' &&
                         $previous_2x === '\\' &&
-                        $previous_3x !== '\\'
+                        $previous_3x === '\\'
                     )
                 )
             ){
@@ -133,7 +133,7 @@ class Tag
                     (
                         $previous === '\\' && 
                         $previous_2x === '\\' &&
-                        $previous_3x !== '\\'
+                        $previous_3x === '\\'
                     )
                 )
             ){
@@ -151,7 +151,7 @@ class Tag
                     (
                         $previous === '\\' && 
                         $previous_2x === '\\' &&
-                        $previous_3x !== '\\'
+                        $previous_3x === '\\'
                     )
                 )
             ){

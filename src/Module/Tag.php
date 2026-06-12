@@ -71,7 +71,6 @@ class Tag
                     )
                 )
             ){
-                d($text);
                 if($text !== ''){                    
                     $explode = explode("\n", $text);
                     $count = count($explode);
@@ -139,8 +138,6 @@ class Tag
                     )
                 )
             ){
-                d($tag);
-                d($text);
                 if($text !== ''){
                     $text .= $char;
                     $explode = explode("\n", $text);

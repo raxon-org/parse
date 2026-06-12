@@ -1963,7 +1963,8 @@ class Php {
                                     $record['is_multiline'] === true
                                 ) {
                                     $data[] = 'throw new TemplateException(\'Array to string conversion error (' .
-                                        str_replace('\'', '\\\'', $record['tag']) .
+                                        str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) .
+//                                        str_replace('\'', '\\\'', $record['tag']) .
                                         ')\' . PHP_EOL . \'On line: ' .
                                         $record['line']['start'] .
                                         ', column: ' .
@@ -1973,7 +1974,8 @@ class Php {
                                         '.\');';
                                 } else {
                                     $data[] = 'throw new TemplateException(\'Array to string conversion error (' .
-                                        str_replace('\'', '\\\'', $record['tag']) .
+                                        str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) .
+//                                        str_replace('\'', '\\\'', $record['tag']) .
                                         ')\' . PHP_EOL . \'On line: ' .
                                         $record['line'] .
                                         ', column: ' .

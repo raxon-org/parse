@@ -67,7 +67,8 @@ class Tag
                         $previous_2x === '\\'
                     )
                 )
-            ){                
+            ){
+                d($text);
                 if($text !== ''){                    
                     $explode = explode("\n", $text);
                     $count = count($explode);
@@ -143,18 +144,15 @@ class Tag
 //                $is_double_quoted === false &&            //needs to be off
 //                $is_double_quoted_backslash === false &&  //needs to be off
                 (
-                    $previous !== '\\' /*||
+                    $previous !== '\\'
                     (
                         $previous === '\\' && 
                         $previous_2x === '\\'
-                    ) &&
-                    (
-                        $previous === '\'' &&
-                        $previous_2x === '\\'
                     )
-                    */
                 )
-            ){                
+            ){
+                d($tag);
+                d($text);
                 if($text !== ''){
                     $text .= $char;
                     $explode = explode("\n", $text);

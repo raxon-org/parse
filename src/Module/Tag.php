@@ -219,7 +219,8 @@ class Tag
                     $previous !== '\\' ||
                     (
                         $previous === '\\' && 
-                        $previous_2x === '\\'
+                        $previous_2x === '\\' &&
+                        $previous_3x != '\\' // != (also null)
                     )
                 )
             ){
@@ -285,7 +286,8 @@ class Tag
                     $previous !== '\\' ||
                     (
                         $previous === '\\' && 
-                        $previous_2x === '\\'
+                        $previous_2x === '\\' &&
+                        $previous_3x != '\\' // != (also null)
                     )
                 )
             ){            

@@ -333,7 +333,13 @@ class Token
                         } else {
                             //we have a variable assign or define
                             $length = mb_strlen($content);
-                            $data = mb_str_split($content, 1);                            
+                            $data = mb_str_split($content, 1);
+                            $define = Symbol::define($object, $flags, $options, [
+                                'string' => $content,
+                                'array' => $data,
+                            ]);
+                            d($define);
+                            //move $data through Symbol
                             $operator = false;
                             $variable = [];
                             $variable_name = '';
@@ -848,18 +854,14 @@ class Token
                             } else {
                                 if($operator){
                                     // ')' is not an array so we redefine it
-                                    d($after);
-                                    d($after_array);
-                                    $list = Symbol::define($object, $flags, $options, [
-                                        'string' => $after,
-                                        'array' => $after_array,
-                                    ]);
-                                    d($list);
                                     $list = Token::value(
                                         $object,
                                         $flags,
                                         $options,
-                                        $list,
+                                        [
+                                            'string' => $after,
+                                            'array' => $after_array,
+                                        ],
                                         $record
                                     );
                                     d($list);

@@ -337,7 +337,9 @@ class Token
                                 'string' => $content,
                                 'array' => $data,
                             ]);
-                            d($define);
+                            if(array_key_exists('array', $define)){
+                                $data = $define['array'];
+                            }
                             //move $data through Symbol
                             $operator = false;
                             $variable = [];
@@ -1068,7 +1070,6 @@ class Token
                                                 $array_notation_array = [];
                                                 $has_variable_name = false;
                                             } else {
-                                                d($list);
                                                 $variable = [
                                                     'is_assign' => true,
                                                     'is_not' => $is_not,

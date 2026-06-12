@@ -316,6 +316,7 @@ class Token
         }
         $cache = $object->get(App::CACHE);
         foreach($tags as $line => $tag){
+            d($tag);
             foreach($tag as $nr => $record){
                 if(
                     array_key_exists('tag', $record)

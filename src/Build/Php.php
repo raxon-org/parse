@@ -3497,6 +3497,8 @@ class Php {
             case 'array':
                 $result = Php::value_array($object, $flags, $options, $record, $before, $after);
             break;
+            case 'whitespace':
+                ddd($record);
             default:
                 throw new Exception('Unknown value type: ' . $record['type']);
         }

@@ -24,19 +24,13 @@ class Symbol
         $is_single_quote = false;
         $is_double_quote = false;
         $is_double_quote_backslash = false;
-        if(is_int($input['array'])){
-            trace();
-            ddd($input);
-        }
-        if(is_string($input['array'])){
-            trace();
-            ddd($input);
+        if(!is_array($input['array'])){
+            throw new Exception('Not an array');
         }
         $skip = 0;
         foreach($input['array'] as $nr => $char){
             if(!is_int($nr)){
-                trace();
-                ddd($input);
+                throw new Exception('Index not an integer');
             }
             $previous_nr = $nr - 1;
             if($previous_nr < 0){
@@ -71,7 +65,6 @@ class Symbol
                 $is_double_quote_backslash === false
             ){
                 $is_single_quote = $nr;
-                d($is_single_quote);
                 continue;
             }
             elseif(
@@ -88,7 +81,6 @@ class Symbol
                 $is_double_quote === false &&
                 $is_double_quote_backslash === false
             ){
-                d($is_single_quote);
                 $string = '';
                 for($i = $is_single_quote; $i <= $nr; $i++){
                     if(is_array($input['array'][$i])){
@@ -103,7 +95,6 @@ class Symbol
 
                     $input['array'][$i] = null;
                 }
-                d($string);
                 $input['array'][$is_single_quote] = [
                     'type' => 'string',
                     'value' => $string,
@@ -361,8 +352,6 @@ class Symbol
                         break;
                     }
                 } else {
-                    d($nr);
-                    d($char);
                     $input['array'][$nr] = [
                         'type' => 'symbol',
                         'value' => $char,
@@ -370,7 +359,6 @@ class Symbol
                 }
             }
         }
-        d($input);
         return $input;
     }
 }

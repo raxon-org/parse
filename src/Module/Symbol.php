@@ -100,6 +100,7 @@ class Symbol
 
                     $input['array'][$i] = null;
                 }
+                d($string);
                 $input['array'][$is_single_quote] = [
                     'type' => 'string',
                     'value' => $string,

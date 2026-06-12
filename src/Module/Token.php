@@ -847,6 +847,8 @@ class Token
                             } else {
                                 if($operator){
                                     // ')' is not an array so we redefine it
+                                    ddd($after);
+                                    ddd($after_array);
                                     $list = Symbol::define($object, $flags, $options, [
                                         'string' => $after,
                                         'array' => $after_array,

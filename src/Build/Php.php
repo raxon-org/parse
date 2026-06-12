@@ -3498,7 +3498,11 @@ class Php {
                 $result = Php::value_array($object, $flags, $options, $record, $before, $after);
             break;
             case 'whitespace':
-                ddd($record);
+                $result = ' ';
+                if(array_key_exists('value', $record)){
+                    $result = $record['value'];
+                }
+            break;
             default:
                 throw new Exception('Unknown value type: ' . $record['type']);
         }

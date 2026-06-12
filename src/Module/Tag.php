@@ -60,7 +60,13 @@ class Tag
                 $is_single_quoted === false &&
 //                $is_double_quoted === false &&                //needs to be off
 //                $is_double_quoted_backslash === false &&      //needs to be off
-                $previous !== '\\'
+                (
+                    $previous !== '\\' ||
+                    (
+                        $previous === '\\' &&
+                        $previous_2x === '\\'
+                    )
+                )
             ){                
                 if($text !== ''){                    
                     $explode = explode("\n", $text);

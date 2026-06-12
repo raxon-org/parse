@@ -4515,26 +4515,61 @@ class Php {
             $is_double_quote = false;
             $test = '';
             foreach ($data as $nr => $char) {
+                $previous = $data[$nr - 1] ?? null;
+                $previous_2x = $data[$nr - 2] ?? null;
+                $previous_3x = $data[$nr - 3] ?? null;
                 if (
                     $char === '\'' &&
+                    (
+                        $previous !== '\\' ||
+                        (
+                            $previous === '\\' &&
+                            $previous_2x === '\\' &&
+                            $previous_3x !== '\\'
+                        )
+                    ) &&
                     $is_double_quote === false &&
                     $is_single_quote === false
                 ) {
                     $is_single_quote = true;
                 } elseif (
                     $char === '\'' &&
+                    (
+                        $previous !== '\\' ||
+                        (
+                            $previous === '\\' &&
+                            $previous_2x === '\\' &&
+                            $previous_3x !== '\\'
+                        )
+                    ) &&
                     $is_double_quote === false &&
                     $is_single_quote === true
                 ) {
                     $is_single_quote = false;
                 } elseif (
                     $char === '"' &&
+                    (
+                        $previous !== '\\' ||
+                        (
+                            $previous === '\\' &&
+                            $previous_2x === '\\' &&
+                            $previous_3x !== '\\'
+                        )
+                    ) &&
                     $is_double_quote === false &&
                     $is_single_quote === false
                 ) {
                     $is_double_quote = true;
                 } elseif (
                     $char === '"' &&
+                    (
+                        $previous !== '\\' ||
+                        (
+                            $previous === '\\' &&
+                            $previous_2x === '\\' &&
+                            $previous_3x !== '\\'
+                        )
+                    ) &&
                     $is_double_quote === true &&
                     $is_single_quote === false
                 ) {

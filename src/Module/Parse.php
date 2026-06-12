@@ -781,7 +781,9 @@ class Parse
             $input = Token::literal_single_quote_apply($object, $data, $flags, $options, $input);
             $input = Token::literal_apply($object, $data, $flags, $options, $input);
             $input = Token::literal_single_quote_restore($object, $data, $flags, $options, $input);
+            d($input);
             $token = Token::tokenize($object, $flags, $options, $input);
+            d($token);
             if($is_debug){
                 // d($input);
                 // d($token);

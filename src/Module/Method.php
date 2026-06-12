@@ -150,8 +150,6 @@ class Method
                         }
                     }
                 }
-                d($name);
-                d($has_name);
                 if($name === ''){
                     $is_method = false;
                 }
@@ -182,10 +180,6 @@ class Method
                     }
                 }
             }
-            d($is_method);
-            d($has_name);
-            d($name);
-            d($char);
             if(
                 $is_method !== false &&
                 $name &&

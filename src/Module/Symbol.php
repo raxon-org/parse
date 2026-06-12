@@ -48,7 +48,6 @@ class Symbol
             $previous_previous = Token::item($input, $nr - 2);
             $next = Token::item($input, $nr + 1);
             $next_next = Token::item($input, $nr + 2);
-            d($skip);
             if($skip > 0){
                 $skip -= 1;
                 continue;

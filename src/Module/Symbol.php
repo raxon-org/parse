@@ -46,6 +46,7 @@ class Symbol
                 $previous = Token::item($input, $previous_nr);
             }
             $previous_previous = Token::item($input, $nr - 2);
+            $previous_3x = Token::item($input, $nr - 3);
             $next = Token::item($input, $nr + 1);
             $next_next = Token::item($input, $nr + 2);
             if($skip > 0){
@@ -61,7 +62,8 @@ class Symbol
                     $previous !== '\\' ||
                     (
                         $previous === '\\' &&
-                        $previous_previous === '\\'
+                        $previous_previous === '\\' &&
+                        $previous_3x != '\\' // != (also null)
                     )
                 ) &&
                 $is_single_quote === false &&
@@ -78,7 +80,8 @@ class Symbol
                     $previous !== '\\' ||
                     (
                         $previous === '\\' &&
-                        $previous_previous === '\\'
+                        $previous_previous === '\\' &&
+                        $previous_3x != '\\' // != (also null)
                     )
                 ) &&
                 $is_single_quote !== false &&

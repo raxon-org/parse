@@ -333,14 +333,7 @@ class Token
                             //we have a variable assign or define
                             $length = mb_strlen($content);
                             $data = mb_str_split($content, 1);
-                            $define = Symbol::define($object, $flags, $options, [
-                                'string' => $content,
-                                'array' => $data,
-                            ]);
-                            if(array_key_exists('array', $define)){
-                                $data = $define['array'];
-                            }
-                            //move $data through Symbol
+                            //might need data to Symbol::define one day...
                             $operator = false;
                             $variable = [];
                             $variable_name = '';

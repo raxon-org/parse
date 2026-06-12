@@ -19,13 +19,8 @@ class Method
             return $input;
         }
         if(empty($tag)){
-
             return $input;
-            trace();
-            breakpoint($input);
-            breakpoint($tag);
         }
-
         $has_name = false;
         $name = false;
         $is_method = false;
@@ -185,7 +180,6 @@ class Method
                 $name &&
                 $has_name === true
             ){
-                d('yes');
                 if($name === 'for'){
                     $old_separator = $separator;
                     $separator = ';';
@@ -202,22 +196,16 @@ class Method
                         $argument .= $char['value'];
                     }
                 }
-                elseif(is_string($char) && $char === ')'){
-                    trace();
-                    ddd($set_depth);
-                }
                 elseif(
                     is_array($char) &&
                     array_key_exists('value', $char) &&
                     $char['value'] === ')'
                 ){
                     $set_depth--;
-                    d($set_depth);
                     if($set_depth !== 0){
                         $argument_array[] = $char;
                         $argument .= $char['value'];
                     } else{
-                        d($argument_array);
                         if(array_key_exists(0, $argument_array)){
                             $argument_value = Cast::define(
                                 $object,

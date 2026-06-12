@@ -781,13 +781,7 @@ class Parse
             $input = Token::literal_single_quote_apply($object, $data, $flags, $options, $input);
             $input = Token::literal_apply($object, $data, $flags, $options, $input);
             $input = Token::literal_single_quote_restore($object, $data, $flags, $options, $input);
-            d($input);
             $token = Token::tokenize($object, $flags, $options, $input);
-            d($token);
-            if($is_debug){
-                // d($input);
-                // d($token);
-            }
             $url_json = $dir . $options->class . $object->config('extension.json');
             File::write($url_json, Core::object($token, Core::OBJECT_JSON));
             if($cache_url){
@@ -798,14 +792,11 @@ class Parse
                     $object->config('extension.php')
                 ;
             }
-//            d($token);
-//            d($url_php);
             $limit = $this->limit();
             if($limit){
                 $object->config('package.raxon/parse.build.state.limit', $limit);
             }
             $document = Build::create($object, $flags, $options, $token);
-            // d($url_php);
             File::write($url_php, implode(PHP_EOL, $document));
             File::permission(
                 $object,

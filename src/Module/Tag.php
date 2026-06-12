@@ -41,6 +41,7 @@ class Tag
             }            
             $previous = $split[$nr - 1] ?? null;
             $previous_2x = $split[$nr - 2] ?? null;
+            $previous_3x = $split[$nr - 3] ?? null;
             $next = $split[$nr + 1] ?? null;
             $next_2x = $split[$nr + 2] ?? null;
             $next_3x = $split[$nr + 3] ?? null;
@@ -64,7 +65,9 @@ class Tag
                     $previous !== '\\' ||
                     (
                         $previous === '\\' &&
-                        $previous_2x === '\\'
+                        $previous_2x === '\\' &&
+                        $previous_3x != '\\' // != (also null)
+
                     )
                 )
             ){
@@ -131,7 +134,8 @@ class Tag
                     $previous !== '\\' ||
                     (
                         $previous === '\\' && 
-                        $previous_2x === '\\'
+                        $previous_2x === '\\' &&
+                        $previous_3x != '\\' // != (also null)
                     )
                 )
             ){
@@ -201,7 +205,8 @@ class Tag
                     $previous !== '\\' ||
                     (
                         $previous === '\\' &&
-                        $previous_2x === '\\'
+                        $previous_2x === '\\' &&
+                        $previous_3x != '\\' // != (also null)
                     )
                 )                
             ){

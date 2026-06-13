@@ -671,17 +671,17 @@ class Php {
                     elseif(
                         $marker_name === 'raw' &&
                         $is_literal === false
-                    ){                        
+                    ){
                         $marker_data = [];
                         $marker_data[$record['line']] = [];
                         $marker_data[$record['line']][] = $record['marker']['value']['array'][2] ?? [];
                         $object->config('package.raxon/parse.build.state.is_raw', true);
 
                         array_pop($data);
-                        $marker_data = Php::document_tag($object, $flags, $options, $marker_data);                        
+                        $marker_data = Php::document_tag($object, $flags, $options, $marker_data);
                         foreach($marker_data as $line){
-                            $data[] = $line;                            
-                        }                        
+                            $data[] = $line;
+                        }
                         //$object->config('delete', 'package.raxon/parse.build.state.is_raw');
                         continue;
 //                        $method = Php::method($object, $flags, $options, $marker_data, $before, $after) . ';';
@@ -857,7 +857,7 @@ class Php {
                             foreach($for_content as $line){
                                 $for_data[] = $line;
                             }
-                            $for_data[] = '}';                            
+                            $for_data[] = '}';
                             foreach($for_before as $line){
                                 $data[] = $line;
                             }
@@ -1620,14 +1620,14 @@ class Php {
                         $is_literal === false &&
                         array_key_exists('text', $record)
                     ){
-                        $is_raw = $object->config('package.raxon/parse.build.state.is_raw'); 
+                        $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
                         if($is_raw && substr($record['text'], 0, 1) === '"'){
                             $record['text'] = substr($record['text'], 1);
                         }
                         if($is_raw && substr($record['text'], 0, 2) === '\"'){
                             $record['text'] = substr($record['text'], 2);
                         }
-                        $object->config('delete', 'package.raxon/parse.build.state.is_raw'); 
+                        $object->config('delete', 'package.raxon/parse.build.state.is_raw');
                         if(
                             empty($record['text']) &&
                             $record['text'] !== '0' &&
@@ -1657,7 +1657,7 @@ class Php {
                             $token = Token::tokenize($object, $flags, $options, substr($text, 1, -1));
                             $token = Php::document_tag_prepare($object, $flags, $options, $token);
                             $embed = Php::document_tag($object, $flags, $options, $token);
-                            $is_raw = $object->config('package.raxon/parse.build.state.is_raw');                            
+                            $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
                             if(property_exists($options, 'variable')){
                                 if($is_raw !== true){
                                     $data[] = $options->variable . '[] = \'"\';';
@@ -1669,9 +1669,9 @@ class Php {
                                     $data[] = $line;
                                 }
                                 if($is_raw !== true) {
-                                    $data[] = $options->variable . '[] = \'"\';';                                    
+                                    $data[] = $options->variable . '[] = \'"\';';
                                 }
-                            }                            
+                            }
                             // $object->config('delete', 'package.raxon/parse.build.state.is_raw');
                             if($variable_old){
                                 $data[] = $variable_old . '[] = implode(\'\', ' . $options->variable . ');';
@@ -1721,11 +1721,11 @@ class Php {
                             $token = Token::tokenize($object, $flags, $options, substr($text, 2, -2));
                             $token = Php::document_tag_prepare($object, $flags, $options, $token);
                             $embed = Php::document_tag($object, $flags, $options, $token);
-                            $is_raw = $object->config('package.raxon/parse.build.state.is_raw');     
+                            $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
                             if(property_exists($options, 'variable')){
                                 if($is_raw !== true){
                                     $data[] = $options->variable . '[] = \'\\"\';';
-                                }                            
+                                }
                                 foreach($embed as $line){
                                     $line = str_replace($double_quote_uuid, '"', $line);
                                     $line = str_replace($single_quote_uuid, '\'', $line);
@@ -1734,7 +1734,7 @@ class Php {
                                 }
                                 if($is_raw !== true){
                                     $data[] = $options->variable . '[] = \'\\"\';';
-                                }                                
+                                }
                             }
                             if($variable_old){
                                 $data[] = $variable_old . '[] = implode(\'\', ' . $options->variable . ');';
@@ -1801,7 +1801,7 @@ class Php {
                                 ],
                                 $text
                             );
-                            */   
+                            */
                             if(
                                 property_exists($options, 'extension') &&
                                 $options->extension === 'json'
@@ -1813,13 +1813,13 @@ class Php {
                                         $split[$split_nr] = null;
                                     }
                                 }
-                                $text = implode('', $split);                                
+                                $text = implode('', $split);
                             }
-                            if(property_exists($options, 'variable')){                                  
+                            if(property_exists($options, 'variable')){
                                 $data[] = $options->variable . '[] =  "' . $text . '";';
-                            } else {                                                                                                                                                                                        
+                            } else {
                                 $data[] = '$content[] =  "' . $text . '";';
-                            }                                                                                             
+                            }
                         }
                     }
                     elseif(
@@ -1830,7 +1830,7 @@ class Php {
                             array_key_exists('is_assign', $record['variable']) &&
                             $record['variable']['is_assign'] === true
                         ){
-                            $variable = Php::variable_assign($object, $flags, $options, $record);                            
+                            $variable = Php::variable_assign($object, $flags, $options, $record);
                             if($variable){
                                 $separator = $object->config('package.raxon/parse.build.state.separator');
                                 if($separator === null){
@@ -1963,8 +1963,7 @@ class Php {
                                     $record['is_multiline'] === true
                                 ) {
                                     $data[] = 'throw new TemplateException(\'Array to string conversion error (' .
-                                        str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) .
-//                                        str_replace('\'', '\\\'', $record['tag']) .
+                                        str_replace('\'', '\\\'', $record['tag']) .
                                         ')\' . PHP_EOL . \'On line: ' .
                                         $record['line']['start'] .
                                         ', column: ' .
@@ -1974,8 +1973,7 @@ class Php {
                                         '.\');';
                                 } else {
                                     $data[] = 'throw new TemplateException(\'Array to string conversion error (' .
-                                        str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) .
-//                                        str_replace('\'', '\\\'', $record['tag']) .
+                                        str_replace('\'', '\\\'', $record['tag']) .
                                         ')\' . PHP_EOL . \'On line: ' .
                                         $record['line'] .
                                         ', column: ' .
@@ -1995,8 +1993,7 @@ class Php {
                                     $record['is_multiline'] === true
                                 ) {
                                     $data[] = 'throw new TemplateException(\'Object to string conversion error (' .
-                                        str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) .
-//                                        str_replace('\'', '\\\'', $record['tag']) .
+                                        str_replace('\'', '\\\'', $record['tag']) .
                                         ')\' . PHP_EOL . \'On line: ' .
                                         $record['line']['start'] .
                                         ', column: ' .
@@ -2006,8 +2003,7 @@ class Php {
                                         '.\');';
                                 } else {
                                     $data[] = 'throw new TemplateException(\'Object to string conversion error (' .
-                                        str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) .
-//                                        str_replace('\'', '\\\'', $record['tag']) .
+                                        str_replace('\'', '\\\'', $record['tag']) .
                                         ')\' . PHP_EOL . \'On line: ' .
                                         $record['line'] .
                                         ', column: ' .
@@ -2083,14 +2079,14 @@ class Php {
             $variable_uuid = Core::uuid_variable();
             $text = str_replace('\\&', $ampersand_uuid, $text);
             $text = str_replace('&quot;', $double_quote_uuid, $text);
-            $text = str_replace('&apos;', $single_quote_uuid, $text);            
+            $text = str_replace('&apos;', $single_quote_uuid, $text);
             //$text = str_replace('\\', $backslash_uuid, $text);
             // $text = str_replace('$', $variable_uuid, $text);
             $text = str_replace($ampersand_uuid, '&', $text);
             $text = str_replace($double_quote_uuid, '"', $text);
             $text = str_replace($single_quote_uuid, '\'', $text);
-            //$text = str_replace($backslash_uuid, '\\\\', $text);    
-            // $text = str_replace($variable_uuid, '$', $text);    
+            //$text = str_replace($backslash_uuid, '\\\\', $text);
+            // $text = str_replace($variable_uuid, '$', $text);
             return $text;
         }
         return false;
@@ -2168,7 +2164,7 @@ class Php {
             } else {
                 $class_static = Php::class_static($object);
                 $class = $record['method']['class'];
-                $call_type = $record['method']['call_type'] ?? '::';                
+                $call_type = $record['method']['call_type'] ?? '::';
                 if(
                     !in_array(
                         $class . $call_type,
@@ -2250,7 +2246,7 @@ class Php {
                 } else {
                     $method_value = $record['method']['name']  . '(';
                 }
-                if($record['method']['name'] === 'for'){                    
+                if($record['method']['name'] === 'for'){
                     $method_value = [];
                     $is_argument = false;
                     $argument_count = count($record['method']['argument']);
@@ -2264,8 +2260,8 @@ class Php {
                         foreach($record['method']['argument'] as $nr => $argument){
                             if($nr > 0){
                                 $object->config('package.raxon/parse.build.state.try_catch', false);
-                            }                            
-                            $value = Php::value($object, $flags, $options, $record, $argument, $is_set, $before_for, $after_for);                            
+                            }
+                            $value = Php::value($object, $flags, $options, $record, $argument, $is_set, $before_for, $after_for);
                             if(mb_strtolower($value) === 'null'){
                                 $value = '';
                             }
@@ -2277,7 +2273,7 @@ class Php {
                             $object->config('package.raxon/parse.build.state.separator', $separator);
                         }
                         $method_value[2] = str_replace($separator_uuid, ',', $method_value[2]);
-                        $method_value[2] = substr($method_value[2], 0, -1);                        
+                        $method_value[2] = substr($method_value[2], 0, -1);
                         $before[] = str_replace($separator_uuid, ';', $method_value[0]);
                         foreach($before_for as $line){
                             $before[] = str_replace($separator_uuid, ';', $line);
@@ -2471,7 +2467,7 @@ class Php {
                     if($argument_count === 1){
                         foreach($record['method']['argument'] as $nr => $argument){
                             $object->config('package.raxon/parse.build.state.try_catch', false);
-                            $value = Php::value($object, $flags, $options, $record, $argument, $is_set, $before_while, $after_while);                            
+                            $value = Php::value($object, $flags, $options, $record, $argument, $is_set, $before_while, $after_while);
                             if(mb_strtolower($value) === 'null'){
                                 $value = '';
                             }
@@ -2587,7 +2583,7 @@ class Php {
                 }
                 return $method_value;
             } else {
-                $plugin = Php::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));                
+                $plugin = Php::plugin($object, $flags, $options, $record, str_replace('.', '_', $record['method']['name']));
                 $method_value = $plugin . '(';
                 if($object->config('is.debug') === true){
 //                    d($record['method']['name']);
@@ -2694,7 +2690,7 @@ class Php {
      * @throws Exception
      */
     public static function variable_method(App $object, $flags, $options, $record = [], &$before=[], &$after=[], &$inline_before=[], &$inline_after=[]): bool | string
-    {               
+    {
         if(
             array_key_exists('type', $record) &&
             $record['type'] === 'variable_method' &&
@@ -2705,15 +2701,15 @@ class Php {
             is_array($record['method']) &&
             array_key_exists('call_type', $record['method']) &&
             array_key_exists('name', $record['method'])
-        ){            
-            $method_value = '$data->get(\'' . $record['variable']['name'] . '\')' . 
+        ){
+            $method_value = '$data->get(\'' . $record['variable']['name'] . '\')' .
                 $record['method']['call_type'] .
                 str_replace('.', '_', $record['method']['name']) .
                 '(';
             $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
             $method_value .= ')';
             return $method_value;
-        } 
+        }
         return false;
     }
 
@@ -2732,7 +2728,7 @@ class Php {
                 $use_class[$use_class_nr] = array_pop($temp);
             }
             $use_class[$use_class_nr] .= '::';
-        }        
+        }
         return $use_class;
     }
 
@@ -2849,7 +2845,7 @@ class Php {
                     }
 
                     foreach ($class_static_argument as $argument_nr => $argument_record) {
-                        $value = Php::value($object, $flags, $options, $record, $argument_record, $is_set, $before,$after);                        
+                        $value = Php::value($object, $flags, $options, $record, $argument_record, $is_set, $before,$after);
                         $uuid_variable = Core::uuid_variable();
                         $before[] = $uuid_variable . ' = ' . $value . ';';
                         if($attributes){
@@ -3099,7 +3095,7 @@ class Php {
                     $project_dir_plugin = $object->config('project.dir.plugin');
                     if($project_dir_plugin){
                         $autoload->addPrefix('Plugin', $project_dir_plugin);
-                    }                    
+                    }
                     $location = $autoload->locate($use_plugin, false,  Autoload::MODE_LOCATION);
                     $exist = false;
                     $locate_exception = [];
@@ -3305,7 +3301,7 @@ class Php {
                     $value_array = $value_transform['value'];
                     $value_array[$nr] = '$this->value_plus(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
                     $is_nested = true;
-                break;
+                    break;
                 case ' - ':
                     if(!array_key_exists($nr, $value_array)){
                         return $value_array;
@@ -3314,7 +3310,7 @@ class Php {
                     $value_array = $value_transform['value'];
                     $value_array[$nr] = '$this->value_minus(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
                     $is_nested = true;
-                break;
+                    break;
                 case ' / ':
                     if(!array_key_exists($nr, $value_array)){
                         return $value_array;
@@ -3323,7 +3319,7 @@ class Php {
                     $value_array = $value_transform['value'];
                     $value_array[$nr] = '$this->value_divide(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
                     $is_nested = true;
-                break;
+                    break;
                 case ' * ':
                     if(!array_key_exists($nr, $value_array)){
                         return $value_array;
@@ -3332,7 +3328,7 @@ class Php {
                     $value_array = $value_transform['value'];
                     $value_array[$nr] = '$this->value_multiply(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
                     $is_nested = true;
-                break;
+                    break;
                 case ' % ':
                     if(!array_key_exists($nr, $value_array)){
                         return $value_array;
@@ -3341,7 +3337,7 @@ class Php {
                     $value_array = $value_transform['value'];
                     $value_array[$nr] = '$this->value_modulo(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
                     $is_nested = true;
-                break;
+                    break;
                 case ' < ':
                     if(!array_key_exists($nr, $value_array)){
                         return $value_array;
@@ -3350,7 +3346,7 @@ class Php {
                     $value_array = $value_transform['value'];
                     $value_array[$nr] = '$this->value_smaller(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
                     $is_nested = true;
-                break;
+                    break;
                 case ' > ':
                     if(!array_key_exists($nr, $value_array)){
                         return $value_array;
@@ -3359,7 +3355,7 @@ class Php {
                     $value_array = $value_transform['value'];
                     $value_array[$nr] = '$this->value_greater(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
                     $is_nested = true;
-                break;
+                    break;
                 case ' === ':
                     if(!array_key_exists($nr, $value_array)){
                         return $value_array;
@@ -3368,7 +3364,7 @@ class Php {
                     $value_array = $value_transform['value'];
                     $value_array[$nr] = '$this->value_identical(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
                     $is_nested = true;
-                break;
+                    break;
                 case ' !== ':
                     if(!array_key_exists($nr, $value_array)){
                         return $value_array;
@@ -3377,7 +3373,7 @@ class Php {
                     $value_array = $value_transform['value'];
                     $value_array[$nr] = '$this->value_not_identical(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
                     $is_nested = true;
-                break;
+                    break;
                 case ' == ':
                     if(!array_key_exists($nr, $value_array)){
                         return $value_array;
@@ -3386,7 +3382,7 @@ class Php {
                     $value_array = $value_transform['value'];
                     $value_array[$nr] = '$this->value_equal(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
                     $is_nested = true;
-                break;
+                    break;
                 case ' != ':
                     if(!array_key_exists($nr, $value_array)){
                         return $value_array;
@@ -3395,7 +3391,7 @@ class Php {
                     $value_array = $value_transform['value'];
                     $value_array[$nr] = '$this->value_not_equal(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
                     $is_nested = true;
-                break;
+                    break;
                 case ' >> ':
                     if(!array_key_exists($nr, $value_array)){
                         return $value_array;
@@ -3404,7 +3400,7 @@ class Php {
                     $value_array = $value_transform['value'];
                     $value_array[$nr] = '$this->value_greater_greater(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
                     $is_nested = true;
-                break;
+                    break;
                 case ' >= ':
                     if(!array_key_exists($nr, $value_array)){
                         return $value_array;
@@ -3413,7 +3409,7 @@ class Php {
                     $value_array = $value_transform['value'];
                     $value_array[$nr] = '$this->value_greater_equal(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
                     $is_nested = true;
-                break;
+                    break;
                 case ' << ':
                     if(!array_key_exists($nr, $value_array)){
                         return $value_array;
@@ -3422,7 +3418,7 @@ class Php {
                     $value_array = $value_transform['value'];
                     $value_array[$nr] = '$this->value_smaller_smaller(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
                     $is_nested = true;
-                break;
+                    break;
                 case ' <= ':
                     if(!array_key_exists($nr, $value_array)){
                         return $value_array;
@@ -3433,7 +3429,7 @@ class Php {
 //                    d($value_array);
                     $value_array[$nr] = '$this->value_smaller_equal(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
                     $is_nested = true;
-                break;
+                    break;
                 case ' xor ':
                     if(!array_key_exists($nr, $value_array)){
                         return $value_array;
@@ -3442,7 +3438,7 @@ class Php {
                     $value_array = $value_transform['value'];
                     $value_array[$nr] = '$this->value_xor(' . implode('', $value_transform['left']) . ',' . implode('', $value_transform['right']) . ')';// . implode('', $right['value']);
                     $is_nested = true;
-                break;
+                    break;
             }
         }
         if($is_nested){
@@ -3465,17 +3461,17 @@ class Php {
                     $record['line'] = $tag['line'] ?? 'unknown';
                 }
                 $result = Php::method($object, $flags, $options, $record, $before, $after);
-            break;
+                break;
             case 'variable_method':
                 $result = Php::variable_method($object, $flags, $options, $record, $before, $after);
-            break;
+                break;
             case 'variable':
                 $result = Php::variable($object, $flags, $options, $record, $tag, $before, $after);
-            break;
+                break;
             case 'integer':
             case 'float':
                 $result = $record['execute'];
-            break;
+                break;
             case 'boolean':
             case 'null':
             case 'cast':
@@ -3483,7 +3479,7 @@ class Php {
                 break;
             case 'symbol':
                 $result = Php::value_symbol($object, $flags, $options, $record, $before, $after);
-            break;
+                break;
             case 'set':
                 $set = [
                     'string' => $record['value'],
@@ -3493,16 +3489,10 @@ class Php {
                 break;
             case 'string':
                 $result = Php::value_string($object, $flags, $options, $record, $before, $after);
-            break;
+                break;
             case 'array':
                 $result = Php::value_array($object, $flags, $options, $record, $before, $after);
-            break;
-            case 'whitespace':
-                $result = ' ';
-                if(array_key_exists('value', $record)){
-                    $result = $record['value'];
-                }
-            break;
+                break;
             default:
                 throw new Exception('Unknown value type: ' . $record['type']);
         }
@@ -3667,7 +3657,7 @@ class Php {
             case '/':
             case '*':
                 $result = ' '. $result .' ';
-            break;
+                break;
         }
         return $result;
     }
@@ -3845,11 +3835,11 @@ class Php {
                     $record['length'] = $tag['length'] ?? 'unknown';
                     $record['column'] = $tag['column'] ?? ['start' => 'unknown', 'end' => 'unknown'];
                     if(
-                        array_key_exists('is_multiline', $tag) && 
+                        array_key_exists('is_multiline', $tag) &&
                         $tag['is_multiline'] === true
                     ){
                         $record['is_multiline'] = true;
-                    }                    
+                    }
                     $value .= Php::variable_assign($object, $flags, $options, $record, $before, $after);
                     //remove next newline
                     $next = $input['array'][$nr + 1] ?? null;
@@ -4000,14 +3990,14 @@ class Php {
                         break;
                     default:
                         $next = $input['array'][$nr + 1] ?? null;
-                        $right = null;                        
+                        $right = null;
                         if($next){
-                            if(                                
+                            if(
                                 array_key_exists('is_single_quoted', $next)
                             ){
                                 $right = $next['value'];
                             }
-                            elseif(                                
+                            elseif(
                                 array_key_exists('type', $next) &&
                                 $next['type'] === 'variable'
                             ){
@@ -4016,7 +4006,7 @@ class Php {
                                 $before[] = '$data->set(\'' . substr($uuid_variable, 1) . '\', ' . $uuid_variable . ');';
                                 $right = $uuid_variable;
                             }
-                            elseif(                                
+                            elseif(
                                 array_key_exists('type', $next) &&
                                 $next['type'] === 'method'
                             ){
@@ -4025,7 +4015,7 @@ class Php {
                                 $before[] = $uuid_variable . ' = ' . Php::method($object, $flags, $options, $next, $before, $after) . ';';
                                 $right = $uuid_variable;
                             }
-                            elseif(                                
+                            elseif(
                                 array_key_exists('type', $next) &&
                                 in_array(
                                     $next['type'],
@@ -4038,7 +4028,7 @@ class Php {
                             ){
                                 $right = $next['execute'];
                             }
-                            elseif(                                
+                            elseif(
                                 array_key_exists('type', $next) &&
                                 in_array(
                                     $next['type'],
@@ -4052,16 +4042,16 @@ class Php {
                             }
                             /*
                             elseif(
-                                array_key_exists('type', $next) && 
+                                array_key_exists('type', $next) &&
                                 $next['type'] === 'symbol'
-                            ){                                
+                            ){
                                 $value .= $record['value'] . $next['value'];
                                 $skip++;
                                 $is_debug = true;
-                                break;                                                               
+                                break;
                             }
-                            */    
-                            elseif(                                
+                            */
+                            elseif(
                                 array_key_exists('type', $next) &&
                                 in_array(
                                     $next['type'],
@@ -4080,51 +4070,51 @@ class Php {
                                     $right = $next['value'];
                                 }
                             }
-                            elseif(                                
+                            elseif(
                                 array_key_exists('value', $next) &&
                                 $next['value'] === '('
-                            ){           
-                                $set_depth = 0;              
+                            ){
+                                $set_depth = 0;
                                 $collect = [
                                     'string' => '',
                                     'array' => [],
                                 ];
-                                $set_count = 0;                                       
+                                $set_count = 0;
                                 for($i = $nr+1; $i <= $count - 1; $i++){
                                     $next = $input['array'][$i] ?? null;
                                     if($next === null){
                                         break;
                                     }
-                                    elseif(                                       
+                                    elseif(
                                         array_key_exists('value', $next) &&
                                         $next['value'] === '('
-                                    ){                                                                                                
-                                        $set_depth++;                                                        
+                                    ){
+                                        $set_depth++;
                                         $set_count++;
                                         continue;
                                     }
-                                    elseif(                                       
+                                    elseif(
                                         array_key_exists('value', $next) &&
                                         $next['value'] === ')'
-                                    ){                                                                                                
+                                    ){
                                         $set_depth--;
-                                        if($set_depth === 0){     
-                                            $set_count++;                                                                                   
+                                        if($set_depth === 0){
+                                            $set_count++;
                                             break;
-                                        }                                    
+                                        }
                                     }
                                     $collect['string'] .= $next['tag'] ?? $next['execute'] ?? $next['value'] ?? '';
                                     $collect['array'][] = $next;
                                     $set_count++;
                                 }
-                                $right = Php::value($object, $flags, $options, $tag, $collect, $is_set_right, $before, $after);                                                                                                                                               
+                                $right = Php::value($object, $flags, $options, $tag, $collect, $is_set_right, $before, $after);
                                 $skip += $set_count;
                             } else {
                                 trace();
                                 d($input);
                                 d($record);
                                 ddd($next);
-                            }                            
+                            }
                             $skip++;
                             if($is_debug){
                                 d($value);
@@ -4147,11 +4137,11 @@ class Php {
                 }
                 $value .= Php::method($object, $flags, $options, $record, $before, $after);
             }
-             elseif(
+            elseif(
                 array_key_exists('type', $record) &&
                 $record['type'] === 'variable_method'
-            ){                
-                $value .= Php::variable_method($object, $flags, $options, $record, $before, $after);                
+            ){
+                $value .= Php::variable_method($object, $flags, $options, $record, $before, $after);
             }
             elseif(
                 array_key_exists('type', $record) &&
@@ -4221,7 +4211,7 @@ class Php {
                 } else {
                     d('not implemented');
                     ddd($record);
-                    $value .= $record['value'];                    
+                    $value .= $record['value'];
                 }
             }
             elseif(
@@ -4317,7 +4307,7 @@ class Php {
             elseif(array_key_exists('type', $record) &&
                 $record['type'] === 'whitespace'
             ){
-                $value .= $record['value'];                
+                $value .= $record['value'];
             }
             elseif(array_key_exists('type', $record) &&
                 $record['type'] === 'symbol'
@@ -4325,20 +4315,20 @@ class Php {
                 $value .= $record['value'];
             }
             elseif(
-                    array_key_exists('type', $record) &&
-                    $record['type'] === 'set'
+                array_key_exists('type', $record) &&
+                $record['type'] === 'set'
             ){
                 $set = [
                     'string' => $record['value'],
                     'array' => $record['array']
                 ];
-                $value .= Php::value($object, $flags, $options, $tag, $set, $is_set_right, $before, $after);                                                                                                                                               
+                $value .= Php::value($object, $flags, $options, $tag, $set, $is_set_right, $before, $after);
             } else {
                 d('not implemented');
                 ddd($record);
             }
         }
-        if($is_debug){                                
+        if($is_debug){
             ddd($value);
         }
         return $value;
@@ -4515,54 +4505,26 @@ class Php {
             $is_double_quote = false;
             $test = '';
             foreach ($data as $nr => $char) {
-                $previous = $data[$nr - 1] ?? null;
-                $previous_2x = $data[$nr - 2] ?? null;
-                $previous_3x = $data[$nr - 3] ?? null;
-                $previous_4x = $data[$nr - 4] ?? null;
                 if (
                     $char === '\'' &&
-                    Symbol::check_previous([
-                        $previous,
-                        $previous_2x,
-                        $previous_3x,
-                        $previous_4x,
-                    ]) &&
                     $is_double_quote === false &&
                     $is_single_quote === false
                 ) {
                     $is_single_quote = true;
                 } elseif (
                     $char === '\'' &&
-                    Symbol::check_previous([
-                        $previous,
-                        $previous_2x,
-                        $previous_3x,
-                        $previous_4x,
-                    ]) &&
                     $is_double_quote === false &&
                     $is_single_quote === true
                 ) {
                     $is_single_quote = false;
                 } elseif (
                     $char === '"' &&
-                    Symbol::check_previous([
-                        $previous,
-                        $previous_2x,
-                        $previous_3x,
-                        $previous_4x,
-                    ]) &&
                     $is_double_quote === false &&
                     $is_single_quote === false
                 ) {
                     $is_double_quote = true;
                 } elseif (
                     $char === '"' &&
-                    Symbol::check_previous([
-                        $previous,
-                        $previous_2x,
-                        $previous_3x,
-                        $previous_4x,
-                    ]) &&
                     $is_double_quote === true &&
                     $is_single_quote === false
                 ) {
@@ -5121,13 +5083,13 @@ class Php {
                     );
                 }
             }
-        } else {            
-            $value = Php::value($object, $flags, $options, $record, $record['variable']['value'], $is_set, $before, $after);            
+        } else {
+            $value = Php::value($object, $flags, $options, $record, $record['variable']['value'], $is_set, $before, $after);
         }
         if(
-            array_key_exists('modifier', $record['variable']) && 
+            array_key_exists('modifier', $record['variable']) &&
             !empty($record['variable']['modifier'])
-        ){                       
+        ){
             $previous_modifier = '$data->data(\'' . $record['variable']['name'] . '\')';
             $modifier_value = '';
             foreach($record['variable']['modifier'] as $nr => $modifier){
@@ -5184,7 +5146,7 @@ class Php {
                             '\', ' .
                             $value .
                             ')'
-                        ;                                         
+                        ;
                         $item_validator = $item  . ';';
                         $result_validator[] = $item_validator;
                         if($separator !== null){
@@ -5200,13 +5162,13 @@ class Php {
                                 }
                             }
                             $result[] = '} catch(Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception){';
-                            if(                                
+                            if(
                                 array_key_exists('is_multiline', $record) &&
                                 $record['is_multiline'] === true
-                                                                                         
+
                             ){
                                 $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']['start']  . ', column: ' . $record['column'][$record['line']['start']]['start'] . ' in source: '. $source . '\' . PHP_EOL . (string) $exception, 0, $exception);';
-                            } else {                                
+                            } else {
                                 $result[] = 'throw new TemplateException(\'' . str_replace(['\\','\''], ['\\\\', '\\\''], $record['tag']) . PHP_EOL . 'On line: ' . $record['line']  . ', column: ' . $record['column']['start'] . ' in source: ' . $source . '\' . PHP_EOL . (string) $exception, 0, $exception);';
                             }
                             $result[] = '}';

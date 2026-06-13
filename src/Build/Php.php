@@ -2017,6 +2017,7 @@ class Php {
                             $data[] = '}';
                         }
                         if(!empty($after)){
+                            d($after);
                             foreach($after as $line){
                                 $data[] = $line;
                             }
@@ -2370,14 +2371,14 @@ class Php {
                                 $explode = explode(' = $data->get(', substr($before_foreach_key[0], 0, -2));
 //                                d($foreach_value);
 //                                d($explode);
-                                $inline_before[] = '$data->set(' . $explode[1] . ', ' . $explode[0] . ');';
+                                $inline_before[] = '$data->set(' . $explode[1] . ', ' . $explode[0] . '); //test';
                                 $value .= ' as ' . $foreach_value;
                                 $argument_input = [];
                                 $argument_input['string'] = $argument['array'][4]['tag'] ?? $argument['array'][4]['value'] ?? $argument['array'][4]['execute'] ?? null;
                                 $argument_input['array'][] = $argument['array'][4];
                                 $foreach_value = Php::value($object, $flags, $options, $record, $argument_input, $is_set, $before_foreach_value, $after_foreach_value);
                                 $explode = explode(' = $data->get(', substr($before_foreach_value[0], 0, -2));
-                                $inline_before[] = '$data->set(' . $explode[1] . ', ' . $explode[0] . ');';
+                                $inline_before[] = '$data->set(' . $explode[1] . ', ' . $explode[0] . '); //test2';
                                 $value .= ' => ' . $foreach_value;
                             }
                             elseif(array_key_exists(2, $argument['array'])){
@@ -2681,7 +2682,7 @@ class Php {
                 array_key_exists('is_reference', $record) &&
                 $record['is_reference'] === true
             ){
-                $after[] = '$data->set(\'' . $record['name'] . '\', ' . $uuid_variable . ');';
+                $after[] = '$data->set(\'' . $record['name'] . '\', ' . $uuid_variable . '); //test4';
             }
         }
         return $result;

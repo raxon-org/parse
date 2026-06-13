@@ -30,6 +30,7 @@ class Symbol
         $skip = 0;
         foreach($input['array'] as $nr => $char){
             if(!is_int($nr)){
+                d($input);
                 throw new Exception('Index not an integer');
             }
             $previous_nr = $nr - 1;

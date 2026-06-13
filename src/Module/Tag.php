@@ -349,7 +349,14 @@ class Tag
                 $char === '"' &&
                 $is_single_quoted === false &&
                 $is_double_quoted_backslash === false &&
-                $previous === '\\'
+                $previous === '\\' &&
+                (
+                    $previous_2x !== '\\' ||
+                    (
+                        $previous_2x === '\\' &&
+                        $previous_3x === '\\'
+                    )
+                )
             ){
                 if($text !== ''){
                     $text = substr($text, 0, -1);
@@ -403,14 +410,20 @@ class Tag
                     $text = '\\';
                 }
                 $is_double_quoted_backslash = true;
-                d('is_double_quoted_backslash: ' . $is_double_quoted_backslash);
             }
             elseif(
                 $tag === false &&
                 $char === '"' &&
                 $is_single_quoted === false &&
                 $is_double_quoted_backslash === true &&
-                $previous === '\\'
+                $previous === '\\' &&
+                (
+                    $previous_2x !== '\\' ||
+                    (
+                        $previous_2x === '\\' &&
+                        $previous_3x === '\\'
+                    )
+                )
             ){
                 if($text !== ''){
                     $text .= $char;

@@ -1,3 +1,6 @@
+{{$eol = constant('PHP_EOL')}}
+{dd($eol)}}
+
 {{$list = [
     0,
     1,

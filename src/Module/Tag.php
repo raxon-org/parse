@@ -602,20 +602,6 @@ class Tag
                 $previous === '}' &&
                 $is_comment === false &&
                 $curly_count === 0 &&
-                $is_single_quoted === true
-                // $is_double_quoted === false &&
-//                $is_double_quoted_backslash === false
-            ){
-                $tag .= $char;
-                d($text);
-                dd($tag);
-            }
-            elseif(
-                $tag !== false &&
-                $char === '}' &&
-                $previous === '}' &&
-                $is_comment === false &&
-                $curly_count === 0 &&
                 $is_single_quoted === false &&
                 // $is_double_quoted === false &&
                 $is_double_quoted_backslash === false

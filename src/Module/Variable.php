@@ -258,8 +258,11 @@ class Variable
                         $array_depth++;
                     }
                     elseif($current === ']'){
+                        if($is_array_notation === true){
+                            $array_notation .= $current;
+                            $array_notation_array[] = $current;
+                        }
                         $array_depth--;
-                        d($array_depth);
                         if($array_depth === 0){
                             $is_array_notation = false;
                         }

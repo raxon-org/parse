@@ -29,4 +29,5 @@ require(
         user.refreshUrl("{{server.url(\"{{/literal}}{{$backend.host}}{{literal}}\")}}");
     }
 );
+{{/literal}}
 {{/if}}

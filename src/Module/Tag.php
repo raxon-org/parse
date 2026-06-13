@@ -38,12 +38,10 @@ class Tag
             if($skip > 0){
                 $skip--;
                 continue;
-            }            
+            }
             $previous = $split[$nr - 1] ?? null;
             $previous_2x = $split[$nr - 2] ?? null;
             $previous_3x = $split[$nr - 3] ?? null;
-            $previous_4x = $split[$nr - 4] ?? null;
-            $previous_5x = $split[$nr - 5] ?? null;
             $next = $split[$nr + 1] ?? null;
             $next_2x = $split[$nr + 2] ?? null;
             $next_3x = $split[$nr + 3] ?? null;
@@ -61,16 +59,19 @@ class Tag
 //                $tag === false &&
                 $char === '\'' &&
                 $is_single_quoted === false &&
-                Symbol::check_previous([
-                    $previous,
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                ])
 //                $is_double_quoted === false &&                //needs to be off
 //                $is_double_quoted_backslash === false &&      //needs to be off
+                (
+                    $previous !== '\\' ||
+                    (
+                        $previous === '\\' &&
+                        $previous_2x === '\\' &&
+                        $previous_3x != '\\' // != (also null)
+
+                    )
+                )
             ){
-                if($text !== ''){                    
+                if($text !== ''){
                     $explode = explode("\n", $text);
                     $count = count($explode);
                     $explode_tag = explode("\n", $tag);
@@ -128,12 +129,14 @@ class Tag
                 $is_single_quoted === true &&
 //                $is_double_quoted === false &&            //needs to be off
 //                $is_double_quoted_backslash === false &&  //needs to be off
-                Symbol::check_previous([
-                    $previous,
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                ])
+                (
+                    $previous !== '\\' ||
+                    (
+                        $previous === '\\' &&
+                        $previous_2x === '\\' &&
+                        $previous_3x != '\\' // != (also null)
+                    )
+                )
             ){
                 if($text !== ''){
                     $text .= $char;
@@ -185,7 +188,7 @@ class Tag
                         $tag_list[$line][] = $record;
                     }
                     $text = '';
-                    $is_single_quoted = false;                    
+                    $is_single_quoted = false;
                     continue;
                 }
                 $is_single_quoted = false;
@@ -195,27 +198,30 @@ class Tag
                 $is_single_quoted === true &&
 //                $is_double_quoted === false &&            //needs to be off
 //                $is_double_quoted_backslash === false &&  //needs to be off
-                Symbol::check_previous([
-                    $previous,
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                ])
+                (
+                    $previous !== '\\' ||
+                    (
+                        $previous === '\\' &&
+                        $previous_2x === '\\' &&
+                        $previous_3x != '\\' // != (also null)
+                    )
+                )
             ){
                 $is_single_quoted = false;
-            }           
+            }
             elseif(
                 $tag === false &&
                 $char === '"' &&
                 $is_single_quoted === false &&
                 $is_double_quoted === false &&
                 $is_double_quoted_backslash === false &&
-                Symbol::check_previous([
-                    $previous,
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                ])
+                (
+                    $previous !== '\\' ||
+                    (
+                        $previous === '\\' &&
+                        $previous_2x === '\\'
+                    )
+                )
             ){
                 if($text !== ''){
                     $explode = explode("\n", $text);
@@ -275,13 +281,14 @@ class Tag
                 $is_single_quoted === false &&
                 $is_double_quoted === true &&
                 $is_double_quoted_backslash === false &&
-                Symbol::check_previous([
-                    $previous,
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                ])
-            ){            
+                (
+                    $previous !== '\\' ||
+                    (
+                        $previous === '\\' &&
+                        $previous_2x === '\\'
+                    )
+                )
+            ){
                 if($text !== ''){
                     $text .= $char;
                     $explode = explode("\n", $text);
@@ -342,23 +349,9 @@ class Tag
                 $char === '"' &&
                 $is_single_quoted === false &&
                 $is_double_quoted_backslash === false &&
-                $previous === '\\' &&
-                (
-                    $previous_2x !== '\\' ||
-                    (
-                        $previous_2x === '\\' &&
-                        $previous_3x === '\\' &&
-                        $previous_4x != '\\' // != (also null)
-                    ) ||
-                    (
-                        $previous_2x === '\\' &&
-                        $previous_3x === '\\' &&
-                        $previous_4x === '\\' &&
-                        $previous_5x === '\\'
-                    )
-                )
+                $previous === '\\'
             ){
-                if($text !== ''){                    
+                if($text !== ''){
                     $text = substr($text, 0, -1);
                     $explode = explode("\n", $text);
                     $count = count($explode);
@@ -416,21 +409,7 @@ class Tag
                 $char === '"' &&
                 $is_single_quoted === false &&
                 $is_double_quoted_backslash === true &&
-                $previous === '\\' &&
-                (
-                    $previous_2x !== '\\' ||
-                    (
-                        $previous_2x === '\\' &&
-                        $previous_3x === '\\' &&
-                        $previous_4x != '\\' // != (also null)
-                    ) ||
-                    (
-                        $previous_2x === '\\' &&
-                        $previous_3x === '\\' &&
-                        $previous_4x === '\\' &&
-                        $previous_5x === '\\'
-                    )
-                )
+                $previous === '\\'
             ){
                 if($text !== ''){
                     $text .= $char;
@@ -536,7 +515,7 @@ class Tag
                 $is_double_quoted_backslash === false
             ){
                 $is_comment = true;
-                $is_comment_multiline = true;                                
+                $is_comment_multiline = true;
             }
             elseif(
                 $char === '*' &&
@@ -584,24 +563,24 @@ class Tag
                 $char === '{' &&
                 $previous === '{' &&
                 $is_comment === false &&
-                $is_single_quoted === false && 
+                $is_single_quoted === false &&
                 $is_double_quoted === false &&
                 $is_double_quoted_backslash === false
             ){
-                $tag = '{{';                                            
-                $text = mb_substr($text, 0, -1);                
+                $tag = '{{';
+                $text = mb_substr($text, 0, -1);
             }
             elseif(
                 $tag === false &&
                 $char === '{' &&
                 $previous === '{' &&
                 $is_comment === false &&
-                $is_single_quoted === false && 
+                $is_single_quoted === false &&
                 $is_double_quoted === true &&
                 $is_double_quoted_backslash === false
             ){
-                $tag = '{{';                                                
-                $text = mb_substr($text, 0, -1);                
+                $tag = '{{';
+                $text = mb_substr($text, 0, -1);
             }
             elseif(
                 $tag !== false &&
@@ -626,8 +605,8 @@ class Tag
                 $is_single_quoted === false &&
                 // $is_double_quoted === false &&
                 $is_double_quoted_backslash === false
-            ){                            
-                $tag .= $char;                
+            ){
+                $tag .= $char;
                 $column[$line]++;
                 if($text !== ''){
                     $explode = explode("\n", $text);
@@ -821,7 +800,7 @@ class Tag
                     $tag_list[$line] = [];
                 }
                 $tag_list[$line][] = $record;
-            }            
+            }
         }
         return $tag_list;
     }

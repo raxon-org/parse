@@ -1,6 +1,3 @@
-{{$eol = constant('PHP_EOL')}}
-{{d($eol)}}
-
 {{$list = [
     0,
     1,

@@ -3181,6 +3181,11 @@ class Php {
                 $skip--;
                 continue;
             }
+            if(!is_array($record){
+                trace();
+                d($input);
+                ddd($record);
+            }
             if (!array_key_exists('type', $record)) {
                 continue;
             }

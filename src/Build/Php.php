@@ -2267,7 +2267,8 @@ class Php {
                                 $value = '';
                             }
                             if($nr === 0){
-                                ddd($value);
+                                //need different solution here
+                                $value = str_replace('},try {', '} try {', $value);
                             }
                             $method_value[] = $value;
                         }
@@ -3466,7 +3467,6 @@ class Php {
      */
     private static function value_switch(App $object, $flags, $options, $record, $tag, &$before=[], &$after=[]): string
     {
-        d($record);
         switch ($record['type']) {
             case 'method':
                 if (empty($record['tag'])) {

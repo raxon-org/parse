@@ -2294,7 +2294,6 @@ class Php {
                         }
                         $method_value[0] = null;
                         $is_argument = true;
-                        d($method_value);
                     }
                     if($try_catch === null){
                         $object->config('delete', 'package.raxon/parse.build.state.try_catch');

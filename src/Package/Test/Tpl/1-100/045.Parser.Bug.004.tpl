@@ -1,2 +1,2 @@
 {{$node.name = 'Universe Orange'}}
-{{$node.name|string.replace:' ':'&nbsp;'}}
+{{$node.name|>string.replace:' ':'&nbsp;'}}

@@ -854,6 +854,8 @@ class Php {
                             }
                             $object->config('package.raxon/parse.build.state.remove_newline_next', true);
                             $for_content = PHP::document_tag($object, $flags, $options, $content[$category]['content']);
+                            d($content[$category]['content']);
+                            d($for_content);
                             foreach($for_content as $line){
                                 $for_data[] = $line;
                             }
@@ -867,9 +869,6 @@ class Php {
                             foreach($for_after as $line){
                                 $data[] = $line;
                             }
-                            d($for_data);
-                            d($data);
-//                            d($data);
                             $content[$category] = [];
                         } else {
                             if(!array_key_exists($row_nr, $content[$category]['content'])){

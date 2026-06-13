@@ -1376,52 +1376,13 @@ class Token
                 is_array($previous_2x) &&
                 array_key_exists('execute',  $previous_2x)
             ){
-                $previous_2x = $previous_2x['execute'];
+                $previous_previous = $previous_previous['execute'];
             }
             elseif(
-                is_array($previous_2x) &&
-                array_key_exists('value',  $previous_2x)
+                is_array($previous_previous) &&
+                array_key_exists('value',  $previous_previous)
             ){
-                $previous_2x = $previous_2x['value'];
-            }
-            $previous_3x = $input['array'][$nr - 3] ?? null;
-            if(
-                is_array($previous_3x) &&
-                array_key_exists('execute',  $previous_3x)
-            ){
-                $previous_3x = $previous_3x['execute'];
-            }
-            elseif(
-                is_array($previous_3x) &&
-                array_key_exists('value',  $previous_3x)
-            ){
-                $previous_3x = $previous_3x['value'];
-            }
-            $previous_4x = $input['array'][$nr - 4] ?? null;
-            if(
-                is_array($previous_4x) &&
-                array_key_exists('execute',  $previous_4x)
-            ){
-                $previous_4x = $previous_4x['execute'];
-            }
-            elseif(
-                is_array($previous_4x) &&
-                array_key_exists('value',  $previous_4x)
-            ){
-                $previous_4x = $previous_4x['value'];
-            }
-            $previous_5x = $input['array'][$nr - 5] ?? null;
-            if(
-                is_array($previous_5x) &&
-                array_key_exists('execute',  $previous_5x)
-            ){
-                $previous_5x = $previous_5x['execute'];
-            }
-            elseif(
-                is_array($previous_5x) &&
-                array_key_exists('value',  $previous_5x)
-            ){
-                $previous_5x = $previous_5x['value'];
+                $previous_previous = $previous_previous['value'];
             }
             if(
                 (
@@ -1454,12 +1415,13 @@ class Token
                 ) &&
                 $is_single_quote === true &&
                 $is_double_quote === false &&
-                Symbol::check_previous([
-                    $previous,
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                ])
+                (
+                    $previous !== '\\' ||
+                    (
+                        $previous === '\\' &&
+                        $previous_previous === '\\'
+                    )
+                )
             ){
                 $is_single_quote = false;
             }
@@ -1474,12 +1436,13 @@ class Token
                 ) &&
                 $is_single_quote === false &&
                 $is_double_quote === false &&
-                Symbol::check_previous([
-                    $previous,
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                ])
+                (
+                    $previous !== '\\' ||
+                    (
+                        $previous === '\\' &&
+                        $previous_previous === '\\'
+                    )
+                )
             ){
                 $is_double_quote = true;
             }
@@ -1494,12 +1457,13 @@ class Token
                 ) &&
                 $is_single_quote === false &&
                 $is_double_quote === true &&
-                Symbol::check_previous([
-                    $previous,
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                ])
+                (
+                    $previous !== '\\' ||
+                    (
+                        $previous === '\\' &&
+                        $previous_previous === '\\'
+                    )
+                )
             ){
                 $is_double_quote = false;
             }
@@ -1514,21 +1478,7 @@ class Token
                 ) &&
                 $is_single_quote === false &&
                 $is_double_quote_backslash === false &&
-                $previous === '\\' &&
-                (
-                    $previous_2x !== '\\' ||
-                    (
-                        $previous_2x === '\\' &&
-                        $previous_3x === '\\' &&
-                        $previous_4x != '\\' // != (also null)
-                    ) ||
-                    (
-                        $previous_2x === '\\' &&
-                        $previous_3x === '\\' &&
-                        $previous_4x === '\\' &&
-                        $previous_5x === '\\'
-                    )
-                )
+                $previous === '\\'
             ){
                 $is_double_quote_backslash = true;
             }
@@ -1543,21 +1493,7 @@ class Token
                 ) &&
                 $is_single_quote === false &&
                 $is_double_quote_backslash === true &&
-                $previous === '\\' &&
-                (
-                    $previous_2x !== '\\' ||
-                    (
-                        $previous_2x === '\\' &&
-                        $previous_3x === '\\' &&
-                        $previous_4x != '\\' // != (also null)
-                    ) ||
-                    (
-                        $previous_2x === '\\' &&
-                        $previous_3x === '\\' &&
-                        $previous_4x === '\\' &&
-                        $previous_5x === '\\'
-                    )
-                )
+                $previous === '\\'
             ){
                 $is_double_quote_backslash = false;
             }

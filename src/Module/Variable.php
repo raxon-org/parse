@@ -471,10 +471,7 @@ class Variable
                 continue;
             }
             $previous = Token::item($input, $nr - 1);
-            $previous_2x = Token::item($input, $nr - 2);
-            $previous_3x = Token::item($input, $nr - 3);
-            $previous_4x = Token::item($input, $nr - 4);
-            $previous_5x = Token::item($input, $nr - 5);
+            $previous_previous = Token::item($input, $nr - 2);
             $next = Token::item($input, $nr + 1);
             $current = Token::item($input, $nr);
             if($current === '('){
@@ -605,12 +602,13 @@ class Variable
             }
             elseif(
                 $current === '\'' &&
-                Symbol::check_previous([
-                    $previous,
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                ]) &&
+                (
+                    $previous !== '\\' ||
+                    (
+                        $previous === '\\' &&
+                        $previous_previous === '\\'
+                    )
+                ) &&
                 $is_single_quote === false &&
                 $is_double_quote === false
             ){
@@ -618,12 +616,13 @@ class Variable
             }
             elseif(
                 $current === '\'' &&
-                Symbol::check_previous([
-                    $previous,
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                ]) &&
+                (
+                    $previous !== '\\' ||
+                    (
+                        $previous === '\\' &&
+                        $previous_previous === '\\'
+                    )
+                ) &&
                 $is_single_quote === true &&
                 $is_double_quote === false
             ){
@@ -631,12 +630,13 @@ class Variable
             }
             elseif(
                 $current === '"' &&
-                Symbol::check_previous([
-                    $previous,
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                ]) &&
+                (
+                    $previous !== '\\' ||
+                    (
+                        $previous === '\\' &&
+                        $previous_previous === '\\'
+                    )
+                ) &&
                 $is_single_quote === false &&
                 $is_double_quote === false
             ){
@@ -644,12 +644,13 @@ class Variable
             }
             elseif(
                 $current === '"' &&
-                Symbol::check_previous([
-                    $previous,
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                ]) &&
+                (
+                    $previous !== '\\' ||
+                    (
+                        $previous === '\\' &&
+                        $previous_previous === '\\'
+                    )
+                ) &&
                 $is_single_quote === false &&
                 $is_double_quote === true
             ){
@@ -658,20 +659,6 @@ class Variable
             elseif(
                 $current === '"' &&
                 $previous === '\\' &&
-                (
-                    $previous_2x !== '\\' ||
-                    (
-                        $previous_2x === '\\' &&
-                        $previous_3x === '\\' &&
-                        $previous_4x != '\\' // != (also null)
-                    ) ||
-                    (
-                        $previous_2x === '\\' &&
-                        $previous_3x === '\\' &&
-                        $previous_4x === '\\' &&
-                        $previous_5x === '\\'
-                    )
-                ) &&
                 $is_single_quote === false &&
                 $is_double_quote_backslash === false
             ){
@@ -680,20 +667,6 @@ class Variable
             elseif(
                 $current === '"' &&
                 $previous === '\\' &&
-                (
-                    $previous_2x !== '\\' ||
-                    (
-                        $previous_2x === '\\' &&
-                        $previous_3x === '\\' &&
-                        $previous_4x != '\\' // != (also null)
-                    ) ||
-                    (
-                        $previous_2x === '\\' &&
-                        $previous_3x === '\\' &&
-                        $previous_4x === '\\' &&
-                        $previous_5x === '\\'
-                    )
-                ) &&
                 $is_single_quote === false &&
                 $is_double_quote_backslash === true
             ){

@@ -2029,9 +2029,30 @@ class Php {
                     elseif($is_literal !== false) {
                         $marker_data[] = $record;
                     } else {
-                        d($content);
-                        d($record);
-
+                        if (
+                            array_key_exists('is_multiline', $record) &&
+                            $record['is_multiline'] === true
+                        ) {
+                            $data[] = 'throw new TemplateException(\'Tag error (' .
+                                str_replace(['\\','\''], ['\\\\', '\\\''],  $record['tag']) .
+                                ')\' . PHP_EOL . \'On line: ' .
+                                $record['line']['start'] .
+                                ', column: ' .
+                                $record['column'][$record['line']['start']]['start'] .
+                                ' in source: ' .
+                                $options->source .
+                                '.\');';
+                        } else {
+                            $data[] = 'throw new TemplateException(\'Tag error (' .
+                                str_replace(['\\','\''], ['\\\\', '\\\''],  $record['tag']) .
+                                ')\' . PHP_EOL . \'On line: ' .
+                                $record['line'] .
+                                ', column: ' .
+                                $record['column']['start'] .
+                                ' in source: ' .
+                                $options->source .
+                                '.\');';
+                        }
                     }
                 }
             }

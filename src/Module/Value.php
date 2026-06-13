@@ -103,8 +103,7 @@ class Value
                 continue;
             }
             $previous = Token::item($input, $nr - 1);
-            $previous_2x = Token::item($input, $nr - 2);
-
+            $previous_previous = Token::item($input, $nr - 2);
             if(
                 !is_array($char) &&
                 in_array(
@@ -168,7 +167,7 @@ class Value
                         $previous !== '\\' ||
                         (
                             $previous === '\\' &&
-                            $previous_2x === '\\'
+                            $previous_previous === '\\'
                         )
                     ) &&
                     $is_double_quoted === false &&
@@ -183,7 +182,7 @@ class Value
                         $previous !== '\\' ||
                         (
                             $previous === '\\' &&
-                            $previous_2x === '\\'
+                            $previous_previous === '\\'
                         )
                     ) &&
                     $is_double_quoted !== false &&
@@ -267,7 +266,7 @@ class Value
                         $previous !== '\\' ||
                         (
                             $previous === '\\' &&
-                            $previous_2x === '\\'
+                            $previous_previous === '\\'
                         )
                     ) &&
                     $is_single_quoted === false &&
@@ -282,14 +281,14 @@ class Value
                         $previous !== '\\' ||
                         (
                             $previous === '\\' &&
-                            $previous_2x === '\\'
+                            $previous_previous === '\\'
                         )
                     ) &&
                     $is_single_quoted !== false &&
                     $is_double_quoted === false &&
                     $is_single_quoted_backslash === false
                 ){
-                    $value = '';                    
+                    $value = '';
                     for($i = $is_single_quoted + 1; $i < $nr; $i++){
                         $item = $input['array'][$i];
                         if(is_array($item)){
@@ -503,21 +502,21 @@ class Value
                     for($i=0; $i < $length; $i++){
                         if(
                             (
-                                in_array(
-                                    $data[$i],
-                                    [
-                                        '0',
-                                        '1',
-                                        '2',
-                                        '3',
-                                        '4',
-                                        '5',
-                                        '6',
-                                        '7',
-                                        '8',
-                                        '9',
-                                    ]
-                                )
+                            in_array(
+                                $data[$i],
+                                [
+                                    '0',
+                                    '1',
+                                    '2',
+                                    '3',
+                                    '4',
+                                    '5',
+                                    '6',
+                                    '7',
+                                    '8',
+                                    '9',
+                                ]
+                            )
                             )
                         ){
                             $collect .= $data[$i];
@@ -594,7 +593,7 @@ class Value
                             'value' => $input,
                             'execute' => $collect + 0,
                         ];
-                    } else {                        
+                    } else {
                         return [
                             'type' => 'string',
                             'value' => $input,
@@ -602,7 +601,7 @@ class Value
                             'is_raw' => true
                         ];
                     }
-                } else {                    
+                } else {
                     return [
                         'type' => 'string',
                         'value' => $input,
@@ -633,7 +632,7 @@ class Value
                 continue;
             }
             $previous = Token::item($input, $nr - 1);
-            $previous_2x = Token::item($input, $nr - 2);
+            $previous_previous = Token::item($input, $nr - 2);
             if(
                 is_array($char) &&
                 array_key_exists('value', $char) &&
@@ -644,7 +643,7 @@ class Value
                     $previous !== '\\' ||
                     (
                         $previous === '\\' &&
-                        $previous_2x === '\\'
+                        $previous_previous === '\\'
                     )
                 )
             ){
@@ -664,7 +663,7 @@ class Value
                     $previous !== '\\' ||
                     (
                         $previous === '\\' &&
-                        $previous_2x === '\\'
+                        $previous_previous === '\\'
                     )
                 )
             ){
@@ -684,7 +683,7 @@ class Value
                     $previous !== '\\' ||
                     (
                         $previous === '\\' &&
-                        $previous_2x === '\\'
+                        $previous_previous === '\\'
                     )
                 )
             ){
@@ -704,7 +703,7 @@ class Value
                     $previous !== '\\' ||
                     (
                         $previous === '\\' &&
-                        $previous_2x === '\\'
+                        $previous_previous === '\\'
                     )
                 )
             ){
@@ -808,7 +807,7 @@ class Value
                 continue;
             }
             $previous = Token::item($input, $nr - 1);
-            $previous_2x = Token::item($input, $nr - 2);
+            $previous_previous = Token::item($input, $nr - 2);
             $next = Token::item($input, $nr + 1);
             $current = Token::item($input, $nr);
             if($with_backslash){
@@ -837,7 +836,7 @@ class Value
                         $previous !== '\\' ||
                         (
                             $previous === '\\' &&
-                            $previous_2x === '\\'
+                            $previous_previous === '\\'
                         )
                     ) &&
                     $is_double_quote === false
@@ -851,7 +850,7 @@ class Value
                         $previous !== '\\' ||
                         (
                             $previous === '\\' &&
-                            $previous_2x === '\\'
+                            $previous_previous === '\\'
                         )
                     ) &&
                     $is_double_quote === true
@@ -867,44 +866,44 @@ class Value
                 /**
                 //old code
                 if($current === '{{'){
-                    $curly_depth++;
-                    if($tag_nr === false){
-                        $tag_nr = $nr;
-                    }
+                $curly_depth++;
+                if($tag_nr === false){
+                $tag_nr = $nr;
+                }
                 }
                 elseif($current === '}}'){
-                    $curly_depth--;
-                    if($curly_depth <= 0){
-                        $tag .= $current;
-                        $tag_array[] = $char;
-                        $tag_value = Cast::define(
-                            $object,
-                            $flags,
-                            $options,
-                            [
-                                'string' => $tag,
-                                'array' => $tag_array
-                            ]
-                        );
-                        $tag_value = Token::value(
-                            $object,
-                            $flags,
-                            $options,
-                            $tag_value,
-                        );
-                        for($i = $tag_nr + 1; $i < $nr; $i++){
-                            $input['array'][$i] = array_shift($tag_value['array']);
-                        }
-                        $tag_nr = false;
-                        $tag = '';
-                        $tag_array = [];
-                    }
+                $curly_depth--;
+                if($curly_depth <= 0){
+                $tag .= $current;
+                $tag_array[] = $char;
+                $tag_value = Cast::define(
+                $object,
+                $flags,
+                $options,
+                [
+                'string' => $tag,
+                'array' => $tag_array
+                ]
+                );
+                $tag_value = Token::value(
+                $object,
+                $flags,
+                $options,
+                $tag_value,
+                );
+                for($i = $tag_nr + 1; $i < $nr; $i++){
+                $input['array'][$i] = array_shift($tag_value['array']);
+                }
+                $tag_nr = false;
+                $tag = '';
+                $tag_array = [];
+                }
                 }
                 if($curly_depth > 0){
-                    $tag .= $current;
-                    $tag_array[] = $char;
+                $tag .= $current;
+                $tag_array[] = $char;
                 }
-                */
+                 */
             }
         }
         return $input;

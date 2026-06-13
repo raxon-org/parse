@@ -1,5 +1,5 @@
 {{$eol = constant('PHP_EOL')}}
-{dd($eol)}}
+{d($eol)}}
 
 {{$list = [
     0,

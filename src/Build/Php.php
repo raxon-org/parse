@@ -867,6 +867,8 @@ class Php {
                             foreach($for_after as $line){
                                 $data[] = $line;
                             }
+                            d($for_data);
+                            d($data);
 //                            d($data);
                             $content[$category] = [];
                         } else {

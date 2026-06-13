@@ -403,6 +403,7 @@ class Tag
                     $text = '\\';
                 }
                 $is_double_quoted_backslash = true;
+                d('is_double_quoted_backslash: ' . $is_double_quoted_backslash);
             }
             elseif(
                 $tag === false &&

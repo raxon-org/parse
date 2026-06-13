@@ -2283,6 +2283,7 @@ class Php {
                         }
                         $method_value[0] = null;
                         $is_argument = true;
+                        d($method_value);
                     }
                     if($try_catch === null){
                         $object->config('delete', 'package.raxon/parse.build.state.try_catch');
@@ -4751,7 +4752,6 @@ class Php {
                 $after = [];
                 $data[] = 'try {';
                 $array_notation = Php::value($object, $flags, $options, $record, $record['variable']['array_notation'], $is_set, $before, $after);
-                d($array_notation);
                 $array_notation = explode('][', substr($array_notation, 1, -1));
                 $root_uuid = Core::uuid_variable();
                 $separator = $object->config('package.raxon/parse.build.state.separator');
@@ -5162,7 +5162,6 @@ class Php {
                         }
                         $result[] = $item;
                         if($try_catch !== false){
-                            d($separator);
                             foreach($after_value as $after_record){
                                 if(!is_array($after_record)){
                                     $result[] = $after_record;

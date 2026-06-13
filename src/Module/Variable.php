@@ -357,6 +357,7 @@ class Variable
                         }
                         elseif($current === ']'){
                             $array_depth--;
+                            d($array_depth);
                             if($array_depth === 0){
                                 $is_array_notation = false;
                             }

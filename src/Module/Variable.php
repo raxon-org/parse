@@ -447,6 +447,7 @@ class Variable
         if(array_key_exists('array', $input) === false){
             return $input;
         }
+        d($input);
         $count = count($input['array']);
         $set_depth = 0;
         $set_depth_modifier = false;

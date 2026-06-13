@@ -176,9 +176,11 @@ class Symbol
                 $char === '"' &&
                 $previous === '\\' &&
                 $is_single_quote === false &&
+
                 $is_double_quote_backslash !== false
             ){
                 $string = '';
+                d($input);
                 for($i = $is_double_quote_backslash; $i <= $nr; $i++){
                     if(is_array($input['array'][$i])){
                         if(array_key_exists('value', $input['array'][$i])){

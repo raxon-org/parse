@@ -33,21 +33,7 @@ class Token
         $text = false;
         foreach($data as $nr => $char){
             $previous = $data[$nr - 1] ?? null;
-            $previous_2x = $data[$nr - 2] ?? null;
-            $previous_3x = $data[$nr - 3] ?? null;
-            $previous_4x = $data[$nr - 4] ?? null;
-            $previous_5x = $data[$nr - 5] ?? null;
-
-            if(
-                $is_single_quoted !== false &&
-                $char === '\'' &&
-                Symbol::check_previous([
-                    $previous,
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                ])
-            ){
+            if($is_single_quoted !== false && $char === '\'' && $previous !== '\\'){
                 $text.= $char;
                 $text = str_replace('{{literal}}', $uuid_start, $text);
                 $text = str_replace('{{/literal}}', $uuid_end, $text);
@@ -59,16 +45,7 @@ class Token
                 $text = false;
                 continue;
             }
-            if(
-                $is_single_quoted === false &&
-                $char === '\'' &&
-                Symbol::check_previous([
-                    $previous,
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                ])
-            ){
+            if($is_single_quoted === false && $char === '\'' && $previous !== '\\'){
                 $is_single_quoted = $nr;
                 $text = $char;
                 continue;
@@ -101,7 +78,7 @@ class Token
                 $input[$nr] = Token::literal_apply($object, $data, $flags, $options, $record);
             }
             return $input;
-        }        
+        }
         $count = false;
         $explode = explode('{{/literal}}', $input, 2);
         if(!array_key_exists(1, $explode)){
@@ -111,14 +88,14 @@ class Token
             if(array_key_exists(1, $temp)){
                 $literal = $temp[1];
                 $uuid = str_replace('-', '_', Core::uuid());
-                $variable = '{{$literal.' . $uuid . '}}';   
-                $count = $object->config('literal.count') ?? 1;                                     
+                $variable = '{{$literal.' . $uuid . '}}';
+                $count = $object->config('literal.count') ?? 1;
                 $assign = '{{$literal.' . $uuid . ' = \'' . Escape::single_quote($literal) . '\'}}';
                 $input = $temp[0] . $assign . $variable . $explode[1];
-                $input = Token::literal_apply($object, $data, $flags, $options, $input);                                               
+                $input = Token::literal_apply($object, $data, $flags, $options, $input);
                 $object->config('literal.count', $count++);
-            }            
-        }              
+            }
+        }
         return $input;
     }
 
@@ -183,9 +160,9 @@ class Token
             }
         }
         if($tags === false){
-            $tags = Tag::define($object, $flags, $options, $input);            
-            $tags = Tag::remove($object, $flags, $options, $tags);            
-            $tags = Token::abstract_syntax_tree($object, $flags, $options, $tags);            
+            $tags = Tag::define($object, $flags, $options, $input);
+            $tags = Tag::remove($object, $flags, $options, $tags);
+            $tags = Token::abstract_syntax_tree($object, $flags, $options, $tags);
             $is_new = true;
         }
         if(
@@ -391,8 +368,6 @@ class Token
                                 $previous = $data[$i - 1] ?? null;
                                 $previous_2x = $data[$i - 2] ?? null;
                                 $previous_3x = $data[$i - 3] ?? null;
-                                $previous_4x = $data[$i - 4] ?? null;
-                                $previous_5x = $data[$i - 5] ?? null;
                                 $next = $data[$i + 1] ?? null;
 
                                 if($previous !== null){
@@ -437,34 +412,6 @@ class Token
                                         $previous_3x = $previous_3x['value'];
                                     }
                                 }
-                                if($previous_4x !== null){
-                                    if(
-                                        is_array($previous_4x) &&
-                                        array_key_exists('execute', $previous_4x)
-                                    ){
-                                        $previous_4x = $previous_4x['execute'];
-                                    }
-                                    elseif(
-                                        is_array($previous_4x) &&
-                                        array_key_exists('value', $previous_4x)
-                                    ){
-                                        $previous_4x = $previous_4x['value'];
-                                    }
-                                }
-                                if($previous_5x !== null){
-                                    if(
-                                        is_array($previous_5x) &&
-                                        array_key_exists('execute', $previous_5x)
-                                    ){
-                                        $previous_5x = $previous_5x['execute'];
-                                    }
-                                    elseif(
-                                        is_array($previous_5x) &&
-                                        array_key_exists('value', $previous_5x)
-                                    ){
-                                        $previous_5x = $previous_5x['value'];
-                                    }
-                                }
                                 if($next !== null){
                                     if(
                                         is_array($next) &&
@@ -478,54 +425,58 @@ class Token
                                     ){
                                         $next = $next['value'];
                                     }
-                                }                                        
+                                }
                                 if(
                                     $char === '\'' &&
                                     $is_single_quoted === false &&
-                                    Symbol::check_previous([
-                                        $previous,
-                                        $previous_2x,
-                                        $previous_3x,
-                                        $previous_4x,
-                                    ])
+                                    (
+                                        $previous !== '\\' ||
+                                        (
+                                            $previous === '\\' &&
+                                            $previous_2x === '\\'
+                                        )
+                                    )
                                 ){
                                     $is_single_quoted = true;
                                 }
                                 elseif(
                                     $char === '\'' &&
                                     $is_single_quoted === true &&
-                                    Symbol::check_previous([
-                                        $previous,
-                                        $previous_2x,
-                                        $previous_3x,
-                                        $previous_4x,
-                                    ])
+                                    (
+                                        $previous !== '\\' ||
+                                        (
+                                            $previous === '\\' &&
+                                            $previous_2x === '\\'
+                                        )
+                                    )
                                 ){
-                                    $is_single_quoted = false;                                                              
+                                    $is_single_quoted = false;
                                 }
                                 elseif(
                                     $char === '"' &&
                                     $is_double_quoted === false &&
-                                    Symbol::check_previous([
-                                        $previous,
-                                        $previous_2x,
-                                        $previous_3x,
-                                        $previous_4x,
-                                    ])
+                                    (
+                                        $previous !== '\\' ||
+                                        (
+                                            $previous === '\\' &&
+                                            $previous_2x === '\\'
+                                        )
+                                    )
                                 ){
-                                    $is_double_quoted = true;                                    
+                                    $is_double_quoted = true;
                                 }
                                 elseif(
                                     $char === '"' &&
                                     $is_double_quoted === true &&
-                                    Symbol::check_previous([
-                                        $previous,
-                                        $previous_2x,
-                                        $previous_3x,
-                                        $previous_4x,
-                                    ])
+                                    (
+                                        $previous !== '\\' ||
+                                        (
+                                            $previous === '\\' &&
+                                            $previous_2x === '\\'
+                                        )
+                                    )
                                 ){
-                                    $is_double_quoted = false;                                    
+                                    $is_double_quoted = false;
                                 }
                                 elseif(
                                     $char === '(' &&
@@ -560,14 +511,14 @@ class Token
                                     $is_single_quoted === false &&
                                     $is_double_quoted === false
                                 ){
-                                    $curly_depth++;                                    
+                                    $curly_depth++;
                                 }
                                 elseif(
                                     $char === '}' &&
                                     $is_single_quoted === false &&
                                     $is_double_quoted === false
                                 ){
-                                    $curly_depth--;                                    
+                                    $curly_depth--;
                                 }
                                 if(
                                     $variable_name !== '' &&
@@ -770,7 +721,7 @@ class Token
                                                 $array_notation_array[] = $char;
                                                 $is_patched = true;
                                             }
-                                            if($next !== '['){                                                
+                                            if($next !== '['){
                                                 //need to check on ] with depth = 1
                                                 $is_array_notation = false;
                                             }
@@ -1033,7 +984,7 @@ class Token
                                                 'name' => $modifier_name,
                                                 'argument' => $argument_value
                                             ];
-                                        }                                        
+                                        }
                                         $variable = [
                                             'is_define' => true,
                                             'is_not' => $is_not,
@@ -1371,10 +1322,10 @@ class Token
             ){
                 $previous = $previous['value'];
             }
-            $previous_2x = $input['array'][$nr - 2] ?? null;
+            $previous_previous = $input['array'][$nr - 2] ?? null;
             if(
-                is_array($previous_2x) &&
-                array_key_exists('execute',  $previous_2x)
+                is_array($previous_previous) &&
+                array_key_exists('execute',  $previous_previous)
             ){
                 $previous_previous = $previous_previous['execute'];
             }
@@ -1395,12 +1346,13 @@ class Token
                 ) &&
                 $is_single_quote === false &&
                 $is_double_quote === false &&
-                Symbol::check_previous([
-                    $previous,
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                ])
+                (
+                    $previous !== '\\' ||
+                    (
+                        $previous === '\\' &&
+                        $previous_previous === '\\'
+                    )
+                )
             ){
                 $is_single_quote = true;
             }
@@ -1614,8 +1566,8 @@ class Token
         $hash = hash('sha256', $input['string']);
         if($cache->has($hash)){
             $input = $cache->get($hash);
-        } else {            
-            $input = Symbol::define($object, $flags, $options, $input);            
+        } else {
+            $input = Symbol::define($object, $flags, $options, $input);
 //            $input = Token::remove_comment($object, $flags, $options, $input);
             $input = Cast::define($object, $flags, $options, $input);
             $input = Method::define($object, $flags, $options, $input, $tag);

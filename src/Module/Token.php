@@ -848,6 +848,8 @@ class Token
                             } else {
                                 if($operator){
                                     // ')' is not an array so we redefine it
+                                    d($after);
+                                    d($after_array);
                                     $list = Token::value(
                                         $object,
                                         $flags,

@@ -854,8 +854,6 @@ class Php {
                             }
                             $object->config('package.raxon/parse.build.state.remove_newline_next', true);
                             $for_content = PHP::document_tag($object, $flags, $options, $content[$category]['content']);
-                            d($content[$category]['content']);
-                            d($for_content);
                             foreach($for_content as $line){
                                 $for_data[] = $line;
                             }
@@ -2915,7 +2913,6 @@ class Php {
                     //we have a single index
                     $argument = '\'' . str_replace(['\''], ['\\\''], trim($argument['string'])) . '\'';
                 } else {
-                    d($argument_is_reference);
                     if(array_key_exists($nr, $argument_is_reference)){
                         $argument['array'][0]['is_reference'] = $argument_is_reference[$nr];
                     }

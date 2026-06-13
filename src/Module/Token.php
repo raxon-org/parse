@@ -1009,6 +1009,7 @@ class Token
                                             $is_single_quoted === false &&
                                             $is_double_quoted === false
                                         ){
+                                            trace();
                                             d($list);
                                             if($array_notation !== ''){
                                                 $array_notation_list = Token::value(

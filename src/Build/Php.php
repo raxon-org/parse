@@ -2682,6 +2682,7 @@ class Php {
                 array_key_exists('is_reference', $record) &&
                 $record['is_reference'] === true
             ){
+                breakpoint($record);
                 $after[] = '$data->set(\'' . $record['name'] . '\', ' . $uuid_variable . '); //test4';
             }
         }

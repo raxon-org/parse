@@ -1,6 +1,7 @@
 {{$backend.host = options('backend.host')}}
 {{if(!$backend.host)}}
-{{terminal.error('Error:')}} -option backend host missing...
+{{terminal.error('Error:')}} -option backend host missing... nice
+
 {{else}}
 {{literal}}
 //{{RAX}}

@@ -1011,6 +1011,7 @@ class Variable
                             'array' => $array
                         ]
                     );
+                    d($argument_value);
                     $argument_value = Token::value(
                         $object,
                         $flags,

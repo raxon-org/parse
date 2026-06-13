@@ -39,8 +39,10 @@ class Symbol
             } else {
                 $previous = Token::item($input, $previous_nr);
             }
-            $previous_previous = Token::item($input, $nr - 2);
+            $previous_2x = Token::item($input, $nr - 2);
             $previous_3x = Token::item($input, $nr - 3);
+            $previous_4x = Token::item($input, $nr - 4);
+            $previous_5x = Token::item($input, $nr - 5);
             $next = Token::item($input, $nr + 1);
             $next_next = Token::item($input, $nr + 2);
             if($skip > 0){
@@ -52,14 +54,12 @@ class Symbol
             }
             if(
                 $char === '\'' &&
-                (
-                    $previous !== '\\' ||
-                    (
-                        $previous === '\\' &&
-                        $previous_previous === '\\' &&
-                        $previous_3x != '\\' // != (also null)
-                    )
-                ) &&
+                Symbol::check_previous([
+                    $previous,
+                    $previous_2x,
+                    $previous_3x,
+                    $previous_4x,
+                ]) &&
                 $is_single_quote === false &&
                 $is_double_quote === false &&
                 $is_double_quote_backslash === false
@@ -69,14 +69,12 @@ class Symbol
             }
             elseif(
                 $char === '\'' &&
-                (
-                    $previous !== '\\' ||
-                    (
-                        $previous === '\\' &&
-                        $previous_previous === '\\' &&
-                        $previous_3x != '\\' // != (also null)
-                    )
-                ) &&
+                Symbol::check_previous([
+                    $previous,
+                    $previous_2x,
+                    $previous_3x,
+                    $previous_4x,
+                ]) &&
                 $is_single_quote !== false &&
                 $is_double_quote === false &&
                 $is_double_quote_backslash === false
@@ -106,13 +104,12 @@ class Symbol
             }
             elseif(
                 $char === '"' &&
-                (
-                    $previous !== '\\' ||
-                    (
-                        $previous === '\\' &&
-                        $previous_previous === '\\'
-                    )
-                ) &&
+                Symbol::check_previous([
+                    $previous,
+                    $previous_2x,
+                    $previous_3x,
+                    $previous_4x,
+                ]) &&
                 $is_single_quote === false &&
                 $is_double_quote === false &&
                 $is_double_quote_backslash === false
@@ -122,13 +119,12 @@ class Symbol
             }
             elseif(
                 $char === '"' &&
-                (
-                    $previous !== '\\' ||
-                    (
-                        $previous === '\\' &&
-                        $previous_previous === '\\'
-                    )
-                ) &&
+                Symbol::check_previous([
+                    $previous,
+                    $previous_2x,
+                    $previous_3x,
+                    $previous_4x,
+                ]) &&
                 $is_single_quote === false &&
                 $is_double_quote !== false &&
                 $is_double_quote_backslash === false
@@ -163,6 +159,20 @@ class Symbol
             elseif(
                 $char === '"' &&
                 $previous === '\\' &&
+                (
+                    $previous_2x !== '\\' ||
+                    (
+                        $previous_2x === '\\' &&
+                        $previous_3x === '\\' &&
+                        $previous_4x != '\\' // != (also null)
+                    ) ||
+                    (
+                        $previous_2x === '\\' &&
+                        $previous_3x === '\\' &&
+                        $previous_4x === '\\' &&
+                        $previous_5x === '\\'
+                    )
+                ) &&
                 $is_single_quote === false &&
                 $is_double_quote_backslash === false
             ){
@@ -173,6 +183,20 @@ class Symbol
             elseif(
                 $char === '"' &&
                 $previous === '\\' &&
+                (
+                    $previous_2x !== '\\' ||
+                    (
+                        $previous_2x === '\\' &&
+                        $previous_3x === '\\' &&
+                        $previous_4x != '\\' // != (also null)
+                    ) ||
+                    (
+                        $previous_2x === '\\' &&
+                        $previous_3x === '\\' &&
+                        $previous_4x === '\\' &&
+                        $previous_5x === '\\'
+                    )
+                ) &&
                 $is_single_quote === false &&
                 $is_double_quote_backslash !== false
             ){                
@@ -210,10 +234,15 @@ class Symbol
                      ||
                     (
                         $char === '\'' &&
+                        Symbol::check_previous([
+                            $previous,
+                            $previous_2x,
+                            $previous_3x,
+                            $previous_4x,
+                        ]) &&
                         $is_single_quote !== false
                     )                    
-                )
-                &&
+                ) &&
                 in_array(
                     $char,
                     [
@@ -292,6 +321,7 @@ class Symbol
                         case '*/':
                         case '//':
                         case '\\"':
+//                        case '\\'': // disabled not a symbol
                         case '|>':
                             $input['array'][$previous_nr] = [
                                 'type' => 'symbol',
@@ -360,5 +390,31 @@ class Symbol
             }
         }
         return $input;
+    }
+
+    public static function check_previous($previous_chars =[]): bool
+    {
+        $count = count($previous_chars);
+        $previous = $previous_chars[$count - 1] ?? null;
+        $previous_2x = $previous_chars[$count - 2] ?? null;
+        $previous_3x = $previous_chars[$count - 3] ?? null;
+        $previous_4x = $previous_chars[$count - 4] ?? null;
+        if (
+            $previous !== '\\' ||
+            (
+                $previous === '\\' &&
+                $previous_2x === '\\' &&
+                $previous_3x != '\\' // != (also null)
+            ) ||
+            (
+                $previous === '\\' &&
+                $previous_2x === '\\' &&
+                $previous_3x === '\\' &&
+                $previous_4x === '\\'
+            )
+        ){
+            return true;
+        }
+        return false;
     }
 }

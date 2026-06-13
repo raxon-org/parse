@@ -43,6 +43,9 @@ class Method
                 continue;
             }
             $previous = Token::item($input, $nr - 1);
+            $previous_2x = Token::item($input, $nr - 2);
+            $previous_3x = Token::item($input, $nr - 3);
+            $previous_4x = Token::item($input, $nr - 4);
             $next = Token::item($input, $nr + 1);
             if(
                 is_array($char) &&
@@ -417,7 +420,13 @@ class Method
                         is_array($char) &&
                         array_key_exists('value', $char) &&
                         $char['value'] === '\'' &&
-                        $previous !== '\\' &&
+                        Symbol::check_previous([
+                            $previous,
+                            $previous_2x,
+                            $previous_3x,
+                            $previous_4x,
+                        ]) &&
+//                        $previous !== '\\' &&
                         $is_single_quote === false &&
                         $is_double_quote === false
                     ){
@@ -429,7 +438,13 @@ class Method
                         is_array($char) &&
                         array_key_exists('value', $char) &&
                         $char['value'] === '\'' &&
-                        $previous !== '\\' &&
+                        Symbol::check_previous([
+                            $previous,
+                            $previous_2x,
+                            $previous_3x,
+                            $previous_4x,
+                        ]) &&
+//                        $previous !== '\\' &&
                         $is_single_quote === true &&
                         $is_double_quote === false
                     ){
@@ -441,7 +456,13 @@ class Method
                         is_array($char) &&
                         array_key_exists('value', $char) &&
                         $char['value'] === '"' &&
-                        $previous !== '\\' &&
+                        Symbol::check_previous([
+                            $previous,
+                            $previous_2x,
+                            $previous_3x,
+                            $previous_4x,
+                        ]) &&
+//                        $previous !== '\\' &&
                         $is_single_quote === false &&
                         $is_double_quote === false
                     ){
@@ -453,7 +474,13 @@ class Method
                         is_array($char) &&
                         array_key_exists('value', $char) &&
                         $char['value'] === '"' &&
-                        $previous !== '\\' &&
+                        Symbol::check_previous([
+                            $previous,
+                            $previous_2x,
+                            $previous_3x,
+                            $previous_4x,
+                        ]) &&
+//                        $previous !== '\\' &&
                         $is_single_quote === false &&
                         $is_double_quote === true
                     ){

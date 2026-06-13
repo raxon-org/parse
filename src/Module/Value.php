@@ -103,7 +103,10 @@ class Value
                 continue;
             }
             $previous = Token::item($input, $nr - 1);
-            $previous_previous = Token::item($input, $nr - 2);
+            $previous_2x = Token::item($input, $nr - 2);
+            $previous_3x = Token::item($input, $nr - 3);
+            $previous_4x = Token::item($input, $nr - 4);
+            $previous_5x = Token::item($input, $nr - 5);
             if(
                 !is_array($char) &&
                 in_array(
@@ -163,13 +166,12 @@ class Value
             ){
                 if(
                     $char['value'] === '"' &&
-                    (
-                        $previous !== '\\' ||
-                        (
-                            $previous === '\\' &&
-                            $previous_previous === '\\'
-                        )
-                    ) &&
+                    Symbol::check_previous([
+                        $previous,
+                        $previous_2x,
+                        $previous_3x,
+                        $previous_4x,
+                    ]) &&
                     $is_double_quoted === false &&
                     $is_single_quoted === false &&
                     $is_double_quoted_backslash === false
@@ -178,13 +180,12 @@ class Value
                 }
                 elseif(
                     $char['value'] === '"' &&
-                    (
-                        $previous !== '\\' ||
-                        (
-                            $previous === '\\' &&
-                            $previous_previous === '\\'
-                        )
-                    ) &&
+                    Symbol::check_previous([
+                        $previous,
+                        $previous_2x,
+                        $previous_3x,
+                        $previous_4x,
+                    ]) &&
                     $is_double_quoted !== false &&
                     $is_single_quoted === false &&
                     $is_double_quoted_backslash === false
@@ -262,13 +263,12 @@ class Value
                 }
                 elseif(
                     $char['value'] === '\'' &&
-                    (
-                        $previous !== '\\' ||
-                        (
-                            $previous === '\\' &&
-                            $previous_previous === '\\'
-                        )
-                    ) &&
+                    Symbol::check_previous([
+                        $previous,
+                        $previous_2x,
+                        $previous_3x,
+                        $previous_4x,
+                    ]) &&
                     $is_single_quoted === false &&
                     $is_double_quoted === false &&
                     $is_single_quoted_backslash === false
@@ -277,13 +277,12 @@ class Value
                 }
                 elseif(
                     $char['value'] === '\'' &&
-                    (
-                        $previous !== '\\' ||
-                        (
-                            $previous === '\\' &&
-                            $previous_previous === '\\'
-                        )
-                    ) &&
+                    Symbol::check_previous([
+                        $previous,
+                        $previous_2x,
+                        $previous_3x,
+                        $previous_4x,
+                    ]) &&
                     $is_single_quoted !== false &&
                     $is_double_quoted === false &&
                     $is_single_quoted_backslash === false
@@ -632,20 +631,22 @@ class Value
                 continue;
             }
             $previous = Token::item($input, $nr - 1);
-            $previous_previous = Token::item($input, $nr - 2);
+            $previous_2x = Token::item($input, $nr - 2);
+            $previous_3x = Token::item($input, $nr - 3);
+            $previous_4x = Token::item($input, $nr - 4);
+            $previous_5x = Token::item($input, $nr - 5);
             if(
                 is_array($char) &&
                 array_key_exists('value', $char) &&
                 $char['value'] === '\'' &&
                 $is_single_quote === false &&
                 $is_double_quote === false &&
-                (
-                    $previous !== '\\' ||
-                    (
-                        $previous === '\\' &&
-                        $previous_previous === '\\'
-                    )
-                )
+                Symbol::check_previous([
+                    $previous,
+                    $previous_2x,
+                    $previous_3x,
+                    $previous_4x,
+                ])
             ){
                 $is_single_quote = true;
                 if($array_depth > 0){
@@ -659,13 +660,12 @@ class Value
                 $char['value'] === '\'' &&
                 $is_single_quote === true &&
                 $is_double_quote === false &&
-                (
-                    $previous !== '\\' ||
-                    (
-                        $previous === '\\' &&
-                        $previous_previous === '\\'
-                    )
-                )
+                Symbol::check_previous([
+                    $previous,
+                    $previous_2x,
+                    $previous_3x,
+                    $previous_4x,
+                ])
             ){
                 $is_single_quote = false;
                 if($array_depth > 0){
@@ -679,13 +679,12 @@ class Value
                 $char['value'] === '"' &&
                 $is_single_quote === false &&
                 $is_double_quote === false &&
-                (
-                    $previous !== '\\' ||
-                    (
-                        $previous === '\\' &&
-                        $previous_previous === '\\'
-                    )
-                )
+                Symbol::check_previous([
+                    $previous,
+                    $previous_2x,
+                    $previous_3x,
+                    $previous_4x,
+                ])
             ){
                 $is_double_quote = true;
                 if($array_depth > 0){
@@ -699,13 +698,12 @@ class Value
                 $char['value'] === '"' &&
                 $is_single_quote === false &&
                 $is_double_quote === true &&
-                (
-                    $previous !== '\\' ||
-                    (
-                        $previous === '\\' &&
-                        $previous_previous === '\\'
-                    )
-                )
+                Symbol::check_previous([
+                    $previous,
+                    $previous_2x,
+                    $previous_3x,
+                    $previous_4x,
+                ])
             ){
                 $is_double_quote = false;
                 if($array_depth > 0){
@@ -807,13 +805,30 @@ class Value
                 continue;
             }
             $previous = Token::item($input, $nr - 1);
-            $previous_previous = Token::item($input, $nr - 2);
+            $previous_2x = Token::item($input, $nr - 2);
+            $previous_3x = Token::item($input, $nr - 3);
+            $previous_4x = Token::item($input, $nr - 4);
+            $previous_5x = Token::item($input, $nr - 5);
             $next = Token::item($input, $nr + 1);
             $current = Token::item($input, $nr);
             if($with_backslash){
                 if(
                     $current === '"' &&
                     $previous === '\\' &&
+                    (
+                        $previous_2x !== '\\' ||
+                        (
+                            $previous_2x === '\\' &&
+                            $previous_3x === '\\' &&
+                            $previous_4x != '\\' // != (also null)
+                        ) ||
+                        (
+                            $previous_2x === '\\' &&
+                            $previous_3x === '\\' &&
+                            $previous_4x === '\\' &&
+                            $previous_5x === '\\'
+                        )
+                    ) &&
                     $is_double_quote === false
                 ){
                     $is_double_quote = true;
@@ -822,6 +837,20 @@ class Value
                 elseif(
                     $current === '"' &&
                     $previous === '\\' &&
+                    (
+                        $previous_2x !== '\\' ||
+                        (
+                            $previous_2x === '\\' &&
+                            $previous_3x === '\\' &&
+                            $previous_4x != '\\' // != (also null)
+                        ) ||
+                        (
+                            $previous_2x === '\\' &&
+                            $previous_3x === '\\' &&
+                            $previous_4x === '\\' &&
+                            $previous_5x === '\\'
+                        )
+                    ) &&
                     $is_double_quote === true
                 ){
                     $string_depth--;
@@ -832,13 +861,12 @@ class Value
             } else {
                 if(
                     $current === '"' &&
-                    (
-                        $previous !== '\\' ||
-                        (
-                            $previous === '\\' &&
-                            $previous_previous === '\\'
-                        )
-                    ) &&
+                    Symbol::check_previous([
+                        $previous,
+                        $previous_2x,
+                        $previous_3x,
+                        $previous_4x,
+                    ]) &&
                     $is_double_quote === false
                 ){
                     $is_double_quote = true;
@@ -846,13 +874,12 @@ class Value
                 }
                 elseif(
                     $current === '"' &&
-                    (
-                        $previous !== '\\' ||
-                        (
-                            $previous === '\\' &&
-                            $previous_previous === '\\'
-                        )
-                    ) &&
+                    Symbol::check_previous([
+                        $previous,
+                        $previous_2x,
+                        $previous_3x,
+                        $previous_4x,
+                    ]) &&
                     $is_double_quote === true
                 ){
                     $string_depth--;

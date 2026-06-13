@@ -4518,58 +4518,51 @@ class Php {
                 $previous = $data[$nr - 1] ?? null;
                 $previous_2x = $data[$nr - 2] ?? null;
                 $previous_3x = $data[$nr - 3] ?? null;
+                $previous_4x = $data[$nr - 4] ?? null;
                 if (
                     $char === '\'' &&
-                    (
-                        $previous !== '\\' ||
-                        (
-                            $previous === '\\' &&
-                            $previous_2x === '\\' &&
-                            $previous_3x !== '\\'
-                        )
-                    ) &&
+                    Symbol::check_previous([
+                        $previous,
+                        $previous_2x,
+                        $previous_3x,
+                        $previous_4x,
+                    ]) &&
                     $is_double_quote === false &&
                     $is_single_quote === false
                 ) {
                     $is_single_quote = true;
                 } elseif (
                     $char === '\'' &&
-                    (
-                        $previous !== '\\' ||
-                        (
-                            $previous === '\\' &&
-                            $previous_2x === '\\' &&
-                            $previous_3x !== '\\'
-                        )
-                    ) &&
+                    Symbol::check_previous([
+                        $previous,
+                        $previous_2x,
+                        $previous_3x,
+                        $previous_4x,
+                    ]) &&
                     $is_double_quote === false &&
                     $is_single_quote === true
                 ) {
                     $is_single_quote = false;
                 } elseif (
                     $char === '"' &&
-                    (
-                        $previous !== '\\' ||
-                        (
-                            $previous === '\\' &&
-                            $previous_2x === '\\' &&
-                            $previous_3x !== '\\'
-                        )
-                    ) &&
+                    Symbol::check_previous([
+                        $previous,
+                        $previous_2x,
+                        $previous_3x,
+                        $previous_4x,
+                    ]) &&
                     $is_double_quote === false &&
                     $is_single_quote === false
                 ) {
                     $is_double_quote = true;
                 } elseif (
                     $char === '"' &&
-                    (
-                        $previous !== '\\' ||
-                        (
-                            $previous === '\\' &&
-                            $previous_2x === '\\' &&
-                            $previous_3x !== '\\'
-                        )
-                    ) &&
+                    Symbol::check_previous([
+                        $previous,
+                        $previous_2x,
+                        $previous_3x,
+                        $previous_4x,
+                    ]) &&
                     $is_double_quote === true &&
                     $is_single_quote === false
                 ) {

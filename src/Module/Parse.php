@@ -782,7 +782,6 @@ class Parse
             $input = Token::literal_apply($object, $data, $flags, $options, $input);
             $input = Token::literal_single_quote_restore($object, $data, $flags, $options, $input);
             $token = Token::tokenize($object, $flags, $options, $input);
-            d($token);
             $url_json = $dir . $options->class . $object->config('extension.json');
             File::write($url_json, Core::object($token, Core::OBJECT_JSON));
             if($cache_url){

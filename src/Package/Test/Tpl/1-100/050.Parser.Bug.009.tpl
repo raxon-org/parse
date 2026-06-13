@@ -1,4 +1,7 @@
-{{$backend.host = options('backend.host')}}{{literal}}
+{{$backend.host = options('backend.host')}}
+{{if(!$backend.host)}}
+{{else}}
+{{literal}}
 //{{RAX}}
 import { address } from "/Application/Filemanager/Module/Address.js";
 import { directory } from "/Application/Filemanager/Module/Directory.js";
@@ -21,4 +24,7 @@ require(
         root() + 'Js/Dropzone/5.9.2/min/dropzone.min.js?' + version()
     ],
     function(){
-        user.refreshUrl("{{server.url('{{/literal}}{{$backend.host}}
+        user.refreshUrl("{{server.url('{{/literal}}{{$backend.host}}{{literal}}')}}");
+    }
+);
+{{/if}}

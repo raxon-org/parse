@@ -2917,7 +2917,7 @@ class Php {
                 } else {
                     d($argument_is_reference);
                     if(array_key_exists($nr, $argument_is_reference)){
-                        $argument['array'][0]['is_reference'] = true;
+                        $argument['array'][0]['is_reference'] = $argument_is_reference[$nr];
                     }
                     $argument = Php::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
                     if($object->config('is.debug') === true){

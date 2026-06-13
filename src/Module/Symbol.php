@@ -201,6 +201,7 @@ class Symbol
                     'is_double_quoted' => true,
                     'is_backslash' => true
                 ];
+                d($input['array'][$is_double_quote_backslash]);
                 $is_double_quote_backslash = false;
                 continue;
             }

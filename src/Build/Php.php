@@ -2257,7 +2257,6 @@ class Php {
                     $before_for = [];
                     $after_for = [];
                     if($argument_count === 3){
-                        d($record['method']['argument']);
                         foreach($record['method']['argument'] as $nr => $argument){
                             if($nr > 0){
                                 $object->config('package.raxon/parse.build.state.try_catch', false);

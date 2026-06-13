@@ -1,4 +1,5 @@
 {{$backend.host = options('backend.host')}}
+{{d($backend.host)}}
 {{if(is.empty($backend.host))}}
 {{terminal.error('Error:')}} -option backend host missing...
 

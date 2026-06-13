@@ -447,7 +447,6 @@ class Variable
         if(array_key_exists('array', $input) === false){
             return $input;
         }
-        d($input);
         $count = count($input['array']);
         $set_depth = 0;
         $set_depth_modifier = false;
@@ -840,9 +839,6 @@ class Variable
                             );
                             $argument_array[$argument_nr] = $argument_value;
                         }
-                        d($modifier_string);
-                        d($modifier_name);
-                        d($argument_array);
                         $input['array'][$is_variable]['modifier'][] = [
                             'string' => $modifier_string,
                             'name' => $modifier_name,
@@ -1012,7 +1008,6 @@ class Variable
                             'array' => $array
                         ]
                     );
-                    d($argument_value);
                     $argument_value = Token::value(
                         $object,
                         $flags,

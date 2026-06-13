@@ -21,6 +21,7 @@ trait Plugin_Constant {
     protected function plugin_constant(string $constant, mixed $value=null): mixed
     {
         $constant = mb_strtoupper($constant);
+        trace();
         d($constant);
         if($value === null){
             try {

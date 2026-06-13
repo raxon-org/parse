@@ -2263,12 +2263,12 @@ class Php {
                                 $object->config('package.raxon/parse.build.state.try_catch', false);
                             } else {
                                 if(array_key_exists('array', $argument)){
-                                    foreach($argument as $argument_nr => $argument_record){
+                                    foreach($argument['array'] as $argument_nr => $argument_record){
                                         if(
                                             array_key_exists('value', $argument_record) &&
                                             $argument_record['value'] === ','
                                         ){
-                                            $argument[$argument_nr] = null;
+                                            $argument['array'][$argument_nr] = null;
                                         }
                                     }
                                 }

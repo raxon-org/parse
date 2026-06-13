@@ -858,7 +858,6 @@ class Token
                                         ],
                                         $record
                                     );
-                                    d($list);
                                     $variable_target = Token::variable_name($object, $flags, $options, $variable_name);
                                     $variable_explode = explode($variable_target, $variable_name, 2);
                                     $cast = Token::cast_get($object, $flags, $options, $variable_explode[0]);
@@ -1010,8 +1009,6 @@ class Token
                                             $is_single_quoted === false &&
                                             $is_double_quoted === false
                                         ){
-                                            trace();
-                                            d($list);
                                             if($array_notation !== ''){
                                                 $array_notation_list = Token::value(
                                                     $object,

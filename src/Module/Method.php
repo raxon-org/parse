@@ -43,9 +43,6 @@ class Method
                 continue;
             }
             $previous = Token::item($input, $nr - 1);
-            $previous_2x = Token::item($input, $nr - 2);
-            $previous_3x = Token::item($input, $nr - 3);
-            $previous_4x = Token::item($input, $nr - 4);
             $next = Token::item($input, $nr + 1);
             if(
                 is_array($char) &&
@@ -87,7 +84,7 @@ class Method
                                 }
                                 elseif($input['array'][$i]['value'] === '$'){
                                     $is_variable_method = true;
-                                    $name .= $input['array'][$i]['value'];                                    
+                                    $name .= $input['array'][$i]['value'];
                                 } else {
                                     $name .= $input['array'][$i]['value'];
                                 }
@@ -173,7 +170,7 @@ class Method
                                 $class = $explode[0];
                                 $name = $explode[1];
                             }
-                        }                        
+                        }
                         $has_name = true;
                     }
                 }
@@ -225,7 +222,7 @@ class Method
                                 $options,
                                 $argument_value,
                                 $tag
-                            );                            
+                            );
                             $argument_list[$argument_nr] = $argument_value;
                             $argument_array = [];
                             $argument = '';
@@ -261,7 +258,7 @@ class Method
                             'end' => 0
                         ];
                         if($is_variable_method === true){
-                            $call_type = '::';                            
+                            $call_type = '::';
                             $explode = explode($call_type, $name, 2);
                             if(array_key_exists(1, $explode)){
                                 $input['array'][$is_method]['method']['name'] = $explode[1];
@@ -288,7 +285,7 @@ class Method
                                     'name' => mb_substr($explode[0], 1),
                                     'is_reference' => false
                                 ];
-                            }                    
+                            }
                             $input['array'][$is_method]['tag'] = $name .'(';
                             $argument_count = count($argument_list);
                             foreach($argument_list as $argument_nr => $argument){
@@ -297,7 +294,7 @@ class Method
                                     $input['array'][$is_method]['tag'] .= ', ';
                                 }
                             }
-                            $input['array'][$is_method]['tag'] .= ')';                            
+                            $input['array'][$is_method]['tag'] .= ')';
                         }
                         elseif($is_class_method === true){
                             $input['array'][$is_method]['method']['is_class_method'] = true;
@@ -383,7 +380,7 @@ class Method
                                 elseif(
                                     array_key_exists('value', $input['array'][$i]) &&
                                     $input['array'][$i]['value'] === '|>' &&
-                                    $previous !== '|' &&                                    
+                                    $previous !== '|' &&
                                     $is_single_quote === false &&
                                     $is_double_quote === false
                                 ){
@@ -420,13 +417,7 @@ class Method
                         is_array($char) &&
                         array_key_exists('value', $char) &&
                         $char['value'] === '\'' &&
-                        Symbol::check_previous([
-                            $previous,
-                            $previous_2x,
-                            $previous_3x,
-                            $previous_4x,
-                        ]) &&
-//                        $previous !== '\\' &&
+                        $previous !== '\\' &&
                         $is_single_quote === false &&
                         $is_double_quote === false
                     ){
@@ -438,13 +429,7 @@ class Method
                         is_array($char) &&
                         array_key_exists('value', $char) &&
                         $char['value'] === '\'' &&
-                        Symbol::check_previous([
-                            $previous,
-                            $previous_2x,
-                            $previous_3x,
-                            $previous_4x,
-                        ]) &&
-//                        $previous !== '\\' &&
+                        $previous !== '\\' &&
                         $is_single_quote === true &&
                         $is_double_quote === false
                     ){
@@ -456,13 +441,7 @@ class Method
                         is_array($char) &&
                         array_key_exists('value', $char) &&
                         $char['value'] === '"' &&
-                        Symbol::check_previous([
-                            $previous,
-                            $previous_2x,
-                            $previous_3x,
-                            $previous_4x,
-                        ]) &&
-//                        $previous !== '\\' &&
+                        $previous !== '\\' &&
                         $is_single_quote === false &&
                         $is_double_quote === false
                     ){
@@ -474,13 +453,7 @@ class Method
                         is_array($char) &&
                         array_key_exists('value', $char) &&
                         $char['value'] === '"' &&
-                        Symbol::check_previous([
-                            $previous,
-                            $previous_2x,
-                            $previous_3x,
-                            $previous_4x,
-                        ]) &&
-//                        $previous !== '\\' &&
+                        $previous !== '\\' &&
                         $is_single_quote === false &&
                         $is_double_quote === true
                     ){
@@ -589,7 +562,7 @@ class Method
                     $separator = $old_separator;
                 }
             }
-        }        
+        }
         return $input;
     }
 }

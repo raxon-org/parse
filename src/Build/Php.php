@@ -3181,7 +3181,7 @@ class Php {
                 $skip--;
                 continue;
             }
-            if(!is_array($record){
+            if(!is_array($record)){
                 trace();
                 d($input);
                 ddd($record);

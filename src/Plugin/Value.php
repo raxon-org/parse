@@ -195,7 +195,7 @@ trait Value {
         if(is_int($root)){
             trace();
             d($root);
-            ddd($children);
+            d($children);
         }
         while(true){
             $child = array_shift($children);

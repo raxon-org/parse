@@ -256,7 +256,7 @@ class Variable
                     if($current === '['){
                         $is_array_notation = true;
                         $array_depth++;
-                    }                    
+                    }
                     if($is_array_notation === true){
                         $array_notation .= $current;
                         $array_notation_array[] = $current;
@@ -464,7 +464,7 @@ class Variable
         $argument_nr = -1;
         $argument = [];
         $argument_array = [];
-        $nr = $count - 1;        
+        $nr = $count - 1;
         foreach($input['array'] as $nr => $char) {
             if(!is_numeric($nr)){
                 // ',' in modifier causes this
@@ -694,7 +694,7 @@ class Variable
                 }
             }
             elseif(
-                $current === '|>' &&                
+                $current === '|>' &&
                 $is_single_quote === false &&
                 $is_double_quote === false &&
                 $is_double_quote_backslash === false &&
@@ -726,7 +726,7 @@ class Variable
                             $tag
                         );
                         $argument_array[$argument_nr] = $argument_value;
-                    }                    
+                    }
                     $input['array'][$is_variable]['modifier'][] = [
                         'string' => $modifier_string,
                         'name' => $modifier_name,
@@ -848,7 +848,7 @@ class Variable
                             $is_array === true &&
                             $set_depth === $set_depth_modifier &&
                             $array_depth === $array_depth_modifier
-                         ){
+                        ){
                             //keep the comma
                             for($index = $is_variable + 1; $index < $nr; $index++){
                                 $input['array'][$index] = null;

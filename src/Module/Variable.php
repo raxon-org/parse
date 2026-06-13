@@ -247,6 +247,7 @@ class Variable
             if($current === '$'){
                 $is_variable = $nr;
                 $is_array_notation = false;
+                $is_array_notation_finish = false;
                 $name = '$';
                 $array_notation = '';
                 $array_notation_array = [];
@@ -258,13 +259,9 @@ class Variable
                         $array_depth++;
                     }
                     elseif($current === ']'){
-                        if($is_array_notation === true){
-                            $array_notation .= $current;
-                            $array_notation_array[] = $current;
-                        }
                         $array_depth--;
                         if($array_depth === 0){
-                            $is_array_notation = false;
+                            $is_array_notation_finish = true;
                         }
                     }
                     if($is_array_notation === true){
@@ -365,6 +362,10 @@ class Variable
                         elseif($has_name === false){
                             $name .= $current;
                         }
+                    }
+                    if($is_array_notation_finish === true){
+                        $is_array_notation = false;
+                        $is_array_notation_finish = false;
                     }
                 }
                 if(

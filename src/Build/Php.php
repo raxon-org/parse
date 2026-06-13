@@ -5162,7 +5162,7 @@ class Php {
                         }
                         $result[] = $item;
                         if($try_catch !== false){
-                            d($after_value);
+                            d($separator);
                             foreach($after_value as $after_record){
                                 if(!is_array($after_record)){
                                     $result[] = $after_record;

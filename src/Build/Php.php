@@ -2283,6 +2283,7 @@ class Php {
                         } else {
                             $object->config('package.raxon/parse.build.state.separator', $separator);
                         }
+                        // ' ' was a ',' due test 012.For.tpl this is double, so we made it a space
                         $method_value[2] = str_replace($separator_uuid, ' ', $method_value[2]);
                         $method_value[2] = substr($method_value[2], 0, -1);
                         $before[] = str_replace($separator_uuid, ';', $method_value[0]);

@@ -2915,6 +2915,7 @@ class Php {
                     //we have a single index
                     $argument = '\'' . str_replace(['\''], ['\\\''], trim($argument['string'])) . '\'';
                 } else {
+                    d($argument_is_reference);
                     if(array_key_exists($nr, $argument_is_reference)){
                         $argument['array'][0]['is_reference'] = true;
                     }

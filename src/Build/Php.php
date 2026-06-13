@@ -3466,6 +3466,7 @@ class Php {
      */
     private static function value_switch(App $object, $flags, $options, $record, $tag, &$before=[], &$after=[]): string
     {
+        d($record);
         switch ($record['type']) {
             case 'method':
                 if (empty($record['tag'])) {

@@ -3755,7 +3755,6 @@ class Php {
             array_key_exists('is_double_quoted', $record) &&
             $record['is_double_quoted'] === true
         ){
-            d($record);
             $variable_old = $options->variable ?? null;
             $options->variable = Core::uuid_variable();
             $before[] = $options->variable . ' = [];';

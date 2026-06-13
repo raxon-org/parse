@@ -60,7 +60,7 @@ class Tag
                 $char === '\'' &&
                 $is_single_quoted === false &&
 //                $is_double_quoted === false &&                //needs to be off
-//                $is_double_quoted_backslash === false &&      //needs to be off
+                $is_double_quoted_backslash === false &&      //needs to be off now on 2026-06-13
                 (
                     $previous !== '\\' ||
                     (
@@ -128,7 +128,7 @@ class Tag
                 $char === '\'' &&
                 $is_single_quoted === true &&
 //                $is_double_quoted === false &&            //needs to be off
-//                $is_double_quoted_backslash === false &&  //needs to be off
+                $is_double_quoted_backslash === false &&    //needs to be off now on 2026-06-13
                 (
                     $previous !== '\\' ||
                     (
@@ -197,7 +197,7 @@ class Tag
                 $char === '\'' &&
                 $is_single_quoted === true &&
 //                $is_double_quoted === false &&            //needs to be off
-//                $is_double_quoted_backslash === false &&  //needs to be off
+                $is_double_quoted_backslash === false &&      //needs to be off now on 2026-06-13
                 (
                     $previous !== '\\' ||
                     (

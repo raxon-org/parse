@@ -2261,14 +2261,12 @@ class Php {
                         foreach($record['method']['argument'] as $nr => $argument){
                             if($nr > 0){
                                 $object->config('package.raxon/parse.build.state.try_catch', false);
+                            } else {
+                                ddd($argument);
                             }
                             $value = Php::value($object, $flags, $options, $record, $argument, $is_set, $before_for, $after_for);
                             if(mb_strtolower($value) === 'null'){
                                 $value = '';
-                            }
-                            if($nr === 0){
-                                //need different solution here
-                                $value = str_replace('},try {', '} try {', $value);
                             }
                             $method_value[] = $value;
                         }

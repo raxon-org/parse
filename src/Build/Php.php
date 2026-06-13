@@ -2268,7 +2268,7 @@ class Php {
                                             array_key_exists('value', $argument_record) &&
                                             $argument_record['value'] === ','
                                         ){
-                                            $argument['array'][$argument_nr] = null;
+                                            $argument['array'][$argument_nr]['value'] = "\n";
                                         }
                                     }
                                 }

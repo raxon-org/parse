@@ -24,7 +24,7 @@ require(
         root() + 'Js/Dropzone/5.9.2/min/dropzone.min.js?' + version()
     ],
     function(){
-        user.refreshUrl("{{server.url('{{/literal}}{{$backend.host}}{{literal}}')}}");
+        user.refreshUrl("{{server.url(\"{{/literal}}{{$backend.host}}{{literal}}\")}}");
     }
 );
 {{/if}}

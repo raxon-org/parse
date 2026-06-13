@@ -2262,7 +2262,16 @@ class Php {
                             if($nr > 0){
                                 $object->config('package.raxon/parse.build.state.try_catch', false);
                             } else {
-                                ddd($argument);
+                                if(array_key_exists('array', $argument)){
+                                    foreach($argument as $argument_nr => $argument_record){
+                                        if(
+                                            array_key_exists('value', $argument_record) &&
+                                            $argument_record['value'] === ','
+                                        ){
+                                            $argument[$argument_nr] = null;
+                                        }
+                                    }
+                                }
                             }
                             $value = Php::value($object, $flags, $options, $record, $argument, $is_set, $before_for, $after_for);
                             if(mb_strtolower($value) === 'null'){

@@ -2266,6 +2266,9 @@ class Php {
                             if(mb_strtolower($value) === 'null'){
                                 $value = '';
                             }
+                            if($nr === 0){
+                                ddd($value);
+                            }
                             $method_value[] = $value;
                         }
                         if($separator === null){

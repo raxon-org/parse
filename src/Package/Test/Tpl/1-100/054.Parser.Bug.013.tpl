@@ -4,7 +4,7 @@ ready(() => {
         "url": "{{literal}}{{route.get('application-desktop')}}{{/literal}}"
     });
     application.init({
-        "url": "{{literal}}{{server.url({{/literal}}{{options('backend.host')}}{{literal}})}}{{/literal}}Node/Application"
+        "url": "{{literal}}{{server.url(\"{{/literal}}{{options('backend.host')}}{{literal}}\")}}{{/literal}}Node/Application"
     });
     keyboard.init({
         "navigation": navigation,

@@ -1883,7 +1883,9 @@ class Php {
                         else {
                             $text = Php::text($object, $flags, $options, $record);
                             //single quote to double quote transform
+                            d($text);
                             $text = Escape::double_quote($text);
+                            d($text);
                             /*
                             $text = str_replace(
                                 [

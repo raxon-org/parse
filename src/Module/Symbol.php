@@ -383,6 +383,7 @@ class Symbol
         $previous_2x = $previous_chars[$count - 2] ?? null;
         $previous_3x = $previous_chars[$count - 3] ?? null;
         $previous_4x = $previous_chars[$count - 4] ?? null;
+        d($count);
         d($previous);
         d($previous_2x);
         d($previous_3x);

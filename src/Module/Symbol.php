@@ -379,10 +379,10 @@ class Symbol
     public static function check_previous($previous_chars =[]): bool
     {
         $count = count($previous_chars);
-        $previous = $previous_chars[$count - 1] ?? null;
-        $previous_2x = $previous_chars[$count - 2] ?? null;
-        $previous_3x = $previous_chars[$count - 3] ?? null;
-        $previous_4x = $previous_chars[$count - 4] ?? null;
+        $previous = $previous_chars[0] ?? null;
+        $previous_2x = $previous_chars[1] ?? null;
+        $previous_3x = $previous_chars[2] ?? null;
+        $previous_4x = $previous_chars[3] ?? null;
         d($previous_chars);
         d($count);
         d($previous);

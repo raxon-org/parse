@@ -1701,7 +1701,8 @@ class Php {
                             $text = str_replace('\\&', $ampersand_uuid, $text);
                             $text = str_replace('&quot;', $double_quote_uuid, $text);
                             $text = str_replace('&apos;', $single_quote_uuid, $text);
-                            $token = Token::tokenize($object, $flags, $options, substr($text, 1, -1));
+                            $token = Token::tokenize($object, $flags, $options, $text);
+                            d($token);
                             $token = Php::document_tag_prepare($object, $flags, $options, $token);
                             $embed = Php::document_tag($object, $flags, $options, $token);
                             $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
@@ -1764,7 +1765,8 @@ class Php {
                             $text = str_replace('\\&', $ampersand_uuid, $text);
                             $text = str_replace('&quot;', $double_quote_uuid, $text);
                             $text = str_replace('&apos;', $single_quote_uuid, $text);
-                            $token = Token::tokenize($object, $flags, $options, substr($text, 2, -2));
+                            $token = Token::tokenize($object, $flags, $options, $text);
+                            d($token);
                             $token = Php::document_tag_prepare($object, $flags, $options, $token);
                             $embed = Php::document_tag($object, $flags, $options, $token);
                             $is_raw = $object->config('package.raxon/parse.build.state.is_raw');

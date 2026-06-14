@@ -1676,13 +1676,29 @@ class Php {
                             elseif(
                                 $char === '"' &&
                                 $previous === '\\' &&
-                                Symbol::check_previous([
-                                    $previous_2x,
-                                    $previous_3x,
-                                    $previous_4x,
-                                    $previous_5x
-                                ])
+                                (
+                                    $previous_2x !== '\\' ||
+                                    (
+                                        $previous_2x === '\\' &&
+                                        $previous_3x === '\\' &&
+                                        $previous_4x != '\\'
+                                    ) ||
+                                    (
+                                        $previous_2x === '\\' &&
+                                        $previous_3x === '\\' &&
+                                        $previous_4x === '\\' &&
+                                        $previous_5x === '\\'
+
+                                    )
+                                )
                             ){
+                                d($char);
+                                d($previous);
+                                d($previous_2x);
+                                d($previous_3x);
+                                d($previous_4x);
+                                d($previous_5x);
+
                                 if($has_start_double_quote_backslash === false){
                                     $has_start_double_quote_backslash = true;
                                     $has_second_double_quote_backslash = false;

@@ -1724,9 +1724,6 @@ class Php {
                             $has_start_double_quote !== false &&
                             $has_second_double_quote !== false
                         ){
-                            d($record);
-                            d($has_start_double_quote);
-                            ddd($has_second_double_quote);
                             $variable_old = $options->variable ?? null;
                             $options->variable = Core::uuid_variable();
                             $data[] = $options->variable . ' = [];';
@@ -1737,12 +1734,10 @@ class Php {
                             $before_text = str_replace('\\&', $ampersand_uuid, $before_text);
                             $before_text = str_replace('&quot;', $double_quote_uuid, $before_text);
                             $before_text = str_replace('&apos;', $single_quote_uuid, $before_text);
-                            breakpoint($before_text);
                             $after_text = substr($record['text'], $has_second_double_quote_backslash + 1);
                             $after_text = str_replace('\\&', $ampersand_uuid, $after_text);
                             $after_text = str_replace('&quot;', $double_quote_uuid, $after_text);
                             $after_text = str_replace('&apos;', $single_quote_uuid, $after_text);
-                            d($after_text);
                             $text = substr($record['text'], $has_start_double_quote + 1, $has_second_double_quote - $has_start_double_quote - 2);
                             $text = str_replace('\\&', $ampersand_uuid, $text);
                             $text = str_replace('&quot;', $double_quote_uuid, $text);
@@ -1814,12 +1809,6 @@ class Php {
                             $has_start_double_quote_backslash !== false &&
                             $has_second_double_quote_backslash !== false
                         ){
-                            d($record);
-                            d($has_start_double_quote_backslash);
-                            d($has_second_double_quote_backslash);
-
-
-
                             $variable_old = $options->variable ?? null;
                             $options->variable = Core::uuid_variable();
                             $data[] = $options->variable . ' = [];';
@@ -1830,23 +1819,19 @@ class Php {
                             $before_text = str_replace('\\&', $ampersand_uuid, $before_text);
                             $before_text = str_replace('&quot;', $double_quote_uuid, $before_text);
                             $before_text = str_replace('&apos;', $single_quote_uuid, $before_text);
-                            breakpoint($before_text);
+                            d($before_text);
                             $after_text = substr($record['text'], $has_second_double_quote_backslash + 1);
                             $after_text = str_replace('\\&', $ampersand_uuid, $after_text);
                             $after_text = str_replace('&quot;', $double_quote_uuid, $after_text);
                             $after_text = str_replace('&apos;', $single_quote_uuid, $after_text);
-                            d($after_text);
                             $text = substr($record['text'], $has_start_double_quote_backslash + 1, $has_second_double_quote_backslash - $has_start_double_quote_backslash - 2);
                             $text = str_replace('\\&', $ampersand_uuid, $text);
                             $text = str_replace('&quot;', $double_quote_uuid, $text);
                             $text = str_replace('&apos;', $single_quote_uuid, $text);
-                            d($text);
                             $token = Token::tokenize($object, $flags, $options, $text);
-                            d($token);
                             $token = Php::document_tag_prepare($object, $flags, $options, $token);
                             $embed = Php::document_tag($object, $flags, $options, $token);
                             $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
-                            d($is_raw);
                             if(property_exists($options, 'variable')){
                                 if($variable_old){{
                                     $data[] = $variable_old . '[] = "' . $before_text . '";';

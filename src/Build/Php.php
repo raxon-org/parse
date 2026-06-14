@@ -1729,6 +1729,9 @@ class Php {
                                 $data[] = '$content[] = implode(\'\', ' . $options->variable . ');';
                                 unset($options->variable);
                             }
+                            $has_start_double_quote = false;
+                            $has_second_double_quote = false;
+
 
                             /*
                             $uuid_variable = Core::uuid_variable();
@@ -1812,6 +1815,8 @@ class Php {
                                 $data[] = '$content[] = \'\\"\';';
                             }
                             */
+                            $has_start_double_quote_backslash = false;
+                            $has_second_double_quote_backslash = false;
                         }
                         else {
                             $text = Php::text($object, $flags, $options, $record);

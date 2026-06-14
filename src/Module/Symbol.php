@@ -160,11 +160,16 @@ class Symbol
                     }
                     $input['array'][$i] = null;
                 }
+                $execute = substr($string, 1, -1);
+                //from \\ to \ and from \" to "
+                $execute = str_replace('\"', '"', $execute);
+                $execute = str_replace('\\\\', '\\', $execute);
                 d($string);
+                d($execute);
                 $input['array'][$is_double_quote] = [
                     'type' => 'string',
                     'value' => $string,
-                    'execute' => substr($string, 1, -1),
+                    'execute' => $execute,
                     'is_double_quoted' => true
                 ];
                 $is_double_quote = false;
@@ -201,12 +206,15 @@ class Symbol
                     }
                     $input['array'][$i] = null;
                 }
-                d($string);
+                $execute = substr($string, 2, -2);
+                //from \\ to \ and from \" to "
+                $execute = str_replace('\"', '"', $execute);
+                $execute = str_replace('\\\\', '\\', $execute);
                 $input['array'][$is_double_quote_backslash] = [
                     'type' => 'string',
                     'value' => $string,
 //                    'execute' => '"' . substr($string, 2, -2) . '"', // was: substr($string, 2, -2),
-                    'execute' => substr($string, 2, -2), // was: above
+                    'execute' => $execute, // was: above
                     'is_double_quoted' => true,
                     'is_backslash' => true
                 ];

@@ -3917,8 +3917,6 @@ class Php {
             //changed from execute to value @2026-06-14
 //            $token = Token::tokenize($object, $flags, $options, $record['execute']);
             $input = $record['value'];
-            $input = str_replace('\"', '"', $input);
-            $input = str_replace('\\\\', '\\', $input);
             $token = Token::tokenize($object, $flags, $options, $input);
             $token = Php::document_tag_prepare($object, $flags, $options, $token);
             $embed = Php::document_tag($object, $flags, $options, $token);

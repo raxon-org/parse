@@ -378,19 +378,11 @@ class Symbol
 
     public static function check_previous($previous_chars =[]): bool
     {
-        $count = count($previous_chars);
         $previous = $previous_chars[0] ?? null;
         $previous_2x = $previous_chars[1] ?? null;
         $previous_3x = $previous_chars[2] ?? null;
         $previous_4x = $previous_chars[3] ?? null;
-        d($previous_chars);
-        d($count);
-        d($previous);
-        d($previous_2x);
-        d($previous_3x);
-        d($previous_4x);
         if($previous !== '\\'){
-            d('!==\\');
             return true;
         }
         elseif(
@@ -398,7 +390,6 @@ class Symbol
             $previous_2x === '\\' &&
             $previous_3x != '\\' // != (also null)
         ){
-            d('==\\===\\!=\\');
             return true;
         }
         elseif(
@@ -407,7 +398,6 @@ class Symbol
             $previous_3x === '\\' &&
             $previous_4x === '\\'
         ){
-            d('==\\===\\===\\===\\');
             return true;
         }
         return false;

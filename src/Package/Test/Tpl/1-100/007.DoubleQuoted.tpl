@@ -1,4 +1,4 @@
-\"{{config('framework.version')}}\"
+1\"{{config('framework.version')}}\"
 /*
 {{config('framework.version')}}
 

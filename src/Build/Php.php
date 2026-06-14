@@ -1641,6 +1641,7 @@ class Php {
                         }
                         $text = mb_str_split($record['text'], 1);
                         $is_single_quote = false;
+                        $is_double_quote = false;
                         $has_start_double_quote = false;
                         $has_second_double_quote = false;
                         $has_start_double_quote_backslash = false;
@@ -1682,6 +1683,11 @@ class Php {
                                 d($previous_2x);
                                 d($previous_3x);
                                 d($previous_4x);
+                                if($is_double_quote === false){
+                                    $is_double_quote = true;
+                                } else {
+                                    $is_double_quote = false;
+                                }
                                 if($has_start_double_quote === false){
                                     $has_start_double_quote = true;
                                     $has_second_double_quote = false;

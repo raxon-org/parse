@@ -1810,24 +1810,38 @@ class Php {
                             d($has_start_double_quote_backslash);
                             d($has_second_double_quote_backslash);
 
+
+
                             $variable_old = $options->variable ?? null;
                             $options->variable = Core::uuid_variable();
                             $data[] = $options->variable . ' = [];';
                             $single_quote_uuid = Core::uuid_variable();
                             $double_quote_uuid = Core::uuid_variable();
                             $ampersand_uuid = core::uuid_variable();
-                            $text = $record['text'];
+                            $before_text = substr($record['text'], 0, $has_start_double_quote_backslash);
+                            $before_text = str_replace('\\&', $ampersand_uuid, $before_text);
+                            $before_text = str_replace('&quot;', $double_quote_uuid, $before_text);
+                            $before_text = str_replace('&apos;', $single_quote_uuid, $before_text);
+                            $after_text = substr($record['text'], $has_second_double_quote_backslash + 1);
+                            $after_text = str_replace('\\&', $ampersand_uuid, $after_text);
+                            $after_text = str_replace('&quot;', $double_quote_uuid, $after_text);
+                            $after_text = str_replace('&apos;', $single_quote_uuid, $after_text);
+                            $text = substr($record['text'], $has_start_double_quote_backslash + 1, $has_second_double_quote_backslash - $has_start_double_quote_backslash - 1);
                             $text = str_replace('\\&', $ampersand_uuid, $text);
                             $text = str_replace('&quot;', $double_quote_uuid, $text);
                             $text = str_replace('&apos;', $single_quote_uuid, $text);
                             $token = Token::tokenize($object, $flags, $options, $text);
-                            dd($token);
                             $token = Php::document_tag_prepare($object, $flags, $options, $token);
                             $embed = Php::document_tag($object, $flags, $options, $token);
                             $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
                             if(property_exists($options, 'variable')){
                                 if($is_raw !== true){
                                     $data[] = $options->variable . '[] = \'\\"\';';
+                                }
+                                if($variable_old){{
+                                    $data[] = $variable_old . '[] = "' . $before_text . '";';
+                                }} else {
+                                    $data[] = '$content[] = "' . $before_text . '";';
                                 }
                                 foreach($embed as $line){
                                     $line = str_replace($double_quote_uuid, '"', $line);
@@ -1844,6 +1858,11 @@ class Php {
                                 } else {
                                     $data[] = '$content[] = implode(\'\', ' . $options->variable . ');';
                                     unset($options->variable);
+                                }
+                                if($variable_old){{
+                                    $data[] = $variable_old . '[] = "' . $after_text . '";';
+                                }} else {
+                                    $data[] = '$content[] = "' . $after_text . '";';
                                 }
                             }
 

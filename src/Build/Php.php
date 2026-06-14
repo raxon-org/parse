@@ -1806,7 +1806,7 @@ class Php {
                             $single_quote_uuid = Core::uuid_variable();
                             $double_quote_uuid = Core::uuid_variable();
                             $ampersand_uuid = core::uuid_variable();
-                            $before_text = substr($record['text'], 0, $has_start_double_quote_backslash);
+                            $before_text = substr($record['text'], 0, $has_start_double_quote_backslash + 1);
                             $before_text = str_replace('\\&', $ampersand_uuid, $before_text);
                             $before_text = str_replace('&quot;', $double_quote_uuid, $before_text);
                             $before_text = str_replace('&apos;', $single_quote_uuid, $before_text);

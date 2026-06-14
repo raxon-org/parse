@@ -1841,6 +1841,7 @@ class Php {
                                 if($is_raw !== true){
                                     $data[] = $options->variable . '[] = \'\\\"\';'; //was \'\\"\'
                                 }
+                                d($embed);
                                 foreach($embed as $line){
                                     $line = str_replace($double_quote_uuid, '"', $line);
                                     $line = str_replace($single_quote_uuid, '\'', $line);

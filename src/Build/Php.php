@@ -1753,7 +1753,8 @@ class Php {
                                     $data[] = '$content[] = "' . $before_text . '";';
                                 }
                                 if($is_raw !== true){
-                                    $data[] = $options->variable . '[] = \'"\';';
+                                    //@disabled @2026-06-14
+//                                    $data[] = $options->variable . '[] = \'"\';';
                                 }
                                 foreach($embed as $line){
                                     $line = str_replace($double_quote_uuid, '"', $line);
@@ -1762,7 +1763,8 @@ class Php {
                                     $data[] = $line;
                                 }
                                 if($is_raw !== true) {
-                                    $data[] = $options->variable . '[] = \'"\';';
+                                    //@disabled @2026-06-14
+//                                    $data[] = $options->variable . '[] = \'"\';';
                                 }
                                 if($variable_old){
                                     $data[] = $variable_old . '[] = implode(\'\', ' . $options->variable . ');';

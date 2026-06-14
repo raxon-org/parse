@@ -135,6 +135,13 @@ class Symbol
                 $is_double_quote !== false &&
                 $is_double_quote_backslash === false
             ){
+                if($previous === '\\'){
+                    d($char);
+                    d($previous);
+                    d($previous_2x);
+                    d($previous_3x);
+                    dd($previous_4x);
+                }
                 $string = '';
                 for($i = $is_double_quote; $i <= $nr; $i++){
                     if(

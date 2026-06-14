@@ -1842,6 +1842,7 @@ class Php {
                             $text = str_replace('&apos;', $single_quote_uuid, $text);
                             d($text);
                             $token = Token::tokenize($object, $flags, $options, $text);
+                            d($token);
                             $token = Php::document_tag_prepare($object, $flags, $options, $token);
                             $embed = Php::document_tag($object, $flags, $options, $token);
                             $is_raw = $object->config('package.raxon/parse.build.state.is_raw');

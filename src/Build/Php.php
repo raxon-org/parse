@@ -1660,6 +1660,11 @@ class Php {
                                 $previous_4x
                                 ])
                             ){
+                                d($char);
+                                d($previous);
+                                d($previous_2x);
+                                d($previous_3x);
+                                d($previous_4x);
                                 if($has_start_double_quote === false){
                                     $has_start_double_quote = true;
                                     $has_second_double_quote = false;

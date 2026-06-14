@@ -1831,6 +1831,7 @@ class Php {
                         ){
                             $variable = Php::variable_assign($object, $flags, $options, $record);
                             if($variable){
+                                d($variable);
                                 $separator = $object->config('package.raxon/parse.build.state.separator');
                                 if($separator === null){
                                     $data[] = $variable;

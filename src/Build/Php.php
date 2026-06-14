@@ -25,6 +25,7 @@ use Raxon\Parse\Module\Token;
 
 use Raxon\Parse\Module\Validator;
 use Raxon\Parse\Module\Variable;
+use Raxon\Parse\Module\Symbol;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionObject;
@@ -1619,7 +1620,6 @@ class Php {
                         $is_literal === false &&
                         array_key_exists('text', $record)
                     ){
-                        d($record);
                         $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
                         if($is_raw && substr($record['text'], 0, 1) === '"'){
                             $record['text'] = substr($record['text'], 1);
@@ -1639,11 +1639,57 @@ class Php {
                             $record = Php::remove_newline_next($object, $flags, $options, $record);
                             $object->config('delete', 'package.raxon/parse.build.state.remove_newline_next');
                         }
-                        d($record);
+                        $text = mb_str_split($record['text'], 1);
+                        $has_start_double_quote = false;
+                        $has_second_double_quote = false;
+                        $has_start_double_quote_backslash = false;
+                        $has_second_double_quote_backslash = false;
+                        for($i = 0; $i < count($text); $i++){
+                            $char = $text[$i];
+                            $previous = $text[$i - 1] ?? null;
+                            $previous_2x = $text[$i - 2] ?? null;
+                            $previous_3x = $text[$i - 3] ?? null;
+                            $previous_4x = $text[$i - 4] ?? null;
+                            $previous_5x = $text[$i - 5] ?? null;
+                            if(
+                                $char === '"' &&
+                                Symbol::check_previous([
+                                $previous,
+                                $previous_2x,
+                                $previous_3x,
+                                $previous_4x
+                                ])
+                            ){
+                                if($has_start_double_quote === false){
+                                    $has_start_double_quote = true;
+                                    $has_second_double_quote = false;
+                                } else {
+                                    $has_second_double_quote = true;
+                                    break;
+                                }
+                            }
+                            elseif(
+                                $char === '"' &&
+                                $previous === '\\' &&
+                                Symbol::check_previous([
+                                    $previous_2x,
+                                    $previous_3x,
+                                    $previous_4x,
+                                    $previous_5x
+                                ])
+                            ){
+                                if($has_start_double_quote === false){
+                                    $has_start_double_quote = true;
+                                    $has_second_double_quote = false;
+                                } else {
+                                    $has_second_double_quote = true;
+                                    break;
+                                }
+                            }
+                        }
                         if(
-                            substr($record['text'], 0, 1) === '"' &&
-                            substr($record['text'], -1) === '"' &&
-                            mb_strlen($record['text']) > 1
+                            $has_start_double_quote === true &&
+                            $has_second_double_quote === true
                         ){
                             $variable_old = $options->variable ?? null;
                             $options->variable = Core::uuid_variable();
@@ -1705,9 +1751,8 @@ class Php {
                             */
                         }
                         elseif(
-                            substr($record['text'], 0, 2) === '\\"' &&
-                            substr($record['text'], -2) === '\\"' &&
-                            mb_strlen($record['text']) > 2
+                            $has_start_double_quote_backslash === true &&
+                            $has_second_double_quote_backslash === true
                         ){
                             $variable_old = $options->variable ?? null;
                             $options->variable = Core::uuid_variable();

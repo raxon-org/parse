@@ -1640,6 +1640,7 @@ class Php {
                             $object->config('delete', 'package.raxon/parse.build.state.remove_newline_next');
                         }
                         $text = mb_str_split($record['text'], 1);
+                        $is_single_quote = false;
                         $has_start_double_quote = false;
                         $has_second_double_quote = false;
                         $has_start_double_quote_backslash = false;
@@ -1652,6 +1653,22 @@ class Php {
                             $previous_4x = $text[$i - 4] ?? null;
                             $previous_5x = $text[$i - 5] ?? null;
                             if(
+                                $char === '\'' &&
+                                Symbol::check_previous([
+                                    $previous,
+                                    $previous_2x,
+                                    $previous_3x,
+                                    $previous_4x
+                                ])
+                            ){
+                                if($is_single_quote === false){
+                                    $is_single_quote = true;
+                                } else {
+                                    $is_single_quote = false;
+                                }
+                            }
+                            if(
+                                $is_single_quote === false &&
                                 $char === '"' &&
                                 Symbol::check_previous([
                                 $previous,
@@ -1674,6 +1691,7 @@ class Php {
                                 }
                             }
                             elseif(
+                                $is_single_quote === false &&
                                 $char === '"' &&
                                 $previous === '\\' &&
                                 (

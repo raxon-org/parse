@@ -1678,11 +1678,6 @@ class Php {
                                 $previous_4x
                                 ])
                             ){
-                                d($char);
-                                d($previous);
-                                d($previous_2x);
-                                d($previous_3x);
-                                d($previous_4x);
                                 if($is_double_quote === false){
                                     $is_double_quote = true;
                                 } else {
@@ -1716,13 +1711,6 @@ class Php {
                                     )
                                 )
                             ){
-                                d($char);
-                                d($previous);
-                                d($previous_2x);
-                                d($previous_3x);
-                                d($previous_4x);
-                                d($previous_5x);
-
                                 if($has_start_double_quote_backslash === false){
                                     $has_start_double_quote_backslash = $i;
                                     $has_second_double_quote_backslash = false;

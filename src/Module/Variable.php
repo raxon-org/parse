@@ -139,6 +139,7 @@ class Variable
                                             'operator' => $char['value'],
                                             'name' => $input['array'][$variable_nr]['name']
                                         ];
+                                        d($variable);
                                         $input['array'][$variable_nr]['variable'] = $variable;
                                     }
                                 } else {
@@ -157,6 +158,7 @@ class Variable
                                         'name' => $input['array'][$variable_nr]['name'],
                                         'value' => $list,
                                     ];
+                                    d($variable);
                                     $input['array'][$variable_nr]['variable'] = $variable;
                                 }
                             }

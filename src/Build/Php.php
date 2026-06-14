@@ -3650,6 +3650,7 @@ class Php {
                 break;
             case 'string':
                 $result = Php::value_string($object, $flags, $options, $record, $before, $after);
+                d($result);
                 break;
             case 'array':
                 $result = Php::value_array($object, $flags, $options, $record, $before, $after);
@@ -3913,17 +3914,13 @@ class Php {
             $variable_old = $options->variable ?? null;
             $options->variable = Core::uuid_variable();
             $before[] = $options->variable . ' = [];';
-            d($record);
             //changed from execute to value @2026-06-14
 //            $token = Token::tokenize($object, $flags, $options, $record['execute']);
             $token = Token::tokenize($object, $flags, $options, $record['value']);
-            d($token);
             $token = Php::document_tag_prepare($object, $flags, $options, $token);
             $embed = Php::document_tag($object, $flags, $options, $token);
-            if(property_exists($options, 'variable')){
-                foreach($embed as $line){
-                    $before[] = $line;
-                }
+            foreach($embed as $line){
+                $before[] = $line;
             }
             $before[] = $options->variable . ' = implode(\'\', ' . $options->variable . ');';
             $result = '"' . $options->variable . '"';

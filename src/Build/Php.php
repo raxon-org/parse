@@ -3628,6 +3628,7 @@ class Php {
                 break;
             case 'variable':
                 $result = Php::variable($object, $flags, $options, $record, $tag, $before, $after);
+                d($result);
                 break;
             case 'integer':
             case 'float':

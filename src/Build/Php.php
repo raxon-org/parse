@@ -1678,11 +1678,11 @@ class Php {
                                     $previous_5x
                                 ])
                             ){
-                                if($has_start_double_quote === false){
-                                    $has_start_double_quote = true;
-                                    $has_second_double_quote = false;
+                                if($has_start_double_quote_backslash === false){
+                                    $has_start_double_quote_backslash = true;
+                                    $has_second_double_quote_backslash = false;
                                 } else {
-                                    $has_second_double_quote = true;
+                                    $has_second_double_quote_backslash = true;
                                     break;
                                 }
                             }

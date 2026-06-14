@@ -2,3 +2,7 @@
 {{$right = "<a href=\"{{server.url('docs.raxon.org')}}Module/{{$module|>string.replace:'\\':'/'}}\">{{$module}}</a>"}}
 {{$module}}
 {{$right}}
+/*
+\" should be " in right
+watch in variable define
+*/

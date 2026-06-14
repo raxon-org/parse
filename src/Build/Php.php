@@ -1851,9 +1851,9 @@ class Php {
                                     unset($options->variable);
                                 }
                                 if($variable_old){{
-                                    $data[] = $variable_old . '[] = "' . $after_text . '";';
+                                    $data[] = $variable_old . '[] = \'' . $after_text . '\';';
                                 }} else {
-                                    $data[] = '$content[] = "' . $after_text . '";';
+                                    $data[] = '$content[] = \'' . $after_text . '\';';
                                 }
                             }
 

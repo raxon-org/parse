@@ -1749,7 +1749,7 @@ class Php {
                             $text = str_replace('\\&', $ampersand_uuid, $text);
                             $text = str_replace('&quot;', $double_quote_uuid, $text);
                             $text = str_replace('&apos;', $single_quote_uuid, $text);
-                            $token = Token::tokenize($object, $flags, $options, $text); 
+                            $token = Token::tokenize($object, $flags, $options, $text);
                             $token = Php::document_tag_prepare($object, $flags, $options, $token);
                             $embed = Php::document_tag($object, $flags, $options, $token);
                             $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
@@ -1802,9 +1802,13 @@ class Php {
                             */
                         }
                         elseif(
-                            $has_start_double_quote_backslash === true &&
-                            $has_second_double_quote_backslash === true
+                            $has_start_double_quote_backslash !== false &&
+                            $has_second_double_quote_backslash !== false
                         ){
+                            d($record);
+                            d($has_start_double_quote_backslash);
+                            dd($has_second_double_quote_backslash);
+
                             $variable_old = $options->variable ?? null;
                             $options->variable = Core::uuid_variable();
                             $data[] = $options->variable . ' = [];';

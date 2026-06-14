@@ -1619,6 +1619,7 @@ class Php {
                         $is_literal === false &&
                         array_key_exists('text', $record)
                     ){
+                        d($record);
                         $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
                         if($is_raw && substr($record['text'], 0, 1) === '"'){
                             $record['text'] = substr($record['text'], 1);

@@ -153,6 +153,7 @@ class Symbol
                     }
                     $input['array'][$i] = null;
                 }
+                d($string);
                 $input['array'][$is_double_quote] = [
                     'type' => 'string',
                     'value' => $string,

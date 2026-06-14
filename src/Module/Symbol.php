@@ -98,6 +98,7 @@ class Symbol
 
                     $input['array'][$i] = null;
                 }
+
                 $input['array'][$is_single_quote] = [
                     'type' => 'string',
                     'value' => $string,
@@ -164,8 +165,6 @@ class Symbol
                 //from \\ to \ and from \" to "
                 $execute = str_replace('\"', '"', $execute);
                 $execute = str_replace('\\\\', '\\', $execute);
-                d($string);
-                d($execute);
                 $input['array'][$is_double_quote] = [
                     'type' => 'string',
                     'value' => $string,

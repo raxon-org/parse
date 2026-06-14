@@ -1689,10 +1689,10 @@ class Php {
                                     $is_double_quote = false;
                                 }
                                 if($has_start_double_quote === false){
-                                    $has_start_double_quote = true;
+                                    $has_start_double_quote = $i;
                                     $has_second_double_quote = false;
                                 } else {
-                                    $has_second_double_quote = true;
+                                    $has_second_double_quote = $i;
                                     break;
                                 }
                             }
@@ -1724,31 +1724,32 @@ class Php {
                                 d($previous_5x);
 
                                 if($has_start_double_quote_backslash === false){
-                                    $has_start_double_quote_backslash = true;
+                                    $has_start_double_quote_backslash = $i;
                                     $has_second_double_quote_backslash = false;
                                 } else {
-                                    $has_second_double_quote_backslash = true;
+                                    $has_second_double_quote_backslash = $i;
                                     break;
                                 }
                             }
                         }
                         if(
-                            $has_start_double_quote === true &&
-                            $has_second_double_quote === true
+                            $has_start_double_quote !== false &&
+                            $has_second_double_quote !== false
                         ){
+                            d($record);
+                            d($has_start_double_quote);
+                            ddd($has_second_double_quote);
                             $variable_old = $options->variable ?? null;
                             $options->variable = Core::uuid_variable();
                             $data[] = $options->variable . ' = [];';
                             $single_quote_uuid = Core::uuid_variable();
                             $double_quote_uuid = Core::uuid_variable();
                             $ampersand_uuid = core::uuid_variable();
-                            d($record);
                             $text = $record['text'];
                             $text = str_replace('\\&', $ampersand_uuid, $text);
                             $text = str_replace('&quot;', $double_quote_uuid, $text);
                             $text = str_replace('&apos;', $single_quote_uuid, $text);
-                            $token = Token::tokenize($object, $flags, $options, $text);
-                            d($token);
+                            $token = Token::tokenize($object, $flags, $options, $text); 
                             $token = Php::document_tag_prepare($object, $flags, $options, $token);
                             $embed = Php::document_tag($object, $flags, $options, $token);
                             $is_raw = $object->config('package.raxon/parse.build.state.is_raw');

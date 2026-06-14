@@ -1625,7 +1625,6 @@ class Php {
                             $record['text'] = substr($record['text'], 1);
                         }
                         if($is_raw && substr($record['text'], 0, 2) === '\"'){
-                            breakpoint('yes');
                             $record['text'] = substr($record['text'], 2);
                         }
                         $object->config('delete', 'package.raxon/parse.build.state.is_raw');
@@ -1725,9 +1724,6 @@ class Php {
                             $has_start_double_quote !== false &&
                             $has_second_double_quote !== false
                         ){
-                            d($record);
-                            d($has_start_double_quote);
-                            ddd($has_second_double_quote);
                             $variable_old = $options->variable ?? null;
                             $options->variable = Core::uuid_variable();
                             $data[] = $options->variable . ' = [];';
@@ -1743,7 +1739,7 @@ class Php {
                             $after_text = str_replace('\\&', $ampersand_uuid, $after_text);
                             $after_text = str_replace('&quot;', $double_quote_uuid, $after_text);
                             $after_text = str_replace('&apos;', $single_quote_uuid, $after_text);
-                            breakpoint($after_text);
+                            d($after_text);
                             $text = substr($record['text'], $has_start_double_quote + 1, $has_second_double_quote - $has_start_double_quote - 2);
                             $text = str_replace('\\&', $ampersand_uuid, $text);
                             $text = str_replace('&quot;', $double_quote_uuid, $text);
@@ -1818,16 +1814,13 @@ class Php {
                             d($record);
                             d($has_start_double_quote_backslash);
                             d($has_second_double_quote_backslash);
-
-
-
                             $variable_old = $options->variable ?? null;
                             $options->variable = Core::uuid_variable();
                             $data[] = $options->variable . ' = [];';
                             $single_quote_uuid = Core::uuid_variable();
                             $double_quote_uuid = Core::uuid_variable();
                             $ampersand_uuid = core::uuid_variable();
-                            $before_text = substr($record['text'], 0, $has_start_double_quote_backslash + 1);
+                            $before_text = substr($record['text'], 0, $has_start_double_quote_backslash - 1);
                             $before_text = str_replace('\\&', $ampersand_uuid, $before_text);
                             $before_text = str_replace('&quot;', $double_quote_uuid, $before_text);
                             $before_text = str_replace('&apos;', $single_quote_uuid, $before_text);

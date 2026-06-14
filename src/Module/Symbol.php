@@ -55,14 +55,12 @@ class Symbol
             }
             if(
                 $char === '\'' &&
-                (
-                    $previous !== '\\' ||
-                    (
-                        $previous === '\\' &&
-                        $previous_2x === '\\' &&
-                        $previous_3x != '\\' // != (also null)
-                    )
-                ) &&
+                Symbol::check_previous([
+                    $previous,
+                    $previous_2x,
+                    $previous_3x,
+                    $previous_4x,
+                ]) &&
                 $is_single_quote === false &&
                 $is_double_quote === false &&
                 $is_double_quote_backslash === false
@@ -72,14 +70,12 @@ class Symbol
             }
             elseif(
                 $char === '\'' &&
-                (
-                    $previous !== '\\' ||
-                    (
-                        $previous === '\\' &&
-                        $previous_2x === '\\' &&
-                        $previous_3x != '\\' // != (also null)
-                    )
-                ) &&
+                Symbol::check_previous([
+                    $previous,
+                    $previous_2x,
+                    $previous_3x,
+                    $previous_4x,
+                ]) &&
                 $is_single_quote !== false &&
                 $is_double_quote === false &&
                 $is_double_quote_backslash === false
@@ -136,13 +132,6 @@ class Symbol
                 $is_double_quote !== false &&
                 $is_double_quote_backslash === false
             ){
-                if($previous === '\\'){
-                    d($char);
-                    d($previous);
-                    d($previous_2x);
-                    d($previous_3x);
-                    dd($previous_4x);
-                }
                 $string = '';
                 for($i = $is_double_quote; $i <= $nr; $i++){
                     if(
@@ -162,7 +151,7 @@ class Symbol
                     $input['array'][$i] = null;
                 }
                 $execute = substr($string, 1, -1);
-                //from \\ to \ and from \" to "
+                //from \\ to \ and from \" to " not needed by is_single_quote=true
                 $execute = str_replace('\"', '"', $execute);
                 $execute = str_replace('\\\\', '\\', $execute);
                 $input['array'][$is_double_quote] = [
@@ -206,7 +195,7 @@ class Symbol
                     $input['array'][$i] = null;
                 }
                 $execute = substr($string, 2, -2);
-                //from \\ to \ and from \" to "
+                //from \\ to \ and from \" to " not needed by is_single_quote=true
                 $execute = str_replace('\"', '"', $execute);
                 $execute = str_replace('\\\\', '\\', $execute);
                 $input['array'][$is_double_quote_backslash] = [

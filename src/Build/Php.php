@@ -3914,7 +3914,9 @@ class Php {
             $options->variable = Core::uuid_variable();
             $before[] = $options->variable . ' = [];';
             d($record);
-            $token = Token::tokenize($object, $flags, $options, $record['execute']);
+            //changed from execute to value @2026-06-14
+//            $token = Token::tokenize($object, $flags, $options, $record['execute']);
+            $token = Token::tokenize($object, $flags, $options, $record['value']);
             d($token);
             $token = Php::document_tag_prepare($object, $flags, $options, $token);
             $embed = Php::document_tag($object, $flags, $options, $token);

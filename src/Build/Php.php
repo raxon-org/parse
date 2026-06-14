@@ -1625,6 +1625,7 @@ class Php {
                             $record['text'] = substr($record['text'], 1);
                         }
                         if($is_raw && substr($record['text'], 0, 2) === '\"'){
+                            breakpoint('yes');
                             $record['text'] = substr($record['text'], 2);
                         }
                         $object->config('delete', 'package.raxon/parse.build.state.is_raw');

@@ -383,20 +383,25 @@ class Symbol
         $previous_2x = $previous_chars[$count - 2] ?? null;
         $previous_3x = $previous_chars[$count - 3] ?? null;
         $previous_4x = $previous_chars[$count - 4] ?? null;
-        if (
-            $previous !== '\\' ||
-            (
-                $previous === '\\' &&
-                $previous_2x === '\\' &&
-                $previous_3x != '\\' // != (also null)
-            ) ||
-            (
-                $previous === '\\' &&
-                $previous_2x === '\\' &&
-                $previous_3x === '\\' &&
-                $previous_4x === '\\'
-            )
+        if($previous !== '\\'){
+            d('!==\\');
+            return true;
+        }
+        elseif(
+            $previous === '\\' &&
+            $previous_2x === '\\' &&
+            $previous_3x != '\\' // != (also null)
         ){
+            d('==\\===\\!=\\');
+            return true;
+        }
+        elseif(
+            $previous === '\\' &&
+            $previous_2x === '\\' &&
+            $previous_3x === '\\' &&
+            $previous_4x === '\\'
+        ){
+            d('==\\===\\===\\===\\');
             return true;
         }
         return false;

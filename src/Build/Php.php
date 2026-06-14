@@ -3649,7 +3649,6 @@ class Php {
                 $result = '(' . Php::value($object, $flags, $options, $tag, $set, $is_set_result, $before, $after) . ')';
                 break;
             case 'string':
-                d($record);
                 $result = Php::value_string($object, $flags, $options, $record, $before, $after);
                 d($result);
                 break;
@@ -3917,7 +3916,7 @@ class Php {
             $before[] = $options->variable . ' = [];';
             //changed from execute to value @2026-06-14
 //            $token = Token::tokenize($object, $flags, $options, $record['execute']);
-            $token = Token::tokenize($object, $flags, $options, $record['value']);
+            $token = Token::tokenize($object, $flags, $options, $record['execute']);
             $token = Php::document_tag_prepare($object, $flags, $options, $token);
             $embed = Php::document_tag($object, $flags, $options, $token);
             foreach($embed as $line){

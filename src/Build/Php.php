@@ -1639,6 +1639,7 @@ class Php {
                             $record = Php::remove_newline_next($object, $flags, $options, $record);
                             $object->config('delete', 'package.raxon/parse.build.state.remove_newline_next');
                         }
+                        d($record);
                         if(
                             substr($record['text'], 0, 1) === '"' &&
                             substr($record['text'], -1) === '"' &&

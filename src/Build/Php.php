@@ -3913,6 +3913,7 @@ class Php {
             $variable_old = $options->variable ?? null;
             $options->variable = Core::uuid_variable();
             $before[] = $options->variable . ' = [];';
+            d($record);
             $token = Token::tokenize($object, $flags, $options, $record['execute']);
             d($token);
             $token = Php::document_tag_prepare($object, $flags, $options, $token);

@@ -317,7 +317,6 @@ class Value
                             $value .= $item;
                         }
                     }
-                    d($value);
                     $value = Value::basic($object, $flags, $options, $value);
                     $input['array'][$is_single_quoted] = $value;
                     //maybe with value (whitespace we need double quote (\t\s))

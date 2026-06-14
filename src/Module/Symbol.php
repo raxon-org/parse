@@ -117,7 +117,6 @@ class Symbol
                 $is_double_quote_backslash === false
             ){
                 $is_double_quote = $nr;
-                d($is_double_quote);
                 continue;
             }
             elseif(
@@ -206,7 +205,6 @@ class Symbol
                     'is_double_quoted' => true,
                     'is_backslash' => true
                 ];
-                breakpoint($input['array'][$is_double_quote_backslash]);
                 $is_double_quote_backslash = false;
                 continue;
             }

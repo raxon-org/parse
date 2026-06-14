@@ -1822,14 +1822,17 @@ class Php {
                             $before_text = str_replace('\\&', $ampersand_uuid, $before_text);
                             $before_text = str_replace('&quot;', $double_quote_uuid, $before_text);
                             $before_text = str_replace('&apos;', $single_quote_uuid, $before_text);
+                            d($before_text);
                             $after_text = substr($record['text'], $has_second_double_quote_backslash + 1);
                             $after_text = str_replace('\\&', $ampersand_uuid, $after_text);
                             $after_text = str_replace('&quot;', $double_quote_uuid, $after_text);
                             $after_text = str_replace('&apos;', $single_quote_uuid, $after_text);
+                            d($after_text);
                             $text = substr($record['text'], $has_start_double_quote_backslash + 1, $has_second_double_quote_backslash - $has_start_double_quote_backslash - 1);
                             $text = str_replace('\\&', $ampersand_uuid, $text);
                             $text = str_replace('&quot;', $double_quote_uuid, $text);
                             $text = str_replace('&apos;', $single_quote_uuid, $text);
+                            d($text);
                             $token = Token::tokenize($object, $flags, $options, $text);
                             $token = Php::document_tag_prepare($object, $flags, $options, $token);
                             $embed = Php::document_tag($object, $flags, $options, $token);

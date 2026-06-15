@@ -344,7 +344,7 @@ class Tag
                 $is_double_quoted_backslash === false &&
                 $previous === '\\' &&
                 Symbol::check_previous([
-                    $previous_2z,
+                    $previous_2x,
                     $previous_3x,
                     $previous_4x,
                     $previous_5x,
@@ -410,7 +410,7 @@ class Tag
                 $is_double_quoted_backslash === true &&
                 $previous === '\\' &&
                 Symbol::check_previous([
-                    $previous_2z,
+                    $previous_2x,
                     $previous_3x,
                     $previous_4x,
                     $previous_5x,

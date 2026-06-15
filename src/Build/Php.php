@@ -1640,7 +1640,6 @@ class Php {
                             $object->config('delete', 'package.raxon/parse.build.state.remove_newline_next');
                         }
                         $text = mb_str_split($record['text'], 1);
-                        breakpoint($text);
                         $is_single_quote = false;
                         $is_double_quote = false;
                         $has_start_double_quote = false;
@@ -1726,7 +1725,6 @@ class Php {
                             $before_text = str_replace('\\&', $ampersand_uuid, $before_text);
                             $before_text = str_replace('&quot;', $double_quote_uuid, $before_text);
                             $before_text = str_replace('&apos;', $single_quote_uuid, $before_text);
-                            breakpoint($before_text);
                             $after_text = substr($record['text'], $has_second_double_quote_backslash + 1);
                             $after_text = str_replace('\\&', $ampersand_uuid, $after_text);
                             $after_text = str_replace('&quot;', $double_quote_uuid, $after_text);
@@ -1881,7 +1879,9 @@ class Php {
                             $has_second_double_quote_backslash = false;
                         }
                         else {
+                            d($record);
                             $text = Php::text($object, $flags, $options, $record);
+                            d($text);
                             //single quote to double quote transform
                             $text = Escape::double_quote($text);
                             /*

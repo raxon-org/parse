@@ -1823,33 +1823,20 @@ class Php {
                             $token = Token::tokenize($object, $flags, $options, $text);
                             $token = Php::document_tag_prepare($object, $flags, $options, $token);
                             $embed = Php::document_tag($object, $flags, $options, $token);
-                            $is_raw_old = $object->config('package.raxon/parse.build.state.is_raw');
-                            $object->config('package.raxon/parse.build.state.is_raw', true);
-                            $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
                             if(property_exists($options, 'variable')){
                                 if($variable_old){{
                                     $data[] = $variable_old . '[] = "' . $before_text . '";';
                                 }} else {
                                     $data[] = '$content[] = "' . $before_text . '";';
                                 }
-                                if($is_raw !== true){
-                                    $data[] = $options->variable . '[] = \'\\"\';'; //was \'\\"\'
-                                } else {
-                                    //was disabled
-                                    $data[] = $options->variable . '[] = \'"\';';
-                                }
+                                $data[] = $options->variable . '[] = \'"\';';
                                 foreach($embed as $line){
                                     $line = str_replace($double_quote_uuid, '"', $line);
                                     $line = str_replace($single_quote_uuid, '\'', $line);
                                     $line = str_replace($ampersand_uuid, '&', $line);
                                     $data[] = $line;
                                 }
-                                if($is_raw !== true){
-                                    $data[] = $options->variable . '[] = \'\\"\';'; //was \'\\"\'
-                                } else {
-                                    //was disabled
-                                    $data[] = $options->variable . '[] = \'"\';';
-                                }
+                                $data[] = $options->variable . '[] = \'"\';';
                                 if($variable_old){
                                     $data[] = $variable_old . '[] = implode(\'\', ' . $options->variable . ');';
                                     $options->variable = $variable_old;

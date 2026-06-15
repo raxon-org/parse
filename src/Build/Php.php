@@ -1695,21 +1695,12 @@ class Php {
                                 $is_single_quote === false &&
                                 $char === '"' &&
                                 $previous === '\\' &&
-                                (
-                                    $previous_2x !== '\\' ||
-                                    (
-                                        $previous_2x === '\\' &&
-                                        $previous_3x === '\\' &&
-                                        $previous_4x != '\\'
-                                    ) ||
-                                    (
-                                        $previous_2x === '\\' &&
-                                        $previous_3x === '\\' &&
-                                        $previous_4x === '\\' &&
-                                        $previous_5x === '\\'
-
-                                    )
-                                )
+                                Symbol::check_previous([
+                                    $previous_2x,
+                                    $previous_3x,
+                                    $previous_4x,
+                                    $previous_5x
+                                ])
                             ){
                                 if($has_start_double_quote_backslash === false){
                                     $has_start_double_quote_backslash = $i;
@@ -1734,6 +1725,7 @@ class Php {
                             $before_text = str_replace('\\&', $ampersand_uuid, $before_text);
                             $before_text = str_replace('&quot;', $double_quote_uuid, $before_text);
                             $before_text = str_replace('&apos;', $single_quote_uuid, $before_text);
+                            d($before_text);
                             $after_text = substr($record['text'], $has_second_double_quote_backslash + 1);
                             $after_text = str_replace('\\&', $ampersand_uuid, $after_text);
                             $after_text = str_replace('&quot;', $double_quote_uuid, $after_text);

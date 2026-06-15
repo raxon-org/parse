@@ -1881,7 +1881,7 @@ class Php {
                         else {
                             d($record);
                             $text = Php::text($object, $flags, $options, $record);
-                            d($text);
+                            breakpoint($text);
                             //single quote to double quote transform
                             $text = Escape::double_quote($text);
                             /*

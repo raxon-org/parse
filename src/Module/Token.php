@@ -825,7 +825,6 @@ class Token
                                         $record
                                     );
                                     d($list);
-                                    breakpoint('yes');
                                     $variable_target = Token::variable_name($object, $flags, $options, $variable_name);
                                     $variable_explode = explode($variable_target, $variable_name, 2);
                                     $cast = Token::cast_get($object, $flags, $options, $variable_explode[0]);
@@ -997,6 +996,7 @@ class Token
                                                     'array_notation' => $array_notation_list
                                                 ];
                                             } else {
+                                                d($list);
                                                 $variable = [
                                                     'is_assign' => true,
                                                     'is_not' => $is_not,
@@ -1008,7 +1008,6 @@ class Token
                                             }
                                         } else {
                                             if($array_notation !== ''){
-                                                d($array_notation);
                                                 $list = Token::value(
                                                     $object,
                                                     $flags,

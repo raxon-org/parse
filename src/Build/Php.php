@@ -2835,7 +2835,6 @@ class Php {
                 array_key_exists('is_reference', $record) &&
                 $record['is_reference'] === true
             ){
-                breakpoint($record);
                 $after[] = '$data->set(\'' . $record['name'] . '\', ' . $uuid_variable . '); //test4';
             }
         }
@@ -3916,10 +3915,11 @@ class Php {
             $before[] = $options->variable . ' = [];';
             //changed from execute to value @2026-06-14
 //            $token = Token::tokenize($object, $flags, $options, $record['execute']);
-            $input = $record['value']; // should be execute
+            $input = $record['execute']; // should be execute
             $token = Token::tokenize($object, $flags, $options, $input);
             $token = Php::document_tag_prepare($object, $flags, $options, $token);
             $embed = Php::document_tag($object, $flags, $options, $token);
+            d($embed);
             foreach($embed as $line){
                 $before[] = $line;
             }
@@ -4617,8 +4617,6 @@ class Php {
                 $value = '$this->value_equal(' . $left . ', ' . $right . ')';
                 break;
             case '===':
-                trace();
-                breakpoint('yes');
                 $value = '$this->value_identical(' . $left . ', ' . $right . ')';
                 break;
             case '!=':

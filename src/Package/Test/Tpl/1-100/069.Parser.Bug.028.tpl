@@ -3,3 +3,4 @@
 /**
 $test should return = \"..." now it is \\\"...\"
 */
+test

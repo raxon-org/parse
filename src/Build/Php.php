@@ -1881,15 +1881,11 @@ class Php {
                         }
                         else {
                             $text = Php::text($object, $flags, $options, $record);
-                            d($text);
+                            $is_assign = $object->config('package.raxon/parse.build.state.is_assign');
                             //single quote to double quote transform
-                            $text = Escape::double_quote($text);
-                            /*
-                             if assign then transform \" to " and \\ to \
-                             *
-                             *
-                             */
-                            d($text);
+                            if(!$is_assign){
+                                $text = Escape::double_quote($text);
+                            }
                             /*
                             $text = str_replace(
                                 [
@@ -5039,6 +5035,7 @@ class Php {
         $after_value = [];
         $try_catch = $object->config('package.raxon/parse.build.state.try_catch');
         $separator = $object->config('package.raxon/parse.build.state.separator');
+        $object->config('package.raxon/parse.build.state.is_assign', true);
         if(
             in_array(
                 $operator,
@@ -5559,6 +5556,7 @@ class Php {
                 }
             }
             $object->config('package.raxon/parse.build.state.remove_newline_next', true);
+            $object->config('delete', 'package.raxon/parse.build.state.is_assign');
             return $result;
         }
         return false;

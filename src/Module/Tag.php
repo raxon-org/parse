@@ -42,6 +42,8 @@ class Tag
             $previous = $split[$nr - 1] ?? null;
             $previous_2x = $split[$nr - 2] ?? null;
             $previous_3x = $split[$nr - 3] ?? null;
+            $previous_4x = $split[$nr - 4] ?? null;
+            $previous_5x = $split[$nr - 5] ?? null;
             $next = $split[$nr + 1] ?? null;
             $next_2x = $split[$nr + 2] ?? null;
             $next_3x = $split[$nr + 3] ?? null;
@@ -61,15 +63,12 @@ class Tag
                 $is_single_quoted === false &&
 //                $is_double_quoted === false &&                //needs to be off
                 $is_double_quoted_backslash === false &&      //needs to be off now on 2026-06-13
-                (
-                    $previous !== '\\' ||
-                    (
-                        $previous === '\\' &&
-                        $previous_2x === '\\' &&
-                        $previous_3x != '\\' // != (also null)
-
-                    )
-                )
+                Symbol::check_previous([
+                    $previous,
+                    $previous_2x,
+                    $previous_3x,
+                    $previous_4x,
+                ])
             ){
                 if($text !== ''){
                     $explode = explode("\n", $text);
@@ -129,14 +128,12 @@ class Tag
                 $is_single_quoted === true &&
 //                $is_double_quoted === false &&            //needs to be off
                 $is_double_quoted_backslash === false &&    //needs to be off now on 2026-06-13
-                (
-                    $previous !== '\\' ||
-                    (
-                        $previous === '\\' &&
-                        $previous_2x === '\\' &&
-                        $previous_3x != '\\' // != (also null)
-                    )
-                )
+                Symbol::check_previous([
+                    $previous,
+                    $previous_2x,
+                    $previous_3x,
+                    $previous_4x,
+                ])
             ){
                 if($text !== ''){
                     $text .= $char;
@@ -198,14 +195,12 @@ class Tag
                 $is_single_quoted === true &&
 //                $is_double_quoted === false &&            //needs to be off
                 $is_double_quoted_backslash === false &&      //needs to be off now on 2026-06-13
-                (
-                    $previous !== '\\' ||
-                    (
-                        $previous === '\\' &&
-                        $previous_2x === '\\' &&
-                        $previous_3x != '\\' // != (also null)
-                    )
-                )
+                Symbol::check_previous([
+                    $previous,
+                    $previous_2x,
+                    $previous_3x,
+                    $previous_4x,
+                ])
             ){
                 $is_single_quoted = false;
             }
@@ -215,13 +210,12 @@ class Tag
                 $is_single_quoted === false &&
                 $is_double_quoted === false &&
                 $is_double_quoted_backslash === false &&
-                (
-                    $previous !== '\\' ||
-                    (
-                        $previous === '\\' &&
-                        $previous_2x === '\\'
-                    )
-                )
+                Symbol::check_previous([
+                    $previous,
+                    $previous_2x,
+                    $previous_3x,
+                    $previous_4x,
+                ])
             ){
                 if($text !== ''){
                     $explode = explode("\n", $text);
@@ -281,13 +275,12 @@ class Tag
                 $is_single_quoted === false &&
                 $is_double_quoted === true &&
                 $is_double_quoted_backslash === false &&
-                (
-                    $previous !== '\\' ||
-                    (
-                        $previous === '\\' &&
-                        $previous_2x === '\\'
-                    )
-                )
+                Symbol::check_previous([
+                    $previous,
+                    $previous_2x,
+                    $previous_3x,
+                    $previous_4x,
+                ])
             ){
                 if($text !== ''){
                     $text .= $char;
@@ -350,13 +343,12 @@ class Tag
                 $is_single_quoted === false &&
                 $is_double_quoted_backslash === false &&
                 $previous === '\\' &&
-                (
-                    $previous_2x !== '\\' ||
-                    (
-                        $previous_2x === '\\' &&
-                        $previous_3x === '\\'
-                    )
-                )
+                Symbol::check_previous([
+                    $previous_2z,
+                    $previous_3x,
+                    $previous_4x,
+                    $previous_5x,
+                ])
             ){
                 if($text !== ''){
                     $text = substr($text, 0, -1);
@@ -417,13 +409,12 @@ class Tag
                 $is_single_quoted === false &&
                 $is_double_quoted_backslash === true &&
                 $previous === '\\' &&
-                (
-                    $previous_2x !== '\\' ||
-                    (
-                        $previous_2x === '\\' &&
-                        $previous_3x === '\\'
-                    )
-                )
+                Symbol::check_previous([
+                    $previous_2z,
+                    $previous_3x,
+                    $previous_4x,
+                    $previous_5x,
+                ])
             ){
                 if($text !== ''){
                     $text .= $char;

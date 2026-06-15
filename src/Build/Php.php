@@ -1883,7 +1883,9 @@ class Php {
                             $text = Php::text($object, $flags, $options, $record);
                             $is_assign = $object->config('package.raxon/parse.build.state.is_assign');
                             //single quote to double quote transform
-                            if(!$is_assign){
+                            if ($is_assign === true){
+                                
+                            } else {
                                 $text = Escape::double_quote($text);
                             }
                             /*

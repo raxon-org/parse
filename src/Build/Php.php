@@ -1623,7 +1623,6 @@ class Php {
                     ){
                         $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
                         d($is_raw);
-                        /* disabled @ 2026-06-15
                         if($is_raw && substr($record['text'], 0, 1) === '"'){
                             $record['text'] = substr($record['text'], 1);
                             d($record);
@@ -1632,7 +1631,6 @@ class Php {
                             $record['text'] = substr($record['text'], 2);
                             d($record);
                         }
-                        */
                         $object->config('delete', 'package.raxon/parse.build.state.is_raw');
                         if(
                             empty($record['text']) &&
@@ -1884,11 +1882,6 @@ class Php {
                             d($text);
                             //single quote to double quote transform
                             $text = Escape::double_quote($text);
-                            /*
-                             if assign then transform \" to " and \\ to \
-                             *
-                             *
-                             */
                             d($text);
                             /*
                             $text = str_replace(

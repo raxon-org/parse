@@ -1678,10 +1678,10 @@ class Php {
                                 $is_single_quote === false &&
                                 $char === '"' &&
                                 Symbol::check_previous([
-                                $previous,
-                                $previous_2x,
-                                $previous_3x,
-                                $previous_4x
+                                    $previous,
+                                    $previous_2x,
+                                    $previous_3x,
+                                    $previous_4x
                                 ])
                             ){
                                 if($is_double_quote === false){
@@ -1835,24 +1835,14 @@ class Php {
                                 }} else {
                                     $data[] = '$content[] = "' . $before_text . '";';
                                 }
-                                $is_assign = $object->config('package.raxon/parse.build.state.is_assign');
-                                d($is_assign);
-                                if($is_assign === true){
-                                    $data[] = $options->variable . '[] = \'"\';';
-                                } else {
-                                    $data[] = $options->variable . '[] = \'\\"\';';
-                                }
+                                $data[] = $options->variable . '[] = \'\\"\';';
                                 foreach($embed as $line){
                                     $line = str_replace($double_quote_uuid, '"', $line);
                                     $line = str_replace($single_quote_uuid, '\'', $line);
                                     $line = str_replace($ampersand_uuid, '&', $line);
                                     $data[] = $line;
                                 }
-                                if($is_assign === true){
-                                    $data[] = $options->variable . '[] = \'"\';';
-                                } else {
-                                    $data[] = $options->variable . '[] = \'\\"\';';
-                                }
+                                $data[] = $options->variable . '[] = \'\\"\';';
                                 if($variable_old){
                                     $data[] = $variable_old . '[] = implode(\'\', ' . $options->variable . ');';
                                     $options->variable = $variable_old;
@@ -1891,13 +1881,15 @@ class Php {
                         }
                         else {
                             $text = Php::text($object, $flags, $options, $record);
-                            $is_assign = $object->config('package.raxon/parse.build.state.is_assign');
+                            d($text);
                             //single quote to double quote transform
-                            if ($is_assign === true){
-
-                            } else {
-                                $text = Escape::double_quote($text);
-                            }
+                            $text = Escape::double_quote($text);
+                            /*
+                             if assign then transform \" to " and \\ to \
+                             *
+                             *
+                             */
+                            d($text);
                             /*
                             $text = str_replace(
                                 [
@@ -5047,7 +5039,6 @@ class Php {
         $after_value = [];
         $try_catch = $object->config('package.raxon/parse.build.state.try_catch');
         $separator = $object->config('package.raxon/parse.build.state.separator');
-        $object->config('package.raxon/parse.build.state.is_assign', true);
         if(
             in_array(
                 $operator,
@@ -5568,7 +5559,6 @@ class Php {
                 }
             }
             $object->config('package.raxon/parse.build.state.remove_newline_next', true);
-            $object->config('delete', 'package.raxon/parse.build.state.is_assign');
             return $result;
         }
         return false;

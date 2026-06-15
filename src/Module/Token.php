@@ -185,6 +185,7 @@ class Token
             $tags = Tag::define($object, $flags, $options, $input);
             d($tags);
             $tags = Tag::remove($object, $flags, $options, $tags);
+            d($tags);
             $tags = Token::abstract_syntax_tree($object, $flags, $options, $tags);
             $is_new = true;
         }

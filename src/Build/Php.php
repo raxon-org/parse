@@ -1823,6 +1823,8 @@ class Php {
                             $token = Token::tokenize($object, $flags, $options, $text);
                             $token = Php::document_tag_prepare($object, $flags, $options, $token);
                             $embed = Php::document_tag($object, $flags, $options, $token);
+                            $is_raw_old = $object->config('package.raxon/parse.build.state.is_raw');
+                            $object->config('package.raxon/parse.build.state.is_raw', true);
                             $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
                             if(property_exists($options, 'variable')){
                                 if($variable_old){{
@@ -1855,7 +1857,9 @@ class Php {
                                     $data[] = '$content[] = "' . $after_text . '";';
                                 }
                             }
-
+                            if($is_raw_old){
+                                $object->config('package.raxon/parse.build.state.is_raw', $is_raw_old);
+                            }
                             /*
                             $uuid_variable = Core::uuid_variable();
                             $uuid_storage = Core::uuid_variable();

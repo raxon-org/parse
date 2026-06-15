@@ -149,11 +149,10 @@ class Symbol
                     }
                     $input['array'][$i] = null;
                 }
-                d($string);
                 $execute = substr($string, 1, -1);
-                //from \\ to \ and from \" to " not needed by is_single_quote=true
-                $execute = str_replace('\"', '"', $execute);
-                $execute = str_replace('\\\\', '\\', $execute);
+                //from \\ to \ and from \" to " not needed by is_single_quote=true and to early here !!!
+//                $execute = str_replace('\"', '"', $execute);
+//                $execute = str_replace('\\\\', '\\', $execute);
                 $input['array'][$is_double_quote] = [
                     'type' => 'string',
                     'value' => $string,
@@ -195,9 +194,9 @@ class Symbol
                     $input['array'][$i] = null;
                 }
                 $execute = substr($string, 2, -2);
-                //from \\ to \ and from \" to " not needed by is_single_quote=true
-                $execute = str_replace('\"', '"', $execute);
-                $execute = str_replace('\\\\', '\\', $execute);
+                //from \\ to \ and from \" to " not needed by is_single_quote=true and too early here !!!
+//                $execute = str_replace('\"', '"', $execute);
+//                $execute = str_replace('\\\\', '\\', $execute);
                 $input['array'][$is_double_quote_backslash] = [
                     'type' => 'string',
                     'value' => $string,

@@ -355,8 +355,6 @@ class Token
                             //we have a variable assign or define
                             $length = mb_strlen($content);
                             $data = mb_str_split($content, 1);
-                            d('###########################yes');
-                            d($data);
                             //might need data to Symbol::define one day...
                             $operator = false;
                             $variable = [];

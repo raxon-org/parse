@@ -1813,7 +1813,6 @@ class Php {
                             $before_text = str_replace('\\&', $ampersand_uuid, $before_text);
                             $before_text = str_replace('&quot;', $double_quote_uuid, $before_text);
                             $before_text = str_replace('&apos;', $single_quote_uuid, $before_text);
-                            d($before_text);
                             $after_text = substr($record['text'], $has_second_double_quote_backslash + 1);
                             $after_text = str_replace('\\&', $ampersand_uuid, $after_text);
                             $after_text = str_replace('&quot;', $double_quote_uuid, $after_text);
@@ -3929,7 +3928,6 @@ class Php {
 //            $input = str_replace(['\\\\', '\"'], ['\\', '"'], $input); //wrong here
             $token = Token::tokenize($object, $flags, $options, $input);
             $token = Php::document_tag_prepare($object, $flags, $options, $token);
-            d($token);
             $embed = Php::document_tag($object, $flags, $options, $token);
             foreach($embed as $line){
                 $before[] = $line;

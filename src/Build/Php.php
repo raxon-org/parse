@@ -1622,14 +1622,13 @@ class Php {
                         $record['text'] !== ''
                     ){
                         $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
-                        d($is_raw);
+                        //ambigious
                         if($is_raw && substr($record['text'], 0, 1) === '"'){
                             $record['text'] = substr($record['text'], 1);
-                            d($record);
                         }
+                        //ambigious
                         if($is_raw && substr($record['text'], 0, 2) === '\"'){
                             $record['text'] = substr($record['text'], 2);
-                            d($record);
                         }
                         $object->config('delete', 'package.raxon/parse.build.state.is_raw');
                         if(
@@ -3661,7 +3660,6 @@ class Php {
                 break;
             case 'string':
                 $result = Php::value_string($object, $flags, $options, $record, $before, $after);
-                d($result);
                 break;
             case 'array':
                 $result = Php::value_array($object, $flags, $options, $record, $before, $after);
@@ -5253,9 +5251,7 @@ class Php {
                 }
             }
         } else {
-            d($record);
             $value = Php::value($object, $flags, $options, $record, $record['variable']['value'], $is_set, $before, $after);
-            d($value);
         }
         if(
             array_key_exists('modifier', $record['variable']) &&

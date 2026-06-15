@@ -1834,6 +1834,9 @@ class Php {
                                 }
                                 if($is_raw !== true){
                                     $data[] = $options->variable . '[] = \'\\"\';'; //was \'\\"\'
+                                } else {
+                                    //was disabled
+                                    $data[] = $options->variable . '[] = \'"\';';
                                 }
                                 foreach($embed as $line){
                                     $line = str_replace($double_quote_uuid, '"', $line);
@@ -1843,6 +1846,9 @@ class Php {
                                 }
                                 if($is_raw !== true){
                                     $data[] = $options->variable . '[] = \'\\"\';'; //was \'\\"\'
+                                } else {
+                                    //was disabled
+                                    $data[] = $options->variable . '[] = \'"\';';
                                 }
                                 if($variable_old){
                                     $data[] = $variable_old . '[] = implode(\'\', ' . $options->variable . ');';

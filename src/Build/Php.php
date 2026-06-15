@@ -1874,7 +1874,6 @@ class Php {
                             $has_second_double_quote_backslash = false;
                         }
                         else {
-                            d($record);
                             $text = Php::text($object, $flags, $options, $record);
                             d($text);
                             //single quote to double quote transform

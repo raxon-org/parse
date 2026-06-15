@@ -1835,14 +1835,23 @@ class Php {
                                 }} else {
                                     $data[] = '$content[] = "' . $before_text . '";';
                                 }
-                                $data[] = $options->variable . '[] = \'\\"\';';
+                                $is_assign = $object->config('package.raxon/parse.build.state.is_assign');
+                                if($is_assign === true){
+                                    $data[] = $options->variable . '[] = \'"\';';
+                                } else {
+                                    $data[] = $options->variable . '[] = \'\\"\';';
+                                }
                                 foreach($embed as $line){
                                     $line = str_replace($double_quote_uuid, '"', $line);
                                     $line = str_replace($single_quote_uuid, '\'', $line);
                                     $line = str_replace($ampersand_uuid, '&', $line);
                                     $data[] = $line;
                                 }
-                                $data[] = $options->variable . '[] = \'\\"\';';
+                                if($is_assign === true){
+                                    $data[] = $options->variable . '[] = \'"\';';
+                                } else {
+                                    $data[] = $options->variable . '[] = \'\\"\';';
+                                }
                                 if($variable_old){
                                     $data[] = $variable_old . '[] = implode(\'\', ' . $options->variable . ');';
                                     $options->variable = $variable_old;
@@ -1884,7 +1893,7 @@ class Php {
                             $is_assign = $object->config('package.raxon/parse.build.state.is_assign');
                             //single quote to double quote transform
                             if ($is_assign === true){
-                                
+
                             } else {
                                 $text = Escape::double_quote($text);
                             }

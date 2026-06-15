@@ -1640,6 +1640,7 @@ class Php {
                             $object->config('delete', 'package.raxon/parse.build.state.remove_newline_next');
                         }
                         $text = mb_str_split($record['text'], 1);
+                        breakpoint($text);
                         $is_single_quote = false;
                         $is_double_quote = false;
                         $has_start_double_quote = false;

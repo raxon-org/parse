@@ -1834,6 +1834,7 @@ class Php {
                                     $data[] = '$content[] = "' . $before_text . '";';
                                 }
                                 $is_assign = $object->config('package.raxon/parse.build.state.is_assign');
+                                d($is_assign);
                                 if($is_assign === true){
                                     $data[] = $options->variable . '[] = \'"\';';
                                 } else {

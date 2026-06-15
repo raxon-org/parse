@@ -1831,7 +1831,7 @@ class Php {
                                     $data[] = '$content[] = "' . $before_text . '";';
                                 }
                                 if($is_raw !== true){
-                                    $data[] = $options->variable . '[] = \'\\\"\';'; //was \'\\"\'
+                                    $data[] = $options->variable . '[] = \'\\"\';'; //was \'\\"\'
                                 }
                                 foreach($embed as $line){
                                     $line = str_replace($double_quote_uuid, '"', $line);
@@ -1840,7 +1840,7 @@ class Php {
                                     $data[] = $line;
                                 }
                                 if($is_raw !== true){
-                                    $data[] = $options->variable . '[] = \'\\\"\';'; //was \'\\"\'
+                                    $data[] = $options->variable . '[] = \'\\"\';'; //was \'\\"\'
                                 }
                                 if($variable_old){
                                     $data[] = $variable_old . '[] = implode(\'\', ' . $options->variable . ');';

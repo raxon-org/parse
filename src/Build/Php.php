@@ -2144,7 +2144,14 @@ class Php {
                     }
                     elseif($is_literal !== false) {
                         $marker_data[] = $record;
-                    } else {
+                    }
+                    elseif(
+                        array_key_exists('text', $record) &&
+                        $record['text'] === ''
+                    ) {
+                        continue;
+                    }
+                    else {
                         if (
                             array_key_exists('is_multiline', $record) &&
                             $record['is_multiline'] === true

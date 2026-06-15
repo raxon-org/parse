@@ -1884,6 +1884,7 @@ class Php {
                             d($text);
                             //single quote to double quote transform
                             $text = Escape::double_quote($text);
+                            d($text);
                             /*
                             $text = str_replace(
                                 [

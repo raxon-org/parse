@@ -1333,32 +1333,11 @@ class Token
                 // ',' in modifier causes this
                 continue;
             }
-            $previous = $input['array'][$nr - 1] ?? null;
-            if(
-                is_array($previous) &&
-                array_key_exists('execute',  $previous)
-            ){
-                $previous = $previous['execute'];
-            }
-            elseif(
-                is_array($previous) &&
-                array_key_exists('value',  $previous)
-            ){
-                $previous = $previous['value'];
-            }
-            $previous_previous = $input['array'][$nr - 2] ?? null;
-            if(
-                is_array($previous_previous) &&
-                array_key_exists('execute',  $previous_previous)
-            ){
-                $previous_previous = $previous_previous['execute'];
-            }
-            elseif(
-                is_array($previous_previous) &&
-                array_key_exists('value',  $previous_previous)
-            ){
-                $previous_previous = $previous_previous['value'];
-            }
+            $previous = Token::item($input, $nr - 1);
+            $previous_2x = Token::item($input, $nr - 2);
+            $previous_3x = Token::item($input, $nr - 3);
+            $previous_4x = Token::item($input, $nr - 4);
+            $previous_5x = Token::item($input, $nr - 5);
             if(
                 (
                     (
@@ -1370,13 +1349,12 @@ class Token
                 ) &&
                 $is_single_quote === false &&
                 $is_double_quote === false &&
-                (
-                    $previous !== '\\' ||
-                    (
-                        $previous === '\\' &&
-                        $previous_previous === '\\'
-                    )
-                )
+                Symbol::check_previous([
+                    $previous,
+                    $previous_2x,
+                    $previous_3x,
+                    $previous_4x,
+                ])
             ){
                 $is_single_quote = true;
             }
@@ -1391,13 +1369,12 @@ class Token
                 ) &&
                 $is_single_quote === true &&
                 $is_double_quote === false &&
-                (
-                    $previous !== '\\' ||
-                    (
-                        $previous === '\\' &&
-                        $previous_previous === '\\'
-                    )
-                )
+                Symbol::check_previous([
+                    $previous,
+                    $previous_2x,
+                    $previous_3x,
+                    $previous_4x,
+                ])
             ){
                 $is_single_quote = false;
             }
@@ -1412,13 +1389,12 @@ class Token
                 ) &&
                 $is_single_quote === false &&
                 $is_double_quote === false &&
-                (
-                    $previous !== '\\' ||
-                    (
-                        $previous === '\\' &&
-                        $previous_previous === '\\'
-                    )
-                )
+                Symbol::check_previous([
+                    $previous,
+                    $previous_2x,
+                    $previous_3x,
+                    $previous_4x,
+                ])
             ){
                 $is_double_quote = true;
             }
@@ -1433,13 +1409,12 @@ class Token
                 ) &&
                 $is_single_quote === false &&
                 $is_double_quote === true &&
-                (
-                    $previous !== '\\' ||
-                    (
-                        $previous === '\\' &&
-                        $previous_previous === '\\'
-                    )
-                )
+                Symbol::check_previous([
+                    $previous,
+                    $previous_2x,
+                    $previous_3x,
+                    $previous_4x,
+                ])
             ){
                 $is_double_quote = false;
             }
@@ -1454,7 +1429,13 @@ class Token
                 ) &&
                 $is_single_quote === false &&
                 $is_double_quote_backslash === false &&
-                $previous === '\\'
+                $previous === '\\' &&
+                Symbol::check_previous([
+                    $previous_2x,
+                    $previous_3x,
+                    $previous_4x,
+                    $previous_5x,
+                ])
             ){
                 $is_double_quote_backslash = true;
             }
@@ -1469,7 +1450,13 @@ class Token
                 ) &&
                 $is_single_quote === false &&
                 $is_double_quote_backslash === true &&
-                $previous === '\\'
+                $previous === '\\' &&
+                Symbol::check_previous([
+                    $previous_2x,
+                    $previous_3x,
+                    $previous_4x,
+                    $previous_5x,
+                ])
             ){
                 $is_double_quote_backslash = false;
             }

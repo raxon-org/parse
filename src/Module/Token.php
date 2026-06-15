@@ -33,7 +33,19 @@ class Token
         $text = false;
         foreach($data as $nr => $char){
             $previous = $data[$nr - 1] ?? null;
-            if($is_single_quoted !== false && $char === '\'' && $previous !== '\\'){
+            $previous_2x = $data[$nr - 2] ?? null;
+            $previous_3x = $data[$nr - 3] ?? null;
+            $previous_4x = $data[$nr - 4] ?? null;
+            if(
+                $is_single_quoted !== false &&
+                $char === '\'' &&
+                Symbol::check_previous([
+                    $previous,
+                    $previous_2x,
+                    $previous_3x,
+                    $previous_4x,
+                ])
+            ){
                 $text.= $char;
                 $text = str_replace('{{literal}}', $uuid_start, $text);
                 $text = str_replace('{{/literal}}', $uuid_end, $text);
@@ -45,16 +57,26 @@ class Token
                 $text = false;
                 continue;
             }
-            if($is_single_quoted === false && $char === '\'' && $previous !== '\\'){
+            if(
+                $is_single_quoted === false &&
+                $char === '\'' &&
+                Symbol::check_previous([
+                    $previous,
+                    $previous_2x,
+                    $previous_3x,
+                    $previous_4x,
+                ])
+            ){
                 $is_single_quoted = $nr;
                 $text = $char;
                 continue;
             }
-
-            if($is_single_quoted !== false && $text !== false){
+            if(
+                $is_single_quoted !== false &&
+                $text !== false
+            ){
                 $text .= $char;
             }
-
         }
         return implode('', $data);
     }
@@ -333,6 +355,7 @@ class Token
                             //we have a variable assign or define
                             $length = mb_strlen($content);
                             $data = mb_str_split($content, 1);
+                            d($data);
                             //might need data to Symbol::define one day...
                             $operator = false;
                             $variable = [];

@@ -1829,14 +1829,14 @@ class Php {
                                 }} else {
                                     $data[] = '$content[] = "' . $before_text . '";';
                                 }
-                                $data[] = $options->variable . '[] = \'"\';';
+                                $data[] = $options->variable . '[] = \'\\"\';';
                                 foreach($embed as $line){
                                     $line = str_replace($double_quote_uuid, '"', $line);
                                     $line = str_replace($single_quote_uuid, '\'', $line);
                                     $line = str_replace($ampersand_uuid, '&', $line);
                                     $data[] = $line;
                                 }
-                                $data[] = $options->variable . '[] = \'"\';';
+                                $data[] = $options->variable . '[] = \'\\"\';';
                                 if($variable_old){
                                     $data[] = $variable_old . '[] = implode(\'\', ' . $options->variable . ');';
                                     $options->variable = $variable_old;

@@ -5300,7 +5300,6 @@ class Php {
                 }
                 switch($operator){
                     case '=' :
-                        d($value);
                         $item = '$data->set(' .
                             '\'' .
                             str_replace('\'', '\\\'', $variable_name) .

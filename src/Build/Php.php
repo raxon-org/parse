@@ -3919,6 +3919,7 @@ class Php {
 //            $input = str_replace(['\\\\', '\"'], ['\\', '"'], $input); //wrong here
             $token = Token::tokenize($object, $flags, $options, $input);
             $token = Php::document_tag_prepare($object, $flags, $options, $token);
+            d($token);
             $embed = Php::document_tag($object, $flags, $options, $token);
             foreach($embed as $line){
                 $before[] = $line;

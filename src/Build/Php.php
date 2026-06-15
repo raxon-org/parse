@@ -1834,13 +1834,11 @@ class Php {
                                     $data[] = '$content[] = "' . $before_text . '";';
                                 }
                                 $is_assign = $object->config('package.raxon/parse.build.state.is_assign');
-                                d($is_assign);
                                 if($is_assign === true){
                                     $data[] = $options->variable . '[] = \'"\';';
                                 } else {
                                     $data[] = $options->variable . '[] = \'\\"\';';
                                 }
-
                                 foreach($embed as $line){
                                     $line = str_replace($double_quote_uuid, '"', $line);
                                     $line = str_replace($single_quote_uuid, '\'', $line);

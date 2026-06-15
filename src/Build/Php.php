@@ -1622,11 +1622,14 @@ class Php {
                         $record['text'] !== ''
                     ){
                         $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
+                        d($is_raw);
                         if($is_raw && substr($record['text'], 0, 1) === '"'){
                             $record['text'] = substr($record['text'], 1);
+                            d($record);
                         }
                         if($is_raw && substr($record['text'], 0, 2) === '\"'){
                             $record['text'] = substr($record['text'], 2);
+                            d($record);
                         }
                         $object->config('delete', 'package.raxon/parse.build.state.is_raw');
                         if(

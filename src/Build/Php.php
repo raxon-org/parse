@@ -1810,7 +1810,6 @@ class Php {
                             $before_text = str_replace('\\&', $ampersand_uuid, $before_text);
                             $before_text = str_replace('&quot;', $double_quote_uuid, $before_text);
                             $before_text = str_replace('&apos;', $single_quote_uuid, $before_text);
-                            breakpoint($record);
                             $after_text = substr($record['text'], $has_second_double_quote_backslash + 1);
                             $after_text = str_replace('\\&', $ampersand_uuid, $after_text);
                             $after_text = str_replace('&quot;', $double_quote_uuid, $after_text);
@@ -1881,7 +1880,7 @@ class Php {
                         else {
                             d($record);
                             $text = Php::text($object, $flags, $options, $record);
-                            breakpoint($text);
+                            d($text);
                             //single quote to double quote transform
                             $text = Escape::double_quote($text);
                             /*

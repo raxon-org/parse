@@ -1850,9 +1850,6 @@ class Php {
                                     $data[] = '$content[] = "' . $after_text . '";';
                                 }
                             }
-                            if($is_raw_old){
-                                $object->config('package.raxon/parse.build.state.is_raw', $is_raw_old);
-                            }
                             /*
                             $uuid_variable = Core::uuid_variable();
                             $uuid_storage = Core::uuid_variable();

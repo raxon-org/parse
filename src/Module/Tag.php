@@ -63,6 +63,8 @@ class Tag
                 $is_single_quoted === false &&
 //                $is_double_quoted === false &&                //needs to be off
                 $is_double_quoted_backslash === false &&      //needs to be off now on 2026-06-13
+                $is_comment === false &&
+                $is_comment_multiline === false &&
                 Symbol::check_previous([
                     $previous,
                     $previous_2x,
@@ -128,6 +130,8 @@ class Tag
                 $is_single_quoted === true &&
 //                $is_double_quoted === false &&            //needs to be off
                 $is_double_quoted_backslash === false &&    //needs to be off now on 2026-06-13
+                $is_comment === false &&
+                $is_comment_multiline === false &&
                 Symbol::check_previous([
                     $previous,
                     $previous_2x,
@@ -195,6 +199,8 @@ class Tag
                 $is_single_quoted === true &&
 //                $is_double_quoted === false &&            //needs to be off
                 $is_double_quoted_backslash === false &&      //needs to be off now on 2026-06-13
+                $is_comment === false &&
+                $is_comment_multiline === false &&
                 Symbol::check_previous([
                     $previous,
                     $previous_2x,
@@ -210,6 +216,8 @@ class Tag
                 $is_single_quoted === false &&
                 $is_double_quoted === false &&
                 $is_double_quoted_backslash === false &&
+                $is_comment === false &&
+                $is_comment_multiline === false &&
                 Symbol::check_previous([
                     $previous,
                     $previous_2x,
@@ -275,6 +283,8 @@ class Tag
                 $is_single_quoted === false &&
                 $is_double_quoted === true &&
                 $is_double_quoted_backslash === false &&
+                $is_comment === false &&
+                $is_comment_multiline === false &&
                 Symbol::check_previous([
                     $previous,
                     $previous_2x,
@@ -343,6 +353,8 @@ class Tag
                 $is_single_quoted === false &&
                 $is_double_quoted_backslash === false &&
                 $previous === '\\' &&
+                $is_comment === false &&
+                $is_comment_multiline === false &&
                 Symbol::check_previous([
                     $previous_2x,
                     $previous_3x,
@@ -409,6 +421,8 @@ class Tag
                 $is_single_quoted === false &&
                 $is_double_quoted_backslash === true &&
                 $previous === '\\' &&
+                $is_comment === false &&
+                $is_comment_multiline === false &&
                 Symbol::check_previous([
                     $previous_2x,
                     $previous_3x,
@@ -475,7 +489,9 @@ class Tag
                 $char === '{' &&
                 $is_single_quoted === false &&
                 $is_double_quoted === false &&
-                $is_double_quoted_backslash === false
+                $is_double_quoted_backslash === false &&
+                $is_comment === false &&
+                $is_comment_multiline === false
             ){
                 if($previous === '{'){
                     $curly_count++;
@@ -485,7 +501,9 @@ class Tag
                 $char === '}' &&
                 $is_single_quoted === false &&
                 $is_double_quoted === false &&
-                $is_double_quoted_backslash === false
+                $is_double_quoted_backslash === false &&
+                $is_comment === false &&
+                $is_comment_multiline === false
             ){
                 if($previous === '}'){
                     $curly_count--;
@@ -568,6 +586,7 @@ class Tag
                 $char === '{' &&
                 $previous === '{' &&
                 $is_comment === false &&
+                $is_comment_multiline === false &&
                 $is_single_quoted === false &&
                 $is_double_quoted === false &&
                 $is_double_quoted_backslash === false
@@ -580,6 +599,7 @@ class Tag
                 $char === '{' &&
                 $previous === '{' &&
                 $is_comment === false &&
+                $is_comment_multiline === false &&
                 $is_single_quoted === false &&
                 $is_double_quoted === true &&
                 $is_double_quoted_backslash === false
@@ -592,6 +612,7 @@ class Tag
                 $char === '}' &&
                 $previous === '}' &&
                 $is_comment === false &&
+                $is_comment_multiline === false &&
                 $curly_count === 0 &&
                 $is_single_quoted === false &&
                 // $is_double_quoted === false &&
@@ -726,7 +747,8 @@ class Tag
             }
             elseif(
                 $tag &&
-                $is_comment === false
+                $is_comment === false &&
+                $is_comment_multiline === false
             ){
                 $tag .= $char;
                 /*
@@ -736,7 +758,10 @@ class Tag
                 d($is_double_quoted_backslash);
                 */
             }
-            elseif($is_comment === false){
+            elseif(
+                $is_comment === false &&
+                $is_comment_multiline === false
+            ){
                 $text .= $char;
 //                d($text);
             }
@@ -793,7 +818,6 @@ class Tag
                 $tag_list[$line][] = $record;
             }
         }
-        d($tag_list);
         return $tag_list;
     }
 

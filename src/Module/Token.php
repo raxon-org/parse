@@ -825,6 +825,7 @@ class Token
                                         $record
                                     );
                                     d($list);
+                                    breakpoint('yes');
                                     $variable_target = Token::variable_name($object, $flags, $options, $variable_name);
                                     $variable_explode = explode($variable_target, $variable_name, 2);
                                     $cast = Token::cast_get($object, $flags, $options, $variable_explode[0]);

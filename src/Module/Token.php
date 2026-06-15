@@ -810,8 +810,6 @@ class Token
                                 }
                             } else {
                                 if($operator){
-                                    d($after);
-                                    d($after_array);
                                     $list = Token::value(
                                         $object,
                                         $flags,
@@ -822,7 +820,6 @@ class Token
                                         ],
                                         $record
                                     );
-                                    d($list);
                                     $variable_target = Token::variable_name($object, $flags, $options, $variable_name);
                                     $variable_explode = explode($variable_target, $variable_name, 2);
                                     $cast = Token::cast_get($object, $flags, $options, $variable_explode[0]);
@@ -994,7 +991,6 @@ class Token
                                                     'array_notation' => $array_notation_list
                                                 ];
                                             } else {
-                                                d($list);
                                                 $variable = [
                                                     'is_assign' => true,
                                                     'is_not' => $is_not,

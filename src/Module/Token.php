@@ -395,90 +395,6 @@ class Token
                                 $previous_4x = $data[$i - 4] ?? null;
                                 $previous_5x = $data[$i - 5] ?? null;
                                 $next = $data[$i + 1] ?? null;
-                                if($previous !== null){
-                                    if(
-                                        is_array($previous) &&
-                                        array_key_exists('execute', $previous)
-                                    ){
-                                        $previous = $previous['execute'];
-                                    }
-                                    elseif(
-                                        is_array($previous) &&
-                                        array_key_exists('value', $previous)
-                                    ){
-                                        $previous = $previous['value'];
-                                    }
-                                }
-                                if($previous_2x !== null){
-                                    if(
-                                        is_array($previous_2x) &&
-                                        array_key_exists('execute', $previous_2x)
-                                    ){
-                                        $previous_2x = $previous_2x['execute'];
-                                    }
-                                    elseif(
-                                        is_array($previous_2x) &&
-                                        array_key_exists('value', $previous_2x)
-                                    ){
-                                        $previous_2x = $previous_2x['value'];
-                                    }
-                                }
-                                if($previous_3x !== null){
-                                    if(
-                                        is_array($previous_3x) &&
-                                        array_key_exists('execute', $previous_3x)
-                                    ){
-                                        $previous_3x = $previous_3x['execute'];
-                                    }
-                                    elseif(
-                                        is_array($previous_3x) &&
-                                        array_key_exists('value', $previous_3x)
-                                    ){
-                                        $previous_3x = $previous_3x['value'];
-                                    }
-                                }
-                                if($previous_4x !== null){
-                                    if(
-                                        is_array($previous_4x) &&
-                                        array_key_exists('execute', $previous_4x)
-                                    ){
-                                        $previous_4x = $previous_4x['execute'];
-                                    }
-                                    elseif(
-                                        is_array($previous_4x) &&
-                                        array_key_exists('value', $previous_4x)
-                                    ){
-                                        $previous_4x = $previous_4x['value'];
-                                    }
-                                }
-                                if($previous_5x !== null){
-                                    if(
-                                        is_array($previous_5x) &&
-                                        array_key_exists('execute', $previous_5x)
-                                    ){
-                                        $previous_5x = $previous_5x['execute'];
-                                    }
-                                    elseif(
-                                        is_array($previous_5x) &&
-                                        array_key_exists('value', $previous_5x)
-                                    ){
-                                        $previous_5x = $previous_5x['value'];
-                                    }
-                                }
-                                if($next !== null){
-                                    if(
-                                        is_array($next) &&
-                                        array_key_exists('execute', $next)
-                                    ){
-                                        $next = $next['execute'];
-                                    }
-                                    elseif(
-                                        is_array($next) &&
-                                        array_key_exists('value', $next)
-                                    ){
-                                        $next = $next['value'];
-                                    }
-                                }
                                 if(
                                     $char === '\'' &&
                                     $is_single_quoted === false &&
@@ -896,7 +812,8 @@ class Token
                                 }
                             } else {
                                 if($operator){
-                                    // ')' is not an array so we redefine it
+                                    d($after);
+                                    d($after_array);
                                     $list = Token::value(
                                         $object,
                                         $flags,

@@ -3916,7 +3916,9 @@ class Php {
             //changed from execute to value @2026-06-14
 //            $token = Token::tokenize($object, $flags, $options, $record['execute']);
             $input = $record['execute']; // should be execute
+            d($input);
             $token = Token::tokenize($object, $flags, $options, $input);
+            d($token);
             $token = Php::document_tag_prepare($object, $flags, $options, $token);
             $embed = Php::document_tag($object, $flags, $options, $token);
             d($embed);

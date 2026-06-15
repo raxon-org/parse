@@ -3916,8 +3916,7 @@ class Php {
             //changed from execute to value @2026-06-14
 //            $token = Token::tokenize($object, $flags, $options, $record['execute']);
             $input = $record['execute']; // should be execute
-            $input = str_replace(['\\\\', '\"'], ['\\', '"'], $input);
-            d($input);
+//            $input = str_replace(['\\\\', '\"'], ['\\', '"'], $input); //wrong here
             $token = Token::tokenize($object, $flags, $options, $input);
             d($token);
             $token = Php::document_tag_prepare($object, $flags, $options, $token);

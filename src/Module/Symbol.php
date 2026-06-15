@@ -149,6 +149,7 @@ class Symbol
                     }
                     $input['array'][$i] = null;
                 }
+                d($string);
                 $execute = substr($string, 1, -1);
                 //from \\ to \ and from \" to " not needed by is_single_quote=true
                 $execute = str_replace('\"', '"', $execute);

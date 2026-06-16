@@ -1744,6 +1744,7 @@ class Php {
                                 if($variable_old){{
                                     $data[] = $variable_old . '[] = "' . $before_text . '";';
                                 }} else {
+                                    d($before_text);
                                     $data[] = '$content[] = "' . $before_text . '"; //7';
                                 }
                                 if($is_raw !== true){

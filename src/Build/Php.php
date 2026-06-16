@@ -1738,7 +1738,7 @@ class Php {
                                 $before_text = str_replace('&quot;', $double_quote_uuid, $before_text);
                                 $before_text = str_replace('&apos;', $single_quote_uuid, $before_text);
                             }
-                            if(mb_strlen($after_text) === $has_second_double_quote){
+                            if(mb_strlen($record['text']) === $has_second_double_quote){
                                 $after_text = false;
                             } else {
                                 $after_text = substr($record['text'], $has_second_double_quote + 1);
@@ -1842,7 +1842,7 @@ class Php {
                                 $before_text = str_replace('&quot;', $double_quote_uuid, $before_text);
                                 $before_text = str_replace('&apos;', $single_quote_uuid, $before_text);
                             }
-                            if(mb_strlen($after_text) === $has_second_double_quote){
+                            if(mb_strlen($record['text']) === $has_second_double_quote){
                                 $after_text = false;
                             } else {
                                 $after_text = substr($record['text'], $has_second_double_quote_backslash + 1);

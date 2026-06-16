@@ -2178,7 +2178,6 @@ class Php {
                             $data[] = '}';
                         }
                         if(!empty($after)){
-                            d($after);
                             foreach($after as $line){
                                 $data[] = $line;
                             }
@@ -2858,6 +2857,9 @@ class Php {
                         $modifier_value .= $previous_modifier .', ';
                         if(array_key_exists('argument', $modifier)){
                             $is_argument = false;
+                            //same behaviour as is_assign here...
+                            $is_assign = $object->config('package.raxon/parse.build.state.is_assign');
+                            $object->config('package.raxon/parse.build.state.is_assign', true);
                             foreach($modifier['argument'] as $argument_nr => $argument){
                                 $argument = Php::value($object, $flags, $options, $record, $argument, $is_set);
                                 if($argument !== ''){
@@ -2869,6 +2871,11 @@ class Php {
                                 $modifier_value = mb_substr($modifier_value, 0, -2);
                             } else {
                                 $modifier_value = mb_substr($modifier_value, 0, -1);
+                            }
+                            if($is_assign){
+                                $object->config('package.raxon/parse.build.state.is_assign', $is_assign);
+                            } else {
+                                $object->config('delete', 'package.raxon/parse.build.state.is_assign');
                             }
                         }
                         $modifier_value .=  ')';

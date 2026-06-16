@@ -1618,8 +1618,7 @@ class Php {
                 else {
                     if(
                         $is_literal === false &&
-                        array_key_exists('text', $record) &&
-                        $record['text'] !== ''
+                        array_key_exists('text', $record)
                     ){
                         $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
                         //ambigious
@@ -1859,7 +1858,6 @@ class Php {
                                 $token = Php::document_tag_prepare($object, $flags, $options, $token);
                                 $embed = Php::document_tag($object, $flags, $options, $token);
                                 if($before_text !== false && $before_text !== ''){
-                                    d($before_text);
                                     if($variable_old){
                                         $data[] = $variable_old . '[] = "' . $before_text . '";';
                                     } else {
@@ -1891,7 +1889,6 @@ class Php {
                                     unset($options->variable);
                                 }
                                 if($after_text !== false && $after_text !== ''){
-                                    d($after_text);
                                     if($variable_old){
                                         $data[] = $variable_old . '[] = "' . $after_text . '";';
                                     } else {

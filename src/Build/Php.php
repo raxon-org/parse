@@ -1744,6 +1744,8 @@ class Php {
                                 if($variable_old){{
                                     $data[] = $variable_old . '[] = "' . $before_text . '";';
                                 }} else {
+                                    d($record);
+                                    d($has_start_double_quote);
                                     d($before_text);
                                     $data[] = '$content[] = "' . $before_text . '"; //7';
                                 }

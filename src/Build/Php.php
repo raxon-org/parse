@@ -1828,6 +1828,7 @@ class Php {
                             $single_quote_uuid = Core::uuid_variable();
                             $double_quote_uuid = Core::uuid_variable();
                             $ampersand_uuid = core::uuid_variable();
+                            d($has_start_double_quote_backslash);
                             if($has_start_double_quote_backslash === 0){
                                 $before_text = false;
                             }

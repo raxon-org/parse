@@ -1833,6 +1833,7 @@ class Php {
                                 $before_text = false;
                             }
                             elseif($has_start_double_quote_backslash === 1){
+                                d($record);
                                 $before_text = substr($record['text'], 0, 1);
                             } else {
                                 $before_text = substr($record['text'], 0, $has_start_double_quote_backslash - 1);

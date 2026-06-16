@@ -5040,7 +5040,6 @@ class Php {
         $after_value = [];
         $try_catch = $object->config('package.raxon/parse.build.state.try_catch');
         $separator = $object->config('package.raxon/parse.build.state.separator');
-        $object->config('package.raxon/parse.build.state.is_assign', true);
         if(
             in_array(
                 $operator,
@@ -5251,6 +5250,7 @@ class Php {
                 }
             }
         } else {
+            $object->config('package.raxon/parse.build.state.is_assign', true);
             $value = Php::value($object, $flags, $options, $record, $record['variable']['value'], $is_set, $before, $after);
         }
         if(

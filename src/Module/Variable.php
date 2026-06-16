@@ -82,6 +82,7 @@ class Variable
                     ) &&
                     $variable_nr !== false
                 ){
+
                     $after = '';
                     $after_array = [];
                     $input['array'][$nr] = null;

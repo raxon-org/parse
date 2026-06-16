@@ -1738,7 +1738,7 @@ class Php {
                                 $before_text = str_replace('&quot;', $double_quote_uuid, $before_text);
                                 $before_text = str_replace('&apos;', $single_quote_uuid, $before_text);
                             }
-                            if(mb_strlen($before_text) === $has_second_double_quote){
+                            if(mb_strlen($after_text) === $has_second_double_quote){
                                 $after_text = false;
                             } else {
                                 $after_text = substr($record['text'], $has_second_double_quote + 1);
@@ -1828,22 +1828,21 @@ class Php {
                             $single_quote_uuid = Core::uuid_variable();
                             $double_quote_uuid = Core::uuid_variable();
                             $ampersand_uuid = core::uuid_variable();
-                            d($has_start_double_quote_backslash);
-                            if($has_start_double_quote_backslash === 0){
+                            if($has_start_double_quote_backslash <= 1){
                                 $before_text = false;
                             }
-                            elseif($has_start_double_quote_backslash === 1){
-                                d($record);
+                            elseif($has_start_double_quote_backslash === 2){
                                 $before_text = substr($record['text'], 0, 1);
-                            } else {
-                                $before_text = substr($record['text'], 0, $has_start_double_quote_backslash - 1);
+                            }
+                            else {
+                                $before_text = substr($record['text'], 0, $has_start_double_quote_backslash - 2);
                             }
                             if($before_text !== false && $before_text !== ''){
                                 $before_text = str_replace('\\&', $ampersand_uuid, $before_text);
                                 $before_text = str_replace('&quot;', $double_quote_uuid, $before_text);
                                 $before_text = str_replace('&apos;', $single_quote_uuid, $before_text);
                             }
-                            if(mb_strlen($before_text) === $has_second_double_quote){
+                            if(mb_strlen($after_text) === $has_second_double_quote){
                                 $after_text = false;
                             } else {
                                 $after_text = substr($record['text'], $has_second_double_quote_backslash + 1);

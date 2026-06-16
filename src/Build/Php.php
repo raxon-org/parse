@@ -1738,7 +1738,11 @@ class Php {
                                 $before_text = str_replace('&quot;', $double_quote_uuid, $before_text);
                                 $before_text = str_replace('&apos;', $single_quote_uuid, $before_text);
                             }
-                            $after_text = substr($record['text'], $has_second_double_quote_backslash + 1);
+                            if(mb_strlen($before_text) === $has_second_double_quote){
+                                $after_text = false;
+                            } else {
+                                $after_text = substr($record['text'], $has_second_double_quote + 1);
+                            }
                             if($after_text !== false && $after_text !== ''){
                                 $after_text = str_replace('\\&', $ampersand_uuid, $after_text);
                                 $after_text = str_replace('&quot;', $double_quote_uuid, $after_text);
@@ -1779,7 +1783,8 @@ class Php {
                                     $data[] = '$content[] = implode(\'\', ' . $options->variable . '); //8';
                                     unset($options->variable);
                                 }
-                                if($after_text !== '' || $after_text !== false){
+                                if($after_text !== false || $after_text !== ''){
+                                    d($after_text);
                                     if($variable_old){
                                         $data[] = $variable_old . '[] = "' . $after_text . '";';
                                     } else {
@@ -1822,20 +1827,24 @@ class Php {
                             $single_quote_uuid = Core::uuid_variable();
                             $double_quote_uuid = Core::uuid_variable();
                             $ampersand_uuid = core::uuid_variable();
-                            if($has_start_double_quote === 0){
+                            if($has_start_double_quote_backslash === 0){
                                 $before_text = false;
                             }
-                            elseif($has_start_double_quote === 1){
+                            elseif($has_start_double_quote_backslash === 1){
                                 $before_text = substr($record['text'], 0, 1);
                             } else {
-                                $before_text = substr($record['text'], 0, $has_start_double_quote - 1);
+                                $before_text = substr($record['text'], 0, $has_start_double_quote_backslash - 1);
                             }
                             if($before_text !== false && $before_text !== ''){
                                 $before_text = str_replace('\\&', $ampersand_uuid, $before_text);
                                 $before_text = str_replace('&quot;', $double_quote_uuid, $before_text);
                                 $before_text = str_replace('&apos;', $single_quote_uuid, $before_text);
                             }
-                            $after_text = substr($record['text'], $has_second_double_quote_backslash + 1);
+                            if(mb_strlen($before_text) === $has_second_double_quote){
+                                $after_text = false;
+                            } else {
+                                $after_text = substr($record['text'], $has_second_double_quote_backslash + 1);
+                            }
                             if($after_text !== false && $after_text !== ''){
                                 $after_text = str_replace('\\&', $ampersand_uuid, $after_text);
                                 $after_text = str_replace('&quot;', $double_quote_uuid, $after_text);

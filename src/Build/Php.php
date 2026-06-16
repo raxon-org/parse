@@ -1889,7 +1889,6 @@ class Php {
                             d($text);
                             //single quote to double quote transform
                             $is_assign = $object->config('package.raxon/parse.build.state.is_assign');
-                            $is_assign = false;
                             if($is_assign === true){
                                 // nothing
                             } else {

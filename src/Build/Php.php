@@ -1850,7 +1850,7 @@ class Php {
                                 $after_text = str_replace('&apos;', $single_quote_uuid, $after_text);
                             }
                             $text = substr($record['text'], $has_start_double_quote_backslash + 1, $has_second_double_quote_backslash - $has_start_double_quote_backslash - 2);
-                            if($text !== false && $text !== ''){
+                            if($text !== false){
                                 $text = str_replace('\\&', $ampersand_uuid, $text);
                                 $text = str_replace('&quot;', $double_quote_uuid, $text);
                                 $text = str_replace('&apos;', $single_quote_uuid, $text);

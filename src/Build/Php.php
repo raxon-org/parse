@@ -1895,6 +1895,7 @@ class Php {
                             } else {
                                 $text = Escape::double_quote($text);
                             }
+                            d($text);
                             /*
                             $text = str_replace(
                                 [

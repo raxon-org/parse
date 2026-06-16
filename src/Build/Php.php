@@ -1725,30 +1725,40 @@ class Php {
                             $double_quote_uuid = Core::uuid_variable();
                             $ampersand_uuid = core::uuid_variable();
                             //1 -1 = 0 2 -1 = 1 3 - 1 = 2
-                            $before_text = substr($record['text'], 0, $has_start_double_quote - 1);
-                            $before_text = str_replace('\\&', $ampersand_uuid, $before_text);
-                            $before_text = str_replace('&quot;', $double_quote_uuid, $before_text);
-                            $before_text = str_replace('&apos;', $single_quote_uuid, $before_text);
+                            if($has_start_double_quote === 0){
+                                $before_text = false;
+                            }
+                            elseif($has_start_double_quote === 1){
+                                $before_text = substr($record['text'], 0, 1);
+                            } else {
+                                $before_text = substr($record['text'], 0, $has_start_double_quote - 1);
+                            }
+                            if($before_text !== false && $before_text !== ''){
+                                $before_text = str_replace('\\&', $ampersand_uuid, $before_text);
+                                $before_text = str_replace('&quot;', $double_quote_uuid, $before_text);
+                                $before_text = str_replace('&apos;', $single_quote_uuid, $before_text);
+                            }
                             $after_text = substr($record['text'], $has_second_double_quote_backslash + 1);
-                            $after_text = str_replace('\\&', $ampersand_uuid, $after_text);
-                            $after_text = str_replace('&quot;', $double_quote_uuid, $after_text);
-                            $after_text = str_replace('&apos;', $single_quote_uuid, $after_text);
+                            if($after_text !== false && $after_text !== ''){
+                                $after_text = str_replace('\\&', $ampersand_uuid, $after_text);
+                                $after_text = str_replace('&quot;', $double_quote_uuid, $after_text);
+                                $after_text = str_replace('&apos;', $single_quote_uuid, $after_text);
+                            }
                             $text = substr($record['text'], $has_start_double_quote + 1, $has_second_double_quote - $has_start_double_quote - 1);
-                            $text = str_replace('\\&', $ampersand_uuid, $text);
-                            $text = str_replace('&quot;', $double_quote_uuid, $text);
-                            $text = str_replace('&apos;', $single_quote_uuid, $text);
-                            $token = Token::tokenize($object, $flags, $options, $text);
-                            $token = Php::document_tag_prepare($object, $flags, $options, $token);
-                            $embed = Php::document_tag($object, $flags, $options, $token);
-                            $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
-                            if(property_exists($options, 'variable')){
-                                if($variable_old){{
-                                    $data[] = $variable_old . '[] = "' . $before_text . '";';
-                                }} else {
-                                    d($record);
-                                    d($has_start_double_quote);
-                                    d($before_text);
-                                    $data[] = '$content[] = "' . $before_text . '"; //7';
+                            if($text !== false && $text !== ''){
+                                $text = str_replace('\\&', $ampersand_uuid, $text);
+                                $text = str_replace('&quot;', $double_quote_uuid, $text);
+                                $text = str_replace('&apos;', $single_quote_uuid, $text);
+                                $token = Token::tokenize($object, $flags, $options, $text);
+                                $token = Php::document_tag_prepare($object, $flags, $options, $token);
+                                $embed = Php::document_tag($object, $flags, $options, $token);
+                                $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
+                                if($before_text !== false && $before_text !== ''){
+                                    if($variable_old){
+                                        $data[] = $variable_old . '[] = "' . $before_text . '";';
+                                    } else {
+                                        $data[] = '$content[] = "' . $before_text . '"; //7';
+                                    }
                                 }
                                 if($is_raw !== true){
                                     $data[] = $options->variable . '[] = \'"\';';
@@ -1769,39 +1779,38 @@ class Php {
                                     $data[] = '$content[] = implode(\'\', ' . $options->variable . '); //8';
                                     unset($options->variable);
                                 }
-                                if($variable_old){{
-                                    $data[] = $variable_old . '[] = "' . $after_text . '";';
-                                }} else {
-                                    $data[] = '$content[] = "' . $after_text . '"; //9';
+                                if($after_text !== '' || $after_text !== false){
+                                    if($variable_old){
+                                        $data[] = $variable_old . '[] = "' . $after_text . '";';
+                                    } else {
+                                        $data[] = '$content[] = "' . $after_text . '"; //9';
+                                    }
                                 }
+                                // $object->config('delete', 'package.raxon/parse.build.state.is_raw');
+                                $has_start_double_quote = false;
+                                $has_second_double_quote = false;
+                                /*
+                                $uuid_variable = Core::uuid_variable();
+                                $uuid_storage = Core::uuid_variable();
+                                $uuid_parse = Core::uuid_variable();
+                                $uuid_options = Core::uuid_variable();
+                                $data[] = $uuid_options . ' = clone $options;';
+                                $data[] = $uuid_options . '->source = \'internal_\' . Core::uuid();';
+                                $data[] = $uuid_storage . '= new Data($data);';
+                                $data[] = $uuid_parse . ' = new Parse($object, '. $uuid_storage . ', $flags, '. $uuid_options . ');';
+                                $data[] = $uuid_variable . ' = '.  $uuid_parse . '->compile("' . substr($record['text'], 1, -1) . '", $data, true);';
+
+                                if(property_exists($options, 'variable')){
+                                    $data[] = $options->variable . '[] = \'"\';';
+                                    $data[] = $options->variable . '[] = ' . $uuid_variable . ';';
+                                    $data[] = $options->variable . '[] = \'"\';';
+                                } else {
+                                    $data[] = '$content[] = \'"\';';
+                                    $data[] = '$content[] = ' . $uuid_variable . ';';
+                                    $data[] = '$content[] = \'"\';';
+                                }
+                                */
                             }
-                            // $object->config('delete', 'package.raxon/parse.build.state.is_raw');
-
-                            $has_start_double_quote = false;
-                            $has_second_double_quote = false;
-
-
-                            /*
-                            $uuid_variable = Core::uuid_variable();
-                            $uuid_storage = Core::uuid_variable();
-                            $uuid_parse = Core::uuid_variable();
-                            $uuid_options = Core::uuid_variable();
-                            $data[] = $uuid_options . ' = clone $options;';
-                            $data[] = $uuid_options . '->source = \'internal_\' . Core::uuid();';
-                            $data[] = $uuid_storage . '= new Data($data);';
-                            $data[] = $uuid_parse . ' = new Parse($object, '. $uuid_storage . ', $flags, '. $uuid_options . ');';
-                            $data[] = $uuid_variable . ' = '.  $uuid_parse . '->compile("' . substr($record['text'], 1, -1) . '", $data, true);';
-
-                            if(property_exists($options, 'variable')){
-                                $data[] = $options->variable . '[] = \'"\';';
-                                $data[] = $options->variable . '[] = ' . $uuid_variable . ';';
-                                $data[] = $options->variable . '[] = \'"\';';
-                            } else {
-                                $data[] = '$content[] = \'"\';';
-                                $data[] = '$content[] = ' . $uuid_variable . ';';
-                                $data[] = '$content[] = \'"\';';
-                            }
-                            */
                         }
                         elseif(
                             $has_start_double_quote_backslash !== false &&
@@ -1813,27 +1822,39 @@ class Php {
                             $single_quote_uuid = Core::uuid_variable();
                             $double_quote_uuid = Core::uuid_variable();
                             $ampersand_uuid = core::uuid_variable();
-                            $before_text = substr($record['text'], 0, $has_start_double_quote_backslash - 1);
-                            $before_text = str_replace('\\&', $ampersand_uuid, $before_text);
-                            $before_text = str_replace('&quot;', $double_quote_uuid, $before_text);
-                            $before_text = str_replace('&apos;', $single_quote_uuid, $before_text);
+                            if($has_start_double_quote === 0){
+                                $before_text = false;
+                            }
+                            elseif($has_start_double_quote === 1){
+                                $before_text = substr($record['text'], 0, 1);
+                            } else {
+                                $before_text = substr($record['text'], 0, $has_start_double_quote - 1);
+                            }
+                            if($before_text !== false && $before_text !== ''){
+                                $before_text = str_replace('\\&', $ampersand_uuid, $before_text);
+                                $before_text = str_replace('&quot;', $double_quote_uuid, $before_text);
+                                $before_text = str_replace('&apos;', $single_quote_uuid, $before_text);
+                            }
                             $after_text = substr($record['text'], $has_second_double_quote_backslash + 1);
-                            $after_text = str_replace('\\&', $ampersand_uuid, $after_text);
-                            $after_text = str_replace('&quot;', $double_quote_uuid, $after_text);
-                            $after_text = str_replace('&apos;', $single_quote_uuid, $after_text);
+                            if($after_text !== false && $after_text !== ''){
+                                $after_text = str_replace('\\&', $ampersand_uuid, $after_text);
+                                $after_text = str_replace('&quot;', $double_quote_uuid, $after_text);
+                                $after_text = str_replace('&apos;', $single_quote_uuid, $after_text);
+                            }
                             $text = substr($record['text'], $has_start_double_quote_backslash + 1, $has_second_double_quote_backslash - $has_start_double_quote_backslash - 2);
-                            $text = str_replace('\\&', $ampersand_uuid, $text);
-                            $text = str_replace('&quot;', $double_quote_uuid, $text);
-                            $text = str_replace('&apos;', $single_quote_uuid, $text);
-                            $token = Token::tokenize($object, $flags, $options, $text);
-                            $token = Php::document_tag_prepare($object, $flags, $options, $token);
-                            $embed = Php::document_tag($object, $flags, $options, $token);
-                            //d($embed);
-                            if(property_exists($options, 'variable')){
-                                if($variable_old){{
-                                    $data[] = $variable_old . '[] = "' . $before_text . '";';
-                                }} else {
-                                    $data[] = '$content[] = "' . $before_text . '"; //10';
+                            if($text !== false && $text !== ''){
+                                $text = str_replace('\\&', $ampersand_uuid, $text);
+                                $text = str_replace('&quot;', $double_quote_uuid, $text);
+                                $text = str_replace('&apos;', $single_quote_uuid, $text);
+                                $token = Token::tokenize($object, $flags, $options, $text);
+                                $token = Php::document_tag_prepare($object, $flags, $options, $token);
+                                $embed = Php::document_tag($object, $flags, $options, $token);
+                                if($before_text !== false && $before_text !== ''){
+                                    if($variable_old){
+                                        $data[] = $variable_old . '[] = "' . $before_text . '";';
+                                    } else {
+                                        $data[] = '$content[] = "' . $before_text . '"; //10';
+                                    }
                                 }
                                 $is_assign = $object->config('package.raxon/parse.build.state.is_assign');
                                 if($is_assign === true){
@@ -1859,10 +1880,12 @@ class Php {
                                     $data[] = '$content[] = implode(\'\', ' . $options->variable . '); //11';
                                     unset($options->variable);
                                 }
-                                if($variable_old){{
-                                    $data[] = $variable_old . '[] = "' . $after_text . '";';
-                                }} else {
-                                    $data[] = '$content[] = "' . $after_text . '"; //12';
+                                if($after_text !== false && $after_text !== ''){
+                                    if($variable_old){
+                                        $data[] = $variable_old . '[] = "' . $after_text . '";';
+                                    } else {
+                                        $data[] = '$content[] = "' . $after_text . '"; //12';
+                                    }
                                 }
                             }
                             /*

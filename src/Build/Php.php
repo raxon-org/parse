@@ -1945,8 +1945,7 @@ class Php {
                             if(property_exists($options, 'variable')){
                                 $data[] = $options->variable . '[] =  "' . $text . '";';
                             } else {
-                                d($text);
-                                $data[] = '$content[] =  "' . $text . '";';
+                                $data[] = '$content[] =  "' . $text . '"; //1';
                             }
                         }
                     }

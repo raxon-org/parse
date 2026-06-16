@@ -1724,6 +1724,7 @@ class Php {
                             $single_quote_uuid = Core::uuid_variable();
                             $double_quote_uuid = Core::uuid_variable();
                             $ampersand_uuid = core::uuid_variable();
+                            //1 -1 = 0 2 -1 = 1 3 - 1 = 2
                             $before_text = substr($record['text'], 0, $has_start_double_quote - 1);
                             $before_text = str_replace('\\&', $ampersand_uuid, $before_text);
                             $before_text = str_replace('&quot;', $double_quote_uuid, $before_text);

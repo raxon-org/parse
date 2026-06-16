@@ -663,7 +663,7 @@ class Php {
                             if(property_exists($options, 'variable')){
                                 $data[] = $options->variable . '[] = \'' . str_replace(['\''], ['\\\''], $text_text) . '\';';
                             } else {
-                                $data[] = '$content[] = \'' . str_replace(['\''], ['\\\''], $text_text) . '\';';
+                                $data[] = '$content[] = \'' . str_replace(['\''], ['\\\''], $text_text) . '\'; //5';
                             }
                             $is_literal = false;
                         }
@@ -1322,7 +1322,7 @@ class Php {
                             if(property_exists($options, 'variable')){
                                 $block_data[] = $options->variable . '[] = ' . Php::method($object, $flags, $options, $content[$category]['statement'], $before, $after) . ';';
                             } else {
-                                $block_data[] = '$content[] = ' . Php::method($object, $flags, $options, $content[$category]['statement'], $before, $after) . ';';
+                                $block_data[] = '$content[] = ' . Php::method($object, $flags, $options, $content[$category]['statement'], $before, $after) . '; //6';
                             }
                             if($separator === null){
                                 $object->config('delete', 'package.raxon/parse.build.state.separator');
@@ -1744,7 +1744,7 @@ class Php {
                                 if($variable_old){{
                                     $data[] = $variable_old . '[] = "' . $before_text . '";';
                                 }} else {
-                                    $data[] = '$content[] = "' . $before_text . '";';
+                                    $data[] = '$content[] = "' . $before_text . '"; //7';
                                 }
                                 if($is_raw !== true){
                                     $data[] = $options->variable . '[] = \'"\';';
@@ -1762,13 +1762,13 @@ class Php {
                                     $data[] = $variable_old . '[] = implode(\'\', ' . $options->variable . ');';
                                     $options->variable = $variable_old;
                                 } else {
-                                    $data[] = '$content[] = implode(\'\', ' . $options->variable . ');';
+                                    $data[] = '$content[] = implode(\'\', ' . $options->variable . '); //8';
                                     unset($options->variable);
                                 }
                                 if($variable_old){{
                                     $data[] = $variable_old . '[] = "' . $after_text . '";';
                                 }} else {
-                                    $data[] = '$content[] = "' . $after_text . '";';
+                                    $data[] = '$content[] = "' . $after_text . '"; //9';
                                 }
                             }
                             // $object->config('delete', 'package.raxon/parse.build.state.is_raw');
@@ -1829,7 +1829,7 @@ class Php {
                                 if($variable_old){{
                                     $data[] = $variable_old . '[] = "' . $before_text . '";';
                                 }} else {
-                                    $data[] = '$content[] = "' . $before_text . '";';
+                                    $data[] = '$content[] = "' . $before_text . '"; //10';
                                 }
                                 $is_assign = $object->config('package.raxon/parse.build.state.is_assign');
                                 if($is_assign === true){
@@ -1852,13 +1852,13 @@ class Php {
                                     $data[] = $variable_old . '[] = implode(\'\', ' . $options->variable . ');';
                                     $options->variable = $variable_old;
                                 } else {
-                                    $data[] = '$content[] = implode(\'\', ' . $options->variable . ');';
+                                    $data[] = '$content[] = implode(\'\', ' . $options->variable . '); //11';
                                     unset($options->variable);
                                 }
                                 if($variable_old){{
                                     $data[] = $variable_old . '[] = "' . $after_text . '";';
                                 }} else {
-                                    $data[] = '$content[] = "' . $after_text . '";';
+                                    $data[] = '$content[] = "' . $after_text . '"; //12';
                                 }
                             }
                             /*
@@ -2077,7 +2077,7 @@ class Php {
                             if(property_exists($options, 'variable')){
                                 $data[] = '    '. $options->variable . '[] = ' . $uuid_method . ';';
                             } else {
-                                $data[] = '    $content[] = ' . $uuid_method . ';';
+                                $data[] = '    $content[] = ' . $uuid_method . '; //2';
                             }
                             $data[] = '}';
                             $data[] = 'elseif(is_array(' . $uuid_method . ')){';
@@ -4851,7 +4851,7 @@ class Php {
             if(property_exists($options, 'variable')){
                 $data[] = $options->variable . '[] = ' . $variable_uuid . ';';
             } else {
-                $data[] = '$content[] = ' . $variable_uuid . ';';
+                $data[] = '$content[] = ' . $variable_uuid . '; //3';
             }
             $data[] = '}';
             $data[] = 'elseif(is_array(' . $variable_uuid. ')){';
@@ -4987,7 +4987,7 @@ class Php {
             if(property_exists($options, 'variable')){
                 $data[] = $options->variable . '[] = ' . $variable_uuid . ';';
             } else {
-                $data[] = '$content[] =  ' . $variable_uuid . ';';
+                $data[] = '$content[] =  ' . $variable_uuid . '; //4';
             }
             $data[] = '}';
             $data[] = 'elseif(is_array('. $variable_uuid. ')){';

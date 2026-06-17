@@ -215,6 +215,11 @@ class Tag
                     $previous_4x,
                 ])
             ){
+                d($char);
+                d($previous);
+                d($previous_2x);
+                d($previous_3x);
+                d($previous_4x);
                 $is_single_quoted = false;
             }
             elseif(

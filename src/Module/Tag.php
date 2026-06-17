@@ -910,7 +910,6 @@ class Tag
                 }
             }
         }
-        d($tags);
         return $tags;
     }
 

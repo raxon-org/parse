@@ -617,8 +617,7 @@ class Tag
                 $is_comment_multiline === false &&
                 $is_single_quoted === false &&
                 $is_double_quoted === false &&
-                $is_double_quoted_backslash === false &&
-                $is_literal === false
+                $is_double_quoted_backslash === false
             ){
                 $tag = '{{';
                 $text = mb_substr($text, 0, -1);
@@ -631,8 +630,7 @@ class Tag
                 $is_comment_multiline === false &&
                 $is_single_quoted === false &&
                 $is_double_quoted === true &&
-                $is_double_quoted_backslash === false &&
-                $is_literal === false
+                $is_double_quoted_backslash === false
             ){
                 $tag = '{{';
                 $text = mb_substr($text, 0, -1);

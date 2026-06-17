@@ -2904,7 +2904,6 @@ class Php {
                     }
                 } else {
                     $argument = Php::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
-                    d($before);
 //                    $uuid_variable = Core::uuid_variable();
 //                    $before[] = $uuid_variable . ' = ' . $argument . ';';
                 }
@@ -2950,6 +2949,7 @@ class Php {
 //                        d($argument);
 //                        trace();
                     }
+                    d($argument);
                     $uuid_variable = Core::uuid_variable();
                     $before[] = $uuid_variable . ' = ' . $argument . ';';
                     if($attributes !== false){

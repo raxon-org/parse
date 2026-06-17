@@ -2049,8 +2049,7 @@ class Php {
                     }
                 }
             }
-        }
-         d($data);
+        }         
         return $data;
     }
 

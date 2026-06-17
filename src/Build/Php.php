@@ -2921,7 +2921,9 @@ class Php {
                     $argument_attribute->count === '*'
                 ){
                     //all arguments are literal
+                    d('literal');
                     $argument = '\'' . str_replace(['\''], ['\\\''], trim($argument['string'])) . '\'';
+                    d($argument);
                 }
                 elseif(
                     property_exists($argument_attribute, 'apply') &&
@@ -2935,7 +2937,9 @@ class Php {
                     )
                 ){
                     //we have multiple indexes
+                    d('some literal');
                     $argument = '\'' . str_replace(['\''], ['\\\''], trim($argument['string'])) . '\'';
+                    d($argument);
                 }
                 elseif (
                     property_exists($argument_attribute, 'apply') &&
@@ -2945,7 +2949,9 @@ class Php {
                     $argument_attribute->index === $nr
                 ){
                     //we have a single index
+                    d('single index');
                     $argument = '\'' . str_replace(['\''], ['\\\''], trim($argument['string'])) . '\'';
+                    d($argument);
                 } else {
                     if(array_key_exists($nr, $argument_is_reference)){
                         $argument['array'][0]['is_reference'] = $argument_is_reference[$nr];
@@ -2956,7 +2962,6 @@ class Php {
 //                        trace();
                     }
                     $uuid_variable = Core::uuid_variable();
-                    d($argument);
                     $before[] = $uuid_variable . ' = ' . $argument . ';';
                     if($attributes !== false){
                         $use_trait = $object->config('package.raxon/parse.build.use.trait');

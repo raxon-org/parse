@@ -24,7 +24,6 @@ class Tag
         $tag = false;
         $tag_list = [];
         $is_literal = false;
-        $is_literal_curly_depth = 0;
         $is_single_quoted = false;
         $is_double_quoted = false;
         $is_double_quoted_backslash = false;
@@ -700,7 +699,6 @@ class Tag
                 $explode = explode("\n", $tag);
                 $count = count($explode);
                 if($count > 1){
-                    d($is_literal_curly_depth);
                     d($tag);
                     breakpoint($old_text);
                     $content = trim(mb_substr($tag, 2, -2));
@@ -760,10 +758,9 @@ class Tag
                         $is_literal = true;
                         $record['is_literal'] = true;
                         $record['is_literal_start'] = true;
-                        $is_literal_curly_depth = $curly_count;
                     }
                     elseif(
-                        mb_strtoupper($content) === '/LITERAL' ||
+                        mb_strtoupper($content) === '/LITERAL' &&
                         $is_literal === true
                     ){
                         $is_literal = false;

@@ -37,6 +37,7 @@ class Method
         $call_type = '';
         $is_for = false;
         $is_variable_method = false;
+        $before = [];
         foreach($input['array'] as $nr => $char){
             if(!is_numeric($nr)){
                 // ',' in modifier causes this
@@ -421,15 +422,11 @@ class Method
                         is_array($char) &&
                         array_key_exists('value', $char) &&
                         $char['value'] === '\'' &&
-                        Symbol::check_previous([
-                            $previous,
-                            $previous_2x,
-                            $previous_3x,
-                            $previous_4x,
-                        ]) &&
+                        Symbol::check_previous($before) &&
                         $is_single_quote === false &&
                         $is_double_quote === false
                     ){
+                        $before = [];
                         $is_single_quote = true;
                         $argument_array[] = $char;
                         $argument .= $char['value'];
@@ -438,15 +435,11 @@ class Method
                         is_array($char) &&
                         array_key_exists('value', $char) &&
                         $char['value'] === '\'' &&
-                        Symbol::check_previous([
-                            $previous,
-                            $previous_2x,
-                            $previous_3x,
-                            $previous_4x,
-                        ]) &&
+                        Symbol::check_previous($before) &&
                         $is_single_quote === true &&
                         $is_double_quote === false
                     ){
+                        $before = [];
                         $is_single_quote = false;
                         $argument_array[] = $char;
                         $argument .= $char['value'];
@@ -455,15 +448,11 @@ class Method
                         is_array($char) &&
                         array_key_exists('value', $char) &&
                         $char['value'] === '"' &&
-                        Symbol::check_previous([
-                            $previous,
-                            $previous_2x,
-                            $previous_3x,
-                            $previous_4x,
-                        ]) &&
+                        Symbol::check_previous($before) &&
                         $is_single_quote === false &&
                         $is_double_quote === false
                     ){
+                        $before = [];
                         $is_double_quote = true;
                         $argument_array[] = $char;
                         $argument .= $char['value'];
@@ -472,15 +461,11 @@ class Method
                         is_array($char) &&
                         array_key_exists('value', $char) &&
                         $char['value'] === '"' &&
-                        Symbol::check_previous([
-                            $previous,
-                            $previous_2x,
-                            $previous_3x,
-                            $previous_4x,
-                        ]) &&
+                        Symbol::check_previous($before) &&
                         $is_single_quote === false &&
                         $is_double_quote === true
                     ){
+                        $before = [];
                         $is_double_quote = false;
                         $argument_array[] = $char;
                         $argument .= $char['value'];
@@ -492,6 +477,7 @@ class Method
                         $is_single_quote === false &&
                         $is_double_quote === false
                     ){
+                        $before = [];
                         $array_depth++;
                         $argument_array[] = $char;
                         $argument .= $char['value'];
@@ -503,6 +489,7 @@ class Method
                         $is_single_quote === false &&
                         $is_double_quote === false
                     ){
+                        $before = [];
                         $array_depth--;
                         $argument_array[] = $char;
                         $argument .= $char['value'];
@@ -516,6 +503,7 @@ class Method
                         $is_single_quote === false &&
                         $is_double_quote === false
                     ){
+                        $before = [];
                         if(array_key_exists(0, $argument_array)){
                             $argument_value = Cast::define(
                                 $object,
@@ -570,6 +558,7 @@ class Method
                             $is_single_quote === false &&
                             $is_double_quote === false
                         ){
+                            $before = [];
                             $argument .= $char;
                             $argument_array[] = $char;
                         } else {
@@ -586,6 +575,7 @@ class Method
                     $separator = $old_separator;
                 }
             }
+            $before[] = $char;
         }
         return $input;
     }

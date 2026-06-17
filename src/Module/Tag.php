@@ -68,12 +68,12 @@ class Tag
                 $is_comment_multiline === false &&
                 Symbol::check_previous($before)
             ){
-                $before= [];
                 d($char);
-                d($previous);
-                d($previous_2x);
-                d($previous_3x);
-                d($previous_4x);
+                d($before);
+                d($tag);
+                d($text);
+                $before= [];
+
                 if($text !== ''){
                     $explode = explode("\n", $text);
                     $count = count($explode);
@@ -138,12 +138,11 @@ class Tag
                 $is_comment_multiline === false &&
                 Symbol::check_previous($before)
             ){
-                $before = [];
+                d($before);
                 d($char);
-                d($previous);
-                d($previous_2x);
-                d($previous_3x);
-                d($previous_4x);
+                d($tag);
+                d($text);
+                $before = [];
                 if($is_literal === false){
                     if($text !== ''){
                         $text .= $char;
@@ -212,12 +211,11 @@ class Tag
                 $is_comment_multiline === false &&
                 Symbol::check_previous($before)
             ){
-                $before = [];
                 d($char);
-                d($previous);
-                d($previous_2x);
-                d($previous_3x);
-                d($previous_4x);
+                d($before);
+                d($tag);
+                d($text);
+                $before = [];
                 $is_single_quoted = false;
             }
             elseif(
@@ -230,6 +228,10 @@ class Tag
                 $is_comment_multiline === false &&
                 Symbol::check_previous($before)
             ){
+                d($char);
+                d($before);
+                d($tag);
+                d($text);
                 $before = [];
                 if($is_literal === false){
                     if($text !== ''){
@@ -297,6 +299,10 @@ class Tag
                 $is_comment_multiline === false &&
                 Symbol::check_previous($before)
             ){
+                d($char);
+                d($before);
+                d($tag);
+                d($text);
                 $before = [];
                 if($is_literal === false){
                     if($text !== ''){
@@ -365,8 +371,12 @@ class Tag
                 $previous === '\\' &&
                 $is_comment === false &&
                 $is_comment_multiline === false &&
-                Symbol::check_previous($before)
+                Symbol::check_previous($before, true)
             ){
+                d($char);
+                d($before);
+                d($tag);
+                d($text);
                 $before = [];
                 if($is_literal === false){
                     if($text !== ''){
@@ -433,8 +443,12 @@ class Tag
                 $previous === '\\' &&
                 $is_comment === false &&
                 $is_comment_multiline === false &&
-                Symbol::check_previous($before)
+                Symbol::check_previous($before, true)
             ){
+                d($char);
+                d($before);
+                d($tag);
+                d($text);
                 if($is_literal === false){
                     if($text !== ''){
                         $text .= $char;

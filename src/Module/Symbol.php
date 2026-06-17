@@ -28,6 +28,7 @@ class Symbol
             throw new Exception('Not an array');
         }
         $skip = 0;
+        $before = [];
         foreach($input['array'] as $nr => $char){
             if(!is_int($nr)){
                 trace();
@@ -49,38 +50,32 @@ class Symbol
             $next_next = Token::item($input, $nr + 2);
             if($skip > 0){
                 $skip -= 1;
+                $before[] = $char;
                 continue;
             }
             if(is_array($char)){
+                $before[] = $char;
                 continue;
             }
             if(
                 $char === '\'' &&
-                Symbol::check_previous([
-                    $previous,
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                ]) &&
+                Symbol::check_previous($before) &&
                 $is_single_quote === false &&
                 $is_double_quote === false &&
                 $is_double_quote_backslash === false
             ){
                 $is_single_quote = $nr;
+                $before = [];
                 continue;
             }
             elseif(
                 $char === '\'' &&
-                Symbol::check_previous([
-                    $previous,
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                ]) &&
+                Symbol::check_previous($before) &&
                 $is_single_quote !== false &&
                 $is_double_quote === false &&
                 $is_double_quote_backslash === false
             ){
+                $before = [];
                 $string = '';
                 for($i = $is_single_quote; $i <= $nr; $i++){
                     if(is_array($input['array'][$i])){
@@ -107,31 +102,23 @@ class Symbol
             }
             elseif(
                 $char === '"' &&
-                Symbol::check_previous([
-                    $previous,
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                ]) &&
+                Symbol::check_previous($before) &&
                 $is_single_quote === false &&
                 $is_double_quote === false &&
                 $is_double_quote_backslash === false
             ){
+                $before = [];
                 $is_double_quote = $nr;
                 continue;
             }
             elseif(
                 $char === '"' &&
-                Symbol::check_previous([
-                    $previous,
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                ]) &&
+                Symbol::check_previous($before) &&
                 $is_single_quote === false &&
                 $is_double_quote !== false &&
                 $is_double_quote_backslash === false
             ){
+                $before = [];
                 $string = '';
                 for($i = $is_double_quote; $i <= $nr; $i++){
                     if(
@@ -166,16 +153,12 @@ class Symbol
             elseif(
                 $char === '"' &&
                 $previous === '\\' &&
-                Symbol::check_previous([
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                    $previous_5x,
-                ]) &&
+                Symbol::check_previous($before) &&
                 $is_single_quote === false &&
                 $is_double_quote === false &&
                 $is_double_quote_backslash === false
             ){
+                $before = [];
                 $is_double_quote_backslash = $previous_nr;
                 // $input['array'][$previous_nr] = null;
                 continue;
@@ -183,16 +166,12 @@ class Symbol
             elseif(
                 $char === '"' &&
                 $previous === '\\' &&
-                Symbol::check_previous([
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                    $previous_5x,
-                ]) &&
+                Symbol::check_previous($before) &&
                 $is_single_quote === false &&
                 $is_double_quote === false &&
                 $is_double_quote_backslash !== false
             ){
+                $before = [];
                 $string = '';
                 for($i = $is_double_quote_backslash; $i <= $nr; $i++){
                     if(is_array($input['array'][$i])){
@@ -379,16 +358,32 @@ class Symbol
                     ];
                 }
             }
+            $before[] = $char;
         }
         return $input;
     }
 
-    public static function check_previous($before=[]): bool
+    public static function check_previous(array $before=[], bool $is_quote_backslash=false): bool
     {
+        if($is_quote_backslash === true){
+            array_pop($before);
+        }
         $list = array_reverse($before);
         $count = 0;
         foreach($list as $char){
-            if($char === '\\'){
+            if(is_array($char)){
+                if(
+                    array_key_exists('type', $char) &&
+                    $char['type'] === 'symbol' &&
+                    $char['value'] === '\\'
+                ){
+                    $count++;
+                }
+            }
+            elseif(
+                is_string($char) &&
+                $char === '\\'
+            ){
                 $count++;
             } else {
                 break;

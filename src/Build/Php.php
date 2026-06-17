@@ -1705,6 +1705,7 @@ class Php {
                             $token = Php::document_tag_prepare($object, $flags, $options, $token);
                             $embed = Php::document_tag($object, $flags, $options, $token);
                             $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
+                            $is_assign = $object->config('package.raxon/parse.build.state.is_assign');
                             if(property_exists($options, 'variable')){
                                 if($is_assign === true) {
                                     $data[] = $options->variable . '[] = \'"\';';

@@ -2955,6 +2955,7 @@ class Php {
                     if(array_key_exists($nr, $argument_is_reference)){
                         $argument['array'][0]['is_reference'] = $argument_is_reference[$nr];
                     }
+                    d($record);
                     d($argument);
                     $argument = Php::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
                     d($argument);

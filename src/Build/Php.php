@@ -1850,7 +1850,7 @@ class Php {
                         $method = Php::method($object, $flags, $options, $record, $before, $after);
                         if(!empty($before)){
                             $separator = $object->config('package.raxon/parse.build.state.separator');
-                            $data[] = 'try {';
+                            $data[] = 'try { //t1';
                             foreach($before as $line){
                                 if($separator === null){
                                     $data[] = $line;
@@ -1901,7 +1901,7 @@ class Php {
                         }
                         elseif($method) {
                             $uuid_method = Core::uuid_variable();
-                            $data[] = 'try {';
+                            $data[] = 'try { //t2';
                             $data[] = $uuid_method . ' = ' . $method . ';';
                             $data[] = '} catch (Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception) {';
                             if (
@@ -4670,7 +4670,7 @@ class Php {
             }
             $separator = $object->config('package.raxon/parse.build.state.separator');
             $data = [];
-            $data[] = 'try {';
+            $data[] = 'try { //t3';
             foreach($before as $line){
                 if($separator === null){
                     $data[] = $line;
@@ -4772,7 +4772,7 @@ class Php {
                 $data = [];
                 $before = [];
                 $after = [];
-                $data[] = 'try {';
+                $data[] = 'try { //t4';
                 $array_notation = Php::value($object, $flags, $options, $record, $record['variable']['array_notation'], $is_set, $before, $after);
                 $array_notation = explode('][', substr($array_notation, 1, -1));
                 $root_uuid = Core::uuid_variable();
@@ -4804,7 +4804,7 @@ class Php {
                 $data[] = '}';
             } else {
                 $data = [];
-                $data[] = 'try {';
+                $data[] = 'try { //t5';
                 $data[] = $variable_uuid . ' = ' . $is_not . $cast . '$data->data(\'' . $variable_name . '\');' ;
                 $data[] = '} catch (Error | ErrorException | Exception | ParseError | LocateException | TemplateException $exception) {';
                 if(
@@ -4958,7 +4958,7 @@ class Php {
                     break;
                 }
             }
-            $before[] = 'try {';
+            $before[] = 'try { //t6';
             $before[] = $uuid . ' = new ReflectionClass(\'' . $class_name . '\');';
             $before[] = $uuid_methods . ' = ' . $uuid . '->getMethods();';
             $before[] = 'foreach (' . $uuid_methods . ' as $nr => $method) {';
@@ -5020,7 +5020,7 @@ class Php {
                 $value = Php::value($object, $flags, $options, $record, $argument_record, $is_set);
                 $argument[$argument_nr] = $value;
             }
-            $before[] = 'try {';
+            $before[] = 'try { //t7';
             $before[] = $uuid . ' = $data->data(\'' . $class_name . '\');';
             $before[] = $uuid_methods . ' = get_class_methods(' . $uuid . ');';
             $before[] = 'if(!in_array(\'' . $class_method . '\', ' . $uuid_methods. ', true)){';
@@ -5158,7 +5158,7 @@ class Php {
             if($value !== ''){
                 if($try_catch !== false){
                     $separator = $object->config('package.raxon/parse.build.state.separator');
-                    $result[] = 'try {';
+                    $result[] = 'try { //t8';
                     foreach($before_value as $before_record){
                         if($separator === null){
                             $result[] = $before_record;

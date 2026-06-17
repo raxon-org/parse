@@ -643,6 +643,7 @@ class Tag
                 $is_double_quoted_backslash === false
             ){
                 $tag .= $char;
+                d($is_literal);
                 d($tag);
                 if($is_literal === true){
                     dd($tag);

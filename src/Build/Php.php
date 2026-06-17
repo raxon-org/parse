@@ -1851,8 +1851,6 @@ class Php {
                         if(!empty($before)){
                             $separator = $object->config('package.raxon/parse.build.state.separator');
                             $data[] = 'try { //t1';
-                            d($record);
-                            d($before);
                             foreach($before as $line){
                                 if($separator === null){
                                     $data[] = $line;

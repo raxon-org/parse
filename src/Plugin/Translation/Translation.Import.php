@@ -11,9 +11,7 @@ trait Translation_Import {
         $object = $this->object();
         $url = $object->config('controller.dir.data') . $object->config('dictionary.translation') . $object->config('ds');        
         $dir = new Dir();
-        d($url);
         $read = $dir->read($url);
-        d($read);
         if($read){
             foreach($read as $nr => $file){
                 $file->basename = File::basename($file->name, $object->config('extension.json'));

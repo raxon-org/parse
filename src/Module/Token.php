@@ -113,6 +113,7 @@ class Token
                 $uuid = str_replace('-', '_', Core::uuid());
                 $variable = '{{$literal.' . $uuid . '}}';
                 $count = $object->config('literal.count') ?? 1;
+                breakpoint(Escape::single_quote($literal));
                 $assign = '{{$literal.' . $uuid . ' = \'' . Escape::single_quote($literal) . '\'}}';
                 $input = $temp[0] . $assign . $variable . $explode[1];
                 $input = Token::literal_apply($object, $data, $flags, $options, $input);

@@ -699,7 +699,8 @@ class Tag
                 $explode = explode("\n", $tag);
                 $count = count($explode);
                 if($count > 1){
-                    dd($old_text);
+                    d($tag);
+                    breakpoint($old_text);
                     $content = trim(mb_substr($tag, 2, -2));
                     $length_start = mb_strlen($explode[0]);
                     $record = [

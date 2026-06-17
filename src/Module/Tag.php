@@ -678,8 +678,6 @@ class Tag
                     $explode = explode("\n", $tag);
                     $count = count($explode);
                     if($count > 1){
-                        d($tag);
-                        d($old_text);
                         $content = trim(mb_substr($tag, 2, -2));
                         $length_start = mb_strlen($explode[0]);
                         $record = [
@@ -722,7 +720,6 @@ class Tag
                             ]
                         ];
                         $content = trim(mb_substr($tag, 2, -2));
-                        d($content);
                         if(mb_strtoupper(mb_substr($content, 0, 5)) === 'RAX}}'){
                             $record['is_header'] = true;
                             $record['content'] = $content;
@@ -764,12 +761,6 @@ class Tag
                 $is_literal === false
             ){
                 $tag .= $char;
-                /*
-                d($char);
-                d($tag);
-                d($is_single_quoted);
-                d($is_double_quoted_backslash);
-                */
             }
             elseif(
                 $is_comment === false &&
@@ -777,7 +768,6 @@ class Tag
                 //is_literal = both
             ){
                 $text .= $char;
-//                d($text);
             }
             if($char !== "\n") {
                 $column[$line]++;

@@ -647,7 +647,7 @@ class Tag
                 $is_double_quoted_backslash === false
             ){
                 $tag .= $char;
-                trace();
+                d($input);
                 d($tag);
                 if($is_literal){
                     breakpoint($is_literal);

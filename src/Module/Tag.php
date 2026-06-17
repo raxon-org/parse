@@ -641,11 +641,13 @@ class Tag
                 $is_double_quoted_backslash === false
             ){
                 $tag .= $char;
-                $column[$line]++;
-
                 if($is_literal === true){
-                    d($tag);
+                    ddd($tag);
+                    if($char !== "\n") {
+                        $column[$line]++;
+                    }
                 } else {
+                    $column[$line]++;
                     if($text !== ''){
                         $explode = explode("\n", $text);
                         $count = count($explode);

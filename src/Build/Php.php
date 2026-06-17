@@ -676,17 +676,11 @@ class Php {
                         $marker_data = [];
                         $marker_data[$record['line']] = [];
                         $marker_data[$record['line']][] = $record['marker']['value']['array'][2] ?? [];
-                        $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
                         $object->config('package.raxon/parse.build.state.is_raw', true);
                         $quote = array_pop($data);
                         $marker_data = Php::document_tag($object, $flags, $options, $marker_data);
                         foreach($marker_data as $line){
                             $data[] = $line;
-                        }
-                        if($is_raw){
-                            $object->config('package.raxon/parse.build.state.is_raw', $is_raw);
-                        } else {
-                            $object->config('delete', 'package.raxon/parse.build.state.is_raw');
                         }
                         continue;
                     }
@@ -1624,10 +1618,6 @@ class Php {
                     ){
                         $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
                         //ambigious
-                        if($is_raw === true){{
-                            ddd($record);
-                        }}
-
                         if($is_raw && substr($record['text'], 0, 1) === '"'){
                             $record['text'] = substr($record['text'], 1);
                         }

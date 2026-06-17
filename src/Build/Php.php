@@ -3788,9 +3788,11 @@ class Php {
             $variable_old = $options->variable ?? null;
             $options->variable = Core::uuid_variable();
             $before[] = $options->variable . ' = [];';
+            d($record);
             //changed from execute to value @2026-06-14
 //            $token = Token::tokenize($object, $flags, $options, $record['execute']);
             $input = $record['execute']; // should be execute
+            d($input);
 //            $input = str_replace(['\\\\', '\"'], ['\\', '"'], $input); //wrong here
             $token = Token::tokenize($object, $flags, $options, $input);
             $token = Php::document_tag_prepare($object, $flags, $options, $token);

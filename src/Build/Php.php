@@ -676,6 +676,7 @@ class Php {
                         $marker_data = [];
                         $marker_data[$record['line']] = [];
                         $marker_data[$record['line']][] = $record['marker']['value']['array'][2] ?? [];
+                        $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
                         $object->config('package.raxon/parse.build.state.is_raw', true);
 
                         array_pop($data);
@@ -683,10 +684,12 @@ class Php {
                         foreach($marker_data as $line){
                             $data[] = $line;
                         }
-                        //$object->config('delete', 'package.raxon/parse.build.state.is_raw');
+                        if($is_raw){
+                            $object->config('package.raxon/parse.build.state.is_raw', $is_raw);
+                        } else {
+                            $object->config('delete', 'package.raxon/parse.build.state.is_raw');
+                        }
                         continue;
-//                        $method = Php::method($object, $flags, $options, $marker_data, $before, $after) . ';';
-//                        $data[] = $method;
                     }
                     elseif(
                         $marker_name === 'else' &&

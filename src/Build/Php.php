@@ -1903,7 +1903,8 @@ class Php {
                         ){
 
                             $data[] = $method . ';';
-                        } elseif($method) {
+                        }
+                        elseif($method) {
                             $uuid_method = Core::uuid_variable();
                             $data[] = 'try {';
                             $data[] = $uuid_method . ' = ' . $method . ';';
@@ -1933,7 +1934,6 @@ class Php {
                                     '.\');';
                             }
                             $data[] = '}';
-                            d($data);
                             $data[] = 'if(is_scalar(' . $uuid_method . ')){';
                             if(property_exists($options, 'variable')){
                                 $data[] = '    '. $options->variable . '[] = ' . $uuid_method . ';';
@@ -1941,7 +1941,6 @@ class Php {
                                 $data[] = '    $content[] = ' . $uuid_method . '; //2';
                             }
                             $data[] = '}';
-                            d($data);
                             $data[] = 'elseif(is_array(' . $uuid_method . ')){';
                             if($object->config('package.raxon/parse.build.state.source.is.json') === true){
                                 $data[] = 'return ' . $uuid_method . ';';
@@ -1972,7 +1971,6 @@ class Php {
                                 }
                             }
                             $data[] = '}';
-                            d($data);
                             $data[] = 'elseif(is_object(' . $uuid_method . ')){';
                             if($object->config('package.raxon/parse.build.state.source.is.json') === true){
                                 $data[] = 'return ' . $uuid_method . ';';
@@ -2003,7 +2001,6 @@ class Php {
                                 }
                             }
                             $data[] = '}';
-                            d($data);
                         }
                         if(!empty($after)){
                             foreach($after as $line){
@@ -2054,7 +2051,7 @@ class Php {
                 }
             }
         }
-        // d($data);
+         d($data);
         return $data;
     }
 

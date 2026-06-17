@@ -644,6 +644,7 @@ class Php {
                     ){
                         $literal_depth--;
                         if($literal_depth === 0){
+                            d($marker_data);
                             $text = [];
                             foreach($marker_data as $marker_record){
                                 if(array_key_exists('text', $marker_record)){

@@ -1848,6 +1848,7 @@ class Php {
                         array_key_exists('method', $record)
                     ){
                         $method = Php::method($object, $flags, $options, $record, $before, $after);
+                        d($before);
                         if(!empty($before)){
                             $separator = $object->config('package.raxon/parse.build.state.separator');
                             $data[] = 'try {';

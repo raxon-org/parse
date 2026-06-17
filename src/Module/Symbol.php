@@ -383,33 +383,17 @@ class Symbol
         return $input;
     }
 
-    public static function check_previous($previous_chars =[]): bool
+    public static function check_previous($before=[]): bool
     {
-        $previous = $previous_chars[0] ?? null;
-        $previous_2x = $previous_chars[1] ?? null;
-        $previous_3x = $previous_chars[2] ?? null;
-        $previous_4x = $previous_chars[3] ?? null;
-        if($previous !== '\\'){
-            return true;
+        $list = array_reverse($before);
+        $count = 0;
+        foreach($list as $char){
+            if($char === '\\'){
+                $count++;
+            } else {
+                break;
+            }
         }
-        elseif(
-            $previous === '\\' &&
-            $previous_2x === '\\' &&
-            (
-                $previous_3x === null ||
-                $previous_3x !== '\\'
-            )
-        ){
-            return true;
-        }
-        elseif(
-            $previous === '\\' &&
-            $previous_2x === '\\' &&
-            $previous_3x === '\\' &&
-            $previous_4x === '\\'
-        ){
-            return true;
-        }
-        return false;
+        return $count % 2 === 0;
     }
 }

@@ -34,6 +34,7 @@ class Tag
         $previous = false;
         $text = '';
         $skip = 0;
+        $before = [];
         foreach($split as $nr => $char){
             if($skip > 0){
                 $skip--;
@@ -62,16 +63,12 @@ class Tag
                 $char === '\'' &&
                 $is_single_quoted === false &&
 //                $is_double_quoted === false &&                //needs to be off
-                $is_double_quoted_backslash === false &&      //needs to be off now on 2026-06-13
+                $is_double_quoted_backslash === false &&      //needs to be off now 2026-06-13
                 $is_comment === false &&
                 $is_comment_multiline === false &&
-                Symbol::check_previous([
-                    $previous,
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                ])
+                Symbol::check_previous($before)
             ){
+                $before= [];
                 d($char);
                 d($previous);
                 d($previous_2x);
@@ -139,13 +136,9 @@ class Tag
                 $is_double_quoted_backslash === false &&    //needs to be off now on 2026-06-13
                 $is_comment === false &&
                 $is_comment_multiline === false &&
-                Symbol::check_previous([
-                    $previous,
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                ])
+                Symbol::check_previous($before)
             ){
+                $before = [];
                 d($char);
                 d($previous);
                 d($previous_2x);
@@ -217,13 +210,9 @@ class Tag
                 $is_double_quoted_backslash === false &&      //needs to be off now on 2026-06-13
                 $is_comment === false &&
                 $is_comment_multiline === false &&
-                Symbol::check_previous([
-                    $previous,
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                ])
+                Symbol::check_previous($before)
             ){
+                $before = [];
                 d($char);
                 d($previous);
                 d($previous_2x);
@@ -239,13 +228,9 @@ class Tag
                 $is_double_quoted_backslash === false &&
                 $is_comment === false &&
                 $is_comment_multiline === false &&
-                Symbol::check_previous([
-                    $previous,
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                ])
+                Symbol::check_previous($before)
             ){
+                $before = [];
                 if($is_literal === false){
                     if($text !== ''){
                         $explode = explode("\n", $text);
@@ -310,13 +295,9 @@ class Tag
                 $is_double_quoted_backslash === false &&
                 $is_comment === false &&
                 $is_comment_multiline === false &&
-                Symbol::check_previous([
-                    $previous,
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                ])
+                Symbol::check_previous($before)
             ){
+                $before = [];
                 if($is_literal === false){
                     if($text !== ''){
                         $text .= $char;
@@ -384,13 +365,9 @@ class Tag
                 $previous === '\\' &&
                 $is_comment === false &&
                 $is_comment_multiline === false &&
-                Symbol::check_previous([
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                    $previous_5x,
-                ])
+                Symbol::check_previous($before)
             ){
+                $before = [];
                 if($is_literal === false){
                     if($text !== ''){
                         $text = substr($text, 0, -1);
@@ -456,12 +433,7 @@ class Tag
                 $previous === '\\' &&
                 $is_comment === false &&
                 $is_comment_multiline === false &&
-                Symbol::check_previous([
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                    $previous_5x,
-                ])
+                Symbol::check_previous($before)
             ){
                 if($is_literal === false){
                     if($text !== ''){
@@ -835,6 +807,7 @@ class Tag
             if($char !== "\n") {
                 $column[$line]++;
             }
+            $before[] = $char;
         }
         if($text !== ''){
             $explode = explode("\n", $text);

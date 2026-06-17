@@ -621,7 +621,6 @@ class Tag
 
                 $tag .= $char;
                 $column[$line]++;
-                d($text);
                 if($text !== ''){
                     $explode = explode("\n", $text);
                     $count = count($explode);
@@ -852,6 +851,7 @@ class Tag
                 }
             }
         }
+        d($tags);
         return $tags;
     }
 

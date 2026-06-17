@@ -2611,6 +2611,7 @@ class Php {
                 if($object->config('is.debug') === true){
 //                    d($record['method']['name']);
                 }
+                d($record);
                 $method_value .= Php::argument($object, $flags, $options, $record, $before, $after);
                 $method_value .= ')';
                 return $method_value;

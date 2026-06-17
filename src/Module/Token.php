@@ -182,6 +182,7 @@ class Token
             }
         }
         if($tags === false){
+            breakpoint($input);
             $tags = Tag::define($object, $flags, $options, $input);
             $tags = Tag::remove($object, $flags, $options, $tags);
             $tags = Token::abstract_syntax_tree($object, $flags, $options, $tags);

@@ -360,6 +360,7 @@ class Token
                             $variable = [];
                             $variable_name = '';
                             $modifier_name = false;
+                            $before = [];
                             $after = '';
                             $modifier = '';
                             $modifier_array = [];
@@ -396,48 +397,28 @@ class Token
                                 if(
                                     $char === '\'' &&
                                     $is_single_quoted === false &&
-                                    Symbol::check_previous([
-                                        $previous,
-                                        $previous_2x,
-                                        $previous_3x,
-                                        $previous_4x
-                                    ])
+                                    Symbol::check_previous($before)
                                 ){
                                     $is_single_quoted = true;
                                 }
                                 elseif(
                                     $char === '\'' &&
                                     $is_single_quoted === true &&
-                                    Symbol::check_previous([
-                                        $previous,
-                                        $previous_2x,
-                                        $previous_3x,
-                                        $previous_4x
-                                    ])
+                                    Symbol::check_previous($before)
                                 ){
                                     $is_single_quoted = false;
                                 }
                                 elseif(
                                     $char === '"' &&
                                     $is_double_quoted === false &&
-                                    Symbol::check_previous([
-                                        $previous,
-                                        $previous_2x,
-                                        $previous_3x,
-                                        $previous_4x
-                                    ])
+                                    Symbol::check_previous($before)
                                 ){
                                     $is_double_quoted = true;
                                 }
                                 elseif(
                                     $char === '"' &&
                                     $is_double_quoted === true &&
-                                    Symbol::check_previous([
-                                        $previous,
-                                        $previous_2x,
-                                        $previous_3x,
-                                        $previous_4x
-                                    ])
+                                    Symbol::check_previous($before)
                                 ){
                                     $is_double_quoted = false;
                                 }
@@ -498,6 +479,7 @@ class Token
                                     $is_after = true;
                                     $after .= $char;
                                     $after_array[] = $char;
+                                    $before[] = $char;
                                     continue;
                                 }
                                 elseif(
@@ -525,6 +507,7 @@ class Token
                                     $is_double_quoted === false
                                 ){
                                     $operator = $char;
+                                    $before[] = $char;
                                     continue;
                                 }
                                 if($operator === '.' && $is_after === true){
@@ -555,6 +538,7 @@ class Token
                                         $after === ''
                                     ) {
                                         if($array_depth_variable === $array_depth){
+                                            $before[] = $char;
                                             continue;
                                         } else {
                                             ddd($variable_name);
@@ -576,6 +560,7 @@ class Token
                                         )
                                     ){
                                         $operator .= $char;
+                                        $before[] = $char;
                                         continue;
                                     }
                                     elseif(
@@ -590,6 +575,7 @@ class Token
                                     ){
                                         $operator .= $char;
                                         $is_method = true;
+                                        $before[] = $char;
                                         continue;
                                     }
                                     elseif(
@@ -607,6 +593,7 @@ class Token
                                         )
                                     ){
                                         $operator .= $char;
+                                        $before[] = $char;
                                         continue;
                                     }
                                     else {
@@ -633,6 +620,7 @@ class Token
                                         $after === '' &&
                                         $method === ''
                                     ) {
+                                        $before[] = $char;
                                         continue;
                                     }
                                     if($is_method){
@@ -709,6 +697,7 @@ class Token
                                         }
                                     }
                                 }
+                                $before[] = $char;
                             }
                             if($after === ''){
                                 if(

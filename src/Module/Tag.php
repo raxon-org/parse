@@ -644,7 +644,10 @@ class Tag
             ){
                 $tag .= $char;
                 d($tag);
-                breakpoint($is_literal);
+                if($is_literal){
+                    breakpoint($is_literal);
+                }
+
                 if($is_literal === true){
                     dd($tag);
                     if($char !== "\n") {
@@ -767,6 +770,7 @@ class Tag
                             $is_literal = true;
                             $record['is_literal'] = true;
                             $record['is_literal_start'] = true;
+                            breakpoint('is_literal');
                         }
                         elseif(
                             mb_strtoupper($content) === '/LITERAL' &&

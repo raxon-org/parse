@@ -735,7 +735,6 @@ class Tag
                             $is_literal = true;
                             $record['is_literal'] = true;
                             $record['is_literal_start'] = true;
-                            breakpoint('is_literal');
                         }
                         elseif(
                             mb_strtoupper($content) === '/LITERAL' &&

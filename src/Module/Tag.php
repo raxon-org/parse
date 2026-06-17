@@ -755,6 +755,7 @@ class Tag
                             ]
                         ];
                         $content = trim(mb_substr($tag, 2, -2));
+                        d($content);
                         if(mb_strtoupper(mb_substr($content, 0, 5)) === 'RAX}}'){
                             $record['is_header'] = true;
                             $record['content'] = $content;

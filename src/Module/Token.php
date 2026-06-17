@@ -78,6 +78,7 @@ class Token
                 $text .= $char;
             }
         }
+        d($data);
         return implode('', $data);
     }
 

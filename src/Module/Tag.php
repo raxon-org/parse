@@ -81,6 +81,7 @@ class Tag
                         $record = [
                             'text' => $text,
                             'is_multiline' => true,
+                            '#comment' => '1',
                             'line' => [
                                 'start' => $line - $count + 1,
                                 'end' => $line
@@ -108,6 +109,7 @@ class Tag
                         $length_start = mb_strlen($explode[0]);
                         $record = [
                             'text' => $text,
+                            '#comment' => '2',
                             'line' => $line,
                             'length' => $length_start,
                             'column' => [
@@ -148,6 +150,7 @@ class Tag
                         $length_start = mb_strlen($explode[0]);
                         $record = [
                             'text' => $text,
+                            '#comment' => '3',
                             'is_multiline' => true,
                             'line' => [
                                 'start' => $line - $count + 1,
@@ -176,6 +179,7 @@ class Tag
                         $length_start = mb_strlen($explode[0]);
                         $record = [
                             'text' => $text,
+                            '#comment' => '4',
                             'line' => $line,
                             'length' => $length_start,
                             'column' => [
@@ -233,6 +237,7 @@ class Tag
                         $length_start = mb_strlen($explode[0]);
                         $record = [
                             'text' => $text,
+                            '#comment' => '5',
                             'is_multiline' => true,
                             'line' => [
                                 'start' => $line - $count + 1,
@@ -261,6 +266,7 @@ class Tag
                         $length_start = mb_strlen($explode[0]);
                         $record = [
                             'text' => $text,
+                            '#comment' => '6',
                             'line' => $line,
                             'length' => $length_start,
                             'column' => [
@@ -301,6 +307,7 @@ class Tag
                         $length_start = mb_strlen($explode[0]);
                         $record = [
                             'text' => $text,
+                            '#comment' => '7',
                             'is_multiline' => true,
                             'line' => [
                                 'start' => $line - $count + 1,
@@ -329,6 +336,7 @@ class Tag
                         $length_start = mb_strlen($explode[0]);
                         $record = [
                             'text' => $text,
+                            '#comment' => '8',
                             'line' => $line,
                             'length' => $length_start,
                             'column' => [
@@ -371,6 +379,7 @@ class Tag
                         $length_start = mb_strlen($explode[0]);
                         $record = [
                             'text' => $text,
+                            '#comment' => '9',
                             'is_multiline' => true,
                             'line' => [
                                 'start' => $line - $count + 1,
@@ -399,6 +408,7 @@ class Tag
                         $length_start = mb_strlen($explode[0]);
                         $record = [
                             'text' => $text,
+                            '#comment' => '10',
                             'line' => $line,
                             'length' => $length_start,
                             'column' => [
@@ -439,6 +449,7 @@ class Tag
                         $length_start = mb_strlen($explode[0]);
                         $record = [
                             'text' => $text,
+                            '#comment' => '11',
                             'is_multiline' => true,
                             'line' => [
                                 'start' => $line - $count + 1,
@@ -467,6 +478,7 @@ class Tag
                         $length_start = mb_strlen($explode[0]);
                         $record = [
                             'text' => $text,
+                            '#comment' => '12',
                             'line' => $line,
                             'length' => $length_start,
                             'column' => [
@@ -629,6 +641,7 @@ class Tag
                         $length_start = mb_strlen($explode[0]);
                         $record = [
                             'text' => $text,
+                            '#comment' => '13',
                             'is_multiline' => true,
                             'line' => [
                                 'start' => $line - $count + 1,
@@ -657,6 +670,7 @@ class Tag
                         $length_start = mb_strlen($explode[0]);
                         $record = [
                             'text' => $text,
+                            '#comment' => '14',
                             'line' => $line,
                             'length' => $length_start,
                             'column' => [
@@ -678,6 +692,7 @@ class Tag
                     $length_start = mb_strlen($explode[0]);
                     $record = [
                         'tag' => $tag,
+                        '#comment' => '15',
                         'is_multiline' => true,
                         'line' => [
                             'start' => $line - $count + 1,
@@ -706,6 +721,7 @@ class Tag
                     $length_start = mb_strlen($explode[0]);
                     $record = [
                         'tag' => $tag,
+                        '#comment' => '16',
                         'line' => $line,
                         'length' => $length_start,
                         'column' => [
@@ -778,6 +794,7 @@ class Tag
                 $length_start = mb_strlen($explode[0]);
                 $record = [
                     'text' => $text,
+                    '#comment' => '17',
                     'is_multiline' => true,
                     'line' => [
                         'start' => $line - $count + 1,
@@ -806,6 +823,7 @@ class Tag
                 $length_start = mb_strlen($explode[0]);
                 $record = [
                     'text' => $text,
+                    '#comment' => '18',
                     'line' => $line,
                     'length' => $length_start,
                     'column' => [

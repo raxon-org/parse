@@ -643,8 +643,8 @@ class Tag
                 $is_double_quoted_backslash === false
             ){
                 $tag .= $char;
-                d($is_literal);
                 d($tag);
+                breakpoint($is_literal);
                 if($is_literal === true){
                     dd($tag);
                     if($char !== "\n") {

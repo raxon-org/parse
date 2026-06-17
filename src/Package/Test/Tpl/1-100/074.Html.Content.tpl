@@ -1,0 +1,1 @@
+<meta name="author" content="{{$html.head.author|>default:''}}">

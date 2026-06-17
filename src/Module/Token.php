@@ -1253,6 +1253,7 @@ class Token
         $is_parse = false;
         $whitespace_nr = false;
         $curly_depth = 0;
+        $before = [];
         foreach($input['array'] as $nr => $char){
             if(!is_numeric($nr)){
                 // ',' in modifier causes this
@@ -1274,13 +1275,9 @@ class Token
                 ) &&
                 $is_single_quote === false &&
                 $is_double_quote === false &&
-                Symbol::check_previous([
-                    $previous,
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                ])
+                Symbol::check_previous($before)
             ){
+                $before = [];
                 $is_single_quote = true;
             }
             elseif(
@@ -1294,13 +1291,9 @@ class Token
                 ) &&
                 $is_single_quote === true &&
                 $is_double_quote === false &&
-                Symbol::check_previous([
-                    $previous,
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                ])
+                Symbol::check_previous($before)
             ){
+                $before = [];
                 $is_single_quote = false;
             }
             elseif(
@@ -1314,13 +1307,9 @@ class Token
                 ) &&
                 $is_single_quote === false &&
                 $is_double_quote === false &&
-                Symbol::check_previous([
-                    $previous,
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                ])
+                Symbol::check_previous($before)
             ){
+                $before = [];
                 $is_double_quote = true;
             }
             elseif(
@@ -1334,13 +1323,9 @@ class Token
                 ) &&
                 $is_single_quote === false &&
                 $is_double_quote === true &&
-                Symbol::check_previous([
-                    $previous,
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                ])
+                Symbol::check_previous($before)
             ){
+                $before = [];
                 $is_double_quote = false;
             }
             elseif(
@@ -1355,12 +1340,7 @@ class Token
                 $is_single_quote === false &&
                 $is_double_quote_backslash === false &&
                 $previous === '\\' &&
-                Symbol::check_previous([
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                    $previous_5x,
-                ])
+                Symbol::check_previous($before, true)
             ){
                 $is_double_quote_backslash = true;
             }
@@ -1376,12 +1356,7 @@ class Token
                 $is_single_quote === false &&
                 $is_double_quote_backslash === true &&
                 $previous === '\\' &&
-                Symbol::check_previous([
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                    $previous_5x,
-                ])
+                Symbol::check_previous($before,true)
             ){
                 $is_double_quote_backslash = false;
             }
@@ -1391,6 +1366,7 @@ class Token
                 $char['value'] === '{{' &&
                 $is_single_comment === false
             ){
+                $before = [];
                 $is_parse = true;
                 $curly_depth++;
             }
@@ -1401,6 +1377,7 @@ class Token
                 $char['value'] === '}}' &&
                 $is_single_comment === false
             ){
+                $before = [];
                 $curly_depth--;
                 if($curly_depth === 0){
                     $is_parse = false;
@@ -1436,6 +1413,7 @@ class Token
                     )
                 )
             ){
+                $before = [];
                 if(
                     $is_single_comment &&
                     is_array($char) &&
@@ -1454,6 +1432,7 @@ class Token
                 array_key_exists('type', $char) &&
                 $char['type'] === 'whitespace'
             ){
+                $before = [];
                 if($whitespace_nr === false){
                     $whitespace_nr = $nr;
                 }
@@ -1479,8 +1458,10 @@ class Token
                     true
                 )
             ){
+                $before = [];
                 unset($input['array'][$nr]);
             }
+            $before[] = $char;
         }
         //re-index from 0
         $input['array'] = array_values($input['array']);

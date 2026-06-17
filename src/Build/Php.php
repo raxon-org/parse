@@ -1648,6 +1648,9 @@ class Php {
                         $has_second_double_quote = false;
                         $has_start_double_quote_backslash = false;
                         $has_second_double_quote_backslash = false;
+
+                        d($record);
+
                         for($i = 0; $i < count($text); $i++){
                             $char = $text[$i];
                             $previous = $text[$i - 1] ?? null;

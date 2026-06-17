@@ -644,7 +644,6 @@ class Php {
                     ){
                         $literal_depth--;
                         if($literal_depth === 0){
-                            d($marker_data);
                             $text = [];
                             foreach($marker_data as $marker_record){
                                 if(array_key_exists('text', $marker_record)){
@@ -1812,6 +1811,7 @@ class Php {
                             array_key_exists('is_assign', $record['variable']) &&
                             $record['variable']['is_assign'] === true
                         ){
+                            d($record);
                             $variable = Php::variable_assign($object, $flags, $options, $record);
                             if($variable){
                                 $separator = $object->config('package.raxon/parse.build.state.separator');

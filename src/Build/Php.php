@@ -2949,7 +2949,6 @@ class Php {
 //                        d($argument);
 //                        trace();
                     }
-                    d($argument);
                     $uuid_variable = Core::uuid_variable();
                     $before[] = $uuid_variable . ' = ' . $argument . ';';
                     if($attributes !== false){
@@ -3495,6 +3494,7 @@ class Php {
                     $record['tag'] = $tag['tag'] ?? 'unknown';
                     $record['line'] = $tag['line'] ?? 'unknown';
                 }
+                d($record);
                 $result = Php::method($object, $flags, $options, $record, $before, $after);
                 break;
             case 'variable_method':

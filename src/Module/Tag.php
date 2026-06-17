@@ -611,7 +611,8 @@ class Tag
                 $is_comment_multiline === false &&
                 $is_single_quoted === false &&
                 $is_double_quoted === false &&
-                $is_double_quoted_backslash === false
+                $is_double_quoted_backslash === false &&
+                $is_literal === false
             ){
                 $tag = '{{';
                 $text = mb_substr($text, 0, -1);
@@ -624,7 +625,8 @@ class Tag
                 $is_comment_multiline === false &&
                 $is_single_quoted === false &&
                 $is_double_quoted === true &&
-                $is_double_quoted_backslash === false
+                $is_double_quoted_backslash === false &&
+                $is_literal === false
             ){
                 $tag = '{{';
                 $text = mb_substr($text, 0, -1);
@@ -641,6 +643,7 @@ class Tag
                 $is_double_quoted_backslash === false
             ){
                 $tag .= $char;
+                d($tag);
                 if($is_literal === true){
                     dd($tag);
                     if($char !== "\n") {
@@ -705,7 +708,7 @@ class Tag
                     $count = count($explode);
                     if($count > 1){
                         d($tag);
-                        breakpoint($old_text);
+                        d($old_text);
                         $content = trim(mb_substr($tag, 2, -2));
                         $length_start = mb_strlen($explode[0]);
                         $record = [

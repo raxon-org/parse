@@ -679,6 +679,8 @@ class Php {
                         $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
                         $object->config('package.raxon/parse.build.state.is_raw', true);
 
+                        breakpoint($data);
+
                         array_pop($data);
                         $marker_data = Php::document_tag($object, $flags, $options, $marker_data);
                         foreach($marker_data as $line){

@@ -22,7 +22,6 @@ trait Translation_Export {
         $url = $object->config('controller.dir.data') . $object->config('dictionary.translation') . $object->config('ds');
         $dir = new Dir();
         $read = $dir->read($url);
-        d($url);
         if($object->config('project.log.name')){
             $object->logger($object->config('project.log.name'))->info('export translation directory: ' . $url);
         }

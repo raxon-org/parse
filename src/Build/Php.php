@@ -1651,6 +1651,8 @@ class Php {
 
                         d($record);
 
+                        /*
+
                         for($i = 0; $i < count($text); $i++){
                             $char = $text[$i];
                             $previous = $text[$i - 1] ?? null;
@@ -1795,27 +1797,6 @@ class Php {
                                 // $object->config('delete', 'package.raxon/parse.build.state.is_raw');
                                 $has_start_double_quote = false;
                                 $has_second_double_quote = false;
-                                /*
-                                $uuid_variable = Core::uuid_variable();
-                                $uuid_storage = Core::uuid_variable();
-                                $uuid_parse = Core::uuid_variable();
-                                $uuid_options = Core::uuid_variable();
-                                $data[] = $uuid_options . ' = clone $options;';
-                                $data[] = $uuid_options . '->source = \'internal_\' . Core::uuid();';
-                                $data[] = $uuid_storage . '= new Data($data);';
-                                $data[] = $uuid_parse . ' = new Parse($object, '. $uuid_storage . ', $flags, '. $uuid_options . ');';
-                                $data[] = $uuid_variable . ' = '.  $uuid_parse . '->compile("' . substr($record['text'], 1, -1) . '", $data, true);';
-
-                                if(property_exists($options, 'variable')){
-                                    $data[] = $options->variable . '[] = \'"\';';
-                                    $data[] = $options->variable . '[] = ' . $uuid_variable . ';';
-                                    $data[] = $options->variable . '[] = \'"\';';
-                                } else {
-                                    $data[] = '$content[] = \'"\';';
-                                    $data[] = '$content[] = ' . $uuid_variable . ';';
-                                    $data[] = '$content[] = \'"\';';
-                                }
-                                */
                             }
                         }
                         elseif(
@@ -1899,28 +1880,104 @@ class Php {
                                     }
                                 }
                             }
-                            /*
-                            $uuid_variable = Core::uuid_variable();
-                            $uuid_storage = Core::uuid_variable();
-                            $uuid_parse = Core::uuid_variable();
-                            $uuid_options = Core::uuid_variable();
-                            $data[] = $uuid_options . ' = clone $options;';
-                            $data[] = $uuid_options . '->source = \'internal_\' . Core::uuid();';
-                            $data[] = $uuid_storage . '= new Data($data);';
-                            $data[] = $uuid_parse . ' = new Parse($object, '. $uuid_storage . ', $flags, '. $uuid_options . ');';
-                            $data[] = $uuid_variable . ' = '.  $uuid_parse . '->compile("' . substr($record['text'], 2, -2) . '", $data, true);';
-                            if(property_exists($options, 'variable')){
-                                $data[] = $options->variable . '[] = \'\\"\';';
-                                $data[] = $options->variable . '[] = ' . $uuid_variable . ';';
-                                $data[] = $options->variable . '[] = \'\\"\';';
-                            } else {
-                                $data[] = '$content[] = \'\\"\';';
-                                $data[] = '$content[] = ' . $uuid_variable . ';';
-                                $data[] = '$content[] = \'\\"\';';
-                            }
-                            */
                             $has_start_double_quote_backslash = false;
                             $has_second_double_quote_backslash = false;
+                        }
+                        */
+                        if(
+                            substr($record['text'], 0, 1) === '"' &&
+                            substr($record['text'], -1) === '"' &&
+                            mb_strlen($record['text']) > 1
+                        ){
+                            $variable_old = $options->variable ?? null;
+                            $options->variable = Core::uuid_variable();
+                            $data[] = $options->variable . ' = [];';
+                            $single_quote_uuid = Core::uuid_variable();
+                            $double_quote_uuid = Core::uuid_variable();
+                            $ampersand_uuid = core::uuid_variable();
+                            $text = $record['text'];
+                            $text = str_replace('\\&', $ampersand_uuid, $text);
+                            $text = str_replace('&quot;', $double_quote_uuid, $text);
+                            $text = str_replace('&apos;', $single_quote_uuid, $text);
+                            $token = Token::tokenize($object, $flags, $options, substr($text, 1, -1));
+                            $token = Php::document_tag_prepare($object, $flags, $options, $token);
+                            $embed = Php::document_tag($object, $flags, $options, $token);
+                            $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
+                            if(property_exists($options, 'variable')){
+                                if($is_raw !== true){
+                                    $data[] = $options->variable . '[] = \'"\';';
+                                }
+                                foreach($embed as $line){
+                                    $line = str_replace($double_quote_uuid, '"', $line);
+                                    $line = str_replace($single_quote_uuid, '\'', $line);
+                                    $line = str_replace($ampersand_uuid, '&', $line);
+                                    $data[] = $line;
+                                }
+                                if($is_raw !== true) {
+                                    $data[] = $options->variable . '[] = \'"\';';
+                                }
+                            }
+                            // $object->config('delete', 'package.raxon/parse.build.state.is_raw');
+                            if($variable_old){
+                                $data[] = $variable_old . '[] = implode(\'\', ' . $options->variable . ');';
+                                $options->variable = $variable_old;
+                            } else {
+                                $data[] = '$content[] = implode(\'\', ' . $options->variable . ');';
+                                unset($options->variable);
+                            }
+                        }
+                        elseif(
+                            substr($record['text'], 0, 2) === '\\"' &&
+                            substr($record['text'], -2) === '\\"' &&
+                            mb_strlen($record['text']) > 2
+                        ){
+                            $variable_old = $options->variable ?? null;
+                            $options->variable = Core::uuid_variable();
+                            $data[] = $options->variable . ' = [];';
+                            $single_quote_uuid = Core::uuid_variable();
+                            $double_quote_uuid = Core::uuid_variable();
+                            $ampersand_uuid = core::uuid_variable();
+                            $text = $record['text'];
+                            $text = str_replace('\\&', $ampersand_uuid, $text);
+                            $text = str_replace('&quot;', $double_quote_uuid, $text);
+                            $text = str_replace('&apos;', $single_quote_uuid, $text);
+                            $token = Token::tokenize($object, $flags, $options, substr($text, 2, -2));
+                            $token = Php::document_tag_prepare($object, $flags, $options, $token);
+                            $embed = Php::document_tag($object, $flags, $options, $token);
+                            $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
+                            if(property_exists($options, 'variable')){
+                                if($is_assign === true) {
+                                    $data[] = $options->variable . '[] = \'"\';';
+                                }
+                                if(
+                                    $is_raw !== true &&
+                                    $is_assign !== true
+                                ){
+                                    $data[] = $options->variable . '[] = \'\\"\';';
+                                }
+                                foreach($embed as $line){
+                                    $line = str_replace($double_quote_uuid, '"', $line);
+                                    $line = str_replace($single_quote_uuid, '\'', $line);
+                                    $line = str_replace($ampersand_uuid, '&', $line);
+                                    $data[] = $line;
+                                }
+                                if($is_assign === true) {
+                                    $data[] = $options->variable . '[] = \'"\';';
+                                }
+                                if(
+                                    $is_raw !== true &&
+                                    $is_assign !== true
+                                ){
+                                    $data[] = $options->variable . '[] = \'\\"\';';
+                                }
+                            }
+                            if($variable_old){
+                                $data[] = $variable_old . '[] = implode(\'\', ' . $options->variable . ');';
+                                $options->variable = $variable_old;
+                            } else {
+                                $data[] = '$content[] = implode(\'\', ' . $options->variable . ');';
+                                unset($options->variable);
+                            }
                         }
                         else {
                             $text = Php::text($object, $flags, $options, $record);

@@ -135,7 +135,6 @@ class Tag
                 $is_double_quoted_backslash === false &&    //needs to be off now on 2026-06-13
                 $is_comment === false &&
                 $is_comment_multiline === false &&
-                $is_literal === false &&
                 Symbol::check_previous([
                     $previous,
                     $previous_2x,
@@ -143,60 +142,62 @@ class Tag
                     $previous_4x,
                 ])
             ){
-                if($text !== ''){
-                    $text .= $char;
-                    $explode = explode("\n", $text);
-                    $count = count($explode);
-                    $explode_tag = explode("\n", $tag);
-                    if($count > 1){
-                        $length_start = mb_strlen($explode[0]);
-                        $record = [
-                            'text' => $text,
-                            '#comment' => '3',
-                            'is_multiline' => true,
-                            'line' => [
-                                'start' => $line - $count + 1,
-                                'end' => $line
-                            ],
-                            'length' => [
-                                'start' => $length_start,
-                                'end' => mb_strlen($explode[$count - 1])
-                            ],
-                            'column' => [
-                                ($line - $count + 1) => [
-                                    'start' => $column[$line - $count + 1] - $length_start,
-                                    'end' => $column[$line - $count + 1]
+                if($is_literal === false){
+                    if($text !== ''){
+                        $text .= $char;
+                        $explode = explode("\n", $text);
+                        $count = count($explode);
+                        $explode_tag = explode("\n", $tag);
+                        if($count > 1){
+                            $length_start = mb_strlen($explode[0]);
+                            $record = [
+                                'text' => $text,
+                                '#comment' => '3',
+                                'is_multiline' => true,
+                                'line' => [
+                                    'start' => $line - $count + 1,
+                                    'end' => $line
                                 ],
-                                $line => [
-                                    'start' => $column[$line] - mb_strlen($explode[$count - 1]) - mb_strlen($explode_tag[0]),
+                                'length' => [
+                                    'start' => $length_start,
+                                    'end' => mb_strlen($explode[$count - 1])
+                                ],
+                                'column' => [
+                                    ($line - $count + 1) => [
+                                        'start' => $column[$line - $count + 1] - $length_start,
+                                        'end' => $column[$line - $count + 1]
+                                    ],
+                                    $line => [
+                                        'start' => $column[$line] - mb_strlen($explode[$count - 1]) - mb_strlen($explode_tag[0]),
+                                        'end' => $column[$line] - mb_strlen($explode_tag[0])
+                                    ]
+                                ]
+                            ];
+                            if(empty($tag_list[$line - $count + 1])){
+                                $tag_list[$line - $count + 1] = [];
+                            }
+                            $tag_list[$line - $count + 1][] = $record;
+                        } else {
+                            $length_start = mb_strlen($explode[0]);
+                            $record = [
+                                'text' => $text,
+                                '#comment' => '4',
+                                'line' => $line,
+                                'length' => $length_start,
+                                'column' => [
+                                    'start' => $column[$line] - $length_start - mb_strlen($explode_tag[0]),
                                     'end' => $column[$line] - mb_strlen($explode_tag[0])
                                 ]
-                            ]
-                        ];
-                        if(empty($tag_list[$line - $count + 1])){
-                            $tag_list[$line - $count + 1] = [];
+                            ];
+                            if(empty($tag_list[$line])){
+                                $tag_list[$line] = [];
+                            }
+                            $tag_list[$line][] = $record;
                         }
-                        $tag_list[$line - $count + 1][] = $record;
-                    } else {
-                        $length_start = mb_strlen($explode[0]);
-                        $record = [
-                            'text' => $text,
-                            '#comment' => '4',
-                            'line' => $line,
-                            'length' => $length_start,
-                            'column' => [
-                                'start' => $column[$line] - $length_start - mb_strlen($explode_tag[0]),
-                                'end' => $column[$line] - mb_strlen($explode_tag[0])
-                            ]
-                        ];
-                        if(empty($tag_list[$line])){
-                            $tag_list[$line] = [];
-                        }
-                        $tag_list[$line][] = $record;
+                        $text = '';
+                        $is_single_quoted = false;
+                        continue;
                     }
-                    $text = '';
-                    $is_single_quoted = false;
-                    continue;
                 }
                 $is_single_quoted = false;
             }
@@ -207,7 +208,6 @@ class Tag
                 $is_double_quoted_backslash === false &&      //needs to be off now on 2026-06-13
                 $is_comment === false &&
                 $is_comment_multiline === false &&
-                $is_literal === false &&
                 Symbol::check_previous([
                     $previous,
                     $previous_2x,

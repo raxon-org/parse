@@ -2839,7 +2839,6 @@ class Php {
 //            trace();
         }
         foreach($record['method']['argument'] as $nr => $argument) {
-            d($argument);
             if(
                 array_key_exists('array', $argument) &&
                 is_array($argument['array']) &&
@@ -2906,9 +2905,7 @@ class Php {
                         $argument = $name . '()';
                     }
                 } else {
-                    d($argument);
                     $argument = Php::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
-                    d($before);
 //                    $uuid_variable = Core::uuid_variable();
 //                    $before[] = $uuid_variable . ' = ' . $argument . ';';
                 }
@@ -2920,9 +2917,7 @@ class Php {
                     $argument_attribute->count === '*'
                 ){
                     //all arguments are literal
-                    d('literal');
                     $argument = '\'' . str_replace(['\''], ['\\\''], trim($argument['string'])) . '\'';
-                    d($argument);
                 }
                 elseif(
                     property_exists($argument_attribute, 'apply') &&
@@ -2936,9 +2931,7 @@ class Php {
                     )
                 ){
                     //we have multiple indexes
-                    d('some literal');
                     $argument = '\'' . str_replace(['\''], ['\\\''], trim($argument['string'])) . '\'';
-                    d($argument);
                 }
                 elseif (
                     property_exists($argument_attribute, 'apply') &&
@@ -2948,13 +2941,12 @@ class Php {
                     $argument_attribute->index === $nr
                 ){
                     //we have a single index
-                    d('single index');
                     $argument = '\'' . str_replace(['\''], ['\\\''], trim($argument['string'])) . '\'';
-                    d($argument);
                 } else {
                     if(array_key_exists($nr, $argument_is_reference)){
                         $argument['array'][0]['is_reference'] = $argument_is_reference[$nr];
                     }
+                    //here the outer most \" needs to be transformed to " on both sides
                     $begin_argument = reset($argument['array']);
                     $end_argument = end($argument['array']);
                     if(
@@ -2966,10 +2958,7 @@ class Php {
                         $argument['array'][0]['value'] = '"';
                         $argument['array'][count($argument['array']) - 1]['value'] = '"';
                     }
-                    //here the outer most \" needs to be transformed to " on both sides
-
                     $argument = Php::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
-                    d($argument);
                     if($object->config('is.debug') === true){
 //                        d($argument);
 //                        trace();
@@ -3811,11 +3800,11 @@ class Php {
             $variable_old = $options->variable ?? null;
             $options->variable = Core::uuid_variable();
             $before[] = $options->variable . ' = [];';
-            d($record);
+//            d($record);
             //changed from execute to value @2026-06-14
 //            $token = Token::tokenize($object, $flags, $options, $record['execute']);
             $input = $record['execute']; // should be execute
-            d($input);
+//            d($input);
 //            $input = str_replace(['\\\\', '\"'], ['\\', '"'], $input); //wrong here
             $token = Token::tokenize($object, $flags, $options, $input);
             $token = Php::document_tag_prepare($object, $flags, $options, $token);
@@ -4178,9 +4167,9 @@ class Php {
                                 d($value);
                             }
                             //value explode on && || xor and only last part...
-                            d($value);
+//                            d($value);
                             $value = Php::value_calculate($object, $flags, $options, $record['value'], $value, $right);
-                            d($value);
+//                            d($value);
                         }
                         break;
                 }

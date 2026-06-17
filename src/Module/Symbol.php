@@ -394,6 +394,7 @@ class Symbol
                 break;
             }
         }
+        d($count);
         return $count % 2 === 0;
     }
 }

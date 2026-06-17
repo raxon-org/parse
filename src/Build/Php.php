@@ -2956,6 +2956,7 @@ class Php {
 //                        trace();
                     }
                     $uuid_variable = Core::uuid_variable();
+                    d($argument);
                     $before[] = $uuid_variable . ' = ' . $argument . ';';
                     if($attributes !== false){
                         $use_trait = $object->config('package.raxon/parse.build.use.trait');

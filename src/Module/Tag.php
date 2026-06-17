@@ -65,7 +65,6 @@ class Tag
                 $is_double_quoted_backslash === false &&      //needs to be off now on 2026-06-13
                 $is_comment === false &&
                 $is_comment_multiline === false &&
-                $is_literal === false &&
                 Symbol::check_previous([
                     $previous,
                     $previous_2x,

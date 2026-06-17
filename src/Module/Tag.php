@@ -618,8 +618,10 @@ class Tag
                 // $is_double_quoted === false &&
                 $is_double_quoted_backslash === false
             ){
+
                 $tag .= $char;
                 $column[$line]++;
+                d($text);
                 if($text !== ''){
                     $explode = explode("\n", $text);
                     $count = count($explode);

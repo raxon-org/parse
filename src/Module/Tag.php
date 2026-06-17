@@ -645,7 +645,11 @@ class Tag
                 $is_double_quoted_backslash === false
             ){
                 $tag .= $char;
-                d($tag);
+                if(stristr($tag, ' $file.url|>string.replace') !== false){
+                    d($is_single_quoted);
+                    d($tag);
+                }
+
                 if($is_literal){
                     breakpoint($is_literal);
                 }

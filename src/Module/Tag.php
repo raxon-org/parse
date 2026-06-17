@@ -225,7 +225,6 @@ class Tag
                 $is_double_quoted_backslash === false &&
                 $is_comment === false &&
                 $is_comment_multiline === false &&
-                $is_literal === false &&
                 Symbol::check_previous([
                     $previous,
                     $previous_2x,
@@ -233,57 +232,59 @@ class Tag
                     $previous_4x,
                 ])
             ){
-                if($text !== ''){
-                    $explode = explode("\n", $text);
-                    $count = count($explode);
-                    $explode_tag = explode("\n", $tag);
-                    if($count > 1){
-                        $length_start = mb_strlen($explode[0]);
-                        $record = [
-                            'text' => $text,
-                            '#comment' => '5',
-                            'is_multiline' => true,
-                            'line' => [
-                                'start' => $line - $count + 1,
-                                'end' => $line
-                            ],
-                            'length' => [
-                                'start' => $length_start,
-                                'end' => mb_strlen($explode[$count - 1])
-                            ],
-                            'column' => [
-                                ($line - $count + 1) => [
-                                    'start' => $column[$line - $count + 1] - $length_start,
-                                    'end' => $column[$line - $count + 1]
+                if($is_literal === false){
+                    if($text !== ''){
+                        $explode = explode("\n", $text);
+                        $count = count($explode);
+                        $explode_tag = explode("\n", $tag);
+                        if($count > 1){
+                            $length_start = mb_strlen($explode[0]);
+                            $record = [
+                                'text' => $text,
+                                '#comment' => '5',
+                                'is_multiline' => true,
+                                'line' => [
+                                    'start' => $line - $count + 1,
+                                    'end' => $line
                                 ],
-                                $line => [
-                                    'start' => $column[$line] - mb_strlen($explode[$count - 1]) - mb_strlen($explode_tag[0]),
+                                'length' => [
+                                    'start' => $length_start,
+                                    'end' => mb_strlen($explode[$count - 1])
+                                ],
+                                'column' => [
+                                    ($line - $count + 1) => [
+                                        'start' => $column[$line - $count + 1] - $length_start,
+                                        'end' => $column[$line - $count + 1]
+                                    ],
+                                    $line => [
+                                        'start' => $column[$line] - mb_strlen($explode[$count - 1]) - mb_strlen($explode_tag[0]),
+                                        'end' => $column[$line] - mb_strlen($explode_tag[0])
+                                    ]
+                                ]
+                            ];
+                            if(empty($tag_list[$line - $count + 1])){
+                                $tag_list[$line - $count + 1] = [];
+                            }
+                            $tag_list[$line - $count + 1][] = $record;
+                        } else {
+                            $length_start = mb_strlen($explode[0]);
+                            $record = [
+                                'text' => $text,
+                                '#comment' => '6',
+                                'line' => $line,
+                                'length' => $length_start,
+                                'column' => [
+                                    'start' => $column[$line] - $length_start - mb_strlen($explode_tag[0]),
                                     'end' => $column[$line] - mb_strlen($explode_tag[0])
                                 ]
-                            ]
-                        ];
-                        if(empty($tag_list[$line - $count + 1])){
-                            $tag_list[$line - $count + 1] = [];
+                            ];
+                            if(empty($tag_list[$line])){
+                                $tag_list[$line] = [];
+                            }
+                            $tag_list[$line][] = $record;
                         }
-                        $tag_list[$line - $count + 1][] = $record;
-                    } else {
-                        $length_start = mb_strlen($explode[0]);
-                        $record = [
-                            'text' => $text,
-                            '#comment' => '6',
-                            'line' => $line,
-                            'length' => $length_start,
-                            'column' => [
-                                'start' => $column[$line] - $length_start - mb_strlen($explode_tag[0]),
-                                'end' => $column[$line] - mb_strlen($explode_tag[0])
-                            ]
-                        ];
-                        if(empty($tag_list[$line])){
-                            $tag_list[$line] = [];
-                        }
-                        $tag_list[$line][] = $record;
+                        $text = '';
                     }
-                    $text = '';
                 }
                 $is_double_quoted = true;
             }
@@ -295,7 +296,6 @@ class Tag
                 $is_double_quoted_backslash === false &&
                 $is_comment === false &&
                 $is_comment_multiline === false &&
-                $is_literal === false &&
                 Symbol::check_previous([
                     $previous,
                     $previous_2x,
@@ -303,60 +303,62 @@ class Tag
                     $previous_4x,
                 ])
             ){
-                if($text !== ''){
-                    $text .= $char;
-                    $explode = explode("\n", $text);
-                    $count = count($explode);
-                    $explode_tag = explode("\n", $tag);
-                    if($count > 1){
-                        $length_start = mb_strlen($explode[0]);
-                        $record = [
-                            'text' => $text,
-                            '#comment' => '7',
-                            'is_multiline' => true,
-                            'line' => [
-                                'start' => $line - $count + 1,
-                                'end' => $line
-                            ],
-                            'length' => [
-                                'start' => $length_start,
-                                'end' => mb_strlen($explode[$count - 1])
-                            ],
-                            'column' => [
-                                ($line - $count + 1) => [
-                                    'start' => $column[$line - $count + 1] - $length_start,
-                                    'end' => $column[$line - $count + 1]
+                if($is_literal === false){
+                    if($text !== ''){
+                        $text .= $char;
+                        $explode = explode("\n", $text);
+                        $count = count($explode);
+                        $explode_tag = explode("\n", $tag);
+                        if($count > 1){
+                            $length_start = mb_strlen($explode[0]);
+                            $record = [
+                                'text' => $text,
+                                '#comment' => '7',
+                                'is_multiline' => true,
+                                'line' => [
+                                    'start' => $line - $count + 1,
+                                    'end' => $line
                                 ],
-                                $line => [
-                                    'start' => $column[$line] - mb_strlen($explode[$count - 1]) - mb_strlen($explode_tag[0]),
+                                'length' => [
+                                    'start' => $length_start,
+                                    'end' => mb_strlen($explode[$count - 1])
+                                ],
+                                'column' => [
+                                    ($line - $count + 1) => [
+                                        'start' => $column[$line - $count + 1] - $length_start,
+                                        'end' => $column[$line - $count + 1]
+                                    ],
+                                    $line => [
+                                        'start' => $column[$line] - mb_strlen($explode[$count - 1]) - mb_strlen($explode_tag[0]),
+                                        'end' => $column[$line] - mb_strlen($explode_tag[0])
+                                    ]
+                                ]
+                            ];
+                            if(empty($tag_list[$line - $count + 1])){
+                                $tag_list[$line - $count + 1] = [];
+                            }
+                            $tag_list[$line - $count + 1][] = $record;
+                        } else {
+                            $length_start = mb_strlen($explode[0]);
+                            $record = [
+                                'text' => $text,
+                                '#comment' => '8',
+                                'line' => $line,
+                                'length' => $length_start,
+                                'column' => [
+                                    'start' => $column[$line] - $length_start - mb_strlen($explode_tag[0]),
                                     'end' => $column[$line] - mb_strlen($explode_tag[0])
                                 ]
-                            ]
-                        ];
-                        if(empty($tag_list[$line - $count + 1])){
-                            $tag_list[$line - $count + 1] = [];
+                            ];
+                            if(empty($tag_list[$line])){
+                                $tag_list[$line] = [];
+                            }
+                            $tag_list[$line][] = $record;
                         }
-                        $tag_list[$line - $count + 1][] = $record;
-                    } else {
-                        $length_start = mb_strlen($explode[0]);
-                        $record = [
-                            'text' => $text,
-                            '#comment' => '8',
-                            'line' => $line,
-                            'length' => $length_start,
-                            'column' => [
-                                'start' => $column[$line] - $length_start - mb_strlen($explode_tag[0]),
-                                'end' => $column[$line] - mb_strlen($explode_tag[0])
-                            ]
-                        ];
-                        if(empty($tag_list[$line])){
-                            $tag_list[$line] = [];
-                        }
-                        $tag_list[$line][] = $record;
+                        $text = '';
+                        $is_double_quoted = false;
+                        continue;
                     }
-                    $text = '';
-                    $is_double_quoted = false;
-                    continue;
                 }
                 $is_double_quoted = false;
             }
@@ -368,7 +370,6 @@ class Tag
                 $previous === '\\' &&
                 $is_comment === false &&
                 $is_comment_multiline === false &&
-                $is_literal === false &&
                 Symbol::check_previous([
                     $previous_2x,
                     $previous_3x,
@@ -376,58 +377,60 @@ class Tag
                     $previous_5x,
                 ])
             ){
-                if($text !== ''){
-                    $text = substr($text, 0, -1);
-                    $explode = explode("\n", $text);
-                    $count = count($explode);
-                    $explode_tag = explode("\n", $tag);
-                    if($count > 1){
-                        $length_start = mb_strlen($explode[0]);
-                        $record = [
-                            'text' => $text,
-                            '#comment' => '9',
-                            'is_multiline' => true,
-                            'line' => [
-                                'start' => $line - $count + 1,
-                                'end' => $line
-                            ],
-                            'length' => [
-                                'start' => $length_start,
-                                'end' => mb_strlen($explode[$count - 1])
-                            ],
-                            'column' => [
-                                ($line - $count + 1) => [
-                                    'start' => $column[$line - $count + 1] - $length_start,
-                                    'end' => $column[$line - $count + 1]
+                if($is_literal === false){
+                    if($text !== ''){
+                        $text = substr($text, 0, -1);
+                        $explode = explode("\n", $text);
+                        $count = count($explode);
+                        $explode_tag = explode("\n", $tag);
+                        if($count > 1){
+                            $length_start = mb_strlen($explode[0]);
+                            $record = [
+                                'text' => $text,
+                                '#comment' => '9',
+                                'is_multiline' => true,
+                                'line' => [
+                                    'start' => $line - $count + 1,
+                                    'end' => $line
                                 ],
-                                $line => [
-                                    'start' => $column[$line] - mb_strlen($explode[$count - 1]) - mb_strlen($explode_tag[0]),
+                                'length' => [
+                                    'start' => $length_start,
+                                    'end' => mb_strlen($explode[$count - 1])
+                                ],
+                                'column' => [
+                                    ($line - $count + 1) => [
+                                        'start' => $column[$line - $count + 1] - $length_start,
+                                        'end' => $column[$line - $count + 1]
+                                    ],
+                                    $line => [
+                                        'start' => $column[$line] - mb_strlen($explode[$count - 1]) - mb_strlen($explode_tag[0]),
+                                        'end' => $column[$line] - mb_strlen($explode_tag[0])
+                                    ]
+                                ]
+                            ];
+                            if(empty($tag_list[$line - $count + 1])){
+                                $tag_list[$line - $count + 1] = [];
+                            }
+                            $tag_list[$line - $count + 1][] = $record;
+                        } else {
+                            $length_start = mb_strlen($explode[0]);
+                            $record = [
+                                'text' => $text,
+                                '#comment' => '10',
+                                'line' => $line,
+                                'length' => $length_start,
+                                'column' => [
+                                    'start' => $column[$line] - $length_start - mb_strlen($explode_tag[0]),
                                     'end' => $column[$line] - mb_strlen($explode_tag[0])
                                 ]
-                            ]
-                        ];
-                        if(empty($tag_list[$line - $count + 1])){
-                            $tag_list[$line - $count + 1] = [];
+                            ];
+                            if(empty($tag_list[$line])){
+                                $tag_list[$line] = [];
+                            }
+                            $tag_list[$line][] = $record;
                         }
-                        $tag_list[$line - $count + 1][] = $record;
-                    } else {
-                        $length_start = mb_strlen($explode[0]);
-                        $record = [
-                            'text' => $text,
-                            '#comment' => '10',
-                            'line' => $line,
-                            'length' => $length_start,
-                            'column' => [
-                                'start' => $column[$line] - $length_start - mb_strlen($explode_tag[0]),
-                                'end' => $column[$line] - mb_strlen($explode_tag[0])
-                            ]
-                        ];
-                        if(empty($tag_list[$line])){
-                            $tag_list[$line] = [];
-                        }
-                        $tag_list[$line][] = $record;
+                        $text = '\\';
                     }
-                    $text = '\\';
                 }
                 $is_double_quoted_backslash = true;
             }
@@ -439,7 +442,6 @@ class Tag
                 $previous === '\\' &&
                 $is_comment === false &&
                 $is_comment_multiline === false &&
-                $is_literal === false &&
                 Symbol::check_previous([
                     $previous_2x,
                     $previous_3x,
@@ -447,60 +449,62 @@ class Tag
                     $previous_5x,
                 ])
             ){
-                if($text !== ''){
-                    $text .= $char;
-                    $explode = explode("\n", $text);
-                    $count = count($explode);
-                    $explode_tag = explode("\n", $tag);
-                    if($count > 1){
-                        $length_start = mb_strlen($explode[0]);
-                        $record = [
-                            'text' => $text,
-                            '#comment' => '11',
-                            'is_multiline' => true,
-                            'line' => [
-                                'start' => $line - $count + 1,
-                                'end' => $line
-                            ],
-                            'length' => [
-                                'start' => $length_start,
-                                'end' => mb_strlen($explode[$count - 1])
-                            ],
-                            'column' => [
-                                ($line - $count + 1) => [
-                                    'start' => $column[$line - $count + 1] - $length_start,
-                                    'end' => $column[$line - $count + 1]
+                if($is_literal === false){
+                    if($text !== ''){
+                        $text .= $char;
+                        $explode = explode("\n", $text);
+                        $count = count($explode);
+                        $explode_tag = explode("\n", $tag);
+                        if($count > 1){
+                            $length_start = mb_strlen($explode[0]);
+                            $record = [
+                                'text' => $text,
+                                '#comment' => '11',
+                                'is_multiline' => true,
+                                'line' => [
+                                    'start' => $line - $count + 1,
+                                    'end' => $line
                                 ],
-                                $line => [
-                                    'start' => $column[$line] - mb_strlen($explode[$count - 1]) - mb_strlen($explode_tag[0]),
+                                'length' => [
+                                    'start' => $length_start,
+                                    'end' => mb_strlen($explode[$count - 1])
+                                ],
+                                'column' => [
+                                    ($line - $count + 1) => [
+                                        'start' => $column[$line - $count + 1] - $length_start,
+                                        'end' => $column[$line - $count + 1]
+                                    ],
+                                    $line => [
+                                        'start' => $column[$line] - mb_strlen($explode[$count - 1]) - mb_strlen($explode_tag[0]),
+                                        'end' => $column[$line] - mb_strlen($explode_tag[0])
+                                    ]
+                                ]
+                            ];
+                            if(empty($tag_list[$line - $count + 1])){
+                                $tag_list[$line - $count + 1] = [];
+                            }
+                            $tag_list[$line - $count + 1][] = $record;
+                        } else {
+                            $length_start = mb_strlen($explode[0]);
+                            $record = [
+                                'text' => $text,
+                                '#comment' => '12',
+                                'line' => $line,
+                                'length' => $length_start,
+                                'column' => [
+                                    'start' => $column[$line] - $length_start - mb_strlen($explode_tag[0]),
                                     'end' => $column[$line] - mb_strlen($explode_tag[0])
                                 ]
-                            ]
-                        ];
-                        if(empty($tag_list[$line - $count + 1])){
-                            $tag_list[$line - $count + 1] = [];
+                            ];
+                            if(empty($tag_list[$line])){
+                                $tag_list[$line] = [];
+                            }
+                            $tag_list[$line][] = $record;
                         }
-                        $tag_list[$line - $count + 1][] = $record;
-                    } else {
-                        $length_start = mb_strlen($explode[0]);
-                        $record = [
-                            'text' => $text,
-                            '#comment' => '12',
-                            'line' => $line,
-                            'length' => $length_start,
-                            'column' => [
-                                'start' => $column[$line] - $length_start - mb_strlen($explode_tag[0]),
-                                'end' => $column[$line] - mb_strlen($explode_tag[0])
-                            ]
-                        ];
-                        if(empty($tag_list[$line])){
-                            $tag_list[$line] = [];
-                        }
-                        $tag_list[$line][] = $record;
+                        $text = '';
+                        $is_double_quoted_backslash = false;
+                        continue;
                     }
-                    $text = '';
-                    $is_double_quoted_backslash = false;
-                    continue;
                 }
                 $is_double_quoted_backslash = false;
             }
@@ -510,7 +514,8 @@ class Tag
                 $is_double_quoted === false &&
                 $is_double_quoted_backslash === false &&
                 $is_comment === false &&
-                $is_comment_multiline === false
+                $is_comment_multiline === false &&
+                $is_literal === false
             ){
                 if($previous === '{'){
                     $curly_count++;
@@ -522,7 +527,8 @@ class Tag
                 $is_double_quoted === false &&
                 $is_double_quoted_backslash === false &&
                 $is_comment === false &&
-                $is_comment_multiline === false
+                $is_comment_multiline === false &&
+                $is_literal === false
             ){
                 if($previous === '}'){
                     $curly_count--;
@@ -639,7 +645,7 @@ class Tag
                 $is_comment_multiline === false &&
                 $curly_count === 0 &&
                 $is_single_quoted === false &&
-                 $is_double_quoted === false &&         //needs to be checked
+                $is_double_quoted === false &&         //needs to be checked
                 $is_double_quoted_backslash === false
             ){
                 $tag .= $char;
@@ -793,7 +799,8 @@ class Tag
             elseif(
                 $tag &&
                 $is_comment === false &&
-                $is_comment_multiline === false
+                $is_comment_multiline === false &&
+                $is_literal === false
             ){
                 $tag .= $char;
                 /*
@@ -806,6 +813,7 @@ class Tag
             elseif(
                 $is_comment === false &&
                 $is_comment_multiline === false
+                //is_literal = both
             ){
                 $text .= $char;
 //                d($text);

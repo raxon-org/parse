@@ -2964,7 +2964,7 @@ class Php {
                         $end_argument['value'] === '\"'
                     ){
                         $argument['array'][0]['value'] = '"';
-                        $argument['array'][count($argument) - 1]['value'] = '"';
+                        $argument['array'][count($argument['array']) - 1]['value'] = '"';
                     }
                     //here the outer most \" needs to be transformed to " on both sides
 

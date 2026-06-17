@@ -514,8 +514,7 @@ class Tag
                 $is_double_quoted === false &&
                 $is_double_quoted_backslash === false &&
                 $is_comment === false &&
-                $is_comment_multiline === false &&
-                $is_literal === false
+                $is_comment_multiline === false
             ){
                 if($previous === '{'){
                     $curly_count++;
@@ -527,8 +526,7 @@ class Tag
                 $is_double_quoted === false &&
                 $is_double_quoted_backslash === false &&
                 $is_comment === false &&
-                $is_comment_multiline === false &&
-                $is_literal === false
+                $is_comment_multiline === false
             ){
                 if($previous === '}'){
                     $curly_count--;
@@ -647,7 +645,6 @@ class Tag
                 $is_double_quoted_backslash === false
             ){
                 $tag .= $char;
-                d($input);
                 d($tag);
                 if($is_literal){
                     breakpoint($is_literal);

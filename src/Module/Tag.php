@@ -68,12 +68,7 @@ class Tag
                 $is_comment_multiline === false &&
                 Symbol::check_previous($before)
             ){
-                d($char);
-                d($before);
-                d($tag);
-                d($text);
                 $before= [];
-
                 if($text !== ''){
                     $explode = explode("\n", $text);
                     $count = count($explode);
@@ -138,10 +133,6 @@ class Tag
                 $is_comment_multiline === false &&
                 Symbol::check_previous($before)
             ){
-                d($before);
-                d($char);
-                d($tag);
-                d($text);
                 $before = [];
                 if($is_literal === false){
                     if($text !== ''){
@@ -211,10 +202,6 @@ class Tag
                 $is_comment_multiline === false &&
                 Symbol::check_previous($before)
             ){
-                d($char);
-                d($before);
-                d($tag);
-                d($text);
                 $before = [];
                 $is_single_quoted = false;
             }
@@ -228,10 +215,6 @@ class Tag
                 $is_comment_multiline === false &&
                 Symbol::check_previous($before)
             ){
-                d($char);
-                d($before);
-                d($tag);
-                d($text);
                 $before = [];
                 if($is_literal === false){
                     if($text !== ''){
@@ -299,10 +282,6 @@ class Tag
                 $is_comment_multiline === false &&
                 Symbol::check_previous($before)
             ){
-                d($char);
-                d($before);
-                d($tag);
-                d($text);
                 $before = [];
                 if($is_literal === false){
                     if($text !== ''){
@@ -373,10 +352,6 @@ class Tag
                 $is_comment_multiline === false &&
                 Symbol::check_previous($before, true)
             ){
-                d($char);
-                d($before);
-                d($tag);
-                d($text);
                 $before = [];
                 if($is_literal === false){
                     if($text !== ''){
@@ -445,10 +420,6 @@ class Tag
                 $is_comment_multiline === false &&
                 Symbol::check_previous($before, true)
             ){
-                d($char);
-                d($before);
-                d($tag);
-                d($text);
                 if($is_literal === false){
                     if($text !== ''){
                         $text .= $char;
@@ -645,17 +616,7 @@ class Tag
                 $is_double_quoted_backslash === false
             ){
                 $tag .= $char;
-                if(stristr($tag, ' $file.url|>string.replace') !== false){
-                    d($is_single_quoted);
-                    d($tag);
-                }
-
-                if($is_literal){
-                    breakpoint($is_literal);
-                }
-
                 if($is_literal === true){
-                    dd($tag);
                     if($char !== "\n") {
                         $column[$line]++;
                     }

@@ -44,6 +44,7 @@ class Symbol
             $previous_2x = Token::item($input, $nr - 2);
             $previous_3x = Token::item($input, $nr - 3);
             $previous_4x = Token::item($input, $nr - 4);
+            $previous_5x = Token::item($input, $nr - 5);
             $next = Token::item($input, $nr + 1);
             $next_next = Token::item($input, $nr + 2);
             if($skip > 0){
@@ -165,6 +166,12 @@ class Symbol
             elseif(
                 $char === '"' &&
                 $previous === '\\' &&
+                Symbol::check_previous([
+                    $previous_2x,
+                    $previous_3x,
+                    $previous_4x,
+                    $previous_5x,
+                ]) &&
                 $is_single_quote === false &&
                 $is_double_quote === false &&
                 $is_double_quote_backslash === false
@@ -176,6 +183,12 @@ class Symbol
             elseif(
                 $char === '"' &&
                 $previous === '\\' &&
+                Symbol::check_previous([
+                    $previous_2x,
+                    $previous_3x,
+                    $previous_4x,
+                    $previous_5x,
+                ]) &&
                 $is_single_quote === false &&
                 $is_double_quote === false &&
                 $is_double_quote_backslash !== false
@@ -382,7 +395,10 @@ class Symbol
         elseif(
             $previous === '\\' &&
             $previous_2x === '\\' &&
-            $previous_3x != '\\' // != (also null)
+            (
+                $previous_3x === null ||
+                $previous_3x !== '\\'
+            )
         ){
             return true;
         }

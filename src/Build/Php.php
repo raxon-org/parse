@@ -678,11 +678,7 @@ class Php {
                         $marker_data[$record['line']][] = $record['marker']['value']['array'][2] ?? [];
                         $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
                         $object->config('package.raxon/parse.build.state.is_raw', true);
-                        //removed an in the way array_pop of $data
                         $quote = array_pop($data);
-                        ddd($quote);
-
-
                         $marker_data = Php::document_tag($object, $flags, $options, $marker_data);
                         foreach($marker_data as $line){
                             $data[] = $line;
@@ -1628,6 +1624,10 @@ class Php {
                     ){
                         $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
                         //ambigious
+                        if($is_raw === true){{
+                            ddd($record);
+                        }}
+
                         if($is_raw && substr($record['text'], 0, 1) === '"'){
                             $record['text'] = substr($record['text'], 1);
                         }

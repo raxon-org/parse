@@ -2900,7 +2900,6 @@ class Php {
 
                         $after[$argument_nr] = null;
                     }
-                    ddd($before);
                     if (array_key_exists(0, $argument)) {
                         $argument = $name . '(' . implode(', ', $argument) . ')';
                     } else {
@@ -2956,6 +2955,7 @@ class Php {
                     if(array_key_exists($nr, $argument_is_reference)){
                         $argument['array'][0]['is_reference'] = $argument_is_reference[$nr];
                     }
+                    d($argument);
                     $argument = Php::value($object, $flags, $options, $record, $argument, $is_set, $before, $after);
                     if($object->config('is.debug') === true){
 //                        d($argument);

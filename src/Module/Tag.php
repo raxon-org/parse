@@ -639,7 +639,7 @@ class Tag
                 $is_comment_multiline === false &&
                 $curly_count === 0 &&
                 $is_single_quoted === false &&
-                // $is_double_quoted === false &&
+                 $is_double_quoted === false &&         //needs to be checked
                 $is_double_quoted_backslash === false
             ){
                 $tag .= $char;

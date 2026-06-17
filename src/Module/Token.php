@@ -109,15 +109,12 @@ class Token
             $temp = explode('{{literal}}', $explode[0], 2);
             if(array_key_exists(1, $temp)){
                 $literal = $temp[1];
-                d($literal);
                 $uuid = str_replace('-', '_', Core::uuid());
                 $variable = '{{$literal.' . $uuid . '}}';
                 $count = $object->config('literal.count') ?? 1;
-                breakpoint(Escape::single_quote($literal));
                 $assign = '{{$literal.' . $uuid . ' = \'' . Escape::single_quote($literal) . '\'}}';
                 $input = $temp[0] . $assign . $variable . $explode[1];
                 $input = Token::literal_apply($object, $data, $flags, $options, $input);
-                d($input);
                 $object->config('literal.count', $count++);
             }
         }

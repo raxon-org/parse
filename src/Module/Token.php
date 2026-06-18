@@ -31,20 +31,12 @@ class Token
             $object->config('literal.single.quote.end', $uuid_end);
         }
         $text = false;
+        $before = [];
         foreach($data as $nr => $char){
-            $previous = $data[$nr - 1] ?? null;
-            $previous_2x = $data[$nr - 2] ?? null;
-            $previous_3x = $data[$nr - 3] ?? null;
-            $previous_4x = $data[$nr - 4] ?? null;
             if(
                 $is_single_quoted !== false &&
                 $char === '\'' &&
-                Symbol::check_previous([
-                    $previous,
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                ])
+                Symbol::check_previous($before)
             ){
                 $text.= $char;
                 $text = str_replace('{{literal}}', $uuid_start, $text);
@@ -55,20 +47,17 @@ class Token
                 $data[$nr] = $text;
                 $is_single_quoted = false;
                 $text = false;
+                $before[] = [];
                 continue;
             }
             if(
                 $is_single_quoted === false &&
                 $char === '\'' &&
-                Symbol::check_previous([
-                    $previous,
-                    $previous_2x,
-                    $previous_3x,
-                    $previous_4x,
-                ])
+                Symbol::check_previous($before)
             ){
                 $is_single_quoted = $nr;
                 $text = $char;
+                $before[] = $char;
                 continue;
             }
             if(
@@ -77,6 +66,7 @@ class Token
             ){
                 $text .= $char;
             }
+            $before[] = $char;
         }
         return implode('', $data);
     }

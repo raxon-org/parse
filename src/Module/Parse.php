@@ -780,6 +780,8 @@ class Parse
             Dir::create($dir, Dir::CHMOD);
             $input = Token::literal_single_quote_apply($object, $data, $flags, $options, $input);
             $input = Token::literal_apply($object, $data, $flags, $options, $input);
+            d($options->source);
+            d($input);
             $input = Token::literal_single_quote_restore($object, $data, $flags, $options, $input);
             $token = Token::tokenize($object, $flags, $options, $input);
 //            d($token);

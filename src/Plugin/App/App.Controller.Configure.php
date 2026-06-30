@@ -11,7 +11,7 @@
 namespace Plugin;
 
 use Exception;
-use Raxon\App as Framework;
+use Raxon\Module\Controller;
 
 trait App_Controller_Configure {
 
@@ -20,6 +20,8 @@ trait App_Controller_Configure {
      */
     protected function app_controller_configure(string $caller): void
     {
-        ddd($caller);
+        $object = $this->object();
+        Controller::configure($object, $caller);
+        d($object->config('controller'));
     }
 }

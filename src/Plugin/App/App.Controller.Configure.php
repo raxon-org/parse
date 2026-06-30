@@ -22,6 +22,5 @@ trait App_Controller_Configure {
     {
         $object = $this->object();
         Controller::configure($object, $caller);
-        d($object->config('controller'));
     }
 }

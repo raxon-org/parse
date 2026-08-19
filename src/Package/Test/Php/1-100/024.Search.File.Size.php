@@ -11,6 +11,7 @@ use Raxon\App;
 use Raxon\Config;
 use Raxon\Module\Dir;
 use Raxon\Module\File;
+use Raxon\Module\Core;
 use Raxon\Module\Data;
 use Raxon\Parse\Module\Parse;
 
@@ -36,14 +37,27 @@ try {
         ]
     );
     $app = new App($autoload, $config);
-    $options = App::options($app);
-    d($options);
     $dir = new Dir();
-    $directory = Data::parameter($app, 'directory', 1);
-    $recursive = Data::parameter($app, 'recursive', 1);
-    d($directory);
-    dd($recursive);
-    $dir->read($directory, true);
+    $url = '/mnt/c/';
+    $read = $dir->read($url, true);
+    $list = [];
+    if($read){
+        foreach($read as $file){
+            if($file->type === Dir::TYPE){
+                continue;
+            }
+            elseif($file->type === File::TYPE){
+                $file->extension = File::extension($file->url);
+                if(in_array($file->extension, ['mp3', 'wav', 'wma'], true)){
+                    $file->size = File::size($file->url);
+                    $list[] = $file->url;
+                }
+            }
+        }
+        echo Core::object($list, Core::JSON);
+    }
+
+
 } catch (Exception | LocateException | ObjectException $exception) {
     echo $exception;
 }

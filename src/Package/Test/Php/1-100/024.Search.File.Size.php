@@ -37,10 +37,12 @@ try {
     );
     $app = new App($autoload, $config);
     $options = App::options($app);
-    dd($options);
+    d($options);
     $dir = new Dir();
-//    $directory = Data::parameter($app, 'directory', 1);
-//    $recursive = Data::parameter($app, 'recursive', 1);
+    $directory = Data::parameter($app, 'directory', 1);
+    $recursive = Data::parameter($app, 'recursive', 1);
+    d($directory);
+    dd($recursive);
     $dir->read($directory, true);
 } catch (Exception | LocateException | ObjectException $exception) {
     echo $exception;

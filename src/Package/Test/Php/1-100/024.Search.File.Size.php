@@ -38,7 +38,7 @@ try {
     );
     $app = new App($autoload, $config);
     $dir = new Dir();
-    $url = '/mnt/c/';
+    $url = '/mnt/c';
     $read = $dir->read($url, true);
     $list = [];
     if($read){
@@ -48,13 +48,14 @@ try {
             }
             elseif($file->type === File::TYPE){
                 $file->extension = File::extension($file->url);
-                if(in_array($file->extension, ['mp3', 'wav', 'wma'], true)){
+                if(in_array($file->extension, ['zip'], true)){
                     $file->size = File::size($file->url);
                     $list[] = $file->url;
                 }
             }
         }
-        echo Core::object($list, Core::JSON);
+        $url = '/mnt/c/list.json';
+        File::write($url, Core::object($list, Core::JSON));
     }
 
 

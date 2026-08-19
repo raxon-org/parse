@@ -1,0 +1,1 @@
+const request = "{{raw(request())}}";

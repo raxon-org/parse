@@ -36,7 +36,7 @@ try {
         ]
     );
     $app = new App($autoload, $config);
-    $options = $app->options();
+    $options = App::options($app);
     dd($options);
     $dir = new Dir();
 //    $directory = Data::parameter($app, 'directory', 1);

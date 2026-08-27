@@ -31,8 +31,9 @@ trait Plugin_Options {
             case '#command':
                 return Framework::options($this->object(), $type);
             default:
-                ddd($type);
+                d($type);
                 $options = Framework::options($this->object());
+                ddd($options);
                 $data = new Data($options);
                 d($data);
                 return $data->get($type);

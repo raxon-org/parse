@@ -24,7 +24,6 @@ trait Plugin_Options {
     protected function plugin_options(string $type=''): mixed
     {
         $this->object();
-        ddd($type);
         switch($type){
             case '':
             case '#default':
@@ -32,6 +31,7 @@ trait Plugin_Options {
             case '#command':
                 return Framework::options($this->object(), $type);
             default:
+                ddd($type);
                 $options = Framework::options($this->object());
                 $data = new Data($options);
                 d($data);

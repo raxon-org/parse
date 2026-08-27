@@ -10,14 +10,21 @@ namespace Plugin;
  *    - all
  */
 
+use Exception;
+
 trait Server_Url {
 
+    /**
+     * @throws Exception
+     */
     public function server_url(string $name): ?string
     {
         $object = $this->object();
         $name = str_replace('.', '-', $name);
         $url = $object->config('server.url.' . $name . '.' . $object->config('framework.environment'));
-        dd($url);
+        if(empty($url)){
+            throw new Exception('Server url not found, is it manually configured: ' . $name);
+        }
         if(
             $url &&
             substr($url, -1, 1) !== '/'

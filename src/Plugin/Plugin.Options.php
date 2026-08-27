@@ -24,7 +24,7 @@ trait Plugin_Options {
     protected function plugin_options(string $type=''): mixed
     {
         $this->object();
-        d($type);
+        ddd($type);
         switch($type){
             case '':
             case '#default':

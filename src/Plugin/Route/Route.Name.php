@@ -7,7 +7,8 @@ trait Route_Name {
 
     protected function route_name(string|null $name=null): ?string
     {
-        return strtolower(str_replace(
+        d($name);
+        $result = strtolower(str_replace(
             [
                 '.',
                 ' '
@@ -18,5 +19,7 @@ trait Route_Name {
             ],
             $name
         ));
+        d($result);
+        return $result;
     }
 }

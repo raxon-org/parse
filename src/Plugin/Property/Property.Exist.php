@@ -1,5 +1,5 @@
 <?php
-namespace Plugin\Property;
+namespace Plugin;
 
 trait Property_Exist {
 

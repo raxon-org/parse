@@ -679,8 +679,8 @@ class Php {
                         $object->config('package.raxon/parse.build.state.is_raw', true);
                         d('is_raw=true');
                         $quote = array_pop($data);
-                        d($marker_data);
                         $marker_data = Php::document_tag($object, $flags, $options, $marker_data);
+                        d($marker_data);
                         foreach($marker_data as $line){
                             $data[] = $line;
                         }
@@ -1621,11 +1621,11 @@ class Php {
                         $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
                         //ambigious
                         if($is_raw && substr($record['text'], 0, 1) === '"'){
-                            $record['text'] = substr($record['text'], 1);
+                            $record['text'] = substr($record['text'], 1, -1);
                         }
                         //ambigious
                         if($is_raw && substr($record['text'], 0, 2) === '\"'){
-                            $record['text'] = substr($record['text'], 2);
+                            $record['text'] = substr($record['text'], 2, -2);
                         }
                         $object->config('delete', 'package.raxon/parse.build.state.is_raw');
                         if(

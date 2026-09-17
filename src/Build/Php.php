@@ -677,8 +677,8 @@ class Php {
                         $marker_data[$record['line']] = [];
                         $marker_data[$record['line']][] = $record['marker']['value']['array'][2] ?? [];
                         $object->config('package.raxon/parse.build.state.is_raw', true);
-                        breakpoint($data);
                         $quote = array_pop($data);
+                        d($marker_data);                         
                         $marker_data = Php::document_tag($object, $flags, $options, $marker_data);
                         foreach($marker_data as $line){
                             $data[] = $line;

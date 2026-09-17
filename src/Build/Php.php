@@ -681,7 +681,6 @@ class Php {
                         $quote = array_pop($data);
                         $marker_data = Php::document_tag($object, $flags, $options, $marker_data);
                         foreach($marker_data as $line){
-                            breakpoint($line);
                             $data[] = $line;
                         }
                         continue;

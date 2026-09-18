@@ -117,7 +117,13 @@ class Parse
         $role = $node->role_system();
 
         if(!empty($object->config(Parse::CONFIG))){
+            $object->config(Parse::CONFIG . '.plugin.rename', Parse::PLUGIN_RENAME);
+            $object->config(Parse::CONFIG . '.build.use.class', Parse::USE_CLASS);
+            $object->config(Parse::CONFIG . '.build.use.trait', Parse::USE_TRAIT);
+            $object->config(Parse::CONFIG . '.build.run.throw', Parse::RUN_THROW);
+            $object->config(Parse::CONFIG . '.object.this', (object) Parse::OBJECT_THIS);
             $object->config(Parse::CONFIG . '.time.start', microtime(true));
+            $object->config(Parse::CONFIG . '.build.builder', 'Build');
             return;
         }
         $default = (object) [];
@@ -532,6 +538,7 @@ class Parse
                 $this_value = $object->config('package.raxon/parse.object.this');
                 if($this_value === null){
                     d($input);
+                    d($data);
                     d($depth);
                     trace();
                     ddd($object->config('package.raxon/parse'));

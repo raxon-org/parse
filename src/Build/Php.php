@@ -2815,6 +2815,7 @@ class Php {
                     //continue
                 }
             } else {
+                d($use_trait_function);
                 throw new Exception('Method match:' . $method_match . ' not found in use trait function');
             }
             foreach($trait_methods as $nr => $method){

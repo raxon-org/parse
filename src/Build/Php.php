@@ -2803,6 +2803,9 @@ class Php {
                 $method_match = 'plugin_' . $method_match;
             }
             $key = array_search($method_match, $use_trait_function, true);
+            d($key);
+            d($use_trait);
+            d($use_trait_function);
             $trait = $use_trait[$key] ?? null;
             $trait_methods = [];
             if($trait !== null){

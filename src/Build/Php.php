@@ -1940,6 +1940,9 @@ class Php {
                             $data[] = 'elseif(is_array(' . $uuid_method . ')){';
                             $data[] = '$data->set(\'this.\' . $data->get(\'this.#attribute\'), ' . $uuid_method . ');';
                             $data[] = 'return ' . $uuid_method . ';';
+
+                            d($object->config('package.raxon/parse.build.state'));
+
                             /*
                             if($object->config('package.raxon/parse.build.state.source.is.json') === true){
                                 $data[] = 'return ' . $uuid_method . ';';
@@ -1974,6 +1977,7 @@ class Php {
                             $data[] = 'elseif(is_object(' . $uuid_method . ')){';
                             $data[] = '$data->set(\'this.\' . $data->get(\'this.#attribute\'), ' . $uuid_method . ');';
                             $data[] = 'return ' . $uuid_method . ';';
+                            d($object->config('package.raxon/parse.build.state'));
                             //$data[] = '$data->set($data->get(\'this.#attribute\'), ' . $uuid_method . ');';
                             //$data[] = 'd($data->data());';
                             /*

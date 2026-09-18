@@ -3063,14 +3063,14 @@ class Php {
             ;
             $explode = explode(':', $explode[1], 2);
             $use_plugin = null;
+            $trait_name = '';
             if(array_key_exists(1, $explode)){
                 $trait_name = $explode[0];
                 $trait_function = $explode[1];
                 $use_plugin = $trait_function;
-            } else {
-                d($use_package);
-                d($plugin);
             }
+            d($use_plugin);
+            d($use_trait_function);
             if(!in_array($use_plugin, $use_trait_function, true)){
                 $use[] = '\\' . $use_package  . 'Trait' . '\\' . $trait_name;
                 $use_trait_function[count($use) - 1] = $use_plugin;

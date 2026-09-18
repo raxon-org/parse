@@ -3070,7 +3070,10 @@ class Php {
                 $use_plugin = $trait_function;
             }
             if(!in_array($use_plugin, $use_trait_function, true)){
-                $use[] = '\\' . $use_package  . 'Trait' . '\\' . $trait_name;
+                $statement = '\\' . $use_package  . 'Trait' . '\\' . $trait_name;
+                if(!in_array($statement, $use, true)){
+                    $use[] = $statement;
+                }
                 $use_trait_function[count($use) - 1] = $use_plugin;
                 $object->config('package.raxon/parse.build.use.trait', $use);
                 $object->config('package.raxon/parse.build.use.trait_function', $use_trait_function);

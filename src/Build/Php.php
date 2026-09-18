@@ -1980,8 +1980,6 @@ class Php {
                             if($object->config('package.raxon/parse.build.state.source.is.json') === true){
                                 $data[] = 'return ' . $uuid_method . ';';
                             } else {
-                                trace();
-                                dd($object->config('package.raxon/parse.build.state'));
                                 if (
                                     array_key_exists('is_multiline', $record) &&
                                     $record['is_multiline'] === true

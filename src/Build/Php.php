@@ -679,7 +679,6 @@ class Php {
                         $object->config('package.raxon/parse.build.state.is_raw', true);
                         $quote = array_pop($data);
                         $marker_data = Php::document_tag($object, $flags, $options, $marker_data);
-                        d($marker_data);
                         foreach($marker_data as $line){
                             $data[] = $line;
                         }

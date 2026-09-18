@@ -1968,8 +1968,8 @@ class Php {
                             }
                             $data[] = '}';
                             $data[] = 'elseif(is_object(' . $uuid_method . ')){';
-                            $data[] = 'd($data->data());';
                             $data[] = '$data->set(\'this.\' . $data->get(\'this.#attribute\'), ' . $uuid_method . ');';
+                            $data[] = 'd($data->data());';
                             /*
                             if($object->config('package.raxon/parse.build.state.source.is.json') === true){
 

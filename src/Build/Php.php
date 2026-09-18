@@ -1901,6 +1901,7 @@ class Php {
                             $data[] = $method . ';';
                         }
                         elseif($method) {
+                            breakpoint($method);
                             $uuid_method = Core::uuid_variable();
                             $data[] = 'try { //t2';
                             $data[] = $uuid_method . ' = ' . $method . ';';

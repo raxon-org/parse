@@ -531,6 +531,8 @@ class Parse
                 $reserved_keys = [];
                 $this_value = $object->config('package.raxon/parse.object.this');
                 if($this_value === null){
+                    d($input);
+                    d($depth);
                     trace();
                     ddd($object->config('package.raxon/parse'));
                 }

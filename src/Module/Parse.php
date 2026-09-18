@@ -615,8 +615,6 @@ class Parse
                     for($i = 0; $i <= $depth; $i++){
                         if($i === 0){
                             $source = str_replace('Internal_', '', $source);
-                            trace();
-                            breakpoint($source);
                         } else {
                             $source = str_replace($i . 'x_', '', $source);
                         }

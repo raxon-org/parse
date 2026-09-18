@@ -1939,11 +1939,10 @@ class Php {
                             $data[] = '}';
                             $data[] = 'elseif(is_array(' . $uuid_method . ')){';
                             $data[] = '$data->set(\'this.\' . $data->get(\'this.#attribute\'), ' . $uuid_method . ');';
-                            $data[] = 'return ' . $uuid_method . ';';
+//                            $data[] = 'return ' . $uuid_method . ';';
 
-                            d($object->config('package.raxon/parse.build.state'));
+                            d($object->config('package.raxon/parse.build.state.source.is.json') ?? 'no is json');
 
-                            /*
                             if($object->config('package.raxon/parse.build.state.source.is.json') === true){
                                 $data[] = 'return ' . $uuid_method . ';';
                             } else {
@@ -1972,17 +1971,14 @@ class Php {
                                         '.\');';
                                 }
                             }
-                            */
                             $data[] = '}';
                             $data[] = 'elseif(is_object(' . $uuid_method . ')){';
                             $data[] = '$data->set(\'this.\' . $data->get(\'this.#attribute\'), ' . $uuid_method . ');';
-                            $data[] = 'return ' . $uuid_method . ';';
-                            d($object->config('package.raxon/parse'));
+//                            $data[] = 'return ' . $uuid_method . ';';
+//                            d($object->config('package.raxon/parse'));
                             //$data[] = '$data->set($data->get(\'this.#attribute\'), ' . $uuid_method . ');';
                             //$data[] = 'd($data->data());';
-                            /*
                             if($object->config('package.raxon/parse.build.state.source.is.json') === true){
-
                                 $data[] = 'return ' . $uuid_method . ';';
                             } else {
                                 if (
@@ -2010,7 +2006,6 @@ class Php {
                                         '.\');';
                                 }
                             }
-                            */
                             $data[] = '}';
                         }
                         if(!empty($after)){

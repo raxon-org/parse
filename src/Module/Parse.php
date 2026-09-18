@@ -529,6 +529,10 @@ class Parse
                 $options->depth = $depth;
                 $this->options($options);
                 $reserved_keys = [];
+                $this_value = $object->config('package.raxon/parse.object.this');
+                if($this_value === null){
+                    ddd($object->config('package.raxon/parse'));
+                }
                 foreach($object->config('package.raxon/parse.object.this') as $key => $value){
                     $reserved_keys[] = $value;
                 }

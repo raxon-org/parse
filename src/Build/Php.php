@@ -1940,8 +1940,6 @@ class Php {
                             $data[] = 'elseif(is_array(' . $uuid_method . ')){';
                             $data[] = '$data->set(\'this.\' . $data->get(\'this.#attribute\'), ' . $uuid_method . ');';
 //                            $data[] = 'return ' . $uuid_method . ';';
-
-                            d($options);
                             if($object->config('package.raxon/parse.build.state.source.is.json') === true){
                                 $data[] = 'return ' . $uuid_method . ';';
                             } else {

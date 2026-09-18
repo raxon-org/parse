@@ -3069,6 +3069,7 @@ class Php {
                 $trait_function = $explode[1];
                 $use_plugin = $trait_function;
             }
+            d($use);
             d($use_plugin);
             d($use_trait_function);
             if(!in_array($use_plugin, $use_trait_function, true)){

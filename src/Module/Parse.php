@@ -116,7 +116,10 @@ class Parse
         $node = new Node($object);
         $role = $node->role_system();
 
-        $default = $object->config(Parse::CONFIG) ?? (object) [];
+        if(!empty($object->config(Parse::CONFIG))){
+            return;
+        }
+        $default = (object) [];
 
         $object->config(Parse::CONFIG, $default);
         $object->config(Parse::CONFIG . '.plugin.rename', Parse::PLUGIN_RENAME);

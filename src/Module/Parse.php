@@ -388,9 +388,8 @@ class Parse
                     $json = Core::object($input, Core::OBJECT_JSON_LINE);
                     //$json = str_replace(['\\/'],['/'], $json);
                     $hash = hash('sha256', $json);
-                    d($options);
                     $parse_options = (object) [];
-                    $parse_options->source = 'Internal_' . $hash;
+                    $parse_options->source = 'Internal_' . $hash . '.' . $options->extension;
                     //                    $options->source = 'internal_' . Core::uuid(); //wrong, hash should not be unique but referable
                     $parse_options->source_root = $options->source ?? 'source';
                     $parse_options->extension = $options->extension;
@@ -452,7 +451,7 @@ class Parse
                             $hash = hash('sha256', $key . '_' . Core::object($value, Core::JSON_LINE));
                         }
                         $parse_options = (object) [];
-                        $parse_options->source = 'Internal_' . $hash;
+                        $parse_options->source = 'Internal_' . $hash . '.' . $options->extension;
                         //                    $options->source = 'internal_' . Core::uuid(); //wrong, hash should not be unique but referable
                         $parse_options->source_root = $options->source ?? 'source';
                         $parse_options->extension = $options->extension;
@@ -633,7 +632,7 @@ class Parse
                     }
 //                    d($object->config('package.raxon/parse'));
                     $parse_options = (object) [];
-                    $parse_options->source = 'Internal_' . ($depth + 1) . 'x' . '_' . $key . '_' . $hash;
+                    $parse_options->source = 'Internal_' . ($depth + 1) . 'x' . '_' . $key . '_' . $hash . '.' . $options->extension;
                     $parse_options->source_root = $options->source ?? 'source';
                     $parse_options->extension = $options->extension;
                     $parse_options->class = Build::class_name($parse_options->source);

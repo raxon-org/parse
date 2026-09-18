@@ -717,6 +717,7 @@ class Parse
                 true
             )
         ){
+            breakpoint('found json');
             $is_json = $object->config('package.raxon/parse.build.state.source.is.json');
             $object->config('package.raxon/parse.build.state.source.is.json', true);
         }

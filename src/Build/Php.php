@@ -2803,8 +2803,6 @@ class Php {
                 $method_match = 'plugin_' . $method_match;
             }
             $key = array_search($method_match, $use_trait_function, true);
-            d($key);
-            d($use_trait);
             $trait = $use_trait[$key] ?? null;
             $trait_methods = [];
             if($trait !== null){
@@ -2817,6 +2815,7 @@ class Php {
                     //continue
                 }
             } else {
+                d($use_trait);
                 d($use_trait_function);
                 throw new Exception('Method match:' . $method_match . ' not found in use trait function');
             }

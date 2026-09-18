@@ -277,7 +277,6 @@ class Parse
         if(!property_exists($options, 'source')) {
             throw new Exception('Error: source not set in options');
         }
-        d($options->source);
         $options->extension = File::extension($options->source);
         $options->class = Build::class_name($options->source);
         if($is_debug){
@@ -717,7 +716,6 @@ class Parse
                 true
             )
         ){
-            breakpoint('found json');
             $is_json = $object->config('package.raxon/parse.build.state.source.is.json');
             $object->config('package.raxon/parse.build.state.source.is.json', true);
         }

@@ -704,6 +704,7 @@ class Parse
             }
         }
         $source = $options->source ?? 'source';
+        $is_json = null;
         if(
             in_array(
                 File::extension($source),
@@ -714,8 +715,8 @@ class Parse
                 true
             )
         ){
+            $is_json = $object->config('package.raxon/parse.build.state.source.is.json');
             $object->config('package.raxon/parse.build.state.source.is.json', true);
-            dd('yes found1');
         }
         $object->config('package.raxon/parse.build.state.source.url', $source);
         $mtime = false;
@@ -845,6 +846,11 @@ class Parse
                     ]
                 ];
                 echo Core::object($output, Core::OBJECT_JSON) . PHP_EOL;
+            }
+            if($is_json){
+                $object->config('package.raxon/parse.build.state.source.is.json', $is_json);
+            } else {
+                $object->config('delete', 'package.raxon/parse.build.state.source.is.json');
             }
             return Parse::result($result);
         }

@@ -387,6 +387,7 @@ class Parse
                     $json = Core::object($input, Core::OBJECT_JSON_LINE);
                     //$json = str_replace(['\\/'],['/'], $json);
                     $hash = hash('sha256', $json);
+                    d($options);
                     $parse_options = (object) [];
                     $parse_options->source = 'Internal_' . $hash;
                     //                    $options->source = 'internal_' . Core::uuid(); //wrong, hash should not be unique but referable

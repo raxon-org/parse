@@ -679,6 +679,7 @@ class Php {
                         $object->config('package.raxon/parse.build.state.is_raw', true);
                         $quote = array_pop($data);
                         $marker_data = Php::document_tag($object, $flags, $options, $marker_data);
+                        d($marker_data);
                         foreach($marker_data as $line){
                             $data[] = $line;
                         }
@@ -1939,9 +1940,12 @@ class Php {
                             $data[] = 'elseif(is_array(' . $uuid_method . ')){';
                             $data[] = '$data->set(\'this.\' . $data->get(\'this.#attribute\'), ' . $uuid_method . ');';
 //                            $data[] = 'return ' . $uuid_method . ';';
+
+
                             if($object->config('package.raxon/parse.build.state.source.is.json') === true){
                                 $data[] = 'return ' . $uuid_method . ';';
                             } else {
+                                dd($object->config('package.raxon/parse.build.state'));
                                 if (
                                     array_key_exists('is_multiline', $record) &&
                                     $record['is_multiline'] === true
@@ -1977,6 +1981,7 @@ class Php {
                             if($object->config('package.raxon/parse.build.state.source.is.json') === true){
                                 $data[] = 'return ' . $uuid_method . ';';
                             } else {
+                                dd($object->config('package.raxon/parse.build.state'));
                                 if (
                                     array_key_exists('is_multiline', $record) &&
                                     $record['is_multiline'] === true

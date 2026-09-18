@@ -289,7 +289,6 @@ class Parse
         }
         */
         $depth = $options->depth ?? null;
-        d($depth);
         $depth_root = $depth;
         $type = strtolower(gettype($input));
         if(

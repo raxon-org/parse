@@ -630,7 +630,7 @@ class Parse
                     } else {
                         $hash = hash('sha256', $key . '_' . Core::object($value, Core::JSON_LINE));
                     }
-                    d($object->config('package.raxon/parse'));
+//                    d($object->config('package.raxon/parse'));
                     $parse_options = (object) [];
                     $parse_options->source = 'Internal_' . ($depth + 1) . 'x' . '_' . $key . '_' . $hash;
                     $parse_options->source_root = $options->source ?? 'source';

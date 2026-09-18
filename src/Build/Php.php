@@ -3069,15 +3069,15 @@ class Php {
                 $trait_function = $explode[1];
                 $use_plugin = $trait_function;
             }
-            d($use);
-            d($use_plugin);
-            d($use_trait_function);
             if(!in_array($use_plugin, $use_trait_function, true)){
                 $use[] = '\\' . $use_package  . 'Trait' . '\\' . $trait_name;
                 $use_trait_function[count($use) - 1] = $use_plugin;
                 $object->config('package.raxon/parse.build.use.trait', $use);
                 $object->config('package.raxon/parse.build.use.trait_function', $use_trait_function);
             }
+            d($use);
+            d($use_plugin);
+            d($use_trait_function);
             $object->config('package.raxon/parse.build.state.plugin.trait', '\\' . $use_package  . 'Trait' . '\\' . $trait_name);
             $object->config('package.raxon/parse.build.state.plugin.function', $use_plugin);
             return '$this->' . $use_plugin;

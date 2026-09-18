@@ -710,6 +710,7 @@ class Parse
             )
         ){
             $object->config('package.raxon/parse.build.state.source.is.json', true);
+            dd('yes found1');
         }
         $object->config('package.raxon/parse.build.state.source.url', $source);
         $mtime = false;

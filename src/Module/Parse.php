@@ -277,6 +277,7 @@ class Parse
         if(!property_exists($options, 'source')) {
             throw new Exception('Error: source not set in options');
         }
+        d($options->source);
         $options->extension = File::extension($options->source);
         $options->class = Build::class_name($options->source);
         if($is_debug){

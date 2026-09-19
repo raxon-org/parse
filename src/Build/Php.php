@@ -3116,7 +3116,6 @@ class Php {
             }
             $controller_plugin = implode('_', $use_plugin);
             $use_plugin = 'Plugin\\' . $controller_plugin;
-            d($use_plugin);
             if(
                 !in_array(
                     $use_plugin,

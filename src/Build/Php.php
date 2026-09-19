@@ -3078,18 +3078,8 @@ class Php {
             }
             if(!in_array($use_plugin, $use_trait_function, true)){
                 $statement = '\\' . $use_package  . 'Trait' . '\\' . $trait_name;
-                if(!in_array($statement, $use, true)){
-                    $use[] = $statement;
-                    $use_trait_function[count($use) - 1] = $use_plugin;
-                }  else {
-                    $use[] = $statement;
-                    $use_trait_function[count($use) - 1] = $use_plugin;
-                    d($use);
-                    d($statement);
-                    d($use_plugin);
-                    d($use_trait_function);
-                    ddd('bug found');
-                }
+                $use[] = $statement;
+                $use_trait_function[count($use) - 1] = $use_plugin;
             }
             $object->config('package.raxon/parse.build.use.trait', $use);
             $object->config('package.raxon/parse.build.use.trait_function', $use_trait_function);
@@ -3213,9 +3203,9 @@ class Php {
                             );
                         }
                     }
-                    $use[] = $use_plugin;
-                    $use_trait_function[count($use) - 1] = $plugin;
                 }
+                $use[] = $use_plugin;
+                $use_trait_function[count($use) - 1] = $plugin;
             }
         }
         $object->config('package.raxon/parse.build.state.plugin.trait', $use_plugin);

@@ -3083,6 +3083,7 @@ class Php {
                     $use_trait_function[count($use) - 1] = $use_plugin;
                 } else {
                     d($use);
+                    d($statement);
                     d($use_plugin);
                     d($use_trait_function);
                     d('bug found');

@@ -3074,6 +3074,11 @@ class Php {
                 $statement = '\\' . $use_package  . 'Trait' . '\\' . $trait_name;
                 if(!in_array($statement, $use, true)){
                     $use[] = $statement;
+                } else {
+                    d($use);
+                    d($use_plugin);
+                    d($use_trait_function);
+                    d('bug found');
                 }
                 $use_trait_function[count($use) - 1] = $use_plugin;
             }

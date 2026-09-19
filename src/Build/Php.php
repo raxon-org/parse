@@ -3081,12 +3081,14 @@ class Php {
                 if(!in_array($statement, $use, true)){
                     $use[] = $statement;
                     $use_trait_function[count($use) - 1] = $use_plugin;
-                } else {
+                }  else {
+                    $use[] = $statement;
+                    $use_trait_function[count($use) - 1] = $use_plugin;
                     d($use);
                     d($statement);
                     d($use_plugin);
                     d($use_trait_function);
-                    d('bug found');
+                    ddd('bug found');
                 }
             }
             $object->config('package.raxon/parse.build.use.trait', $use);

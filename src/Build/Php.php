@@ -1617,13 +1617,11 @@ class Php {
                         array_key_exists('text', $record)
                     ){
                         $is_raw = $object->config('package.raxon/parse.build.state.is_raw');
-                        //ambigious
                         if($is_raw && substr($record['text'], 0, 1) === '"'){
-                            $record['text'] = substr($record['text'], 1);
+                            $record['text'] = substr($record['text'], 1); //no -1
                         }
-                        //ambigious
                         if($is_raw && substr($record['text'], 0, 2) === '\"'){
-                            $record['text'] = substr($record['text'], 2);
+                            $record['text'] = substr($record['text'], 2); //no -2
                         }
                         $object->config('delete', 'package.raxon/parse.build.state.is_raw');
                         if(

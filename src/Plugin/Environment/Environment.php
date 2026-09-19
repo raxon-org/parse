@@ -8,7 +8,7 @@ trait Environment {
     /**
      * @throws Exception
      */
-    public function environment(string $environment=null): string
+    public function environment(string|null $environment=null): string
     {
         $object = $this->object();
         if($environment){

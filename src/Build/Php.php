@@ -2877,6 +2877,7 @@ class Php {
                     $name .= $argument['array'][2]['method']['name'];
                     $class_static_argument = $argument['array'][2]['method']['argument'];
                     $use_trait = $object->config('package.raxon/parse.build.use.trait');
+                    $use_trait_function = $object->config('package.raxon/parse.build.use.trait_function');
                     $trait = 'Plugin\\Validate';
                     if(
                         $attributes !== false &&
@@ -2884,9 +2885,11 @@ class Php {
                     ){
                         $attributes_transfer =  Core::object($attributes, Core::TRANSFER);
                         $use_trait[] = $trait;
+                        $use_trait_function[count($use_trait) - 1] = 'plugin_validate';
                         $object->config('package.raxon/parse.build.use.trait', $use_trait);
-                    }
+                        $object->config('package.raxon/parse.build.use.trait_function', $use_trait_function);
 
+                    }
                     foreach ($class_static_argument as $argument_nr => $argument_record) {
                         $value = Php::value($object, $flags, $options, $record, $argument_record, $is_set, $before,$after);
                         $uuid_variable = Core::uuid_variable();
@@ -2978,10 +2981,13 @@ class Php {
                     $before[] = $uuid_variable . ' = ' . $argument . ';';
                     if($attributes !== false){
                         $use_trait = $object->config('package.raxon/parse.build.use.trait');
+                        $use_trait_function = $object->config('package.raxon/parse.build.use.trait_function');
                         $trait = 'Plugin\\Validate';
                         if($attributes !== false && !in_array($trait, $use_trait, true)){
                             $use_trait[] = $trait;
+                            $use_trait_function[count($use_trait) - 1] = 'plugin_validate';
                             $object->config('package.raxon/parse.build.use.trait', $use_trait);
+                            $object->config('package.raxon/parse.build.use.trait_function', $use_trait_function);
 //                            $attributes_transfer =  Core::object($attributes, Core::TRANSFER);
                         }
                         $attributes_transfer =  Core::object($attributes, Core::TRANSFER);
@@ -3074,13 +3080,13 @@ class Php {
                 $statement = '\\' . $use_package  . 'Trait' . '\\' . $trait_name;
                 if(!in_array($statement, $use, true)){
                     $use[] = $statement;
+                    $use_trait_function[count($use) - 1] = $use_plugin;
                 } else {
                     d($use);
                     d($use_plugin);
                     d($use_trait_function);
                     d('bug found');
                 }
-                $use_trait_function[count($use) - 1] = $use_plugin;
             }
             $object->config('package.raxon/parse.build.use.trait', $use);
             $object->config('package.raxon/parse.build.use.trait_function', $use_trait_function);
@@ -3110,6 +3116,7 @@ class Php {
             }
             $controller_plugin = implode('_', $use_plugin);
             $use_plugin = 'Plugin\\' . $controller_plugin;
+            d($use_plugin);
             if(
                 !in_array(
                     $use_plugin,

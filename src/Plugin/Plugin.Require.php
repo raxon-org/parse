@@ -123,7 +123,7 @@ trait Plugin_Require {
         $parser = new Parse($object, $data, $flags, $options);
         $compile = $parser->compile($read, $data);
         if(stristr($url, 'Main.js') !== false){
-            ddd($compile);
+//            ddd($compile);
         }
         $object->config('package.raxon/parse.build.state.source', $source);
         return $compile;

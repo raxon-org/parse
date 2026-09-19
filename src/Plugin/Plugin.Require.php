@@ -37,6 +37,7 @@ trait Plugin_Require {
             $text = 'Require: file not found: ' . $url . ' in template: ' . $data->data('raxon.org.parse.view.source.url');
             throw new Exception($text);
         }
+        d($url);
         $mtime = File::mtime($url);
         if($object->config('ramdisk.url')){
             $is_plugin = false;

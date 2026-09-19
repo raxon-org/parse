@@ -29,6 +29,9 @@ trait Plugin_Require {
     protected function plugin_require(string $url, mixed $storage=null): string
     {
         $object = $this->object();
+        if($storage !== null){
+            $this->storage($storage);
+        }
         $data = $this->storage();
         $cache_url = false;
         $cache_dir = false;
@@ -122,9 +125,6 @@ trait Plugin_Require {
 //            d($data->data());
         $parser = new Parse($object, $data, $flags, $options);
         $compile = $parser->compile($read, $data);
-        if(stristr($url, 'Main.js') !== false){
-            ddd($compile);
-        }
         $object->config('package.raxon/parse.build.state.source', $source);
         return $compile;
     }

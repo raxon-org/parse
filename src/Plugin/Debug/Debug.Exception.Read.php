@@ -10,8 +10,8 @@
  */
 namespace Plugin;
 
-trait Debug_Exception {
-    function debug_exception(mixed $value): array
+trait Debug_Exception_Read {
+    function debug_exception_read(mixed $return_type='array'): mixed
     {
         $object = $this->object();
         $url = $object->config('controller.dir.data') . '/' .

@@ -21,7 +21,7 @@ trait Debug_Exception_Read {
     {
         $object = $this->object();
         $url = $object->config('controller.dir.data') . '/' .
-            'Debug.Exception' . $object->config('extension.json');
+            'Debug.Exception' . $object->config('extension2.json');
         $data = $object->data_read($url);
         ddd($data);
         if($data !== null){

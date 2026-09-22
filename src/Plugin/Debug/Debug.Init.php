@@ -13,7 +13,7 @@ namespace Plugin;
 use Raxon\Exception\ObjectException;
 use Raxon\Module\Core;
 
-trait Debug_Exception_Read {
+trait Debug_Init {
     /**
      * @throws ObjectException
      */

@@ -17,7 +17,7 @@ trait Debug_Exception_Read {
     /**
      * @throws ObjectException
      */
-    function debug_exception_read(mixed $return_type='array'): mixed
+    function debug_exception_read(): string
     {
         $object = $this->object();
         $url = $object->config('controller.dir.data') . '/' .
@@ -25,11 +25,11 @@ trait Debug_Exception_Read {
         $data = $object->data_read($url);
         if($data !== false){
             $result =  $data->get('Debug.Exception');
-            $result = Core::object($result, $return_type);
+            $result = Core::object($result, Core::JSON_LINE);
             ddd($result);
             return $result;
         }
-        return [];
+        return '';
     }
 
 }

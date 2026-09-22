@@ -26,9 +26,10 @@ trait Debug_Exception_Read {
         if($data !== false){
             $result =  $data->get('Debug.Exception');
             $result = Core::object($result, Core::JSON_LINE);
+            dd($result);
             return $result;
         }
-        return '';
+        return '[]';
     }
 
 }

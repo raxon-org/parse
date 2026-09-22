@@ -23,13 +23,15 @@ trait Debug_Init {
         $url = $object->config('controller.dir.data') . '/' .
             'Debug' . $object->config('extension.json');
         $data = $object->data_read($url);
-        ddd($data);
-        return '{}';
+        if($data === false){
+            return '{}';
+        }
+        $result =  $data->get('Debug');
+        $result = Core::object($result, Core::JSON_LINE);
+        dd($result);
         /*
         if($data !== false){
-            $result =  $data->get('Debug.Exception');
-            $result = Core::object($result, Core::JSON_LINE);
-            dd($result);
+
             return $result;
         }
         return '[]';

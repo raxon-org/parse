@@ -21,12 +21,11 @@ trait Debug_Exception_Read {
     {
         $object = $this->object();
         $url = $object->config('controller.dir.data') . '/' .
-            'Debug.Exception' . $object->config('extension2.json');
+            'Debug.Exception' . $object->config('extension.json');
         $data = $object->data_read($url);
         if($data !== false){
             $result =  $data->get('Debug.Exception');
             $result = Core::object($result, Core::JSON_LINE);
-            ddd($result);
             return $result;
         }
         return '';

@@ -17,12 +17,15 @@ trait Debug_Exception_Read {
     /**
      * @throws ObjectException
      */
-    function debug_exception_read(): string
+    function debug_init(): string
     {
         $object = $this->object();
         $url = $object->config('controller.dir.data') . '/' .
-            'Debug.Exception' . $object->config('extension.json');
+            'Debug' . $object->config('extension.json');
         $data = $object->data_read($url);
+        ddd($data);
+        return '{}';
+        /*
         if($data !== false){
             $result =  $data->get('Debug.Exception');
             $result = Core::object($result, Core::JSON_LINE);
@@ -30,6 +33,7 @@ trait Debug_Exception_Read {
             return $result;
         }
         return '[]';
+        */
     }
 
 }

@@ -26,17 +26,12 @@ trait Debug_Init {
         if($data === false){
             return '{}';
         }
-        ddd($data);
         $result =  $data->get('Debug');
-        $result = Core::object($result, Core::JSON_LINE);
-        dd($result);
-        /*
-        if($data !== false){
-
-            return $result;
+        if($result === null){
+            return '{}';
         }
-        return '[]';
-        */
+        $result = Core::object($result, Core::JSON_LINE);
+        return $result;
     }
 
 }

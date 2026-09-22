@@ -23,10 +23,10 @@ trait Debug_Exception_Read {
         $url = $object->config('controller.dir.data') . '/' .
             'Debug.Exception' . $object->config('extension2.json');
         $data = $object->data_read($url);
-        ddd($data);
-        if($data !== null){
+        if($data !== false){
             $result =  $data->get('Debug.Exception');
             $result = Core::object($result, $return_type);
+            ddd($result);
             return $result;
         }
         return [];

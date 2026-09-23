@@ -36,6 +36,12 @@ trait Plugin_Require {
         $cache_url = false;
         $cache_dir = false;
         $is_cache_url = false;
+
+        if(substr($url, 0, 2) == './'){
+            ddd($data->data());
+            $url = $data->data('raxon.org.parse.view.source.url') . substr($url, 1);
+        }
+
         if(!File::exist($url)) {
             $text = 'Require: file not found: ' . $url . ' in template: ' . $data->data('raxon.org.parse.view.source.url');
             throw new Exception($text);

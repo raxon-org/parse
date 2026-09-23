@@ -38,6 +38,7 @@ trait Plugin_Require {
         $is_cache_url = false;
 
         if(substr($url, 0, 2) == './'){
+            d($object->config());
             ddd($data->data());
             $url = $data->data('raxon.org.parse.view.source.url') . substr($url, 1);
         }

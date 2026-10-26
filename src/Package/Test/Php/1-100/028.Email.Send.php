@@ -35,6 +35,7 @@ try {
     );
     $app = new App($autoload, $config);
     $options = App::options($app);
+    d($app->request());
     d($options);
     if(!property_exists($options, 'password')){
         throw new Exception('No -option password found');

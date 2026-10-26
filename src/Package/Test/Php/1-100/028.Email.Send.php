@@ -11,6 +11,7 @@ use Raxon\App;
 use Raxon\Config;
 use Raxon\Exception\LocateException;
 use Raxon\Exception\ObjectException;
+use Raxon\Module\Handler;
 use Raxon\Parse\Module\Parse;
 use Symfony\Component\Mailer\Transport;
 use Symfony\Component\Mailer\Mailer;
@@ -34,6 +35,7 @@ try {
         ]
     );
     $app = new App($autoload, $config);
+    Handler::request_configure($app);
     $options = App::options($app);
     d($app->request());
     d($options);

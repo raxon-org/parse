@@ -34,21 +34,8 @@ try {
         ]
     );
     $app = new App($autoload, $config);
-    $transport = Transport::fromDsn('smtp://system@workandtravel.world:Torrevieja20251111!@smtp.hostnet.nl:587');
-    $mailer = new Mailer($transport);
-
-    $email = (new Email())
-        ->from('system@workandtravel.world')
-        ->to('remco@workandtravel.world')
-        //->cc('cc@example.com')
-        //->bcc('bcc@example.com')
-        //->replyTo('fabien@example.com')
-        //->priority(Email::PRIORITY_HIGH)
-        ->subject('Time for Symfony Mailer!')
-        ->text('Sending emails is fun again!')
-        ->html('<p>See Twig integration for better HTML integration!</p>');
-
-    $mailer->send($email);
+    $options = App::options($app);
+    d($options);
 } catch (Exception | LocateException | ObjectException $exception) {
     echo $exception;
 }

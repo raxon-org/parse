@@ -35,6 +35,9 @@ try {
     );
     $app = new App($autoload, $config);
     $options = $app::options($app);
+    if(!property_exists($options, 'password')){
+        throw new Exception('No -option password found');
+    }
     $transport = Transport::fromDsn('smtp://system@workandtravel.world:' . $options->password. '@smtp.hostnet.nl:587');
     $mailer = new Mailer($transport);
 

@@ -35,7 +35,7 @@ try {
         ]
     );
     $app = new App($autoload, $config);
-    Handler::request_configure($app);
+    $result = App::run($app);
     $options = App::options($app);
     d($app->request());
     d($options);

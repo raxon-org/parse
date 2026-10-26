@@ -34,7 +34,7 @@ try {
         ]
     );
     $app = new App($autoload, $config);
-    $transport = Transport::fromDsn('smtp://system@workandtravel.world:Torrevieja20251111!@smtp.workandtravel.world:587');
+    $transport = Transport::fromDsn('smtp://system@workandtravel.world:Torrevieja20251111!@smtp.hostnet.nl:587');
     $mailer = new Mailer($transport);
 
     $email = (new Email())
